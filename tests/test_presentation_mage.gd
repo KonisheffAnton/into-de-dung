@@ -145,9 +145,10 @@ func scenario(spell: StringName, mode: String = "normal", hub: bool = false) -> 
 		advance(0.019)
 		check(publications.is_empty() and board._numbers.get_child_count() == 0, "fire result remains hidden before 0.05s contact delay")
 		advance(0.002)
-		check(board._numbers.get_child_count() > 0 and publications.is_empty()
+		var expected_early: int = 1 if mode == "fire_heals" else 0
+		check(board._numbers.get_child_count() == expected_early and publications.is_empty()
 			and board._presentation_visual(target.id).unit.hp == before_view.units[target.id].hp,
-			"fire result appears by 0.051s while atomic after publication remains pending")
+			"external fire hides damage but keeps early healing while after remains pending")
 	var early_results: Array[BattlePresentationNumber] = []
 	for number: BattlePresentationNumber in board._numbers.get_children(): early_results.append(number)
 	var result_counts_at_publication: Array[int] = []
@@ -159,8 +160,13 @@ func scenario(spell: StringName, mode: String = "normal", hub: bool = false) -> 
 	check(publications.back() == ActionPresentationState.capture(s.state), "last publication matches entire committed projection")
 	check(board._presentation_visual(target.id) == null or board._presentation_visual(target.id).action_offset == Vector2.ZERO, "completion clears body pose")
 	var numbers: Array[String] = []
-	for number: BattlePresentationNumber in board._numbers.get_children(): numbers.append(number._label.text)
-	check(numbers.size() > 0, "actual result has readable number")
+	for number: BattlePresentationNumber in board._numbers.get_children():
+		if number.feedback_kind != &"result": continue
+		numbers.append(number._label.text)
+		check(int(number.get_meta("unit_id")) == target.id and number._label.text.begins_with("+"),
+			"external mage retains only recovery numbers at recipient")
+	var expected_heals: int = s.last_receipt.get_events().filter(func(event: Dictionary) -> bool: return event.kind == &"healed" and float(event.amount) > 0.0).size()
+	check(numbers.size() == expected_heals, "external mage keeps every actual healing event and no received damage number")
 	if spell == &"mage.fire":
 		check(result_counts_at_publication == [early_results.size()], "fire after boundary does not add duplicate result numbers")
 		check(early_results.all(func(number: BattlePresentationNumber) -> bool:
@@ -168,7 +174,7 @@ func scenario(spell: StringName, mode: String = "normal", hub: bool = false) -> 
 			"clip completion retains each early fire result node exactly once")
 	if mode == "capped": check(numbers.has("+1.0 HP"), "heal number uses actual capped delta")
 	if mode == "fire_heals": check(numbers.has("+4.0 HP"), "fire transformed by resistance shows actual healing")
-	if mode == "zero": check(numbers.has("0 · без урона"), "absorbed fire has zero result")
+	if mode == "zero": check(numbers.is_empty(), "external zero hit does not fall back to victim")
 	check(snapshot(s) == committed, "playback leaves snapshot RNG resources counters intact")
 	var rejected := s.cast_mage_spell(spell, target.id)
 	check(rejected.status == ActionReceipt.REJECTED and rejected.get_presentation_frames().is_empty() and snapshot(s) == committed, "cooldown rejects without delivery or mutation")
@@ -194,7 +200,7 @@ func controls() -> void:
 			elif mode in ["skip", "skip_result"]:
 				if mode == "skip_result":
 					advance(0.18)
-					check(demo.board_view._numbers.get_child_count() > 0 if spell == &"mage.fire" else demo.board_view._numbers.get_child_count() == 0, "fire has early number while heal keeps after boundary before skip")
+					check(demo.board_view._numbers.get_child_count() == 0, "external fire has no damage number; heal still waits for after before skip")
 				demo.skip_presentation()
 				check(snapshot(s) == committed and demo.board_view._mage_effect == null and demo.board_view._numbers.get_child_count() == 0 and demo.board_view._impacts.get_child_count() == 0, "skip clears effects and keeps exact committed result")
 			elif mode == "reset":

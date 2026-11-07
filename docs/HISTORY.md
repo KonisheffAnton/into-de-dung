@@ -1,5 +1,26 @@
 # История и свидетельства проверок
 
+## Цифры нанесённого урона у атакующего — 2026-11-07
+
+Main, base533a3f743352d75b44b32147732f96408fa9d888. По уточнению U
+HP/расход брони/щита и нулевой результат перенесены к actor события,
+без дублирования у получателя. Восстановление/статусы остаются у цели;
+погибший/отсутствующий/нулевой/self источник не создаёт цифру урона.
+Переполнение стека сверху размещается в соседней колонке или ниже занятых
+подписей. Контракт — [второй срез](BATTLE_PRESENTATION_REWORK.md),
+боевые события/значения и core/preview/queue/RNG/save не менялись.
+
+Свежий isolated import/startup; GPU presentation_contact337/0,
+presentation_consequences2044/0, presentation_environment364/0,
+presentation_ranged252/0, presentation_mage349/0,
+battle_presentation_owned64/0; launcher8/0/0. Независимое APPROVE.
+Первый прогон выявил уход лечения за верх экрана и неверный тестовый
+oracle без item healing; исправлены, весь выбранный набор повторён.
+GPU chain-wall просмотрен. Отчёт test_reports/damage-at-attacker-20261107/;
+runner demo-e119ce141e4a4547ac658cd907303f6e. Full/core и ручные
+F5/движение/zoom/DPI/performance не запускались; огонь/шипы/HUD не перепроверялись.
+33 чужих файла сохранены. [Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261107-9.md).
+
 ## Внедрение принятого natural02-middle огня29 — 2026-11-07
 
 Main, base39518d9fc36254b8be0910489675683bf501df89. U принял последний огонь29

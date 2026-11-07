@@ -71,19 +71,22 @@ func capture(label: String) -> void:
 	await process_frame
 	var image := viewport.get_texture().get_image()
 	if label == "chain-wall":
-		# В этой цепочке верхнее видимое лечение почти у края; рамка Label включает пустые поля.
-		# Метрики шрифта могут безопасно опустить подпись ниже y=32; ищем её в верхней полосе 64 px.
-		# Первые 3 строки по-прежнему должны быть свободны от бирюзовых glyph: это проверка отступа.
-		var heal_pixels: int = 0
-		var edge_pixels: int = 0
-		for y: int in 64:
-			for x: int in image.get_width():
-				var pixel := image.get_pixel(x, y)
-				if pixel.r < 0.5 and pixel.g > 0.6 and pixel.b > 0.55:
-					heal_pixels += 1
-					if y < 3: edge_pixels += 1
-		check(heal_pixels > 20, "chain-wall top heal is present in rendered pixels")
-		check(edge_pixels == 0, "chain-wall top heal glyphs retain margin above viewport edge")
+		# После переноса урона лечение может уйти в соседнюю колонку, но glyph должны оставаться видимы.
+		var heals: int = 0
+		for number: BattlePresentationNumber in board._numbers.get_children():
+			if not number._label.text.begins_with("+") or not number._label.text.ends_with("HP"): continue
+			heals += 1
+			var rect := number._label.get_global_rect()
+			check(rect.position.y - number.rise * number.get_global_transform_with_canvas().y.length() >= 3.0,
+				"chain-wall heal retains viewport margin throughout rise")
+			var region := Rect2i(rect).intersection(Rect2i(Vector2i.ZERO, image.get_size()))
+			var heal_pixels: int = 0
+			for y: int in range(region.position.y, region.end.y):
+				for x: int in range(region.position.x, region.end.x):
+					var pixel := image.get_pixel(x, y)
+					if pixel.r < 0.5 and pixel.g > 0.6 and pixel.b > 0.55: heal_pixels += 1
+			check(heal_pixels > 20, "chain-wall healing glyphs are visible at their actual location")
+		check(heals > 0, "chain-wall still renders actual item healing")
 	check(image.save_png(captures.path_join(label + ".png")) == OK, "PNG " + label)
 
 func play_checked(s: BattleCoreReactionsSession, data: Dictionary, expected: String, label: String) -> void:

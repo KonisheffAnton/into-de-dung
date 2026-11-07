@@ -44,7 +44,7 @@ func _result_number_placement_batch() -> void:
 	var ids: Array[int] = [session.units[0].id, session.units[1].id, session.units[2].id]
 	var events: Array[Dictionary] = []
 	for index: int in ids.size():
-		events.append({"kind": &"damaged", "target_unit_id": ids[index], "amount": float(index + 2),
+		events.append({"kind": &"damaged", "actor_unit_id": ids[(index + 1) % ids.size()], "target_unit_id": ids[index], "amount": float(index + 2),
 			"root_id": 751, "command_seq": 19, "source": {"kind": "cell"}})
 	events.append({"kind": &"balance_changed", "target_unit_id": ids[0], "impact": 1.0,
 		"balance_after": 4.0, "balance_max": 10.0, "broke": false, "root_id": 751, "command_seq": 19})
@@ -71,7 +71,7 @@ func _result_number_placement_batch() -> void:
 	_clear_number_nodes(board)
 	var immediate_contact_events: Array[Dictionary] = []
 	for index: int in ids.size():
-		immediate_contact_events.append({"kind": &"damaged", "target_unit_id": ids[index],
+		immediate_contact_events.append({"kind": &"damaged", "actor_unit_id": ids[(index + 1) % ids.size()], "target_unit_id": ids[index],
 			"amount": float(index + 2), "root_id": 752, "command_seq": 21,
 			"source": {"kind": "cell"}})
 	board.placement_calls = 0

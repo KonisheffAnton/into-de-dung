@@ -188,7 +188,26 @@ func scenario(mode: String) -> void:
 	if mode in ["hp", "lethal", "critical"]: check(texts.size() == expected_hp_numbers, mode + " one number per HP change including item heal")
 	if mode != "zero" and hp_loss > 0.0:
 		check(texts.any(func(t: String) -> bool: return t.contains("%.1f HP" % hp_loss)), mode + " actual HP delta displayed")
-	if mode == "zero": check(texts.size() == 1 and texts[0] == "0 · без урона", "explicit zero hit")
+	for event: Dictionary in data.events:
+		if event.kind not in [&"damaged", &"healed"]: continue
+		var owner: int = int(event.actor_unit_id) if event.kind == &"damaged" else int(event.target_unit_id)
+		var expected_text: String = ("−" if event.kind == &"damaged" else "+") + "%.1f HP" % float(event.amount)
+		var matching: int = 0
+		for number: BattlePresentationNumber in result_numbers():
+			if number._label.text.ends_with(expected_text) and int(number.get_meta("unit_id", 0)) == owner:
+				matching += 1
+				check(number.get_meta("cell") == data.before.units[owner].cell, mode + " HP result uses owner's cell")
+		check(matching == 1, mode + " each HP event has exactly one result at source or healing recipient")
+	if mode in ["mixed", "armor"]:
+		for number: BattlePresentationNumber in result_numbers():
+			if number._label.text.contains("броня"):
+				check(int(number.get_meta("unit_id", 0)) == a and number.get_meta("cell") == data.before.units[a].cell,
+					mode + " armor damage is shown at attacker only")
+	if mode == "zero":
+		var zero_owner := false
+		for number: BattlePresentationNumber in board._numbers.get_children():
+			if number._label.text == "0 · без урона" and int(number.get_meta("unit_id", 0)) == a: zero_owner = true
+		check(texts.size() == 1 and zero_owner, "zero hit is anchored to visible attacker")
 	if mode == "critical": check(texts[0].begins_with("КРИТ"), "critical tagged without extra damage")
 	if mode == "lethal": check(not board._presentation_visual(b).unit.alive and texts[0].contains("1.0 HP"), "lethal shows actual lost HP after death")
 	if mode == "counter": check(texts.size() == expected_hp_numbers and expected_hp_numbers >= 2, "counter is a separate contact/result")
@@ -230,6 +249,98 @@ func scenario(mode: String) -> void:
 	s.close()
 	await process_frame
 
+func result_numbers() -> Array[BattlePresentationNumber]:
+	var values: Array[BattlePresentationNumber] = []
+	for number: BattlePresentationNumber in board._numbers.get_children():
+		if number.feedback_kind == &"result": values.append(number)
+	return values
+
+func event_anchor_fixtures() -> void:
+	var s := fixture("hp")
+	var actor_a: int = s.units[0].id
+	var actor_b: int = s.units[2].id
+	var target: int = s.units[1].id
+	board.show_presentation_state(ActionPresentationState.capture(s.state))
+	var strike: Dictionary = {}
+	var initial_cell: Vector2i = board._view_unit_cell(actor_a)
+	board._show_event_feedback([
+		{"kind": &"damaged", "actor_unit_id": actor_a, "target_unit_id": target, "amount": 3.0},
+		{"kind": &"damaged", "actor_unit_id": actor_b, "target_unit_id": target, "amount": 4.0},
+		{"kind": &"hit_resolved", "actor_unit_id": actor_a, "target_unit_id": target}
+	], strike, true, false)
+	var numbers := result_numbers()
+	check(numbers.size() == 2, "different actors damage one target without victim or duplicate zero numbers")
+	check(numbers.size() == 2 and int(numbers[0].get_meta("unit_id", 0)) == actor_a and int(numbers[1].get_meta("unit_id", 0)) == actor_b,
+		"same-target result ownership follows each event actor")
+	check(numbers.size() == 2 and numbers[0].get_meta("cell") == initial_cell, "number stores source cell at creation")
+	var moved_projection := ActionPresentationState.capture(s.state)
+	var projected_units: Dictionary = moved_projection.units
+	var projected_actor: Dictionary = projected_units[actor_a]
+	projected_actor["cell"] = Vector2i(2, 4)
+	projected_units[actor_a] = projected_actor
+	moved_projection["units"] = projected_units
+	board.show_presentation_state(moved_projection)
+	board.size += Vector2(24, 16)
+	check(numbers.size() == 2 and numbers[0].get_meta("cell") == initial_cell and board._view_unit_cell(actor_a) != initial_cell,
+		"movement, resize and next snapshot retain pinned source cell")
+	board.clear_presentation_feedback()
+	board._show_event_feedback([
+		{"kind": &"damaged", "actor_unit_id": actor_a, "target_unit_id": target, "amount": 1.0},
+		{"kind": &"hit_resolved", "actor_unit_id": actor_a, "target_unit_id": target},
+		{"kind": &"damaged", "actor_unit_id": actor_a, "target_unit_id": s.units[3].id, "amount": 2.0},
+		{"kind": &"hit_resolved", "actor_unit_id": actor_a, "target_unit_id": s.units[3].id}
+	], strike, true, false)
+	numbers = result_numbers()
+	check(numbers.size() == 2 and int(numbers[0].get_meta("unit_id", 0)) == actor_a
+		and int(numbers[1].get_meta("unit_id", 0)) == actor_a,
+		"one actor can own results against multiple targets without zero duplicates")
+	board.clear_presentation_feedback()
+	for suppressed_actor: int in [0, target, 999999]:
+		board._show_event_feedback([
+			{"kind": &"hit_resolved", "actor_unit_id": suppressed_actor, "target_unit_id": target}
+		], strike, true, false)
+		check(result_numbers().is_empty(), "zero without distinct visible source never falls back to victim")
+		board._show_event_feedback([
+			{"kind": &"damaged", "actor_unit_id": suppressed_actor, "target_unit_id": target, "amount": 2.0},
+			{"kind": &"armor_changed", "actor_unit_id": suppressed_actor, "target_unit_id": target,
+				"grants": [{"before": 4.0, "after": 2.0}], "items": []},
+			{"kind": &"shield_changed", "actor_unit_id": suppressed_actor, "target_unit_id": target, "absorbed": 1.0, "after": {}},
+			{"kind": &"hit_resolved", "actor_unit_id": suppressed_actor, "target_unit_id": target}
+		], strike, true, false)
+		check(result_numbers().is_empty(), "environment, self and missing actors suppress all received damage numbers")
+	board._show_event_feedback([
+		{"kind": &"shield_changed", "actor_unit_id": actor_a, "target_unit_id": target, "absorbed": 2.5, "after": {"hp": 4.0}},
+		{"kind": &"shield_changed", "actor_unit_id": actor_a, "target_unit_id": target, "absorbed": 0.0, "after": {"hp": 6.0}},
+		{"kind": &"healed", "actor_unit_id": actor_a, "target_unit_id": target, "amount": 1.5},
+		{"kind": &"armor_changed", "actor_unit_id": actor_a, "target_unit_id": target,
+			"grants": [{"before": 1.0, "after": 2.0}], "items": []}
+	], strike, true, false)
+	numbers = result_numbers()
+	check(numbers.size() == 4, "shield absorption, application, heal and armor application each show")
+	check(numbers.size() == 4 and int(numbers[0].get_meta("unit_id", 0)) == actor_a
+		and int(numbers[1].get_meta("unit_id", 0)) == target and int(numbers[2].get_meta("unit_id", 0)) == target
+		and int(numbers[3].get_meta("unit_id", 0)) == target,
+		"shield absorption belongs to source while positive changes belong to recipient")
+	board.clear_presentation_feedback()
+	var dead_projection := ActionPresentationState.capture(s.state)
+	dead_projection.units[actor_a]["alive"] = false
+	dead_projection.units[actor_a]["hp"] = 0.0
+	board.environment_mode = true
+	board.show_presentation_state(dead_projection)
+	board._show_event_feedback([
+		{"kind": &"damaged", "actor_unit_id": actor_a, "target_unit_id": target, "amount": 2.0},
+		{"kind": &"hit_resolved", "actor_unit_id": actor_a, "target_unit_id": target}
+	], strike, true, false)
+	check(result_numbers().is_empty(), "dead DOT author never creates damage at an empty cell")
+	board._show_event_feedback([
+		{"kind": &"hit_resolved", "actor_unit_id": actor_a, "target_unit_id": target}
+	], strike, true, false)
+	check(result_numbers().is_empty(), "dead author never creates a zero result at an empty cell")
+	board.environment_mode = false
+	board.clear_presentation_feedback()
+	s.close()
+	await process_frame
+
 func run() -> void:
 	viewport = SubViewport.new()
 	viewport.size = Vector2i(1280, 850)
@@ -243,6 +354,7 @@ func run() -> void:
 	viewport.add_child(player)
 	await combat_font_pair()
 	for mode: String in ["hp", "mixed", "armor", "zero", "lethal", "critical", "counter"]: await scenario(mode)
+	await event_anchor_fixtures()
 	await movement_timing()
 	await abort_cases()
 	viewport.queue_free()

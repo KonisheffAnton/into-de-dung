@@ -785,6 +785,14 @@ PNG стыков/накладок/обычного UI. Точные фазы к�
 Проверяет независимую жизнь цифр через after/новую команду/×3, размещение нескольких
 результатов, resize, пропуск в контакте, отмену и FAULTED без выдуманных эффектов.
 Render сохраняет фазы и варианты результата в contact-screenshots/.
+Перенос цифр к атакующему (2026-11-07): `--render-check --only
+presentation_contact presentation_ranged presentation_mage presentation_environment
+presentation_consequences battle_presentation_owned --screen 0`. Проверяются
+владельцы/клетки HP, брони, щита и нуля, отдельная контратака, несколько целей,
+погибший/отсутствующий/self источник без fallback к жертве и восстановление у получателя;
+прежние тайминги, resize, skip/cancel и неизменность state/RNG. Магия без бойца
+не показывает урон у цели; лечение сохраняет цифру. Это не full/core или ручная
+приёмка читаемости/F5/zoom/DPI/performance.
 
 `tools/demo/profile_smoothness.gd` запускается в изолированном проекте с рендером.
 Он измеряет CPU обработчиков и реальные интервалы кадров для одного сценария

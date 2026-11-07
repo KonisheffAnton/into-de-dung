@@ -532,29 +532,55 @@ func _show_event_feedback(events: Array, strike: Dictionary, show_results: bool,
 		if not show_results: continue
 		var kind := StringName(event.get("kind", &""))
 		var target := int(event.get("target_unit_id", 0))
+		var actor := int(event.get("actor_unit_id", 0))
 		var text := ""
 		var tint := Color("f29b9b")
+		var anchor_id := target
+		var source_result := false
 		if kind in [&"damaged", &"healed"] and float(event.get("amount", 0.0)) > 0.0:
 			text = ("−" if kind == &"damaged" else "+") + ("%.1f HP" % float(event.amount))
-			if kind == &"healed": tint = Color("65dfcc")
-			elif not strike.is_empty() and bool(strike.get("modifiers", {}).get("critical", false)): text = "КРИТ · " + text
+			if kind == &"damaged":
+				anchor_id = actor
+				source_result = true
+			else: tint = Color("65dfcc")
+			if kind == &"damaged" and not strike.is_empty() and bool(strike.get("modifiers", {}).get("critical", false)): text = "КРИТ · " + text
 		elif kind == &"shield_changed":
 			text = "Щит −%s" % String.num(float(event.absorbed), 1) if float(event.absorbed) > 0.0 else "Щит %s" % String.num(float(event.after.get("hp", 0)), 1)
 			tint = Color("71cefa")
+			if float(event.get("absorbed", 0.0)) > 0.0:
+				anchor_id = actor
+				source_result = true
 		elif kind == &"armor_changed":
 			var delta := 0.0
 			for change: Dictionary in event.get("grants", []) + event.get("items", []):
 				delta += float(change.after) - float(change.before)
-			if not is_zero_approx(delta): text = ("+" if delta > 0.0 else "−") + ("%.1f броня" % absf(delta))
+			if not is_zero_approx(delta):
+				text = ("+" if delta > 0.0 else "−") + ("%.1f броня" % absf(delta))
+				if delta < 0.0:
+					anchor_id = actor
+					source_result = true
 			tint = Color("8dcaff")
 		if not text.is_empty():
-			_add_result_number(target, text, tint)
+			# Число у источника создаём только при реальном участнике; пропуск всё равно закрывает нулевой дубль цели.
+			if source_result and _damage_number_source_visible(anchor_id, target):
+				_add_result_number(anchor_id, text, tint)
+			elif not source_result and anchor_id == target:
+				_add_result_number(target, text, tint)
 			numbered[target] = true
 	if not show_results: return
 	for event: Dictionary in events:
 		if event.get("kind") == &"hit_resolved" and not numbered.has(int(event.target_unit_id)):
-			_add_result_number(int(event.target_unit_id), "0 · без урона", Color("d6dfeb"))
-			numbered[int(event.target_unit_id)] = true
+			var target := int(event.target_unit_id)
+			var actor := int(event.get("actor_unit_id", 0))
+			if _damage_number_source_visible(actor, target):
+				_add_result_number(actor, "0 · без урона", Color("d6dfeb"))
+			numbered[target] = true
+
+func _damage_number_source_visible(actor: int, target: int) -> bool:
+	if actor <= 0 or actor == target: return false
+	var visual := _presentation_visual(actor)
+	# Посмертный DOT сохраняет автора в событии, но не создаёт подпись у пустой клетки.
+	return visual != null and visual.unit != null and visual.unit.alive
 
 func _show_consequence_feedback(entries: Array[Dictionary], root_id: int) -> void:
 	var grouped: Dictionary = {}
@@ -632,6 +658,8 @@ func _add_result_number(id: int, text: String, tint: Color, feedback_kind: Strin
 func _place_result_numbers() -> void:
 	if _numbers == null: return
 	var occupied: Array[Rect2] = []
+	var viewport_in_layer: Rect2 = _numbers.get_global_transform_with_canvas().affine_inverse() * get_viewport_rect()
+	var visible_top: float = viewport_in_layer.position.y + 3.0
 	var ordered: Array[Node] = []
 	for number: BattlePresentationNumber in _numbers.get_children():
 		if number.feedback_kind != &"consequence": ordered.append(number)
@@ -646,6 +674,10 @@ func _place_result_numbers() -> void:
 		var consequence := number.feedback_kind == &"consequence"
 		if consequence: point.y += dimensions.y
 		var bounds := Rect2(point - Vector2(dimensions.x * 0.5, dimensions.y + number.rise), dimensions + Vector2(0, number.rise)).grow(3.0)
+		if not consequence and bounds.position.y < visible_top:
+			point.y += visible_top - bounds.position.y
+			bounds.position.y = visible_top
+		var initial_y := point.y
 		var collision := true
 		while collision:
 			collision = false
@@ -653,6 +685,14 @@ func _place_result_numbers() -> void:
 				if bounds.intersects(prior):
 					point.y = prior.end.y + dimensions.y + 4.0 if consequence else prior.position.y - 4.0
 					bounds.position.y = point.y - dimensions.y - number.rise - 3.0
+					if not consequence and bounds.position.y < visible_top:
+						# Несколько попаданий одного автора не должны вытеснять лечение за верх экрана.
+						point = Vector2(prior.end.x + dimensions.x * 0.5 + 7.0, initial_y)
+						if point.x + dimensions.x * 0.5 + 3.0 > viewport_in_layer.end.x:
+							point.x = _world_cell_center(number.get_meta("cell")).x + anchor.x * grid_config.tile_size.x / 128.0
+							for used: Rect2 in occupied:
+								point.y = maxf(point.y, used.end.y + dimensions.y + number.rise + 7.0)
+						bounds.position = point - Vector2(dimensions.x * 0.5 + 3.0, dimensions.y + number.rise + 3.0)
 					collision = true
 					break
 		number.position = point
