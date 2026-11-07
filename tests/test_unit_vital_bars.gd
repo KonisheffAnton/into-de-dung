@@ -183,9 +183,9 @@ func _check_zoom(zoom_index: int) -> void:
 		if String(row.case) == "half":
 			var hp_fill := _screen_point(visual, origin + Vector2(-21.0, 20.5))
 			var armor_fill := _screen_point(visual, origin + Vector2(-21.0, 6.5))
-			check(_has_color_near(image, hp_fill, Color("73bd68"), zoom),
+			check(_has_color_near(image, hp_fill, Color("829969"), zoom),
 				"half HP remains green at zoom %.2f" % zoom)
-			check(_has_color_near(image, armor_fill, Color("bbc5ce"), zoom),
+			check(_has_color_near(image, armor_fill, Color("9ca5a6"), zoom),
 				"half armor remains metallic gray at zoom %.2f" % zoom)
 			var forecast_fill := _screen_point(visual, origin + Vector2(-16.0, 20.5))
 			check(_has_color_near(image, forecast_fill, Color("f29b9b"), zoom),
@@ -193,13 +193,13 @@ func _check_zoom(zoom_index: int) -> void:
 		if String(row.case) == "empty":
 			var hp_track := _screen_point(visual, origin + Vector2(-18.0, 20.5))
 			var armor_track := _screen_point(visual, origin + Vector2(-18.0, 6.5))
-			check(_has_color_near(image, hp_track, Color("7c857c"), zoom),
+			check(_has_color_near(image, hp_track, Color("777d70"), zoom),
 				"zero HP keeps a neutral track visible at zoom %.2f" % zoom)
-			check(_has_color_near(image, armor_track, Color("7e8993"), zoom),
+			check(_has_color_near(image, armor_track, Color("747d80"), zoom),
 				"zero armor keeps a neutral metallic track visible at zoom %.2f" % zoom)
 		if String(row.case) == "near-zero":
 			var reserve_pixel := _screen_point(visual, origin + Vector2(-22.5, 29.0))
-			check(_has_color_near(image, reserve_pixel, Color("d1a05c"), zoom),
+			check(_has_color_near(image, reserve_pixel, Color("a58b60"), zoom),
 				"positive tiny balance reserve remains visible at zoom %.2f" % zoom)
 		if String(row.case) == "full":
 			var balance_middle := 27.0 + 2.0 * maxf(1.0, 1.0 / zoom)
@@ -207,11 +207,11 @@ func _check_zoom(zoom_index: int) -> void:
 			var balance_end := _screen_point(visual, origin + Vector2(20.0, balance_middle))
 			var balance_upper := _screen_point(visual, origin + Vector2(0.0, balance_middle - 0.5 / zoom))
 			var balance_lower := _screen_point(visual, origin + Vector2(0.0, balance_middle + 0.5 / zoom))
-			check(_has_color_near(image, balance_start, Color("d1a05c"), zoom)
-				and _has_color_near(image, balance_end, Color("d1a05c"), zoom),
+			check(_has_color_near(image, balance_start, Color("a58b60"), zoom)
+				and _has_color_near(image, balance_end, Color("a58b60"), zoom),
 				"full reserve spans the framed balance bar at zoom %.2f" % zoom)
-			check(_has_color_near(image, balance_upper, Color("f3d39f"), zoom)
-				and _has_color_near(image, balance_lower, Color("d1a05c"), zoom),
+			check(_has_color_near(image, balance_upper, Color("cdb888"), zoom)
+				and _has_color_near(image, balance_lower, Color("a58b60"), zoom),
 				"balance fill stays visibly thicker than a one-pixel line at zoom %.2f" % zoom)
 			var partial_end := _screen_point(visuals[1], _bar_origin(visuals[1]) + Vector2(10.0, 29.0))
 			check(_has_color_near(image, partial_end, Color("45494b"), zoom),
@@ -222,14 +222,14 @@ func _check_zoom(zoom_index: int) -> void:
 				"depleted balance shows an empty neutral track at zoom %.2f" % zoom)
 		if String(row.case) == "immune":
 			var immune_pixel := _screen_point(visual, origin + Vector2(0.0, 29.0))
-			check(_has_color_near(image, immune_pixel, Color("d1a05c"), zoom),
+			check(_has_color_near(image, immune_pixel, Color("a58b60"), zoom),
 				"zero maximum balance shows full immunity reserve at zoom %.2f" % zoom)
 		if String(row.case) == "fractional-max":
 			var fractional_armor := _screen_point(visual, origin + Vector2(20.0, 6.5))
-			check(_has_color_near(image, fractional_armor, Color("bbc5ce"), zoom),
+			check(_has_color_near(image, fractional_armor, Color("9ca5a6"), zoom),
 				"subunit armor maximum preserves a fully filled fractional value at zoom %.2f" % zoom)
 			var partial_balance := _screen_point(visual, origin + Vector2(0.0, 29.0))
-			check(_has_color_near(image, partial_balance, Color("d1a05c"), zoom),
+			check(_has_color_near(image, partial_balance, Color("a58b60"), zoom),
 				"fractional balance reserve remains amber at zoom %.2f" % zoom)
 		if zoom_index == 1 and row_index < 6:
 			var enemy_index := row_index + 7
@@ -269,8 +269,8 @@ func _check_crisp_number_pixels() -> void:
 				var visual := visuals[faction_row * 7 + case_index]
 				var row := _vital_cases()[case_index]
 				var origin := _bar_origin(visual)
-				var hp_color := Color("73bd68") if case_index == 0 else Color("7c857c")
-				var armor_color := Color("bbc5ce") if case_index == 0 else Color("7e8993")
+				var hp_color := Color("829969") if case_index == 0 else Color("777d70")
+				var armor_color := Color("9ca5a6") if case_index == 0 else Color("747d80")
 				check(_number_region_is_crisp(image, _screen_point(visual, origin + Vector2(0, 19.5)), hp_color, zoom),
 					"fractional-pan HP pixels use only palette and black at scale %.2f for %s %s" % [zoom, visual.visual_class_id, row.case])
 				check(_number_region_is_crisp(image, _screen_point(visual, origin + Vector2(0, 6.5)), armor_color, zoom),
@@ -394,7 +394,7 @@ func _check_death_hides_bars() -> void:
 	if image.is_empty(): return
 	if not _has_rendered_color(image): return
 	var point := _screen_point(visual, _bar_origin(visual) + Vector2(0.0, 20.0))
-	check(not _has_color_near(image, point, Color("73bd68"), 1.0),
+	check(not _has_color_near(image, point, Color("829969"), 1.0),
 		"death does not leave a living green HP fill on the stage")
 	await _capture(image, "unit-vitals-death")
 

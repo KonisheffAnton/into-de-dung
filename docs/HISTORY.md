@@ -1,5 +1,26 @@
 # История и свидетельства проверок
 
+## Приглушённые полосы и компактный урон — 2026-11-07
+
+Main, base2a9288b1ee41f9def801e238e3bff50578829027. По отзыву U приглушена
+палитра HP/брони/равновесия, размеры и резкость чисел сохранены. Обычный урон
+тёплый белый; новые результаты той же цели/клетки слегка перекрывают старые,
+учитывая их возраст, без изменения суммы/контакта/after/срока жизни.
+Владелец — [показ](BATTLE_PRESENTATION_REWORK.md); [кадры](art/muted-bars-damage-stack-20261107/README.md).
+
+Isolated import/startup PASS; damage_feedback63/0, unit_vital_bars278/0,
+current_art_zoom520/0, unit_visual45/0, visual_scene106/0, consequences2096/0,
+environment364/0, camera111/0, execution61/0 и арт-gates runner PASS.
+Launcher25/1/0: status82/4, из них2 старые layout-ошибки и2 устаревшие expected-color.
+После поправки только тестового цвета isolated status84/2, прежний layout.
+Contact379/0 расширен до35 попаданий и явного переноса в соседнюю колонку:
+focused414/0. GPU просмотрены, независимое ревью APPROVE.
+Отчёт test_reports/muted-bars-damage-stack-20261107/;
+runner demo-b6d0084fcec8442fb941aeb2ef143bf8. Full/core, ручные F5/движение/zoom/DPI/
+performance не запускались; прежние проверки не объявляются повторёнными.
+33 чужих файла сохранены; [прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261107-15.md).
+Предложение по карточке персонажа справа обсуждается; UI детализации не внедрялся.
+
 ## Резкость цифр полос — 2026-11-07
 
 Main, baseef72c0a04d45da97f5f3690ac059ee791b805460. По замечанию U устранено

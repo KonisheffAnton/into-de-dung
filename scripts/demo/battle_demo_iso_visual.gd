@@ -803,19 +803,19 @@ func _draw_unit() -> void:
 		var hp_text := BattleEventText.amount_text(unit.hp)
 		var hp_rect := Rect2(BAR_LEFT, HP_Y, BAR_WIDTH, BAR_HEIGHT)
 		var hp_inner := hp_rect.grow(-_vital_rim_width())
-		_draw_vital_track(hp_rect, hp, Color("73bd68"), Color("98d28b"), Color("579a4f"), Color("7c857c"))
+		_draw_vital_track(hp_rect, hp, Color("829969"), Color("96ab7c"), Color("6e8259"), Color("777d70"))
 		if not is_equal_approx(expected_hp, unit.hp):
 			var expected_ratio := clampf(expected_hp / hp_max if hp_max > 0 else 0.0, 0.0, 1.0)
 			var current_ratio := hp
 			var segment_start := minf(current_ratio, expected_ratio)
 			var segment_width := absf(expected_ratio - current_ratio)
-			draw_rect(Rect2(hp_inner.position + Vector2(hp_inner.size.x * segment_start, 0), Vector2(hp_inner.size.x * segment_width, hp_inner.size.y)), Color("f29b9b") if expected_hp < unit.hp else Color("73bd68"))
-			draw_string(ThemeDB.fallback_font, Vector2(-32, 56), "%s→%s" % [hp_text, BattleEventText.amount_text(expected_hp)], HORIZONTAL_ALIGNMENT_CENTER, 64, 9, Color("f29b9b") if expected_hp < unit.hp else Color("73bd68"))
+			draw_rect(Rect2(hp_inner.position + Vector2(hp_inner.size.x * segment_start, 0), Vector2(hp_inner.size.x * segment_width, hp_inner.size.y)), Color("f29b9b") if expected_hp < unit.hp else Color("829969"))
+			draw_string(ThemeDB.fallback_font, Vector2(-32, 56), "%s→%s" % [hp_text, BattleEventText.amount_text(expected_hp)], HORIZONTAL_ALIGNMENT_CENTER, 64, 9, Color("f29b9b") if expected_hp < unit.hp else Color("829969"))
 			draw_line(Vector2(hp_inner.position.x + hp_inner.size.x * expected_ratio, HP_Y - 1), Vector2(hp_inner.position.x + hp_inner.size.x * expected_ratio, HP_Y + BAR_HEIGHT + 1), Color.WHITE, 1)
 		_draw_vital_amount(hp_rect, hp_text)
 		if not expected_alive: draw_string(ThemeDB.fallback_font, Vector2(-18, 67), "ПОГИБ", HORIZONTAL_ALIGNMENT_CENTER, 36, 8, Color("f29b9b"))
 		# Баланс — второстепенная шкала запаса: два цветных ряда сохраняются при отдалении.
-		_draw_vital_track(Rect2(BAR_LEFT, 27, BAR_WIDTH, 4 * _vital_rim_width()), balance, Color("e9bb70"), Color("f3d39f"), Color("d1a05c"), Color("45494b"))
+		_draw_vital_track(Rect2(BAR_LEFT, 27, BAR_WIDTH, 4 * _vital_rim_width()), balance, Color("bea16c"), Color("cdb888"), Color("a58b60"), Color("45494b"))
 		if not armor_values.is_empty():
 			var maximum: float = armor_values["maximum"]
 			var current: float = armor_values["current"]
@@ -824,7 +824,7 @@ func _draw_unit() -> void:
 			var armor_text := BattleEventText.amount_text(current)
 			var armor_rect := Rect2(BAR_LEFT, ARMOR_Y, BAR_WIDTH, BAR_HEIGHT)
 			var armor_inner := armor_rect.grow(-_vital_rim_width())
-			_draw_vital_track(armor_rect, armor_ratio, Color("bbc5ce"), Color("e0e6eb"), Color("929fab"), Color("7e8993"))
+			_draw_vital_track(armor_rect, armor_ratio, Color("9ca5a6"), Color("b1b9b6"), Color("828d8f"), Color("747d80"))
 			if expected != current:
 				var mark := armor_inner.position.x + armor_inner.size.x * (clampf(expected / maximum, 0.0, 1.0) if maximum > 0.0 else 0.0)
 				draw_line(Vector2(mark, ARMOR_Y - 1), Vector2(mark, ARMOR_Y + BAR_HEIGHT + 1), Color.WHITE, 1)

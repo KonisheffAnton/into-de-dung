@@ -535,9 +535,10 @@ func _show_event_feedback(events: Array, strike: Dictionary, show_results: bool,
 		match StringName(entry.kind):
 			&"damage":
 				var text := "−%.1f" % amount if amount > 0.0 else "0"
-				if amount > 0.0 and not strike.is_empty() and bool(strike.get("modifiers", {}).get("critical", false)): text = "КРИТ · " + text
+				var critical := amount > 0.0 and bool(strike.get("modifiers", {}).get("critical", false))
+				if critical: text = "КРИТ · " + text
 				# Получатель есть и у ловушки/внешнего мага: источник не определяет место числа.
-				_add_result_number(target, text, Color("f29b9b"))
+				_add_result_number(target, text, Color("f29b9b") if critical else Color("f3ead7"), &"result", true)
 			&"healed": _add_result_number(target, "+%.1f HP" % amount, Color("65dfcc"))
 			&"armor_gain": _add_result_number(target, "+%.1f броня" % amount, Color("8dcaff"))
 			&"shield_gain": _add_result_number(target, "Щит %s" % String.num(amount, 1), Color("71cefa"))
@@ -587,7 +588,7 @@ func begin_presentation_frame(events: Array) -> void:
 				_numbers.remove_child(number)
 				number.queue_free()
 
-func _add_result_number(id: int, text: String, tint: Color, feedback_kind: StringName = &"result") -> BattlePresentationNumber:
+func _add_result_number(id: int, text: String, tint: Color, feedback_kind: StringName = &"result", compact_damage: bool = false) -> BattlePresentationNumber:
 	var cell := _view_unit_cell(id)
 	if cell.x < 0: return null
 	var number := number_scene.instantiate() as BattlePresentationNumber
@@ -595,6 +596,7 @@ func _add_result_number(id: int, text: String, tint: Color, feedback_kind: Strin
 	_numbers.add_child(number)
 	number.set_meta("cell", cell)
 	number.set_meta("unit_id", id)
+	number.set_meta("compact_damage", compact_damage)
 	var visual := _presentation_visual(id)
 	var anchor := visual.get_node_or_null("ArtRoot/LabelAnchor") as Node2D if visual != null else null
 	number.set_meta("anchor", (anchor.position if anchor != null else Vector2(0, -48)) * (visual.get_unit_art_scale() if visual != null else 1.0))
@@ -609,15 +611,30 @@ func _add_result_number(id: int, text: String, tint: Color, feedback_kind: Strin
 		leader.z_index = -1
 		number.add_child(leader)
 	number.start(text, tint)
+	if compact_damage:
+		# Новый штрих чуть перекрывает старый, учитывая уже пройденный им подъём.
+		# Смещение фиксируется при рождении: resize/исчезновение соседа не сбрасывают стек.
+		for index: int in range(_numbers.get_child_count() - 2, -1, -1):
+			var previous := _numbers.get_child(index) as BattlePresentationNumber
+			if previous.is_queued_for_deletion() or not _same_damage_stack(number, previous): continue
+			var offset: Vector2 = previous.get_meta("damage_offset", Vector2.ZERO)
+			var travelled := previous._label.position.y + previous._label.size.y
+			number.set_meta("damage_offset", Vector2(4.0 - offset.x, offset.y + travelled - 12.0))
+			break
 	if _result_number_batch_depth > 0:
 		_result_number_batch_dirty = true
 	else:
 		_place_result_numbers()
 	return number
 
+func _same_damage_stack(first: BattlePresentationNumber, second: BattlePresentationNumber) -> bool:
+	return bool(first.get_meta("compact_damage", false)) and bool(second.get_meta("compact_damage", false)) \
+		and first.get_meta("unit_id") == second.get_meta("unit_id") and first.get_meta("cell") == second.get_meta("cell")
+
 func _place_result_numbers() -> void:
 	if _numbers == null: return
 	var occupied: Array[Rect2] = []
+	var owners: Array[BattlePresentationNumber] = []
 	var viewport_in_layer: Rect2 = _numbers.get_global_transform_with_canvas().affine_inverse() * get_viewport_rect()
 	var visible_top: float = viewport_in_layer.position.y + 3.0
 	var ordered: Array[Node] = []
@@ -629,11 +646,13 @@ func _place_result_numbers() -> void:
 		if number.is_queued_for_deletion(): continue
 		var anchor: Vector2 = number.get_meta("anchor")
 		var point := _world_cell_center(number.get_meta("cell")) + anchor * grid_config.tile_size.x / 128.0
-		# Резервируем весь путь подписи: старое число не налетает на новое при подъёме.
+		point += Vector2(number.get_meta("damage_offset", Vector2.ZERO))
+		# Полный путь защищает остальные подписи; свой стек урона допускает малый нахлёст.
 		var dimensions := number._label.size
 		var consequence := number.feedback_kind == &"consequence"
 		if consequence: point.y += dimensions.y
 		var bounds := Rect2(point - Vector2(dimensions.x * 0.5, dimensions.y + number.rise), dimensions + Vector2(0, number.rise)).grow(3.0)
+		var allow_damage_overlap := bounds.position.y >= visible_top
 		if not consequence and bounds.position.y < visible_top:
 			point.y += visible_top - bounds.position.y
 			bounds.position.y = visible_top
@@ -641,7 +660,9 @@ func _place_result_numbers() -> void:
 		var collision := true
 		while collision:
 			collision = false
-			for prior: Rect2 in occupied:
+			for prior_index: int in occupied.size():
+				var prior := occupied[prior_index]
+				if allow_damage_overlap and _same_damage_stack(number, owners[prior_index]): continue
 				if bounds.intersects(prior):
 					point.y = prior.end.y + dimensions.y + 4.0 if consequence else prior.position.y - 4.0
 					bounds.position.y = point.y - dimensions.y - number.rise - 3.0
@@ -657,6 +678,7 @@ func _place_result_numbers() -> void:
 					break
 		number.position = point
 		occupied.append(bounds)
+		owners.append(number)
 		if consequence:
 			var leader := number.get_node("Leader") as Line2D
 			leader.points = PackedVector2Array([_world_cell_center(number.get_meta("cell")) + Vector2(0, 18) * grid_config.tile_size.x / 128.0 - point, Vector2(0, -dimensions.y - 2)])

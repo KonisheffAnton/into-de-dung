@@ -54,7 +54,7 @@ func status_entry(row: Dictionary, id: String) -> Dictionary:
 
 func has_balance_pixel(image: Image, point: Vector2) -> bool:
 	var center := Vector2i(roundi(point.x), roundi(point.y))
-	var expected := Color("f7c97d")
+	var expected := Color("a58b60")
 	for y: int in range(center.y - 3, center.y + 4):
 		for x: int in range(center.x - 3, center.x + 4):
 			if x < 0 or y < 0 or x >= image.get_width() or y >= image.get_height(): continue
@@ -146,8 +146,8 @@ func run() -> void:
 		bar_origin = visual.get_visual_offset() + visual.get_unit_bars_offset() * bar_factor
 		var hp_fill := visual.get_global_transform_with_canvas() * (bar_origin + Vector2(-23, 19) * bar_factor)
 		var armor_empty := visual.get_global_transform_with_canvas() * (bar_origin + Vector2(0, 6) * bar_factor)
-		check(has_color_pixel(unit_image, hp_fill, Color("73bd68")), "low fractional HP keeps a visible green fill")
-		check(has_color_pixel(unit_image, armor_empty, Color("7e8993"), 0.04), "zero armor leaves a muted readable empty track")
+		check(has_color_pixel(unit_image, hp_fill, Color("829969")), "low fractional HP keeps a visible green fill")
+		check(has_color_pixel(unit_image, armor_empty, Color("747d80"), 0.04), "zero armor leaves a muted readable empty track")
 		var hp_text_center := visual.get_global_transform_with_canvas() * (bar_origin + Vector2(0, 21) * bar_factor)
 		var armor_text_center := visual.get_global_transform_with_canvas() * (bar_origin + Vector2(0, 7) * bar_factor)
 		check(has_black_text_pixel(unit_image, hp_text_center), "fractional HP amount is black inside its bar")
@@ -166,7 +166,7 @@ func run() -> void:
 		bar_origin = visual.get_visual_offset() + visual.get_unit_bars_offset() * bar_factor
 		var armor_fill := visual.get_global_transform_with_canvas() * (bar_origin + Vector2(-23, 6) * bar_factor)
 		armor_text_center = visual.get_global_transform_with_canvas() * (bar_origin + Vector2(0, 7) * bar_factor)
-		check(has_color_pixel(unit_image, armor_fill, Color("bbc5ce")), "enemy armor bar renders metallic gray at fractional low value")
+		check(has_color_pixel(unit_image, armor_fill, Color("9ca5a6")), "enemy armor bar renders metallic gray at fractional low value")
 		check(has_black_text_pixel(unit_image, armor_text_center), "fractional enemy armor amount is black inside its bar")
 		await capture("enemy-fractional-vitals")
 		visual.unit.hp = 20.0

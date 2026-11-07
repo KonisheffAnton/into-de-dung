@@ -243,6 +243,81 @@ func result_numbers() -> Array[BattlePresentationNumber]:
 		if number.feedback_kind == &"result": values.append(number)
 	return values
 
+func emit_damage(actor: int, target: int, amount: float) -> BattlePresentationNumber:
+	board._show_event_feedback([
+		{"kind": &"damaged", "actor_unit_id": actor, "target_unit_id": target, "amount": amount},
+		{"kind": &"hit_resolved", "actor_unit_id": actor, "target_unit_id": target}
+	], {}, true, false)
+	var number := result_numbers().back() as BattlePresentationNumber
+	number._tween.pause()
+	return number
+
+func compact_damage_numbers() -> void:
+	var s := fixture("hp")
+	var snapshot := ActionPresentationState.capture(s.state)
+	var rng := s.context.get_rng().to_dict()
+	board.show_presentation_state(snapshot)
+	var actor: int = s.units[0].id
+	var target: int = s.units[1].id
+	var first := emit_damage(actor, target, 12.0)
+	first.sample(0.2)
+	var second := emit_damage(actor, target, 7.0)
+	var first_rect := first._label.get_global_rect()
+	var second_rect := second._label.get_global_rect()
+	check(first._tint == Color("f3ead7") and second._tint == Color("f3ead7"), "ordinary damage uses warm white")
+	check(first._label.text == "−12.0" and second._label.text == "−7.0", "compact burst preserves both actual hit amounts")
+	check(first_rect.intersects(second_rect) and is_equal_approx(first_rect.end.y - second_rect.end.y, 12.0),
+		"new damage overlaps old label with a compact 12px baseline step")
+	check(absf(first_rect.get_center().x - second_rect.get_center().x) <= 4.1, "burst stays at the recipient instead of a distant column")
+	first.sample(0.4)
+	second.sample(0.2)
+	check(is_equal_approx(first._label.get_global_rect().end.y - second._label.get_global_rect().end.y, 12.0),
+		"equal elapsed time preserves compact separation")
+	var before_resize := second.position - first.position
+	board.size += Vector2(16, 8)
+	check((second.position - first.position).is_equal_approx(before_resize), "resize retains compact burst offsets")
+	var third := emit_damage(actor, target, 3.0)
+	check(is_equal_approx(second._label.get_global_rect().end.y - third._label.get_global_rect().end.y, 12.0),
+		"third damage joins the moving stack without waiting for older numbers")
+	await capture("damage-burst")
+	var heal := board._add_result_number(target, "+2.0 HP", Color("65dfcc"))
+	heal._tween.pause()
+	for number: BattlePresentationNumber in [first, second, third]:
+		check(not number._label.get_global_rect().intersects(heal._label.get_global_rect()), "healing remains outside compact damage stack")
+	var retained_offset: Vector2 = second.get_meta("damage_offset")
+	board._numbers.remove_child(first)
+	first.queue_free()
+	board._place_result_numbers()
+	check(second.get_meta("damage_offset") == retained_offset, "expiration of oldest damage does not reset younger offset")
+	board.clear_presentation_feedback()
+	first = emit_damage(actor, target, 1.0)
+	second = emit_damage(actor, s.units[3].id, 2.0)
+	check(second.get_meta("damage_offset", Vector2.ZERO) == Vector2.ZERO, "another recipient does not join the first stack")
+	var moved := snapshot.duplicate(true)
+	moved.units[target].cell = Vector2i(2, 4)
+	board.show_presentation_state(moved)
+	third = emit_damage(actor, target, 3.0)
+	check(third.get_meta("damage_offset", Vector2.ZERO) == Vector2.ZERO and first.get_meta("cell") != third.get_meta("cell"),
+		"same recipient at a new cell starts a separate stack")
+	board.clear_presentation_feedback()
+	board.show_presentation_state(snapshot)
+	for i: int in 35: emit_damage(actor, target, float(i + 1))
+	var positions: Array[Vector2] = []
+	var has_overflow_column := false
+	var first_x := result_numbers()[0].position.x
+	for number: BattlePresentationNumber in result_numbers():
+		var rect := number._label.get_global_rect()
+		check(rect.position.y >= 0.0 and rect.end.x <= viewport.size.x, "overflow burst stays inside top and right viewport bounds")
+		check(not positions.has(number.position), "overflow avoids piling multiple results at one point")
+		positions.append(number.position)
+		if absf(number.position.x - first_x) > number._label.size.x * 0.5: has_overflow_column = true
+	check(has_overflow_column, "long burst actually reaches top and uses another column")
+	await capture("damage-burst-overflow")
+	check(ActionPresentationState.capture(s.state) == snapshot and s.context.get_rng().to_dict() == rng, "number layout never changes battle state or RNG")
+	board.clear_presentation_feedback()
+	s.close()
+	await process_frame
+
 func event_anchor_fixtures() -> void:
 	var s := fixture("hp")
 	var actor_a: int = s.units[0].id
@@ -389,6 +464,7 @@ func run() -> void:
 	await combat_font_pair()
 	for mode: String in ["hp", "mixed", "armor", "zero", "lethal", "critical", "counter"]: await scenario(mode)
 	await event_anchor_fixtures()
+	await compact_damage_numbers()
 	await movement_timing()
 	await abort_cases()
 	viewport.queue_free()
