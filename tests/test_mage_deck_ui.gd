@@ -61,6 +61,24 @@ func _run() -> void:
 	var demo := host.battle_view
 	var session := host._battle_bundle.session as BattleCoreReactionsSession
 	check(demo.size.x <= viewport.size.x and demo.size.y <= viewport.size.y and demo._instructions.get_global_rect().end.y <= float(viewport.size.y), "deck UI fits 1280x850")
+	check(demo._instructions.text.is_empty() and not demo._instructions.visible, "active hub battle hides generic instruction boilerplate")
+	var hand_bottom := demo._mage_row.get_global_rect().end.y
+	check(absf(hand_bottom - float(viewport.size.y)) <= 1.0, "visible hand reaches the bottom edge at 1280x850")
+	demo._refresh()
+	check(demo._instructions.text.is_empty() and not demo._instructions.visible and demo._mage_row.get_global_rect().end.y == hand_bottom, "repeated refresh preserves empty instructions and hand placement")
+	viewport.size = Vector2i(1280, 720)
+	await process_frame
+	await process_frame
+	var column := demo.get_node("BattleHUD/Margin/Column") as VBoxContainer
+	var content := column.get_node("Content") as Control
+	var small_hand_rect := demo._mage_row.get_global_rect()
+	var hand_bottom_diagnostic := "viewport=%s demo=%s column=%s min=%s content=%s min=%s hand=%s" % [viewport.size, demo.size,
+		column.get_global_rect(), column.get_combined_minimum_size(), content.get_global_rect(), content.get_combined_minimum_size(), small_hand_rect]
+	check(absf(small_hand_rect.end.y - float(viewport.size.y)) <= 1.0,
+		"visible hand reaches the bottom edge at smaller viewport (" + hand_bottom_diagnostic + ")")
+	viewport.size = Vector2i(1280, 850)
+	await process_frame
+	await process_frame
 	check(demo._mage_label.get_global_rect().end.x <= float(viewport.size.x) and demo._mage_label.text.contains("Мана") and demo._mage_label.text.contains("добор") and demo._mage_label.text.contains("сыграно") and demo._mage_label.text.contains("замена:"), "deck counters fit visible header")
 	check(session.is_deploying() and session.state.deck.hand_ids.size() == 5 and not session.state.deck.mulligan_done, "setup five card hand")
 	demo.end_turn()
@@ -228,10 +246,25 @@ func _level_restart(path: String) -> void:
 	check(host.battle_view == demo and not demo.can_restart_checkpoint(), "restart also blocked while presentation pending")
 	demo.skip_presentation()
 	check(not demo.is_execution_pending() and _restart_values(session) != beginning, "battle progress differs before restart")
+	viewport.size = Vector2i(1280, 720)
+	await process_frame
+	await process_frame
 	for phase: int in [BattleTacticalSession.Phase.VICTORY, BattleTacticalSession.Phase.DEFEAT, BattleTacticalSession.Phase.MUTUAL_DESTRUCTION]:
 		session.phase = phase as BattleTacticalSession.Phase
+		demo._refresh()
+		await process_frame
+		await process_frame
+		check(not demo._instructions.text.is_empty() and demo._instructions.visible and viewport.get_visible_rect().encloses(demo._instructions.get_global_rect()) and demo._instructions.get_global_rect().end.y <= demo._mage_row.get_global_rect().position.y and absf(demo._mage_row.get_global_rect().end.y - float(viewport.size.y)) <= 1.0, "terminal instructions and hand fit the 720px viewport")
 		demo.reset_demo(); host._restart_checkpoint()
 		check(host.battle_view == demo and not demo.can_restart_checkpoint(), "terminal outcome cannot be discarded by restart")
+	session.phase = BattleTacticalSession.Phase.FAULTED
+	demo._refresh()
+	await process_frame
+	await process_frame
+	check(not demo._instructions.text.is_empty() and demo._instructions.visible and viewport.get_visible_rect().encloses(demo._instructions.get_global_rect()) and demo._instructions.get_global_rect().end.y <= demo._mage_row.get_global_rect().position.y and absf(demo._mage_row.get_global_rect().end.y - float(viewport.size.y)) <= 1.0, "fault instructions and hand fit the 720px viewport")
+	viewport.size = Vector2i(1280, 850)
+	await process_frame
+	await process_frame
 	session.phase = BattleTacticalSession.Phase.PLAYER_TURN
 	host._pending_save = HeroHubState.from_dict(checkpoint)
 	demo.reset_demo()

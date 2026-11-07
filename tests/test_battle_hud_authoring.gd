@@ -53,6 +53,8 @@ func _exercise(deck_mode: bool) -> void:
 	check(toolbar.get_node_or_null("CompareTurnsButton") == null, "authored HUD has no initiative comparison button")
 	check(poison_button.get_meta("spell_id", &"") == &"mage.test_poison" and poison_button.text == "Яд\n1 мана", "authored legacy mage HUD exposes the poison spell")
 	var status := column.get_node("Status") as Label
+	var instructions := column.get_node("Instructions") as Label
+	check(column.get_child_count() > 0 and column.get_child(column.get_child_count() - 1) == mage, "mage bar is the final column child below status and instructions")
 	var roster := hud.get_node("BattleDiagnostics/Scroll/Side/RosterScroll/Roster") as VBoxContainer
 	var reset_button := column.get_node("Title/Reset") as Button
 	reset_button.text = "Авторская подпись сброса"
@@ -145,6 +147,7 @@ func _exercise(deck_mode: bool) -> void:
 	check(action.custom_minimum_size.x == 169 and action._buttons[0].get_theme_font_size("font_size") == 14, "hero overrides survive")
 	check(action._buttons.size() == 4, "repeated binding keeps four slots")
 	check(card.custom_minimum_size.y == 69 and card.get_theme_font_size("font_size") == 16, "hand overrides survive")
+	check(status.get_index() + 1 == instructions.get_index() and instructions.get_index() < mage.get_index(), "status and terminal feedback stay above the hand")
 	check(end_turn.custom_minimum_size.y == 41 and status.custom_minimum_size.y == 47 and board.custom_minimum_size.y == 355, "control status and board sizes survive refresh")
 	check(end_turn.pressed.get_connections().size() == 1 and card.pressed.get_connections().size() == 1, "one gameplay handler per persistent button")
 	var live_roster_button := _roster_button(demo, int(demo.session.units[0].id))

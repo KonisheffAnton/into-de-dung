@@ -61,6 +61,7 @@ func _before_staged_refresh() -> void:
 	_subtitle.visible = true
 	_subtitle.text = _published_subtitle
 	_instructions.text = _published_instructions
+	_instructions.visible = not _instructions.text.is_empty()
 	_return_button.disabled = true
 
 func _after_refresh() -> void:
@@ -72,6 +73,7 @@ func _after_refresh() -> void:
 	if _battle == null:
 		_subtitle.text = "Сессия боя недоступна."
 		_instructions.text = "Вернитесь в хаб после проверки результата."
+		_instructions.visible = true
 		return
 	var terminal := _battle.phase in [BattleTacticalSession.Phase.VICTORY, BattleTacticalSession.Phase.DEFEAT, BattleTacticalSession.Phase.MUTUAL_DESTRUCTION]
 	var faulted := _battle.phase == BattleTacticalSession.Phase.FAULTED
@@ -91,7 +93,8 @@ func _after_refresh() -> void:
 		_instructions.text = "Бой завершён. Хаб сохранит состояние отряда и потери."
 	else:
 		_subtitle.text = "Настоящий тактический бой · ход: %s" % ("отряда" if _battle.can_player_act() else "противника")
-		_instructions.text = "Используйте действия и прогнозы боевого интерфейса. После терминального исхода результат сохранится в профиле."
+		_instructions.text = ""
+	_instructions.visible = not _instructions.text.is_empty()
 	_published_subtitle = _subtitle.text
 	_published_instructions = _instructions.text
 

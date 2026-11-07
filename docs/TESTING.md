@@ -196,6 +196,13 @@ Deferred before/after, отказ запуска и FAULTED покрыты worke
 Render-регрессии смерти/реакций/камеры выбирать дополнительно при изменениях поз.
 Технический A/B не заменяет ручную приёмку и проверку будущих артов/массовых AoE.
 
+Нижний край руки и удаление общей подсказки H1 (2026-11-07):
+`python tools/demo/isolate.py --render-check --only mage_deck_ui
+battle_hud_authoring battle_hud_input hero_hub_ui --screen 0`.
+Проверяются реальный ввод карт/mulligan, сохранность authored bindings,
+нижний край при1280×850/720, пустая активная инструкция и видимые
+terminal/faulted сообщения выше руки после завершения layout.
+
 Прозрачный HUD и ввод за прежними границами Board (2026-10-31):
 `python tools/demo/isolate.py --render-check --only battle_hud_input
 battle_hud_authoring battle_camera_ui turn_forecast_ui mage_deck_ui hero_hub_ui --screen 0`

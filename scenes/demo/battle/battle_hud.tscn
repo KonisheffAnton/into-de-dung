@@ -45,11 +45,11 @@ grow_vertical = 2
 theme_override_constants/margin_left = 24
 theme_override_constants/margin_right = 24
 theme_override_constants/margin_top = 24
-theme_override_constants/margin_bottom = 24
+theme_override_constants/margin_bottom = 0
 
 [node name="Column" type="VBoxContainer" parent="Margin"]
 layout_mode = 2
-theme_override_constants/separation = 6
+theme_override_constants/separation = 4
 
 [node name="Title" type="HBoxContainer" parent="Margin/Column"]
 z_index = 600
@@ -181,6 +181,7 @@ size_flags_vertical = 4
 
 [node name="Board" parent="Margin/Column/Content/Left/Field" instance=ExtResource("board")]
 layout_mode = 2
+custom_minimum_size = Vector2(520, 300)
 
 [node name="Hint" type="Label" parent="Margin/Column/Content/Left"]
 z_index = 600
@@ -190,7 +191,6 @@ theme_override_font_sizes/font_size = 14
 theme_override_colors/font_color = Color(0.6470588, 0.7019608, 0.772549, 1)
 clip_text = true
 max_lines_visible = 2
-custom_minimum_size = Vector2(0, 40)
 
 [node name="Inspection" type="Label" parent="Margin/Column/Content/Left"]
 z_index = 600
@@ -200,7 +200,6 @@ theme_override_font_sizes/font_size = 14
 theme_override_colors/font_color = Color(0.9019608, 0.9254902, 0.9568627, 1)
 clip_text = true
 max_lines_visible = 2
-custom_minimum_size = Vector2(0, 44)
 
 [node name="DeckSummary" type="Label" parent="Margin/Column"]
 z_index = 600
@@ -208,6 +207,26 @@ layout_mode = 2
 text = "Мана · добор · сыграно"
 theme_override_font_sizes/font_size = 14
 theme_override_colors/font_color = Color(0.3960784, 0.8745098, 0.8, 1)
+
+[node name="Status" type="Label" parent="Margin/Column"]
+z_index = 600
+layout_mode = 2
+text = ""
+theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(0.9686275, 0.7882353, 0.4901961, 1)
+autowrap_mode = 3
+clip_text = true
+max_lines_visible = 2
+custom_minimum_size = Vector2(0, 42)
+
+[node name="Instructions" type="Label" parent="Margin/Column"]
+z_index = 600
+layout_mode = 2
+text = ""
+theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(0.6470588, 0.7019608, 0.772549, 1)
+clip_text = true
+max_lines_visible = 1
 
 [node name="MageBar" parent="Margin/Column" instance=ExtResource("mage")]
 z_index = 600
@@ -364,26 +383,6 @@ visible = false
 layout_mode = 2
 text = "Подтвердить"
 visible = false
-
-[node name="Status" type="Label" parent="Margin/Column"]
-z_index = 600
-layout_mode = 2
-text = ""
-theme_override_font_sizes/font_size = 14
-theme_override_colors/font_color = Color(0.9686275, 0.7882353, 0.4901961, 1)
-autowrap_mode = 3
-clip_text = true
-max_lines_visible = 2
-custom_minimum_size = Vector2(0, 42)
-
-[node name="Instructions" type="Label" parent="Margin/Column"]
-z_index = 600
-layout_mode = 2
-text = ""
-theme_override_font_sizes/font_size = 14
-theme_override_colors/font_color = Color(0.6470588, 0.7019608, 0.772549, 1)
-clip_text = true
-max_lines_visible = 1
 
 [node name="BattleDiagnostics" type="PanelContainer" parent="."]
 visible = false
