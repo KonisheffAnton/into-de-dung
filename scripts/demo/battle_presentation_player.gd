@@ -62,6 +62,7 @@ func _next() -> void:
 		if not group.is_empty():
 			var chain_events: Array = []
 			for item: Dictionary in group:
+				item["contact_events"] = BattleDamageFeedback.obstacle_results(_frames, int(item.index))
 				var chain_frame: Dictionary = item.frame
 				chain_events.append_array(chain_frame.events)
 			# Вся цепочка задаётся до первого callback: один общий tween держит её участников.
@@ -80,7 +81,7 @@ func _next() -> void:
 			_board.set_presentation_animation_events(frame.events)
 		_start_chain_frame(_index)
 		if _board.has_presentation_animation(frame.events):
-			_tween = _board.animate_presentation_frame(frame.events, frame.step)
+			_tween = _board.animate_presentation_frame(frame.events, frame.step, BattleDamageFeedback.obstacle_results(_frames, _index))
 			_tween.set_speed_scale(speed)
 			_tween.finished.connect(_complete_frame)
 			return

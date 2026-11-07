@@ -226,12 +226,8 @@ func rogue_case(direction: Vector2i, fallback: bool = false) -> void:
 	check(is_zero_approx(airborne_offset(actor.id, aim)), "contact lands exactly on the attack direction")
 	advance(0.001)
 	check(board._impacts.get_child_count() == 1, "rogue produces one confirmed contact")
-	check(number_texts().is_empty(), "rogue result is hidden at contact")
-	advance(0.048)
-	check(number_texts().is_empty(), "rogue result stays hidden at 0.049s contact time")
-	advance(0.002)
 	check(not number_texts().is_empty() and board._presentation_visual(target.id).unit.hp == data.before.units[target.id].hp,
-		"rogue result appears by 0.051s before HP publication")
+		"rogue total appears at contact while HP waits for publication")
 	var early_results: Array[BattlePresentationNumber] = []
 	for number: BattlePresentationNumber in board._numbers.get_children(): early_results.append(number)
 	if direction == Vector2i.RIGHT and not fallback: await capture("rogue-contact")

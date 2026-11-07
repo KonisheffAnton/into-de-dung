@@ -186,7 +186,7 @@ func armor_cases() -> void:
 		check(count_text(entries, "Броня исчерпана", target.id) == (1 if mode == "spent" else 0), mode + " full depletion is distinct from partial loss")
 		check(count_text(entries, "Сквозь броню", target.id) == (1 if mode == "piercing" else 0), mode + " penetration only from resolved policy")
 		if mode == "piercing": check(data.before.units[target.id].armor.current == data.after.units[target.id].armor.current, "100 percent penetration preserves armor")
-		await play_checked(s, data, "Броня исчерпана" if mode == "spent" else ("Сквозь броню" if mode == "piercing" else "броня"), "armor-" + mode)
+		await play_checked(s, data, "Броня исчерпана" if mode == "spent" else ("Сквозь броню" if mode == "piercing" else "−"), "armor-" + mode)
 
 func threshold_and_fault() -> void:
 	var s := open_lane()
@@ -312,13 +312,17 @@ func obstacle_contacts() -> void:
 			var hud := visual._status_hud.position
 			var shown_hp := visual.unit.hp
 			var expected_direction := expected_screen_direction(direction)
+			var result_count_before: int = board._numbers.get_child_count()
 			check(obstacle_impacts().is_empty(), label + " no contact flash before contact")
 			advance(BattleDemoBoard.OBSTACLE_APPROACH_SECONDS * 0.5)
 			check(visual.action_offset.dot(expected_direction) > 1.0, label + " body approaches obstacle in correct direction")
+			check(board._numbers.get_child_count() == result_count_before, label + " no borrowed result before obstacle contact")
 			check(visual.position == support and visual._status_hud.position == hud and board._view_unit_cell(target.id) == cell, label + " approach preserves logical cell sorting support and HUD")
 			advance(BattleDemoBoard.OBSTACLE_APPROACH_SECONDS * 0.5 + 0.002)
 			var impacts := obstacle_impacts()
 			check(impacts.size() == 1, label + " one contact flash per real obstacle event")
+			check(board._numbers.get_child_count() > result_count_before, label + " damage total is visible at obstacle contact before after")
+			var contact_damage_count: int = board._numbers.get_children().filter(func(number: BattlePresentationNumber) -> bool: return number.feedback_kind == &"result" and number._label.text.contains("−")).size()
 			check(visual.action_offset.dot(expected_direction) >= 27.0 and visual.unit.hp == shown_hp, label + " contact holds body without publishing damage early")
 			if mode == "body":
 				var receiver := board._presentation_visual(blocker.id)
@@ -338,6 +342,7 @@ func obstacle_contacts() -> void:
 			if direction == Vector2i.RIGHT: await capture(label + "-rebound")
 			finish()
 			check(board._presentation_visual(target.id).action_offset == Vector2.ZERO and board._view_unit_cell(target.id) == cell, label + " completed contact returns body to unchanged cell")
+			check(board._numbers.get_children().filter(func(number: BattlePresentationNumber) -> bool: return number.feedback_kind == &"result" and number._label.text.contains("−")).size() == contact_damage_count, label + " later damage after never duplicates early obstacle totals")
 			if mode == "body": check(board._presentation_visual(blocker.id).action_offset == Vector2.ZERO, label + " receiver returns after contact")
 			check(not shown_texts().contains("Сдвиг"), label + " contact does not invent displacement")
 			check(snapshot(s) == state and s.context.get_rng().to_dict() == rng and s.context.simulation_counters() == counters and data == immutable, label + " contact never mutates world RNG counters or receipt")
@@ -401,7 +406,11 @@ func chain_overlap() -> void:
 			var b_cell := board._view_unit_cell(b)
 			var approach := BattleDemoBoard.OBSTACLE_APPROACH_SECONDS
 			var hold := BattleDemoBoard.OBSTACLE_HOLD_SECONDS
-			advance(approach + hold)
+			var results_before_contact: int = board._numbers.get_child_count()
+			advance(approach)
+			check(board._numbers.get_child_count() > results_before_contact and player._index == first,
+				label + " chain damage appears at first contact before hold or death completes")
+			advance(hold)
 			check(player._chain == chain and player._index == first + 1, label + " first after publishes at release while next collision starts")
 			check(player._frames[first].is_empty() and player._released_index == first + 1,
 				label + " consumed chain snapshot releases while the shared clock is active")

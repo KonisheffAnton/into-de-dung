@@ -120,15 +120,12 @@ func scenario(mode: String) -> void:
 	var lunge_end_distance := 32.0 * board.grid_config.tile_size.x / 128.0
 	check(is_equal_approx(board._presentation_visual(a).action_offset.length(), lunge_end_distance), mode + " real Tween reaches lunge endpoint after 0.025s")
 	check(lunge_end_distance - lunge_three_quarters > lunge_quarter - lunge_start, mode + " lunge accelerates into contact instead of travelling at constant speed")
-	advance(0.025)
-	check(is_equal_approx(board._presentation_visual(a).action_offset.length(), lunge_end_distance), mode + " hit stop holds attacker at reach")
-	check(board._presentation_visual(b).unit.hp == data.before.units[b].hp and board._numbers.get_child_count() == 0, mode + " hit stop delays HP and HUD publication")
+	advance(0.001)
+	check(board._impacts.get_child_count() == 1 and not number_texts().is_empty(), mode + " total appears at contact without delay")
+	check(board._presentation_visual(b).unit.hp == data.before.units[b].hp, mode + " immediate number does not publish after early")
 	advance(0.024)
-	check(board._impacts.get_child_count() == 1 and board._numbers.get_child_count() == 0, mode + " contact at 0.049s remains before result delay")
-	advance(0.002)
-	check(board._presentation_visual(b).action_offset.length() > 1.0 and not number_texts().is_empty()
-		and board._presentation_visual(b).unit.hp == data.before.units[b].hp,
-		mode + " contact recoil and result appear by 0.051s while after-state stays unpublished")
+	check(board._presentation_visual(a).action_offset.length() < lunge_end_distance
+		and board._presentation_visual(b).action_offset.length() > 1.0, mode + " return and recoil begin without hit stop")
 	if mode == "hp":
 		var strike: Dictionary = board._pending_strikes.values()[0]
 		var target_support := board._presentation_visual(b).position
@@ -178,46 +175,37 @@ func scenario(mode: String) -> void:
 	check(board._presentation_visual(b).unit.hp == data.after.units[b].hp, mode + " shown HP equals committed state")
 	var texts := number_texts()
 	var feedback_count := board._numbers.get_child_count()
-	var hp_loss := 0.0
-	var expected_hp_numbers := 0
+	var totals: Dictionary = {}
+	var heals: int = 0
 	for event: Dictionary in data.events:
-		if event.kind in [&"damaged", &"healed"]: expected_hp_numbers += 1
-		if event.kind == &"damaged" and event.target_unit_id == b: hp_loss = float(event.amount)
-	if mode in ["mixed", "armor"]:
-		check(texts.size() == expected_hp_numbers + 1 and texts[0].contains("броня"), mode + " armor number distinct, no technical duplicates")
-	if mode in ["hp", "lethal", "critical"]: check(texts.size() == expected_hp_numbers, mode + " one number per HP change including item heal")
-	if mode != "zero" and hp_loss > 0.0:
-		check(texts.any(func(t: String) -> bool: return t.contains("%.1f HP" % hp_loss)), mode + " actual HP delta displayed")
-	for event: Dictionary in data.events:
-		if event.kind not in [&"damaged", &"healed"]: continue
-		var owner: int = int(event.actor_unit_id) if event.kind == &"damaged" else int(event.target_unit_id)
-		var expected_text: String = ("−" if event.kind == &"damaged" else "+") + "%.1f HP" % float(event.amount)
-		var matching: int = 0
+		var actor: int = int(event.get("actor_unit_id", 0))
+		if event.kind == &"healed":
+			heals += 1
+			check(texts.has("+%.1f HP" % float(event.amount)), mode + " actual item healing stays separate")
+		elif event.kind == &"damaged": totals[actor] = float(totals.get(actor, 0.0)) + float(event.amount)
+		elif event.kind == &"armor_changed":
+			for change: Dictionary in event.grants + event.items:
+				totals[actor] = float(totals.get(actor, 0.0)) + maxf(0.0, float(change.before) - float(change.after))
+		elif event.kind == &"hit_resolved" and not totals.has(actor): totals[actor] = 0.0
+	check(texts.size() == totals.size() + heals, mode + " one combined damage number per hit plus actual healing")
+	for actor: int in totals:
+		var expected_text: String = "−%.1f" % float(totals[actor]) if float(totals[actor]) > 0.0 else "0"
+		var matches: int = 0
 		for number: BattlePresentationNumber in result_numbers():
-			if number._label.text.ends_with(expected_text) and int(number.get_meta("unit_id", 0)) == owner:
-				matching += 1
-				check(number.get_meta("cell") == data.before.units[owner].cell, mode + " HP result uses owner's cell")
-		check(matching == 1, mode + " each HP event has exactly one result at source or healing recipient")
-	if mode in ["mixed", "armor"]:
-		for number: BattlePresentationNumber in result_numbers():
-			if number._label.text.contains("броня"):
-				check(int(number.get_meta("unit_id", 0)) == a and number.get_meta("cell") == data.before.units[a].cell,
-					mode + " armor damage is shown at attacker only")
-	if mode == "zero":
-		var zero_owner := false
-		for number: BattlePresentationNumber in board._numbers.get_children():
-			if number._label.text == "0 · без урона" and int(number.get_meta("unit_id", 0)) == a: zero_owner = true
-		check(texts.size() == 1 and zero_owner, "zero hit is anchored to visible attacker")
-	if mode == "critical": check(texts[0].begins_with("КРИТ"), "critical tagged without extra damage")
-	if mode == "lethal": check(not board._presentation_visual(b).unit.alive and texts[0].contains("1.0 HP"), "lethal shows actual lost HP after death")
-	if mode == "counter": check(texts.size() == expected_hp_numbers and expected_hp_numbers >= 2, "counter is a separate contact/result")
+			if int(number.get_meta("unit_id", 0)) == actor and number._label.text.ends_with(expected_text):
+				matches += 1
+				check(number.get_meta("cell") == data.before.units[actor].cell, mode + " total is anchored to its own attacker")
+		check(matches == 1, mode + " exact HP plus armor total without separate loss labels")
+	if mode == "critical": check(texts[0].begins_with("КРИТ"), "critical tags the single total")
+	if mode == "lethal": check(not board._presentation_visual(b).unit.alive and texts[0] == "−1.0", "lethal retains actual capped loss")
 	check(ActionPresentationState.capture(s.state) == data.after and rng == s.context.get_rng().to_dict() and counters == s.context.simulation_counters(), mode + " playback leaves live/RNG/counters unchanged")
 	for number: BattlePresentationNumber in board._numbers.get_children(): number._tween.pause()
 	if mode in ["mixed", "armor", "zero", "critical", "counter"]: await capture("result-" + mode)
 	if mode == "mixed":
 		var first := board._numbers.get_child(0) as BattlePresentationNumber
-		var second := board._numbers.get_child(1) as BattlePresentationNumber
-		check(absf(first.position.y - second.position.y) >= 28.0, "HP and armor occupy separate lines")
+		var second := board._add_result_number(a, "+1.0 HP", Color("65dfcc"))
+		feedback_count = board._numbers.get_child_count()
+		check(absf(first.position.y - second.position.y) >= 28.0, "independent healing does not cover total damage")
 		first.sample(0.75)
 		second.sample(0.0)
 		check(not first._label.get_global_rect().intersects(second._label.get_global_rect()), "older rising number cannot cover fresh number")
@@ -338,6 +326,28 @@ func event_anchor_fixtures() -> void:
 	check(result_numbers().is_empty(), "dead author never creates a zero result at an empty cell")
 	board.environment_mode = false
 	board.clear_presentation_feedback()
+	board.show_presentation_state(ActionPresentationState.capture(s.state))
+	for absorbed_by: String in ["armor", "shield"]:
+		var status_events: Array = [{"kind": &"elemental_changed", "root_id": 123, "command_seq": 90,
+			"actor_unit_id": actor_a, "target_unit_id": target}]
+		var source := {"kind": &"status_snapshot", "instigator_unit_id": actor_a}
+		if absorbed_by == "armor":
+			status_events.append({"kind": &"armor_changed", "root_id": 123, "command_seq": 90,
+				"actor_unit_id": actor_a, "target_unit_id": target, "source": source,
+				"grants": [{"before": 6.0, "after": 2.0}], "items": []})
+		else:
+			status_events.append({"kind": &"shield_changed", "root_id": 123, "command_seq": 90,
+				"actor_unit_id": actor_a, "target_unit_id": target, "source": source, "absorbed": 4.0, "after": {"hp": 2.0}})
+		status_events.append({"kind": &"hit_resolved", "root_id": 123, "command_seq": 90,
+			"actor_unit_id": actor_a, "target_unit_id": target, "source": source})
+		var status_tween := board.animate_presentation_frame(status_events, {"kind": &"elemental_tick"})
+		status_tween.pause()
+		status_tween.custom_step(0.001)
+		numbers = result_numbers()
+		check(numbers.size() == 1 and numbers[0]._label.text == "−4.0" and int(numbers[0].get_meta("unit_id")) == actor_a,
+			absorbed_by + " only status tick shows immediate combined damage before status pulse completes")
+		status_tween.kill()
+		board.clear_presentation_feedback()
 	s.close()
 	await process_frame
 
@@ -457,10 +467,8 @@ func abort_cases() -> void:
 	player.set_speed(3.0)
 	player.play(board, data.before, data.frames, data.after)
 	advance(0.126 / 3.0)
-	advance(0.049 / 3.0)
-	check(board._impacts.get_child_count() == 1 and board._numbers.get_child_count() == 0, "x3 result remains hidden at 0.049s clip time")
-	advance(0.002 / 3.0)
-	check(board._numbers.get_child_count() > 0, "x3 result appears by 0.051s clip time")
+	advance(0.001 / 3.0)
+	check(board._impacts.get_child_count() == 1 and board._numbers.get_child_count() > 0, "x3 contact immediately shows total")
 	player.skip()
 	check(board._impacts.get_child_count() == 0 and board._numbers.get_child_count() == 0 and board._action_offsets.is_empty(), "skip after early x3 result cancels all effects")
 	check(ActionPresentationState.capture(s.state) == data.after, "contact skip cannot change actual result")
@@ -468,15 +476,15 @@ func abort_cases() -> void:
 	player.play(board, data.before, data.frames, data.after)
 	player._tween.pause()
 	advance(0.126)
-	advance(0.049)
-	check(board._impacts.get_child_count() == 1 and board._numbers.get_child_count() == 0, "replay setup has contact but has not reached result deadline")
+	advance(0.001)
+	check(board._impacts.get_child_count() == 1 and board._numbers.get_child_count() > 0, "replay setup shows immediate contact total")
 	var cancelled_tween := player._tween
 	player.cancel()
-	check(board._numbers.get_child_count() == 0 and board._impacts.get_child_count() == 0, "cancel removes pending delayed result")
+	check(board._numbers.get_child_count() == 0 and board._impacts.get_child_count() == 0, "cancel removes immediate result")
 	player.play(board, data.before, data.frames, data.after)
 	player._tween.pause()
 	advance(0.126)
-	advance(0.051)
+	advance(0.001)
 	var replay_count: int = board._numbers.get_child_count()
 	await process_frame
 	check(not cancelled_tween.is_valid() and replay_count > 0 and board._numbers.get_child_count() == replay_count,

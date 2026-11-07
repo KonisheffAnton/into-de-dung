@@ -138,17 +138,14 @@ func scenario(spell: StringName, mode: String = "normal", hub: bool = false) -> 
 	check(board._presentation_visual(s.units[0].id).action_offset == Vector2.ZERO, "external cast never moves selected hero")
 	await capture(String(spell).replace(".", "-") + "-" + mode + "-flight")
 	advance(0.14)
-	check(publications.is_empty() and board._numbers.get_child_count() == 0, "contact still precedes atomic after and numbers")
+	check(publications.is_empty(), "contact still precedes atomic after")
 	check(effect.phase == &"contact", "confirmed result reaches contact exactly once")
 	if spell == &"mage.heal": check(board._presentation_visual(target.id).action_offset == Vector2.ZERO, "healing has no hit recoil")
 	if spell == &"mage.fire":
-		advance(0.019)
-		check(publications.is_empty() and board._numbers.get_child_count() == 0, "fire result remains hidden before 0.05s contact delay")
-		advance(0.002)
 		var expected_early: int = 1 if mode == "fire_heals" else 0
 		check(board._numbers.get_child_count() == expected_early and publications.is_empty()
 			and board._presentation_visual(target.id).unit.hp == before_view.units[target.id].hp,
-			"external fire hides damage but keeps early healing while after remains pending")
+			"external fire keeps immediate recovery without inventing an attacker figure")
 	var early_results: Array[BattlePresentationNumber] = []
 	for number: BattlePresentationNumber in board._numbers.get_children(): early_results.append(number)
 	var result_counts_at_publication: Array[int] = []
@@ -278,7 +275,7 @@ func healing_fault() -> void:
 	demo._presentation_player._tween.pause()
 	advance(0.35)
 	check(demo.board_view._mage_effect != null and demo.board_view._mage_effect.phase == &"contact" and demo.board_view._impacts.get_child_count() == 1, "healed-only fire prefix confirms a single contact")
-	check(demo.board_view._presentation_visual(target.id).unit.hp == before.units[target.id].hp and demo.board_view._numbers.get_child_count() == 0, "partial healing stays unpublished until contact completes")
+	check(demo.board_view._presentation_visual(target.id).unit.hp == before.units[target.id].hp and demo.board_view._numbers.get_child_count() == 1, "partial healing number appears at contact while HP remains unpublished")
 	await capture("fire-healing-fault-contact")
 	finish()
 	check(snapshot(s) == committed and demo.board_view._presentation_visual(target.id).unit.hp == target.vitals.get_hp(), "partial-healing after preserves actual faulted result")

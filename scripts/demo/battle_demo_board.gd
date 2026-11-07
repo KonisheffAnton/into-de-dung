@@ -130,8 +130,8 @@ const POUNCE_PREPARE_DISTANCE: float = -10.0
 const POUNCE_CONTACT_DISTANCE: float = 32.0
 const POUNCE_PREPARE_LIFT: float = 3.0
 const POUNCE_JUMP_ARC_HEIGHT: float = 18.0
-const HIT_STOP_SECONDS: float = 0.035
-const HIT_NUMBER_DELAY_SECONDS: float = 0.05
+const HIT_STOP_SECONDS: float = 0.0
+const HIT_NUMBER_DELAY_SECONDS: float = 0.0
 const STRIKE_RECOVERY_SECONDS: float = 0.20
 const NORMAL_RECOIL_DISTANCE: float = 18.0
 const CRITICAL_RECOIL_DISTANCE: float = 24.0
@@ -524,57 +524,28 @@ func _show_contact_result(events: Array, strike: Dictionary = {}) -> void:
 	_show_event_feedback(events, strike, true, false)
 
 func _show_event_feedback(events: Array, strike: Dictionary, show_results: bool, show_statuses: bool) -> void:
-	var numbered: Dictionary = {}
-	for event: Dictionary in events:
-		if show_statuses:
+	if show_statuses:
+		for event: Dictionary in events:
 			var status_feedback := BattleStatusPresentation.event_feedback(event)
 			if not status_feedback.is_empty(): _add_result_number(int(event.get("target_unit_id", 0)), status_feedback, Color("ffd08a"), &"status")
-		if not show_results: continue
-		var kind := StringName(event.get("kind", &""))
-		var target := int(event.get("target_unit_id", 0))
-		var actor := int(event.get("actor_unit_id", 0))
-		var text := ""
-		var tint := Color("f29b9b")
-		var anchor_id := target
-		var source_result := false
-		if kind in [&"damaged", &"healed"] and float(event.get("amount", 0.0)) > 0.0:
-			text = ("−" if kind == &"damaged" else "+") + ("%.1f HP" % float(event.amount))
-			if kind == &"damaged":
-				anchor_id = actor
-				source_result = true
-			else: tint = Color("65dfcc")
-			if kind == &"damaged" and not strike.is_empty() and bool(strike.get("modifiers", {}).get("critical", false)): text = "КРИТ · " + text
-		elif kind == &"shield_changed":
-			text = "Щит −%s" % String.num(float(event.absorbed), 1) if float(event.absorbed) > 0.0 else "Щит %s" % String.num(float(event.after.get("hp", 0)), 1)
-			tint = Color("71cefa")
-			if float(event.get("absorbed", 0.0)) > 0.0:
-				anchor_id = actor
-				source_result = true
-		elif kind == &"armor_changed":
-			var delta := 0.0
-			for change: Dictionary in event.get("grants", []) + event.get("items", []):
-				delta += float(change.after) - float(change.before)
-			if not is_zero_approx(delta):
-				text = ("+" if delta > 0.0 else "−") + ("%.1f броня" % absf(delta))
-				if delta < 0.0:
-					anchor_id = actor
-					source_result = true
-			tint = Color("8dcaff")
-		if not text.is_empty():
-			# Число у источника создаём только при реальном участнике; пропуск всё равно закрывает нулевой дубль цели.
-			if source_result and _damage_number_source_visible(anchor_id, target):
-				_add_result_number(anchor_id, text, tint)
-			elif not source_result and anchor_id == target:
-				_add_result_number(target, text, tint)
-			numbered[target] = true
 	if not show_results: return
-	for event: Dictionary in events:
-		if event.get("kind") == &"hit_resolved" and not numbered.has(int(event.target_unit_id)):
-			var target := int(event.target_unit_id)
-			var actor := int(event.get("actor_unit_id", 0))
-			if _damage_number_source_visible(actor, target):
-				_add_result_number(actor, "0 · без урона", Color("d6dfeb"))
-			numbered[target] = true
+	for entry: Dictionary in BattleDamageFeedback.entries(events):
+		var target: int = entry.target
+		var amount: float = entry.amount
+		match StringName(entry.kind):
+			&"damage":
+				var text := "−%.1f" % amount if amount > 0.0 else "0"
+				if amount > 0.0 and not strike.is_empty() and bool(strike.get("modifiers", {}).get("critical", false)): text = "КРИТ · " + text
+				var source: Dictionary = entry.source
+				var cell: Vector2i = source.get("origin_cell", Vector2i(-1, -1))
+				if source.get("kind", &"") == &"cell" and cell.x >= 0 and cell.y >= 0 and cell.x < _view_width and cell.y < _view_height:
+					# У ловушки нет фигуры: число относится к клетке источника, а не к полосам жертвы.
+					_add_result_number(0, text, Color("f29b9b"), &"result", cell)
+				elif _damage_number_source_visible(int(entry.actor), target):
+					_add_result_number(int(entry.actor), text, Color("f29b9b"))
+			&"healed": _add_result_number(target, "+%.1f HP" % amount, Color("65dfcc"))
+			&"armor_gain": _add_result_number(target, "+%.1f броня" % amount, Color("8dcaff"))
+			&"shield_gain": _add_result_number(target, "Щит %s" % String.num(amount, 1), Color("71cefa"))
 
 func _damage_number_source_visible(actor: int, target: int) -> bool:
 	if actor <= 0 or actor == target: return false
@@ -627,8 +598,8 @@ func begin_presentation_frame(events: Array) -> void:
 				_numbers.remove_child(number)
 				number.queue_free()
 
-func _add_result_number(id: int, text: String, tint: Color, feedback_kind: StringName = &"result") -> BattlePresentationNumber:
-	var cell := _view_unit_cell(id)
+func _add_result_number(id: int, text: String, tint: Color, feedback_kind: StringName = &"result", source_cell: Vector2i = Vector2i(-1, -1)) -> BattlePresentationNumber:
+	var cell := source_cell if source_cell.x >= 0 else _view_unit_cell(id)
 	if cell.x < 0: return null
 	var number := number_scene.instantiate() as BattlePresentationNumber
 	number.feedback_kind = feedback_kind
@@ -814,7 +785,7 @@ static func _presentation_caption(event: Dictionary) -> String:
 		&"raised_shields": return "ПОДНЯТЬ ЩИТЫ"
 	return ""
 
-func animate_presentation_frame(events: Array, step: Dictionary = {}) -> Tween:
+func animate_presentation_frame(events: Array, step: Dictionary = {}, contact_events: Array = []) -> Tween:
 	var defender := _matching_defender_buff(events, step)
 	if defender != null:
 		_defender_buff_visual = defender
@@ -856,12 +827,19 @@ func animate_presentation_frame(events: Array, step: Dictionary = {}) -> Tween:
 			tween.tween_callback(_field_presentation.sample_trap.bind(1.0, self, trap_cell, trap_kind, trap_direction))
 		else:
 			tween.tween_method(_field_presentation.sample_trap.bind(self, trap_cell, trap_kind, trap_direction), 0.0, 1.0, BattleFieldPresentation.SPIKE_EXTEND_SECONDS).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		tween.tween_callback(_show_contact_result.bind(events))
 		# Шипы остаются поднятыми во время урона/смерти и публикации чисел.
 		# Втягивание принадлежит отдельному хвосту уже опубликованного кадра.
 		visible_event = true
 	if hazard.x >= 0:
+		tween.tween_callback(_show_contact_result.bind(events))
 		tween.tween_method(_field_presentation.sample_cell.bind(self, hazard, &"hazard"), 0.0, 1.0, BattleFieldPresentation.HAZARD_SECONDS)
 		visible_event = true
+	# Тик без потери HP тоже может повредить броню/щит: не ждём его статусного импульса.
+	var spatial_contact: bool = events.any(func(event: Dictionary) -> bool: return event.get("kind") in [&"collision", &"push_blocked", &"moved", &"fell"])
+	if strike.is_empty() and trap_cell.x < 0 and hazard.x < 0 and not spatial_contact:
+		if BattleDamageFeedback.entries(events).any(func(entry: Dictionary) -> bool: return entry.kind == &"damage"):
+			tween.tween_callback(_show_contact_result.bind(events))
 	var falling_ids: Array[int] = []
 	for event: Dictionary in events:
 		if event.get("kind") == &"fell": falling_ids.append(int(event.target_unit_id))
@@ -871,7 +849,7 @@ func animate_presentation_frame(events: Array, step: Dictionary = {}) -> Tween:
 			_sample_reaction_cue(1.0, effect)
 		var impact_tint := Color("f29b9b") if events.any(func(e: Dictionary) -> bool: return e.get("kind") == &"damaged") else (Color("8dcaff") if events.any(func(e: Dictionary) -> bool: return e.get("kind") == &"armor_changed") else Color("d6dfeb"))
 		tween.tween_callback(_hit_impact.bind(strike, impact_tint))
-		tween.tween_interval(HIT_STOP_SECONDS)
+		tween.tween_callback(_show_contact_result.bind(events, strike))
 		var dying := events.any(func(e: Dictionary) -> bool: return e.get("kind") == &"died" and e.get("target_unit_id") == strike.target_unit_id)
 		var recovery_seconds := _death_seconds(int(strike.target_unit_id)) if dying else STRIKE_RECOVERY_SECONDS
 		var skin_remaining := _resume_skin_shot(strike)
@@ -879,8 +857,6 @@ func animate_presentation_frame(events: Array, step: Dictionary = {}) -> Tween:
 		tween.tween_method(_hit_recovery.bind(strike, dying, recovery_seconds), 0.0, 1.0, recovery_seconds)
 		if skin_remaining > 0.0:
 			tween.parallel().tween_method(_sample_defender_buff, _defender_buff_elapsed, _defender_buff_visual.buff_duration(), skin_remaining)
-		# Callback идёт параллельно отдаче в том же Tween: не добавляет паузу и отменяется с клипом.
-		tween.parallel().tween_callback(_show_contact_result.bind(events, strike)).set_delay(HIT_NUMBER_DELAY_SECONDS - HIT_STOP_SECONDS)
 		visible_event = true
 	for event: Dictionary in events:
 		var kind := StringName(event.get("kind", &""))
@@ -919,6 +895,7 @@ func animate_presentation_frame(events: Array, step: Dictionary = {}) -> Tween:
 			var obstacle_event := event.duplicate(true)
 			tween.tween_method(_obstacle_approach.bind(obstacle_event), 0.0, 1.0, OBSTACLE_APPROACH_SECONDS).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
 			tween.tween_callback(_obstacle_impact.bind(obstacle_event))
+			tween.tween_callback(_show_contact_result.bind(contact_events if not contact_events.is_empty() else events))
 			var deaths: Dictionary = {}
 			var hold_seconds := OBSTACLE_HOLD_SECONDS
 			for participant: int in [id, int(event.get("blocker_unit_id", UnitId.NONE))]:
@@ -1024,7 +1001,7 @@ func animate_presentation_frame(events: Array, step: Dictionary = {}) -> Tween:
 			var falling: bool = dying and event.get("source", {}).get("kind") == &"fall"
 			tween.tween_method(_presentation_pulse.bind(id, dying, falling), 0.0, 1.0, 0.3 if dying else 0.16)
 			visible_event = true
-	if not visible_event: tween.tween_interval(0.035)
+	if not visible_event: tween.tween_interval(0.0)
 	return tween
 
 func _death_seconds(id: int, fallback: float = BattleFieldPresentation.DEATH_SECONDS) -> float:
@@ -1103,10 +1080,9 @@ func animate_trap_retraction(event: Dictionary) -> Tween:
 	var kind: String = String(event.trap_kind)
 	var direction: Vector2i = event.direction
 	# show_presentation_state пересобрал позы: восстанавливаем укол по событию,
-	# сохраняя атомарную публикацию HP, тела и чисел до паузы чтения результата.
+	# сохраняя атомарную публикацию HP; числа живут независимо и не удерживают очередь.
 	_field_presentation.sample_trap(1.0, self, cell, kind, direction)
 	var tween := create_tween()
-	tween.tween_interval(BattleFieldPresentation.SPIKE_HOLD_SECONDS)
 	tween.tween_method(_field_presentation.sample_trap.bind(self, cell, kind, direction), 1.0, 0.0, BattleFieldPresentation.SPIKE_RETRACT_SECONDS).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
 	tween.tween_callback(_finish_trap_retraction.bind(cell))
 	return tween
@@ -1221,10 +1197,9 @@ func _animate_mage_frame(events: Array, cast: Dictionary) -> Tween:
 			tween.tween_callback(_begin_support_contact)
 			tween.tween_method(_sample_support.bind(&"contact"), 0.0, 1.0, 0.20)
 		tween.tween_callback(_mage_contact.bind(cast, spell))
+		if spell == &"mage.fire": tween.tween_callback(_show_contact_result.bind(events))
 		var contact_seconds := _death_seconds(target_id) if _mage_dying else 0.20
 		tween.tween_method(_sample_mage.bind(&"contact", contact_seconds), 0.0, 1.0, contact_seconds)
-		if spell == &"mage.fire":
-			tween.parallel().tween_callback(_show_contact_result.bind(events)).set_delay(HIT_NUMBER_DELAY_SECONDS)
 	return tween
 
 func _sample_mage(progress: float, phase: StringName, seconds: float = 0.20) -> void:

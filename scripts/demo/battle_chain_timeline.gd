@@ -105,7 +105,7 @@ func animate(board: BattleDemoBoard, group: Array[Dictionary], started: Callable
 			var end := cursor + (motion_seconds if moving else BattleDemoBoard.OBSTACLE_APPROACH_SECONDS + death_seconds)
 			_clips.append({"event": event, "events": item.frame.events, "start": cursor, "end": end, "death_seconds": death_seconds, "incoming": incoming, "falling": falling, "vanish": vanish})
 			if not moving:
-				_cues.append({"time": cursor + BattleDemoBoard.OBSTACLE_APPROACH_SECONDS, "kind": &"contact", "event": event})
+				_cues.append({"time": cursor + BattleDemoBoard.OBSTACLE_APPROACH_SECONDS, "kind": &"contact", "event": event, "events": item.contact_events if not item.get("contact_events", []).is_empty() else item.frame.events})
 				duration = maxf(duration, end + BattleDemoBoard.OBSTACLE_RECOVERY_SECONDS)
 			incoming = board._obstacle_direction(event) * 10.0 if event.kind == &"collision" else Vector2.ZERO
 			cursor = end
@@ -124,7 +124,9 @@ func _advance(time: float) -> void:
 		_cue_index += 1
 		match cue.kind:
 			&"start": _started.call(int(cue.index))
-			&"contact": _board._obstacle_impact(cue.event)
+			&"contact":
+				_board._obstacle_impact(cue.event)
+				_board._show_contact_result(cue.events)
 			&"finish": _completed.call(int(cue.index))
 		if _cancelled: return
 	_pose(time)

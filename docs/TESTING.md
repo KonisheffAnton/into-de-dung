@@ -22,7 +22,7 @@
 Выбранные шипы (2026-11-07): `python tools/art/build_selected_spike_animations.py --check`;
 `--render-check --only hazards_ui acid_tile_animation environment_visual_contract
 presentation_environment presentation_contact battle_view_reuse --screen 0`.
-Проверяются резкие40мс, три готовые позы, after/hold/resize/skip/cancel/speed,
+Проверяются резкие40мс, три готовые позы, after/retract/resize/skip/cancel/speed,
 цикл кальтропов15,6с и точный стык. Для локальной подгонки плиты достаточно
 `--render-check --only hazards_ui environment_visual_contract --screen 0`:
 GPU проверяет три позы, проекцию четырёх вершин и девяти гнёзд, заполнение
@@ -298,12 +298,15 @@ metadata-редактирование. Снимки трёх размеров �
 Отдельно `python tools/demo/test_isolate.py` проверяет gate нового runner.
 Full/core и ручная приёмка остаются отдельными проверками.
 
-Цифры вскоре после контакта (2026-10-22): `--render-check --only presentation_contact
-presentation_ranged presentation_attack_styles presentation_mage presentation_reactions
-presentation_consequences presentation_environment defender_death_routes rogue_death_routes
-battle_presentation --screen 0` (одна команда). Проверяются отсутствие цифры до
-0,05 с после касания, появление в начале отдачи/смерти, однократность результата,
-×3/skip/cancel/replay и прежний порядок after/HUD. Плейтест ощущения отдельно.
+Суммарный урон без задержек (2026-11-07): `--render-check --only
+battle_damage_feedback presentation_contact presentation_ranged presentation_attack_styles
+presentation_mage presentation_reactions presentation_consequences presentation_environment
+battle_presentation_owned hazards_ui --screen 0`. Pure runner проверяет точную сумму
+HP/броня/щит, healing/zero, независимые hits/sources/commands и неизменность входа.
+GPU: цифра на контакте без35мс hit-stop/50мс ожидания; реальная ловушка показывает
+одно число в origin_cell после40мс выдвижения и не ждёт смерти; после after
+только100мс втягивания без700мс hold. Сохраняются возврат, after/HUD, ×3,
+skip/cancel/replay, resize, ресурсы/RNG. Ручная оценка темпа остаётся отдельной.
 
 Перки экипировки/ножи (2026-10-18): `--check --only equipment_attacks hero_hub
 hero_hub_playthrough counterattack action_event_validator forecast_definition_copy
@@ -785,14 +788,10 @@ PNG стыков/накладок/обычного UI. Точные фазы к�
 Проверяет независимую жизнь цифр через after/новую команду/×3, размещение нескольких
 результатов, resize, пропуск в контакте, отмену и FAULTED без выдуманных эффектов.
 Render сохраняет фазы и варианты результата в contact-screenshots/.
-Перенос цифр к атакующему (2026-11-07): `--render-check --only
-presentation_contact presentation_ranged presentation_mage presentation_environment
-presentation_consequences battle_presentation_owned --screen 0`. Проверяются
-владельцы/клетки HP, брони, щита и нуля, отдельная контратака, несколько целей,
-погибший/отсутствующий/self источник без fallback к жертве и восстановление у получателя;
-прежние тайминги, resize, skip/cancel и неизменность state/RNG. Магия без бойца
-не показывает урон у цели; лечение сохраняет цифру. Это не full/core или ручная
-приёмка читаемости/F5/zoom/DPI/performance.
+Показ у источника и суммарный урон проверяются набором «Суммарный урон без
+задержек» выше: одна цифра HP+броня+щит у actor или клетки опасности, отдельное
+лечение, контратака/несколько целей/skip/cancel и неизменность state/RNG.
+Это не full/core или ручная приёмка F5/zoom/DPI/performance.
 
 `tools/demo/profile_smoothness.gd` запускается в изолированном проекте с рендером.
 Он измеряет CPU обработчиков и реальные интервалы кадров для одного сценария

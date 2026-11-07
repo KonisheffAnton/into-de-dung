@@ -695,6 +695,7 @@ def main():
             support_captures.mkdir()
             support_args += ["--", "--captures=" + str(support_captures)]
         run("presentation_support", support_args, headless=not args.render_check)
+        run("battle_damage_feedback", ["--script", "tests/test_battle_damage_feedback.gd"])
         contact_args = ["--script", "tests/test_presentation_contact.gd"]
         if args.render_check:
             contact_captures = out / "contact-screenshots"

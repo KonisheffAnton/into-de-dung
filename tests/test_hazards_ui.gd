@@ -353,28 +353,33 @@ func trap_playback(session: BattleCoreReactionsSession) -> void:
 	check(floor_pose.frame == 1, "floor trap remains on the half pose at 20ms")
 	advance(player, 0.021)
 	check(floor_pose.frame == 2, "floor trap selects the full pose after the independent 40ms extension")
+	var total: float = 0.0
+	for event: Dictionary in frame.events:
+		if event.kind == &"damaged": total += float(event.amount)
+		elif event.kind == &"armor_changed":
+			for change: Dictionary in event.grants + event.items: total += maxf(0.0, float(change.before) - float(change.after))
+		elif event.kind == &"shield_changed": total += float(event.absorbed)
+	var damage_numbers: Array = board._numbers.get_children().filter(func(number: BattlePresentationNumber) -> bool: return number.feedback_kind == &"result")
+	check(damage_numbers.size() == 1 and damage_numbers[0]._label.text == "−%.1f" % total
+		and damage_numbers[0].get_meta("cell") == cell and int(damage_numbers[0].get_meta("unit_id")) == 0,
+		"real trap shows one exact total at its source cell immediately after extension")
+	check(publications.is_empty(), "lethal trap total does not wait for death or advance after publication")
 	advance(player, 1.0)
 	check(player.active and publications == [frame.after] and player._published.units[unit.id].hp == 0.0
 		and board._numbers.get_child_count() > 0 and is_equal_approx(board._environment_visuals[cell].trap_progress, 1.0)
 		and floor_pose.frame == 2,
 		"damage HP and result number publish while spikes remain fully raised")
-	advance(player, 0.35)
-	check(is_equal_approx(board._environment_visuals[cell].trap_progress, 1.0) and floor_pose.frame == 2,
-		"spikes remain on the full pose 350ms after damage publication")
+	advance(player, 0.04)
+	check(player.active and board._environment_visuals[cell].trap_progress < 1.0,
+		"spikes retract immediately after publication without a 700ms hold")
 	board.size += Vector2(8, 6)
 	board._rebuild_visuals()
 	floor_pose = board._environment_visuals[cell].get_node(^"FloorTrap/Pose") as AnimatedSprite2D
-	check(is_equal_approx(board._environment_visuals[cell].trap_progress, 1.0) and floor_pose.frame == 2,
-		"resize preserves the full floor pose during the result hold")
-	await capture("damage-spikes-held")
-	advance(player, 0.34)
-	check(player.active and is_equal_approx(board._environment_visuals[cell].trap_progress, 1.0) and floor_pose.frame == 2,
-		"spikes still hold the full pose at 690ms after damage")
-	advance(player, 0.06)
-	check(player.active and board._environment_visuals[cell].trap_progress > 0.0 and board._environment_visuals[cell].trap_progress < 1.0, "spikes retract only after the 700ms result hold")
-	advance(player, 0.06)
+	check(board._environment_visuals[cell].trap_progress < 1.0, "resize preserves the active retraction")
+	await capture("damage-spikes-retract")
+	advance(player, 0.061)
 	check(not player.active and publications == [frame.after, frame.after] and board._field_presentation.cells.is_empty()
-		and floor_pose.frame == 0, "retraction finishes on the closed pose without duplicate publication")
+		and floor_pose.frame == 0, "retraction releases the queue within 100ms without duplicate publication")
 	for abort: String in ["skip", "cancel", "speed"]:
 		player.play(board, before, packet, frame.after)
 		advance(player, 1.0)
@@ -382,11 +387,11 @@ func trap_playback(session: BattleCoreReactionsSession) -> void:
 		elif abort == "cancel": player.cancel()
 		else:
 			player.set_speed(2.0)
-			advance(player, 0.34)
-			check(player.active and is_equal_approx(board._environment_visuals[cell].trap_progress, 1.0), "playback speed applies to the post-damage hold")
-			advance(player, 0.07)
+			advance(player, 0.02)
+			check(player.active and board._environment_visuals[cell].trap_progress < 1.0, "playback speed applies to immediate retraction")
+			advance(player, 0.031)
 		check(not player.active and board._field_presentation.cells.is_empty() and floor_pose.frame == 0,
-			"result hold resets the floor pose on " + abort)
+			"retraction resets the floor pose on " + abort)
 	player.set_speed(1.0)
 	var empty := BattleFieldPresentation.trap_event(frame.events)
 	empty.target_unit_id = 0

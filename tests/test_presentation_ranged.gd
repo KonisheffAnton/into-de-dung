@@ -143,18 +143,12 @@ func scenario(target: Vector2i, mode: String) -> void:
 	advance(flight * 0.25)
 	if mode == "hp" and target == Vector2i(5, 3): await capture("arc-descent")
 	advance(flight * 0.25 + 0.001)
-	# Отдача теперь достигает раннего пика; старая середина попадала в ноль отскока.
-	advance(0.025)
-	check(projectile() == null and board._impacts.get_child_count() == 1 and board._presentation_visual(victim).action_offset.is_zero_approx(), "delivery enters still contact hit stop")
-	check(board._presentation_visual(victim).unit.hp == data.before.units[victim].hp and board._numbers.get_child_count() == 0, "ranged hit stop delays HP and HUD publication")
-	advance(0.01)
-	check(board._presentation_visual(victim).unit.hp == data.before.units[victim].hp, "HP stays unpublished through hit stop")
-	advance(0.014)
-	check(board._presentation_visual(victim).action_offset.length() > 1.0 and board._numbers.get_child_count() == 0,
-		"ranged contact at 0.049s begins recoil while result remains hidden")
-	advance(0.002)
-	check(board._numbers.get_child_count() > 0 and board._presentation_visual(victim).unit.hp == data.before.units[victim].hp,
-		"ranged result appears by 0.051s while HP publication waits for clip end")
+	advance(0.001)
+	check(projectile() == null and board._impacts.get_child_count() == 1 and board._numbers.get_child_count() > 0,
+		"projectile contact immediately shows one confirmed total")
+	check(board._presentation_visual(victim).unit.hp == data.before.units[victim].hp, "ranged total does not advance atomic HP publication")
+	advance(0.04)
+	check(board._presentation_visual(victim).action_offset.length() > 1.0, "ranged recoil begins without hit stop")
 	var early_results: Array[BattlePresentationNumber] = []
 	for number: BattlePresentationNumber in board._numbers.get_children(): early_results.append(number)
 	var recoil_peak := board._presentation_visual(victim).action_offset.length()
@@ -171,13 +165,13 @@ func scenario(target: Vector2i, mode: String) -> void:
 	check(early_results.all(func(number: BattlePresentationNumber) -> bool:
 		return is_instance_valid(number) and number.get_parent() == board._numbers and board._numbers.get_children().count(number) == 1),
 		"ranged clip completion retains each early result node exactly once")
-	if mode == "armor": check(texts.size() == 1 and texts[0].contains("броня"), "armor absorption has one armor result")
-	elif mode == "zero": check(texts == ["0 · без урона"], "zero has one honest result")
+	if mode == "armor": check(texts.size() == 1 and texts[0].begins_with("−") and not texts[0].contains("броня"), "armor absorption has one unsplit total")
+	elif mode == "zero": check(texts == ["0"], "zero has one honest result")
 	elif mode == "critical": check(texts[0].begins_with("КРИТ"), "critical shot tagged")
-	elif mode == "lethal": check(not board._presentation_visual(victim).unit.alive and texts[0].contains("1.0 HP"), "lethal shot displays actual loss")
+	elif mode == "lethal": check(not board._presentation_visual(victim).unit.alive and texts[0] == "−1.0", "lethal shot displays actual loss")
 	else:
 		var hp_events: int = data.events.filter(func(e: Dictionary) -> bool: return e.kind in [&"damaged", &"healed"]).size()
-		check(texts.size() == hp_events and texts[0].contains("HP"), "one number per actual HP event including item heal")
+		check(texts.size() == hp_events and texts[0].begins_with("−"), "one total plus actual item healing")
 	check(snapshot(s) == committed, "playback preserves state RNG counters")
 	player.cancel()
 	s.close()
