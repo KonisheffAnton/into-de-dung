@@ -1,0 +1,8 @@
+{
+  "endpoint": "inpaint-v3",
+  "input": "inputs/fire29-03-clean-hidden.png",
+  "mask": "inputs/fire29-03-growth-mask.png",
+  "request_sha256": "781eca71018aec438888d31c6ed0db2e0b8f0657c51a1c5b75df61febe7a2d1d",
+  "invisible_rgb_zeroed_pixels": 38481,
+  "visible_rgba_unchanged": true
+}

@@ -1,0 +1,90 @@
+{
+  "seed": 729036,
+  "type": "done",
+  "action": "smoothing frames",
+  "status": "initializing",
+  "progress": 1.0,
+  "flow_kind": "animation",
+  "billing_usage": {
+    "usd": 0.0,
+    "type": "generations",
+    "generations": 2
+  },
+  "generation_id": "b16b379b-c0a9-4019-9f08-371239d17c24",
+  "queue_position": 0,
+  "billing_charged": true,
+  "generation_started_at": "2026-11-07T07:49:58.384651+00:00",
+  "estimated_wait_seconds": 0,
+  "job_id": "4042a726-7dc9-4777-9493-8e3be8875a14",
+  "response_sha256": "b9615e13293c6a1597c9e8c0efd04d3be676c58c8f9e31b0ef4e89ed6afab9bd",
+  "images": [
+    {
+      "file": "00.png",
+      "sha256": "5354e43715be2926eeaf74c0aa12d3b694063d6c6c12ba4a802eab29f59d6b3e"
+    },
+    {
+      "file": "01.png",
+      "sha256": "6a85c88c0966ad7a6a78b75670eacae148b6e8352b3b3f1d4943d02981f8fbea"
+    },
+    {
+      "file": "02.png",
+      "sha256": "ec7c952ab6a49869aad9c89eb8ad954a083426bd3a869eb5188c6e9643b551d2"
+    },
+    {
+      "file": "03.png",
+      "sha256": "5b7ca7ccd455ee81c9c362376bbbfef124f6121690a49037d3085e5ad441e431"
+    },
+    {
+      "file": "04.png",
+      "sha256": "ae015279a90d113e513e70473dada59c1f3ed15e02aa4cf2a4148f0d12447e37"
+    },
+    {
+      "file": "05.png",
+      "sha256": "dc95cc611ae9d265ce9c6a19f4181cd7300a7ac278ce23be399a3dedfd5697c7"
+    },
+    {
+      "file": "06.png",
+      "sha256": "49b711eef1501f4a7328b01b4a704b21f4e5f2014394f65856bd53255a04dd74"
+    },
+    {
+      "file": "07.png",
+      "sha256": "85934aa6083b1a12e270ffc04e29bb9344ce95c0cc87281a7f9659b7562ad5a3"
+    },
+    {
+      "file": "08.png",
+      "sha256": "afa5c2e164e3edaf5361e93afe4097fde36e2338bb92805fde480fd28f26dcc4"
+    },
+    {
+      "file": "09.png",
+      "sha256": "3b36c14093b555596e08d8a043159bec0fab3b60cd2223b49fe1b437298e6214"
+    },
+    {
+      "file": "10.png",
+      "sha256": "25faab56ff1809d98a4873c58350fa1b1c6b25f12efe92b354b1723180446aae"
+    },
+    {
+      "file": "11.png",
+      "sha256": "7a30a366d3cec4b362bac1e2f813dc380f556498ae2262da3dbc89352548b5b5"
+    },
+    {
+      "file": "12.png",
+      "sha256": "1de1768f09c8752741374fd32d9b7a78c226f73ea26806f09e6a5cda0f4b139e"
+    },
+    {
+      "file": "13.png",
+      "sha256": "b6e4d262667187b487a1b06eef0982a471fb4a1d393428ea17aa7cc7915180b6"
+    },
+    {
+      "file": "14.png",
+      "sha256": "e6e1da1f0b3bde6fc2e2fea239470a4a809725b5b8457e751229b23841647402"
+    },
+    {
+      "file": "15.png",
+      "sha256": "338f94fc3e5c3fcf67033dd28a5d0f0f163e8cc1299b5235ca32a124b31cff99"
+    },
+    {
+      "file": "16.png",
+      "sha256": "0089c56fcc69bb74e6e4c865f34fa3657d4943a984a061121f76b772ac2442bc"
+    }
+  ]
+}

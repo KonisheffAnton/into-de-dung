@@ -1,0 +1,66 @@
+{
+  "fps": 20,
+  "kind": "change",
+  "loop": true,
+  "name": "Fire29 readable calm growth",
+  "files": {
+    "fire29-readable-calm-growth.gif": "https://api.pixellab.ai/mcp/pixel-tools/101ce18a-4935-4ffc-a3ae-15b62ea0e859/fire29-readable-calm-growth.gif",
+    "fire29-readable-calm-growth.png": "https://api.pixellab.ai/mcp/pixel-tools/101ce18a-4935-4ffc-a3ae-15b62ea0e859/fire29-readable-calm-growth.png",
+    "fire29-readable-calm-growth.json": "https://api.pixellab.ai/mcp/pixel-tools/101ce18a-4935-4ffc-a3ae-15b62ea0e859/fire29-readable-calm-growth.json"
+  },
+  "parts": [
+    "painted_tongues",
+    "inner_tongues"
+  ],
+  "anchor": {
+    "x": 128,
+    "y": 217,
+    "kind": "feet"
+  },
+  "artist": "pro",
+  "canvas": {
+    "h": 256,
+    "w": 256
+  },
+  "frames": 32,
+  "message": "Rebuilt the flames with broader, more readable contour growth, fixed roots, and mottled texture. The seven edge tongues and three inner tongues grow at staggered phases without moving the tile or their bases, in a seamless 32-frame loop at 20 fps.",
+  "edit_url": "https://pixellab.ai/create-vfx?effect=9938bfd6-744b-436e-9cd8-fdba11a01e77",
+  "effect_id": "9938bfd6-744b-436e-9cd8-fdba11a01e77",
+  "gif_exact": false,
+  "result_id": "101ce18a-4935-4ffc-a3ae-15b62ea0e859",
+  "billing_usage": {
+    "usd": 0.0,
+    "type": "generations",
+    "generations": 7.0
+  },
+  "generation_id": "a5603c34-33b8-4aa0-aa6d-65a142e7c438",
+  "billing_charged": true,
+  "generation_mode": "vfx",
+  "quoted_generations": 7,
+  "job_id": "69563f74-4e12-429f-b4bb-90062732db1e",
+  "response_sha256": "e20190b5628814937a01fc5f0684b1c6f4b9ecb8627589854291807d86dd3534",
+  "downloads": [
+    {
+      "name": "fire29-readable-calm-growth.gif",
+      "url": "https://api.pixellab.ai/mcp/pixel-tools/101ce18a-4935-4ffc-a3ae-15b62ea0e859/fire29-readable-calm-growth.gif",
+      "sha256": "9ef171b79a63061c4aae51c2c079497a49371e3b73a543e05e8ca2e571d1f819",
+      "bytes": 667097
+    },
+    {
+      "name": "fire29-readable-calm-growth.png",
+      "url": "https://api.pixellab.ai/mcp/pixel-tools/101ce18a-4935-4ffc-a3ae-15b62ea0e859/fire29-readable-calm-growth.png",
+      "sha256": "48c930ed082584f21918e0b06a97d4d20e74039248cab8ab947a0e636999ce94",
+      "bytes": 388181
+    },
+    {
+      "name": "fire29-readable-calm-growth.json",
+      "url": "https://api.pixellab.ai/mcp/pixel-tools/101ce18a-4935-4ffc-a3ae-15b62ea0e859/fire29-readable-calm-growth.json",
+      "sha256": "80803286a70f5e50a4e514cf9bb7c1c2466c0301bd72620140011d10831667eb",
+      "bytes": 12693
+    }
+  ],
+  "usage": {
+    "type": "generations",
+    "generations": 7.0
+  }
+}

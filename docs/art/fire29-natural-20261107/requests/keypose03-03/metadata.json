@@ -1,0 +1,7 @@
+{
+  "endpoint": "inpaint-v3",
+  "input": "inputs/fire29-03-clean-hidden.png",
+  "mask": "inputs/fire29-03-edge-mask.png",
+  "request_sha256": "6c004052d778c194f2b352d17a7ced8bbf6746129ced2b1203b72ed869c9c912",
+  "intent": "Low left shoulder regrowth across projected tile rear edge; central upper tip preserved"
+}

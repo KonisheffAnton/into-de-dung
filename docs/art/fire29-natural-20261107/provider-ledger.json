@@ -1,0 +1,397 @@
+{
+  "status": "PASS",
+  "requests": [
+    {
+      "key": "keypose01-01",
+      "endpoint": "inpaint-v3",
+      "request_sha256": "cb6480bdaca257ce1ae9ca8bfe89df8ebd493b85d3da9b01d0f0e82d2a5ef409",
+      "status": "completed",
+      "job_id": "f5e00bae-2d04-4b2c-99bb-bbc75583e17f",
+      "response_sha256": "88d80edbe574dfaf50569580acffebc614712be5ae34c3a5a60f3a9b73e591bc",
+      "delivery": "background_job",
+      "raw_png": 1,
+      "usage_generations": 10.0
+    },
+    {
+      "key": "keypose01-02",
+      "endpoint": "inpaint-v3",
+      "request_sha256": "d9eb10233e3700b1658569a6988ac9d3d5dda1173478ed4d2cb77d2848af36ca",
+      "status": "completed",
+      "job_id": "73516f03-a2da-4cce-affd-784b8fc90893",
+      "response_sha256": "14b9a33e096f300148acb922e1ff5def818c311d3ecdcbc3a39134c06d405f12",
+      "delivery": "background_job",
+      "raw_png": 1,
+      "usage_generations": 10.0
+    },
+    {
+      "key": "keypose03-01",
+      "endpoint": "inpaint-v3",
+      "request_sha256": "964c66daaf4bcddbe79637dbf0c6c57641adb2989a265775c5300e32942bf02f",
+      "status": "completed",
+      "job_id": "94ca06d0-ae5d-49d3-8e74-89730a3069a3",
+      "response_sha256": "d8158b1edc6ef0fc7ead3974ec551a6a389038532e6d30c43cc40a35a2b1c5ce",
+      "delivery": "background_job",
+      "raw_png": 1,
+      "usage_generations": 10.0
+    },
+    {
+      "key": "keypose03-02",
+      "endpoint": "inpaint-v3",
+      "request_sha256": "781eca71018aec438888d31c6ed0db2e0b8f0657c51a1c5b75df61febe7a2d1d",
+      "status": "completed",
+      "job_id": "3b1d1204-8703-4d73-9a42-193b0ad37551",
+      "response_sha256": "ef702a2340d9273252b3e1ca21b90b385484d3015a9637029639ba27b40ebb83",
+      "delivery": "background_job",
+      "raw_png": 1,
+      "usage_generations": 10.0
+    },
+    {
+      "key": "keypose03-03",
+      "endpoint": "inpaint-v3",
+      "request_sha256": "6c004052d778c194f2b352d17a7ced8bbf6746129ced2b1203b72ed869c9c912",
+      "status": "completed",
+      "job_id": "ad3dec9d-cc1c-461b-b3ea-e35bc2bc95ed",
+      "response_sha256": "49dfddb01e524d6e8c1933f31d2f65f0a4b2dcc4d0810c8b2f94ce83ed923aa7",
+      "delivery": "background_job",
+      "raw_png": 1,
+      "usage_generations": 10.0
+    },
+    {
+      "key": "keypose06-01",
+      "endpoint": "inpaint-v3",
+      "request_sha256": "56d1681987256a31ba66cb89643c668708721a55eaee6b55a13722ebfc191ce5",
+      "status": "completed",
+      "job_id": "0509a61f-4333-461f-a7e1-e6aa1fb314e7",
+      "response_sha256": "5b81dbfb8c50fb25d50e3bbe0890582d1a61de51e9c729f21c81f2591272c71a",
+      "delivery": "background_job",
+      "raw_png": 1,
+      "usage_generations": 10.0
+    },
+    {
+      "key": "keypose06-02",
+      "endpoint": "inpaint-v3",
+      "request_sha256": "16b47b9486cefb59db9122c796bb0095096f67d2539b2b61adc5c451e70388a0",
+      "status": "completed",
+      "job_id": "a6275d86-8c15-4d79-b1e2-7257ea6f685b",
+      "response_sha256": "8a5919473fdfa6e8dc161a68cd7cc6568b730467f0b4fd8973143c9e86ded7d5",
+      "delivery": "background_job",
+      "raw_png": 1,
+      "usage_generations": 10.0
+    },
+    {
+      "key": "keypose14-01",
+      "endpoint": "inpaint-v3",
+      "request_sha256": "8e59e0437b378138ff8c0571ee5272b6ebcb1567ce6d314bed8015ccfa31d6e3",
+      "status": "completed",
+      "job_id": "3008f9ca-469d-4003-beff-ae420f201f7a",
+      "response_sha256": "d1277be42b96da6e9a0c534bb1f3a03e62841140045562b97610bb64117c38de",
+      "delivery": "background_job",
+      "raw_png": 1,
+      "usage_generations": 10.0
+    },
+    {
+      "key": "keypose14-02",
+      "endpoint": "inpaint-v3",
+      "request_sha256": "205af76c87652c60ba68346d70f48d5616d5beca1c9364087ae2ed7103f733b2",
+      "status": "completed",
+      "job_id": "eefc8bc9-95f2-4c2d-923f-a245c09ccecb",
+      "response_sha256": "2b83b5bbce686bf696d9a8a41988008eb8280a63f888caa1e0dd457c5e420185",
+      "delivery": "background_job",
+      "raw_png": 1,
+      "usage_generations": 10.0
+    },
+    {
+      "key": "natural01-01",
+      "endpoint": "interpolation-v2",
+      "request_sha256": "dbb0e39f239bf50b114eafe93d6fdebe5366728a65f8e9fdf3e8882b8dc139d2",
+      "status": "completed",
+      "job_id": "d612ed9c-dc69-43b4-9b46-b88b1288f88e",
+      "response_sha256": "897f67fc303f69c05c5f058f8dff9e95b72bdfd35896b8d8a8d5f0f1af127608",
+      "delivery": "background_job",
+      "raw_png": 2,
+      "usage_generations": 10.0
+    },
+    {
+      "key": "natural01-02",
+      "endpoint": "interpolation-v2",
+      "request_sha256": "513e721bdd760ae217f144743eeb2fabf4520b62bad6feb28cbad444817940a5",
+      "status": "completed",
+      "job_id": "6df55c58-fd24-40c2-bddd-da3ed947b83d",
+      "response_sha256": "8617d67d9110b5264cf06ffaf77e7999a145368df4161ad8088118c0413b15fa",
+      "delivery": "background_job",
+      "raw_png": 2,
+      "usage_generations": 10.0
+    },
+    {
+      "key": "natural01-03",
+      "endpoint": "animate-with-text",
+      "request_sha256": "b50ab553ca9befeb59fe5d51abba6b8501d553a991e77d6020ce501b93128e48",
+      "status": "completed",
+      "job_id": null,
+      "response_sha256": "c45c76b058bc528bf8647769fd9d42211c6e28835a7b79efcd7b2c7e6aa0c91e",
+      "delivery": "synchronous",
+      "raw_png": 4,
+      "usage_generations": 1.0
+    },
+    {
+      "key": "natural01-04",
+      "endpoint": "animate-with-text",
+      "request_sha256": "11405b4b0dc125d2769fa51efb20211bb0934b1934713877433fd0c7e18416d5",
+      "status": "completed",
+      "job_id": null,
+      "response_sha256": "5b1839f42c8447cddb73e1d2c5ddb7c4d667aef5f82725ef9511e231a56131f4",
+      "delivery": "synchronous",
+      "raw_png": 4,
+      "usage_generations": 1.0
+    },
+    {
+      "key": "natural03-01",
+      "endpoint": "animate-pixminimax",
+      "request_sha256": "73c05f281aaf894dc497f7ab60837b1d42eb4030746c398fe4f0eea5625d1586",
+      "status": "completed",
+      "job_id": "c36c1a68-3910-4c6c-9150-3d3aabc15ee2",
+      "response_sha256": "835d35da07a6726253f0909c1fd074a00b7c4634cd338fb25795184c258652f8",
+      "delivery": "background_job",
+      "raw_png": 17,
+      "usage_generations": 2.0
+    },
+    {
+      "key": "natural03-02",
+      "endpoint": "interpolation-v2",
+      "request_sha256": "29960d02415d8fe7bab8a16491158f8df40ff1dd22ff827825dd64e142ab6709",
+      "status": "request_rejected",
+      "detail": [
+        {
+          "type": "less_than_equal",
+          "loc": [
+            "body",
+            "image_size",
+            "width"
+          ],
+          "msg": "Input should be less than or equal to 128",
+          "input": 256,
+          "ctx": {
+            "le": 128
+          }
+        },
+        {
+          "type": "less_than_equal",
+          "loc": [
+            "body",
+            "image_size",
+            "height"
+          ],
+          "msg": "Input should be less than or equal to 128",
+          "input": 256,
+          "ctx": {
+            "le": 128
+          }
+        }
+      ],
+      "raw_png": 0
+    },
+    {
+      "key": "natural03-03",
+      "endpoint": "interpolation-v2",
+      "request_sha256": "88a31a0dcb842f60205a73a771a48b4dcfcf84b56b4f213d1f93089b1502ecc5",
+      "status": "completed",
+      "job_id": "1a1fe523-d098-47a3-be93-39785eca60a3",
+      "response_sha256": "3ba09a8d0c0b173dff36e08e85846b9654c3f7b28f4417970bc8d80be373d79c",
+      "delivery": "background_job",
+      "raw_png": 2,
+      "usage_generations": 10.0
+    },
+    {
+      "key": "natural03-04",
+      "endpoint": "animate-pixminimax",
+      "request_sha256": "54d28cabd4ab478fc53570fd20fa6117a961da7216d1bc44ca5e229572b37ee3",
+      "status": "completed",
+      "job_id": "4042a726-7dc9-4777-9493-8e3be8875a14",
+      "response_sha256": "b9615e13293c6a1597c9e8c0efd04d3be676c58c8f9e31b0ef4e89ed6afab9bd",
+      "delivery": "background_job",
+      "raw_png": 17,
+      "usage_generations": 2.0
+    },
+    {
+      "key": "natural03-05",
+      "endpoint": "interpolation-v2",
+      "request_sha256": "1ada9ed6983b60e56774ea861e153077e83813b3167dc457d70672ee4149e974",
+      "status": "completed",
+      "job_id": "e75e5944-4622-4a69-8b58-b6240a2a9459",
+      "response_sha256": "55da834b28d67f1bcc2b612692a47d5da93f368375a0342ff05bc5cb33856cc0",
+      "delivery": "background_job",
+      "raw_png": 2,
+      "usage_generations": 10.0
+    },
+    {
+      "key": "natural03-06",
+      "endpoint": "interpolation-v2",
+      "request_sha256": "26f9bd803a1afa5910c9d295c63ebd63ddd182485c27f2d2e5272876cafd0cc5",
+      "status": "completed",
+      "job_id": "486031a5-2ca0-419a-b2bd-22cf56c8fb84",
+      "response_sha256": "18fb673d4f1418a6c837714a8957e7d332b4624ccb31b4c06253ab1dc74c6a08",
+      "delivery": "background_job",
+      "raw_png": 2,
+      "usage_generations": 10.0
+    },
+    {
+      "key": "natural03-07",
+      "endpoint": "animate-with-text-v3",
+      "request_sha256": "f96b7f7d85ad05e336a8f406d5c6d174915eaf8fddbba8cb4273a31b80402b21",
+      "status": "completed",
+      "job_id": "cd3e37bc-29ba-4dd4-930f-6d918f845e0a",
+      "response_sha256": "291719a2cadf121ef0288894f3cf3eba876e8fc8216d94db0e4d4057ef2930df",
+      "delivery": "background_job",
+      "raw_png": 17,
+      "usage_generations": 4.0
+    },
+    {
+      "key": "natural06-01",
+      "endpoint": "interpolation-v2",
+      "request_sha256": "7825026f26f172758109bf007569f17bb23245b37a0680fe6be3a9719a532139",
+      "status": "completed",
+      "job_id": "17b65320-903f-4cec-b2d1-fe0b57eb176e",
+      "response_sha256": "b6d59a6d9220aab1f42cb1f80413486b4468c97051e17b762545bc821e2af61d",
+      "delivery": "background_job",
+      "raw_png": 2,
+      "usage_generations": 10.0
+    },
+    {
+      "key": "natural14-01",
+      "endpoint": "interpolation-v2",
+      "request_sha256": "13d6212dbea060005e88aee75e85f0151aac08c3d5e3d10877f526cc088b37d0",
+      "status": "completed",
+      "job_id": "e8b88081-7bc1-46af-8a74-b7259ceb4855",
+      "response_sha256": "3e3b2d1c29dc1d811dbb06195bd1ecebe673b907def1af086f02e804438492d7",
+      "delivery": "background_job",
+      "raw_png": 2,
+      "usage_generations": 10.0
+    },
+    {
+      "key": "vfx29-01",
+      "endpoint": "vfx",
+      "request_sha256": "eb70040059d8b32a49b3f95d67630e937e48249977ac32f9ea23015aacd1335c",
+      "status": "completed",
+      "job_id": "14018e37-dc15-40b7-8b7d-85bc1995cb29",
+      "response_sha256": "fa72810a23843d164d4246505289f57deceab613e4c2aaa71d7c266fa0ff08c4",
+      "delivery": "background_job",
+      "atlas_frames": 32,
+      "usage_generations": 18.0
+    },
+    {
+      "key": "vfx29-02",
+      "endpoint": "vfx",
+      "request_sha256": "c4d3fedd307f2914b9a0c983ed2833c4f09187e12d6eeea924a340c13e178f1a",
+      "status": "completed",
+      "job_id": "becdf2cf-0c73-46a9-9516-3979626d02a0",
+      "response_sha256": "a435fbca6e664aff9474c8b04925413aa284e569bc43cb0e28bf9abfac9fb4ca",
+      "delivery": "background_job",
+      "atlas_frames": 32,
+      "usage_generations": 7.0
+    },
+    {
+      "key": "vfx29-03",
+      "endpoint": "vfx",
+      "request_sha256": "abd751b2663a29fd454d50f3c9cd9a5ddfcfe0b6b0f9c943ef161115161f6813",
+      "status": "completed",
+      "job_id": "e13f81d3-cff3-4722-bae4-ce6eab25fb8e",
+      "response_sha256": "aadf7e1355cdd703b0fa0af4c34c37821f8ec29968c2bd887da687780f1e56b3",
+      "delivery": "background_job",
+      "atlas_frames": 32,
+      "usage_generations": 8.066864583333334
+    },
+    {
+      "key": "vfx29-04",
+      "endpoint": "vfx",
+      "request_sha256": "472dfd33a8d6630f21539b73ca8c988c61fddceab6a42d2b51821697a3365fd5",
+      "status": "completed",
+      "job_id": "ff55a403-548e-4d9f-9f03-d6ebfa31d822",
+      "response_sha256": "932db0423fceab274b66d1cbf5304ae10757a3b45c7393a2bc99769791be49ff",
+      "delivery": "background_job",
+      "atlas_frames": 32,
+      "usage_generations": 8.271291666666666
+    },
+    {
+      "key": "vfx29-05",
+      "endpoint": "vfx",
+      "request_sha256": "9d820a03b7dcfa55039d987fc23d31fd9d7c17880a4c93fb71050dc9344109e8",
+      "status": "completed",
+      "job_id": "69563f74-4e12-429f-b4bb-90062732db1e",
+      "response_sha256": "e20190b5628814937a01fc5f0684b1c6f4b9ecb8627589854291807d86dd3534",
+      "delivery": "background_job",
+      "atlas_frames": 32,
+      "usage_generations": 7.0
+    },
+    {
+      "key": "vfx29-06",
+      "endpoint": "vfx",
+      "request_sha256": "67c46ba7e620895cbef023be9957e3067acbbbafaa7b8d6cd78145be8ef926e4",
+      "status": "completed",
+      "job_id": "ae7b2345-4010-4ff2-b339-869d6d59065e",
+      "response_sha256": "169f454b85a366ccba2265528b94c98f3a2498b3e2daf1b87d8324b06658783a",
+      "delivery": "background_job",
+      "atlas_frames": 32,
+      "usage_generations": 9.0
+    },
+    {
+      "key": "vfx29-07",
+      "endpoint": "vfx",
+      "request_sha256": "af92c0606a99ff65f32c7fe0665cfdc5b9bbfba3a3cf28ba06aeb085600ae4fe",
+      "status": "completed",
+      "job_id": "9d41cd87-149b-4be2-80a7-7ee95f99f55a",
+      "response_sha256": "1621d681fde0e43b85602d9f365d0cc6d1c49ba8299359a077a555e0237954ec",
+      "delivery": "background_job",
+      "atlas_frames": 32,
+      "usage_generations": 8.0
+    },
+    {
+      "key": "vfx29-08",
+      "endpoint": "vfx",
+      "request_sha256": "9d3d895e8ccd466b6b7ab72596edbdc24ef50957b355f1ec588b37cad642e970",
+      "status": "completed",
+      "job_id": "a510e14e-9f0b-4c48-a8d4-26e3e7a51bd0",
+      "response_sha256": "78cc468f663e90a999c3873f053bc5762007e8240406f2828485f096f0c85f5a",
+      "delivery": "background_job",
+      "atlas_frames": 32,
+      "usage_generations": 11.951208333333334
+    },
+    {
+      "key": "vfx29-09",
+      "endpoint": "vfx",
+      "request_sha256": "c3bf38d2ff85e0d2ea8b99ea21203c9861bdbc04b9008239e1617433f5b8965b",
+      "status": "transport_failed_before_connection",
+      "raw_png": 0,
+      "evidence_sha256": "4663f549ce50a1044d027adc58a32fb87f65a4447ac852bd138480c72edc7042"
+    },
+    {
+      "key": "vfx29-10",
+      "endpoint": "vfx",
+      "request_sha256": "c3bf38d2ff85e0d2ea8b99ea21203c9861bdbc04b9008239e1617433f5b8965b",
+      "status": "completed",
+      "job_id": "5c45aa12-cf6a-49b5-81a9-40ff86c37141",
+      "response_sha256": "c895b111486c69c412ccd8b5b3f790c2f5a89e2eab73b40d2483114f215ee871",
+      "delivery": "background_job",
+      "atlas_frames": 32,
+      "usage_generations": 10.0
+    },
+    {
+      "key": "vfx29-11",
+      "endpoint": "vfx",
+      "request_sha256": "dc0591733fc4b6325c36d80f8d25b60796eea6c7010fced3903cfd139708c386",
+      "status": "completed",
+      "job_id": "f827e7ec-ba34-48f4-bcd6-7104d9ca54d7",
+      "response_sha256": "478654806682ab5069a4bf1a0fd564072f3227b624ce54e901529edc764ca2de",
+      "delivery": "background_job",
+      "atlas_frames": 32,
+      "usage_generations": 9.0
+    }
+  ],
+  "pending": [],
+  "raw_png": 82,
+  "usage_generations": 266.28936458333334,
+  "completed_non_vfx_png_bytes_equal_response": true,
+  "completed_vfx_download_hashes_and_slice_rgba_verified": true,
+  "vfx_slice_png_encoding_is_not_provider_original": true,
+  "requires_external_response_archive": "C:\\Users\\Aston\\.codex\\generated_images\\fire29-natural-20261107",
+  "runtime_integration": false
+}

@@ -1,0 +1,66 @@
+{
+  "fps": 16,
+  "kind": "change",
+  "loop": true,
+  "name": "Fire29 rooted low painted tongues",
+  "files": {
+    "fire29-rooted-low-painted-tongues.gif": "https://api.pixellab.ai/mcp/pixel-tools/308cd35f-2a5b-4b47-ba0f-785e20e7596a/fire29-rooted-low-painted-tongues.gif",
+    "fire29-rooted-low-painted-tongues.png": "https://api.pixellab.ai/mcp/pixel-tools/308cd35f-2a5b-4b47-ba0f-785e20e7596a/fire29-rooted-low-painted-tongues.png",
+    "fire29-rooted-low-painted-tongues.json": "https://api.pixellab.ai/mcp/pixel-tools/308cd35f-2a5b-4b47-ba0f-785e20e7596a/fire29-rooted-low-painted-tongues.json"
+  },
+  "parts": [
+    "painted_tongues",
+    "inner_tongues"
+  ],
+  "anchor": {
+    "x": 128,
+    "y": 217,
+    "kind": "feet"
+  },
+  "artist": "pro",
+  "canvas": {
+    "h": 256,
+    "w": 256
+  },
+  "frames": 32,
+  "message": "Anchored the broad, short flames at your exact root positions, with fixed bases overlapping the tile and only the outer contours growing. Checked all 32 frames for continuous root contact; the source sprite and 16 fps loop are unchanged, with no added particles, glow, smoke, or outlines.",
+  "edit_url": "https://pixellab.ai/create-vfx?effect=9938bfd6-744b-436e-9cd8-fdba11a01e77",
+  "effect_id": "9938bfd6-744b-436e-9cd8-fdba11a01e77",
+  "gif_exact": false,
+  "result_id": "308cd35f-2a5b-4b47-ba0f-785e20e7596a",
+  "billing_usage": {
+    "usd": 0.0,
+    "type": "generations",
+    "generations": 8.271291666666666
+  },
+  "generation_id": "814c5da9-7670-49d9-9103-f2177cd3b447",
+  "billing_charged": true,
+  "generation_mode": "vfx",
+  "quoted_generations": 7,
+  "job_id": "ff55a403-548e-4d9f-9f03-d6ebfa31d822",
+  "response_sha256": "932db0423fceab274b66d1cbf5304ae10757a3b45c7393a2bc99769791be49ff",
+  "downloads": [
+    {
+      "name": "fire29-rooted-low-painted-tongues.gif",
+      "url": "https://api.pixellab.ai/mcp/pixel-tools/308cd35f-2a5b-4b47-ba0f-785e20e7596a/fire29-rooted-low-painted-tongues.gif",
+      "sha256": "dc2b3f47287058932271727221438bc1067da9a40e348e3e4d4848088c35c48a",
+      "bytes": 647173
+    },
+    {
+      "name": "fire29-rooted-low-painted-tongues.png",
+      "url": "https://api.pixellab.ai/mcp/pixel-tools/308cd35f-2a5b-4b47-ba0f-785e20e7596a/fire29-rooted-low-painted-tongues.png",
+      "sha256": "ae15e534321f16fb79e2d1e112659566ba7959c0fd9dacd08793fafc5d1fa442",
+      "bytes": 347552
+    },
+    {
+      "name": "fire29-rooted-low-painted-tongues.json",
+      "url": "https://api.pixellab.ai/mcp/pixel-tools/308cd35f-2a5b-4b47-ba0f-785e20e7596a/fire29-rooted-low-painted-tongues.json",
+      "sha256": "2c8e01c185cf10c28ae5f0aa664e823db74e5232144cfb741003b803362cc585",
+      "bytes": 12897
+    }
+  ],
+  "usage": {
+    "type": "generations",
+    "generations": 8.271291666666666
+  }
+}

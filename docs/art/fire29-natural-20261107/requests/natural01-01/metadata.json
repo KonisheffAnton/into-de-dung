@@ -1,0 +1,12 @@
+{
+  "start": "raw/keypose01-01/00.png",
+  "end": "raw/keypose01-02/00.png",
+  "native_crop_xyxy": [
+    559,
+    225,
+    687,
+    353
+  ],
+  "endpoint": "interpolation-v2",
+  "request_sha256": "dbb0e39f239bf50b114eafe93d6fdebe5366728a65f8e9fdf3e8882b8dc139d2"
+}

@@ -1,0 +1,65 @@
+{
+  "fps": 20,
+  "kind": "change",
+  "loop": true,
+  "name": "Fire29 rounded layered flame tips",
+  "files": {
+    "fire29-rounded-layered-flame-tips.gif": "https://api.pixellab.ai/mcp/pixel-tools/98b0420a-3025-460f-84d4-66b327058dcb/fire29-rounded-layered-flame-tips.gif",
+    "fire29-rounded-layered-flame-tips.png": "https://api.pixellab.ai/mcp/pixel-tools/98b0420a-3025-460f-84d4-66b327058dcb/fire29-rounded-layered-flame-tips.png",
+    "fire29-rounded-layered-flame-tips.json": "https://api.pixellab.ai/mcp/pixel-tools/98b0420a-3025-460f-84d4-66b327058dcb/fire29-rounded-layered-flame-tips.json"
+  },
+  "parts": [
+    "rounded_rim"
+  ],
+  "anchor": {
+    "x": 128,
+    "y": 217,
+    "kind": "feet"
+  },
+  "artist": "pro",
+  "canvas": {
+    "h": 256,
+    "w": 256
+  },
+  "frames": 32,
+  "message": "Replaced the broad edge sheets with eight short, overlapping flame tongues, using translucent red-orange bodies and smaller textured, warm-orange cores. Their bases stay rooted while they grow and recede asynchronously; the source tile, texture flow, and seamless 32-frame loop at 20 fps are preserved.",
+  "edit_url": "https://pixellab.ai/create-vfx?effect=9938bfd6-744b-436e-9cd8-fdba11a01e77",
+  "effect_id": "9938bfd6-744b-436e-9cd8-fdba11a01e77",
+  "gif_exact": false,
+  "result_id": "98b0420a-3025-460f-84d4-66b327058dcb",
+  "billing_usage": {
+    "usd": 0.0,
+    "type": "generations",
+    "generations": 11.951208333333334
+  },
+  "generation_id": "98077a70-aa13-45b2-8601-103f08b4a5bd",
+  "billing_charged": true,
+  "generation_mode": "vfx",
+  "quoted_generations": 8,
+  "job_id": "a510e14e-9f0b-4c48-a8d4-26e3e7a51bd0",
+  "response_sha256": "78cc468f663e90a999c3873f053bc5762007e8240406f2828485f096f0c85f5a",
+  "downloads": [
+    {
+      "name": "fire29-rounded-layered-flame-tips.gif",
+      "url": "https://api.pixellab.ai/mcp/pixel-tools/98b0420a-3025-460f-84d4-66b327058dcb/fire29-rounded-layered-flame-tips.gif",
+      "sha256": "594b8b861edcc45c6cc8bde487c1c0ddbb9abf6f9c2a35434a33d56985193cea",
+      "bytes": 697967
+    },
+    {
+      "name": "fire29-rounded-layered-flame-tips.png",
+      "url": "https://api.pixellab.ai/mcp/pixel-tools/98b0420a-3025-460f-84d4-66b327058dcb/fire29-rounded-layered-flame-tips.png",
+      "sha256": "e23f0332a946df516484128b7e2a4b39a386ed577f22868b7a038cddf6327d72",
+      "bytes": 508010
+    },
+    {
+      "name": "fire29-rounded-layered-flame-tips.json",
+      "url": "https://api.pixellab.ai/mcp/pixel-tools/98b0420a-3025-460f-84d4-66b327058dcb/fire29-rounded-layered-flame-tips.json",
+      "sha256": "663ccd6bc34e057d652031aac0d82b5084d6b7300fc662c0340dbdf7c1c7176d",
+      "bytes": 12897
+    }
+  ],
+  "usage": {
+    "type": "generations",
+    "generations": 11.951208333333334
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "input": "inputs/fire29-06-clean-hidden.png",
+  "mask": "inputs/fire29-06-edge-mask.png",
+  "native_crop_xyxy": [
+    750,
+    361,
+    878,
+    489
+  ],
+  "endpoint": "inpaint-v3",
+  "request_sha256": "16b47b9486cefb59db9122c796bb0095096f67d2539b2b61adc5c451e70388a0"
+}

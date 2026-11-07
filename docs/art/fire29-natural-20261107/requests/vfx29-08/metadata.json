@@ -1,0 +1,10 @@
+{
+  "endpoint": "vfx",
+  "request_sha256": "6df9730ea941b72c516f60f9728249d38856d5559a6bfb689a7b16e5d4f0fb82",
+  "public_request_sha256": "9d3d895e8ccd466b6b7ab72596edbdc24ef50957b355f1ec588b37cad642e970",
+  "continuation_sha256": "f67b67576539cca25dd796ebf9509c1b9921a265af4eecf552711755e44c0aa7",
+  "continuation_external": true,
+  "source_job": "vfx29-07",
+  "effect_id": "9938bfd6-744b-436e-9cd8-fdba11a01e77",
+  "intent": "User confirms visible motion but rejects flat rim fire; add short layered painterly volume while preserving motion and low height"
+}

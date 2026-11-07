@@ -1,0 +1,65 @@
+{
+  "fps": 20,
+  "kind": "change",
+  "loop": true,
+  "name": "Fire29 readable distributed flames",
+  "files": {
+    "fire29-readable-distributed-flames.gif": "https://api.pixellab.ai/mcp/pixel-tools/7e75891b-a4aa-4880-a88d-ee5cdcc23362/fire29-readable-distributed-flames.gif",
+    "fire29-readable-distributed-flames.png": "https://api.pixellab.ai/mcp/pixel-tools/7e75891b-a4aa-4880-a88d-ee5cdcc23362/fire29-readable-distributed-flames.png",
+    "fire29-readable-distributed-flames.json": "https://api.pixellab.ai/mcp/pixel-tools/7e75891b-a4aa-4880-a88d-ee5cdcc23362/fire29-readable-distributed-flames.json"
+  },
+  "parts": [
+    "surface_flames"
+  ],
+  "anchor": {
+    "x": 128,
+    "y": 217,
+    "kind": "feet"
+  },
+  "artist": "pro",
+  "canvas": {
+    "h": 256,
+    "w": 256
+  },
+  "frames": 32,
+  "message": "Kept all six scattered positions and restored luminous layered fire: translucent red-orange bodies, bright orange middles, and small warm yellow cores. The rooted tongues grow and recede asynchronously, while the floor texture, camera, and seamless 32-frame loop at 20 fps remain unchanged.",
+  "edit_url": "https://pixellab.ai/create-vfx?effect=9938bfd6-744b-436e-9cd8-fdba11a01e77",
+  "effect_id": "9938bfd6-744b-436e-9cd8-fdba11a01e77",
+  "gif_exact": false,
+  "result_id": "7e75891b-a4aa-4880-a88d-ee5cdcc23362",
+  "billing_usage": {
+    "usd": 0.0,
+    "type": "generations",
+    "generations": 9.0
+  },
+  "generation_id": "3a7d4c9f-a627-41df-8e1a-56d6e0350c2d",
+  "billing_charged": true,
+  "generation_mode": "vfx",
+  "quoted_generations": 9,
+  "job_id": "f827e7ec-ba34-48f4-bcd6-7104d9ca54d7",
+  "response_sha256": "478654806682ab5069a4bf1a0fd564072f3227b624ce54e901529edc764ca2de",
+  "downloads": [
+    {
+      "name": "fire29-readable-distributed-flames.gif",
+      "url": "https://api.pixellab.ai/mcp/pixel-tools/7e75891b-a4aa-4880-a88d-ee5cdcc23362/fire29-readable-distributed-flames.gif",
+      "sha256": "8f99fb7938095dc7f784d8b41d844139e8e74c9d8c8dd20d531f669afb989ae8",
+      "bytes": 680747
+    },
+    {
+      "name": "fire29-readable-distributed-flames.png",
+      "url": "https://api.pixellab.ai/mcp/pixel-tools/7e75891b-a4aa-4880-a88d-ee5cdcc23362/fire29-readable-distributed-flames.png",
+      "sha256": "40c35d254dcd8045897abad3e4242cf4d8b9df81600d0bcf6d8fc7fd5f31c7a2",
+      "bytes": 484231
+    },
+    {
+      "name": "fire29-readable-distributed-flames.json",
+      "url": "https://api.pixellab.ai/mcp/pixel-tools/7e75891b-a4aa-4880-a88d-ee5cdcc23362/fire29-readable-distributed-flames.json",
+      "sha256": "c001c982fff0bd7b91b2da57bef186e7527c6d524981eb09a1e0c362f94a7161",
+      "bytes": 12931
+    }
+  ],
+  "usage": {
+    "type": "generations",
+    "generations": 9.0
+  }
+}

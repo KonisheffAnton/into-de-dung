@@ -1,0 +1,63 @@
+{
+  "fps": 20,
+  "kind": "change",
+  "loop": true,
+  "name": "Fire29 connected burning streaks",
+  "files": {
+    "fire29-connected-burning-streaks.gif": "https://api.pixellab.ai/mcp/pixel-tools/7b0f5214-198b-411b-b35a-0262db4dfcfd/fire29-connected-burning-streaks.gif",
+    "fire29-connected-burning-streaks.png": "https://api.pixellab.ai/mcp/pixel-tools/7b0f5214-198b-411b-b35a-0262db4dfcfd/fire29-connected-burning-streaks.png",
+    "fire29-connected-burning-streaks.json": "https://api.pixellab.ai/mcp/pixel-tools/7b0f5214-198b-411b-b35a-0262db4dfcfd/fire29-connected-burning-streaks.json"
+  },
+  "parts": [],
+  "anchor": {
+    "x": 128,
+    "y": 217,
+    "kind": "feet"
+  },
+  "artist": "pro",
+  "canvas": {
+    "h": 256,
+    "w": 256
+  },
+  "frames": 32,
+  "message": "Removed all pasted flame shapes and animated only the tile\u2019s original orange fire texture, keeping the dark rock, cracks, camera and overall brightness fixed in a seamless 32-frame loop at 20 fps. This preserves the painted look, but does not achieve the connected advancing sheets or localized 10\u201314-pixel rim spills you requested.",
+  "edit_url": "https://pixellab.ai/create-vfx?effect=9938bfd6-744b-436e-9cd8-fdba11a01e77",
+  "effect_id": "9938bfd6-744b-436e-9cd8-fdba11a01e77",
+  "gif_exact": false,
+  "result_id": "7b0f5214-198b-411b-b35a-0262db4dfcfd",
+  "billing_usage": {
+    "usd": 0.0,
+    "type": "generations",
+    "generations": 9.0
+  },
+  "generation_id": "db7c8185-ff49-485c-b4b9-665ed410693d",
+  "billing_charged": true,
+  "generation_mode": "vfx",
+  "quoted_generations": 9,
+  "job_id": "ae7b2345-4010-4ff2-b339-869d6d59065e",
+  "response_sha256": "169f454b85a366ccba2265528b94c98f3a2498b3e2daf1b87d8324b06658783a",
+  "downloads": [
+    {
+      "name": "fire29-connected-burning-streaks.gif",
+      "url": "https://api.pixellab.ai/mcp/pixel-tools/7b0f5214-198b-411b-b35a-0262db4dfcfd/fire29-connected-burning-streaks.gif",
+      "sha256": "fd1a8fa0a16601510611b08ebe16e63b0c58641902c19691002d5e77d3b33632",
+      "bytes": 685575
+    },
+    {
+      "name": "fire29-connected-burning-streaks.png",
+      "url": "https://api.pixellab.ai/mcp/pixel-tools/7b0f5214-198b-411b-b35a-0262db4dfcfd/fire29-connected-burning-streaks.png",
+      "sha256": "6070f682a1cf504483b52612fd686ff02b81164e73809a13af9d2a48dcaeaa48",
+      "bytes": 461293
+    },
+    {
+      "name": "fire29-connected-burning-streaks.json",
+      "url": "https://api.pixellab.ai/mcp/pixel-tools/7b0f5214-198b-411b-b35a-0262db4dfcfd/fire29-connected-burning-streaks.json",
+      "sha256": "a876ab1934452152a27732caaa51519d83cd1a76f27b2850535427de07a7bc24",
+      "bytes": 12863
+    }
+  ],
+  "usage": {
+    "type": "generations",
+    "generations": 9.0
+  }
+}

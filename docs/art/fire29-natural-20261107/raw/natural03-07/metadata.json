@@ -1,0 +1,94 @@
+{
+  "seed": 729039,
+  "type": "message_done",
+  "usage": {
+    "usd": 0.0,
+    "type": "generations",
+    "generations": 4,
+    "cost_if_paid": 0.04095201826757855
+  },
+  "status": "completed",
+  "progress": 1.0,
+  "flow_kind": "animation",
+  "billing_usage": {
+    "type": "generations",
+    "generations": 4.0
+  },
+  "generation_id": "8f3b2470-454c-4d40-94e0-03fcb8ed6cff",
+  "queue_position": 0,
+  "billing_charged": true,
+  "generation_started_at": "2026-11-07T08:27:04.903724+00:00",
+  "job_id": "cd3e37bc-29ba-4dd4-930f-6d918f845e0a",
+  "response_sha256": "291719a2cadf121ef0288894f3cf3eba876e8fc8216d94db0e4d4057ef2930df",
+  "images": [
+    {
+      "file": "00.png",
+      "sha256": "5354e43715be2926eeaf74c0aa12d3b694063d6c6c12ba4a802eab29f59d6b3e"
+    },
+    {
+      "file": "01.png",
+      "sha256": "1680cd8dbdf87c1668f7eb89f87a58f8019029a2ae21e8763967459c826a86c2"
+    },
+    {
+      "file": "02.png",
+      "sha256": "b89b32faa3f08d6be975d06804694943efeced864af1544cf75d5656d2a60745"
+    },
+    {
+      "file": "03.png",
+      "sha256": "d9c8fcf465885b7fa113e765ceac2a559d220e2003e52c19f8b0487e41f35067"
+    },
+    {
+      "file": "04.png",
+      "sha256": "5becadd48b40e1a776af8b10d55ca75451efd905d5ee4cdb97501c2bcf3cc01b"
+    },
+    {
+      "file": "05.png",
+      "sha256": "6fdffdc08ff28b4a886b4cffd415bcfc90283ec845d613bccf45ac89baac14eb"
+    },
+    {
+      "file": "06.png",
+      "sha256": "7bde2c93a3e069367739a560b27d3e79f184d69c36b79f29607ef0df82abfb43"
+    },
+    {
+      "file": "07.png",
+      "sha256": "b576e53bb2bc35eaf34e9bf629cb1ed188ee15314969eb1d03ad6944f85374d5"
+    },
+    {
+      "file": "08.png",
+      "sha256": "c29e075677d0f1c20d72c9d68cb3887b4881a92c36b6a042b8e97df5ee4b2a2c"
+    },
+    {
+      "file": "09.png",
+      "sha256": "93a141211bb9eae3df18b63f4eca56d29273a4c2a063a22d33a4898851834c79"
+    },
+    {
+      "file": "10.png",
+      "sha256": "21d656277d29ea3c69f77d7f314062f07f80b539d090bf8df8bd9368c6e7c3ba"
+    },
+    {
+      "file": "11.png",
+      "sha256": "dbe9e61a9ea708f087175879cc3682f49727dd3de31e15c9297077f29d44c955"
+    },
+    {
+      "file": "12.png",
+      "sha256": "855325ddea2b0c69fde2ca738d0a367ef18628878b3aeccfcf3493fef2e12d47"
+    },
+    {
+      "file": "13.png",
+      "sha256": "3c86defc31cfc31406a73205a9cc630d701a6d9eb1b918fa6ac0b98905d146ef"
+    },
+    {
+      "file": "14.png",
+      "sha256": "86488b779e720cf62e8cfe2daba3c9ab744f753bab5d530a4cd1a0d93cc7b492"
+    },
+    {
+      "file": "15.png",
+      "sha256": "078b55c4127bdbb24e8d67f2757816c721a045ef203da11aa7ad8bf39e7debd2"
+    },
+    {
+      "file": "16.png",
+      "sha256": "eb215d1b38f62aba8db59aaf6b4ada81b34ff4b7dd83dc8d35b2f307e4c542c6"
+    }
+  ],
+  "delivery": "background_job"
+}

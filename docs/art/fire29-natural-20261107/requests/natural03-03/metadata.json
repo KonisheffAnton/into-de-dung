@@ -1,0 +1,18 @@
+{
+  "endpoint": "interpolation-v2",
+  "start": "inputs/interp03-start.png",
+  "end": "inputs/interp03-end.png",
+  "native_crop_xyxy": [
+    415,
+    299,
+    543,
+    427
+  ],
+  "source_group_crop_xyxy": [
+    32,
+    48,
+    160,
+    176
+  ],
+  "request_sha256": "88a31a0dcb842f60205a73a771a48b4dcfcf84b56b4f213d1f93089b1502ecc5"
+}

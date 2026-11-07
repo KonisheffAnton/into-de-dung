@@ -1,0 +1,10 @@
+{
+  "endpoint": "vfx",
+  "request_sha256": "953fcc333cb38163d67d186abcc582dbcbe5f1f180c391c8a5d9d32f8c1f4a02",
+  "public_request_sha256": "abd751b2663a29fd454d50f3c9cd9a5ddfcfe0b6b0f9c943ef161115161f6813",
+  "continuation_sha256": "f67b67576539cca25dd796ebf9509c1b9921a265af4eecf552711755e44c0aa7",
+  "continuation_external": true,
+  "source_job": "vfx29-02",
+  "effect_id": "9938bfd6-744b-436e-9cd8-fdba11a01e77",
+  "intent": "Root rejected VFX02 needle-like tongues; enforce broad low painted silhouettes"
+}

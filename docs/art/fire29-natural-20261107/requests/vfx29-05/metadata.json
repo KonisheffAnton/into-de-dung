@@ -1,0 +1,10 @@
+{
+  "endpoint": "vfx",
+  "request_sha256": "a0a130a820ddb6563beea87c863c6e2c3342d30db66c07db8152521273f8a2f1",
+  "public_request_sha256": "9d820a03b7dcfa55039d987fc23d31fd9d7c17880a4c93fb71050dc9344109e8",
+  "continuation_sha256": "f67b67576539cca25dd796ebf9509c1b9921a265af4eecf552711755e44c0aa7",
+  "continuation_external": true,
+  "source_job": "vfx29-04",
+  "effect_id": "9938bfd6-744b-436e-9cd8-fdba11a01e77",
+  "intent": "User explicitly prioritizes weak/unnatural motion; larger contour excursion, fixed roots, calm stable brightness"
+}

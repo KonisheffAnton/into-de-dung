@@ -1,0 +1,66 @@
+{
+  "fps": 16,
+  "kind": "change",
+  "loop": true,
+  "name": "Fire29 broad short painted tongues",
+  "files": {
+    "fire29-broad-short-painted-tongues.gif": "https://api.pixellab.ai/mcp/pixel-tools/91712369-e9b6-44d0-93c7-3dd81969e436/fire29-broad-short-painted-tongues.gif",
+    "fire29-broad-short-painted-tongues.png": "https://api.pixellab.ai/mcp/pixel-tools/91712369-e9b6-44d0-93c7-3dd81969e436/fire29-broad-short-painted-tongues.png",
+    "fire29-broad-short-painted-tongues.json": "https://api.pixellab.ai/mcp/pixel-tools/91712369-e9b6-44d0-93c7-3dd81969e436/fire29-broad-short-painted-tongues.json"
+  },
+  "parts": [
+    "painted_tongues",
+    "inner_tongues"
+  ],
+  "anchor": {
+    "x": 128,
+    "y": 217,
+    "kind": "feet"
+  },
+  "artist": "pro",
+  "canvas": {
+    "h": 256,
+    "w": 256
+  },
+  "frames": 32,
+  "message": "Rebuilt only the flame layers as broad, short, two-tip strokes with mottled orange-yellow texture and calm, staggered outward growth. Preserved the tile sprite and the seamless 32-frame, 16-fps loop, with no added glow, smoke, flecks, or outlines.",
+  "edit_url": "https://pixellab.ai/create-vfx?effect=9938bfd6-744b-436e-9cd8-fdba11a01e77",
+  "effect_id": "9938bfd6-744b-436e-9cd8-fdba11a01e77",
+  "gif_exact": false,
+  "result_id": "91712369-e9b6-44d0-93c7-3dd81969e436",
+  "billing_usage": {
+    "usd": 0.0,
+    "type": "generations",
+    "generations": 8.066864583333334
+  },
+  "generation_id": "a7535a0d-655e-4584-bfac-7222e5b6d90d",
+  "billing_charged": true,
+  "generation_mode": "vfx",
+  "quoted_generations": 7,
+  "job_id": "e13f81d3-cff3-4722-bae4-ce6eab25fb8e",
+  "response_sha256": "aadf7e1355cdd703b0fa0af4c34c37821f8ec29968c2bd887da687780f1e56b3",
+  "downloads": [
+    {
+      "name": "fire29-broad-short-painted-tongues.gif",
+      "url": "https://api.pixellab.ai/mcp/pixel-tools/91712369-e9b6-44d0-93c7-3dd81969e436/fire29-broad-short-painted-tongues.gif",
+      "sha256": "958b43eb91752a1853eb339d53f7db29356e5b18be1b4238a12054135c30893c",
+      "bytes": 691949
+    },
+    {
+      "name": "fire29-broad-short-painted-tongues.png",
+      "url": "https://api.pixellab.ai/mcp/pixel-tools/91712369-e9b6-44d0-93c7-3dd81969e436/fire29-broad-short-painted-tongues.png",
+      "sha256": "c39904cab9d02d022e957884d32f9a10f49c7bd34c9dd8bf7ba464f273b85b88",
+      "bytes": 385117
+    },
+    {
+      "name": "fire29-broad-short-painted-tongues.json",
+      "url": "https://api.pixellab.ai/mcp/pixel-tools/91712369-e9b6-44d0-93c7-3dd81969e436/fire29-broad-short-painted-tongues.json",
+      "sha256": "6b5e1a6f2c93f643390fb2977e8e0cc0b5992c6306dc9e35ec01d9c38ef8dae3",
+      "bytes": 12931
+    }
+  ],
+  "usage": {
+    "type": "generations",
+    "generations": 8.066864583333334
+  }
+}

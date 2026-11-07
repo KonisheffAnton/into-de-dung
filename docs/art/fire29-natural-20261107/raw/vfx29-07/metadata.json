@@ -1,0 +1,65 @@
+{
+  "fps": 20,
+  "kind": "change",
+  "loop": true,
+  "name": "Fire29 broad rooted edge sheets",
+  "files": {
+    "fire29-broad-rooted-edge-sheets.gif": "https://api.pixellab.ai/mcp/pixel-tools/74a1df0e-8600-4181-aba9-a110cdfcde22/fire29-broad-rooted-edge-sheets.gif",
+    "fire29-broad-rooted-edge-sheets.png": "https://api.pixellab.ai/mcp/pixel-tools/74a1df0e-8600-4181-aba9-a110cdfcde22/fire29-broad-rooted-edge-sheets.png",
+    "fire29-broad-rooted-edge-sheets.json": "https://api.pixellab.ai/mcp/pixel-tools/74a1df0e-8600-4181-aba9-a110cdfcde22/fire29-broad-rooted-edge-sheets.json"
+  },
+  "parts": [
+    "rim_sheets"
+  ],
+  "anchor": {
+    "x": 128,
+    "y": 217,
+    "kind": "feet"
+  },
+  "artist": "pro",
+  "canvas": {
+    "h": 256,
+    "w": 256
+  },
+  "frames": 32,
+  "message": "Kept the existing texture flow and added three attached, mottled orange-red flame sheets that visibly grow beyond the diamond\u2019s rim. Their roots stay fixed while the broad contours advance and recede at staggered phases, looping over 32 frames at 20 fps.",
+  "edit_url": "https://pixellab.ai/create-vfx?effect=9938bfd6-744b-436e-9cd8-fdba11a01e77",
+  "effect_id": "9938bfd6-744b-436e-9cd8-fdba11a01e77",
+  "gif_exact": false,
+  "result_id": "74a1df0e-8600-4181-aba9-a110cdfcde22",
+  "billing_usage": {
+    "usd": 0.0,
+    "type": "generations",
+    "generations": 8.0
+  },
+  "generation_id": "96c184d9-bb20-4d92-bdbe-e9e37d56bb6b",
+  "billing_charged": true,
+  "generation_mode": "vfx",
+  "quoted_generations": 8,
+  "job_id": "9d41cd87-149b-4be2-80a7-7ee95f99f55a",
+  "response_sha256": "1621d681fde0e43b85602d9f365d0cc6d1c49ba8299359a077a555e0237954ec",
+  "downloads": [
+    {
+      "name": "fire29-broad-rooted-edge-sheets.gif",
+      "url": "https://api.pixellab.ai/mcp/pixel-tools/74a1df0e-8600-4181-aba9-a110cdfcde22/fire29-broad-rooted-edge-sheets.gif",
+      "sha256": "7e00f827d733649c4fcb8b86f802b7db01aa1d9631c3d564ced372e7d28a1f8b",
+      "bytes": 692042
+    },
+    {
+      "name": "fire29-broad-rooted-edge-sheets.png",
+      "url": "https://api.pixellab.ai/mcp/pixel-tools/74a1df0e-8600-4181-aba9-a110cdfcde22/fire29-broad-rooted-edge-sheets.png",
+      "sha256": "dc66821364bf4c69d3c4d7134a7874f098f0abcae47f0dbc4aa747804d8e1f15",
+      "bytes": 488384
+    },
+    {
+      "name": "fire29-broad-rooted-edge-sheets.json",
+      "url": "https://api.pixellab.ai/mcp/pixel-tools/74a1df0e-8600-4181-aba9-a110cdfcde22/fire29-broad-rooted-edge-sheets.json",
+      "sha256": "12b50bbf4b1f501fb88dad197676aa57006a9f08ab97a4ac77107cd33b0ac084",
+      "bytes": 12829
+    }
+  ],
+  "usage": {
+    "type": "generations",
+    "generations": 8.0
+  }
+}

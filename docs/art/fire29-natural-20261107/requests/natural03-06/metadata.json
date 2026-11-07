@@ -1,0 +1,13 @@
+{
+  "endpoint": "interpolation-v2",
+  "start": "inputs/interp03-end.png",
+  "end": "raw/natural03-03/01.png",
+  "native_crop_xyxy": [
+    415,
+    299,
+    543,
+    427
+  ],
+  "request_sha256": "26f9bd803a1afa5910c9d295c63ebd63ddd182485c27f2d2e5272876cafd0cc5",
+  "intent": "Two bounded finer intervals on controlled source/interpolation poses"
+}

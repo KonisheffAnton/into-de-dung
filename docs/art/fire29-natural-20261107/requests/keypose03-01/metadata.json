@@ -1,0 +1,6 @@
+{
+  "endpoint": "inpaint-v3",
+  "input": "inputs/fire29-03.png",
+  "mask": "inputs/fire29-03-growth-mask.png",
+  "request_sha256": "964c66daaf4bcddbe79637dbf0c6c57641adb2989a265775c5300e32942bf02f"
+}

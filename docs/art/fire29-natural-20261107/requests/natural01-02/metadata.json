@@ -1,0 +1,12 @@
+{
+  "endpoint": "interpolation-v2",
+  "start": "raw/natural01-01/00.png",
+  "end": "raw/natural01-01/01.png",
+  "native_crop_xyxy": [
+    559,
+    225,
+    687,
+    353
+  ],
+  "request_sha256": "513e721bdd760ae217f144743eeb2fabf4520b62bad6feb28cbad444817940a5"
+}

@@ -1,0 +1,10 @@
+{
+  "endpoint": "vfx",
+  "request_sha256": "65a188d211e52b2ac16c83e6c282a8f7b666b1967a436bf19665f327cef29456",
+  "public_request_sha256": "472dfd33a8d6630f21539b73ca8c988c61fddceab6a42d2b51821697a3365fd5",
+  "continuation_sha256": "f67b67576539cca25dd796ebf9509c1b9921a265af4eecf552711755e44c0aa7",
+  "continuation_external": true,
+  "source_job": "vfx29-03",
+  "effect_id": "9938bfd6-744b-436e-9cd8-fdba11a01e77",
+  "intent": "Root rejected VFX03 detached islands; provide measured canvas root coordinates and enforce continuous connection"
+}

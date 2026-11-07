@@ -1,0 +1,27 @@
+{
+  "usage": {
+    "type": "generations",
+    "generations": 1.0
+  },
+  "job_id": null,
+  "response_sha256": "c45c76b058bc528bf8647769fd9d42211c6e28835a7b79efcd7b2c7e6aa0c91e",
+  "images": [
+    {
+      "file": "00.png",
+      "sha256": "41838d9a7bec11e289a059d79382450515c74515ec301d31f4afca9ee7c6af0a"
+    },
+    {
+      "file": "01.png",
+      "sha256": "102de8d19782397e4c9a2ee994aec89f8ea4bbbe8ed0b4a357e33b491ce27efe"
+    },
+    {
+      "file": "02.png",
+      "sha256": "ddeecb749d8151c6c5b1dd2708be667678f4d0ad24f6efba1291231e70a60268"
+    },
+    {
+      "file": "03.png",
+      "sha256": "2ec9c91daf7f9734d6d8f79c4d2d3c4d92db042aee2faf0e96d1c774f504f940"
+    }
+  ],
+  "delivery": "synchronous"
+}

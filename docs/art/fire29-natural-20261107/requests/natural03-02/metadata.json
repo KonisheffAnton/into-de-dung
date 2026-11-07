@@ -1,0 +1,6 @@
+{
+  "endpoint": "interpolation-v2",
+  "start": "inputs/fire29-03-clean-hidden.png",
+  "end": "raw/keypose03-03/00.png",
+  "request_sha256": "29960d02415d8fe7bab8a16491158f8df40ff1dd22ff827825dd64e142ab6709"
+}

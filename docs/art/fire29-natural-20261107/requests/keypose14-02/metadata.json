@@ -1,0 +1,13 @@
+{
+  "endpoint": "inpaint-v3",
+  "input": "inputs/context14-start.png",
+  "mask": "inputs/fire29-14-edge-mask.png",
+  "native_crop_xyxy": [
+    303,
+    415,
+    431,
+    543
+  ],
+  "request_sha256": "205af76c87652c60ba68346d70f48d5616d5beca1c9364087ae2ed7103f733b2",
+  "intent": "Original floor context to avoid pasted separate campfire appearance"
+}

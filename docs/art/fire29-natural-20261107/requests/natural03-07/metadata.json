@@ -1,0 +1,13 @@
+{
+  "endpoint": "animate-with-text-v3",
+  "start": "inputs/interp03-start.png",
+  "end": "inputs/interp03-end.png",
+  "native_crop_xyxy": [
+    415,
+    299,
+    543,
+    427
+  ],
+  "request_sha256": "f96b7f7d85ad05e336a8f406d5c6d174915eaf8fddbba8cb4273a31b80402b21",
+  "intent": "One controlled V3 engine comparison, not MiniMax."
+}

@@ -1,0 +1,10 @@
+{
+  "endpoint": "vfx",
+  "request_sha256": "68213c010901ba089dbf740486a7fa84aa05295c45883f878c4fc3ca5babe6f3",
+  "public_request_sha256": "dc0591733fc4b6325c36d80f8d25b60796eea6c7010fced3903cfd139708c386",
+  "continuation_sha256": "f67b67576539cca25dd796ebf9509c1b9921a265af4eecf552711755e44c0aa7",
+  "continuation_external": true,
+  "source_job": "vfx29-10",
+  "effect_id": "9938bfd6-744b-436e-9cd8-fdba11a01e77",
+  "intent": "Keep distributed placement; restore visible luminous short bodies and accepted motion amplitude, lost in10 at native scale"
+}

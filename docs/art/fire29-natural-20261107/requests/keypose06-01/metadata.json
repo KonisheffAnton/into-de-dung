@@ -1,0 +1,13 @@
+{
+  "input": "inputs/fire29-06-clean-hidden.png",
+  "source_input": "docs/art/fire-single-tongue-20261106/field-inputs/fire29/fire29-06/input-transparent.png",
+  "mask": "inputs/fire29-06-edge-mask.png",
+  "native_crop_xyxy": [
+    750,
+    361,
+    878,
+    489
+  ],
+  "endpoint": "inpaint-v3",
+  "request_sha256": "56d1681987256a31ba66cb89643c668708721a55eaee6b55a13722ebfc191ce5"
+}

@@ -1,0 +1,65 @@
+{
+  "fps": 16,
+  "kind": "new",
+  "loop": true,
+  "name": "Fire29 low painted growth control",
+  "files": {
+    "fire29-low-painted-growth-control.gif": "https://api.pixellab.ai/mcp/pixel-tools/83463be0-f3fc-4ed8-9e92-c7550d06c217/fire29-low-painted-growth-control.gif",
+    "fire29-low-painted-growth-control.png": "https://api.pixellab.ai/mcp/pixel-tools/83463be0-f3fc-4ed8-9e92-c7550d06c217/fire29-low-painted-growth-control.png",
+    "fire29-low-painted-growth-control.json": "https://api.pixellab.ai/mcp/pixel-tools/83463be0-f3fc-4ed8-9e92-c7550d06c217/fire29-low-painted-growth-control.json"
+  },
+  "parts": [
+    "edge_fire"
+  ],
+  "anchor": {
+    "x": 128,
+    "y": 217,
+    "kind": "feet"
+  },
+  "artist": "pro",
+  "canvas": {
+    "h": 256,
+    "w": 256
+  },
+  "frames": 32,
+  "message": "Created a seamless 2-second loop at 16 fps on the original 256\u00d7256 canvas. Low, mottled orange-yellow fire slowly grows and recedes along both rear edges and corners, while the supplied tile stays completely still and unchanged\u2014without lights, smoke, sparks, or detached particles.",
+  "edit_url": "https://pixellab.ai/create-vfx?effect=9938bfd6-744b-436e-9cd8-fdba11a01e77",
+  "effect_id": "9938bfd6-744b-436e-9cd8-fdba11a01e77",
+  "gif_exact": false,
+  "result_id": "83463be0-f3fc-4ed8-9e92-c7550d06c217",
+  "billing_usage": {
+    "usd": 0.0,
+    "type": "generations",
+    "generations": 18.0
+  },
+  "generation_id": "ec8d2486-0409-41f8-8529-ac056ede458c",
+  "billing_charged": true,
+  "generation_mode": "vfx",
+  "quoted_generations": 18,
+  "job_id": "14018e37-dc15-40b7-8b7d-85bc1995cb29",
+  "response_sha256": "fa72810a23843d164d4246505289f57deceab613e4c2aaa71d7c266fa0ff08c4",
+  "downloads": [
+    {
+      "name": "fire29-low-painted-growth-control.gif",
+      "url": "https://api.pixellab.ai/mcp/pixel-tools/83463be0-f3fc-4ed8-9e92-c7550d06c217/fire29-low-painted-growth-control.gif",
+      "sha256": "52aec5d5b52b06a29913e3b89e53a32a36b10ba6a5271ab9b9c537b163399c11",
+      "bytes": 709424
+    },
+    {
+      "name": "fire29-low-painted-growth-control.png",
+      "url": "https://api.pixellab.ai/mcp/pixel-tools/83463be0-f3fc-4ed8-9e92-c7550d06c217/fire29-low-painted-growth-control.png",
+      "sha256": "ce53616809577e879b5457afb15014378504143b97ee4faf79e60cb6d785c480",
+      "bytes": 389630
+    },
+    {
+      "name": "fire29-low-painted-growth-control.json",
+      "url": "https://api.pixellab.ai/mcp/pixel-tools/83463be0-f3fc-4ed8-9e92-c7550d06c217/fire29-low-painted-growth-control.json",
+      "sha256": "03fd3522efc1e86a6fbd1992fbdf91569e717a99d4cac60399a54cf5eef06686",
+      "bytes": 12897
+    }
+  ],
+  "usage": {
+    "type": "generations",
+    "generations": 18.0
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "seed": 729033,
+  "type": "message_done",
+  "action": "Touching up pixels",
+  "progress": 0.85,
+  "billing_usage": {
+    "usd": 0.0,
+    "type": "generations",
+    "generations": 10
+  },
+  "generation_id": "91a3ef53-cfb3-44da-b835-32c5d024ffa9",
+  "usage_cost_usd": 0.08,
+  "billing_charged": true,
+  "generation_mode": "inpainting_v3",
+  "generation_started_at": "2026-11-07T07:40:56.772872+00:00",
+  "original_image_n_colors": 7887,
+  "quantized_image_n_colors": 7887,
+  "job_id": "ad3dec9d-cc1c-461b-b3ea-e35bc2bc95ed",
+  "response_sha256": "49dfddb01e524d6e8c1933f31d2f65f0a4b2dcc4d0810c8b2f94ce83ed923aa7",
+  "images": [
+    {
+      "file": "00.png",
+      "sha256": "0b83af5d9be562786add692c36c60331ecb9ba9fd1546c05cd5947b63b4de3f3"
+    }
+  ]
+}

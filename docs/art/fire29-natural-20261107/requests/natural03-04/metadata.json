@@ -1,0 +1,13 @@
+{
+  "endpoint": "animate-pixminimax",
+  "start": "inputs/interp03-start.png",
+  "end": "inputs/interp03-end.png",
+  "native_crop_xyxy": [
+    415,
+    299,
+    543,
+    427
+  ],
+  "request_sha256": "54d28cabd4ab478fc53570fd20fa6117a961da7216d1bc44ca5e229572b37ee3",
+  "intent": "Smooth one controlled growth rather than periodic unconstrained flames"
+}

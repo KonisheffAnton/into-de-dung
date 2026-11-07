@@ -1,0 +1,358 @@
+{
+  "source": "fire29-rounded-layered-flame-tips.png",
+  "frames": [
+    {
+      "file": "frame-00.png",
+      "atlas_rect": {
+        "x": 0,
+        "y": 0,
+        "w": 256,
+        "h": 256
+      },
+      "rgba_sha256": "a2bbf3656ad597159f66c3ea67314251f759280e4f903998eca84750f360e1bf",
+      "duration_ms": 50
+    },
+    {
+      "file": "frame-01.png",
+      "atlas_rect": {
+        "x": 256,
+        "y": 0,
+        "w": 256,
+        "h": 256
+      },
+      "rgba_sha256": "7a1ac002a566648d2dc6a00186ec7b034a226d18e8151498c408d5123074855d",
+      "duration_ms": 50
+    },
+    {
+      "file": "frame-02.png",
+      "atlas_rect": {
+        "x": 512,
+        "y": 0,
+        "w": 256,
+        "h": 256
+      },
+      "rgba_sha256": "fb8e9ca8dc0562d8b16845e190d4dd52381b56640c4f1c74b9ff10667302d82e",
+      "duration_ms": 50
+    },
+    {
+      "file": "frame-03.png",
+      "atlas_rect": {
+        "x": 768,
+        "y": 0,
+        "w": 256,
+        "h": 256
+      },
+      "rgba_sha256": "72c23da8ef7294122a70bbad1c5c77549bf4891d5c5b59a20d6829133b65ed80",
+      "duration_ms": 50
+    },
+    {
+      "file": "frame-04.png",
+      "atlas_rect": {
+        "x": 1024,
+        "y": 0,
+        "w": 256,
+        "h": 256
+      },
+      "rgba_sha256": "e396765a32380f43f765c0a0ed288c36dfbfff4786884502514e47fc0851aa3f",
+      "duration_ms": 50
+    },
+    {
+      "file": "frame-05.png",
+      "atlas_rect": {
+        "x": 1280,
+        "y": 0,
+        "w": 256,
+        "h": 256
+      },
+      "rgba_sha256": "2b5d05d146ede721298250c9a78f9747ba47b3877da49c0fd723ab652147cb3c",
+      "duration_ms": 50
+    },
+    {
+      "file": "frame-06.png",
+      "atlas_rect": {
+        "x": 0,
+        "y": 256,
+        "w": 256,
+        "h": 256
+      },
+      "rgba_sha256": "5aa49e6eba2a1252da827aa857367d357ea5abbefc11cc5f2e3437ed2d160786",
+      "duration_ms": 50
+    },
+    {
+      "file": "frame-07.png",
+      "atlas_rect": {
+        "x": 256,
+        "y": 256,
+        "w": 256,
+        "h": 256
+      },
+      "rgba_sha256": "6359b883dd9a55c90b2ec5f7afb2934fa5202e6b5e9efba7b26ef541a6dfaa1b",
+      "duration_ms": 50
+    },
+    {
+      "file": "frame-08.png",
+      "atlas_rect": {
+        "x": 512,
+        "y": 256,
+        "w": 256,
+        "h": 256
+      },
+      "rgba_sha256": "383de0a402530c80e85625bc60c1949620f0e65a8565098a5f526aaf6c788b7a",
+      "duration_ms": 50
+    },
+    {
+      "file": "frame-09.png",
+      "atlas_rect": {
+        "x": 768,
+        "y": 256,
+        "w": 256,
+        "h": 256
+      },
+      "rgba_sha256": "c0d5a9baee85e98e2bd7040c2a7ca4d41fde0c7f8665993a476c5a9027bad1d2",
+      "duration_ms": 50
+    },
+    {
+      "file": "frame-10.png",
+      "atlas_rect": {
+        "x": 1024,
+        "y": 256,
+        "w": 256,
+        "h": 256
+      },
+      "rgba_sha256": "7e72a7794df396f9da1c1ea2d5dfcc713e1ab7fccec7eb2fab00b82ee79effe4",
+      "duration_ms": 50
+    },
+    {
+      "file": "frame-11.png",
+      "atlas_rect": {
+        "x": 1280,
+        "y": 256,
+        "w": 256,
+        "h": 256
+      },
+      "rgba_sha256": "498701d6f650b769ae2db085531f1f4d18ae0f8cc4530b16557e81d16e790571",
+      "duration_ms": 50
+    },
+    {
+      "file": "frame-12.png",
+      "atlas_rect": {
+        "x": 0,
+        "y": 512,
+        "w": 256,
+        "h": 256
+      },
+      "rgba_sha256": "bcc8da18a374cc75c4011a7b0ac922e2e7e40e94bb44c4c7d86be48f5d8c0e27",
+      "duration_ms": 50
+    },
+    {
+      "file": "frame-13.png",
+      "atlas_rect": {
+        "x": 256,
+        "y": 512,
+        "w": 256,
+        "h": 256
+      },
+      "rgba_sha256": "351d32c096d2c97612bca3f19e0ba5bc755e660eb8027169fee91c48ef95c088",
+      "duration_ms": 50
+    },
+    {
+      "file": "frame-14.png",
+      "atlas_rect": {
+        "x": 512,
+        "y": 512,
+        "w": 256,
+        "h": 256
+      },
+      "rgba_sha256": "a733ae3a2460d19c8918867dc5dba4ccbf39926bab7f510be78e0812bdd60323",
+      "duration_ms": 50
+    },
+    {
+      "file": "frame-15.png",
+      "atlas_rect": {
+        "x": 768,
+        "y": 512,
+        "w": 256,
+        "h": 256
+      },
+      "rgba_sha256": "af799cb1faa3b725b76f84e0a4b438e3781ce451a7d0b16821588dd284af4df2",
+      "duration_ms": 50
+    },
+    {
+      "file": "frame-16.png",
+      "atlas_rect": {
+        "x": 1024,
+        "y": 512,
+        "w": 256,
+        "h": 256
+      },
+      "rgba_sha256": "7682f65a59d8028032218fbe1f999ac84e18f4aa1f4cd58e36a4bfca3f396613",
+      "duration_ms": 50
+    },
+    {
+      "file": "frame-17.png",
+      "atlas_rect": {
+        "x": 1280,
+        "y": 512,
+        "w": 256,
+        "h": 256
+      },
+      "rgba_sha256": "50022fd0627914c0845137a16f994a667caee273c8045642fc9b733c355d0bbb",
+      "duration_ms": 50
+    },
+    {
+      "file": "frame-18.png",
+      "atlas_rect": {
+        "x": 0,
+        "y": 768,
+        "w": 256,
+        "h": 256
+      },
+      "rgba_sha256": "cbdb674edddc571215ae7c331e553feca852e184c53fd51ab15e54ca6b3b26de",
+      "duration_ms": 50
+    },
+    {
+      "file": "frame-19.png",
+      "atlas_rect": {
+        "x": 256,
+        "y": 768,
+        "w": 256,
+        "h": 256
+      },
+      "rgba_sha256": "f34701be083432f55e14c3ae51ff6b7f3fad9e04d848c9bd89433c8fcd19b0b0",
+      "duration_ms": 50
+    },
+    {
+      "file": "frame-20.png",
+      "atlas_rect": {
+        "x": 512,
+        "y": 768,
+        "w": 256,
+        "h": 256
+      },
+      "rgba_sha256": "8ebd93345e3f4e99dfafacd7ebde50b084e2ac519e6dc903ac00b5b010720862",
+      "duration_ms": 50
+    },
+    {
+      "file": "frame-21.png",
+      "atlas_rect": {
+        "x": 768,
+        "y": 768,
+        "w": 256,
+        "h": 256
+      },
+      "rgba_sha256": "871ad4cb7a49f3e737f0a786de47e53f33cfca874386f5efaf826a8503dbb6ac",
+      "duration_ms": 50
+    },
+    {
+      "file": "frame-22.png",
+      "atlas_rect": {
+        "x": 1024,
+        "y": 768,
+        "w": 256,
+        "h": 256
+      },
+      "rgba_sha256": "9123117058221ca972503ffa68f249ca0daa42c77751077b2e4060bc2c9487c2",
+      "duration_ms": 50
+    },
+    {
+      "file": "frame-23.png",
+      "atlas_rect": {
+        "x": 1280,
+        "y": 768,
+        "w": 256,
+        "h": 256
+      },
+      "rgba_sha256": "fb72c14ba567552255f5f3ed0c29e14ecfd2545d4124086fdb8471a9078aa94c",
+      "duration_ms": 50
+    },
+    {
+      "file": "frame-24.png",
+      "atlas_rect": {
+        "x": 0,
+        "y": 1024,
+        "w": 256,
+        "h": 256
+      },
+      "rgba_sha256": "ad74f567bd7bd6821597835a523150cfc736e6c8722f7efbc7d629149ce77165",
+      "duration_ms": 50
+    },
+    {
+      "file": "frame-25.png",
+      "atlas_rect": {
+        "x": 256,
+        "y": 1024,
+        "w": 256,
+        "h": 256
+      },
+      "rgba_sha256": "4f59f66c5c935ab28dc6eb88797d3af87337353c70c71b6d9438b5b377404dcc",
+      "duration_ms": 50
+    },
+    {
+      "file": "frame-26.png",
+      "atlas_rect": {
+        "x": 512,
+        "y": 1024,
+        "w": 256,
+        "h": 256
+      },
+      "rgba_sha256": "32fb11795a87743e153c57b85e1304b4a778318ba813f5a07cc3c423e08accfb",
+      "duration_ms": 50
+    },
+    {
+      "file": "frame-27.png",
+      "atlas_rect": {
+        "x": 768,
+        "y": 1024,
+        "w": 256,
+        "h": 256
+      },
+      "rgba_sha256": "4121e717a2c98e2f1566788a4dfa5a9add1a3654cc22d3ec9799ea745fd139e6",
+      "duration_ms": 50
+    },
+    {
+      "file": "frame-28.png",
+      "atlas_rect": {
+        "x": 1024,
+        "y": 1024,
+        "w": 256,
+        "h": 256
+      },
+      "rgba_sha256": "5c06437b83fe7f01cba7b7702907699eb15220f3440855d1d439e1eaa7200e6a",
+      "duration_ms": 50
+    },
+    {
+      "file": "frame-29.png",
+      "atlas_rect": {
+        "x": 1280,
+        "y": 1024,
+        "w": 256,
+        "h": 256
+      },
+      "rgba_sha256": "b96e447eea8d5dee24434fe1298773c1e48dd05829cd12ef9234ba0cf7e9591b",
+      "duration_ms": 50
+    },
+    {
+      "file": "frame-30.png",
+      "atlas_rect": {
+        "x": 0,
+        "y": 1280,
+        "w": 256,
+        "h": 256
+      },
+      "rgba_sha256": "486ca183ae3442ad14b5f5544d7ca60e9f4909a1066ce11461a2967913ddffb5",
+      "duration_ms": 50
+    },
+    {
+      "file": "frame-31.png",
+      "atlas_rect": {
+        "x": 256,
+        "y": 1280,
+        "w": 256,
+        "h": 256
+      },
+      "rgba_sha256": "7e6cdc107f5a586f54f4322c9000e615a07131640fd16cfba8f13f3926e282be",
+      "duration_ms": 50
+    }
+  ],
+  "pose_pixels_unchanged": true
+}

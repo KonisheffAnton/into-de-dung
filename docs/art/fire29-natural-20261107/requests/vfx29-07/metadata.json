@@ -1,0 +1,10 @@
+{
+  "endpoint": "vfx",
+  "request_sha256": "5fdf7391f58f2b1f5ec9afddabbea070035cb154313f9228443854035444ef25",
+  "public_request_sha256": "af92c0606a99ff65f32c7fe0665cfdc5b9bbfba3a3cf28ba06aeb085600ae4fe",
+  "continuation_sha256": "f67b67576539cca25dd796ebf9509c1b9921a265af4eecf552711755e44c0aa7",
+  "continuation_external": true,
+  "source_job": "vfx29-06",
+  "effect_id": "9938bfd6-744b-436e-9cd8-fdba11a01e77",
+  "intent": "Complete absent contour motion using three broad low rooted textured sheets and measured source rim coordinates"
+}

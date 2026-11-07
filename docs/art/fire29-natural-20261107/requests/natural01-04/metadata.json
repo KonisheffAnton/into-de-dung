@@ -1,0 +1,25 @@
+{
+  "endpoint": "animate-with-text",
+  "input": "inputs/legacy01-black.png",
+  "source_input": "inputs/fire29-01-clean-hidden.png",
+  "source_crop_xyxy": [
+    25,
+    10,
+    89,
+    74
+  ],
+  "masks": [
+    "inputs/legacy01-mask0.png",
+    "inputs/legacy01-mask1.png",
+    "inputs/legacy01-mask2.png",
+    "inputs/legacy01-mask3.png"
+  ],
+  "native_crop_xyxy": [
+    584,
+    235,
+    648,
+    299
+  ],
+  "request_sha256": "11405b4b0dc125d2769fa51efb20211bb0934b1934713877433fd0c7e18416d5",
+  "intent": "Opaque black static input allows visible new paint; background removal must also be PixelLab, no local matte editing."
+}

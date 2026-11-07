@@ -1,0 +1,10 @@
+{
+  "endpoint": "vfx",
+  "request_sha256": "13f2938b3cc3321965f154c2e77278f0c3c5702bc319e4b09d208b852b2e9f36",
+  "public_request_sha256": "c4d3fedd307f2914b9a0c983ed2833c4f09187e12d6eeea924a340c13e178f1a",
+  "continuation_sha256": "f67b67576539cca25dd796ebf9509c1b9921a265af4eecf552711755e44c0aa7",
+  "continuation_external": true,
+  "source_job": "vfx29-01",
+  "effect_id": "9938bfd6-744b-436e-9cd8-fdba11a01e77",
+  "intent": "User rejected continuous rim; request distinct fixed-root regrowth and subtle internal flames"
+}

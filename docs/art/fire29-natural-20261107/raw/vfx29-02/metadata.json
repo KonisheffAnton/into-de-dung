@@ -1,0 +1,66 @@
+{
+  "fps": 16,
+  "kind": "change",
+  "loop": true,
+  "name": "Fire29 low tapered tongues",
+  "files": {
+    "fire29-low-tapered-tongues.gif": "https://api.pixellab.ai/mcp/pixel-tools/a5173b6c-cbfa-47ee-a3d2-2b0473cdd612/fire29-low-tapered-tongues.gif",
+    "fire29-low-tapered-tongues.png": "https://api.pixellab.ai/mcp/pixel-tools/a5173b6c-cbfa-47ee-a3d2-2b0473cdd612/fire29-low-tapered-tongues.png",
+    "fire29-low-tapered-tongues.json": "https://api.pixellab.ai/mcp/pixel-tools/a5173b6c-cbfa-47ee-a3d2-2b0473cdd612/fire29-low-tapered-tongues.json"
+  },
+  "parts": [
+    "painted_tongues",
+    "inner_tongues"
+  ],
+  "anchor": {
+    "x": 128,
+    "y": 217,
+    "kind": "feet"
+  },
+  "artist": "pro",
+  "canvas": {
+    "h": 256,
+    "w": 256
+  },
+  "frames": 32,
+  "message": "Replaced the fringe with seven separate, textured flame tongues whose roots stay fixed as their tips grow and recede at different phases. Added three quieter tongues on inner fire strokes, keeping the tile unchanged and preserving the seamless 32-frame, 16 fps loop.",
+  "edit_url": "https://pixellab.ai/create-vfx?effect=9938bfd6-744b-436e-9cd8-fdba11a01e77",
+  "effect_id": "9938bfd6-744b-436e-9cd8-fdba11a01e77",
+  "gif_exact": false,
+  "result_id": "a5173b6c-cbfa-47ee-a3d2-2b0473cdd612",
+  "billing_usage": {
+    "usd": 0.0,
+    "type": "generations",
+    "generations": 7.0
+  },
+  "generation_id": "811dd77a-2e82-4ede-b8a2-a02d0c82b236",
+  "billing_charged": true,
+  "generation_mode": "vfx",
+  "quoted_generations": 7,
+  "job_id": "becdf2cf-0c73-46a9-9516-3979626d02a0",
+  "response_sha256": "a435fbca6e664aff9474c8b04925413aa284e569bc43cb0e28bf9abfac9fb4ca",
+  "downloads": [
+    {
+      "name": "fire29-low-tapered-tongues.gif",
+      "url": "https://api.pixellab.ai/mcp/pixel-tools/a5173b6c-cbfa-47ee-a3d2-2b0473cdd612/fire29-low-tapered-tongues.gif",
+      "sha256": "287312da6d2248764d2de4e13ef41ca8b6c4e130ae1c7ae400b2ed527937c321",
+      "bytes": 689935
+    },
+    {
+      "name": "fire29-low-tapered-tongues.png",
+      "url": "https://api.pixellab.ai/mcp/pixel-tools/a5173b6c-cbfa-47ee-a3d2-2b0473cdd612/fire29-low-tapered-tongues.png",
+      "sha256": "fca68baa13ce132c830623559f165e1046a381312672dfbfb7e7f6f231303f90",
+      "bytes": 368859
+    },
+    {
+      "name": "fire29-low-tapered-tongues.json",
+      "url": "https://api.pixellab.ai/mcp/pixel-tools/a5173b6c-cbfa-47ee-a3d2-2b0473cdd612/fire29-low-tapered-tongues.json",
+      "sha256": "fede42cde43a1f758b5f123d1070ce8765fc02189ee4d1685e300c5078bc8952",
+      "bytes": 12659
+    }
+  ],
+  "usage": {
+    "type": "generations",
+    "generations": 7.0
+  }
+}

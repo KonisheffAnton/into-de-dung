@@ -1,0 +1,28 @@
+{
+  "capture": "test_reports\\fire29-natural-20261107\\vfx10-field",
+  "selection_sha256": "4fb0388c401090be34d99bd2f06bc95cb38cd83e8d76dd1fdb8837ea75ce96e4",
+  "exports": [
+    {
+      "file": "fire29-vfx10-native.webp",
+      "tile_size": [
+        128,
+        96
+      ],
+      "frames": 32,
+      "duration_ms": 1600,
+      "sha256": "2964a7de038a9152a02218f936ea6a6beaafc6da62fd1d8a80b1ead8aeaa7d72",
+      "decoded_rgba_and_timing_equal_gpu": true
+    },
+    {
+      "file": "fire29-vfx10-neighbours.webp",
+      "tile_size": [
+        384,
+        288
+      ],
+      "frames": 32,
+      "duration_ms": 1600,
+      "sha256": "6a9957ea9a195923b16dcda1872eb76d83107081e2b0202b4a6a5bfe8eff70b2",
+      "decoded_rgba_and_timing_equal_gpu": true
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "endpoint": "vfx",
+  "input": "inputs/vfx-tile-start.png",
+  "source_input": "docs/art/fire29-growth-20261107/inputs/start.png",
+  "request_sha256": "eb70040059d8b32a49b3f95d67630e937e48249977ac32f9ea23015aacd1335c",
+  "intent": "PixelLab dedicated effects-artist control; full original tile held static, all rendered outputs supplied by provider."
+}

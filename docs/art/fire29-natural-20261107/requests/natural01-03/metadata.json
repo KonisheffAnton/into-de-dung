@@ -1,0 +1,25 @@
+{
+  "endpoint": "animate-with-text",
+  "input": "inputs/legacy01-start.png",
+  "source_input": "inputs/fire29-01-clean-hidden.png",
+  "source_crop_xyxy": [
+    25,
+    10,
+    89,
+    74
+  ],
+  "masks": [
+    "inputs/legacy01-mask0.png",
+    "inputs/legacy01-mask1.png",
+    "inputs/legacy01-mask2.png",
+    "inputs/legacy01-mask3.png"
+  ],
+  "native_crop_xyxy": [
+    584,
+    235,
+    648,
+    299
+  ],
+  "request_sha256": "b50ab553ca9befeb59fe5d51abba6b8501d553a991e77d6020ce501b93128e48",
+  "intent": "Per-frame growth masks with frozen base, no output edits"
+}

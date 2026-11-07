@@ -1,0 +1,12 @@
+{
+  "endpoint": "interpolation-v2",
+  "start": "inputs/fire29-14-left-clean.png",
+  "end": "raw/keypose14-01/00.png",
+  "native_crop_xyxy": [
+    303,
+    415,
+    431,
+    543
+  ],
+  "request_sha256": "13d6212dbea060005e88aee75e85f0151aac08c3d5e3d10877f526cc088b37d0"
+}

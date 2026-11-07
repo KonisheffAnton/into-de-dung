@@ -1,0 +1,10 @@
+{
+  "endpoint": "vfx",
+  "request_sha256": "5413d54c65fdd69129c64d6343d0c7614d28bb10105bbb6cdaea2ef871bc2744",
+  "public_request_sha256": "67c46ba7e620895cbef023be9957e3067acbbbafaa7b8d6cd78145be8ef926e4",
+  "continuation_sha256": "f67b67576539cca25dd796ebf9509c1b9921a265af4eecf552711755e44c0aa7",
+  "continuation_external": true,
+  "source_job": "vfx29-05",
+  "effect_id": "9938bfd6-744b-436e-9cd8-fdba11a01e77",
+  "intent": "Replace repetitive pasted crowns with connected growth of original painterly fire streaks; user prioritizes natural readable motion"
+}
