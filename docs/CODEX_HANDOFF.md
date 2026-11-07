@@ -1,37 +1,35 @@
-# Передача — 2026-11-07: урон над целью, читаемые полосы
+# Передача — 2026-11-07: тоньше полосы, чёрные цифры и рамка
 
-D:/Games/into-de-dung; main; baseab78ddbad1b259126d4e155d75014cbf47c7ea76.
-По U общий урон перенесён над получателем: target для атаки, контратаки,
-ловушки, DOT, self и внешнего мага, независимо от наличия/смерти автора.
-Сумма actual HP+расход брони+щит, контакт без задержки, after и очередь прежние.
-Полосы48×12: броня металлическая, HP зелёное; текущие числа Jersey20 внутри,
-включая дробь/ноль. Прогноз/равновесие ниже; данные только опубликованные.
-Контракт: BATTLE_PRESENTATION_REWORK; ARCHITECTURE,
-BATTLE_VISUAL_SCENE_CONTRACT, ENVIRONMENT_HAZARDS_V1 и TESTING обновлены.
+D:/Games/into-de-dung; main; basef8dd00269bf2f5b1b91607b3ff09a24d6149ed7c.
+По U высота HP/брони12→11px (примерно10%), ширина48 прежняя.
+Цифры Jersey20 чёрные, тонкая чёрная рамка1px внутри внешних границ.
+Пустая подложка приглушённо осветлена для читаемости нуля; заполнение
+и прогноз идут внутри рамки46×9, поэтому малый остаток не скрыт краем.
+HP зелёное, броня металлическая. Общий урон над получателем и тайминг прежние.
+Владелец: docs/BATTLE_PRESENTATION_REWORK.md; ARCHITECTURE/TESTING обновлены.
 
-Свежий isolated import/startup PASS; contact327/0, mage353/0,
-damage_feedback63/0, ranged238/0, attack_styles601/0, consequences2096/0,
-environment364/0, reactions1426/0, owned64/0, hazards_ui118/0,
-unit_visual_contract45/0, visual_scene_contract106/0.
-presentation_status76/2: обе ошибки размеров поля воспроизведены на base66/2;
-10 новых проверок полос PASS. Launcher14/1/0, не полный PASS.
-GPU цифры/полосы просмотрены; независимое ревью APPROVE.
-Отчёт test_reports/recipient-vitals-20261107/; runner demo-4f39a64ee7b841d5b5f5999f5676e7d4.
-Первый импорт остановился на TTF preload; lazy runtime load исправлен,
-чистый импорт повторён. Full/core, ручные F5/движение/zoom/DPI/performance
-не запускались. Прежние огонь29/шипы/HUD APPROVE не считать повторёнными.
+Свежие isolated import/startup PASS; unit_visual_contract45/0, contact327/0.
+presentation_status84/2: только прежние ошибки размеров поля, ранее
+воспроизведённые на base66/2; новые проверки цифр/рамок PASS.
+Launcher4/1/0, не полный PASS. GPU общий удар/дробные полосы просмотрены.
+Независимое ревью APPROVE. Отчёт test_reports/vitals-bar-trim-20261107/;
+runner demo-7135743558574b0790abc72da7dd1a91.
+Первый импорт прервался на TTF; повтор без смены кода PASS. Причина
+не установлена; прежняя связь с preload не доказана. Затем исправлена
+заливка под рамкой и повторены проверки. Full/core, ручные F5/движение/
+zoom/DPI/performance не запускались; старые проверки не считать повторёнными.
 
-Далее — отзыв U о цифре над целью и полосах в текущем бою; новые срезы
-без запроса не начинать. Принятый огонь29 natural02-middle сохранён:
+Далее — отзыв U о полосах в текущем бою; новые срезы без запроса не начинать.
+Принятый огонь29 natural02-middle сохранён:
 docs/art/fire29-natural-integration-20261107/, ART_DIRECTION.
 Остаток: стыки/посадка/читаемость, край стрелы4 Лучницы, performance;
-presentation_status76/2, presentation_foundation141/2, turn_forecast_ui26/3, HUD/Колода.
+presentation_status84/2, presentation_foundation141/2, turn_forecast_ui26/3, HUD/Колода.
 Чужие33 файла: scenes/demo/main_menu.tscn и docs/art/battlefield-reference-03-20261017/;
 не reset/stage/commit. Core/preview/queue/RNG/save/frozen сохранять;
 5 классов F5, PLAYER вправо/ENEMY влево и возврат; каталоги1–3 не мигрировать.
 Один Godot runner, isolated project; без root import, служб/драйверов,
 принудительного фокуса, push/sidebar tasks/расписаний.
-[Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261107-11.md), [HISTORY](HISTORY.md).
+[Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261107-12.md), [HISTORY](HISTORY.md).
 Завершение: проверки, локальный Conventional Commit, короткий HANDOFF;
 прежний побайтно отдельно+HISTORY. В финале/при блокере предложить новый чат
 и полный промпт: HEAD, результат, docs/artifacts, остаток, ограничения,

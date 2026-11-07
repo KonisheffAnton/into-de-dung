@@ -73,13 +73,14 @@ func has_color_pixel(image: Image, point: Vector2, expected: Color, tolerance: f
 				return true
 	return false
 
-func has_bright_text_pixel(image: Image, point: Vector2) -> bool:
+func has_black_text_pixel(image: Image, point: Vector2) -> bool:
 	var center := Vector2i(roundi(point.x), roundi(point.y))
-	for y: int in range(center.y - 5, center.y + 6):
+	# Центральная область не захватывает чёрную рамку полосы.
+	for y: int in range(center.y - 2, center.y + 3):
 		for x: int in range(center.x - 10, center.x + 11):
 			if x < 0 or y < 0 or x >= image.get_width() or y >= image.get_height(): continue
 			var pixel := image.get_pixel(x, y)
-			if pixel.r > 0.90 and pixel.g > 0.90 and pixel.b > 0.90: return true
+			if pixel.r < 0.04 and pixel.g < 0.04 and pixel.b < 0.04: return true
 	return false
 
 func run() -> void:
@@ -146,11 +147,15 @@ func run() -> void:
 		var hp_fill := visual.get_global_transform_with_canvas() * (bar_origin + Vector2(-23, 19) * bar_factor)
 		var armor_empty := visual.get_global_transform_with_canvas() * (bar_origin + Vector2(0, 6) * bar_factor)
 		check(has_color_pixel(unit_image, hp_fill, Color("48b85d")), "low fractional HP keeps a visible green fill")
-		check(has_color_pixel(unit_image, armor_empty, Color("111820")), "zero armor leaves the metallic track empty")
+		check(has_color_pixel(unit_image, armor_empty, Color("707b86"), 0.04), "zero armor leaves a muted readable empty track")
 		var hp_text_center := visual.get_global_transform_with_canvas() * (bar_origin + Vector2(0, 21) * bar_factor)
 		var armor_text_center := visual.get_global_transform_with_canvas() * (bar_origin + Vector2(0, 7) * bar_factor)
-		check(has_bright_text_pixel(unit_image, hp_text_center), "fractional HP amount is visibly rendered centered inside its bar")
-		check(has_bright_text_pixel(unit_image, armor_text_center), "zero armor amount remains visible centered inside the empty track")
+		check(has_black_text_pixel(unit_image, hp_text_center), "fractional HP amount is black inside its bar")
+		check(has_black_text_pixel(unit_image, armor_text_center), "zero armor amount is black inside the empty track")
+		for bar_y: float in [1.0, 15.0]:
+			for local_point: Vector2 in [Vector2(-24, bar_y + 5), Vector2(23, bar_y + 5), Vector2(-16, bar_y), Vector2(-16, bar_y + 10)]:
+				var edge := visual.get_global_transform_with_canvas() * (bar_origin + local_point * bar_factor)
+				check(has_color_pixel(unit_image, edge, Color.BLACK, 0.04), "thin black frame encloses each vital bar")
 		await capture("fractional-low-hp-zero-armor")
 		visual.armor_values["current"] = 0.5
 		visual.unit.faction = Faction.Type.ENEMY
@@ -162,7 +167,7 @@ func run() -> void:
 		var armor_fill := visual.get_global_transform_with_canvas() * (bar_origin + Vector2(-23, 6) * bar_factor)
 		armor_text_center = visual.get_global_transform_with_canvas() * (bar_origin + Vector2(0, 7) * bar_factor)
 		check(has_color_pixel(unit_image, armor_fill, Color("aab4be")), "enemy armor bar renders metallic gray at fractional low value")
-		check(has_bright_text_pixel(unit_image, armor_text_center), "fractional enemy armor amount remains visible inside its bar")
+		check(has_black_text_pixel(unit_image, armor_text_center), "fractional enemy armor amount is black inside its bar")
 		await capture("enemy-fractional-vitals")
 		visual.unit.hp = 20.0
 		visual.armor_values["current"] = 8.0

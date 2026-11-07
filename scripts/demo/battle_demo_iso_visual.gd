@@ -783,24 +783,27 @@ func _draw_unit() -> void:
 		var expected_alive := bool(forecast_after.get("alive", unit.alive))
 		var balance := BattleBalanceDisplay.ratio(unit.balance, balance_max)
 		const BAR_WIDTH: float = 48.0
-		const BAR_HEIGHT: float = 12.0
+		const BAR_HEIGHT: float = 11.0
 		const BAR_LEFT: float = -24.0
+		const FILL_LEFT: float = BAR_LEFT + 1.0
+		const FILL_WIDTH: float = BAR_WIDTH - 2.0
+		const FILL_HEIGHT: float = BAR_HEIGHT - 2.0
 		const HP_Y: float = 15.0
 		const ARMOR_Y: float = 1.0
 		var hp_text := BattleEventText.amount_text(unit.hp)
-		draw_rect(Rect2(BAR_LEFT, HP_Y, BAR_WIDTH, BAR_HEIGHT), Color("101820"))
-		draw_rect(Rect2(BAR_LEFT, HP_Y, BAR_WIDTH * hp, BAR_HEIGHT), Color("48b85d"))
+		draw_rect(Rect2(BAR_LEFT, HP_Y, BAR_WIDTH, BAR_HEIGHT), Color("708a77"))
+		draw_rect(Rect2(FILL_LEFT, HP_Y + 1, FILL_WIDTH * hp, FILL_HEIGHT), Color("48b85d"))
 		if not is_equal_approx(expected_hp, unit.hp):
 			var expected_ratio := clampf(expected_hp / hp_max if hp_max > 0 else 0.0, 0.0, 1.0)
 			var current_ratio := hp
 			var segment_start := minf(current_ratio, expected_ratio)
 			var segment_width := absf(expected_ratio - current_ratio)
-			draw_rect(Rect2(BAR_LEFT + BAR_WIDTH * segment_start, HP_Y, BAR_WIDTH * segment_width, BAR_HEIGHT), Color("f29b9b") if expected_hp < unit.hp else Color("48b85d"))
+			draw_rect(Rect2(FILL_LEFT + FILL_WIDTH * segment_start, HP_Y + 1, FILL_WIDTH * segment_width, FILL_HEIGHT), Color("f29b9b") if expected_hp < unit.hp else Color("48b85d"))
 			draw_string(ThemeDB.fallback_font, Vector2(-32, 56), "%s→%s" % [hp_text, BattleEventText.amount_text(expected_hp)], HORIZONTAL_ALIGNMENT_CENTER, 64, 9, Color("f29b9b") if expected_hp < unit.hp else Color("48b85d"))
-			draw_line(Vector2(BAR_LEFT + BAR_WIDTH * expected_ratio, HP_Y - 1), Vector2(BAR_LEFT + BAR_WIDTH * expected_ratio, HP_Y + BAR_HEIGHT + 1), Color.WHITE, 1)
-		# Контрастная обводка держит цифры читаемыми при любом заполнении, включая пустую полосу.
-		draw_string_outline(_combat_number_font, Vector2(BAR_LEFT, HP_Y + 11), hp_text, HORIZONTAL_ALIGNMENT_CENTER, BAR_WIDTH, 16, 1, Color("17251b"))
-		draw_string(_combat_number_font, Vector2(BAR_LEFT, HP_Y + 11), hp_text, HORIZONTAL_ALIGNMENT_CENTER, BAR_WIDTH, 16, Color("f5f7f2"))
+			draw_line(Vector2(FILL_LEFT + FILL_WIDTH * expected_ratio, HP_Y - 1), Vector2(FILL_LEFT + FILL_WIDTH * expected_ratio, HP_Y + BAR_HEIGHT + 1), Color.WHITE, 1)
+		# Приглушённая подложка оставляет чёрные цифры читаемыми даже при нулевом запасе.
+		draw_string(_combat_number_font, Vector2(BAR_LEFT, HP_Y + 10), hp_text, HORIZONTAL_ALIGNMENT_CENTER, BAR_WIDTH, 16, Color.BLACK)
+		draw_rect(Rect2(BAR_LEFT + 0.5, HP_Y + 0.5, BAR_WIDTH - 1, BAR_HEIGHT - 1), Color.BLACK, false, 1.0)
 		if not expected_alive: draw_string(ThemeDB.fallback_font, Vector2(-18, 67), "ПОГИБ", HORIZONTAL_ALIGNMENT_CENTER, 36, 8, Color("f29b9b"))
 		# Runtime хранит нарушение; полоса показывает оставшуюся устойчивость даже без осмотра.
 		draw_rect(Rect2(BAR_LEFT, 29, BAR_WIDTH, 1), Color("0f1d28"))
@@ -811,16 +814,17 @@ func _draw_unit() -> void:
 			var expected := float(forecast_after.get("armor_current", current))
 			var armor_ratio := clampf(current / maximum, 0.0, 1.0)
 			var armor_text := BattleEventText.amount_text(current)
-			draw_rect(Rect2(BAR_LEFT, ARMOR_Y, BAR_WIDTH, BAR_HEIGHT), Color("111820"))
-			var armor_fill_width := BAR_WIDTH * armor_ratio
-			draw_rect(Rect2(BAR_LEFT, ARMOR_Y, armor_fill_width, BAR_HEIGHT), Color("aab4be"))
-			draw_rect(Rect2(BAR_LEFT, ARMOR_Y, armor_fill_width, BAR_HEIGHT * 0.25), Color("d5dce2"))
-			draw_rect(Rect2(BAR_LEFT, ARMOR_Y + BAR_HEIGHT * 0.25, armor_fill_width, BAR_HEIGHT * 0.75), Color("8b96a1"))
+			draw_rect(Rect2(BAR_LEFT, ARMOR_Y, BAR_WIDTH, BAR_HEIGHT), Color("707b86"))
+			# Рамка занимает отдельный пиксель: даже малый запас не прячется под левым краем.
+			var armor_fill_width := FILL_WIDTH * armor_ratio
+			draw_rect(Rect2(FILL_LEFT, ARMOR_Y + 1, armor_fill_width, FILL_HEIGHT), Color("aab4be"))
+			draw_rect(Rect2(FILL_LEFT, ARMOR_Y + 1, armor_fill_width, FILL_HEIGHT * 0.25), Color("d5dce2"))
+			draw_rect(Rect2(FILL_LEFT, ARMOR_Y + 1 + FILL_HEIGHT * 0.25, armor_fill_width, FILL_HEIGHT * 0.75), Color("8b96a1"))
 			if expected != current:
-				var mark := BAR_LEFT + BAR_WIDTH * clampf(expected / maximum, 0.0, 1.0)
+				var mark := FILL_LEFT + FILL_WIDTH * clampf(expected / maximum, 0.0, 1.0)
 				draw_line(Vector2(mark, ARMOR_Y - 1), Vector2(mark, ARMOR_Y + BAR_HEIGHT + 1), Color.WHITE, 1)
-			draw_string_outline(_combat_number_font, Vector2(BAR_LEFT, ARMOR_Y + 11), armor_text, HORIZONTAL_ALIGNMENT_CENTER, BAR_WIDTH, 16, 1, Color("202830"))
-			draw_string(_combat_number_font, Vector2(BAR_LEFT, ARMOR_Y + 11), armor_text, HORIZONTAL_ALIGNMENT_CENTER, BAR_WIDTH, 16, Color("f5f7fa"))
+			draw_string(_combat_number_font, Vector2(BAR_LEFT, ARMOR_Y + 10), armor_text, HORIZONTAL_ALIGNMENT_CENTER, BAR_WIDTH, 16, Color.BLACK)
+			draw_rect(Rect2(BAR_LEFT + 0.5, ARMOR_Y + 0.5, BAR_WIDTH - 1, BAR_HEIGHT - 1), Color.BLACK, false, 1.0)
 	draw_set_transform(Vector2.ZERO)
 
 func _draw_unit_highlights(canvas: Node2D) -> void:

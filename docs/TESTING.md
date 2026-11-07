@@ -313,6 +313,9 @@ skip/cancel/replay, resize, ресурсы/RNG. Ручная оценка тем
 GPU проверяет зелёное HP/металлическую броню, дробные/нулевые значения,
 обе команды, прогноз и прежние статусные значки/равновесие;
 снимки — `presentation-status-screenshots/`. Это не ручная F5/DPI-приёмка.
+Для локальной толщины/цвета цифр/рамки достаточно `--render-check --only
+presentation_status presentation_contact unit_visual_contract --screen 0`.
+Пиксельные проверки различают чёрные цифры внутри и чёрную рамку с четырёх сторон.
 
 Перки экипировки/ножи (2026-10-18): `--check --only equipment_attacks hero_hub
 hero_hub_playthrough counterattack action_event_validator forecast_definition_copy
