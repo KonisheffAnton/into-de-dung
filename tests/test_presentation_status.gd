@@ -84,6 +84,7 @@ func has_black_text_pixel(image: Image, point: Vector2) -> bool:
 	return false
 
 func run() -> void:
+	if not captures.is_empty(): DirAccess.make_dir_recursive_absolute(captures)
 	var poison_entries := BattleStatusPresentation.entries({"elemental": {"poison_stacks": 2, "poison_ticks": 3}})
 	check(poison_entries.size() == 1 and poison_entries[0].id == "poison" and poison_entries[0].stacks == 2 and poison_entries[0].remaining == 3, "poison HUD entry carries actual stacks and ticks")
 	check(BattleStatusPresentation.event_feedback({"kind": &"elemental_changed", "reason": &"poison_tick", "before": {"poison_stacks": 1, "poison_ticks": 1}, "after": {"poison_stacks": 0, "poison_ticks": 0}}) == "Тик: Яд · снято", "poison tick feedback reports final expiry")
@@ -315,6 +316,7 @@ func ui_case(hub: bool) -> void:
 		demo = (load("res://scenes/demo/core_reactions_battle.tscn") as PackedScene).instantiate() as BattleDemo
 		demo.deployment_enabled = false
 	viewport.add_child(demo)
+	demo.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	demo.set_process(false)
 	PlayerTurnFixture.enter_player_turn(demo)
 	var s := demo.session as BattleCoreReactionsSession
@@ -362,5 +364,65 @@ func ui_case(hub: bool) -> void:
 	await capture("hub-pending-controls" if hub else "main-pending-controls")
 	demo.skip_presentation()
 	check(not demo.is_execution_pending() and snapshot(s) == committed, "skip preserves committed state")
+	await stable_info_strip(demo, id, hub)
 	demo.queue_free()
 	await process_frame
+
+func stable_info_strip(demo: BattleDemo, target_id: int, hub: bool) -> void:
+	var s := demo.session as BattleCoreReactionsSession
+	var before := snapshot(s)
+	var shown := ActionPresentationState.capture(s.state)
+	var row: Dictionary = shown.units[target_id]
+	row.control = {"stunned_turns": 1, "entangled_turns": 1}
+	row.bleeding = {"stacks": 2, "ticks_left": 3}
+	row.elemental = {"poison_stacks": 3, "poison_ticks": 2, "acid_ticks": 2}
+	demo.board_view.show_presentation_state(shown)
+	var saved_hint := demo._hint.text
+	var saved_status := demo._status.text
+	var original_size := viewport.size
+	for dimensions: Vector2i in [Vector2i(1280, 850), Vector2i(1280, 720)]:
+		viewport.size = dimensions
+		demo._displayed_unit_hovered(UnitId.NONE)
+		demo._hint.text = ""
+		demo._status.text = ""
+		for frame: int in 3: await process_frame
+		var rect := demo.board_view.get_global_rect()
+		var camera_offset := demo.board_view.camera_view.offset
+		var zoom := demo.board_view.camera_view.zoom
+		var hand := demo._mage_row.get_global_rect()
+		demo._hint.text = "Опасности клетки\nВторая строка\nДополнительные подробности\nЕщё строка"
+		demo._status.text = "Действие недоступно\nПричина отказа\nДополнительное пояснение"
+		demo._displayed_unit_hovered(target_id)
+		for frame: int in 3: await process_frame
+		check(demo.board_view.get_global_rect() == rect and demo.board_view.camera_view.offset == camera_offset and demo.board_view.camera_view.zoom == zoom, "many statuses and hint overflow preserve exact board and camera")
+		check(demo._mage_row.get_global_rect() == hand, "many statuses preserve hand position")
+		check(demo._compact_inspection.get_parsed_text() == demo.board_view.displayed_unit_summary(target_id), "rich summary preserves exact plain facts")
+		check(demo._compact_inspection.size.y == 42.0 and not demo._compact_inspection.fit_content and not demo._compact_inspection.scroll_active, "bounded inspection never expands or captures scrolling")
+		check(demo._compact_inspection.tooltip_text.contains("стаки: 3") and demo._compact_inspection.tooltip_text.contains("В кислоте"), "full overflow details remain in tooltip")
+		if DisplayServer.get_name() != "headless":
+			await RenderingServer.frame_post_draw
+			var rendered := viewport.get_texture().get_image()
+			var region := Rect2i(demo._compact_inspection.get_global_rect())
+			for color_hex: String in ["ef6666", "b68a5c", "f2f1e8", "51965d", "b3ee38"]:
+				check(color_count(rendered, region, Color(color_hex)) >= 3, "actual status glyph color " + color_hex)
+		await capture(("hub" if hub else "main") + "-colored-statuses-%d" % dimensions.y)
+	var malicious_name := "[color=red]Имя[/color]"
+	row.name = malicious_name
+	demo.board_view.show_presentation_state(shown)
+	demo._displayed_unit_hovered(target_id)
+	check(demo._compact_inspection.get_parsed_text().contains(malicious_name), "unit name cannot inject rich markup")
+	var hostile: Array[Dictionary] = [{"id": "poison", "title": "[b]Яд[/b]", "stacks": 1, "remaining": 1, "duration_unit": "[i]тик[/i]"}]
+	demo._compact_inspection.text = BattleStatusPresentation.details_bbcode(hostile)
+	check(demo._compact_inspection.get_parsed_text() == BattleStatusPresentation.details(hostile), "status title and duration cannot inject rich markup")
+	check(snapshot(s) == before, "rich UI and resize preserve full runtime, RNG and counters")
+	demo._hint.text = saved_hint
+	demo._status.text = saved_status
+	viewport.size = original_size
+
+func color_count(rendered: Image, region: Rect2i, expected: Color) -> int:
+	var count := 0
+	for y: int in range(maxi(0, region.position.y), mini(rendered.get_height(), region.end.y)):
+		for x: int in range(maxi(0, region.position.x), mini(rendered.get_width(), region.end.x)):
+			var pixel := rendered.get_pixel(x, y)
+			if absf(pixel.r - expected.r) < 0.025 and absf(pixel.g - expected.g) < 0.025 and absf(pixel.b - expected.b) < 0.025: count += 1
+	return count

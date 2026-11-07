@@ -33,6 +33,30 @@ static func summary(values: Array[Dictionary]) -> String:
 		labels.append(String(entry.title) + (" ×%d" % int(entry.stacks) if int(entry.stacks) > 0 else ""))
 	return " · ".join(labels)
 
+static func color(id: String) -> Color:
+	match id:
+		"bleeding": return Color("#ef6666")
+		"entangled": return Color("#b68a5c")
+		"stunned": return Color("#f2f1e8")
+		"poison": return Color("#51965d")
+		"acid": return Color("#b3ee38")
+		"burning": return Color("#ef9a56")
+		"frozen": return Color("#9ddcff")
+		"wet": return Color("#8fc7d8")
+		"shield": return Color("#d9c98a")
+		_: return Color("#e0ddcb")
+
+static func escape_bbcode(text: String) -> String:
+	return text.replace("[", "[lb]")
+
+static func summary_bbcode(values: Array[Dictionary]) -> String:
+	var labels: PackedStringArray = []
+	for entry: Dictionary in values:
+		var label := escape_bbcode(String(entry.get("title", "")))
+		if int(entry.get("stacks", 0)) > 0: label += " ×%d" % int(entry.stacks)
+		labels.append(_colored(String(entry.get("id", "")), label))
+	return " · ".join(labels)
+
 static func details(values: Array[Dictionary]) -> String:
 	var lines: PackedStringArray = []
 	for entry: Dictionary in values:
@@ -41,6 +65,20 @@ static func details(values: Array[Dictionary]) -> String:
 		var stacks := "стаки: %d · " % int(entry.stacks) if int(entry.stacks) > 0 else ""
 		lines.append("%s — %sсрок: %s" % [entry.title, stacks, duration])
 	return "\n".join(lines) if not lines.is_empty() else "Состояний нет."
+
+static func details_bbcode(values: Array[Dictionary]) -> String:
+	var lines: PackedStringArray = []
+	for entry: Dictionary in values:
+		var duration := String(entry.get("duration_unit", ""))
+		if String(entry.get("id", "")) not in ["stunned", "entangled"]:
+			duration = "%d %s" % [int(entry.get("remaining", 0)), duration]
+		var stacks := "стаки: %d · " % int(entry.get("stacks", 0)) if int(entry.get("stacks", 0)) > 0 else ""
+		var line := "%s — %sсрок: %s" % [String(entry.get("title", "")), stacks, duration]
+		lines.append(_colored(String(entry.get("id", "")), escape_bbcode(line)))
+	return "\n".join(lines) if not lines.is_empty() else escape_bbcode("Состояний нет.")
+
+static func _colored(id: String, text: String) -> String:
+	return "[color=#%s]%s[/color]" % [color(id).to_html(false), text]
 
 static func event_feedback(event: Dictionary) -> String:
 	var field := ""

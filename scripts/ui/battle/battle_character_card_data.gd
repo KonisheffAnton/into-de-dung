@@ -53,13 +53,20 @@ static func frame(row: Dictionary, identity: Dictionary) -> Dictionary:
 	var balance := float(row.get("balance", 0.0))
 	var balance_max := float(row.get("balance_max", 0.0))
 	var entries := BattleStatusPresentation.entries(row)
+	var extra_statuses := _extra_statuses(row)
 	var statuses := BattleStatusPresentation.details(entries) if not entries.is_empty() else ""
-	if bool(row.get("guard", false)): statuses += "\nОхранная стойка"
-	if bool(row.get("pending", false)): statuses += "\nДействия со следующего хода команды"
-	if bool(row.get("raised_shield", {}).get("active", false)): statuses += "\nПоднятые щиты: −90% первой атаки"
-	if not bool(row.get("alive", true)): statuses = "Погиб\n" + statuses
+	var status_bbcode := BattleStatusPresentation.details_bbcode(entries) if not entries.is_empty() else ""
+	for extra_status: String in extra_statuses:
+		statuses += "\n" + extra_status
+		if not status_bbcode.is_empty(): status_bbcode += "\n"
+		status_bbcode += "[color=#e0ddcb]%s[/color]" % BattleStatusPresentation.escape_bbcode(extra_status)
+	if not bool(row.get("alive", true)):
+		statuses = "Погиб\n" + statuses
+		status_bbcode = "[color=#e0ddcb]Погиб[/color]" + ("\n" + status_bbcode if not status_bbcode.is_empty() else "")
 	statuses = statuses.strip_edges()
-	if statuses.is_empty(): statuses = "Состояний нет."
+	if statuses.is_empty():
+		statuses = "Состояний нет."
+		status_bbcode = BattleStatusPresentation.escape_bbcode(statuses)
 	return {
 		"id": int(row.get("id", 0)), "name": String(row.get("name", "")),
 		"class_label": String(identity.get("class_label", "Боец")), "portrait": identity.get("portrait"),
@@ -69,9 +76,16 @@ static func frame(row: Dictionary, identity: Dictionary) -> Dictionary:
 		"armor_ratio": _ratio(armor_current, armor_capacity),
 		"balance_text": BattleBalanceDisplay.value_text(balance, balance_max), "balance_ratio": BattleBalanceDisplay.ratio(balance, balance_max),
 		"actions_text": "Основное  %d   ·   Доп.  %d\nДвижение  %s" % [int(row.get("main", 0)), int(row.get("bonus", 0)), _amount(float(row.get("move", 0.0)))],
-		"attributes_text": "Характеристики доступны после действия.", "status_text": statuses,
+		"attributes_text": "Характеристики доступны после действия.", "status_text": statuses, "status_bbcode": status_bbcode,
 		"details_text": "Снаряжение и свойства доступны после действия.", "published": true,
 	}
+
+static func _extra_statuses(row: Dictionary) -> PackedStringArray:
+	var extras: PackedStringArray = []
+	if bool(row.get("guard", false)): extras.append("Охранная стойка")
+	if bool(row.get("pending", false)): extras.append("Действия со следующего хода команды")
+	if bool(row.get("raised_shield", {}).get("active", false)): extras.append("Поднятые щиты: −90% первой атаки")
+	return extras
 
 static func _amount(value: float) -> String:
 	return BattleEventText.amount_text(value)

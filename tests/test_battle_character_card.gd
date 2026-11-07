@@ -76,6 +76,8 @@ func _exercise(hub: bool) -> void:
 	var card := demo._character_card
 	var session := demo.session as BattleCoreReactionsSession
 	var actor := session.selected_unit()
+	check(demo._status.text.is_empty(), "ordinary yellow instruction removed")
+	if hub: check(not demo._mage_label.visible and demo._mage_row.visible, "deck summary hidden while hand remains visible")
 	var enemy: UnitState
 	for unit: UnitState in session.units:
 		if unit.faction == Faction.Type.ENEMY and unit.is_alive(): enemy = unit; break
@@ -148,12 +150,23 @@ func _exercise(hub: bool) -> void:
 	state.units[actor.id].main = 0
 	state.units[actor.id].elemental.burning_stacks = 3
 	state.units[actor.id].elemental.burning_ticks = 2
+	state.units[actor.id].elemental.poison_stacks = 2
+	state.units[actor.id].elemental.poison_ticks = 3
+	state.units[actor.id].elemental.acid_ticks = 2
+	state.units[actor.id].control = {"stunned_turns": 1, "entangled_turns": 1}
+	state.units[actor.id].bleeding = {"stacks": 2, "ticks_left": 3}
 	var before_frame := _snapshot(demo)
 	demo.session = null
 	demo._render_presentation_hud(state)
 	check(card.hp_value.text.begins_with(BattleEventText.amount_text(1.25)) and card.actions_label.text.contains("Основное  0"), "detached publication uses only shown HP and actions")
 	check(card.status_label.text.contains("стаки: 3") and card.status_label.text.contains("2 тиков"), "published status includes stacks and duration")
+	check(card.status_label is RichTextLabel and card.status_label.get_parsed_text().contains("Горение"), "card renders colored status as readable rich text")
 	check(card.attributes_label.text.contains("после действия"), "unpublished attributes do not leak future runtime")
+	if hub:
+		board.show_presentation_state(state)
+		demo._displayed_unit_hovered(actor.id)
+		check(demo._compact_inspection.get_parsed_text().contains("В кислоте"), "production strip publishes all status facts while session detached")
+		await _capture("colored-statuses-hub")
 	demo._close_character_card()
 	demo._render_presentation_hud(state)
 	check(not card.visible, "later frame does not reopen explicitly closed card")

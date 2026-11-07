@@ -253,13 +253,19 @@ theme_override_colors/font_color = Color(0.690196, 0.682353, 0.619608, 1)
 theme_override_font_sizes/font_size = 13
 text = "СОСТОЯНИЯ"
 
-[node name="Statuses" type="Label" parent="Layout/Scroll/Body"]
+[node name="Statuses" type="RichTextLabel" parent="Layout/Scroll/Body"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 1
 mouse_filter = 2
-theme_override_colors/font_color = Color(0.878431, 0.866667, 0.796078, 1)
-theme_override_font_sizes/font_size = 14
+theme_override_colors/default_color = Color(0.878431, 0.866667, 0.796078, 1)
+theme_override_colors/font_outline_color = Color(0.015686, 0.015686, 0.015686, 1)
+theme_override_constants/outline_size = 2
+theme_override_font_sizes/normal_font_size = 14
+bbcode_enabled = true
 autowrap_mode = 2
+fit_content = true
+scroll_active = false
 
 [node name="DetailsButton" type="Button" parent="Layout/Scroll/Body"]
 unique_name_in_owner = true

@@ -1,5 +1,21 @@
 # История и свидетельства проверок
 
+## Стабильные подсказки и цветные статусы — 2026-11-08
+
+Main, base6f3cb90436ebce5fc038bbe7a1160efc1a032570. По U удалены DeckSummary и
+обычная жёлтая инструкция; компактный осмотр и подсказки получили стабильные
+высоты. Цвета статусов едины для осмотра/карточки, источники published/live DTO прежние.
+Владельцы [HUD](BATTLE_HUD_SCENES_V1.md) и [ART](ART_DIRECTION.md);
+[кадры](art/stable-status-hud-20261108/README.md).
+Isolated import/startup PASS; status136/0, card105/0, input163/0, authoring370/0,
+camera111/0, execution61/0, mage_presenter164/0, mage_deck_ui141/0.
+Независимое ревью APPROVE. Две прежние layout-ошибки status устранены. Эталон мага согласован с14 скрытыми
+сводками и22 прежними высотами300; отдельный baseline исходного HEAD сохранён.
+Отчёт test_reports/stable-status-hud-20261108/, verified-checks.json;
+исходный runner demo-ca72cb79a5074dc6b73fc73f96227f4d.
+Full/core, ручные F5/движение/zoom/DPI/performance не запускались; отзыв U ожидается.
+[Предыдущий HANDOFF сохранён побайтно](CODEX_HANDOFF.history-20261108.md).
+
 ## Правая карточка персонажа — 2026-11-07
 
 Main, base012db0a08eb19e22287b5abb170dd342eee74695. По U добавлен независимый

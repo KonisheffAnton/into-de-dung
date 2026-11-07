@@ -1634,7 +1634,7 @@ func displayed_names() -> Dictionary:
 	for row: Dictionary in _view_units: result[row.unit.id] = row.unit.debug_name
 	return result
 
-func displayed_unit_summary(unit_id: int) -> String:
+func displayed_unit_summary(unit_id: int, rich: bool = false) -> String:
 	for row: Dictionary in _view_units:
 		var value: BattleUnitView = row.unit
 		if value.id != unit_id: continue
@@ -1642,7 +1642,10 @@ func displayed_unit_summary(unit_id: int) -> String:
 		if unit_id == displayed_selected_id: summary = "Выбран · " + summary
 		if unit_id == acting_id: summary = "Действует · " + summary
 		if not value.alive: summary += " · погиб"
-		var states := BattleStatusPresentation.summary(row.get("statuses", [])) if value.alive else ""
+		if rich: summary = BattleStatusPresentation.escape_bbcode(summary)
+		var states := ""
+		if value.alive:
+			states = BattleStatusPresentation.summary_bbcode(row.get("statuses", [])) if rich else BattleStatusPresentation.summary(row.get("statuses", []))
 		return summary + ("\n" + states if not states.is_empty() else "")
 	return "Наведите на фигуру для осмотра."
 

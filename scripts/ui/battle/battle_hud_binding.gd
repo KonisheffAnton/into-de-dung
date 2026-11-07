@@ -24,7 +24,7 @@ var end_turn_button: Button
 var board_view: BattleDemoBoard
 var action_bar: BattleActionBar
 var hint: Label
-var compact_inspection: Label
+var compact_inspection: RichTextLabel
 var diagnostics_button: Button
 var diagnostics: PanelContainer
 var roster: VBoxContainer
@@ -69,7 +69,7 @@ static func bind(hud: Control, handlers: Dictionary[StringName, Callable], deck_
 		binding.cloth_palette.add_item("Одежда: " + DefenderClothPalette.label(palette_index))
 	binding.cloth_palette.select(DefenderClothPalette.valid_index(0))
 	binding.cloth_palette.tooltip_text = "Цвет одежды союзных Защитников и Разбойников в текущем бою."
-	deck_label.visible = deck_layout
+	deck_label.hide()
 	legacy_label.visible = not deck_layout
 	binding.mage_label = deck_label if deck_layout else legacy_label
 	binding.mage_row = mage
@@ -107,7 +107,7 @@ static func bind(hud: Control, handlers: Dictionary[StringName, Callable], deck_
 	binding.action_bar.action_hovered.connect(handlers[&"action_bar_hovered"])
 	binding.action_bar.action_hover_left.connect(handlers[&"action_bar_hover_left"])
 	binding.hint = left.get_node("Hint") as Label
-	binding.compact_inspection = left.get_node("Inspection") as Label
+	binding.compact_inspection = left.get_node("Inspection") as RichTextLabel
 	binding.diagnostics_button = title.get_node("Diagnostics") as Button
 	binding.diagnostics_button.toggled.connect(handlers[&"set_diagnostics_visible"])
 	binding.diagnostics = hud.get_node("BattleDiagnostics") as PanelContainer

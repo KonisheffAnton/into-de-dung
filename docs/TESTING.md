@@ -496,6 +496,7 @@ render audit — [пакет интеграции](art/rogue-model-death3-202610
 | Список бойцов | `battle_panels control_ui entangle_ui` | Порядок/identity строк live/DTO, detached clicks, реальный осмотр врага |
 | Тексты событий | `battle_event_text battle attack_async_ui status_ui mage_deck_ui` | Journal/forecast, предметы, статусы, карты; эталон прежнего producer |
 | Подробный осмотр | `battle_inspection_text presentation_status battle control_ui entangle_ui` | Main/H1 hover, live-предметы, guard во время worker/показа |
+| Стабильный блок подсказок/цвета статусов | `presentation_status battle_character_card battle_hud_input battle_hud_authoring battle_camera_ui battle_execution_ui` | `--render-check`: пять GPU-цветов, 850/720px без сдвига поля/камеры/руки, полный tooltip, BBCode escaping, скрытые обычная инструкция и DeckSummary |
 | Правая карточка персонажа | `battle_character_card battle_hud_input battle_hud_authoring battle_inspection_text battle_camera_ui battle_execution_ui` | `--render-check`: main/H1, 1440×1000 и1280×720, неизменность поля/камеры/руки, ввод внутри, цель/закрытие, detached DTO и полный state/RNG; PNG в battle-character-card-screenshots |
 | Authored binding | `battle_panels mage_deck_ui` | Main/H1/.new/legacy, повторное связывание, карты/страницы |
 | DTO-кадр | `mage_deck_ui presentation_status` | Точные строки/порядок статусов, мана/карты без live-сессии |

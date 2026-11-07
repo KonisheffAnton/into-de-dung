@@ -138,7 +138,7 @@ var _skip_presentation_button: Button
 var _speed_presentation_button: Button
 var _diagnostics: PanelContainer
 var _diagnostics_button: Button
-var _compact_inspection: Label
+var _compact_inspection: RichTextLabel
 var _character_card: BattleCharacterCard
 var _character_card_id: int = UnitId.NONE
 var _character_card_session: int = 0
@@ -495,7 +495,7 @@ func _displayed_unit_hovered(unit_id: int) -> void:
 	_display_inspection_id = unit_id
 	board_view.set_hovered_unit(unit_id)
 	if _compact_inspection == null: return
-	_compact_inspection.text = board_view.displayed_unit_summary(unit_id)
+	_compact_inspection.text = board_view.displayed_unit_summary(unit_id, true)
 	_compact_inspection.tooltip_text = board_view.displayed_unit_details(unit_id)
 	if not is_execution_pending(): _compact_inspection.tooltip_text += _card_imbue_text(unit_id)
 	board_view.tooltip_text = _compact_inspection.tooltip_text if unit_id != UnitId.NONE else ""
@@ -1189,7 +1189,7 @@ func _refresh_mage() -> void:
 	if not is_execution_pending() and _mage_row != null:
 		var mage_session := session as BattleCoreReactionsSession
 		_mage_row.visible = mage_session != null and mage_session.state.abilities != null
-		_mage_label.visible = _mage_row.visible
+		_mage_label.visible = _mage_row.visible and not (core_reactions_mode and mage_session != null and mage_session.state.deck != null)
 		if board_view != null and not board_view.authored_layout:
 			board_view.custom_minimum_size.y = 350.0 if _compact_inspection != null else (476.0 if _mage_row.visible else 520.0)
 		if _mage_row.visible:
@@ -1472,7 +1472,8 @@ func _finish_refresh(followup: Dictionary) -> void:
 			_stats.text = _inspection_text(enemy)
 	_status.text = "Атака: щёлкните по цели. Расход — 1 основное действие." if attack_mode else ("ЛКМ: пустая клетка — движение; враг — подход и обычная атака; свой герой — выбор." if _battle != null else "Движение: щёлкните по свободной клетке. Персонаж на поле или в списке — выбор.")
 	if _character_card != null and not attack_mode:
-		_status.text = "ЛКМ: союзник — выбор; противник — карточка. Для удара выберите атаку слева."
+		# Постоянная инструкция убрана; слот остаётся для отказов/результатов без сдвига поля.
+		_status.text = ""
 	if attack_mode and session is BattleCoreReactionsSession and (session as BattleCoreReactionsSession).warrior_selected == WarriorKit.KICK:
 		_status.text = "Пинок ногой: щёлкните по соседнему врагу. Расход — 1 дополнительное действие."
 	if session is BattleCoreReactionsSession and (session as BattleCoreReactionsSession).elemental_selected != &"":

@@ -188,22 +188,28 @@ custom_minimum_size = Vector2(520, 300)
 [node name="Hint" type="Label" parent="Margin/Column/Content/Left"]
 z_index = 600
 layout_mode = 2
+custom_minimum_size = Vector2(0, 44)
 text = ""
 theme_override_font_sizes/font_size = 14
 theme_override_colors/font_color = Color(0.6470588, 0.7019608, 0.772549, 1)
 clip_text = true
 max_lines_visible = 2
 
-[node name="Inspection" type="Label" parent="Margin/Column/Content/Left"]
+[node name="Inspection" type="RichTextLabel" parent="Margin/Column/Content/Left"]
 z_index = 600
 layout_mode = 2
+custom_minimum_size = Vector2(0, 42)
+bbcode_enabled = true
+scroll_active = false
+fit_content = false
 text = "Наведите на фигуру для осмотра."
-theme_override_font_sizes/font_size = 14
-theme_override_colors/font_color = Color(0.9019608, 0.9254902, 0.9568627, 1)
-clip_text = true
-max_lines_visible = 2
+theme_override_font_sizes/normal_font_size = 14
+theme_override_colors/default_color = Color(0.9019608, 0.9254902, 0.9568627, 1)
+theme_override_colors/font_outline_color = Color(0.02, 0.02, 0.02, 1)
+theme_override_constants/outline_size = 2
 
 [node name="DeckSummary" type="Label" parent="Margin/Column"]
+visible = false
 z_index = 600
 layout_mode = 2
 text = "Мана · добор · сыграно"
@@ -219,7 +225,7 @@ theme_override_colors/font_color = Color(0.9686275, 0.7882353, 0.4901961, 1)
 autowrap_mode = 3
 clip_text = true
 max_lines_visible = 2
-custom_minimum_size = Vector2(0, 42)
+custom_minimum_size = Vector2(0, 44)
 
 [node name="Instructions" type="Label" parent="Margin/Column"]
 z_index = 600

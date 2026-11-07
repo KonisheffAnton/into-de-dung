@@ -14,7 +14,7 @@ signal close_requested
 @onready var balance_value: Label = %BalanceValue
 @onready var actions_label: Label = %Actions
 @onready var attributes_label: Label = %Attributes
-@onready var status_label: Label = %Statuses
+@onready var status_label: RichTextLabel = %Statuses
 @onready var scroll_container: ScrollContainer = $Layout/Scroll
 @onready var details_button: Button = %DetailsButton
 @onready var details_label: Label = %Details
@@ -49,7 +49,10 @@ func show_data(data: Dictionary) -> void:
 	_set_bar(balance_bar, balance_value, float(data.get("balance_ratio", 0.0)), str(data.get("balance_text", "")))
 	actions_label.text = str(data.get("actions_text", ""))
 	attributes_label.text = str(data.get("attributes_text", ""))
-	status_label.text = str(data.get("status_text", ""))
+	var status_bbcode := String(data.get("status_bbcode", ""))
+	if status_bbcode.is_empty():
+		status_bbcode = BattleStatusPresentation.escape_bbcode(String(data.get("status_text", "")))
+	status_label.text = status_bbcode
 	details_label.text = str(data.get("details_text", ""))
 	visible = true
 
