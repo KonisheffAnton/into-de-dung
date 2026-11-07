@@ -14,6 +14,8 @@
 
 [ext_resource type="PackedScene" path="res://scenes/demo/battle/battle_board.tscn" id="board"]
 
+[ext_resource type="PackedScene" path="res://scenes/demo/battle/character_card.tscn" id="character_card"]
+
 [sub_resource type="StyleBoxFlat" id="diagnostics"]
 bg_color = Color(0.0901961, 0.1490196, 0.2156863, 0)
 
@@ -464,3 +466,6 @@ size_flags_vertical = 3
 scroll_following = true
 theme_override_font_sizes/normal_font_size = 14
 theme_override_colors/default_color = Color(0.7843137, 0.827451, 0.8823529, 1)
+
+[node name="CharacterCard" parent="." instance=ExtResource("character_card")]
+layout_mode = 0

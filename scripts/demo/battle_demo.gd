@@ -139,6 +139,10 @@ var _speed_presentation_button: Button
 var _diagnostics: PanelContainer
 var _diagnostics_button: Button
 var _compact_inspection: Label
+var _character_card: BattleCharacterCard
+var _character_card_id: int = UnitId.NONE
+var _character_card_session: int = 0
+var _character_card_identity: Dictionary = {}
 var _display_inspection_id: int = UnitId.NONE
 var _turn_forecast: TurnForecast
 var _turn_forecast_pending: bool = false
@@ -514,6 +518,8 @@ func _note_presentation_event(event: Dictionary) -> void:
 
 func _render_presentation_hud(state: Dictionary) -> void:
 	# Кадр может прийти при временно снятой сессии, поэтому здесь важны только ID снимка.
+	if _character_card != null and _character_card_id != UnitId.NONE:
+		_character_card.show_data(BattleCharacterCardData.frame(state.get("units", {}).get(_character_card_id, {}), _character_card_identity))
 	_roster_presenter.ensure_mode(core_reactions_mode)
 	var roster_ids: Array[int] = []
 	var details: PackedStringArray = []
@@ -765,6 +771,11 @@ func _build_authored_hud() -> void:
 	_action_bar = binding.action_bar
 	_hint = binding.hint
 	_compact_inspection = binding.compact_inspection
+	_character_card = hud.get_node("CharacterCard") as BattleCharacterCard
+	_character_card.close_requested.connect(_close_character_card)
+	for control: Control in [hud, board_view, _mage_row, binding.status]:
+		control.resized.connect(_queue_character_card_layout)
+	_mage_row.visibility_changed.connect(_queue_character_card_layout)
 	_diagnostics_button = binding.diagnostics_button
 	_diagnostics = binding.diagnostics
 	_roster = binding.roster
@@ -975,6 +986,7 @@ func select_character(id: int) -> void:
 		inspected_id = UnitId.NONE
 		_clear_action_mode()
 		_refresh()
+		_open_character_card(id)
 
 func _is_deploying() -> bool:
 	return session is BattleCoreCombinationSession and (session as BattleCoreCombinationSession).is_deploying()
@@ -995,6 +1007,7 @@ func inspect_enemy(id: int) -> void:
 	inspected_id = UnitId.NONE if inspected_id == id else id
 	_cover_guard_mode = false
 	_refresh()
+	if inspected_id != UnitId.NONE: _open_character_card(inspected_id)
 
 func handle_cell(cell: Vector2i) -> void:
 	if _defer_forecast_intent(&"handle_cell", [cell]): return
@@ -1062,7 +1075,9 @@ func handle_cell(cell: Vector2i) -> void:
 		_execute_live(&"attack_unit", [occupant.id], true)
 	elif occupant != null:
 		if _battle != null and occupant.faction == Faction.Type.ENEMY:
-			if retreat_mode:
+			if _character_card != null and not retreat_mode:
+				_open_character_card(occupant.id)
+			elif retreat_mode:
 				inspect_enemy(occupant.id)
 			else:
 				inspected_id = UnitId.NONE
@@ -1456,6 +1471,8 @@ func _finish_refresh(followup: Dictionary) -> void:
 		if enemy != null:
 			_stats.text = _inspection_text(enemy)
 	_status.text = "Атака: щёлкните по цели. Расход — 1 основное действие." if attack_mode else ("ЛКМ: пустая клетка — движение; враг — подход и обычная атака; свой герой — выбор." if _battle != null else "Движение: щёлкните по свободной клетке. Персонаж на поле или в списке — выбор.")
+	if _character_card != null and not attack_mode:
+		_status.text = "ЛКМ: союзник — выбор; противник — карточка. Для удара выберите атаку слева."
 	if attack_mode and session is BattleCoreReactionsSession and (session as BattleCoreReactionsSession).warrior_selected == WarriorKit.KICK:
 		_status.text = "Пинок ногой: щёлкните по соседнему врагу. Расход — 1 дополнительное действие."
 	if session is BattleCoreReactionsSession and (session as BattleCoreReactionsSession).elemental_selected != &"":
@@ -1487,6 +1504,7 @@ func _finish_refresh(followup: Dictionary) -> void:
 	_render_forecast_panel()
 	_displayed_unit_hovered(_display_inspection_id)
 	_after_refresh()
+	_refresh_character_card()
 	if followup.has("receipt_message"): _status.text = followup.receipt_message
 
 func _after_refresh() -> void:
@@ -1514,6 +1532,9 @@ func _perk_status_text(unit: UnitState) -> String:
 	return " · " + " · ".join(parts) if not parts.is_empty() else ""
 
 func _inspection_text(unit: UnitState) -> String:
+	return BattleInspectionText.build_live(unit, session.state, _inspection_options(unit))
+
+func _inspection_options(unit: UnitState) -> BattleInspectionText.Options:
 	var options := BattleInspectionText.Options.new()
 	options.height_steps = session.board.get_height_steps(unit.cell)
 	options.core_reactions = session is BattleCoreReactionsSession
@@ -1526,7 +1547,49 @@ func _inspection_text(unit: UnitState) -> String:
 			options.cover_target_name = _name_for(unit.combat_perks.cover_target_id)
 	if session.state.is_summon(unit.id) and not session.state.is_mage_summon(unit.id):
 		options.summon_owner_name = _name_for(session.state.summon_owner_id(unit.id))
-	return BattleInspectionText.build_live(unit, session.state, options)
+	return options
+
+func _open_character_card(unit_id: int) -> void:
+	if _character_card == null or is_execution_pending() or session == null: return
+	_character_card_id = unit_id
+	_character_card_session = session.get_instance_id()
+	_refresh_character_card()
+
+func _close_character_card() -> void:
+	# Закрытие — только UI: выбранный союзник и остатки действий не меняются.
+	_character_card_id = UnitId.NONE
+	_character_card_identity.clear()
+	if _character_card != null: _character_card.hide()
+
+func _refresh_character_card() -> void:
+	if _character_card == null or _character_card_id == UnitId.NONE or is_execution_pending(): return
+	if session == null or session.get_instance_id() != _character_card_session:
+		_close_character_card()
+		return
+	var unit := session.board.get_unit_by_id(_character_card_id)
+	if unit == null:
+		_close_character_card()
+		return
+	var loadout: Dictionary = session.actor_loadouts.get(unit.id, {}) if session is BattleCoreReactionsSession else {}
+	var data := BattleCharacterCardData.live(unit, session.state, loadout, _inspection_options(unit))
+	data.details_text += _card_imbue_text(unit.id)
+	_character_card_identity = {"class_label": data.class_label, "portrait": data.portrait}
+	_character_card.show_data(data)
+	_queue_character_card_layout()
+
+func _queue_character_card_layout() -> void:
+	call_deferred("_layout_character_card")
+
+func _layout_character_card() -> void:
+	if _character_card == null or not _character_card.visible: return
+	var hud := _character_card.get_parent() as Control
+	var top := board_view.get_global_rect().position.y + 44.0
+	var bottom := minf(hud.get_global_rect().end.y - 12.0, _status.get_global_rect().position.y - 8.0)
+	if _mage_row.is_visible_in_tree(): bottom = minf(bottom, _mage_row.get_global_rect().position.y - 12.0)
+	# Карточка — независимый overlay. Меняем только её прямоугольник, не Board/камеру.
+	var width := minf(300.0, hud.size.x - 48.0)
+	_character_card.position = Vector2(hud.size.x - width - 24.0, top - hud.global_position.y)
+	_character_card.size = Vector2(width, maxf(0.0, minf(570.0, bottom - top)))
 
 func _stat_name(type: StatTypes.StatType) -> String:
 	return BattleInspectionText.stat_name(type)

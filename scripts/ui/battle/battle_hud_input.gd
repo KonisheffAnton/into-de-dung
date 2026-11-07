@@ -30,6 +30,8 @@ func _prepare_host() -> void:
 
 func _set_noninteractive_controls(node: Node) -> void:
 	if node == self: return
+	# Инспектор защищает свою поверхность от кликов и колеса по скрытому под ним полю.
+	if node is BattleCharacterCard: return
 	if node is Control:
 		var control := node as Control
 		if control is Button or control is HScrollBar or control is VScrollBar:

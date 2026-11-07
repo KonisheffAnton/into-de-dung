@@ -240,6 +240,8 @@ func _exercise_battle(demo: BattleDemo, hud: Control, label: String) -> void:
 		var diagnostics_text := hud.get_node_or_null("BattleDiagnostics/Scroll/Side/InspectionScroll") as Control
 		if diagnostics_text != null: destinations.append(_control_center(diagnostics_text))
 	for index: int in destinations.size():
+		# Этот тест проверяет прозрачный HUD; отдельная карточка намеренно закрывает ввод.
+		demo._close_character_card()
 		var wanted := destinations[index]
 		var cell_screen := _cell_screen(board, cell)
 		board.pan_camera(wanted - cell_screen)

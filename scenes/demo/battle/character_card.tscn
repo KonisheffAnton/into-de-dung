@@ -1,0 +1,278 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/battle/battle_character_card.gd" id="1_script"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
+bg_color = Color(0.145098, 0.168627, 0.160784, 0.96)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.4, 0.388235, 0.309804, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+content_margin_left = 12.0
+content_margin_top = 12.0
+content_margin_right = 12.0
+content_margin_bottom = 12.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_empty"]
+bg_color = Color(0.466667, 0.490196, 0.439216, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.025, 0.025, 0.025, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hp"]
+bg_color = Color(0.509804, 0.6, 0.411765, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_armor"]
+bg_color = Color(0.611765, 0.647059, 0.65098, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_balance"]
+bg_color = Color(0.745098, 0.631373, 0.486275, 1)
+
+[node name="CharacterCard" type="PanelContainer"]
+visible = false
+z_index = 650
+mouse_filter = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+script = ExtResource("1_script")
+
+[node name="Layout" type="VBoxContainer" parent="."]
+mouse_filter = 2
+theme_override_constants/separation = 8
+
+[node name="Header" type="HBoxContainer" parent="Layout"]
+mouse_filter = 2
+theme_override_constants/separation = 8
+
+[node name="Portrait" type="TextureRect" parent="Layout/Header"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(48, 56)
+layout_mode = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+texture_filter = 1
+
+[node name="Identity" type="VBoxContainer" parent="Layout/Header"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 2
+
+[node name="Name" type="Label" parent="Layout/Header/Identity"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.878431, 0.866667, 0.796078, 1)
+theme_override_font_sizes/font_size = 18
+autowrap_mode = 2
+max_lines_visible = 2
+text_overrun_behavior = 3
+text = "Персонаж"
+
+[node name="ClassFaction" type="Label" parent="Layout/Header/Identity"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.690196, 0.682353, 0.619608, 1)
+theme_override_font_sizes/font_size = 13
+autowrap_mode = 2
+
+[node name="CloseButton" type="Button" parent="Layout/Header"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+mouse_filter = 0
+text = "×"
+
+[node name="Scroll" type="ScrollContainer" parent="Layout"]
+custom_minimum_size = Vector2(0, 0)
+layout_mode = 2
+size_flags_vertical = 3
+mouse_filter = 0
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 1
+
+[node name="Body" type="VBoxContainer" parent="Layout/Scroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 6
+
+[node name="HpHeading" type="Label" parent="Layout/Scroll/Body"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.690196, 0.682353, 0.619608, 1)
+theme_override_font_sizes/font_size = 13
+text = "ЗДОРОВЬЕ"
+
+[node name="HpRow" type="HBoxContainer" parent="Layout/Scroll/Body"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 6
+
+[node name="HpBar" type="ProgressBar" parent="Layout/Scroll/Body/HpRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 22)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+show_percentage = false
+theme_override_styles/background = SubResource("StyleBoxFlat_empty")
+theme_override_styles/fill = SubResource("StyleBoxFlat_hp")
+
+[node name="HpValue" type="Label" parent="Layout/Scroll/Body/HpRow/HpBar"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_colors/font_color = Color(0.05, 0.05, 0.05, 1)
+theme_override_font_sizes/font_size = 13
+
+[node name="ArmorHeading" type="Label" parent="Layout/Scroll/Body"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.690196, 0.682353, 0.619608, 1)
+theme_override_font_sizes/font_size = 13
+text = "БРОНЯ"
+
+[node name="ArmorRow" type="HBoxContainer" parent="Layout/Scroll/Body"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="ArmorBar" type="ProgressBar" parent="Layout/Scroll/Body/ArmorRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 22)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+show_percentage = false
+theme_override_styles/background = SubResource("StyleBoxFlat_empty")
+theme_override_styles/fill = SubResource("StyleBoxFlat_armor")
+
+[node name="ArmorValue" type="Label" parent="Layout/Scroll/Body/ArmorRow/ArmorBar"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_colors/font_color = Color(0.05, 0.05, 0.05, 1)
+theme_override_font_sizes/font_size = 13
+
+[node name="BalanceHeading" type="Label" parent="Layout/Scroll/Body"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.690196, 0.682353, 0.619608, 1)
+theme_override_font_sizes/font_size = 13
+text = "РАВНОВЕСИЕ"
+
+[node name="BalanceRow" type="HBoxContainer" parent="Layout/Scroll/Body"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="BalanceBar" type="ProgressBar" parent="Layout/Scroll/Body/BalanceRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 22)
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+show_percentage = false
+theme_override_styles/background = SubResource("StyleBoxFlat_empty")
+theme_override_styles/fill = SubResource("StyleBoxFlat_balance")
+
+[node name="BalanceValue" type="Label" parent="Layout/Scroll/Body/BalanceRow/BalanceBar"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_colors/font_color = Color(0.05, 0.05, 0.05, 1)
+theme_override_font_sizes/font_size = 13
+
+[node name="ActionsHeading" type="Label" parent="Layout/Scroll/Body"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.690196, 0.682353, 0.619608, 1)
+theme_override_font_sizes/font_size = 13
+text = "ДЕЙСТВИЯ"
+
+[node name="Actions" type="Label" parent="Layout/Scroll/Body"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.878431, 0.866667, 0.796078, 1)
+theme_override_font_sizes/font_size = 15
+autowrap_mode = 2
+
+[node name="AttributesHeading" type="Label" parent="Layout/Scroll/Body"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.690196, 0.682353, 0.619608, 1)
+theme_override_font_sizes/font_size = 13
+text = "ХАРАКТЕРИСТИКИ"
+
+[node name="Attributes" type="Label" parent="Layout/Scroll/Body"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.878431, 0.866667, 0.796078, 1)
+theme_override_font_sizes/font_size = 15
+autowrap_mode = 2
+
+[node name="StatusesHeading" type="Label" parent="Layout/Scroll/Body"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.690196, 0.682353, 0.619608, 1)
+theme_override_font_sizes/font_size = 13
+text = "СОСТОЯНИЯ"
+
+[node name="Statuses" type="Label" parent="Layout/Scroll/Body"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.878431, 0.866667, 0.796078, 1)
+theme_override_font_sizes/font_size = 14
+autowrap_mode = 2
+
+[node name="DetailsButton" type="Button" parent="Layout/Scroll/Body"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 28)
+layout_mode = 2
+mouse_filter = 0
+text = "Снаряжение и свойства  ▸"
+
+[node name="Details" type="Label" parent="Layout/Scroll/Body"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.878431, 0.866667, 0.796078, 1)
+theme_override_font_sizes/font_size = 14
+autowrap_mode = 2

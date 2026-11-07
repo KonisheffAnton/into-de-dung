@@ -344,6 +344,8 @@ def main():
             invalid = invalid or "UNIT VITAL BARS RESULTS:" not in output or ", 0 failed" not in output
         if label == "battle_hud_input":
             invalid = invalid or "BATTLE HUD INPUT RESULTS:" not in output or ", 0 failed" not in output
+        if label == "battle_character_card":
+            invalid = invalid or "BATTLE CHARACTER CARD RESULTS:" not in output or ", 0 failed" not in output
         if label in ("passive_opportunist", "raised_shield", "raise_shields", "shieldbearer_profile", "shieldbearer_ui", "warrior_class", "warrior_recovery", "warrior_visuals", "shieldbearer_palette", "character_skins", "character_skins_hub", "mage_archer_skins", "character_coverage", "class_showcase", "class_showcase_ui"):
             marker = label.replace("_", " ").upper() + " RESULTS:"
             invalid = invalid or marker not in output or ", 0 failed" not in output
@@ -802,6 +804,10 @@ def main():
         if args.render_check:
             hud_input_args += ["--", "--captures=" + str(out / "battle-hud-input-screenshots")]
         run("battle_hud_input", hud_input_args, headless=not args.render_check)
+        character_card_args = ["--script", "tests/test_battle_character_card.gd"]
+        if args.render_check:
+            character_card_args += ["--", "--captures=" + str(out / "battle-character-card-screenshots")]
+        run("battle_character_card", character_card_args, headless=not args.render_check)
         run("battle_event_text", ["--script", "tests/test_battle_event_text.gd"])
         run("battle_inspection_text", ["--script", "tests/test_battle_inspection_text.gd"])
         run("battle_forecast_text", ["--script", "tests/test_battle_forecast_text.gd"])
