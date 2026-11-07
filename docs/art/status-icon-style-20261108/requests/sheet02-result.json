@@ -1,0 +1,16 @@
+{
+  "job_id": "c93a3a46-44f9-400e-a159-8770be9ee4e0",
+  "status": "completed",
+  "usage": {
+    "type": "generations",
+    "generations": 25.0
+  },
+  "png_sha256": "f09bf37cf3df4eda6075b0cc57aafc92d8a48eafb55426a252a627bc8890d151",
+  "dimensions": [
+    384,
+    512
+  ],
+  "mode": "RGBA",
+  "provider": "PixelLab generate-image-v2",
+  "raw_unchanged": true
+}

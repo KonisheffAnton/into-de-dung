@@ -1,0 +1,20 @@
+{
+  "description": "Create a transparent sprite atlas of 24 separate fantasy RPG status icons, EXACTLY 3 columns by 8 rows. Canvas384x512: each cell128x64; centers x64,192,320 and y32,96,160,224,288,352,416,480. One compact icon inside each cell, maximum48x48, empty transparent margins. No text, labels, letters, grid, frame, background, pedestal, badges or UI circles. Match reference game sprite: hand-drawn pixel-art miniature, crisp clustered pixels, dark local contour, clear 3-tone sculpted light/shadow, cool steel, worn leather, restrained colors, modest highlights. Recognizable solid objects and materials, not flat vector symbols, not glossy mobile icons. Top-left light, subtle 3/4 volume. Each row: same effect, three motifs A/B/C left to right. Rows top to bottom:\n1 SPIKES: A three steel spikes; B four-point steel caltrop; C scattered caltrops on tiny patch of ground.\n2 CORPSE bone cream/brown: A lifeless horizontal body on ground; B skull beside prone body under torn cloth; C skull and ribcage lying on ground. NO green poison skull or upright living person.\n3 COLLAPSE WARNING: A cracked floor slab shedding fragments; B floor diamond splitting over dark hole; C broken ledge with falling stones.\n4 FLOOR TRAP: A bronze pressure plate with emerging steel spikes; B triggered pressure tile with spring mechanism; C open mechanical jaw trap on floor.\n5 WALL TRAP: A stone wall socket firing bolt sideways; B recessed wall spikes protruding sideways; C wall slit with flying arrow.\n6 DEEP ACID lethal lime: A head and hands sinking into green acid; B skeletal hand disappearing in acidic pool; C boot sinking below bubbling green liquid.\n7 VOID: A black opening with jagged stone rim; B broken floor ledges framing dark chasm; C missing floor tile exposing black abyss. Empty center, not stone cube.\n8 GENERIC HAZARD: A weathered ochre warning triangle with exclamation mark; B bone skull on dangerous ground; C boot halted at jagged deadly ground edge.",
+  "image_size": {
+    "width": 384,
+    "height": 512
+  },
+  "seed": 2026110803,
+  "no_background": true,
+  "style_image": {
+    "path": "assets/art_presets/approved/character_skins_v1/grey_bastion/still.png",
+    "sha256": "70f27bbb92a0fe819c411c241a0e56b93608cc6738d72e966aa43167664c048a",
+    "usage_description": "STYLE ONLY: exact drawing, outline, material shading and pixel-cluster treatment; DO NOT draw this warrior as icons."
+  },
+  "style_options": {
+    "color_palette": false,
+    "outline": true,
+    "detail": true,
+    "shading": true
+  }
+}

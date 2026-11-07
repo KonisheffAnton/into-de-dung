@@ -1,0 +1,20 @@
+{
+  "description": "Create a transparent sprite atlas of 24 separate fantasy RPG status icons, EXACTLY 3 columns by 8 rows. Canvas384x512: each cell128x64; centers x64,192,320 and y32,96,160,224,288,352,416,480. One compact icon inside each cell, maximum48x48, empty transparent margins. No text, labels, letters, grid, frame, background, pedestal, badges or UI circles. Match reference game sprite: hand-drawn pixel-art miniature, crisp clustered pixels, dark local contour, clear 3-tone sculpted light/shadow, cool steel, worn leather, restrained colors, modest highlights. Recognizable solid objects and materials, not flat vector symbols, not glossy mobile icons. Top-left light, subtle 3/4 volume. Every row depicts ONE effect with 3 different visual motifs, left A/middle B/right C. Keep all rows equally spaced. Rows top to bottom:\n1 BLEEDING red: A plump dark-red blood drop with tiny highlight; B fresh slash wound with red drop; C bloodstained linen bandage.\n2 BURNING orange: A compact orange flame with hot core; B smoldering charcoal with flame; C burning scrap of leather.\n3 POISON dark green: A dark-green sickly skull; B small green poison vial with skull stopper; C venom fang and green drop.\n4 ACID lime: A lime drop eating holes in steel plate; B corroded sword with lime acid drop; C acid eating through leather boot. NO skull.\n5 STUN white: A bowed human head with two white stars; B dented helmet with white impact stars; C head with small white spinning star ring.\n6 ENTANGLED brown: A boots tightly bound in brown rope; B gnarled roots around ankle; C thick knotted snare around two boots.\n7 FROZEN ice blue: A sharp six-armed ice crystal; B boot trapped inside ice; C compact faceted icicle cluster.\n8 WET blue: A blue water drop; B three blue droplets; C soaked leather cloth dripping water.",
+  "image_size": {
+    "width": 384,
+    "height": 512
+  },
+  "seed": 2026110801,
+  "no_background": true,
+  "style_image": {
+    "path": "assets/art_presets/approved/character_skins_v1/grey_bastion/still.png",
+    "sha256": "70f27bbb92a0fe819c411c241a0e56b93608cc6738d72e966aa43167664c048a",
+    "usage_description": "STYLE ONLY: exact drawing, outline, material shading and pixel-cluster treatment; DO NOT draw this warrior as icons."
+  },
+  "style_options": {
+    "color_palette": false,
+    "outline": true,
+    "detail": true,
+    "shading": true
+  }
+}

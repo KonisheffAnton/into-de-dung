@@ -1,36 +1,36 @@
-# Передача — 2026-11-08: компактный HUD, ПКМ и предложения значков
+# Передача — 2026-11-08: значки в стиле игры
 
-D:/Games/into-de-dung; main; basead8cf7c349705231d74fa488ac856b0348da6adc.
-UI commitd0832d083556ca89bf2c157387ac74694059b550: пустой слот Status44px убран
-из раскладки; сообщения поверх поля слева от открытой карточки. Статусы не двигают
-Board/камеру/руку. Карточка только коротким ПКМ; drag камеры/отмена пустым ПКМ
-сохранены. ЛКМ выбирает союзника либо выполняет прежний click_attack по врагу.
-Владельцы BATTLE_HUD_SCENES_V1/TACTICAL_BATTLE; ARCHITECTURE/TESTING обновлены.
-Кадры docs/art/compact-hud-rmb-20261108/;
-отчёт test_reports/compact-hud-rmb-20261108/.
+D:/Games/into-de-dung; main; base47605034978ec9140a63423bc5d7f6ed8a58cd67.
+U попросил переделать прежние SVG-схемы в стиле игры. Получены3 растровых листа
+PixelLab generate-image-v2, по24 мотива:24 семейства×3 варианта, всего72.
+Референс — approved character_skins_v1/grey_bastion/still.png; контур,
+пиксельные плоскости, объём и материалы. Статусы/реакции/клетки, включая труп.
+Это P для выбора, без runtime-интеграции. Владелец выбора docs/ART_DIRECTION.md.
+Пакет docs/art/status-icon-style-20261108/: index.html, preview01–03.png,
+raw/sheet01–03.png, requests/, README.md, build_gallery.py.
+Отчёт test_reports/status-icon-style-20261108/.
 
-По U составлен инвентарь и72 SVG-эскиза:24 семейства×3, включая труп, разные
-кислоты/ловушки, реакции/ожидание. docs/art/status-icon-proposals-20261108/:
-index.html, characters.png, tiles.png, inventory.md, build.py, icons/.
-Это P для выбора символа, не финальный пиксельный арт и не runtime-интеграция.
-ART_DIRECTION содержит ссылку; текущий базовый значок16px,32/64 — увеличение.
+Свежие:3 jobs completed; PNG384×512 RGBA/alpha и побайтное равенство API PASS;
+наблюдены72 мотива; HTML/локальные ссылки/повторная сборка PASS; листы просмотрены.
+Фактический usage75 generations. Независимое ревью APPROVE как концепты.
+ВАЖНО: сетка смещена; все листы касаются нижнего края,03 также верхнего.
+Возможна обрезка крайних мотивов. Не нарезать автоматически по128×64;
+после выбора нужны отдельные спрайты с прозрачным запасом и проверкой16px/75%.
+Godot/full/core/ручные F5/движение/zoom/DPI/performance здесь не запускались.
+Прежние1123/0 относятся к UI commitd0832d08 и не повторены: компактный HUD,
+карточка только коротким ПКМ, ЛКМ — выбор/обычная атака, drag камеры сохранён.
+UI — BATTLE_HUD_SCENES_V1/TACTICAL_BATTLE. Старые SVG — схемы смыслов.
 
-Свежие isolated import/startup PASS; status146/0, card119/0, camera112/0,
-authoring370/0, input163/0, execution61/0, click_attack152/0: всего1123/0.
-После ревью исправлено перекрытие сообщения карточкой и повторены затронутые
-наборы; независимое APPROVE. Full/core и ручные F5/движение/zoom/DPI/performance
-не запускались; прежние foundation141/2, turn_forecast_ui26/3 не повторены.
-Отзыв U и проверка символов в настоящем бою ещё нужны.
-
-Далее — выбор U вариантов значков и отзыв о HUD; без запроса не внедрять и
-не запускать новые серии. Остаток: стыки/посадка/читаемость, край стрелы4 Лучницы,
-performance, HUD/Колода. Огонь29 принят: docs/art/fire29-natural-integration-20261107/.
+Далее — отзыв U о стиле и выбор A/B/C; без запроса не внедрять и не начинать
+новые серии. Остаток: стыки/посадка/читаемость, край стрелы4 Лучницы,
+performance, HUD/Колода; прежние foundation141/2 и turn_forecast_ui26/3 не повторены.
+Огонь29 принят: docs/art/fire29-natural-integration-20261107/.
 Чужие33: scenes/demo/main_menu.tscn и docs/art/battlefield-reference-03-20261017/;
 не reset/stage/commit. Сохранить core/preview/queue/RNG/save/frozen,5 классов F5,
 PLAYER вправо/ENEMY влево и возврат; каталоги1–3 не мигрировать.
 Один Godot runner, isolated project; без root import, служб/драйверов,
 принудительного фокуса, push/sidebar tasks/расписаний.
-[Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261108-2.md), [HISTORY](HISTORY.md).
+[Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261108-3.md), [HISTORY](HISTORY.md).
 Завершение: проверки, локальный Conventional Commit, короткий HANDOFF;
 прежний побайтно отдельно+HISTORY. В финале/при блокере предложить новый чат
 и полный промпт: HEAD, результат, docs/artifacts, остаток, ограничения,

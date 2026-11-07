@@ -1,0 +1,20 @@
+{
+  "description": "Create a transparent sprite atlas of 24 separate fantasy RPG status icons, EXACTLY 3 columns by 8 rows. Canvas384x512: each cell128x64; centers x64,192,320 and y32,96,160,224,288,352,416,480. One compact icon inside each cell, maximum48x48, empty transparent margins. No text, labels, letters, grid, frame, background, pedestal, badges or UI circles. Match reference game sprite: hand-drawn pixel-art miniature, crisp clustered pixels, dark local contour, clear 3-tone sculpted light/shadow, cool steel, worn leather, restrained colors, modest highlights. Recognizable solid objects and materials, not flat vector symbols, not glossy mobile icons. Top-left light, subtle 3/4 volume. Each row: same effect, three motifs A/B/C left to right. Rows top to bottom:\n1 MAGIC SHIELD pale gold: A magical dome around tiny figure; B radiant shield with glowing rim; C layered translucent barrier blocking spark.\n2 RAISED SHIELD steel: A steel shield stopping an arrow; B helmeted defender behind raised shield; C arrow ricocheting off battered steel shield.\n3 OPPORTUNIST: A boot leaving a danger circle with dagger striking behind it; B departing figure stabbed from behind; C escaping boot crossed by a pursuing blade.\n4 COUNTERATTACK: A sword with curved return arrow; B two opposite blades and return arrow; C shield parrying a blow and a blade thrusting back.\n5 COVER ALLY: A shield protecting smaller ally beside it; B two figures sheltered behind large shield; C shield intercepting arrow aimed at ally.\n6 WAITING: A hourglass beside crouched figure; B bronze clock with resting figure; C hourglass beside still boot.\n7 FIRE ON TILE: A orange flame on floor diamond; B burning embers on stone tile; C three tongues of fire across floor diamond.\n8 ACID POOL: A shallow bubbling lime puddle on floor diamond; B irregular acidic pool with bubbles; C green acid puddle corroding floor edges.",
+  "image_size": {
+    "width": 384,
+    "height": 512
+  },
+  "seed": 2026110802,
+  "no_background": true,
+  "style_image": {
+    "path": "assets/art_presets/approved/character_skins_v1/grey_bastion/still.png",
+    "sha256": "70f27bbb92a0fe819c411c241a0e56b93608cc6738d72e966aa43167664c048a",
+    "usage_description": "STYLE ONLY: exact drawing, outline, material shading and pixel-cluster treatment; DO NOT draw this warrior as icons."
+  },
+  "style_options": {
+    "color_palette": false,
+    "outline": true,
+    "detail": true,
+    "shading": true
+  }
+}
