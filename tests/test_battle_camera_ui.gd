@@ -237,7 +237,10 @@ func _test_forecast_wheel_and_cancel() -> void:
 	var offset_before_click := board.camera_view.offset
 	await _right_drag(point, Vector2(22, -14))
 	check(demo.attack_mode and demo.session.selected_id == selected_before_drag, "right-button drag preserves attack mode and selected unit")
+	check(not demo._character_card.visible, "right drag over target never opens character card")
 	check(board.camera_view.offset.is_equal_approx(offset_before_click + Vector2(22, -14)), "right-button drag pans while targeting")
+	# Отмена по ПКМ относится к пустому полю; ПКМ по бойцу теперь открывает карточку.
+	point = board.global_position + Vector2(8, board.size.y - 8)
 	offset_before_click = board.camera_view.offset
 	var click_down := InputEventMouseButton.new()
 	click_down.button_index = MOUSE_BUTTON_RIGHT

@@ -11,6 +11,7 @@ signal cell_clicked(cell: Vector2i)
 signal cell_hovered(cell: Vector2i)
 signal cancel_requested()
 signal displayed_unit_hovered(unit_id: int)
+signal character_card_requested(unit_id: int)
 
 const CYAN := Color("65dfcc")
 const GOLD := Color("f7c97d")
@@ -19,6 +20,7 @@ var session: BattleDemoSession
 var execution_pending: bool = false
 var _presentation_animation_unit_ids: Dictionary[int, bool] = {}
 @export var camera_controls_enabled: bool = false
+@export var character_card_input_enabled: bool = false
 var forecast_wheel_handler: Callable
 var camera_view := BattleBoardCamera.new()
 var _camera_dragging: bool = false
@@ -26,6 +28,8 @@ var _camera_gesture_active: bool = false
 var _camera_press_position: Vector2 = Vector2.ZERO
 var _camera_last_position: Vector2 = Vector2.ZERO
 var _camera_max_displacement: float = 0.0
+var _character_card_gesture: bool = false
+var _captured_character_card_id: int = UnitId.NONE
 var _camera_reset: Button
 var _camera_layout_size := Vector2.ZERO
 var _layout_dimensions := Vector2i.ZERO
@@ -1383,6 +1387,8 @@ func reset_camera() -> void:
 func _cancel_camera_gesture() -> void:
 	_camera_gesture_active = false
 	_camera_dragging = false
+	_character_card_gesture = false
+	_captured_character_card_id = UnitId.NONE
 	_camera_press_position = Vector2.ZERO
 	_camera_last_position = Vector2.ZERO
 	_camera_max_displacement = 0.0
@@ -1414,6 +1420,8 @@ func _camera_input(event: InputEvent) -> bool:
 				_camera_press_position = button.global_position
 				_camera_last_position = button.global_position
 				_camera_max_displacement = 0.0
+				_character_card_gesture = character_card_input_enabled and not execution_pending
+				_captured_character_card_id = _pick_displayed(button.position).unit_id if _character_card_gesture else UnitId.NONE
 			return true
 	elif camera_controls_enabled and event is InputEventMouseMotion and _camera_gesture_active:
 		return true
@@ -1434,9 +1442,18 @@ func _input(event: InputEvent) -> void:
 		_camera_last_position = position
 	elif event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT and not event.pressed:
 		var should_cancel := not _camera_dragging
+		var requested_character_id := UnitId.NONE
+		if should_cancel and _character_card_gesture and not execution_pending:
+			var release_local: Vector2 = get_global_transform_with_canvas().affine_inverse() * (event as InputEventMouseButton).global_position
+			if Rect2(Vector2.ZERO, size).has_point(release_local):
+				var released_id := _pick_displayed(release_local).unit_id
+				if _captured_character_card_id != UnitId.NONE and released_id == _captured_character_card_id:
+					requested_character_id = released_id
+					should_cancel = false
 		_cancel_camera_gesture()
-		# Сигнал выдаётся на отпускании в глобальном input, чтобы клик снаружи доски тоже завершал жест ровно один раз.
-		if should_cancel: cancel_requested.emit()
+		# Глобальный отпуск завершает жест и вне доски; карточка требует совпавший опубликованный ID.
+		if requested_character_id != UnitId.NONE: character_card_requested.emit(requested_character_id)
+		elif should_cancel: cancel_requested.emit()
 
 func _layer(label: String, layer: RenderLayers.Layer) -> Node2D:
 	var result := Node2D.new()

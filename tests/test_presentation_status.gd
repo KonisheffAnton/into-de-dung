@@ -390,12 +390,16 @@ func stable_info_strip(demo: BattleDemo, target_id: int, hub: bool) -> void:
 		var camera_offset := demo.board_view.camera_view.offset
 		var zoom := demo.board_view.camera_view.zoom
 		var hand := demo._mage_row.get_global_rect()
+		check(demo._status.get_parent() == demo.get_node("BattleHUD"), "feedback reserves no column height")
+		if hub:
+			check(hand.position.y - demo._compact_inspection.get_global_rect().end.y <= 8.0, "no empty feedback slot remains above cards")
 		demo._hint.text = "Опасности клетки\nВторая строка\nДополнительные подробности\nЕщё строка"
 		demo._status.text = "Действие недоступно\nПричина отказа\nДополнительное пояснение"
 		demo._displayed_unit_hovered(target_id)
 		for frame: int in 3: await process_frame
 		check(demo.board_view.get_global_rect() == rect and demo.board_view.camera_view.offset == camera_offset and demo.board_view.camera_view.zoom == zoom, "many statuses and hint overflow preserve exact board and camera")
 		check(demo._mage_row.get_global_rect() == hand, "many statuses preserve hand position")
+		check(demo._status.get_global_rect().end.y <= demo._hint.global_position.y and not demo._status.get_global_rect().intersects(hand), "overflow feedback stays above hints and cards")
 		check(demo._compact_inspection.get_parsed_text() == demo.board_view.displayed_unit_summary(target_id), "rich summary preserves exact plain facts")
 		check(demo._compact_inspection.size.y == 42.0 and not demo._compact_inspection.fit_content and not demo._compact_inspection.scroll_active, "bounded inspection never expands or captures scrolling")
 		check(demo._compact_inspection.tooltip_text.contains("стаки: 3") and demo._compact_inspection.tooltip_text.contains("В кислоте"), "full overflow details remain in tooltip")

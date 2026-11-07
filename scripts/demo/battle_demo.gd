@@ -773,6 +773,8 @@ func _build_authored_hud() -> void:
 	_compact_inspection = binding.compact_inspection
 	_character_card = hud.get_node("CharacterCard") as BattleCharacterCard
 	_character_card.close_requested.connect(_close_character_card)
+	board_view.character_card_input_enabled = true
+	board_view.character_card_requested.connect(_open_character_card)
 	for control: Control in [hud, board_view, _mage_row, binding.status]:
 		control.resized.connect(_queue_character_card_layout)
 	_mage_row.visibility_changed.connect(_queue_character_card_layout)
@@ -986,7 +988,6 @@ func select_character(id: int) -> void:
 		inspected_id = UnitId.NONE
 		_clear_action_mode()
 		_refresh()
-		_open_character_card(id)
 
 func _is_deploying() -> bool:
 	return session is BattleCoreCombinationSession and (session as BattleCoreCombinationSession).is_deploying()
@@ -1007,7 +1008,6 @@ func inspect_enemy(id: int) -> void:
 	inspected_id = UnitId.NONE if inspected_id == id else id
 	_cover_guard_mode = false
 	_refresh()
-	if inspected_id != UnitId.NONE: _open_character_card(inspected_id)
 
 func handle_cell(cell: Vector2i) -> void:
 	if _defer_forecast_intent(&"handle_cell", [cell]): return
@@ -1075,9 +1075,7 @@ func handle_cell(cell: Vector2i) -> void:
 		_execute_live(&"attack_unit", [occupant.id], true)
 	elif occupant != null:
 		if _battle != null and occupant.faction == Faction.Type.ENEMY:
-			if _character_card != null and not retreat_mode:
-				_open_character_card(occupant.id)
-			elif retreat_mode:
+			if retreat_mode:
 				inspect_enemy(occupant.id)
 			else:
 				inspected_id = UnitId.NONE
@@ -1561,6 +1559,7 @@ func _close_character_card() -> void:
 	_character_card_id = UnitId.NONE
 	_character_card_identity.clear()
 	if _character_card != null: _character_card.hide()
+	_queue_character_card_layout()
 
 func _refresh_character_card() -> void:
 	if _character_card == null or _character_card_id == UnitId.NONE or is_execution_pending(): return
@@ -1582,13 +1581,19 @@ func _queue_character_card_layout() -> void:
 	call_deferred("_layout_character_card")
 
 func _layout_character_card() -> void:
-	if _character_card == null or not _character_card.visible: return
+	if _character_card == null or _status == null: return
 	var hud := _character_card.get_parent() as Control
+	# Сообщения лежат поверх нижнего края поля: пустая строка не отнимает место у боя.
+	var feedback_height := maxf(44.0, _status.get_combined_minimum_size().y)
+	var width := minf(300.0, hud.size.x - 48.0)
+	var feedback_width := hud.size.x - 48.0 - (width + 12.0 if _character_card.visible else 0.0)
+	_status.position = Vector2(24.0, _hint.global_position.y - hud.global_position.y - feedback_height - 4.0)
+	_status.size = Vector2(maxf(0.0, feedback_width), feedback_height)
+	if not _character_card.visible: return
 	var top := board_view.get_global_rect().position.y + 44.0
-	var bottom := minf(hud.get_global_rect().end.y - 12.0, _status.get_global_rect().position.y - 8.0)
+	var bottom := minf(hud.get_global_rect().end.y - 12.0, _hint.get_global_rect().position.y - 8.0)
 	if _mage_row.is_visible_in_tree(): bottom = minf(bottom, _mage_row.get_global_rect().position.y - 12.0)
 	# Карточка — независимый overlay. Меняем только её прямоугольник, не Board/камеру.
-	var width := minf(300.0, hud.size.x - 48.0)
 	_character_card.position = Vector2(hud.size.x - width - 24.0, top - hud.global_position.y)
 	_character_card.size = Vector2(width, maxf(0.0, minf(570.0, bottom - top)))
 

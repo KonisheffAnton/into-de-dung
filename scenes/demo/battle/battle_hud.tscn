@@ -216,12 +216,15 @@ text = "Мана · добор · сыграно"
 theme_override_font_sizes/font_size = 14
 theme_override_colors/font_color = Color(0.3960784, 0.8745098, 0.8, 1)
 
-[node name="Status" type="Label" parent="Margin/Column"]
+[node name="Status" type="Label" parent="."]
 z_index = 600
-layout_mode = 2
+layout_mode = 0
+mouse_filter = 2
 text = ""
 theme_override_font_sizes/font_size = 14
 theme_override_colors/font_color = Color(0.9686275, 0.7882353, 0.4901961, 1)
+theme_override_colors/font_outline_color = Color(0.02, 0.02, 0.02, 1)
+theme_override_constants/outline_size = 2
 autowrap_mode = 3
 clip_text = true
 max_lines_visible = 2

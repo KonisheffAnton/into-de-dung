@@ -90,13 +90,18 @@ func _exercise(hub: bool) -> void:
 		var zoom := board.camera_view.zoom
 		var offset := board.camera_view.offset
 		var before := _snapshot(demo)
-		demo.handle_cell(enemy.cell)
+		board.execution_pending = true
+		_click(board.global_position + board.world_to_view(board._world_cell_center(enemy.cell) + Vector2(0, -40)), MOUSE_BUTTON_RIGHT)
+		check(not card.visible, "pending RMB cannot open card")
+		board.execution_pending = false
+		_click(board.global_position + board.world_to_view(board._world_cell_center(enemy.cell) + Vector2(0, -40)), MOUSE_BUTTON_RIGHT)
 		await _settle()
-		check(card.visible and card.name_label.text == enemy.debug_name, "ordinary enemy click opens its card")
+		check(card.visible and card.name_label.text == enemy.debug_name, "short RMB on enemy opens its card")
 		check(session.selected_id == actor.id and _snapshot(demo) == before, "inspection leaves selected ally, full state, RNG and counters intact")
 		check(board.get_global_rect() == rect and board.camera_view.zoom == zoom and board.camera_view.offset == offset, "open keeps exact battlefield and camera")
 		check(card.size.x == 300.0 and card.get_global_rect().end.x <= viewport.size.x - 20.0, "bounded right overlay")
 		check(not card.get_global_rect().intersects(demo._mage_row.get_global_rect()), "card never covers bottom hand")
+		check(not card.get_global_rect().intersects(demo._status.get_global_rect()), "card never covers feedback text")
 		check(card.get_global_rect().end.y <= viewport.size.y and card.size.y > 200.0, "card fits supported height")
 		if not card.details_label.visible: card.details_button.pressed.emit()
 		await _settle()
@@ -126,11 +131,15 @@ func _exercise(hub: bool) -> void:
 		_click(card.close_button.get_global_rect().get_center())
 		await _settle()
 		check(not card.visible and demo._character_card_id == UnitId.NONE and session.selected_id == actor.id, "close button only closes card")
+		check(is_equal_approx(demo._status.size.x, viewport.size.x - 48.0), "closing card restores full feedback width")
 		check(board.get_global_rect() == rect and _snapshot(demo) == before, "close preserves field and complete runtime")
 	viewport.size = Vector2i(1440, 1000)
 	demo.select_character(actor.id)
 	await _settle()
-	check(card.visible and demo._character_card_id == actor.id and not card.details_label.visible, "ally click selects and changes card with collapsed details")
+	check(not card.visible, "ally selection never opens card")
+	_click(board.global_position + board.world_to_view(board._world_cell_center(actor.cell) + Vector2(0, -40)), MOUSE_BUTTON_RIGHT)
+	await _settle()
+	check(card.visible and demo._character_card_id == actor.id and not card.details_label.visible, "RMB opens ally card with collapsed details")
 	check((card.portrait_rect.texture != null) == session.actor_loadouts.has(actor.id), "portrait uses known class, explicit fallback otherwise")
 	var data := BattleCharacterCardData.live(actor, session.state, session.actor_loadouts.get(actor.id, {}), demo._inspection_options(actor))
 	check(data.hp_text.contains(BattleEventText.amount_text(actor.vitals.get_hp())), "current HP comes from runtime")
@@ -173,10 +182,9 @@ func _exercise(hub: bool) -> void:
 	demo.session = session
 	check(_snapshot(demo) == before_frame, "DTO publication preserves live state")
 	demo._refresh()
-	demo._open_character_card(enemy.id)
-	demo.set_attack_mode(true)
+	demo._close_character_card()
 	demo.handle_cell(enemy.cell)
-	check(demo.is_execution_pending() or session.last_receipt != null, "explicit attack still dispatches action")
+	check(not card.visible and (demo.is_execution_pending() or session.last_receipt != null), "ordinary enemy LMB dispatches attack without opening card")
 	var deadline := Time.get_ticks_msec() + 15000
 	while demo.is_execution_pending() and Time.get_ticks_msec() < deadline:
 		demo._poll_execution()
@@ -190,7 +198,7 @@ func _exercise(hub: bool) -> void:
 	demo.queue_free()
 	await _settle()
 
-func _click(position: Vector2) -> void:
+func _click(position: Vector2, button: MouseButton = MOUSE_BUTTON_LEFT) -> void:
 	var motion := InputEventMouseMotion.new()
 	motion.position = position
 	motion.global_position = position
@@ -199,7 +207,7 @@ func _click(position: Vector2) -> void:
 		var event := InputEventMouseButton.new()
 		event.position = position
 		event.global_position = position
-		event.button_index = MOUSE_BUTTON_LEFT
+		event.button_index = button
 		event.pressed = pressed
 		viewport.push_input(event, true)
 
