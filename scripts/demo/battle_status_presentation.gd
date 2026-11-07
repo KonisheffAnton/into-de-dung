@@ -49,12 +49,12 @@ static func color(id: String) -> Color:
 static func escape_bbcode(text: String) -> String:
 	return text.replace("[", "[lb]")
 
-static func summary_bbcode(values: Array[Dictionary]) -> String:
+static func summary_bbcode(values: Array[Dictionary], icon_pixels: int = 0) -> String:
 	var labels: PackedStringArray = []
 	for entry: Dictionary in values:
 		var label := escape_bbcode(String(entry.get("title", "")))
 		if int(entry.get("stacks", 0)) > 0: label += " ×%d" % int(entry.stacks)
-		labels.append(_colored(String(entry.get("id", "")), label))
+		labels.append(_icon_prefix(entry, icon_pixels) + _colored(String(entry.get("id", "")), label))
 	return " · ".join(labels)
 
 static func details(values: Array[Dictionary]) -> String:
@@ -66,7 +66,7 @@ static func details(values: Array[Dictionary]) -> String:
 		lines.append("%s — %sсрок: %s" % [entry.title, stacks, duration])
 	return "\n".join(lines) if not lines.is_empty() else "Состояний нет."
 
-static func details_bbcode(values: Array[Dictionary]) -> String:
+static func details_bbcode(values: Array[Dictionary], icon_pixels: int = 0) -> String:
 	var lines: PackedStringArray = []
 	for entry: Dictionary in values:
 		var duration := String(entry.get("duration_unit", ""))
@@ -74,11 +74,16 @@ static func details_bbcode(values: Array[Dictionary]) -> String:
 			duration = "%d %s" % [int(entry.get("remaining", 0)), duration]
 		var stacks := "стаки: %d · " % int(entry.get("stacks", 0)) if int(entry.get("stacks", 0)) > 0 else ""
 		var line := "%s — %sсрок: %s" % [String(entry.get("title", "")), stacks, duration]
-		lines.append(_colored(String(entry.get("id", "")), escape_bbcode(line)))
+		lines.append(_icon_prefix(entry, icon_pixels) + _colored(String(entry.get("id", "")), escape_bbcode(line)))
 	return "\n".join(lines) if not lines.is_empty() else escape_bbcode("Состояний нет.")
 
 static func _colored(id: String, text: String) -> String:
 	return "[color=#%s]%s[/color]" % [color(id).to_html(false), text]
+
+static func _icon_prefix(entry: Dictionary, pixels: int) -> String:
+	if pixels <= 0: return ""
+	var icon := BattleConditionIcons.bbcode(StringName(entry.get("id", "")), pixels)
+	return icon + " " if not icon.is_empty() else ""
 
 static func event_feedback(event: Dictionary) -> String:
 	var field := ""

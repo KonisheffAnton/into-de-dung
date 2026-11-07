@@ -1,0 +1,9 @@
+{
+  "endpoint": "/edit-image-pro-flash",
+  "description": "Restore ONLY the clipped bottom contour of this exact small blue water-drop pixel-art game icon. Preserve this chosen silhouette, blue palette, highlights, shaded volumes and dark outline. A single blue teardrop, fully closed rounded bottom. Keep every other part as close to the input as possible. Centered on transparent background, existing 128x128 canvas, generous empty margin on all sides. Crisp pixel-art clusters, no soft edges, no shadow outside the drop, no text, no extra symbols.",
+  "seed": 110801,
+  "input": "../sources/wet.png",
+  "input_sha256": "8fb33e3c417355a4511dc2d08e5c3013677b8ce8af91ae3bb4b4aa021495a5db",
+  "method": "text",
+  "no_background": true
+}

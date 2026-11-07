@@ -1,0 +1,9 @@
+{
+  "endpoint": "/edit-image-pro-flash",
+  "description": "Restore ONLY the clipped bottom corner of the diamond-shaped stone floor tile. Keep the same lime-green bubbling acid puddle on this gray stone diamond tile, complete closed bottom edge. Preserve this exact chosen pixel-art icon, proportions, palette, shading, dark outline, all existing parts. Center it fully within the existing 128x128 canvas, generous transparent margin. Crisp pixel-art clusters, transparent background, no added text or symbols, no decorative frame.",
+  "seed": 110803,
+  "input": "../sources/acid_pool.png",
+  "input_sha256": "7de646bcab8510b4335fdad2901e0df98384572e353bbace2d34a8ba11537e98",
+  "method": "text",
+  "no_background": true
+}

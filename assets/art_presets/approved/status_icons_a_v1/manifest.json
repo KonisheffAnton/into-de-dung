@@ -1,0 +1,1403 @@
+{
+  "catalogue": "status_icons_a_v1",
+  "source_manifest": "docs/art/status-icons-a-20261108/sources/manifest.json",
+  "sizes": [
+    16,
+    32
+  ],
+  "resampling": "nearest",
+  "icons": [
+    {
+      "id": "bleeding",
+      "sheet": "docs/art/status-icon-style-20261108/raw/sheet01.png",
+      "sheet_sha256": "cf1f8f0c4eea11370a736f7d72cb9e410a1ee9ec392f66df355ab38e87a8bb4b",
+      "region": [
+        0,
+        14,
+        128,
+        54
+      ],
+      "repair_needed": false,
+      "source_path": "docs/art/status-icons-a-20261108/sources/bleeding.png",
+      "source_sha256": "a526386905e09943f2fdc8a7e4e98161f668012d8fcfc3aeac9cbc99fda888af",
+      "used_path": "docs/art/status-icons-a-20261108/sources/bleeding.png",
+      "used_sha256": "a526386905e09943f2fdc8a7e4e98161f668012d8fcfc3aeac9cbc99fda888af",
+      "outputs": {
+        "16": {
+          "path": "16/bleeding.png",
+          "dimensions": [
+            16,
+            16
+          ],
+          "source_alpha_box": [
+            45,
+            37,
+            83,
+            91
+          ],
+          "output_alpha_box": [
+            3,
+            1,
+            13,
+            15
+          ],
+          "sha256": "866f037243a9cc5b6fb50764bb14b263a30b0581e0aea31b20cc303cc4f7aaf6"
+        },
+        "32": {
+          "path": "32/bleeding.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "source_alpha_box": [
+            45,
+            37,
+            83,
+            91
+          ],
+          "output_alpha_box": [
+            6,
+            2,
+            26,
+            30
+          ],
+          "sha256": "a98b99ccbe5e419d6e908c15227e05c40a1f421924cc49f4241be3d5c78154e5"
+        }
+      }
+    },
+    {
+      "id": "burning",
+      "sheet": "docs/art/status-icon-style-20261108/raw/sheet01.png",
+      "sheet_sha256": "cf1f8f0c4eea11370a736f7d72cb9e410a1ee9ec392f66df355ab38e87a8bb4b",
+      "region": [
+        0,
+        77,
+        128,
+        56
+      ],
+      "repair_needed": false,
+      "source_path": "docs/art/status-icons-a-20261108/sources/burning.png",
+      "source_sha256": "fd4cbd10e42a3c9b3dbad2868ef78319e5a8eb8ab7b012425fee16b8b356deff",
+      "used_path": "docs/art/status-icons-a-20261108/sources/burning.png",
+      "used_sha256": "fd4cbd10e42a3c9b3dbad2868ef78319e5a8eb8ab7b012425fee16b8b356deff",
+      "outputs": {
+        "16": {
+          "path": "16/burning.png",
+          "dimensions": [
+            16,
+            16
+          ],
+          "source_alpha_box": [
+            43,
+            36,
+            85,
+            92
+          ],
+          "output_alpha_box": [
+            2,
+            1,
+            13,
+            15
+          ],
+          "sha256": "239587fb324ef238f7f294917410a1f92a8366966c4732948fc8d13981daea94"
+        },
+        "32": {
+          "path": "32/burning.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "source_alpha_box": [
+            43,
+            36,
+            85,
+            92
+          ],
+          "output_alpha_box": [
+            5,
+            3,
+            26,
+            30
+          ],
+          "sha256": "2575fe51026702f61ec269ca5ee93af16452993002ed05534e37a38c7a310752"
+        }
+      }
+    },
+    {
+      "id": "poison",
+      "sheet": "docs/art/status-icon-style-20261108/raw/sheet01.png",
+      "sheet_sha256": "cf1f8f0c4eea11370a736f7d72cb9e410a1ee9ec392f66df355ab38e87a8bb4b",
+      "region": [
+        0,
+        143,
+        128,
+        56
+      ],
+      "repair_needed": false,
+      "source_path": "docs/art/status-icons-a-20261108/sources/poison.png",
+      "source_sha256": "df113f5cae11aeb53909de62da773198db61ca5a4a269c4fb1baf91bd0eae907",
+      "used_path": "docs/art/status-icons-a-20261108/sources/poison.png",
+      "used_sha256": "df113f5cae11aeb53909de62da773198db61ca5a4a269c4fb1baf91bd0eae907",
+      "outputs": {
+        "16": {
+          "path": "16/poison.png",
+          "dimensions": [
+            16,
+            16
+          ],
+          "source_alpha_box": [
+            40,
+            36,
+            88,
+            92
+          ],
+          "output_alpha_box": [
+            2,
+            1,
+            14,
+            15
+          ],
+          "sha256": "443480e43073659862b840e5e628915568ae9f8e4060500505dc7356da014bfb"
+        },
+        "32": {
+          "path": "32/poison.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "source_alpha_box": [
+            40,
+            36,
+            88,
+            92
+          ],
+          "output_alpha_box": [
+            4,
+            2,
+            28,
+            30
+          ],
+          "sha256": "fd96524ea87d367108bc684bb439f079145759428858962da3678b799c9bb4ce"
+        }
+      }
+    },
+    {
+      "id": "acid",
+      "sheet": "docs/art/status-icon-style-20261108/raw/sheet01.png",
+      "sheet_sha256": "cf1f8f0c4eea11370a736f7d72cb9e410a1ee9ec392f66df355ab38e87a8bb4b",
+      "region": [
+        0,
+        207,
+        128,
+        56
+      ],
+      "repair_needed": false,
+      "source_path": "docs/art/status-icons-a-20261108/sources/acid.png",
+      "source_sha256": "8eaece874d0a2f7f62790b6e50d8cb0baec6109f5cd679d23ae377615d79936e",
+      "used_path": "docs/art/status-icons-a-20261108/sources/acid.png",
+      "used_sha256": "8eaece874d0a2f7f62790b6e50d8cb0baec6109f5cd679d23ae377615d79936e",
+      "outputs": {
+        "16": {
+          "path": "16/acid.png",
+          "dimensions": [
+            16,
+            16
+          ],
+          "source_alpha_box": [
+            34,
+            36,
+            94,
+            92
+          ],
+          "output_alpha_box": [
+            1,
+            1,
+            15,
+            14
+          ],
+          "sha256": "1f555787e83f1d08f72e3a8ab471170d58ec7ea5054a9498e03f6ad1beeb8200"
+        },
+        "32": {
+          "path": "32/acid.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "source_alpha_box": [
+            34,
+            36,
+            94,
+            92
+          ],
+          "output_alpha_box": [
+            2,
+            3,
+            30,
+            29
+          ],
+          "sha256": "66b2210812c7039b72fc92b887790ca59e5a824f4e8c307cf842e9edc9795191"
+        }
+      }
+    },
+    {
+      "id": "stunned",
+      "sheet": "docs/art/status-icon-style-20261108/raw/sheet01.png",
+      "sheet_sha256": "cf1f8f0c4eea11370a736f7d72cb9e410a1ee9ec392f66df355ab38e87a8bb4b",
+      "region": [
+        0,
+        269,
+        128,
+        58
+      ],
+      "repair_needed": false,
+      "source_path": "docs/art/status-icons-a-20261108/sources/stunned.png",
+      "source_sha256": "181345d7ed8593c79760dc732bc40fdedede432c3f937f95ac5ecdb57c0efbab",
+      "used_path": "docs/art/status-icons-a-20261108/sources/stunned.png",
+      "used_sha256": "181345d7ed8593c79760dc732bc40fdedede432c3f937f95ac5ecdb57c0efbab",
+      "outputs": {
+        "16": {
+          "path": "16/stunned.png",
+          "dimensions": [
+            16,
+            16
+          ],
+          "source_alpha_box": [
+            36,
+            35,
+            92,
+            93
+          ],
+          "output_alpha_box": [
+            1,
+            1,
+            15,
+            15
+          ],
+          "sha256": "07ded525ac797f8739adf22d347b578dd62acfd907bc538bf3058089d210662e"
+        },
+        "32": {
+          "path": "32/stunned.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "source_alpha_box": [
+            36,
+            35,
+            92,
+            93
+          ],
+          "output_alpha_box": [
+            2,
+            2,
+            29,
+            30
+          ],
+          "sha256": "22497fa1b299a8b935fa255d80f2d3524123ae01bfff4c13d995618b7f133e48"
+        }
+      }
+    },
+    {
+      "id": "entangled",
+      "sheet": "docs/art/status-icon-style-20261108/raw/sheet01.png",
+      "sheet_sha256": "cf1f8f0c4eea11370a736f7d72cb9e410a1ee9ec392f66df355ab38e87a8bb4b",
+      "region": [
+        0,
+        337,
+        128,
+        51
+      ],
+      "repair_needed": false,
+      "source_path": "docs/art/status-icons-a-20261108/sources/entangled.png",
+      "source_sha256": "853bf133eb7c42fb07b3dd05e767a5391109c4ed90b9c3d55d369e482a5e4292",
+      "used_path": "docs/art/status-icons-a-20261108/sources/entangled.png",
+      "used_sha256": "853bf133eb7c42fb07b3dd05e767a5391109c4ed90b9c3d55d369e482a5e4292",
+      "outputs": {
+        "16": {
+          "path": "16/entangled.png",
+          "dimensions": [
+            16,
+            16
+          ],
+          "source_alpha_box": [
+            33,
+            38,
+            94,
+            89
+          ],
+          "output_alpha_box": [
+            1,
+            2,
+            15,
+            14
+          ],
+          "sha256": "939b7ee0964e9bc51fcccb20b0d5e3befaf1c8cdd52df2972477889537c614e9"
+        },
+        "32": {
+          "path": "32/entangled.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "source_alpha_box": [
+            33,
+            38,
+            94,
+            89
+          ],
+          "output_alpha_box": [
+            2,
+            4,
+            30,
+            27
+          ],
+          "sha256": "c40a1e3df94f7521cd4f591ad0e0d70943c800f00e49fee02095d785daf7df2e"
+        }
+      }
+    },
+    {
+      "id": "frozen",
+      "sheet": "docs/art/status-icon-style-20261108/raw/sheet01.png",
+      "sheet_sha256": "cf1f8f0c4eea11370a736f7d72cb9e410a1ee9ec392f66df355ab38e87a8bb4b",
+      "region": [
+        0,
+        395,
+        128,
+        60
+      ],
+      "repair_needed": false,
+      "source_path": "docs/art/status-icons-a-20261108/sources/frozen.png",
+      "source_sha256": "6628b9666575c7af63282574b2405283c4458c038f97aa9d19cabedc32f44e91",
+      "used_path": "docs/art/status-icons-a-20261108/sources/frozen.png",
+      "used_sha256": "6628b9666575c7af63282574b2405283c4458c038f97aa9d19cabedc32f44e91",
+      "outputs": {
+        "16": {
+          "path": "16/frozen.png",
+          "dimensions": [
+            16,
+            16
+          ],
+          "source_alpha_box": [
+            37,
+            34,
+            91,
+            94
+          ],
+          "output_alpha_box": [
+            1,
+            1,
+            14,
+            15
+          ],
+          "sha256": "1c4e7a2043a8edd14aa297f1fad32e902b455be83b6297fe641436751f8919a3"
+        },
+        "32": {
+          "path": "32/frozen.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "source_alpha_box": [
+            37,
+            34,
+            91,
+            94
+          ],
+          "output_alpha_box": [
+            3,
+            2,
+            28,
+            30
+          ],
+          "sha256": "9f19755d85ab3425b0be9530bffb03f6ece3853ce40c2767d97dee52eb614023"
+        }
+      }
+    },
+    {
+      "id": "wet",
+      "sheet": "docs/art/status-icon-style-20261108/raw/sheet01.png",
+      "sheet_sha256": "cf1f8f0c4eea11370a736f7d72cb9e410a1ee9ec392f66df355ab38e87a8bb4b",
+      "region": [
+        0,
+        463,
+        128,
+        49
+      ],
+      "repair_needed": true,
+      "source_path": "docs/art/status-icons-a-20261108/sources/wet.png",
+      "source_sha256": "8fb33e3c417355a4511dc2d08e5c3013677b8ce8af91ae3bb4b4aa021495a5db",
+      "used_path": "docs/art/status-icons-a-20261108/repairs/wet.png",
+      "used_sha256": "559bb659ae37e7226b62f5b5a35cfc2f3ddba17f5b085aae432a50cad7f7cb88",
+      "outputs": {
+        "16": {
+          "path": "16/wet.png",
+          "dimensions": [
+            16,
+            16
+          ],
+          "source_alpha_box": [
+            47,
+            39,
+            81,
+            88
+          ],
+          "output_alpha_box": [
+            3,
+            1,
+            13,
+            15
+          ],
+          "sha256": "1dd838437a2e6a579d3f7bbe69dc2584e792bdff983250e3d7efd5099bb54a88"
+        },
+        "32": {
+          "path": "32/wet.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "source_alpha_box": [
+            47,
+            39,
+            81,
+            88
+          ],
+          "output_alpha_box": [
+            6,
+            2,
+            25,
+            30
+          ],
+          "sha256": "51273e295fa45767f444fbc3dbb86721d7d7bcb705cbfe487a983bd5d10b5321"
+        }
+      }
+    },
+    {
+      "id": "shield",
+      "sheet": "docs/art/status-icon-style-20261108/raw/sheet02.png",
+      "sheet_sha256": "f09bf37cf3df4eda6075b0cc57aafc92d8a48eafb55426a252a627bc8890d151",
+      "region": [
+        0,
+        18,
+        128,
+        58
+      ],
+      "repair_needed": false,
+      "source_path": "docs/art/status-icons-a-20261108/sources/shield.png",
+      "source_sha256": "b4432ceae39e752944d93e4a44bfaf2b33394a0cddb212eca4281ac3cd2f8f75",
+      "used_path": "docs/art/status-icons-a-20261108/sources/shield.png",
+      "used_sha256": "b4432ceae39e752944d93e4a44bfaf2b33394a0cddb212eca4281ac3cd2f8f75",
+      "outputs": {
+        "16": {
+          "path": "16/shield.png",
+          "dimensions": [
+            16,
+            16
+          ],
+          "source_alpha_box": [
+            27,
+            35,
+            101,
+            93
+          ],
+          "output_alpha_box": [
+            1,
+            2,
+            15,
+            13
+          ],
+          "sha256": "1094731683e057fe0184bdbdd776dd09707da245f6d21b03824240f82a55a9d0"
+        },
+        "32": {
+          "path": "32/shield.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "source_alpha_box": [
+            27,
+            35,
+            101,
+            93
+          ],
+          "output_alpha_box": [
+            2,
+            5,
+            30,
+            27
+          ],
+          "sha256": "7ee4d0f64d1d5683d8fda6901bc9c2bdf3693557f3c1c372b8119aa18157d58f"
+        }
+      }
+    },
+    {
+      "id": "raised_shield",
+      "sheet": "docs/art/status-icon-style-20261108/raw/sheet02.png",
+      "sheet_sha256": "f09bf37cf3df4eda6075b0cc57aafc92d8a48eafb55426a252a627bc8890d151",
+      "region": [
+        0,
+        84,
+        128,
+        56
+      ],
+      "repair_needed": false,
+      "source_path": "docs/art/status-icons-a-20261108/sources/raised_shield.png",
+      "source_sha256": "7c811b5ba9dcafbfd5934b04d607e613175f64e0a3420f1b48a37101a866e3b2",
+      "used_path": "docs/art/status-icons-a-20261108/sources/raised_shield.png",
+      "used_sha256": "7c811b5ba9dcafbfd5934b04d607e613175f64e0a3420f1b48a37101a866e3b2",
+      "outputs": {
+        "16": {
+          "path": "16/raised_shield.png",
+          "dimensions": [
+            16,
+            16
+          ],
+          "source_alpha_box": [
+            32,
+            36,
+            96,
+            92
+          ],
+          "output_alpha_box": [
+            1,
+            2,
+            15,
+            14
+          ],
+          "sha256": "f74acf50821b119f22d807453c9cda9965ca1e900136ed4e76f7d2058cf9d2b8"
+        },
+        "32": {
+          "path": "32/raised_shield.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "source_alpha_box": [
+            32,
+            36,
+            96,
+            92
+          ],
+          "output_alpha_box": [
+            2,
+            3,
+            30,
+            28
+          ],
+          "sha256": "fc6622602a7a8a14773ea31e554539108d8108d516bf68fc9bf87ad9b74848b8"
+        }
+      }
+    },
+    {
+      "id": "opportunist",
+      "sheet": "docs/art/status-icon-style-20261108/raw/sheet02.png",
+      "sheet_sha256": "f09bf37cf3df4eda6075b0cc57aafc92d8a48eafb55426a252a627bc8890d151",
+      "region": [
+        0,
+        147,
+        128,
+        58
+      ],
+      "repair_needed": false,
+      "source_path": "docs/art/status-icons-a-20261108/sources/opportunist.png",
+      "source_sha256": "f8e8521579346ec23e1aeb3676dbe801186b9876ec36050d2bd3ee6ab086872c",
+      "used_path": "docs/art/status-icons-a-20261108/sources/opportunist.png",
+      "used_sha256": "f8e8521579346ec23e1aeb3676dbe801186b9876ec36050d2bd3ee6ab086872c",
+      "outputs": {
+        "16": {
+          "path": "16/opportunist.png",
+          "dimensions": [
+            16,
+            16
+          ],
+          "source_alpha_box": [
+            26,
+            35,
+            102,
+            93
+          ],
+          "output_alpha_box": [
+            1,
+            2,
+            15,
+            13
+          ],
+          "sha256": "445c5342f8b5ac75dff949c584126c276d15fc200011ff474b03ffb5c5fd9c69"
+        },
+        "32": {
+          "path": "32/opportunist.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "source_alpha_box": [
+            26,
+            35,
+            102,
+            93
+          ],
+          "output_alpha_box": [
+            2,
+            5,
+            30,
+            26
+          ],
+          "sha256": "e11ba7a5021af6ce68f9d62127d497f358653710754cf980a09e510fd152002b"
+        }
+      }
+    },
+    {
+      "id": "counterattack",
+      "sheet": "docs/art/status-icon-style-20261108/raw/sheet02.png",
+      "sheet_sha256": "f09bf37cf3df4eda6075b0cc57aafc92d8a48eafb55426a252a627bc8890d151",
+      "region": [
+        0,
+        211,
+        128,
+        58
+      ],
+      "repair_needed": false,
+      "source_path": "docs/art/status-icons-a-20261108/sources/counterattack.png",
+      "source_sha256": "edcde0ad8213d25f2103b98550b2f3183a6999ba26fd9f2d44658a2546dcff87",
+      "used_path": "docs/art/status-icons-a-20261108/sources/counterattack.png",
+      "used_sha256": "edcde0ad8213d25f2103b98550b2f3183a6999ba26fd9f2d44658a2546dcff87",
+      "outputs": {
+        "16": {
+          "path": "16/counterattack.png",
+          "dimensions": [
+            16,
+            16
+          ],
+          "source_alpha_box": [
+            30,
+            35,
+            98,
+            93
+          ],
+          "output_alpha_box": [
+            1,
+            2,
+            15,
+            14
+          ],
+          "sha256": "3ee6aa30812dd40ae3cfc59899aeeb43082309b6a5fe1b606b9e0ef196f15c75"
+        },
+        "32": {
+          "path": "32/counterattack.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "source_alpha_box": [
+            30,
+            35,
+            98,
+            93
+          ],
+          "output_alpha_box": [
+            2,
+            4,
+            30,
+            28
+          ],
+          "sha256": "35d4236a23d2ca78ca7f2fdcb9ff9a274f47b04770a8fdb418b7f90f09d243b5"
+        }
+      }
+    },
+    {
+      "id": "cover",
+      "sheet": "docs/art/status-icon-style-20261108/raw/sheet02.png",
+      "sheet_sha256": "f09bf37cf3df4eda6075b0cc57aafc92d8a48eafb55426a252a627bc8890d151",
+      "region": [
+        0,
+        276,
+        128,
+        56
+      ],
+      "repair_needed": false,
+      "source_path": "docs/art/status-icons-a-20261108/sources/cover.png",
+      "source_sha256": "a6e43f2ae94d82b175dcd0d552c870694079e9cc8f9c9493e0a7b48425b59325",
+      "used_path": "docs/art/status-icons-a-20261108/sources/cover.png",
+      "used_sha256": "a6e43f2ae94d82b175dcd0d552c870694079e9cc8f9c9493e0a7b48425b59325",
+      "outputs": {
+        "16": {
+          "path": "16/cover.png",
+          "dimensions": [
+            16,
+            16
+          ],
+          "source_alpha_box": [
+            33,
+            36,
+            95,
+            92
+          ],
+          "output_alpha_box": [
+            1,
+            1,
+            15,
+            14
+          ],
+          "sha256": "05dcb2cb35628fb984c2ec6add726277a18a104b686eafd5747f2cdc26ca9120"
+        },
+        "32": {
+          "path": "32/cover.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "source_alpha_box": [
+            33,
+            36,
+            95,
+            92
+          ],
+          "output_alpha_box": [
+            2,
+            3,
+            30,
+            28
+          ],
+          "sha256": "5a373fcff2a86fbb62a8c1e8c1e2d73253b42c299be41ffcef23db45c1fbf026"
+        }
+      }
+    },
+    {
+      "id": "pending",
+      "sheet": "docs/art/status-icon-style-20261108/raw/sheet02.png",
+      "sheet_sha256": "f09bf37cf3df4eda6075b0cc57aafc92d8a48eafb55426a252a627bc8890d151",
+      "region": [
+        0,
+        348,
+        128,
+        42
+      ],
+      "repair_needed": false,
+      "source_path": "docs/art/status-icons-a-20261108/sources/pending.png",
+      "source_sha256": "e9eac56a1d8821ea75f3721088013c2ed2ccfd4cd9481d5479c0158fbb734230",
+      "used_path": "docs/art/status-icons-a-20261108/sources/pending.png",
+      "used_sha256": "e9eac56a1d8821ea75f3721088013c2ed2ccfd4cd9481d5479c0158fbb734230",
+      "outputs": {
+        "16": {
+          "path": "16/pending.png",
+          "dimensions": [
+            16,
+            16
+          ],
+          "source_alpha_box": [
+            35,
+            43,
+            92,
+            85
+          ],
+          "output_alpha_box": [
+            1,
+            3,
+            15,
+            13
+          ],
+          "sha256": "4ef7b5b4ef16bd6b19238d28dcbecda2103558e20fbeb3b9cee87cc1a3703bb5"
+        },
+        "32": {
+          "path": "32/pending.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "source_alpha_box": [
+            35,
+            43,
+            92,
+            85
+          ],
+          "output_alpha_box": [
+            2,
+            5,
+            30,
+            26
+          ],
+          "sha256": "9e23b008252c2332497141e63318b1496c16d9f3dd584a0b6c33f3aeab576442"
+        }
+      }
+    },
+    {
+      "id": "fire_on_tile",
+      "sheet": "docs/art/status-icon-style-20261108/raw/sheet02.png",
+      "sheet_sha256": "f09bf37cf3df4eda6075b0cc57aafc92d8a48eafb55426a252a627bc8890d151",
+      "region": [
+        0,
+        399,
+        128,
+        58
+      ],
+      "repair_needed": false,
+      "source_path": "docs/art/status-icons-a-20261108/sources/fire_on_tile.png",
+      "source_sha256": "c40babc00542ef2c5d5242d3425e69c50afc825a7a5367995f31197909f275a1",
+      "used_path": "docs/art/status-icons-a-20261108/sources/fire_on_tile.png",
+      "used_sha256": "c40babc00542ef2c5d5242d3425e69c50afc825a7a5367995f31197909f275a1",
+      "outputs": {
+        "16": {
+          "path": "16/fire_on_tile.png",
+          "dimensions": [
+            16,
+            16
+          ],
+          "source_alpha_box": [
+            23,
+            35,
+            105,
+            93
+          ],
+          "output_alpha_box": [
+            1,
+            3,
+            15,
+            13
+          ],
+          "sha256": "9112e2e54797a8e3fe3545f91abf171a2188f023eee67d613e735252effcef07"
+        },
+        "32": {
+          "path": "32/fire_on_tile.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "source_alpha_box": [
+            23,
+            35,
+            105,
+            93
+          ],
+          "output_alpha_box": [
+            2,
+            6,
+            30,
+            26
+          ],
+          "sha256": "d4363c50028691888df117c835705a3c6beea59c0d7fb9900f57b08e74afc108"
+        }
+      }
+    },
+    {
+      "id": "acid_pool",
+      "sheet": "docs/art/status-icon-style-20261108/raw/sheet02.png",
+      "sheet_sha256": "f09bf37cf3df4eda6075b0cc57aafc92d8a48eafb55426a252a627bc8890d151",
+      "region": [
+        0,
+        465,
+        128,
+        47
+      ],
+      "repair_needed": true,
+      "source_path": "docs/art/status-icons-a-20261108/sources/acid_pool.png",
+      "source_sha256": "7de646bcab8510b4335fdad2901e0df98384572e353bbace2d34a8ba11537e98",
+      "used_path": "docs/art/status-icons-a-20261108/repairs/acid_pool.png",
+      "used_sha256": "b834be0db773ef750e5d0f5d54006ad5cd41b54302c9aadab117c084ab367a9b",
+      "outputs": {
+        "16": {
+          "path": "16/acid_pool.png",
+          "dimensions": [
+            16,
+            16
+          ],
+          "source_alpha_box": [
+            23,
+            40,
+            105,
+            93
+          ],
+          "output_alpha_box": [
+            1,
+            3,
+            15,
+            12
+          ],
+          "sha256": "07fb5b7d0b09bbd7c3c57819652d37c3b3a5498d1f096cbd3da6f642ac78cb89"
+        },
+        "32": {
+          "path": "32/acid_pool.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "source_alpha_box": [
+            23,
+            40,
+            105,
+            93
+          ],
+          "output_alpha_box": [
+            2,
+            7,
+            30,
+            25
+          ],
+          "sha256": "dbc0e4261a9b6baf9553d3025f58b5789ba2fb5e4b5e6afaf726e1014b295665"
+        }
+      }
+    },
+    {
+      "id": "spikes",
+      "sheet": "docs/art/status-icon-style-20261108/raw/sheet03.png",
+      "sheet_sha256": "4a2c3efd3a1738b7d9c472bdd4784e5c33818838c93dccbed9746f60f8011a3f",
+      "region": [
+        0,
+        0,
+        128,
+        56
+      ],
+      "repair_needed": true,
+      "source_path": "docs/art/status-icons-a-20261108/sources/spikes.png",
+      "source_sha256": "4bc403a14046102736a455bd7e0dc33a7c97e327bc5ebdc71cc475538b5f1a85",
+      "used_path": "docs/art/status-icons-a-20261108/repairs/spikes.png",
+      "used_sha256": "b75682253226e49fa37450e1f97f6ae16ba8bb0eb7935a5636a0e07d638c5a91",
+      "outputs": {
+        "16": {
+          "path": "16/spikes.png",
+          "dimensions": [
+            16,
+            16
+          ],
+          "source_alpha_box": [
+            29,
+            34,
+            98,
+            92
+          ],
+          "output_alpha_box": [
+            1,
+            3,
+            15,
+            14
+          ],
+          "sha256": "4c26d38ec2d9c1b04b9cb8d7ba9904383a9454794bc0fc4361a5195aa88484e8"
+        },
+        "32": {
+          "path": "32/spikes.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "source_alpha_box": [
+            29,
+            34,
+            98,
+            92
+          ],
+          "output_alpha_box": [
+            2,
+            4,
+            30,
+            28
+          ],
+          "sha256": "e80445fd773826146b539596f07def6253afab32eab1df9e131d165ed1bcc756"
+        }
+      }
+    },
+    {
+      "id": "corpse",
+      "sheet": "docs/art/status-icon-style-20261108/raw/sheet03.png",
+      "sheet_sha256": "4a2c3efd3a1738b7d9c472bdd4784e5c33818838c93dccbed9746f60f8011a3f",
+      "region": [
+        0,
+        87,
+        128,
+        26
+      ],
+      "repair_needed": false,
+      "source_path": "docs/art/status-icons-a-20261108/sources/corpse.png",
+      "source_sha256": "bf6f5a10bf542dd593d9f359770aab2f293577bda13532e07be4cc90ef480d5c",
+      "used_path": "docs/art/status-icons-a-20261108/sources/corpse.png",
+      "used_sha256": "bf6f5a10bf542dd593d9f359770aab2f293577bda13532e07be4cc90ef480d5c",
+      "outputs": {
+        "16": {
+          "path": "16/corpse.png",
+          "dimensions": [
+            16,
+            16
+          ],
+          "source_alpha_box": [
+            12,
+            51,
+            116,
+            77
+          ],
+          "output_alpha_box": [
+            1,
+            6,
+            15,
+            10
+          ],
+          "sha256": "9c39a3d6c8fd40420fe52f41e48213bb0dc4e6c0da89658efc71cb5c1b26b630"
+        },
+        "32": {
+          "path": "32/corpse.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "source_alpha_box": [
+            12,
+            51,
+            116,
+            77
+          ],
+          "output_alpha_box": [
+            2,
+            12,
+            30,
+            19
+          ],
+          "sha256": "59409a300c65004636d4a2b1ede4c39b2431b2ab416388b47b564e5047856e6d"
+        }
+      }
+    },
+    {
+      "id": "collapse_warning",
+      "sheet": "docs/art/status-icon-style-20261108/raw/sheet03.png",
+      "sheet_sha256": "4a2c3efd3a1738b7d9c472bdd4784e5c33818838c93dccbed9746f60f8011a3f",
+      "region": [
+        0,
+        131,
+        128,
+        58
+      ],
+      "repair_needed": false,
+      "source_path": "docs/art/status-icons-a-20261108/sources/collapse_warning.png",
+      "source_sha256": "d8a3bd004bc004c4d2762abe0f5481dac340b678b5909a50c73f5f2280f886ea",
+      "used_path": "docs/art/status-icons-a-20261108/sources/collapse_warning.png",
+      "used_sha256": "d8a3bd004bc004c4d2762abe0f5481dac340b678b5909a50c73f5f2280f886ea",
+      "outputs": {
+        "16": {
+          "path": "16/collapse_warning.png",
+          "dimensions": [
+            16,
+            16
+          ],
+          "source_alpha_box": [
+            25,
+            35,
+            103,
+            93
+          ],
+          "output_alpha_box": [
+            1,
+            3,
+            15,
+            13
+          ],
+          "sha256": "45469a8f191b8daf6fdc7ae8b3b68b83695bfbe07e20452232a80c07a68ce571"
+        },
+        "32": {
+          "path": "32/collapse_warning.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "source_alpha_box": [
+            25,
+            35,
+            103,
+            93
+          ],
+          "output_alpha_box": [
+            2,
+            5,
+            30,
+            26
+          ],
+          "sha256": "5e65c94d1675588981de9eade2245b2ffdf6116f7504f4a6ce9ff5380c49fa9f"
+        }
+      }
+    },
+    {
+      "id": "floor_trap",
+      "sheet": "docs/art/status-icon-style-20261108/raw/sheet03.png",
+      "sheet_sha256": "4a2c3efd3a1738b7d9c472bdd4784e5c33818838c93dccbed9746f60f8011a3f",
+      "region": [
+        0,
+        194,
+        128,
+        59
+      ],
+      "repair_needed": false,
+      "source_path": "docs/art/status-icons-a-20261108/sources/floor_trap.png",
+      "source_sha256": "a8c689c8e1ace319d78bfaaeb41feddd3b63f8ab6a66f4a3a5505cdd579d2d84",
+      "used_path": "docs/art/status-icons-a-20261108/sources/floor_trap.png",
+      "used_sha256": "a8c689c8e1ace319d78bfaaeb41feddd3b63f8ab6a66f4a3a5505cdd579d2d84",
+      "outputs": {
+        "16": {
+          "path": "16/floor_trap.png",
+          "dimensions": [
+            16,
+            16
+          ],
+          "source_alpha_box": [
+            24,
+            34,
+            103,
+            93
+          ],
+          "output_alpha_box": [
+            1,
+            4,
+            15,
+            13
+          ],
+          "sha256": "18ecc023360960d4f73ed3a6932f4d980422a5751d4376b1849c022483179391"
+        },
+        "32": {
+          "path": "32/floor_trap.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "source_alpha_box": [
+            24,
+            34,
+            103,
+            93
+          ],
+          "output_alpha_box": [
+            2,
+            6,
+            30,
+            26
+          ],
+          "sha256": "89e05181b4e8338e10a3c4bb0fb833b31129e81b5569adf857e0189d7fae4d3c"
+        }
+      }
+    },
+    {
+      "id": "wall_trap",
+      "sheet": "docs/art/status-icon-style-20261108/raw/sheet03.png",
+      "sheet_sha256": "4a2c3efd3a1738b7d9c472bdd4784e5c33818838c93dccbed9746f60f8011a3f",
+      "region": [
+        0,
+        259,
+        128,
+        62
+      ],
+      "repair_needed": false,
+      "source_path": "docs/art/status-icons-a-20261108/sources/wall_trap.png",
+      "source_sha256": "c86cb07bf32a6daa911ac084c8fe3c16fd130c35fc9eb23f6cc8848bec724c3d",
+      "used_path": "docs/art/status-icons-a-20261108/sources/wall_trap.png",
+      "used_sha256": "c86cb07bf32a6daa911ac084c8fe3c16fd130c35fc9eb23f6cc8848bec724c3d",
+      "outputs": {
+        "16": {
+          "path": "16/wall_trap.png",
+          "dimensions": [
+            16,
+            16
+          ],
+          "source_alpha_box": [
+            22,
+            33,
+            106,
+            95
+          ],
+          "output_alpha_box": [
+            1,
+            3,
+            15,
+            13
+          ],
+          "sha256": "b14795fce267a8be1731e1647986ac489f1567482ee5f127188cd1a56d4c97d9"
+        },
+        "32": {
+          "path": "32/wall_trap.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "source_alpha_box": [
+            22,
+            33,
+            106,
+            95
+          ],
+          "output_alpha_box": [
+            2,
+            5,
+            30,
+            26
+          ],
+          "sha256": "e434ffd07ed72f30ab8ceb17e02cb18ab78ad88264cdfdd770a226cd5cc744c6"
+        }
+      }
+    },
+    {
+      "id": "deep_acid",
+      "sheet": "docs/art/status-icon-style-20261108/raw/sheet03.png",
+      "sheet_sha256": "4a2c3efd3a1738b7d9c472bdd4784e5c33818838c93dccbed9746f60f8011a3f",
+      "region": [
+        0,
+        332,
+        128,
+        55
+      ],
+      "repair_needed": false,
+      "source_path": "docs/art/status-icons-a-20261108/sources/deep_acid.png",
+      "source_sha256": "734d9518df6dcddcdebc56ebbc44c4969e1b56003d866aab2b381123d66f0b0e",
+      "used_path": "docs/art/status-icons-a-20261108/sources/deep_acid.png",
+      "used_sha256": "734d9518df6dcddcdebc56ebbc44c4969e1b56003d866aab2b381123d66f0b0e",
+      "outputs": {
+        "16": {
+          "path": "16/deep_acid.png",
+          "dimensions": [
+            16,
+            16
+          ],
+          "source_alpha_box": [
+            23,
+            36,
+            105,
+            91
+          ],
+          "output_alpha_box": [
+            1,
+            3,
+            15,
+            12
+          ],
+          "sha256": "1ba44918d39f8e10e08573f880316be45e7c11bfae817b6c14b36efb263b4b24"
+        },
+        "32": {
+          "path": "32/deep_acid.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "source_alpha_box": [
+            23,
+            36,
+            105,
+            91
+          ],
+          "output_alpha_box": [
+            2,
+            6,
+            30,
+            25
+          ],
+          "sha256": "b9724a89447a8ba4cc59f78dfe8d815c1deffc43d4283ec2c5171174c04c5eba"
+        }
+      }
+    },
+    {
+      "id": "void",
+      "sheet": "docs/art/status-icon-style-20261108/raw/sheet03.png",
+      "sheet_sha256": "4a2c3efd3a1738b7d9c472bdd4784e5c33818838c93dccbed9746f60f8011a3f",
+      "region": [
+        0,
+        396,
+        128,
+        55
+      ],
+      "repair_needed": false,
+      "source_path": "docs/art/status-icons-a-20261108/sources/void.png",
+      "source_sha256": "896608336d1964e67228d8f958e34c67700f346538c28175d6db50526a2385c3",
+      "used_path": "docs/art/status-icons-a-20261108/sources/void.png",
+      "used_sha256": "896608336d1964e67228d8f958e34c67700f346538c28175d6db50526a2385c3",
+      "outputs": {
+        "16": {
+          "path": "16/void.png",
+          "dimensions": [
+            16,
+            16
+          ],
+          "source_alpha_box": [
+            18,
+            36,
+            110,
+            91
+          ],
+          "output_alpha_box": [
+            1,
+            4,
+            15,
+            12
+          ],
+          "sha256": "914fad3f760bf5548f1b633fcad17285a2b3c4cdd7ba3c432c0818e8d45235c6"
+        },
+        "32": {
+          "path": "32/void.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "source_alpha_box": [
+            18,
+            36,
+            110,
+            91
+          ],
+          "output_alpha_box": [
+            2,
+            7,
+            30,
+            24
+          ],
+          "sha256": "c8f9e77e08fa0f19cf87c94760e7cdc397056ff00232e2055e949ea92f8320e5"
+        }
+      }
+    },
+    {
+      "id": "hazard",
+      "sheet": "docs/art/status-icon-style-20261108/raw/sheet03.png",
+      "sheet_sha256": "4a2c3efd3a1738b7d9c472bdd4784e5c33818838c93dccbed9746f60f8011a3f",
+      "region": [
+        0,
+        460,
+        128,
+        52
+      ],
+      "repair_needed": true,
+      "source_path": "docs/art/status-icons-a-20261108/sources/hazard.png",
+      "source_sha256": "814b8721b6c565e5d55edbac211858c17f2517428bc0a87ca3bb305c415ea2b0",
+      "used_path": "docs/art/status-icons-a-20261108/repairs/hazard.png",
+      "used_sha256": "5b2049100a290a180947a90bdb169f571938a24d834ebb28626cb8d02e4306ea",
+      "outputs": {
+        "16": {
+          "path": "16/hazard.png",
+          "dimensions": [
+            16,
+            16
+          ],
+          "source_alpha_box": [
+            31,
+            38,
+            96,
+            91
+          ],
+          "output_alpha_box": [
+            1,
+            2,
+            15,
+            13
+          ],
+          "sha256": "fb9af3b2d8f1aeb10a05244da28d2519ec02e87234ddac629e2e88c509d3ec3e"
+        },
+        "32": {
+          "path": "32/hazard.png",
+          "dimensions": [
+            32,
+            32
+          ],
+          "source_alpha_box": [
+            31,
+            38,
+            96,
+            91
+          ],
+          "output_alpha_box": [
+            2,
+            4,
+            30,
+            27
+          ],
+          "sha256": "9f9d5ffb760f0fd1177a771df979e400c1c770d19210e46fe8d51f8c6b9122c2"
+        }
+      }
+    }
+  ]
+}

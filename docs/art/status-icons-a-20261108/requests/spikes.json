@@ -1,0 +1,9 @@
+{
+  "endpoint": "/edit-image-pro-flash",
+  "description": "Restore ONLY the clipped sharp top tip of the tallest central steel spike. Keep exactly the three metal floor spikes and their small earthy ground base, no extra spikes. Preserve this exact chosen pixel-art icon, proportions, palette, shading, dark outline, all existing parts. Center it fully within the existing 128x128 canvas, generous transparent margin. Crisp pixel-art clusters, transparent background, no added text or symbols, no decorative frame.",
+  "seed": 110802,
+  "input": "../sources/spikes.png",
+  "input_sha256": "4bc403a14046102736a455bd7e0dc33a7c97e327bc5ebdc71cc475538b5f1a85",
+  "method": "text",
+  "no_background": true
+}

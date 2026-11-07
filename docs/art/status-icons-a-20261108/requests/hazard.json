@@ -1,0 +1,9 @@
+{
+  "endpoint": "/edit-image-pro-flash",
+  "description": "Restore ONLY the clipped bottom horizontal edge and two bottom corners of the triangular ochre warning sign. Keep the same black exclamation mark and triangle shape, complete closed triangle outline. Preserve this exact chosen pixel-art icon, proportions, palette, shading, dark outline, all existing parts. Center it fully within the existing 128x128 canvas, generous transparent margin. Crisp pixel-art clusters, transparent background, no added text or symbols, no decorative frame.",
+  "seed": 110804,
+  "input": "../sources/hazard.png",
+  "input_sha256": "814b8721b6c565e5d55edbac211858c17f2517428bc0a87ca3bb305c415ea2b0",
+  "method": "text",
+  "no_background": true
+}

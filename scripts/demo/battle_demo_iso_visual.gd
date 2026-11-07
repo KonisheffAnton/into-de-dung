@@ -68,9 +68,6 @@ const STATUS_ICON_GAP: float = 1.0
 const STATUS_ICON_LIMIT: int = 5
 static var _combat_number_font: FontFile
 @export var ground_base_tint: Color = Color("697553")
-const BLEEDING_ICON: Texture2D = preload("res://assets/placeholder_battle/bleeding_icon.svg")
-const BURNING_ICON: Texture2D = preload("res://assets/placeholder_battle/burning_icon.svg")
-const WET_ICON: Texture2D = preload("res://assets/placeholder_battle/wet_icon.svg")
 var _scene_art_enabled: bool = false
 var _status_hud: Node2D
 var _ground_overlay: Node2D
@@ -159,6 +156,7 @@ func _ready() -> void:
 	_ground_shadow.draw.connect(_draw_ground_shadow.bind(_ground_shadow))
 	_status_hud = Node2D.new()
 	_status_hud.name = "StatusHud"
+	_status_hud.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	# HUD остаётся в локальной сортировке, чтобы передние фигуры и тайлы могли его закрыть.
 	_status_hud.z_index = 0
 	add_child(_status_hud)
@@ -944,8 +942,4 @@ func _draw_status_icons(canvas: Node2D) -> void:
 		canvas.draw_string(ThemeDB.fallback_font, Vector2(x, -7), overflow_label, HORIZONTAL_ALIGNMENT_CENTER, 26, 10, Color("d4deea"))
 
 func _status_icon(id: String) -> Texture2D:
-	match id:
-		"bleeding": return BLEEDING_ICON
-		"burning": return BURNING_ICON
-		"wet": return WET_ICON
-		_: return null
+	return BattleConditionIcons.texture(StringName(id))

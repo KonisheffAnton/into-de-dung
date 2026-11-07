@@ -25,6 +25,7 @@ var _details_expanded: bool = false
 
 
 func _ready() -> void:
+	status_label.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	close_button.pressed.connect(_on_close_pressed)
 	details_button.pressed.connect(_on_details_pressed)
 	visible = false

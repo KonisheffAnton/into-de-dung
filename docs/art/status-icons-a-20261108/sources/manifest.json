@@ -1,0 +1,602 @@
+[
+  {
+    "id": "bleeding",
+    "sheet": "docs/art/status-icon-style-20261108/raw/sheet01.png",
+    "region": [
+      0,
+      14,
+      128,
+      54
+    ],
+    "alpha_box": [
+      45,
+      37,
+      83,
+      91
+    ],
+    "source_sha256": "a526386905e09943f2fdc8a7e4e98161f668012d8fcfc3aeac9cbc99fda888af",
+    "repair_needed": false,
+    "sheet_alpha_box": [
+      50,
+      0,
+      88,
+      54
+    ],
+    "sheet_sha256": "cf1f8f0c4eea11370a736f7d72cb9e410a1ee9ec392f66df355ab38e87a8bb4b"
+  },
+  {
+    "id": "burning",
+    "sheet": "docs/art/status-icon-style-20261108/raw/sheet01.png",
+    "region": [
+      0,
+      77,
+      128,
+      56
+    ],
+    "alpha_box": [
+      43,
+      36,
+      85,
+      92
+    ],
+    "source_sha256": "fd4cbd10e42a3c9b3dbad2868ef78319e5a8eb8ab7b012425fee16b8b356deff",
+    "repair_needed": false,
+    "sheet_alpha_box": [
+      48,
+      0,
+      90,
+      56
+    ],
+    "sheet_sha256": "cf1f8f0c4eea11370a736f7d72cb9e410a1ee9ec392f66df355ab38e87a8bb4b"
+  },
+  {
+    "id": "poison",
+    "sheet": "docs/art/status-icon-style-20261108/raw/sheet01.png",
+    "region": [
+      0,
+      143,
+      128,
+      56
+    ],
+    "alpha_box": [
+      40,
+      36,
+      88,
+      92
+    ],
+    "source_sha256": "df113f5cae11aeb53909de62da773198db61ca5a4a269c4fb1baf91bd0eae907",
+    "repair_needed": false,
+    "sheet_alpha_box": [
+      45,
+      0,
+      93,
+      56
+    ],
+    "sheet_sha256": "cf1f8f0c4eea11370a736f7d72cb9e410a1ee9ec392f66df355ab38e87a8bb4b"
+  },
+  {
+    "id": "acid",
+    "sheet": "docs/art/status-icon-style-20261108/raw/sheet01.png",
+    "region": [
+      0,
+      207,
+      128,
+      56
+    ],
+    "alpha_box": [
+      34,
+      36,
+      94,
+      92
+    ],
+    "source_sha256": "8eaece874d0a2f7f62790b6e50d8cb0baec6109f5cd679d23ae377615d79936e",
+    "repair_needed": false,
+    "sheet_alpha_box": [
+      39,
+      0,
+      99,
+      56
+    ],
+    "sheet_sha256": "cf1f8f0c4eea11370a736f7d72cb9e410a1ee9ec392f66df355ab38e87a8bb4b"
+  },
+  {
+    "id": "stunned",
+    "sheet": "docs/art/status-icon-style-20261108/raw/sheet01.png",
+    "region": [
+      0,
+      269,
+      128,
+      58
+    ],
+    "alpha_box": [
+      36,
+      35,
+      92,
+      93
+    ],
+    "source_sha256": "181345d7ed8593c79760dc732bc40fdedede432c3f937f95ac5ecdb57c0efbab",
+    "repair_needed": false,
+    "sheet_alpha_box": [
+      42,
+      0,
+      98,
+      58
+    ],
+    "sheet_sha256": "cf1f8f0c4eea11370a736f7d72cb9e410a1ee9ec392f66df355ab38e87a8bb4b"
+  },
+  {
+    "id": "entangled",
+    "sheet": "docs/art/status-icon-style-20261108/raw/sheet01.png",
+    "region": [
+      0,
+      337,
+      128,
+      51
+    ],
+    "alpha_box": [
+      33,
+      38,
+      94,
+      89
+    ],
+    "source_sha256": "853bf133eb7c42fb07b3dd05e767a5391109c4ed90b9c3d55d369e482a5e4292",
+    "repair_needed": false,
+    "sheet_alpha_box": [
+      39,
+      0,
+      100,
+      51
+    ],
+    "sheet_sha256": "cf1f8f0c4eea11370a736f7d72cb9e410a1ee9ec392f66df355ab38e87a8bb4b"
+  },
+  {
+    "id": "frozen",
+    "sheet": "docs/art/status-icon-style-20261108/raw/sheet01.png",
+    "region": [
+      0,
+      395,
+      128,
+      60
+    ],
+    "alpha_box": [
+      37,
+      34,
+      91,
+      94
+    ],
+    "source_sha256": "6628b9666575c7af63282574b2405283c4458c038f97aa9d19cabedc32f44e91",
+    "repair_needed": false,
+    "sheet_alpha_box": [
+      43,
+      0,
+      97,
+      60
+    ],
+    "sheet_sha256": "cf1f8f0c4eea11370a736f7d72cb9e410a1ee9ec392f66df355ab38e87a8bb4b"
+  },
+  {
+    "id": "wet",
+    "sheet": "docs/art/status-icon-style-20261108/raw/sheet01.png",
+    "region": [
+      0,
+      463,
+      128,
+      49
+    ],
+    "alpha_box": [
+      47,
+      39,
+      81,
+      88
+    ],
+    "source_sha256": "8fb33e3c417355a4511dc2d08e5c3013677b8ce8af91ae3bb4b4aa021495a5db",
+    "repair_needed": true,
+    "sheet_alpha_box": [
+      53,
+      0,
+      87,
+      49
+    ],
+    "sheet_sha256": "cf1f8f0c4eea11370a736f7d72cb9e410a1ee9ec392f66df355ab38e87a8bb4b"
+  },
+  {
+    "id": "shield",
+    "sheet": "docs/art/status-icon-style-20261108/raw/sheet02.png",
+    "region": [
+      0,
+      18,
+      128,
+      58
+    ],
+    "alpha_box": [
+      27,
+      35,
+      101,
+      93
+    ],
+    "source_sha256": "b4432ceae39e752944d93e4a44bfaf2b33394a0cddb212eca4281ac3cd2f8f75",
+    "repair_needed": false,
+    "sheet_alpha_box": [
+      41,
+      0,
+      115,
+      58
+    ],
+    "sheet_sha256": "f09bf37cf3df4eda6075b0cc57aafc92d8a48eafb55426a252a627bc8890d151"
+  },
+  {
+    "id": "raised_shield",
+    "sheet": "docs/art/status-icon-style-20261108/raw/sheet02.png",
+    "region": [
+      0,
+      84,
+      128,
+      56
+    ],
+    "alpha_box": [
+      32,
+      36,
+      96,
+      92
+    ],
+    "source_sha256": "7c811b5ba9dcafbfd5934b04d607e613175f64e0a3420f1b48a37101a866e3b2",
+    "repair_needed": false,
+    "sheet_alpha_box": [
+      51,
+      0,
+      115,
+      56
+    ],
+    "sheet_sha256": "f09bf37cf3df4eda6075b0cc57aafc92d8a48eafb55426a252a627bc8890d151"
+  },
+  {
+    "id": "opportunist",
+    "sheet": "docs/art/status-icon-style-20261108/raw/sheet02.png",
+    "region": [
+      0,
+      147,
+      128,
+      58
+    ],
+    "alpha_box": [
+      26,
+      35,
+      102,
+      93
+    ],
+    "source_sha256": "f8e8521579346ec23e1aeb3676dbe801186b9876ec36050d2bd3ee6ab086872c",
+    "repair_needed": false,
+    "sheet_alpha_box": [
+      41,
+      0,
+      117,
+      58
+    ],
+    "sheet_sha256": "f09bf37cf3df4eda6075b0cc57aafc92d8a48eafb55426a252a627bc8890d151"
+  },
+  {
+    "id": "counterattack",
+    "sheet": "docs/art/status-icon-style-20261108/raw/sheet02.png",
+    "region": [
+      0,
+      211,
+      128,
+      58
+    ],
+    "alpha_box": [
+      30,
+      35,
+      98,
+      93
+    ],
+    "source_sha256": "edcde0ad8213d25f2103b98550b2f3183a6999ba26fd9f2d44658a2546dcff87",
+    "repair_needed": false,
+    "sheet_alpha_box": [
+      45,
+      0,
+      113,
+      58
+    ],
+    "sheet_sha256": "f09bf37cf3df4eda6075b0cc57aafc92d8a48eafb55426a252a627bc8890d151"
+  },
+  {
+    "id": "cover",
+    "sheet": "docs/art/status-icon-style-20261108/raw/sheet02.png",
+    "region": [
+      0,
+      276,
+      128,
+      56
+    ],
+    "alpha_box": [
+      33,
+      36,
+      95,
+      92
+    ],
+    "source_sha256": "a6e43f2ae94d82b175dcd0d552c870694079e9cc8f9c9493e0a7b48425b59325",
+    "repair_needed": false,
+    "sheet_alpha_box": [
+      47,
+      0,
+      109,
+      56
+    ],
+    "sheet_sha256": "f09bf37cf3df4eda6075b0cc57aafc92d8a48eafb55426a252a627bc8890d151"
+  },
+  {
+    "id": "pending",
+    "sheet": "docs/art/status-icon-style-20261108/raw/sheet02.png",
+    "region": [
+      0,
+      348,
+      128,
+      42
+    ],
+    "alpha_box": [
+      35,
+      43,
+      92,
+      85
+    ],
+    "source_sha256": "e9eac56a1d8821ea75f3721088013c2ed2ccfd4cd9481d5479c0158fbb734230",
+    "repair_needed": false,
+    "sheet_alpha_box": [
+      54,
+      0,
+      111,
+      42
+    ],
+    "sheet_sha256": "f09bf37cf3df4eda6075b0cc57aafc92d8a48eafb55426a252a627bc8890d151"
+  },
+  {
+    "id": "fire_on_tile",
+    "sheet": "docs/art/status-icon-style-20261108/raw/sheet02.png",
+    "region": [
+      0,
+      399,
+      128,
+      58
+    ],
+    "alpha_box": [
+      23,
+      35,
+      105,
+      93
+    ],
+    "source_sha256": "c40babc00542ef2c5d5242d3425e69c50afc825a7a5367995f31197909f275a1",
+    "repair_needed": false,
+    "sheet_alpha_box": [
+      37,
+      0,
+      119,
+      58
+    ],
+    "sheet_sha256": "f09bf37cf3df4eda6075b0cc57aafc92d8a48eafb55426a252a627bc8890d151"
+  },
+  {
+    "id": "acid_pool",
+    "sheet": "docs/art/status-icon-style-20261108/raw/sheet02.png",
+    "region": [
+      0,
+      465,
+      128,
+      47
+    ],
+    "alpha_box": [
+      23,
+      40,
+      105,
+      87
+    ],
+    "source_sha256": "7de646bcab8510b4335fdad2901e0df98384572e353bbace2d34a8ba11537e98",
+    "repair_needed": true,
+    "sheet_alpha_box": [
+      37,
+      0,
+      119,
+      47
+    ],
+    "sheet_sha256": "f09bf37cf3df4eda6075b0cc57aafc92d8a48eafb55426a252a627bc8890d151"
+  },
+  {
+    "id": "spikes",
+    "sheet": "docs/art/status-icon-style-20261108/raw/sheet03.png",
+    "region": [
+      0,
+      0,
+      128,
+      56
+    ],
+    "alpha_box": [
+      29,
+      36,
+      98,
+      92
+    ],
+    "source_sha256": "4bc403a14046102736a455bd7e0dc33a7c97e327bc5ebdc71cc475538b5f1a85",
+    "repair_needed": true,
+    "sheet_alpha_box": [
+      24,
+      0,
+      93,
+      56
+    ],
+    "sheet_sha256": "4a2c3efd3a1738b7d9c472bdd4784e5c33818838c93dccbed9746f60f8011a3f"
+  },
+  {
+    "id": "corpse",
+    "sheet": "docs/art/status-icon-style-20261108/raw/sheet03.png",
+    "region": [
+      0,
+      87,
+      128,
+      26
+    ],
+    "alpha_box": [
+      12,
+      51,
+      116,
+      77
+    ],
+    "source_sha256": "bf6f5a10bf542dd593d9f359770aab2f293577bda13532e07be4cc90ef480d5c",
+    "repair_needed": false,
+    "sheet_alpha_box": [
+      7,
+      0,
+      111,
+      26
+    ],
+    "sheet_sha256": "4a2c3efd3a1738b7d9c472bdd4784e5c33818838c93dccbed9746f60f8011a3f"
+  },
+  {
+    "id": "collapse_warning",
+    "sheet": "docs/art/status-icon-style-20261108/raw/sheet03.png",
+    "region": [
+      0,
+      131,
+      128,
+      58
+    ],
+    "alpha_box": [
+      25,
+      35,
+      103,
+      93
+    ],
+    "source_sha256": "d8a3bd004bc004c4d2762abe0f5481dac340b678b5909a50c73f5f2280f886ea",
+    "repair_needed": false,
+    "sheet_alpha_box": [
+      20,
+      0,
+      98,
+      58
+    ],
+    "sheet_sha256": "4a2c3efd3a1738b7d9c472bdd4784e5c33818838c93dccbed9746f60f8011a3f"
+  },
+  {
+    "id": "floor_trap",
+    "sheet": "docs/art/status-icon-style-20261108/raw/sheet03.png",
+    "region": [
+      0,
+      194,
+      128,
+      59
+    ],
+    "alpha_box": [
+      24,
+      34,
+      103,
+      93
+    ],
+    "source_sha256": "a8c689c8e1ace319d78bfaaeb41feddd3b63f8ab6a66f4a3a5505cdd579d2d84",
+    "repair_needed": false,
+    "sheet_alpha_box": [
+      19,
+      0,
+      98,
+      59
+    ],
+    "sheet_sha256": "4a2c3efd3a1738b7d9c472bdd4784e5c33818838c93dccbed9746f60f8011a3f"
+  },
+  {
+    "id": "wall_trap",
+    "sheet": "docs/art/status-icon-style-20261108/raw/sheet03.png",
+    "region": [
+      0,
+      259,
+      128,
+      62
+    ],
+    "alpha_box": [
+      22,
+      33,
+      106,
+      95
+    ],
+    "source_sha256": "c86cb07bf32a6daa911ac084c8fe3c16fd130c35fc9eb23f6cc8848bec724c3d",
+    "repair_needed": false,
+    "sheet_alpha_box": [
+      17,
+      0,
+      101,
+      62
+    ],
+    "sheet_sha256": "4a2c3efd3a1738b7d9c472bdd4784e5c33818838c93dccbed9746f60f8011a3f"
+  },
+  {
+    "id": "deep_acid",
+    "sheet": "docs/art/status-icon-style-20261108/raw/sheet03.png",
+    "region": [
+      0,
+      332,
+      128,
+      55
+    ],
+    "alpha_box": [
+      23,
+      36,
+      105,
+      91
+    ],
+    "source_sha256": "734d9518df6dcddcdebc56ebbc44c4969e1b56003d866aab2b381123d66f0b0e",
+    "repair_needed": false,
+    "sheet_alpha_box": [
+      18,
+      0,
+      100,
+      55
+    ],
+    "sheet_sha256": "4a2c3efd3a1738b7d9c472bdd4784e5c33818838c93dccbed9746f60f8011a3f"
+  },
+  {
+    "id": "void",
+    "sheet": "docs/art/status-icon-style-20261108/raw/sheet03.png",
+    "region": [
+      0,
+      396,
+      128,
+      55
+    ],
+    "alpha_box": [
+      18,
+      36,
+      110,
+      91
+    ],
+    "source_sha256": "896608336d1964e67228d8f958e34c67700f346538c28175d6db50526a2385c3",
+    "repair_needed": false,
+    "sheet_alpha_box": [
+      13,
+      0,
+      105,
+      55
+    ],
+    "sheet_sha256": "4a2c3efd3a1738b7d9c472bdd4784e5c33818838c93dccbed9746f60f8011a3f"
+  },
+  {
+    "id": "hazard",
+    "sheet": "docs/art/status-icon-style-20261108/raw/sheet03.png",
+    "region": [
+      0,
+      460,
+      128,
+      52
+    ],
+    "alpha_box": [
+      31,
+      38,
+      96,
+      90
+    ],
+    "source_sha256": "814b8721b6c565e5d55edbac211858c17f2517428bc0a87ca3bb305c415ea2b0",
+    "repair_needed": true,
+    "sheet_alpha_box": [
+      27,
+      0,
+      92,
+      52
+    ],
+    "sheet_sha256": "4a2c3efd3a1738b7d9c472bdd4784e5c33818838c93dccbed9746f60f8011a3f"
+  }
+]

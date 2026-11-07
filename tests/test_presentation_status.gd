@@ -400,7 +400,15 @@ func stable_info_strip(demo: BattleDemo, target_id: int, hub: bool) -> void:
 		check(demo.board_view.get_global_rect() == rect and demo.board_view.camera_view.offset == camera_offset and demo.board_view.camera_view.zoom == zoom, "many statuses and hint overflow preserve exact board and camera")
 		check(demo._mage_row.get_global_rect() == hand, "many statuses preserve hand position")
 		check(demo._status.get_global_rect().end.y <= demo._hint.global_position.y and not demo._status.get_global_rect().intersects(hand), "overflow feedback stays above hints and cards")
-		check(demo._compact_inspection.get_parsed_text() == demo.board_view.displayed_unit_summary(target_id), "rich summary preserves exact plain facts")
+		# Godot заменяет inline-картинку пробелом в parsed text. Сравниваем текст
+		# без тега картинки, сохраняя все исходные пробелы/цвета/экранирование фактов.
+		var images := RegEx.new()
+		images.compile("\\[img=[0-9]+x[0-9]+\\][^\\[]*\\[/img\\] ")
+		var text_only := RichTextLabel.new()
+		text_only.bbcode_enabled = true
+		text_only.text = images.sub(demo._compact_inspection.text, "", true)
+		check(text_only.get_parsed_text() == demo.board_view.displayed_unit_summary(target_id), "rich summary preserves exact plain facts")
+		text_only.free()
 		check(demo._compact_inspection.size.y == 42.0 and not demo._compact_inspection.fit_content and not demo._compact_inspection.scroll_active, "bounded inspection never expands or captures scrolling")
 		check(demo._compact_inspection.tooltip_text.contains("стаки: 3") and demo._compact_inspection.tooltip_text.contains("В кислоте"), "full overflow details remain in tooltip")
 		if DisplayServer.get_name() != "headless":

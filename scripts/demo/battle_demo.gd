@@ -499,6 +499,19 @@ func _displayed_unit_hovered(unit_id: int) -> void:
 	_compact_inspection.tooltip_text = board_view.displayed_unit_details(unit_id)
 	if not is_execution_pending(): _compact_inspection.tooltip_text += _card_imbue_text(unit_id)
 	board_view.tooltip_text = _compact_inspection.tooltip_text if unit_id != UnitId.NONE else ""
+	if unit_id == UnitId.NONE: _displayed_cell_hovered(board_view.hover_cell)
+
+func _displayed_cell_hovered(cell: Vector2i) -> void:
+	if _compact_inspection == null or _display_inspection_id != UnitId.NONE: return
+	# Во время исполнения указатель клетки не публикуется: старую клетку не выдаём за новую.
+	if is_execution_pending():
+		_compact_inspection.text = "Наведите на фигуру для осмотра."
+		_compact_inspection.tooltip_text = ""
+		board_view.tooltip_text = ""
+		return
+	_compact_inspection.text = board_view.displayed_cell_summary(cell, true)
+	_compact_inspection.tooltip_text = board_view.displayed_cell_summary(cell)
+	board_view.tooltip_text = _compact_inspection.tooltip_text if cell.x >= 0 else ""
 
 func _card_imbue_text(unit_id: int) -> String:
 	if unit_id <= 0 or session == null or session.state == null or session.state.card_effects == null or session.state.abilities == null: return ""
@@ -771,6 +784,7 @@ func _build_authored_hud() -> void:
 	_action_bar = binding.action_bar
 	_hint = binding.hint
 	_compact_inspection = binding.compact_inspection
+	_compact_inspection.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	_character_card = hud.get_node("CharacterCard") as BattleCharacterCard
 	_character_card.close_requested.connect(_close_character_card)
 	board_view.character_card_input_enabled = true
@@ -1611,6 +1625,7 @@ func _refresh_inspection() -> void:
 		_stats.text = _inspection_text(unit) + _card_imbue_text(unit.id)
 
 func _hover(cell: Vector2i) -> void:
+	_displayed_cell_hovered(cell)
 	if not _forecast_replaying_intent and (_forecast_preparation_worker.is_started() or _forecast_preparation_recovering or _interactive_refresh_pending):
 		_forecast_latest_hover = cell
 		_forecast_hover_pending = true

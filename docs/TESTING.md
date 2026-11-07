@@ -19,6 +19,15 @@
 
 ## Изменение игрового кода
 
+Значки A (2026-11-08): `python tools/art/build_status_icons_a.py --check`,
+затем `--render-check --only battle_condition_icons presentation_status
+battle_character_card battle_hud_input battle_camera_ui battle_execution_ui --screen 0`.
+Новый gate проверяет каталог16/32, alpha-поля, неизвестные ID, опубликованные
+состояния клеток и карточки, изоляцию и неподвижность HUD; GPU-снимки —
+`condition-icon-screenshots/`. Статусы в обзорных кадрах заданы тестовым DTO
+в текущем H1-бою; это проверка показа, не сыгранный сценарий или баланс.
+Full/core, ручные F5/движение/zoom/DPI/performance и отзыв U остаются отдельными.
+
 Выбранные шипы (2026-11-07): `python tools/art/build_selected_spike_animations.py --check`;
 `--render-check --only hazards_ui acid_tile_animation environment_visual_contract
 presentation_environment presentation_contact battle_view_reuse --screen 0`.

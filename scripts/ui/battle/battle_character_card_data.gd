@@ -15,6 +15,7 @@ static func live(unit: UnitState, state: ItemSimulationState, loadout: Dictionar
 		"bleeding": unit.bleeding.to_dict() if unit.bleeding != null else {},
 		"shield": unit.armor.shield if unit.armor != null else {},
 		"raised_shield": unit.armor.raised_shield if unit.armor != null else {},
+		"reaction_view": ActionPresentationState.capture_reaction_view(state, unit),
 	}
 	var class_id := StringName(loadout.get("class_id", &""))
 	var definition := HeroCatalog.class_definition(class_id) if class_id != &"" else null
@@ -55,14 +56,21 @@ static func frame(row: Dictionary, identity: Dictionary) -> Dictionary:
 	var entries := BattleStatusPresentation.entries(row)
 	var extra_statuses := _extra_statuses(row)
 	var statuses := BattleStatusPresentation.details(entries) if not entries.is_empty() else ""
-	var status_bbcode := BattleStatusPresentation.details_bbcode(entries) if not entries.is_empty() else ""
-	for extra_status: String in extra_statuses:
-		statuses += "\n" + extra_status
+	var status_bbcode := BattleStatusPresentation.details_bbcode(entries, 32) if not entries.is_empty() else ""
+	for extra_status: Dictionary in extra_statuses:
+		statuses += "\n" + String(extra_status.title)
 		if not status_bbcode.is_empty(): status_bbcode += "\n"
-		status_bbcode += "[color=#e0ddcb]%s[/color]" % BattleStatusPresentation.escape_bbcode(extra_status)
+		var icon_id: StringName = extra_status.id
+		status_bbcode += (BattleConditionIcons.bbcode(icon_id, 32) + " " if icon_id != &"" else "") + "[color=#e0ddcb]%s[/color]" % BattleStatusPresentation.escape_bbcode(extra_status.title)
+	var reaction: Dictionary = row.get("reaction_view", {})
+	var reaction_id := BattleConditionPresentation.reaction_icon(reaction)
+	if reaction_id != &"":
+		var reaction_text := BattleReactionPresentation.mode_name(int(reaction.get("mode", 0))) + (" · готова" if bool(reaction.get("ready", false)) else " · не готова")
+		statuses += "\n" + reaction_text
+		status_bbcode += ("\n" if not status_bbcode.is_empty() else "") + BattleConditionIcons.bbcode(reaction_id, 32) + " " + BattleStatusPresentation.escape_bbcode(reaction_text)
 	if not bool(row.get("alive", true)):
 		statuses = "Погиб\n" + statuses
-		status_bbcode = "[color=#e0ddcb]Погиб[/color]" + ("\n" + status_bbcode if not status_bbcode.is_empty() else "")
+		status_bbcode = BattleConditionIcons.bbcode(&"corpse", 32) + " [color=#e0ddcb]Погиб[/color]" + ("\n" + status_bbcode if not status_bbcode.is_empty() else "")
 	statuses = statuses.strip_edges()
 	if statuses.is_empty():
 		statuses = "Состояний нет."
@@ -80,11 +88,11 @@ static func frame(row: Dictionary, identity: Dictionary) -> Dictionary:
 		"details_text": "Снаряжение и свойства доступны после действия.", "published": true,
 	}
 
-static func _extra_statuses(row: Dictionary) -> PackedStringArray:
-	var extras: PackedStringArray = []
-	if bool(row.get("guard", false)): extras.append("Охранная стойка")
-	if bool(row.get("pending", false)): extras.append("Действия со следующего хода команды")
-	if bool(row.get("raised_shield", {}).get("active", false)): extras.append("Поднятые щиты: −90% первой атаки")
+static func _extra_statuses(row: Dictionary) -> Array[Dictionary]:
+	var extras: Array[Dictionary] = []
+	if bool(row.get("guard", false)): extras.append({"id": &"", "title": "Охранная стойка"})
+	if bool(row.get("pending", false)): extras.append({"id": &"pending", "title": "Действия со следующего хода команды"})
+	if bool(row.get("raised_shield", {}).get("active", false)): extras.append({"id": &"raised_shield", "title": "Поднятые щиты: −90% первой атаки"})
 	return extras
 
 static func _amount(value: float) -> String:

@@ -1662,9 +1662,33 @@ func displayed_unit_summary(unit_id: int, rich: bool = false) -> String:
 		if rich: summary = BattleStatusPresentation.escape_bbcode(summary)
 		var states := ""
 		if value.alive:
-			states = BattleStatusPresentation.summary_bbcode(row.get("statuses", [])) if rich else BattleStatusPresentation.summary(row.get("statuses", []))
+			states = BattleStatusPresentation.summary_bbcode(row.get("statuses", []), 16) if rich else BattleStatusPresentation.summary(row.get("statuses", []))
 		return summary + ("\n" + states if not states.is_empty() else "")
 	return "Наведите на фигуру для осмотра."
+
+func displayed_cell_conditions(cell: Vector2i) -> Array[Dictionary]:
+	# Только опубликованная копия: осмотр не читает опережающий runtime/прогноз.
+	if cell.x < 0 or cell.y < 0 or cell.x >= _view_width or cell.y >= _view_height: return []
+	var values: Dictionary = _index_environment_view().get(cell, {})
+	# Сцена использует первую ловушку для старого пресета, но осмотр перечисляет
+	# все допустимые грани/виды на клетке, не теряя вторую опасность.
+	var traps: Array[Dictionary] = []
+	for trap: Dictionary in _view_hazards.get("traps", []):
+		if trap.get("cell", Vector2i(-1, -1)) == cell:
+			traps.append({"kind": String(trap.get("kind", "")), "direction": trap.get("direction", Vector2i.ZERO), "armed": int(trap.get("armed_team", -1)) >= 0})
+	values["traps"] = traps
+	return BattleConditionPresentation.cell_entries(_view_terrain_at(cell), values)
+
+func displayed_cell_summary(cell: Vector2i, rich: bool = false) -> String:
+	if cell.x < 0 or cell.y < 0 or cell.x >= _view_width or cell.y >= _view_height: return "Наведите на фигуру или клетку для осмотра."
+	var labels: PackedStringArray = []
+	for entry: Dictionary in displayed_cell_conditions(cell):
+		var label := String(entry.title)
+		if rich: label = BattleConditionIcons.bbcode(entry.id, 32) + " " + BattleStatusPresentation.escape_bbcode(label)
+		labels.append(label)
+	if labels.is_empty(): labels.append("Стена" if _view_terrain_at(cell) == TerrainType.Type.WALL else "Пол")
+	# Горизонтальное тело/ловушки читаются при32px; одна строка умещается в42px HUD.
+	return "Клетка %d:%d%s%s" % [cell.x + 1, cell.y + 1, " · " if rich else "\n", " · ".join(labels)]
 
 func displayed_unit_details(unit_id: int) -> String:
 	for row: Dictionary in _view_units:
