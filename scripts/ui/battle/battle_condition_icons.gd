@@ -29,15 +29,16 @@ const IDS: Array[StringName] = [
 ]
 
 const _ICON_ROOT: String = "res://assets/art_presets/approved/status_icons_a_v1"
+const _FRAMED_ROOT: String = "res://assets/art_presets/approved/status_icons_framed_v1"
 
 static var _texture_cache: Dictionary[String, Texture2D] = {}
 
 
-static func texture(id: StringName, pixels: int = 16) -> Texture2D:
+static func texture(id: StringName, pixels: int = 16, framed: bool = true) -> Texture2D:
 	if not IDS.has(id):
 		return null
 	var native_size: int = 16 if pixels <= 16 else 32
-	var path: String = "%s/%d/%s.png" % [_ICON_ROOT, native_size, String(id)]
+	var path: String = "%s/%d/%s.png" % [_FRAMED_ROOT if framed else _ICON_ROOT, native_size, String(id)]
 	if _texture_cache.has(path):
 		return _texture_cache[path]
 	var loaded: Texture2D = load(path) as Texture2D
@@ -51,7 +52,7 @@ static func bbcode(id: StringName, pixels: int = 16) -> String:
 		return ""
 	var display_size: int = clampi(pixels, 16, 32)
 	var native_size: int = 16 if display_size == 16 else 32
-	var path: String = "%s/%d/%s.png" % [_ICON_ROOT, native_size, String(id)]
+	var path: String = "%s/%d/%s.png" % [_FRAMED_ROOT, native_size, String(id)]
 	return "[img=%dx%d]%s[/img]" % [display_size, display_size, path]
 
 

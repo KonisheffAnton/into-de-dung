@@ -1,0 +1,11 @@
+{
+  "id": "7eae7a20-4366-4fd2-84f2-bc780884ba6e",
+  "status": "completed",
+  "created_at": "2026-11-08T03:24:20.164559+03:00",
+  "usage": {
+    "type": "generations",
+    "generations": 5.0
+  },
+  "output_sha256": "7a43725d749cfd085dff490cf6f1bc391f4043f01d467567a3bb99ed2231350f",
+  "output": "raw-frame.png"
+}

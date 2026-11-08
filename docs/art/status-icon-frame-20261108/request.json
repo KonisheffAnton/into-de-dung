@@ -1,0 +1,23 @@
+{
+  "description": "One tiny square fantasy dungeon UI icon backing plate, exactly front-facing orthographic, centered and filling this 32x32 pixel canvas edge to edge. Solid warm medium-dark walnut WOOD in the entire inner center, subtle restrained horizontal wood grain, no empty hole. A very THIN dull iron rim only 2 pixels wide, flat and low profile, tiny worn corner joints, restrained grey metallic light edge. The empty wooden center must remain a broad quiet high-contrast area, at least 28 by 28 pixels, for a separate colorful game status symbol to be placed over it later. Pixel-art clusters and hard crisp pixel edges, material shading like hand-painted 16-bit dungeon sprites. Symmetric square silhouette with very slightly clipped corners. No status symbol, no picture in the center, no text, no numbers, no ornament, no screws in the center, no glow, no outer shadow, no perspective, no extra frame objects. Transparent only outside the square plaque; center is opaque wood.",
+  "image_size": {
+    "width": 32,
+    "height": 32
+  },
+  "no_background": true,
+  "seed": 110811,
+  "target_palette": {
+    "colors": [
+      "#171717",
+      "#353634",
+      "#575954",
+      "#82837B",
+      "#A2A08F",
+      "#2E2118",
+      "#49321F",
+      "#62452B",
+      "#785A38"
+    ],
+    "max_colors": 12
+  }
+}

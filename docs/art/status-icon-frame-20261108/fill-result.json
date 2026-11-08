@@ -1,0 +1,11 @@
+{
+  "id": "4f55751e-1765-47e6-97a5-d00bcf03a5de",
+  "status": "completed",
+  "created_at": "2026-11-08T03:27:32.045186+03:00",
+  "usage": {
+    "type": "generations",
+    "generations": 5.0
+  },
+  "output_sha256": "7e88fecc091619e8b703caace79f28c39e2c1e4b85a9446baa662ae65a65abc9",
+  "output": "wood-iron-panel.png"
+}

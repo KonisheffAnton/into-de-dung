@@ -44,7 +44,7 @@ func _test_catalogue() -> void:
 	check(BattleConditionIcons.IDS.size() == 24, "catalogue contains the selected 24 IDs")
 	for icon_id: StringName in BattleConditionIcons.IDS:
 		for pixels: int in [16, 32]:
-			var icon: Texture2D = BattleConditionIcons.texture(icon_id, pixels)
+			var icon: Texture2D = BattleConditionIcons.texture(icon_id, pixels, false)
 			check(icon != null, "%s %dpx texture loads" % [String(icon_id), pixels])
 			if icon == null:
 				continue
@@ -65,6 +65,15 @@ func _test_catalogue() -> void:
 				if image.get_pixel(0, offset).a != 0.0 or image.get_pixel(pixels - 1, offset).a != 0.0:
 					clear_border = false
 			check(clear_border, "%s %dpx texture has transparent outer rows and columns" % [String(icon_id), pixels])
+			var framed := BattleConditionIcons.texture(icon_id, pixels)
+			check(framed != null and framed.get_size() == icon.get_size(), "%s framed icon keeps native dimensions" % String(icon_id))
+			var framed_image := framed.get_image()
+			var panel := (load("res://assets/art_presets/approved/status_icons_framed_v1/frame-%d.png" % pixels) as Texture2D).get_image()
+			framed_image.convert(Image.FORMAT_RGBA8)
+			panel.convert(Image.FORMAT_RGBA8)
+			panel.blend_rect(source, Rect2i(Vector2i.ZERO, source.get_size()), Vector2i.ZERO)
+			check(framed_image.get_data() == panel.get_data(), "%s framed image is exactly unchanged A over the wooden panel" % String(icon_id))
+			check(framed_image.get_pixel(pixels >> 1, pixels >> 1).a == 1.0, "wooden center is opaque")
 	check(BattleConditionIcons.texture(&"../bleeding") == null, "path-like unknown ID cannot load a texture")
 	check(BattleConditionIcons.texture(&"bleeding/../../project.godot") == null, "traversal ID cannot load a texture")
 	check(BattleConditionIcons.bbcode(&"unknown").is_empty(), "unknown ID creates no BBCode")

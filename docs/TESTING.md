@@ -28,6 +28,14 @@ battle_character_card battle_hud_input battle_camera_ui battle_execution_ui --sc
 в текущем H1-бою; это проверка показа, не сыгранный сценарий или баланс.
 Full/core, ручные F5/движение/zoom/DPI/performance и отзыв U остаются отдельными.
 
+Подложка дерева/железа и числа без плашек: дополнительно
+`python tools/art/build_status_icon_frames.py --check`; адресный набор
+`--render-check --only status_counter_layout battle_condition_icons presentation_status unit_vital_bars --screen 0`.
+Каталог сравнивает GPU RGBA с независимой композицией исходного A и панели;
+`status_counter_layout` проверяет строки стаков/сроков, нулевые стаки, 99+,
+переполнение, отсутствие старых плашек, bounds при100% и глифы при100/75% с дробным сдвигом.
+Native PNG — `status-counter-screenshots/`; headless пропускает пиксельные проверки.
+
 Выбранные шипы (2026-11-07): `python tools/art/build_selected_spike_animations.py --check`;
 `--render-check --only hazards_ui acid_tile_animation environment_visual_contract
 presentation_environment presentation_contact battle_view_reuse --screen 0`.

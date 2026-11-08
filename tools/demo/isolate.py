@@ -659,6 +659,12 @@ def main():
             condition_captures.mkdir()
             condition_args += ["--", "--captures=" + str(condition_captures)]
         run("battle_condition_icons", condition_args, headless=not args.render_check)
+        counter_args = ["--script", "tests/test_status_counter_layout.gd"]
+        if args.render_check:
+            counter_captures = out / "status-counter-screenshots"
+            counter_captures.mkdir()
+            counter_args += ["--", "--captures=" + str(counter_captures)]
+        run("status_counter_layout", counter_args, headless=not args.render_check)
         vital_args = ["--script", "tests/test_unit_vital_bars.gd"]
         if args.render_check:
             vital_captures = out / "unit-vital-bars-screenshots"

@@ -1,5 +1,19 @@
 # История и свидетельства проверок
 
+## Дерево/железо под значками, числа без плашек — 2026-11-08
+
+Main, base e025abf93837acc575241677d8eb34daa3c3d402. По U48 композиций16/32
+сохраняют прежние24 A поверх новой панели PixelLab (usage10);
+стаки/срок/+N имеют только контур глифов. [Пакет и кадры](art/status-icon-frame-20261108/README.md).
+Исходные A сохранены; гамма/полосы/механики и геометрия HUD прежние.
+Builders,50 sidecars, isolated import/startup PASS; icons412/0, status146/0,
+vital278/0, counters19/0, launcher37/0. Независимое ревью APPROVE;
+перерисовка дочернего StatusHud дополнена явной подпиской на resize viewport.
+GPU RGBA48 композиций равны A поверх панели; кадры75/100% — тестовые DTO в H1.
+Отчёт test_reports/status-counters-no-panel-20261108/; full/core,
+ручные F5/движение/zoom/DPI/performance не запускались. Ждёт отзыва U.
+[Предыдущий HANDOFF сохранён побайтно](CODEX_HANDOFF.history-20261108-5.md).
+
 ## Значки A: игровые размеры и показ — 2026-11-08
 
 Main, base87a981caf12f11224795184f4531a1a6bcff9cee. U выбрал A для всех24 мотивов.

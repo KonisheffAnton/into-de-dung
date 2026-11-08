@@ -67,6 +67,7 @@ const STATUS_ICON_SIZE: float = 16.0
 const STATUS_ICON_GAP: float = 1.0
 const STATUS_ICON_LIMIT: int = 5
 static var _combat_number_font: FontFile
+static var _status_counter_font: FontVariation
 @export var ground_base_tint: Color = Color("697553")
 var _scene_art_enabled: bool = false
 var _status_hud: Node2D
@@ -161,12 +162,16 @@ func _ready() -> void:
 	_status_hud.z_index = 0
 	add_child(_status_hud)
 	_status_hud.draw.connect(_draw_status_hud)
+	# Stretch окна меняет экранную матрицу без обязательного изменения global transform.
+	get_viewport().size_changed.connect(_status_hud.queue_redraw)
 	_sync_status_hud()
 
 func _notification(what: int) -> void:
 	# Пиксельная привязка цифр пересчитывается при движении/масштабе родителя камеры.
 	if what == NOTIFICATION_TRANSFORM_CHANGED and role == Role.UNIT:
 		queue_redraw()
+		# Экранные глифы имеют кэшированный обратный transform и требуют перерисовки при движении.
+		if _status_hud != null: _status_hud.queue_redraw()
 
 func _sync_status_hud() -> void:
 	if _status_hud == null: return
@@ -247,9 +252,8 @@ func status_hud_bounds() -> Rect2:
 	if entries == 0 and not overflow: return Rect2()
 	var width := maxf(0.0, float(entries - 1) * (STATUS_ICON_SIZE + STATUS_ICON_GAP) + STATUS_ICON_SIZE)
 	if overflow: width += STATUS_ICON_GAP + 26.0
-	# Строка стоит над бронёй, чтобы передняя ровная поверхность не закрывала значки и бейджи.
-	# Верхний бейдж стаков выходит над значком; нижний показывает оставшуюся длительность.
-	return Rect2(-width * 0.5 - 1.0, -29, width + 2.0, 29)
+	# Bounds охватывают отдельные строки стаков и срока с контуром глифов.
+	return Rect2(-width * 0.5 - 1.0, -36, width + 2.0, 36)
 
 func _update_sort_position() -> void:
 	super._update_sort_position()
@@ -908,7 +912,7 @@ func _draw_status_icons(canvas: Node2D) -> void:
 	var x := -total_width * 0.5
 	for entry: Dictionary in entries:
 		var id := String(entry.get("id", ""))
-		var rect := Rect2(Vector2(x, -21), Vector2(STATUS_ICON_SIZE, STATUS_ICON_SIZE))
+		var rect := Rect2(Vector2(x, -25), Vector2(STATUS_ICON_SIZE, STATUS_ICON_SIZE))
 		var icon := _status_icon(id)
 		if icon != null:
 			canvas.draw_texture_rect(icon, rect, false)
@@ -927,19 +931,45 @@ func _draw_status_icons(canvas: Node2D) -> void:
 		var stacks := int(entry.get("stacks", 0))
 		if id in ["bleeding", "burning", "poison"] and stacks > 0:
 			var badge := "99+" if stacks > 99 else "×%d" % stacks
-			# Стаки сверху и срок снизу не смешиваются; срок остаётся числом, единица есть в подсказке.
-			canvas.draw_rect(Rect2(x - 1, -29, STATUS_ICON_SIZE + 2, 10), Color("101d27", 0.92))
-			canvas.draw_string(ThemeDB.fallback_font, Vector2(x - 1, -21), badge, HORIZONTAL_ALIGNMENT_CENTER, STATUS_ICON_SIZE + 2, 9, Color("fff0ce"))
+			# Текстовые счётчики стоят отдельно от рисунка, чтобы иконка оставалась чистой.
+			_draw_status_counter(canvas, badge, Vector2(x, -27), STATUS_ICON_SIZE, Color("f1e4c8"))
 		var remaining := int(entry.get("remaining", 0))
 		if remaining > 0:
 			var remaining_label := "99+" if remaining > 99 else str(remaining)
-			canvas.draw_rect(Rect2(x - 1, -11, STATUS_ICON_SIZE + 2, 10), Color("101d27", 0.92))
-			canvas.draw_string(ThemeDB.fallback_font, Vector2(x - 1, -3), remaining_label, HORIZONTAL_ALIGNMENT_CENTER, STATUS_ICON_SIZE + 2, 9, Color("b9dfff"))
+			_draw_status_counter(canvas, remaining_label, Vector2(x, -1), STATUS_ICON_SIZE, Color("b6cfce"))
 		x += STATUS_ICON_SIZE + STATUS_ICON_GAP
 	if overflow > 0:
 		var overflow_label := "+99+" if overflow > 99 else "+%d" % overflow
-		canvas.draw_rect(Rect2(x, -21, 26, 21), Color("101d27", 0.92))
-		canvas.draw_string(ThemeDB.fallback_font, Vector2(x, -7), overflow_label, HORIZONTAL_ALIGNMENT_CENTER, 26, 10, Color("d4deea"))
+		_draw_status_counter(canvas, overflow_label, Vector2(x, -14), 26.0, Color("e0ddcb"))
+
+func _draw_status_counter(canvas: Node2D, text: String, local_baseline: Vector2, slot_width: float, tint: Color) -> void:
+	if _status_counter_font == null:
+		var numbers := (load("res://assets/ui/combat_fonts/jersey20_numbers.ttf") as FontFile).duplicate() as FontFile
+		var letters := (load("res://assets/ui/combat_fonts/combat_letters.ttf") as FontFile).duplicate() as FontFile
+		for font_file: FontFile in [numbers, letters]:
+			font_file.antialiasing = TextServer.FONT_ANTIALIASING_NONE
+			font_file.subpixel_positioning = TextServer.SUBPIXEL_POSITIONING_DISABLED
+			font_file.oversampling = 1.0
+			font_file.keep_rounding_remainders = false
+		_status_counter_font = FontVariation.new()
+		_status_counter_font.base_font = numbers
+		_status_counter_font.fallbacks = [letters]
+	var screen_transform := canvas.get_global_transform_with_canvas()
+	var screen_scale := screen_transform.x.length()
+	if not is_finite(screen_scale) or screen_scale < 0.05:
+		return
+	var screen_font_size := maxi(1, floori(12.0 * screen_scale))
+	var available_width := maxf(1.0, (slot_width - 2.0) * screen_scale)
+	while screen_font_size > 1 and _status_counter_font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, screen_font_size).x > available_width:
+		screen_font_size -= 1
+	var measured_width := _status_counter_font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, screen_font_size).x
+	var screen_baseline := screen_transform * (local_baseline + Vector2(slot_width * 0.5, 0))
+	screen_baseline.x = roundf(screen_baseline.x - measured_width * 0.5)
+	screen_baseline.y = roundf(screen_baseline.y)
+	canvas.draw_set_transform_matrix(screen_transform.affine_inverse())
+	canvas.draw_string_outline(_status_counter_font, screen_baseline, text, HORIZONTAL_ALIGNMENT_LEFT, -1, screen_font_size, 1, Color("171b1a"))
+	canvas.draw_string(_status_counter_font, screen_baseline, text, HORIZONTAL_ALIGNMENT_LEFT, -1, screen_font_size, tint)
+	canvas.draw_set_transform_matrix(Transform2D.IDENTITY)
 
 func _status_icon(id: String) -> Texture2D:
 	return BattleConditionIcons.texture(StringName(id))

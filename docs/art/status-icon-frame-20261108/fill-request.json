@@ -1,0 +1,8 @@
+{
+  "method": "text",
+  "description": "Complete this exact 32x32 square game UI backing plate. KEEP the existing thin dull iron perimeter exactly as shown: same square silhouette, same rim width, corners and metal colors. FILL THE ENTIRE EMPTY TRANSPARENT INTERIOR WITH SOLID OPAQUE WALNUT WOOD. It must be an opaque wooden panel, not an empty picture frame. Medium-dark warm brown wood, restrained visible horizontal grain and one faint plank seam; the broad center remains calm so an icon placed later over it will read clearly. Use crisp small pixel clusters, muted materials. Do not put any symbol, text, object, number or ornament inside. Preserve 32x32 canvas. Do not remove the wood as background. The final image is an opaque square plate with wood center and thin metal border, no transparent center.",
+  "no_background": false,
+  "seed": 110812,
+  "input": "raw-frame.png",
+  "input_sha256": "7a43725d749cfd085dff490cf6f1bc391f4043f01d467567a3bb99ed2231350f"
+}
