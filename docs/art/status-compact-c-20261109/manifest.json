@@ -1,0 +1,33 @@
+{
+  "base": "b642431dcb7ea2a6a3e513d2a45cc1275b82ca21",
+  "status": "P; mockup only, not integrated or accepted",
+  "method": "Godot GPU, native scene and assets; temporary isolated visual source restored byte-exact",
+  "proposal": "Current horizontal vitals; compact <=3 status icons+N without counters; hover <=5 icons with counters on panel04; existing right card",
+  "production_changes": false,
+  "no_new_art_generation": true,
+  "mock_only_layer": "StatusHud absolute UI_PREVIEW+1, above tiles/entities; all markers on that node inherit this order",
+  "sample": "Presentation-only synthetic vitals and1/3/5 effects; core/RNG unchanged",
+  "image_sha256": {
+    "card-100.png": "26291ad4afe5dd6c7a51f0e8a93d5bfd2d385582fddf69c0c9fb1dbb568ec2b5",
+    "compact-100.png": "004824b3a1bdfad5308254189f76d093f22903d422583297b7f2a9f6c05fc16d",
+    "compact-75.png": "2d25260ffbfb262bc2142a9362fa5237652e58700604a08f4f4542a40818e2c8",
+    "compact-detail.png": "0f3128dc912419d346074ac02ed32b1bf9db1ec60c7c0c5dd105640dac117eb0",
+    "comparison.png": "6676fc70bf0b9fd3c457aca4b454794c0659cc186b76461edee19cc932743344",
+    "hover-100.png": "c4c8e24c9d120737946b3eafb73dc8377f1189a003b8cd518d9cd6e6b32bcc9d",
+    "hover-75.png": "8d5376fe8557cab389d71b4df7df6a1807e3b27970e95804c1556aa87c7f9788",
+    "hover-detail.png": "740640418b85e162043ca39b2ee046314c3206927e11bb2c338ad556a358b915"
+  },
+  "script_sha256": {
+    "probe_compact.gd.txt": "c41f031b5e83dce9902bb013a3906f1cd01594f76ea78e8de3a27805e5521077",
+    "run_stage.py.txt": "12261a69c4a2545208862445b74a14e473518573d198fcca79c16b6a523b2669",
+    "mock_helpers.gd.txt": "9e728b4c37ab3cda5a1b36c1e984b06f1b704859c46e62675baf9eaf7b76db59"
+  },
+  "probe_sha256": "012e2848ad3d6ef5a5999eeb5454e593f7537129745095b27169c8e229f8495a",
+  "non_goals": [
+    "Runtime integration",
+    "picking/lifecycle/overflow implementation",
+    "art or gamma changes",
+    "manual input/DPI/performance",
+    "full/core or previous runtime suites"
+  ]
+}

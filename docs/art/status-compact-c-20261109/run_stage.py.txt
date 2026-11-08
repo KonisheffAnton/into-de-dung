@@ -1,0 +1,28 @@
+import importlib.util,shutil,json
+from pathlib import Path
+
+HERE=Path(__file__).resolve().parent
+spec=importlib.util.spec_from_file_location('isolated_checks',HERE.parent/'status-silhouette-integration-20261108/run_checks.py')
+runner=importlib.util.module_from_spec(spec)
+spec.loader.exec_module(runner)
+runner.OUT=HERE
+runner.sync()
+runner.idle_runner()
+target=runner.ISO/'scripts/demo/battle_demo_iso_visual.gd'
+original=target.read_bytes()
+assert original==(runner.ROOT/'scripts/demo/battle_demo_iso_visual.gd').read_bytes()
+source=original.decode('utf-8').replace('\r\n','\n')
+anchor='func _draw_status_icons(canvas: Node2D) -> void:\n'
+assert source.count(anchor)==1
+source=source.replace(anchor,anchor+'\tif bool(get_meta(&"mock_compact_c", false)):\n\t\t_mock_compact_statuses(canvas)\n\t\treturn\n')
+source+='\n'+(HERE/'mock_helpers.gd.txt').read_text(encoding='utf-8')
+try:
+ target.write_text(source,encoding='utf-8',newline='\n')
+ shutil.copy2(HERE/'probe_compact.gd',runner.ISO/'tests/test_compact_c_mockup.gd')
+ runner.run('compact_c_mockup')
+finally:
+ runner.idle_runner()
+ target.write_bytes(original)
+ assert target.read_bytes()==(runner.ROOT/'scripts/demo/battle_demo_iso_visual.gd').read_bytes()
+ (HERE/'restoration.json').write_text(json.dumps({'status':'PASS','isolate_visual_restored_byte_exact':True,'root_visual_unchanged':True}),encoding='utf-8')
+ print('Isolated visual restored byte-exact; root runtime unchanged',flush=True)

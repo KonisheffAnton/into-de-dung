@@ -1,0 +1,28 @@
+{
+	"core_rng_unchanged": true,
+	"fixture": "catalog4,seed9404;3 ally presentation DTOs,1/3/5 effects; native sprites/terrain",
+	"layout_statuses": "C: compact up to3 icons without counters plusN; hovered up to5 icons with counters; proposal only",
+	"positions": {
+		"compact-100": [
+			"(784.0, 292.0)",
+			"(720.0, 340.0)",
+			"(656.0, 388.0)"
+		],
+		"compact-75": [
+			"(768.0, 304.0)",
+			"(720.0, 340.0)",
+			"(672.0, 376.0)"
+		],
+		"hover-100": [
+			"(784.0, 292.0)",
+			"(720.0, 340.0)",
+			"(656.0, 388.0)"
+		],
+		"hover-75": [
+			"(768.0, 304.0)",
+			"(720.0, 340.0)",
+			"(672.0, 376.0)"
+		]
+	},
+	"status": "PASS"
+}

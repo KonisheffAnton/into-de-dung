@@ -1,0 +1,204 @@
+extends SceneTree
+
+var viewport: SubViewport
+var demo: HeroHubBattleView
+var captures: String
+var images: Dictionary = {}
+var snapshots: Dictionary = {}
+var units: Array[BattleDemoIsoVisual] = []
+
+func _initialize() -> void:
+	for argument: String in OS.get_cmdline_user_args():
+		if argument.begins_with("--captures="): captures = argument.trim_prefix("--captures=")
+	call_deferred("_run")
+
+func _run() -> void:
+	viewport = SubViewport.new()
+	viewport.size = Vector2i(1440, 900)
+	viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
+	root.add_child(viewport)
+	var profile := HeroHubState.create(9404, 4)
+	profile.enable_mage_deck()
+	profile = ExpeditionTransitions.apply(profile, "start").profile
+	demo = (load("res://scenes/demo/battle/hero_hub_battle.tscn") as PackedScene).instantiate() as HeroHubBattleView
+	var route := HeroHubScreen.new()
+	assert(route._configure_first_room_art(demo, profile))
+	route.free()
+	demo.supplied_session = HeroHubBattleFactory.create(profile).session
+	viewport.add_child(demo)
+	demo.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	demo.set_process(false)
+	demo.end_turn()
+	demo._confirm_selected_mulligan()
+	var session := demo.session as BattleCoreReactionsSession
+	if session.phase == BattleTacticalSession.Phase.ENEMY_TURN:
+		session._enemy_index = session._enemy_ids.size()
+		session.step_enemy()
+	demo._refresh()
+	await _settle()
+	var live_before := {"state":ItemSimulationSnapshot.capture(session.state, []).snapshot.to_dict(), "rng":session.context.get_rng().to_dict()}
+	var frame := ActionPresentationState.capture(session.state)
+	var party: Array[int] = []
+	var focus := Vector2.ZERO
+	var board := demo.board_view
+	for unit: UnitState in session.units:
+		if unit.faction != Faction.Type.PLAYER or not unit.is_alive(): continue
+		party.append(unit.id)
+		focus += board._world_cell_center(unit.cell)
+		var row: Dictionary = frame.units[unit.id]
+		row.hp = 24.0 if party.size() != 2 else 18.5
+		row.hp_max = 32.0
+		row.armor = {"current":16.0 if party.size() != 2 else 7.5,"maximum":24.0,"extra":0.0}
+		row.balance = 4.0
+		row.balance_max = 12.0
+		row.bleeding = {}
+		row.elemental = {}
+		row.control = {}
+		row.shield = {}
+		row.raised_shield = {}
+	assert(party.size() == 3)
+	focus /= 3.0
+	board.show_presentation_state(frame)
+	board.session = null
+	demo._close_character_card()
+	var statuses: Array[Dictionary] = [
+		{"id":"bleeding","stacks":2,"remaining":3,"embodied":false},
+		{"id":"poison","stacks":3,"remaining":2,"embodied":false},
+		{"id":"acid","stacks":0,"remaining":2,"embodied":false},
+		{"id":"burning","stacks":1,"remaining":3,"embodied":false},
+		{"id":"wet","stacks":0,"remaining":2,"embodied":false}]
+	for index: int in party.size():
+		var visual := board._presentation_visual(party[index])
+		visual.status_entries = statuses.slice(0, 1 + index * 2)
+		visual.set_process(false)
+		visual.hovered = false
+		units.append(visual)
+	for visual: BattleDemoIsoVisual in board._entity_visuals:
+		visual.set_process(false)
+		for node: Node in visual.find_children("*", "AnimatedSprite2D", true, false): (node as AnimatedSprite2D).stop()
+	for zoom: float in [1.0, 0.75]:
+		var screen_focus := Vector2(720, 340) - board.global_position
+		board.zoom_camera(zoom, screen_focus)
+		board.pan_camera(screen_focus - board.world_to_view(focus))
+		for layout: String in ["compact", "hover"]:
+			for visual: BattleDemoIsoVisual in board._entity_visuals:
+				if visual.unit == null: continue
+				visual.set_meta(&"mock_compact_c", true)
+				visual.hovered = layout == "hover" and visual == units[2]
+				visual.queue_redraw()
+				# Только макет: экранный ряд выше тайлов и фигур, без переноса runtime HUD.
+				visual._status_hud.z_as_relative = false
+				visual._status_hud.z_index = RenderLayers.z_index_for(RenderLayers.Layer.UI_PREVIEW) + 1
+				visual._status_hud.queue_redraw()
+			await _settle()
+			await RenderingServer.frame_post_draw
+			var label := "%s-%d" % [layout, roundi(zoom * 100)]
+			var img := viewport.get_texture().get_image()
+			DirAccess.make_dir_recursive_absolute(captures)
+			assert(img.save_png(captures.path_join(label + ".png")) == OK)
+			images[label] = img
+			var positions: Array[Vector2] = []
+			for visual: BattleDemoIsoVisual in units: positions.append(visual.get_global_transform_with_canvas() * visual.get_visual_offset())
+			snapshots[label] = positions
+			if zoom == 1.0:
+				var hidden: Array[BattleDemoIsoVisual] = []
+				for visual: BattleDemoIsoVisual in board._entity_visuals:
+					if visual.unit != null and visual != units[2] and visual.visible:
+						hidden.append(visual)
+						visual.hide()
+				await _settle()
+				await RenderingServer.frame_post_draw
+				var detail := viewport.get_texture().get_image()
+				assert(detail.save_png(captures.path_join(layout + "-detail.png")) == OK)
+				images[layout + "-detail"] = detail
+				for visual: BattleDemoIsoVisual in hidden: visual.show()
+	assert(snapshots["compact-100"] == snapshots["hover-100"] and snapshots["compact-75"] == snapshots["hover-75"])
+	# Третий уровень использует существующую карточку, без новой механики ПКМ.
+	var screen_focus := Vector2(720, 340) - board.global_position
+	board.zoom_camera(1.0, screen_focus)
+	board.pan_camera(screen_focus - board.world_to_view(focus))
+	for visual: BattleDemoIsoVisual in units: visual.hovered = false
+	var board_rect := board.get_global_rect()
+	var hand_rect := demo._mage_row.get_global_rect()
+	var camera_offset := board.camera_view.offset
+	demo._open_character_card(party[2])
+	var card := demo._character_card
+	var card_row: Dictionary = frame.units[party[2]].duplicate(true)
+	card_row.bleeding = {"stacks":2,"ticks_left":3}
+	card_row.elemental = {"poison_stacks":3,"poison_ticks":2,"acid_ticks":2,"burning_stacks":1,"burning_ticks":3,"wet_turns":2}
+	var card_data := BattleCharacterCardData.frame(card_row, demo._character_card_identity)
+	card_data.attributes_text = "Пример состояния персонажа"
+	card_data.details_text = "Тестовые эффекты для сравнения компоновки."
+	card.show_data(card_data)
+	await _settle()
+	card.scroll_container.scroll_vertical += floori(card.status_label.global_position.y - card.scroll_container.global_position.y - 28.0)
+	await _settle()
+	await RenderingServer.frame_post_draw
+	assert(viewport.get_texture().get_image().save_png(captures.path_join("card-100.png")) == OK)
+	assert(board.get_global_rect() == board_rect and demo._mage_row.get_global_rect() == hand_rect and board.camera_view.offset == camera_offset)
+	assert(not card.get_global_rect().intersects(demo._mage_row.get_global_rect()))
+	demo._close_character_card()
+	assert(live_before.state == ItemSimulationSnapshot.capture(session.state, []).snapshot.to_dict() and live_before.rng == session.context.get_rng().to_dict())
+	await _comparison()
+	var report := FileAccess.open(captures.path_join("probe.json"), FileAccess.WRITE)
+	report.store_string(JSON.stringify({"status":"PASS", "fixture":"catalog4,seed9404;3 ally presentation DTOs,1/3/5 effects; native sprites/terrain", "core_rng_unchanged":true, "layout_statuses":"C: compact up to3 icons without counters plusN; hovered up to5 icons with counters; proposal only", "positions":snapshots}, "\t"))
+	report.close()
+	viewport.queue_free()
+	await process_frame
+	print("COMPACT C PROBE: PASS; 6 battle captures, card, comparison; core/RNG unchanged")
+	quit(0)
+
+func _settle() -> void:
+	for index: int in 6: await process_frame
+
+func _comparison() -> void:
+	var sheet := SubViewport.new()
+	sheet.size = Vector2i(1600, 1040)
+	sheet.render_target_update_mode = SubViewport.UPDATE_ALWAYS
+	root.add_child(sheet)
+	var bg := ColorRect.new()
+	bg.color = Color("171b21")
+	bg.size = Vector2(sheet.size)
+	sheet.add_child(bg)
+	_label(sheet, "ВАРИАНТ C · ОБЗОР И НАВЕДЕНИЕ · МАКЕТ", Vector2(28, 16), 25)
+	_label(sheet, "Те же персонажи, ресурсы и эффекты · положение полос не меняется", Vector2(28, 51), 17)
+	for column: int in 2:
+		var variant := "compact" if column == 0 else "hover"
+		var left := 24 + column * 790
+		_label(sheet, "Обычный обзор" if column == 0 else "Наведение на бойца", Vector2(left, 91), 23)
+		_label(sheet, "До 3 значков +N · без стаков и тиков" if column == 0 else "Все 5 эффектов · стаки и сроки на значках", Vector2(left, 124), 18)
+		var full: Image = images[variant + "-100"]
+		var positions: Array = snapshots[variant + "-100"]
+		var bounds := Rect2(positions[0] - Vector2(100, 130), Vector2(220, 190))
+		for point: Vector2 in positions: bounds = bounds.merge(Rect2(point - Vector2(100, 130), Vector2(220, 190)))
+		var crop := Rect2i(bounds).intersection(Rect2i(Vector2i.ZERO, full.get_size()))
+		var image_rect := TextureRect.new()
+		image_rect.texture = ImageTexture.create_from_image(full.get_region(crop))
+		image_rect.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+		image_rect.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+		image_rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		image_rect.position = Vector2(left, 160)
+		image_rect.size = Vector2(760, 390)
+		sheet.add_child(image_rect)
+		_label(sheet, "Деталь ×2 · пять эффектов", Vector2(left, 570), 18)
+		var point: Vector2 = positions[2]
+		var isolated: Image = images[variant + "-detail"]
+		var close := TextureRect.new()
+		close.texture = ImageTexture.create_from_image(isolated.get_region(Rect2i(Vector2i(point) - Vector2i(88, 114), Vector2i(192, 184))))
+		close.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+		close.position = Vector2(left + 116, 600)
+		close.scale = Vector2(2, 2)
+		sheet.add_child(close)
+	_label(sheet, "Зелёный — HP · металл — броня · янтарь — равновесие. Числа и статусы тестовые.", Vector2(28, 1006), 17)
+	await _settle()
+	await RenderingServer.frame_post_draw
+	assert(sheet.get_texture().get_image().save_png(captures.path_join("comparison.png")) == OK)
+	sheet.queue_free()
+	await process_frame
+
+func _label(parent: Node, text: String, at: Vector2, font_size: int) -> void:
+	var label := Label.new()
+	label.text = text
+	label.position = at
+	label.add_theme_font_size_override("font_size", font_size)
+	parent.add_child(label)
