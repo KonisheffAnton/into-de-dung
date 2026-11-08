@@ -1,0 +1,8 @@
+{
+  "method": "text",
+  "no_background": true,
+  "seed": 110840,
+  "description": "Precise COLOR-ONLY edit of this exact compact fantasy pixel-art hover status plaque. Preserve the exact 128x48 canvas, original thin horizontal silhouette, original location, height, proportions, tiny diamond end ornaments, single pixel bevel, all outlines and existing transparency. DO NOT redesign, enlarge, thicken, move, add details or add texture. Change only its material COLORS: the solid interior is currently very dark greenish bronze and hides dark green, black and brown status icons. Make this interior a calm medium-dark NEUTRAL COOL GRAY approximately #555963, gently varied only from #50545D to #5A5E67, no green or brown cast, no pattern, no sheen and no center glow. This visibly lighter gray center must allow both dark black/green/brown icon silhouettes and bright red/cyan/lime icons to read. Keep the thin outer rim dull desaturated antique bronze, restrained gray-bronze shadow #514C43, midtone #777063, tiny edge highlight #9A8D76, with a dark outer contour. The rim must be quieter than the icons, never bright gold or yellow. Keep the entire interior fully opaque, transparency only outside the physical plaque. No icons, symbols, numbers, text, extra ornaments, glow, drop shadow, gradients, perspective or scene. Crisp native pixel art, no antialiasing. This is the same asset with revised colors only.",
+  "input": "../status-hover-five-concepts-20261108/04-bronze.png",
+  "input_sha256": "4ad757173de4d4668eca38adbb8b71b95d9162bef38dc8b45143dfa9cd775a5c"
+}

@@ -1,0 +1,44 @@
+{
+  "provider": "PixelLab",
+  "model": "edit_image_pro_flash",
+  "job_id": "70038eb7-2e3e-49b0-be99-3478e76ecb53",
+  "seed": 110840,
+  "usage": {
+    "type": "generations",
+    "generations": 6.0
+  },
+  "billing_usage": {
+    "usd": 0.0,
+    "type": "generations",
+    "generations": 6
+  },
+  "sha256": "d90c52f9a1d785cbd3ea5df486ead22f7eed328c679d9fbfa00a3b9a0a8e9322",
+  "size": [
+    128,
+    48
+  ],
+  "original_bbox": [
+    1,
+    12,
+    127,
+    32
+  ],
+  "new_bbox": [
+    1,
+    12,
+    127,
+    32
+  ],
+  "exact_alpha": true,
+  "alpha_changed_pixels": 0,
+  "original_center_rgb": [
+    45,
+    51,
+    45
+  ],
+  "new_center_rgb": [
+    85,
+    87,
+    92
+  ]
+}
