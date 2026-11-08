@@ -1,0 +1,16 @@
+{
+  "description": "One minimal native16x16 pixel icon. Transparent background, two opaque flat colors from the supplied palette, no anti-aliasing, lighting, gradient, shading, texture, bevel, frame or drop shadow. One large warning triangle with ONE unmistakable upright exclamation mark inside. Yellow flat triangular body, near-black1px outer contour. The exclamation mark is near-black, centered, made of a broad vertical rectangular stem at least2px wide and4px tall plus one clearly separated square dot2px wide. This is an essential warning pictogram, not typography or a letter. Do not omit the exclamation mark. No other details. Keep triangle fully inside x1..14,y1..14 on16x16 canvas.",
+  "image_size": {
+    "width": 16,
+    "height": 16
+  },
+  "no_background": true,
+  "seed": 110951,
+  "target_palette": {
+    "colors": [
+      "#D8B45F",
+      "#171B24"
+    ],
+    "max_colors": 2
+  }
+}

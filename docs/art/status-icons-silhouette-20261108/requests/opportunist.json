@@ -1,0 +1,16 @@
+{
+  "description": "ONE extremely simple pixel-art status pictogram for a dark fantasy tactical game, native 16x16 pixels. It must read instantly as a SILHOUETTE at 16 pixels. Center the entire symbol inside x=1..14 and y=1..14, with an empty transparent 1-pixel safety margin. Use only TWO flat opaque colors: the supplied main color for the large filled form and #171B24 for a single-pixel dark outline or essential separation. No gradients, lighting, shading, bevels, highlights, reflections, grain, texture, tiny decorations, antialiasing, semi-transparent pixels, frame, badge, panel, text, letters or numbers. Broad chunky connected pixel shapes, bold outer contour; no isolated one-pixel specks. No realistic miniature painting. Keep only the one essential motif described below; readable negative space is more important than detail. Transparent background. Motif: One simple boot stepping to the right with one short broad dagger pointing at its heel from behind. Only boot and pursuing blade, no person, movement trails or ground.",
+  "image_size": {
+    "width": 16,
+    "height": 16
+  },
+  "no_background": true,
+  "seed": 110860,
+  "target_palette": {
+    "colors": [
+      "#D99A68",
+      "#171B24"
+    ],
+    "max_colors": 2
+  }
+}

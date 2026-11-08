@@ -1,0 +1,16 @@
+{
+  "description": "One minimal native16x16 pixel icon. Transparent background, two opaque flat colors from the supplied palette, no anti-aliasing, lighting, gradient, shading, texture, bevel, frame or drop shadow. Replace the overly intricate snowflake with ONE extremely simple large six-spoke snowflake/asterisk. Exactly SIX straight thick arms radiating from one solid center, all six connected. Absolutely NO branches, forks, side twigs, isolated dots, holes, crystals, snow particles or decorative pixels. The arm ends are blunt. Six strong spokes only, centered inside a14x14 area on16x16 canvas. The silhouette should read as freezing without tiny details.",
+  "image_size": {
+    "width": 16,
+    "height": 16
+  },
+  "no_background": true,
+  "seed": 110950,
+  "target_palette": {
+    "colors": [
+      "#83CFE6",
+      "#171B24"
+    ],
+    "max_colors": 2
+  }
+}

@@ -1,0 +1,1464 @@
+[
+  {
+    "id": "bleeding",
+    "job_id": "38220a72-abe8-4b19-b6eb-92c569673036",
+    "seed": 110850,
+    "model": "pro_flash",
+    "usage": {
+      "type": "generations",
+      "generations": 5.0
+    },
+    "billing_usage": {
+      "usd": 0.0,
+      "type": "generations",
+      "generations": 5
+    },
+    "source_size": [
+      16,
+      16
+    ],
+    "source_bbox": [
+      2,
+      1,
+      14,
+      15
+    ],
+    "fit_size": [
+      12,
+      14
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "bbox": [
+      2,
+      1,
+      14,
+      15
+    ],
+    "colors": 2,
+    "alpha_values": [
+      0,
+      255
+    ],
+    "raw_file": "raw/bleeding.png",
+    "attempts": [
+      {
+        "job_id": "38220a72-abe8-4b19-b6eb-92c569673036",
+        "seed": 110850,
+        "file": "raw/bleeding.png",
+        "sha256": "4b840e8115437a35b1478361a7a92837d742cbab6b04da8c66479fb371d532a4",
+        "usage": {
+          "usd": 0.0,
+          "type": "generations",
+          "generations": 5
+        }
+      }
+    ],
+    "raw_sha256": "4b840e8115437a35b1478361a7a92837d742cbab6b04da8c66479fb371d532a4",
+    "sha256": "fcd329a9a6108dc9ab24b7578124bc535b160e55107f54a77ab70833222c4191"
+  },
+  {
+    "id": "burning",
+    "job_id": "d783fa77-d0b5-46b8-827b-1dcdf2e2abcd",
+    "seed": 110851,
+    "model": "pro_flash",
+    "usage": {
+      "type": "generations",
+      "generations": 5.0
+    },
+    "billing_usage": {
+      "usd": 0.0,
+      "type": "generations",
+      "generations": 5
+    },
+    "source_size": [
+      16,
+      16
+    ],
+    "source_bbox": [
+      1,
+      1,
+      15,
+      15
+    ],
+    "fit_size": [
+      14,
+      14
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "bbox": [
+      1,
+      1,
+      15,
+      15
+    ],
+    "colors": 2,
+    "alpha_values": [
+      0,
+      255
+    ],
+    "raw_file": "raw/burning.png",
+    "attempts": [
+      {
+        "job_id": "d783fa77-d0b5-46b8-827b-1dcdf2e2abcd",
+        "seed": 110851,
+        "file": "raw/burning.png",
+        "sha256": "dc0e3d8c412e00f1fe00554a1a70344f7676c517b0aabfcbe171053d0df40732",
+        "usage": {
+          "usd": 0.0,
+          "type": "generations",
+          "generations": 5
+        }
+      }
+    ],
+    "raw_sha256": "dc0e3d8c412e00f1fe00554a1a70344f7676c517b0aabfcbe171053d0df40732",
+    "sha256": "e1b02441df46b5cd21f3fd3b8327fa8827ac4302fffe3f3fc32312652d519454"
+  },
+  {
+    "id": "poison",
+    "job_id": "3cfb2487-d324-408a-adc5-6a17bb168a97",
+    "seed": 110852,
+    "model": "pro_flash",
+    "usage": {
+      "type": "generations",
+      "generations": 5.0
+    },
+    "billing_usage": {
+      "usd": 0.0,
+      "type": "generations",
+      "generations": 5
+    },
+    "source_size": [
+      16,
+      16
+    ],
+    "source_bbox": [
+      1,
+      1,
+      15,
+      15
+    ],
+    "fit_size": [
+      14,
+      14
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "bbox": [
+      1,
+      1,
+      15,
+      15
+    ],
+    "colors": 2,
+    "alpha_values": [
+      0,
+      255
+    ],
+    "raw_file": "raw/poison.png",
+    "attempts": [
+      {
+        "job_id": "3cfb2487-d324-408a-adc5-6a17bb168a97",
+        "seed": 110852,
+        "file": "raw/poison.png",
+        "sha256": "520b23917252665f6a6c68e48b4de03eca12479c6f437ece65adf1c4b30812d4",
+        "usage": {
+          "usd": 0.0,
+          "type": "generations",
+          "generations": 5
+        }
+      }
+    ],
+    "raw_sha256": "520b23917252665f6a6c68e48b4de03eca12479c6f437ece65adf1c4b30812d4",
+    "sha256": "d8a02bffc99a12edfd64984a1e3c2b613d2b26845ee542a982db742f4f2cdbc9"
+  },
+  {
+    "id": "acid",
+    "job_id": "4e813e27-e7f9-44ca-bd0d-a201357eb4ae",
+    "seed": 110853,
+    "model": "pro_flash",
+    "usage": {
+      "type": "generations",
+      "generations": 5.0
+    },
+    "billing_usage": {
+      "usd": 0.0,
+      "type": "generations",
+      "generations": 5
+    },
+    "source_size": [
+      16,
+      16
+    ],
+    "source_bbox": [
+      1,
+      1,
+      15,
+      15
+    ],
+    "fit_size": [
+      14,
+      14
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "bbox": [
+      1,
+      1,
+      15,
+      15
+    ],
+    "colors": 2,
+    "alpha_values": [
+      0,
+      255
+    ],
+    "raw_file": "raw/acid.png",
+    "attempts": [
+      {
+        "job_id": "4e813e27-e7f9-44ca-bd0d-a201357eb4ae",
+        "seed": 110853,
+        "file": "raw/acid.png",
+        "sha256": "132bdeb77820395a235a63cfa4b5110b623bbb490c1307763c37bfae0967d56c",
+        "usage": {
+          "usd": 0.0,
+          "type": "generations",
+          "generations": 5
+        }
+      }
+    ],
+    "raw_sha256": "132bdeb77820395a235a63cfa4b5110b623bbb490c1307763c37bfae0967d56c",
+    "sha256": "213c1cf7db389def399134d3f4235063479132b8228fcfc4faaefdd55602b5b0"
+  },
+  {
+    "id": "stunned",
+    "job_id": "da7512b0-a0c1-47bf-ac83-4c8cf9f14171",
+    "seed": 110854,
+    "model": "pro_flash",
+    "usage": {
+      "type": "generations",
+      "generations": 5.0
+    },
+    "billing_usage": {
+      "usd": 0.0,
+      "type": "generations",
+      "generations": 5
+    },
+    "source_size": [
+      16,
+      16
+    ],
+    "source_bbox": [
+      1,
+      1,
+      15,
+      16
+    ],
+    "fit_size": [
+      13,
+      14
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "bbox": [
+      1,
+      1,
+      14,
+      15
+    ],
+    "colors": 2,
+    "alpha_values": [
+      0,
+      255
+    ],
+    "raw_file": "raw/stunned.png",
+    "attempts": [
+      {
+        "job_id": "da7512b0-a0c1-47bf-ac83-4c8cf9f14171",
+        "seed": 110854,
+        "file": "raw/stunned.png",
+        "sha256": "70de0466d29a4e07d3beedccb0ccc82b153cba4aa385c7cee719b74b1315994d",
+        "usage": {
+          "usd": 0.0,
+          "type": "generations",
+          "generations": 5
+        }
+      }
+    ],
+    "raw_sha256": "70de0466d29a4e07d3beedccb0ccc82b153cba4aa385c7cee719b74b1315994d",
+    "sha256": "c2b9967fdfb7bd7875d650b6118890ccc466bd1041c94ca4a57e423172fc5740"
+  },
+  {
+    "id": "entangled",
+    "job_id": "1950a96a-9ab1-4ae7-8253-cab697c1a58f",
+    "seed": 110855,
+    "model": "pro_flash",
+    "usage": {
+      "type": "generations",
+      "generations": 5.0
+    },
+    "billing_usage": {
+      "usd": 0.0,
+      "type": "generations",
+      "generations": 5
+    },
+    "source_size": [
+      16,
+      16
+    ],
+    "source_bbox": [
+      1,
+      1,
+      15,
+      15
+    ],
+    "fit_size": [
+      14,
+      14
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "bbox": [
+      1,
+      1,
+      15,
+      15
+    ],
+    "colors": 2,
+    "alpha_values": [
+      0,
+      255
+    ],
+    "raw_file": "raw/entangled.png",
+    "attempts": [
+      {
+        "job_id": "1950a96a-9ab1-4ae7-8253-cab697c1a58f",
+        "seed": 110855,
+        "file": "raw/entangled.png",
+        "sha256": "a3a960728566d533ea9895610f2624503c1e57a296d6bf4a3d9a5a45f5039a72",
+        "usage": {
+          "usd": 0.0,
+          "type": "generations",
+          "generations": 5
+        }
+      }
+    ],
+    "raw_sha256": "a3a960728566d533ea9895610f2624503c1e57a296d6bf4a3d9a5a45f5039a72",
+    "sha256": "7b6efcf984999d2487ae1d7d299a9bc1809a9c489a0a2318fff966025236d083"
+  },
+  {
+    "id": "frozen",
+    "job_id": "9a782c78-4131-40e5-9c6f-b72ec198f011",
+    "seed": 110950,
+    "model": "pro_flash",
+    "usage": {
+      "type": "generations",
+      "generations": 5.0
+    },
+    "billing_usage": {
+      "usd": 0.0,
+      "type": "generations",
+      "generations": 5
+    },
+    "source_size": [
+      16,
+      16
+    ],
+    "source_bbox": [
+      2,
+      1,
+      14,
+      15
+    ],
+    "fit_size": [
+      12,
+      14
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "bbox": [
+      2,
+      1,
+      14,
+      15
+    ],
+    "colors": 1,
+    "alpha_values": [
+      0,
+      255
+    ],
+    "raw_file": "raw/frozen-r2.png",
+    "attempts": [
+      {
+        "job_id": "ec9f7747-d31c-49b9-a0ac-412a3dbb825b",
+        "seed": 110856,
+        "file": "raw/frozen.png",
+        "sha256": "c7e3b8fd033f7f103066ded42385a965b800675f3d137c2dc726b8d30bd30bf2",
+        "usage": {
+          "usd": 0.0,
+          "type": "generations",
+          "generations": 5
+        }
+      },
+      {
+        "job_id": "9a782c78-4131-40e5-9c6f-b72ec198f011",
+        "seed": 110950,
+        "file": "raw/frozen-r2.png",
+        "sha256": "66777b6024c40544abba68ea4166c902d6d7535c7fff6e2d2edbac9476ae4499",
+        "usage": {
+          "usd": 0.0,
+          "type": "generations",
+          "generations": 5
+        }
+      }
+    ],
+    "raw_sha256": "66777b6024c40544abba68ea4166c902d6d7535c7fff6e2d2edbac9476ae4499",
+    "sha256": "a1ef884418b7eec14a867470b699b68f5f2ad8e429dcbf7cd7bd5818bb31cbc4"
+  },
+  {
+    "id": "wet",
+    "job_id": "84ed8b51-c287-4a9e-b005-248c9083b884",
+    "seed": 110857,
+    "model": "pro_flash",
+    "usage": {
+      "type": "generations",
+      "generations": 5.0
+    },
+    "billing_usage": {
+      "usd": 0.0,
+      "type": "generations",
+      "generations": 5
+    },
+    "source_size": [
+      16,
+      16
+    ],
+    "source_bbox": [
+      1,
+      1,
+      15,
+      15
+    ],
+    "fit_size": [
+      14,
+      14
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "bbox": [
+      1,
+      1,
+      15,
+      15
+    ],
+    "colors": 2,
+    "alpha_values": [
+      0,
+      255
+    ],
+    "raw_file": "raw/wet.png",
+    "attempts": [
+      {
+        "job_id": "84ed8b51-c287-4a9e-b005-248c9083b884",
+        "seed": 110857,
+        "file": "raw/wet.png",
+        "sha256": "68e1c1edc5986e21d3d4078eac53ac74645cc8ce474dd63d7976796b42d25e93",
+        "usage": {
+          "usd": 0.0,
+          "type": "generations",
+          "generations": 5
+        }
+      }
+    ],
+    "raw_sha256": "68e1c1edc5986e21d3d4078eac53ac74645cc8ce474dd63d7976796b42d25e93",
+    "sha256": "42bba35faf2b0b5badf7b2e0b2940350529727b3b81527b908a0ccbbb028bdcd"
+  },
+  {
+    "id": "shield",
+    "job_id": "28308fa5-f636-40bf-a0a1-cc4a3291fcbe",
+    "seed": 110858,
+    "model": "pro_flash",
+    "usage": {
+      "type": "generations",
+      "generations": 5.0
+    },
+    "billing_usage": {
+      "usd": 0.0,
+      "type": "generations",
+      "generations": 5
+    },
+    "source_size": [
+      16,
+      16
+    ],
+    "source_bbox": [
+      1,
+      2,
+      15,
+      13
+    ],
+    "fit_size": [
+      14,
+      11
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "bbox": [
+      1,
+      2,
+      15,
+      13
+    ],
+    "colors": 2,
+    "alpha_values": [
+      0,
+      255
+    ],
+    "raw_file": "raw/shield.png",
+    "attempts": [
+      {
+        "job_id": "28308fa5-f636-40bf-a0a1-cc4a3291fcbe",
+        "seed": 110858,
+        "file": "raw/shield.png",
+        "sha256": "a53719f8125dfdde530c380dccf210059625d8cb79cc2b59a4fca2f016a919cc",
+        "usage": {
+          "usd": 0.0,
+          "type": "generations",
+          "generations": 5
+        }
+      }
+    ],
+    "raw_sha256": "a53719f8125dfdde530c380dccf210059625d8cb79cc2b59a4fca2f016a919cc",
+    "sha256": "530a55cb34a990b5cf63a6fb5da0b6e0d1871ac40f1143a10e75cc43902872b8"
+  },
+  {
+    "id": "raised_shield",
+    "job_id": "78310ed3-8cad-4d9a-a2b8-3194b9da7c4b",
+    "seed": 110859,
+    "model": "pro_flash",
+    "usage": {
+      "type": "generations",
+      "generations": 5.0
+    },
+    "billing_usage": {
+      "usd": 0.0,
+      "type": "generations",
+      "generations": 5
+    },
+    "source_size": [
+      16,
+      16
+    ],
+    "source_bbox": [
+      2,
+      1,
+      14,
+      15
+    ],
+    "fit_size": [
+      12,
+      14
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "bbox": [
+      2,
+      1,
+      14,
+      15
+    ],
+    "colors": 2,
+    "alpha_values": [
+      0,
+      255
+    ],
+    "raw_file": "raw/raised_shield.png",
+    "attempts": [
+      {
+        "job_id": "78310ed3-8cad-4d9a-a2b8-3194b9da7c4b",
+        "seed": 110859,
+        "file": "raw/raised_shield.png",
+        "sha256": "fb5f2b9e58657752442690f0d1a23b2343d09abae236c931de23432dcc2eac7e",
+        "usage": {
+          "usd": 0.0,
+          "type": "generations",
+          "generations": 5
+        }
+      }
+    ],
+    "raw_sha256": "fb5f2b9e58657752442690f0d1a23b2343d09abae236c931de23432dcc2eac7e",
+    "sha256": "b961e550c1e6a554e81018414b7c0a076ef96a935ea57aa7c3adf4611eba5376"
+  },
+  {
+    "id": "opportunist",
+    "job_id": "9d76f520-142d-481a-b57e-3d80ea097376",
+    "seed": 110860,
+    "model": "pro_flash",
+    "usage": {
+      "type": "generations",
+      "generations": 5.0
+    },
+    "billing_usage": {
+      "usd": 0.0,
+      "type": "generations",
+      "generations": 5
+    },
+    "source_size": [
+      16,
+      16
+    ],
+    "source_bbox": [
+      0,
+      2,
+      16,
+      15
+    ],
+    "fit_size": [
+      14,
+      11
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "bbox": [
+      1,
+      2,
+      15,
+      13
+    ],
+    "colors": 2,
+    "alpha_values": [
+      0,
+      255
+    ],
+    "raw_file": "raw/opportunist.png",
+    "attempts": [
+      {
+        "job_id": "9d76f520-142d-481a-b57e-3d80ea097376",
+        "seed": 110860,
+        "file": "raw/opportunist.png",
+        "sha256": "0d768a29ee903c0310852884ed154beae67b25af7fc9e5a99f12e2a20eb439c9",
+        "usage": {
+          "usd": 0.0,
+          "type": "generations",
+          "generations": 5
+        }
+      }
+    ],
+    "raw_sha256": "0d768a29ee903c0310852884ed154beae67b25af7fc9e5a99f12e2a20eb439c9",
+    "sha256": "a2918d94e872acc7ee31b2721c1cb323911c5f56db675ef77ea691559e1a9356"
+  },
+  {
+    "id": "counterattack",
+    "job_id": "187ffb1e-5dc4-46bf-88da-ca357d674d3a",
+    "seed": 110861,
+    "model": "pro_flash",
+    "usage": {
+      "type": "generations",
+      "generations": 5.0
+    },
+    "billing_usage": {
+      "usd": 0.0,
+      "type": "generations",
+      "generations": 5
+    },
+    "source_size": [
+      16,
+      16
+    ],
+    "source_bbox": [
+      1,
+      1,
+      15,
+      15
+    ],
+    "fit_size": [
+      14,
+      14
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "bbox": [
+      1,
+      1,
+      15,
+      15
+    ],
+    "colors": 2,
+    "alpha_values": [
+      0,
+      255
+    ],
+    "raw_file": "raw/counterattack.png",
+    "attempts": [
+      {
+        "job_id": "187ffb1e-5dc4-46bf-88da-ca357d674d3a",
+        "seed": 110861,
+        "file": "raw/counterattack.png",
+        "sha256": "5ed48a21f1305cf5cea5afa527ad2b48fbd97990953c52eb8158c363884caf12",
+        "usage": {
+          "usd": 0.0,
+          "type": "generations",
+          "generations": 5
+        }
+      }
+    ],
+    "raw_sha256": "5ed48a21f1305cf5cea5afa527ad2b48fbd97990953c52eb8158c363884caf12",
+    "sha256": "ce62215016ccb021c788dd2de1059fe584410285c5e14a7c3f9d2f925c3bd01f"
+  },
+  {
+    "id": "cover",
+    "job_id": "532883fd-5d54-432f-a9aa-51d5c5aac7a4",
+    "seed": 110862,
+    "model": "pro_flash",
+    "usage": {
+      "type": "generations",
+      "generations": 5.0
+    },
+    "billing_usage": {
+      "usd": 0.0,
+      "type": "generations",
+      "generations": 5
+    },
+    "source_size": [
+      16,
+      16
+    ],
+    "source_bbox": [
+      1,
+      1,
+      15,
+      15
+    ],
+    "fit_size": [
+      14,
+      14
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "bbox": [
+      1,
+      1,
+      15,
+      15
+    ],
+    "colors": 2,
+    "alpha_values": [
+      0,
+      255
+    ],
+    "raw_file": "raw/cover.png",
+    "attempts": [
+      {
+        "job_id": "532883fd-5d54-432f-a9aa-51d5c5aac7a4",
+        "seed": 110862,
+        "file": "raw/cover.png",
+        "sha256": "18f360a13def0600d1e7c8f74f18d8ab454b6234c2377437fd6330de6dc891e9",
+        "usage": {
+          "usd": 0.0,
+          "type": "generations",
+          "generations": 5
+        }
+      }
+    ],
+    "raw_sha256": "18f360a13def0600d1e7c8f74f18d8ab454b6234c2377437fd6330de6dc891e9",
+    "sha256": "ddc7b8da782c2a8d8864750c65dcd3875a1c1c26b371ab66a754a3dd5a29d5ca"
+  },
+  {
+    "id": "pending",
+    "job_id": "89fa48e3-fc68-4f63-8a58-7ae1b8e81f1f",
+    "seed": 110863,
+    "model": "pro_flash",
+    "usage": {
+      "type": "generations",
+      "generations": 5.0
+    },
+    "billing_usage": {
+      "usd": 0.0,
+      "type": "generations",
+      "generations": 5
+    },
+    "source_size": [
+      16,
+      16
+    ],
+    "source_bbox": [
+      2,
+      1,
+      14,
+      15
+    ],
+    "fit_size": [
+      12,
+      14
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "bbox": [
+      2,
+      1,
+      14,
+      15
+    ],
+    "colors": 2,
+    "alpha_values": [
+      0,
+      255
+    ],
+    "raw_file": "raw/pending.png",
+    "attempts": [
+      {
+        "job_id": "89fa48e3-fc68-4f63-8a58-7ae1b8e81f1f",
+        "seed": 110863,
+        "file": "raw/pending.png",
+        "sha256": "6c317d8661ec80bb276d5f8ff3c3de17af6274824102acaa4a2de3e76efdce71",
+        "usage": {
+          "usd": 0.0,
+          "type": "generations",
+          "generations": 5
+        }
+      }
+    ],
+    "raw_sha256": "6c317d8661ec80bb276d5f8ff3c3de17af6274824102acaa4a2de3e76efdce71",
+    "sha256": "adce6ac88d639f85d8996c692de7157f8baae9279ccbc095e2479418832d13f2"
+  },
+  {
+    "id": "fire_on_tile",
+    "job_id": "b8d6605b-b9bc-42e2-b4e1-03dc64e2f3eb",
+    "seed": 110864,
+    "model": "pro_flash",
+    "usage": {
+      "type": "generations",
+      "generations": 5.0
+    },
+    "billing_usage": {
+      "usd": 0.0,
+      "type": "generations",
+      "generations": 5
+    },
+    "source_size": [
+      16,
+      16
+    ],
+    "source_bbox": [
+      1,
+      0,
+      15,
+      16
+    ],
+    "fit_size": [
+      12,
+      14
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "bbox": [
+      2,
+      1,
+      14,
+      15
+    ],
+    "colors": 2,
+    "alpha_values": [
+      0,
+      255
+    ],
+    "raw_file": "raw/fire_on_tile.png",
+    "attempts": [
+      {
+        "job_id": "b8d6605b-b9bc-42e2-b4e1-03dc64e2f3eb",
+        "seed": 110864,
+        "file": "raw/fire_on_tile.png",
+        "sha256": "a89a3f34ee74c7f2d71fd26bf7f7328a1809da03a1c95f39ed8b634f0ad564ac",
+        "usage": {
+          "usd": 0.0,
+          "type": "generations",
+          "generations": 5
+        }
+      }
+    ],
+    "raw_sha256": "a89a3f34ee74c7f2d71fd26bf7f7328a1809da03a1c95f39ed8b634f0ad564ac",
+    "sha256": "fd46eca1fa93eb101f1e60459c9253ab57c4103b7d0f4b8953e1989de7f9be6e"
+  },
+  {
+    "id": "acid_pool",
+    "job_id": "4ab94263-8fd5-49a8-9174-22a7a26d9ab0",
+    "seed": 110865,
+    "model": "pro_flash",
+    "usage": {
+      "type": "generations",
+      "generations": 5.0
+    },
+    "billing_usage": {
+      "usd": 0.0,
+      "type": "generations",
+      "generations": 5
+    },
+    "source_size": [
+      16,
+      16
+    ],
+    "source_bbox": [
+      1,
+      2,
+      15,
+      15
+    ],
+    "fit_size": [
+      14,
+      13
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "bbox": [
+      1,
+      1,
+      15,
+      14
+    ],
+    "colors": 2,
+    "alpha_values": [
+      0,
+      255
+    ],
+    "raw_file": "raw/acid_pool.png",
+    "attempts": [
+      {
+        "job_id": "4ab94263-8fd5-49a8-9174-22a7a26d9ab0",
+        "seed": 110865,
+        "file": "raw/acid_pool.png",
+        "sha256": "46dcc3c299db6dbe6551268d44aea8a521ef39c1080cbe268338e11728d7ff7f",
+        "usage": {
+          "usd": 0.0,
+          "type": "generations",
+          "generations": 5
+        }
+      }
+    ],
+    "raw_sha256": "46dcc3c299db6dbe6551268d44aea8a521ef39c1080cbe268338e11728d7ff7f",
+    "sha256": "9488c1b1c6f78f95c1b24b9165ee7abe8480d886587671991ac09c7de1432bcc"
+  },
+  {
+    "id": "spikes",
+    "job_id": "b341627a-b924-48f4-9e79-292433722933",
+    "seed": 110866,
+    "model": "pro_flash",
+    "usage": {
+      "type": "generations",
+      "generations": 5.0
+    },
+    "billing_usage": {
+      "usd": 0.0,
+      "type": "generations",
+      "generations": 5
+    },
+    "source_size": [
+      16,
+      16
+    ],
+    "source_bbox": [
+      1,
+      1,
+      15,
+      15
+    ],
+    "fit_size": [
+      14,
+      14
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "bbox": [
+      1,
+      1,
+      15,
+      15
+    ],
+    "colors": 2,
+    "alpha_values": [
+      0,
+      255
+    ],
+    "raw_file": "raw/spikes.png",
+    "attempts": [
+      {
+        "job_id": "b341627a-b924-48f4-9e79-292433722933",
+        "seed": 110866,
+        "file": "raw/spikes.png",
+        "sha256": "6c1050d4ccbd721ee93519760279bb894e4dffec8f12d851da05752665b99d4a",
+        "usage": {
+          "usd": 0.0,
+          "type": "generations",
+          "generations": 5
+        }
+      }
+    ],
+    "raw_sha256": "6c1050d4ccbd721ee93519760279bb894e4dffec8f12d851da05752665b99d4a",
+    "sha256": "5b3c45cafefe23eaef314dac3b2fccf35e2646c934197e8eab51305284304e79"
+  },
+  {
+    "id": "corpse",
+    "job_id": "7a5bb12d-bc85-40a1-8ed4-f9f5b06c5a91",
+    "seed": 110867,
+    "model": "pro_flash",
+    "usage": {
+      "type": "generations",
+      "generations": 5.0
+    },
+    "billing_usage": {
+      "usd": 0.0,
+      "type": "generations",
+      "generations": 5
+    },
+    "source_size": [
+      16,
+      16
+    ],
+    "source_bbox": [
+      0,
+      4,
+      15,
+      13
+    ],
+    "fit_size": [
+      14,
+      8
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "bbox": [
+      1,
+      4,
+      15,
+      12
+    ],
+    "colors": 2,
+    "alpha_values": [
+      0,
+      255
+    ],
+    "raw_file": "raw/corpse.png",
+    "attempts": [
+      {
+        "job_id": "7a5bb12d-bc85-40a1-8ed4-f9f5b06c5a91",
+        "seed": 110867,
+        "file": "raw/corpse.png",
+        "sha256": "6c66c8249ea0b7fce7a971950e994236ec77b746122dbf70a211e1242c8e545c",
+        "usage": {
+          "usd": 0.0,
+          "type": "generations",
+          "generations": 5
+        }
+      }
+    ],
+    "raw_sha256": "6c66c8249ea0b7fce7a971950e994236ec77b746122dbf70a211e1242c8e545c",
+    "sha256": "5f7ba6f148f1fc0214d5154beb4108bd46c2bcc50d6a88df2921d467b6f0aecf"
+  },
+  {
+    "id": "collapse_warning",
+    "job_id": "78d337a4-f9bf-4ad2-8d4f-93dccdbb4493",
+    "seed": 110868,
+    "model": "pro_flash",
+    "usage": {
+      "type": "generations",
+      "generations": 5.0
+    },
+    "billing_usage": {
+      "usd": 0.0,
+      "type": "generations",
+      "generations": 5
+    },
+    "source_size": [
+      16,
+      16
+    ],
+    "source_bbox": [
+      0,
+      2,
+      16,
+      14
+    ],
+    "fit_size": [
+      14,
+      10
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "bbox": [
+      1,
+      3,
+      15,
+      13
+    ],
+    "colors": 2,
+    "alpha_values": [
+      0,
+      255
+    ],
+    "raw_file": "raw/collapse_warning.png",
+    "attempts": [
+      {
+        "job_id": "78d337a4-f9bf-4ad2-8d4f-93dccdbb4493",
+        "seed": 110868,
+        "file": "raw/collapse_warning.png",
+        "sha256": "457702c1dedf2c1c0e92e171a588b154587150738f617da6fcee20b87842d29b",
+        "usage": {
+          "usd": 0.0,
+          "type": "generations",
+          "generations": 5
+        }
+      }
+    ],
+    "raw_sha256": "457702c1dedf2c1c0e92e171a588b154587150738f617da6fcee20b87842d29b",
+    "sha256": "e7a2d5b774a147e9716bd36677530225f9867ce83df041680d36b85dfcb86619"
+  },
+  {
+    "id": "floor_trap",
+    "job_id": "bea2468b-12c4-4c62-968c-2899c1207160",
+    "seed": 110869,
+    "model": "pro_flash",
+    "usage": {
+      "type": "generations",
+      "generations": 5.0
+    },
+    "billing_usage": {
+      "usd": 0.0,
+      "type": "generations",
+      "generations": 5
+    },
+    "source_size": [
+      16,
+      16
+    ],
+    "source_bbox": [
+      0,
+      1,
+      15,
+      15
+    ],
+    "fit_size": [
+      14,
+      13
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "bbox": [
+      1,
+      1,
+      15,
+      14
+    ],
+    "colors": 2,
+    "alpha_values": [
+      0,
+      255
+    ],
+    "raw_file": "raw/floor_trap.png",
+    "attempts": [
+      {
+        "job_id": "bea2468b-12c4-4c62-968c-2899c1207160",
+        "seed": 110869,
+        "file": "raw/floor_trap.png",
+        "sha256": "b03a1122724bbd24d275f1ff0184d5efcd5acebc409ad048abf828ea4617ccbc",
+        "usage": {
+          "usd": 0.0,
+          "type": "generations",
+          "generations": 5
+        }
+      }
+    ],
+    "raw_sha256": "b03a1122724bbd24d275f1ff0184d5efcd5acebc409ad048abf828ea4617ccbc",
+    "sha256": "529bcfa2a95e4a83039c6502e418833f202ab3304381da5f2d7bf8df9e594572"
+  },
+  {
+    "id": "wall_trap",
+    "job_id": "4214afa2-b06a-48d8-8d09-a5fbee6d1416",
+    "seed": 110870,
+    "model": "pro_flash",
+    "usage": {
+      "type": "generations",
+      "generations": 5.0
+    },
+    "billing_usage": {
+      "usd": 0.0,
+      "type": "generations",
+      "generations": 5
+    },
+    "source_size": [
+      16,
+      16
+    ],
+    "source_bbox": [
+      1,
+      1,
+      15,
+      15
+    ],
+    "fit_size": [
+      14,
+      14
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "bbox": [
+      1,
+      1,
+      15,
+      15
+    ],
+    "colors": 2,
+    "alpha_values": [
+      0,
+      255
+    ],
+    "raw_file": "raw/wall_trap.png",
+    "attempts": [
+      {
+        "job_id": "4214afa2-b06a-48d8-8d09-a5fbee6d1416",
+        "seed": 110870,
+        "file": "raw/wall_trap.png",
+        "sha256": "ddb58ee201a5ff96b853b380a2947f19d849e687977334c7e3ade7138aaff6fe",
+        "usage": {
+          "usd": 0.0,
+          "type": "generations",
+          "generations": 5
+        }
+      }
+    ],
+    "raw_sha256": "ddb58ee201a5ff96b853b380a2947f19d849e687977334c7e3ade7138aaff6fe",
+    "sha256": "e54a212f62e24f99aec5139f58da8f9341e247f21afc11c80d877cebecddc1ca"
+  },
+  {
+    "id": "deep_acid",
+    "job_id": "d44c256c-e9d8-4a12-9ea2-4a572e30d824",
+    "seed": 110871,
+    "model": "pro_flash",
+    "usage": {
+      "type": "generations",
+      "generations": 5.0
+    },
+    "billing_usage": {
+      "usd": 0.0,
+      "type": "generations",
+      "generations": 5
+    },
+    "source_size": [
+      16,
+      16
+    ],
+    "source_bbox": [
+      0,
+      1,
+      16,
+      16
+    ],
+    "fit_size": [
+      14,
+      13
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "bbox": [
+      1,
+      1,
+      15,
+      14
+    ],
+    "colors": 2,
+    "alpha_values": [
+      0,
+      255
+    ],
+    "raw_file": "raw/deep_acid.png",
+    "attempts": [
+      {
+        "job_id": "d44c256c-e9d8-4a12-9ea2-4a572e30d824",
+        "seed": 110871,
+        "file": "raw/deep_acid.png",
+        "sha256": "9ead0d236f7cd16e116ff5bd334d2d92a4afc4a2c1cc64dadd3832542bf2a496",
+        "usage": {
+          "usd": 0.0,
+          "type": "generations",
+          "generations": 5
+        }
+      }
+    ],
+    "raw_sha256": "9ead0d236f7cd16e116ff5bd334d2d92a4afc4a2c1cc64dadd3832542bf2a496",
+    "sha256": "ea65eb0a2873a000d9f994141d38b5619df3133f97090722ead654400ceefbee"
+  },
+  {
+    "id": "void",
+    "job_id": "d5d0b025-2694-4172-a107-660032f8560b",
+    "seed": 110872,
+    "model": "pro_flash",
+    "usage": {
+      "type": "generations",
+      "generations": 5.0
+    },
+    "billing_usage": {
+      "usd": 0.0,
+      "type": "generations",
+      "generations": 5
+    },
+    "source_size": [
+      16,
+      16
+    ],
+    "source_bbox": [
+      1,
+      2,
+      15,
+      15
+    ],
+    "fit_size": [
+      14,
+      13
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "bbox": [
+      1,
+      1,
+      15,
+      14
+    ],
+    "colors": 2,
+    "alpha_values": [
+      0,
+      255
+    ],
+    "raw_file": "raw/void.png",
+    "attempts": [
+      {
+        "job_id": "d5d0b025-2694-4172-a107-660032f8560b",
+        "seed": 110872,
+        "file": "raw/void.png",
+        "sha256": "f0428fdab79c38813179c799b4f7bca982d60bc0bf4f7923e884ebcae077cae1",
+        "usage": {
+          "usd": 0.0,
+          "type": "generations",
+          "generations": 5
+        }
+      }
+    ],
+    "raw_sha256": "f0428fdab79c38813179c799b4f7bca982d60bc0bf4f7923e884ebcae077cae1",
+    "sha256": "39703f9589db6680130c1b2c26482a9e6055eb348a69249115d145b59c2d5de0"
+  },
+  {
+    "id": "hazard",
+    "job_id": "51c1e1bc-db20-44b1-98ba-56bcac87ddfa",
+    "seed": 110951,
+    "model": "pro_flash",
+    "usage": {
+      "type": "generations",
+      "generations": 5.0
+    },
+    "billing_usage": {
+      "usd": 0.0,
+      "type": "generations",
+      "generations": 5
+    },
+    "source_size": [
+      16,
+      16
+    ],
+    "source_bbox": [
+      1,
+      1,
+      15,
+      15
+    ],
+    "fit_size": [
+      14,
+      14
+    ],
+    "size": [
+      16,
+      16
+    ],
+    "bbox": [
+      1,
+      1,
+      15,
+      15
+    ],
+    "colors": 2,
+    "alpha_values": [
+      0,
+      255
+    ],
+    "raw_file": "raw/hazard-r2.png",
+    "attempts": [
+      {
+        "job_id": "883a7c8e-3df1-416b-a1ea-13d3f1913474",
+        "seed": 110873,
+        "file": "raw/hazard.png",
+        "sha256": "f4c08d9e4b81f60a40a2986576655bad6a3f12927898b3a536b6fdfff2fe5dcd",
+        "usage": {
+          "usd": 0.0,
+          "type": "generations",
+          "generations": 5
+        }
+      },
+      {
+        "job_id": "51c1e1bc-db20-44b1-98ba-56bcac87ddfa",
+        "seed": 110951,
+        "file": "raw/hazard-r2.png",
+        "sha256": "c7291c9c35b351001f7607012987b237f387f44374ba4b46176236b67208a100",
+        "usage": {
+          "usd": 0.0,
+          "type": "generations",
+          "generations": 5
+        }
+      }
+    ],
+    "raw_sha256": "c7291c9c35b351001f7607012987b237f387f44374ba4b46176236b67208a100",
+    "sha256": "b9e7a8240df5d61c3e63c2eeab4938d6da6c85f8bf37d616b413ac8845551832"
+  }
+]

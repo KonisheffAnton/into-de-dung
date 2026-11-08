@@ -1,0 +1,146 @@
+[
+  {
+    "id": "bleeding",
+    "title": "Кровотечение",
+    "color": "#CE585B",
+    "motif": "One large solid hanging teardrop of blood, pointed top and wide rounded bottom. Single closed outline; NO wound, splashes or extra droplets."
+  },
+  {
+    "id": "burning",
+    "title": "Горение",
+    "color": "#E88E42",
+    "motif": "One large upright flame with three broad tongues, the central tongue tallest. Solid flat shape, one large simple inner cutout only if needed. NO floor or base."
+  },
+  {
+    "id": "poison",
+    "title": "Яд",
+    "color": "#719D51",
+    "motif": "One large front-facing skull with a broad rounded cranium and short squared jaw. Exactly two large hollow eye sockets, no nose, no teeth, no crossbones."
+  },
+  {
+    "id": "acid",
+    "title": "Кислота",
+    "color": "#B5DD46",
+    "motif": "One large droplet falling onto a short horizontal metal slab with a single large eaten-away semicircular bite directly beneath the drop. Only drop and corroded slab, no bubbles."
+  },
+  {
+    "id": "stunned",
+    "title": "Оглушение",
+    "color": "#EEE9DC",
+    "motif": "One large asymmetric seven-point impact starburst, bold jagged comic stun spark. No face, no head, no other stars, no inner mark."
+  },
+  {
+    "id": "entangled",
+    "title": "Путы",
+    "color": "#B89061",
+    "motif": "Two simple short booted legs tightly bound together by ONE thick rope loop across the ankles. Only two legs and one broad loop, no individual rope strands, roots or leaves."
+  },
+  {
+    "id": "frozen",
+    "title": "Заморозка",
+    "color": "#83CFE6",
+    "motif": "One bold six-armed snowflake, six thick spokes with one large fork at each tip. Strong symmetric snowflake silhouette, no crystalline faceting or center decoration."
+  },
+  {
+    "id": "wet",
+    "title": "Мокрота",
+    "color": "#6EB4D7",
+    "motif": "Exactly three separate simple solid water droplets arranged as one larger drop above two smaller drops. Preserve clear gaps, no highlights, no floor or waves."
+  },
+  {
+    "id": "shield",
+    "title": "Магический щит",
+    "color": "#D9CF96",
+    "motif": "One broad protective magical dome surrounding a single small solid dot. The dome is an open-bottom thick semicircular arc with short vertical sides, not a physical kite shield. Only dome and dot."
+  },
+  {
+    "id": "raised_shield",
+    "title": "Поднятый щит",
+    "color": "#B9C2C7",
+    "motif": "One large solid upright kite shield, broad squared shoulders, tapering to a sharp lower point. Plain flat filled shield silhouette. No emblem, cross, rivets or reflection."
+  },
+  {
+    "id": "opportunist",
+    "title": "Оппортунист",
+    "color": "#D99A68",
+    "motif": "One simple boot stepping to the right with one short broad dagger pointing at its heel from behind. Only boot and pursuing blade, no person, movement trails or ground."
+  },
+  {
+    "id": "counterattack",
+    "title": "Контратака",
+    "color": "#BEC8CC",
+    "motif": "One bold U-turn arrow curving back toward a short sword blade. Return strike symbol. Only broad hooked arrow and single blade, no hilt detailing or extra sparks."
+  },
+  {
+    "id": "cover",
+    "title": "Прикрытие",
+    "color": "#A8C1C8",
+    "motif": "Two plain overlapping kite shields, one larger foreground shield covering part of a smaller shield beside it. Distinct stepped double-shield outer contour. No people, emblems or rivets."
+  },
+  {
+    "id": "pending",
+    "title": "Ожидание",
+    "color": "#D6C7A3",
+    "motif": "One large solid hourglass silhouette, broad horizontal top and bottom, pinched narrow waist, two large triangular empty chambers. No sand grains, person or clock face."
+  },
+  {
+    "id": "fire_on_tile",
+    "title": "Огонь на клетке",
+    "color": "#E88E42",
+    "motif": "One compact upright three-tongue flame rising from a broad flat diamond-shaped floor tile. Only flame and diamond base, no texture or coals. The diamond base must remain obvious."
+  },
+  {
+    "id": "acid_pool",
+    "title": "Лужа кислоты",
+    "color": "#ADCD43",
+    "motif": "One broad shallow horizontal puddle with irregular rounded edge and exactly one large round bubble above it. Low wide silhouette. No drop falling, hand, ground tile or splashes."
+  },
+  {
+    "id": "spikes",
+    "title": "Шипы",
+    "color": "#BFC4C5",
+    "motif": "Exactly three tall broad triangular metal spikes rising from one short horizontal base, central spike tallest. No individual highlights, holes, springs or extra spikes."
+  },
+  {
+    "id": "corpse",
+    "title": "Труп",
+    "color": "#C0AD92",
+    "motif": "One simple human body lying horizontally on the ground: a large round head at left, thick horizontal torso, one visibly bent knee and one outstretched arm. Clear dead prone body silhouette, no skull close-up, bones, gore, armor or scenery."
+  },
+  {
+    "id": "collapse_warning",
+    "title": "Обвал",
+    "color": "#B9AEA0",
+    "motif": "One broad diamond floor slab broken by a single very wide zigzag crack from top to bottom, split into two visibly separated jagged halves. No debris, falling stones or fine cracks."
+  },
+  {
+    "id": "floor_trap",
+    "title": "Ловушка на полу",
+    "color": "#B99C75",
+    "motif": "One broad diamond floor pressure plate with a single large raised circular button in its center. Only diamond and round button, thick clean outlines. No spikes, flame, teeth, gears or springs."
+  },
+  {
+    "id": "wall_trap",
+    "title": "Ловушка в стене",
+    "color": "#B9B8AD",
+    "motif": "One thick short vertical wall bar at left, with one large horizontal arrow emerging toward the right. Large distinct arrowhead. Only wall and arrow, no brick pattern or projectile trail."
+  },
+  {
+    "id": "deep_acid",
+    "title": "Глубокая кислота",
+    "color": "#A8CB43",
+    "motif": "One raised hand sinking into a broad deep liquid wave: a simple palm with three broad finger tips above one thick horizontal wave. Distinct drowning-hand silhouette, no skull, bubbles, floor tile or extra objects."
+  },
+  {
+    "id": "void",
+    "title": "Провал",
+    "color": "#A5A9B6",
+    "motif": "One low wide jagged hole in the floor, near-black filled center surrounded by a single thick pale irregular rim. Asymmetric broken opening silhouette, no eye, teeth, sparkles or floor texture."
+  },
+  {
+    "id": "hazard",
+    "title": "Опасность",
+    "color": "#D8B45F",
+    "motif": "One bold triangular warning sign with one large exclamation-shaped negative-space cutout. Simple three-corner silhouette, no base tile or decorative border."
+  }
+]
