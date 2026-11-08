@@ -178,12 +178,34 @@ func run() -> void:
 	var visible := structural.visible_status_entries()
 	check(visible.size() == 5 and structural.status_overflow_count() == 3, "five icons retain +3 overflow")
 	var box := structural.status_hud_bounds()
-	check(box.position.y == -28.0 and box.size.y == 22.0, "bounds enclose status icons and their hover backing")
+	check(box.position.y == -27.0 and box.size.y == 20.0 and box.size.x == 116.0, "compact backing includes five overlapping icons and a separate overflow slot")
 	structural.hovered = true
 	check(structural.status_hud_bounds() == box, "hover backing never shifts status layout bounds")
+	var widths: Array[float] = [40.0, 55.0, 68.0, 79.0, 88.0]
+	var previous_width := 0.0
+	for count: int in range(1, 6):
+		var unique: Array[Dictionary] = []
+		for index: int in count:
+			unique.append(status("layout-%d" % index, 0, 1))
+		structural.status_entries = unique
+		var current_bounds := structural.status_hud_bounds()
+		check(current_bounds.size.x == widths[count - 1] and current_bounds.size.x > previous_width, "panel grows with %d icons while preserving compact margins" % count)
+		check(structural._status_icon_step(count) == 17.0 - float(count), "%d icons use progressive overlap without scaling icons" % count)
+		previous_width = current_bounds.size.x
+	check(structural._status_icon_step(6) == 12.0 and structural._status_icon_step(100) == 12.0, "overlap never exceeds four pixels even with overflow")
+	structural.status_entries = []
+	check(structural.status_hud_bounds() == Rect2(), "empty row has neither hover bounds nor an empty panel")
 	structural.status_entries = wet
 	check(structural.visible_status_entries()[0].stacks == 0 and structural.visible_status_entries()[0].remaining == 2, "wet duration is retained without a stack badge")
 	structural.free()
+	var panel_image := Visual.STATUS_HOVER_PANEL.texture.get_image()
+	var panel_source := Image.new()
+	var panel_error := panel_source.load_png_from_buffer(FileAccess.get_file_as_bytes(Visual.STATUS_HOVER_PANEL.texture.resource_path))
+	check(panel_error == OK and panel_image.get_size() == Vector2i(126, 20), "selected compact panel keeps its exact cropped dimensions")
+	if panel_error == OK:
+		panel_image.convert(Image.FORMAT_RGBA8)
+		panel_source.convert(Image.FORMAT_RGBA8)
+		check(panel_image.get_data() == panel_source.get_data(), "hover panel import preserves selected RGBA including transparent tips")
 	if not captures.is_empty():
 		DirAccess.make_dir_recursive_absolute(captures)
 	if DisplayServer.get_name() == "headless":
@@ -208,8 +230,8 @@ func run() -> void:
 	var regions_one := counter_regions(1.0, Vector2(0.35, 0.65))
 	var regions_three_quarters := counter_regions(0.75, Vector2(0.35, 0.65))
 	var icon: Rect2i = regions_one["icon"]
-	var hover_panel_probe := pixel_region(1.0, Vector2(0.35, 0.65), Rect2(-1, -8, 2, 2))
-	var hover_panel_probe_075 := pixel_region(0.75, Vector2(0.35, 0.65), Rect2(-1, -8, 2, 2))
+	var hover_panel_probe := pixel_region(1.0, Vector2(0.35, 0.65), Rect2(-20, -27, 12, 20))
+	var hover_panel_probe_075 := pixel_region(0.75, Vector2(0.35, 0.65), Rect2(-20, -27, 12, 20))
 	check(opaque_pixel_count(hover_transitions[0], hover_panel_probe) == 0 and opaque_pixel_count(hover_transitions[1], hover_panel_probe) > 0 and opaque_pixel_count(hover_transitions[2], hover_panel_probe) == 0, "hover panel appears on hover and clears when hover leaves")
 	check(opaque_pixel_count(at_one, hover_panel_probe) == 0 and opaque_pixel_count(hovered_one, hover_panel_probe) > 0, "idle icon row gains backing only while hovered at 100 percent")
 	check(opaque_pixel_count(at_three_quarters, hover_panel_probe_075) == 0 and opaque_pixel_count(hovered_three_quarters, hover_panel_probe_075) > 0, "hover backing remains visible at 75 percent zoom")
@@ -282,13 +304,27 @@ func run() -> void:
 	save_capture(crowded_image, "status-counter-overflow")
 	save_capture(crowded_hover_image, "status-counter-overflow-hover")
 	var overflow_slot_width := 26.0
-	var overflow_total_width := float(Visual.STATUS_ICON_LIMIT) * Visual.STATUS_ICON_SIZE + float(Visual.STATUS_ICON_LIMIT) * Visual.STATUS_ICON_GAP + overflow_slot_width
+	var overflow_total_width := 92.0
 	var overflow_start := 128.0 + overflow_total_width * 0.5 - overflow_slot_width
 	var overflow_baseline := 64.0 - 14.0
 	var overflow_region := Rect2i(floori(overflow_start + 1.0), floori(overflow_baseline - 12.0), 24, 14)
 	check(color_pixel_count(crowded_image, OVERFLOW, overflow_region) > 0, "overflow +3 remains visible beyond five icon slots")
-	var overflow_panel_probe := pixel_region(1.0, Vector2.ZERO, Rect2(-1, -8, 2, 2))
+	var overflow_panel_probe := pixel_region(1.0, Vector2.ZERO, Rect2(-58, -27, 12, 20))
 	check(opaque_pixel_count(crowded_image, overflow_panel_probe) == 0 and opaque_pixel_count(crowded_hover_image, overflow_panel_probe) > 0, "overflow status row also receives backing only while hovered")
 	check(color_pixel_count(crowded_image, WARM, overflow_region) == 0 and color_pixel_count(crowded_image, COOL, overflow_region) == 0, "overflow label keeps its distinct light tint")
+	var flat_entries: Array[Dictionary] = [status("bleeding", 2, 3), status("burning", 0, 0), status("poison", 0, 0), status("acid", 0, 0), status("wet", 0, 0)]
+	var first_alone := await draw_probe(simple, 1.0, Vector2(-24, 0))
+	var dense := await draw_probe(flat_entries, 1.0, Vector2.ZERO)
+	var first_slot := pixel_region(1.0, Vector2.ZERO, Rect2(-32, -26, 16, 18))
+	check(color_pixel_count(dense, WARM, first_slot) == color_pixel_count(first_alone, WARM, first_slot) and color_pixel_count(dense, COOL, first_slot) == color_pixel_count(first_alone, COOL, first_slot), "later overlapping icons cannot paint over the first icon counters")
+	for count: int in range(1, 6):
+		var subset: Array[Dictionary] = []
+		for index: int in count: subset.append(flat_entries[index])
+		var count_image := await draw_probe(subset, 1.0, Vector2.ZERO, true)
+		var count_image_075 := await draw_probe(subset, 0.75, Vector2(0.35, 0.65), true)
+		save_capture(count_image, "status-density-%d-100" % count)
+		save_capture(count_image_075, "status-density-%d-075" % count)
+		var side := Rect2(-widths[count - 1] * 0.5, -27, 12, 20)
+		check(opaque_pixel_count(count_image, pixel_region(1.0, Vector2.ZERO, side)) > 0 and opaque_pixel_count(count_image_075, pixel_region(0.75, Vector2(0.35, 0.65), side)) > 0, "selected panel preserves visible end caps with %d effects at100/75 percent" % count)
 	print("STATUS COUNTER LAYOUT RESULTS: %d passed, %d failed" % [passed, failed])
 	quit(1 if failed > 0 else 0)

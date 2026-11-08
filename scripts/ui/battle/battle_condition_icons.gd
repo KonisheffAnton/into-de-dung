@@ -28,8 +28,8 @@ const IDS: Array[StringName] = [
 	&"hazard",
 ]
 
-const _ICON_ROOT: String = "res://assets/art_presets/approved/status_icons_a_v1"
-const _FRAMED_ROOT: String = "res://assets/art_presets/approved/status_icons_framed_v1"
+const _ICON_ROOT: String = "res://assets/art_presets/approved/status_icons_silhouette_v1"
+const _FRAMED_ROOT: String = "res://assets/art_presets/approved/status_icons_silhouette_v1/framed"
 
 static var _texture_cache: Dictionary[String, Texture2D] = {}
 

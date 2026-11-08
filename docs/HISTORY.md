@@ -1,5 +1,18 @@
 # История и свидетельства проверок
 
+## Внедрение силуэтов и hover-панели№4 — 2026-11-08
+
+Main, based4b0ef80c8b4c09a7a8e7d571f4b100d5287bc2b. По U24 простых значка
+и серая компактная подложка№4 внедрены в отдельный новый каталог.
+16px побайтно,32px nearest2×, UI-рамки прежние. Hover-only панель растёт,
+нахлёст0–4px, торцы12px, все числа после рисунков; якорь/DTO/picker сохранены.
+[GPU-пакет](art/status-silhouette-integration-20261108/README.md).
+Isolated import/startup, builder100/99sidecars PASS; GPU1503/0, headless114/0;
+независимое APPROVE. Full/core/ручные F5/zoom/DPI/performance не запускались.
+Отчёт test_reports/status-silhouette-integration-20261108/validation.json.
+Прежние gates не повторены; далее уже поручены аудит хаба и план, без реализации хаба.
+[Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261108-12.md).
+
 ## Простые силуэты24 состояний — 2026-11-08
 
 Main, based477360498a6242ff819a7615c0121dea56a2fac. По U собран

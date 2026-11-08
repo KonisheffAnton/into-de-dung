@@ -1,0 +1,496 @@
+{
+  "source_package": "docs/art/status-icons-silhouette-20261108",
+  "hover_source": "docs/art/status-hover04-color-20261108/after.png",
+  "hover_source_sha256": "d90c52f9a1d785cbd3ea5df486ead22f7eed328c679d9fbfa00a3b9a0a8e9322",
+  "hover_crop_xyxy": [
+    1,
+    12,
+    127,
+    32
+  ],
+  "raw_16_copy": "byte-exact",
+  "scale_32": "nearest exact 2x",
+  "framing": "source-over existing approved frame PNGs",
+  "icons": [
+    {
+      "id": "bleeding",
+      "size": 16,
+      "source": "docs/art/status-icons-silhouette-20261108/16/bleeding.png",
+      "source_sha256": "fcd329a9a6108dc9ab24b7578124bc535b160e55107f54a77ab70833222c4191",
+      "output": "16/bleeding.png",
+      "output_sha256": "fcd329a9a6108dc9ab24b7578124bc535b160e55107f54a77ab70833222c4191",
+      "framed_output": "framed/16/bleeding.png",
+      "framed_sha256": "7410b244a4683ed475fd4dd59a6bf1138c5fe545b0f96128546f206d6356dae6"
+    },
+    {
+      "id": "bleeding",
+      "size": 32,
+      "source": "assets/art_presets/approved/status_icons_silhouette_v1/32/bleeding.png",
+      "source_sha256": "fb82db43285a56cd6f08fee89af974a5339743abe8207a3857f4b8c9523c37ec",
+      "output": "32/bleeding.png",
+      "output_sha256": "fb82db43285a56cd6f08fee89af974a5339743abe8207a3857f4b8c9523c37ec",
+      "framed_output": "framed/32/bleeding.png",
+      "framed_sha256": "ae801b99190ad4759adb9cc5633029bd152e3227b52f28455ddda76e396197ea"
+    },
+    {
+      "id": "burning",
+      "size": 16,
+      "source": "docs/art/status-icons-silhouette-20261108/16/burning.png",
+      "source_sha256": "e1b02441df46b5cd21f3fd3b8327fa8827ac4302fffe3f3fc32312652d519454",
+      "output": "16/burning.png",
+      "output_sha256": "e1b02441df46b5cd21f3fd3b8327fa8827ac4302fffe3f3fc32312652d519454",
+      "framed_output": "framed/16/burning.png",
+      "framed_sha256": "b3a8589dcbd53cdd4027ca43c0a7be3dc51c1727ba1ee8bb962662e820f89d18"
+    },
+    {
+      "id": "burning",
+      "size": 32,
+      "source": "assets/art_presets/approved/status_icons_silhouette_v1/32/burning.png",
+      "source_sha256": "dadcc9fa50ead982bf0ed022c16e7b87180b79bd1d9bea8d1b47838d67d0939e",
+      "output": "32/burning.png",
+      "output_sha256": "dadcc9fa50ead982bf0ed022c16e7b87180b79bd1d9bea8d1b47838d67d0939e",
+      "framed_output": "framed/32/burning.png",
+      "framed_sha256": "79a68554326e377114821437899481097021d51c9532cca0a8659146c0f4a0b9"
+    },
+    {
+      "id": "poison",
+      "size": 16,
+      "source": "docs/art/status-icons-silhouette-20261108/16/poison.png",
+      "source_sha256": "d8a02bffc99a12edfd64984a1e3c2b613d2b26845ee542a982db742f4f2cdbc9",
+      "output": "16/poison.png",
+      "output_sha256": "d8a02bffc99a12edfd64984a1e3c2b613d2b26845ee542a982db742f4f2cdbc9",
+      "framed_output": "framed/16/poison.png",
+      "framed_sha256": "6375930c02e706cf168fc9c309f273cfbe8d6c9771c30f77f57d52d24606356a"
+    },
+    {
+      "id": "poison",
+      "size": 32,
+      "source": "assets/art_presets/approved/status_icons_silhouette_v1/32/poison.png",
+      "source_sha256": "30de2545044d8d1186af07ca9ae5c0fdd1459e403627048966aab90cab7fc6fe",
+      "output": "32/poison.png",
+      "output_sha256": "30de2545044d8d1186af07ca9ae5c0fdd1459e403627048966aab90cab7fc6fe",
+      "framed_output": "framed/32/poison.png",
+      "framed_sha256": "02bdf0aba581f4caa3b9d804cde5f347734305074d0638571653c89c84e91d49"
+    },
+    {
+      "id": "acid",
+      "size": 16,
+      "source": "docs/art/status-icons-silhouette-20261108/16/acid.png",
+      "source_sha256": "213c1cf7db389def399134d3f4235063479132b8228fcfc4faaefdd55602b5b0",
+      "output": "16/acid.png",
+      "output_sha256": "213c1cf7db389def399134d3f4235063479132b8228fcfc4faaefdd55602b5b0",
+      "framed_output": "framed/16/acid.png",
+      "framed_sha256": "01fc842383e305adebae568bf9e461faf0ca022d77405ad13372f552f4c2850b"
+    },
+    {
+      "id": "acid",
+      "size": 32,
+      "source": "assets/art_presets/approved/status_icons_silhouette_v1/32/acid.png",
+      "source_sha256": "8dfa65cff3d4bc72ad09f440aec829d01fef020bee6eb1dbe01b882786c7d45c",
+      "output": "32/acid.png",
+      "output_sha256": "8dfa65cff3d4bc72ad09f440aec829d01fef020bee6eb1dbe01b882786c7d45c",
+      "framed_output": "framed/32/acid.png",
+      "framed_sha256": "5d2a9f48c15d68a20acf05f3b4f2fdd42346cb99f4bb7de819539f914fa0203f"
+    },
+    {
+      "id": "stunned",
+      "size": 16,
+      "source": "docs/art/status-icons-silhouette-20261108/16/stunned.png",
+      "source_sha256": "c2b9967fdfb7bd7875d650b6118890ccc466bd1041c94ca4a57e423172fc5740",
+      "output": "16/stunned.png",
+      "output_sha256": "c2b9967fdfb7bd7875d650b6118890ccc466bd1041c94ca4a57e423172fc5740",
+      "framed_output": "framed/16/stunned.png",
+      "framed_sha256": "394577bca6ceed8ff494b3597920efbc1aedda25d40c50102fc1c237d2d0f94b"
+    },
+    {
+      "id": "stunned",
+      "size": 32,
+      "source": "assets/art_presets/approved/status_icons_silhouette_v1/32/stunned.png",
+      "source_sha256": "434c4948f90e2d80fe1c1472041cd18e45d22684a956d2ab66684591378754dd",
+      "output": "32/stunned.png",
+      "output_sha256": "434c4948f90e2d80fe1c1472041cd18e45d22684a956d2ab66684591378754dd",
+      "framed_output": "framed/32/stunned.png",
+      "framed_sha256": "28687cc8b76266867174080574d3554db625b95b65744ea25cf19ccdb06f389d"
+    },
+    {
+      "id": "entangled",
+      "size": 16,
+      "source": "docs/art/status-icons-silhouette-20261108/16/entangled.png",
+      "source_sha256": "7b6efcf984999d2487ae1d7d299a9bc1809a9c489a0a2318fff966025236d083",
+      "output": "16/entangled.png",
+      "output_sha256": "7b6efcf984999d2487ae1d7d299a9bc1809a9c489a0a2318fff966025236d083",
+      "framed_output": "framed/16/entangled.png",
+      "framed_sha256": "514b4dd7fb9dd72f1fa4c146b737740df4712190d9cd3fc2097c9d591917bd7d"
+    },
+    {
+      "id": "entangled",
+      "size": 32,
+      "source": "assets/art_presets/approved/status_icons_silhouette_v1/32/entangled.png",
+      "source_sha256": "d6dbff6bff0e99650f190eb2fc206081249655ef09e55ee2146a93e1bb16ac5f",
+      "output": "32/entangled.png",
+      "output_sha256": "d6dbff6bff0e99650f190eb2fc206081249655ef09e55ee2146a93e1bb16ac5f",
+      "framed_output": "framed/32/entangled.png",
+      "framed_sha256": "32ec12eef0e2f6a3c714f62cc98c619630e334548a9961701370e14141fa3d78"
+    },
+    {
+      "id": "frozen",
+      "size": 16,
+      "source": "docs/art/status-icons-silhouette-20261108/16/frozen.png",
+      "source_sha256": "a1ef884418b7eec14a867470b699b68f5f2ad8e429dcbf7cd7bd5818bb31cbc4",
+      "output": "16/frozen.png",
+      "output_sha256": "a1ef884418b7eec14a867470b699b68f5f2ad8e429dcbf7cd7bd5818bb31cbc4",
+      "framed_output": "framed/16/frozen.png",
+      "framed_sha256": "49b777174e7fbe162b8dcf4d59823baa78d40783b0a17c4a0f76ce1a6dd3a6f0"
+    },
+    {
+      "id": "frozen",
+      "size": 32,
+      "source": "assets/art_presets/approved/status_icons_silhouette_v1/32/frozen.png",
+      "source_sha256": "69c619bcca5ff90d2ef7a413cc6ad7885e20a20918eb8dcd46c5363575388365",
+      "output": "32/frozen.png",
+      "output_sha256": "69c619bcca5ff90d2ef7a413cc6ad7885e20a20918eb8dcd46c5363575388365",
+      "framed_output": "framed/32/frozen.png",
+      "framed_sha256": "d6b051d36a586a52cd0afda829332c9c23c9ab660377a3d01c39d18e93e95703"
+    },
+    {
+      "id": "wet",
+      "size": 16,
+      "source": "docs/art/status-icons-silhouette-20261108/16/wet.png",
+      "source_sha256": "42bba35faf2b0b5badf7b2e0b2940350529727b3b81527b908a0ccbbb028bdcd",
+      "output": "16/wet.png",
+      "output_sha256": "42bba35faf2b0b5badf7b2e0b2940350529727b3b81527b908a0ccbbb028bdcd",
+      "framed_output": "framed/16/wet.png",
+      "framed_sha256": "87f5d1a7329932021c03f81fa2092aff9a78d4e41bd303121c642ca3885e3a7f"
+    },
+    {
+      "id": "wet",
+      "size": 32,
+      "source": "assets/art_presets/approved/status_icons_silhouette_v1/32/wet.png",
+      "source_sha256": "2e9df584ff1503b3074d8747855a436d63a158cfe69449476e1cbfa32ea926ad",
+      "output": "32/wet.png",
+      "output_sha256": "2e9df584ff1503b3074d8747855a436d63a158cfe69449476e1cbfa32ea926ad",
+      "framed_output": "framed/32/wet.png",
+      "framed_sha256": "0f730f15d80b282c2c4ad302c52c83fba5f75636805d6b049fd93e95e79367e1"
+    },
+    {
+      "id": "shield",
+      "size": 16,
+      "source": "docs/art/status-icons-silhouette-20261108/16/shield.png",
+      "source_sha256": "530a55cb34a990b5cf63a6fb5da0b6e0d1871ac40f1143a10e75cc43902872b8",
+      "output": "16/shield.png",
+      "output_sha256": "530a55cb34a990b5cf63a6fb5da0b6e0d1871ac40f1143a10e75cc43902872b8",
+      "framed_output": "framed/16/shield.png",
+      "framed_sha256": "8da380241f3eecf8de452132627e9011a18e23e1fc458f25282a07394cf37603"
+    },
+    {
+      "id": "shield",
+      "size": 32,
+      "source": "assets/art_presets/approved/status_icons_silhouette_v1/32/shield.png",
+      "source_sha256": "657584eb8df5b13733ef52a4e170260708f20c3b80e59d96cede3d39851a0d9c",
+      "output": "32/shield.png",
+      "output_sha256": "657584eb8df5b13733ef52a4e170260708f20c3b80e59d96cede3d39851a0d9c",
+      "framed_output": "framed/32/shield.png",
+      "framed_sha256": "a5518313eec5bb7f63b93db7e153f28183c5130c68990c4b833c608bf9e643ad"
+    },
+    {
+      "id": "raised_shield",
+      "size": 16,
+      "source": "docs/art/status-icons-silhouette-20261108/16/raised_shield.png",
+      "source_sha256": "b961e550c1e6a554e81018414b7c0a076ef96a935ea57aa7c3adf4611eba5376",
+      "output": "16/raised_shield.png",
+      "output_sha256": "b961e550c1e6a554e81018414b7c0a076ef96a935ea57aa7c3adf4611eba5376",
+      "framed_output": "framed/16/raised_shield.png",
+      "framed_sha256": "723f413986cf3f675d8b3493a8c9f18e0d43eb79b9710d14fc02d66ab01ea27d"
+    },
+    {
+      "id": "raised_shield",
+      "size": 32,
+      "source": "assets/art_presets/approved/status_icons_silhouette_v1/32/raised_shield.png",
+      "source_sha256": "ad59ead90e42922c38c6b1ad5cd301a80ed7b41b447b5af7cf695d79240fceaf",
+      "output": "32/raised_shield.png",
+      "output_sha256": "ad59ead90e42922c38c6b1ad5cd301a80ed7b41b447b5af7cf695d79240fceaf",
+      "framed_output": "framed/32/raised_shield.png",
+      "framed_sha256": "22d304e6ef0f6be693a60b21e778e40972650a9b7ba34575f4d98107c49091b5"
+    },
+    {
+      "id": "opportunist",
+      "size": 16,
+      "source": "docs/art/status-icons-silhouette-20261108/16/opportunist.png",
+      "source_sha256": "a2918d94e872acc7ee31b2721c1cb323911c5f56db675ef77ea691559e1a9356",
+      "output": "16/opportunist.png",
+      "output_sha256": "a2918d94e872acc7ee31b2721c1cb323911c5f56db675ef77ea691559e1a9356",
+      "framed_output": "framed/16/opportunist.png",
+      "framed_sha256": "5406b9946ee4c808d506501eb56d59b2204e378b2b19c98844cf37360e0ae349"
+    },
+    {
+      "id": "opportunist",
+      "size": 32,
+      "source": "assets/art_presets/approved/status_icons_silhouette_v1/32/opportunist.png",
+      "source_sha256": "c15a802b22274d2f7b0b35f9196c59c988def7789f28dd91627a015ba3097309",
+      "output": "32/opportunist.png",
+      "output_sha256": "c15a802b22274d2f7b0b35f9196c59c988def7789f28dd91627a015ba3097309",
+      "framed_output": "framed/32/opportunist.png",
+      "framed_sha256": "6425e5db20c603882a87d122760bc169f09aa5f38b445a6b6674abf33706f19f"
+    },
+    {
+      "id": "counterattack",
+      "size": 16,
+      "source": "docs/art/status-icons-silhouette-20261108/16/counterattack.png",
+      "source_sha256": "ce62215016ccb021c788dd2de1059fe584410285c5e14a7c3f9d2f925c3bd01f",
+      "output": "16/counterattack.png",
+      "output_sha256": "ce62215016ccb021c788dd2de1059fe584410285c5e14a7c3f9d2f925c3bd01f",
+      "framed_output": "framed/16/counterattack.png",
+      "framed_sha256": "2106a0b658572b736be9a78a901032ddb05664860f523813bb4738a08f174a28"
+    },
+    {
+      "id": "counterattack",
+      "size": 32,
+      "source": "assets/art_presets/approved/status_icons_silhouette_v1/32/counterattack.png",
+      "source_sha256": "5f5354903f421b8a7e4767ddaec94bfaf07b946f010ed8b72f0ec41835803f00",
+      "output": "32/counterattack.png",
+      "output_sha256": "5f5354903f421b8a7e4767ddaec94bfaf07b946f010ed8b72f0ec41835803f00",
+      "framed_output": "framed/32/counterattack.png",
+      "framed_sha256": "a074110fa7c1783c3aa9351ba33ce5b9b863f75b5ef848a95969da56b22028b2"
+    },
+    {
+      "id": "cover",
+      "size": 16,
+      "source": "docs/art/status-icons-silhouette-20261108/16/cover.png",
+      "source_sha256": "ddc7b8da782c2a8d8864750c65dcd3875a1c1c26b371ab66a754a3dd5a29d5ca",
+      "output": "16/cover.png",
+      "output_sha256": "ddc7b8da782c2a8d8864750c65dcd3875a1c1c26b371ab66a754a3dd5a29d5ca",
+      "framed_output": "framed/16/cover.png",
+      "framed_sha256": "92846abc63397d6795379dcefc4a584ab92f12a1b5437e06dd1af52882933db6"
+    },
+    {
+      "id": "cover",
+      "size": 32,
+      "source": "assets/art_presets/approved/status_icons_silhouette_v1/32/cover.png",
+      "source_sha256": "d40769300204ef3a074a017b57a7203c1bc24b79e5588819d833a54270f6cca9",
+      "output": "32/cover.png",
+      "output_sha256": "d40769300204ef3a074a017b57a7203c1bc24b79e5588819d833a54270f6cca9",
+      "framed_output": "framed/32/cover.png",
+      "framed_sha256": "71a1a22f0f36fd1771ddfa611e204e8ece606595a0e7be4712feebe7144a584b"
+    },
+    {
+      "id": "pending",
+      "size": 16,
+      "source": "docs/art/status-icons-silhouette-20261108/16/pending.png",
+      "source_sha256": "adce6ac88d639f85d8996c692de7157f8baae9279ccbc095e2479418832d13f2",
+      "output": "16/pending.png",
+      "output_sha256": "adce6ac88d639f85d8996c692de7157f8baae9279ccbc095e2479418832d13f2",
+      "framed_output": "framed/16/pending.png",
+      "framed_sha256": "bfd1178e779bb19ee2bb109cd878d0517f2d25065c977ce6c7d4f67ce89d6458"
+    },
+    {
+      "id": "pending",
+      "size": 32,
+      "source": "assets/art_presets/approved/status_icons_silhouette_v1/32/pending.png",
+      "source_sha256": "43fced9fefaf664f8767e58987e645f7fe57b16111a9aa3e79c106f13fe8f2fb",
+      "output": "32/pending.png",
+      "output_sha256": "43fced9fefaf664f8767e58987e645f7fe57b16111a9aa3e79c106f13fe8f2fb",
+      "framed_output": "framed/32/pending.png",
+      "framed_sha256": "76efb0dd70be93fd105918bf3e8fb70e9cc14b9c6371baaf8004a2fd76670429"
+    },
+    {
+      "id": "fire_on_tile",
+      "size": 16,
+      "source": "docs/art/status-icons-silhouette-20261108/16/fire_on_tile.png",
+      "source_sha256": "fd46eca1fa93eb101f1e60459c9253ab57c4103b7d0f4b8953e1989de7f9be6e",
+      "output": "16/fire_on_tile.png",
+      "output_sha256": "fd46eca1fa93eb101f1e60459c9253ab57c4103b7d0f4b8953e1989de7f9be6e",
+      "framed_output": "framed/16/fire_on_tile.png",
+      "framed_sha256": "3ecc4153b7a92383661064c9d55ec4d8d5266c4ead740e25d267993a506e2f90"
+    },
+    {
+      "id": "fire_on_tile",
+      "size": 32,
+      "source": "assets/art_presets/approved/status_icons_silhouette_v1/32/fire_on_tile.png",
+      "source_sha256": "469170b01b35769d3fbd628c3c914e7f92f3524bcf22bf5e35e6c9945b6e2a88",
+      "output": "32/fire_on_tile.png",
+      "output_sha256": "469170b01b35769d3fbd628c3c914e7f92f3524bcf22bf5e35e6c9945b6e2a88",
+      "framed_output": "framed/32/fire_on_tile.png",
+      "framed_sha256": "c7c98659c77eea3b5d9f1878d01c28493dc7e7548c0c9f3d8f74b3cd702095e9"
+    },
+    {
+      "id": "acid_pool",
+      "size": 16,
+      "source": "docs/art/status-icons-silhouette-20261108/16/acid_pool.png",
+      "source_sha256": "9488c1b1c6f78f95c1b24b9165ee7abe8480d886587671991ac09c7de1432bcc",
+      "output": "16/acid_pool.png",
+      "output_sha256": "9488c1b1c6f78f95c1b24b9165ee7abe8480d886587671991ac09c7de1432bcc",
+      "framed_output": "framed/16/acid_pool.png",
+      "framed_sha256": "1a6620e64466010997208f73b3201559767662d0ccba1b5c8864cb9479d15f6c"
+    },
+    {
+      "id": "acid_pool",
+      "size": 32,
+      "source": "assets/art_presets/approved/status_icons_silhouette_v1/32/acid_pool.png",
+      "source_sha256": "46993b5fc194c5708683a76c236255439464fabce9df5a4919cecf1e2601346d",
+      "output": "32/acid_pool.png",
+      "output_sha256": "46993b5fc194c5708683a76c236255439464fabce9df5a4919cecf1e2601346d",
+      "framed_output": "framed/32/acid_pool.png",
+      "framed_sha256": "e37cf4b528ee25a250d93e3121ebc94f5d616e348ad484b69bff01b520dcc3b9"
+    },
+    {
+      "id": "spikes",
+      "size": 16,
+      "source": "docs/art/status-icons-silhouette-20261108/16/spikes.png",
+      "source_sha256": "5b3c45cafefe23eaef314dac3b2fccf35e2646c934197e8eab51305284304e79",
+      "output": "16/spikes.png",
+      "output_sha256": "5b3c45cafefe23eaef314dac3b2fccf35e2646c934197e8eab51305284304e79",
+      "framed_output": "framed/16/spikes.png",
+      "framed_sha256": "613829d85268f3fa9f29a9cfd8cc7dcbd3eb405d2ed72d3cc140f5f475e13adf"
+    },
+    {
+      "id": "spikes",
+      "size": 32,
+      "source": "assets/art_presets/approved/status_icons_silhouette_v1/32/spikes.png",
+      "source_sha256": "69a2a29482062ddb56177fcaef61dffa2a862c990c61e68b44e0b528a473f2e0",
+      "output": "32/spikes.png",
+      "output_sha256": "69a2a29482062ddb56177fcaef61dffa2a862c990c61e68b44e0b528a473f2e0",
+      "framed_output": "framed/32/spikes.png",
+      "framed_sha256": "cc98f8c9104df78e17e6f31ec7559b8a4f8468cbe79a6e55c9cdc91446f5e505"
+    },
+    {
+      "id": "corpse",
+      "size": 16,
+      "source": "docs/art/status-icons-silhouette-20261108/16/corpse.png",
+      "source_sha256": "5f7ba6f148f1fc0214d5154beb4108bd46c2bcc50d6a88df2921d467b6f0aecf",
+      "output": "16/corpse.png",
+      "output_sha256": "5f7ba6f148f1fc0214d5154beb4108bd46c2bcc50d6a88df2921d467b6f0aecf",
+      "framed_output": "framed/16/corpse.png",
+      "framed_sha256": "f1f9ca13b905acfab96c19c18c4ee5a8f84d6adb1a556b3e552a61e931a6f7f1"
+    },
+    {
+      "id": "corpse",
+      "size": 32,
+      "source": "assets/art_presets/approved/status_icons_silhouette_v1/32/corpse.png",
+      "source_sha256": "0fdd6d83135c0834192e3f292c0d774a12ccb60e1ee3a7c4e77e37a6b70a9b4c",
+      "output": "32/corpse.png",
+      "output_sha256": "0fdd6d83135c0834192e3f292c0d774a12ccb60e1ee3a7c4e77e37a6b70a9b4c",
+      "framed_output": "framed/32/corpse.png",
+      "framed_sha256": "fdaa9efc8c4e266196d8b54aeb3d88c30365967dceb472cbd50e35efb56261f6"
+    },
+    {
+      "id": "collapse_warning",
+      "size": 16,
+      "source": "docs/art/status-icons-silhouette-20261108/16/collapse_warning.png",
+      "source_sha256": "e7a2d5b774a147e9716bd36677530225f9867ce83df041680d36b85dfcb86619",
+      "output": "16/collapse_warning.png",
+      "output_sha256": "e7a2d5b774a147e9716bd36677530225f9867ce83df041680d36b85dfcb86619",
+      "framed_output": "framed/16/collapse_warning.png",
+      "framed_sha256": "b622db348a635a5c44a2c66eca97c79284f6b1ce0fe093ccbe95145bd7e88173"
+    },
+    {
+      "id": "collapse_warning",
+      "size": 32,
+      "source": "assets/art_presets/approved/status_icons_silhouette_v1/32/collapse_warning.png",
+      "source_sha256": "c603b79e542fe2ca8dcc157d9488cf676fb805a2dbee2d34289a8cdcaf00b873",
+      "output": "32/collapse_warning.png",
+      "output_sha256": "c603b79e542fe2ca8dcc157d9488cf676fb805a2dbee2d34289a8cdcaf00b873",
+      "framed_output": "framed/32/collapse_warning.png",
+      "framed_sha256": "b58ee8741df1003b87e3778e82a1d5e5142b31cf8c3c26542225b6a986648c53"
+    },
+    {
+      "id": "floor_trap",
+      "size": 16,
+      "source": "docs/art/status-icons-silhouette-20261108/16/floor_trap.png",
+      "source_sha256": "529bcfa2a95e4a83039c6502e418833f202ab3304381da5f2d7bf8df9e594572",
+      "output": "16/floor_trap.png",
+      "output_sha256": "529bcfa2a95e4a83039c6502e418833f202ab3304381da5f2d7bf8df9e594572",
+      "framed_output": "framed/16/floor_trap.png",
+      "framed_sha256": "305eb26a075b70a1860e23e04688d87debf0230b815bca566187b78953fde9b8"
+    },
+    {
+      "id": "floor_trap",
+      "size": 32,
+      "source": "assets/art_presets/approved/status_icons_silhouette_v1/32/floor_trap.png",
+      "source_sha256": "cec16d1d94a51da7f08bdb7da2cd4129a44c5e47bf18e26bc0fcd621ddaa45a1",
+      "output": "32/floor_trap.png",
+      "output_sha256": "cec16d1d94a51da7f08bdb7da2cd4129a44c5e47bf18e26bc0fcd621ddaa45a1",
+      "framed_output": "framed/32/floor_trap.png",
+      "framed_sha256": "d7004f6bcf0619d10b7791a43511594f76728908ffe850c9be4d20dd1ef3877a"
+    },
+    {
+      "id": "wall_trap",
+      "size": 16,
+      "source": "docs/art/status-icons-silhouette-20261108/16/wall_trap.png",
+      "source_sha256": "e54a212f62e24f99aec5139f58da8f9341e247f21afc11c80d877cebecddc1ca",
+      "output": "16/wall_trap.png",
+      "output_sha256": "e54a212f62e24f99aec5139f58da8f9341e247f21afc11c80d877cebecddc1ca",
+      "framed_output": "framed/16/wall_trap.png",
+      "framed_sha256": "a817cc4dc775a36606053586dbd009d4fcfd88ee071385597b20aca5140c20f3"
+    },
+    {
+      "id": "wall_trap",
+      "size": 32,
+      "source": "assets/art_presets/approved/status_icons_silhouette_v1/32/wall_trap.png",
+      "source_sha256": "8964c834ae2b1e76fabc9d81fd872dd3d6e7b7d68dd86c94a16b021af6875df2",
+      "output": "32/wall_trap.png",
+      "output_sha256": "8964c834ae2b1e76fabc9d81fd872dd3d6e7b7d68dd86c94a16b021af6875df2",
+      "framed_output": "framed/32/wall_trap.png",
+      "framed_sha256": "0f3ca569fcbc61eb54d7da26a5fd10ea85285c9bdd06924fed54dbcb92d7dab5"
+    },
+    {
+      "id": "deep_acid",
+      "size": 16,
+      "source": "docs/art/status-icons-silhouette-20261108/16/deep_acid.png",
+      "source_sha256": "ea65eb0a2873a000d9f994141d38b5619df3133f97090722ead654400ceefbee",
+      "output": "16/deep_acid.png",
+      "output_sha256": "ea65eb0a2873a000d9f994141d38b5619df3133f97090722ead654400ceefbee",
+      "framed_output": "framed/16/deep_acid.png",
+      "framed_sha256": "c749972108ba6a98054d99102d86e61fadf35226c5c49849251ae7a52c27b1ac"
+    },
+    {
+      "id": "deep_acid",
+      "size": 32,
+      "source": "assets/art_presets/approved/status_icons_silhouette_v1/32/deep_acid.png",
+      "source_sha256": "6c1936d2e8409cb0641911a1d3f049e8499c86eb2a94abeca7a6dc7aa8619081",
+      "output": "32/deep_acid.png",
+      "output_sha256": "6c1936d2e8409cb0641911a1d3f049e8499c86eb2a94abeca7a6dc7aa8619081",
+      "framed_output": "framed/32/deep_acid.png",
+      "framed_sha256": "2c8278ffb525cfd32b9a523a7c59ea761028083f7c5d83ed8bcd67193e1377d0"
+    },
+    {
+      "id": "void",
+      "size": 16,
+      "source": "docs/art/status-icons-silhouette-20261108/16/void.png",
+      "source_sha256": "39703f9589db6680130c1b2c26482a9e6055eb348a69249115d145b59c2d5de0",
+      "output": "16/void.png",
+      "output_sha256": "39703f9589db6680130c1b2c26482a9e6055eb348a69249115d145b59c2d5de0",
+      "framed_output": "framed/16/void.png",
+      "framed_sha256": "96ed3a5b63be783ab21eca7d16d589e1395fc6941b6114f26ff7c0476149c422"
+    },
+    {
+      "id": "void",
+      "size": 32,
+      "source": "assets/art_presets/approved/status_icons_silhouette_v1/32/void.png",
+      "source_sha256": "d6fad47a889470475038202f331ee73ed6c964334aebd153864f223403c8b6f0",
+      "output": "32/void.png",
+      "output_sha256": "d6fad47a889470475038202f331ee73ed6c964334aebd153864f223403c8b6f0",
+      "framed_output": "framed/32/void.png",
+      "framed_sha256": "5251948598d6b06a3ce37823cc6bbc19f3c7fa9b6d858ad73252c62589c55324"
+    },
+    {
+      "id": "hazard",
+      "size": 16,
+      "source": "docs/art/status-icons-silhouette-20261108/16/hazard.png",
+      "source_sha256": "b9e7a8240df5d61c3e63c2eeab4938d6da6c85f8bf37d616b413ac8845551832",
+      "output": "16/hazard.png",
+      "output_sha256": "b9e7a8240df5d61c3e63c2eeab4938d6da6c85f8bf37d616b413ac8845551832",
+      "framed_output": "framed/16/hazard.png",
+      "framed_sha256": "94ca54accd564a3b6cd65860027808ee295a4165e8f2549c978a900d32eae7f7"
+    },
+    {
+      "id": "hazard",
+      "size": 32,
+      "source": "assets/art_presets/approved/status_icons_silhouette_v1/32/hazard.png",
+      "source_sha256": "a8ea31cc08d8a775412a8786322987c482662ed7f97b84c49a42c400945bfaaa",
+      "output": "32/hazard.png",
+      "output_sha256": "a8ea31cc08d8a775412a8786322987c482662ed7f97b84c49a42c400945bfaaa",
+      "framed_output": "framed/32/hazard.png",
+      "framed_sha256": "3fdd3d2d883ed7c37e7892aac8ea0985f10b445aafac9cbacdb184fc900d90dc"
+    }
+  ]
+}

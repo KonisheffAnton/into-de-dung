@@ -19,6 +19,15 @@
 
 ## Изменение игрового кода
 
+Принятые силуэты/подложка№4 (2026-11-08):
+`python tools/art/build_status_silhouette_icons.py --check`, затем
+`--render-check --only status_counter_layout battle_condition_icons presentation_status
+unit_vital_bars battle_character_card battle_hud_input battle_camera_ui battle_execution_ui
+visual_scene_contract --screen 0`. `status_counter_layout` дополнительно проверяет
+рост панели1–5, нахлёст0–4px, отдельный overflow, порядок иконки→числа и торцы100/75%;
+каталог проверяет точное2× и RGBA импорта/композиции. Headless дополняет структурные проверки.
+Текущий набор не повторяет старые builders A/framed или full/core/performance.
+
 Значки A (2026-11-08): `python tools/art/build_status_icons_a.py --check`,
 затем `--render-check --only battle_condition_icons presentation_status
 battle_character_card battle_hud_input battle_camera_ui battle_execution_ui --screen 0`.

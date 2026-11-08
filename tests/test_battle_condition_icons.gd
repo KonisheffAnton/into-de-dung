@@ -68,12 +68,22 @@ func _test_catalogue() -> void:
 			var framed := BattleConditionIcons.texture(icon_id, pixels)
 			check(framed != null and framed.get_size() == icon.get_size(), "%s framed icon keeps native dimensions" % String(icon_id))
 			var framed_image := framed.get_image()
-			var panel := (load("res://assets/art_presets/approved/status_icons_framed_v1/frame-%d.png" % pixels) as Texture2D).get_image()
+			var panel := (load("res://assets/art_presets/approved/status_icons_silhouette_v1/framed/frame-%d.png" % pixels) as Texture2D).get_image()
 			framed_image.convert(Image.FORMAT_RGBA8)
 			panel.convert(Image.FORMAT_RGBA8)
 			panel.blend_rect(source, Rect2i(Vector2i.ZERO, source.get_size()), Vector2i.ZERO)
-			check(framed_image.get_data() == panel.get_data(), "%s framed image is exactly unchanged A over the wooden panel" % String(icon_id))
-			check(framed_image.get_pixel(pixels >> 1, pixels >> 1).a == 1.0, "wooden center is opaque")
+			check(framed_image.get_data() == panel.get_data(), "%s silhouette is exactly source-over the approved wood and iron frame" % String(icon_id))
+			check(framed_image.get_pixel(pixels >> 1, pixels >> 1).a == 1.0, "framed center is opaque")
+			if pixels == 32:
+				var small := BattleConditionIcons.texture(icon_id, 16, false).get_image()
+				small.convert(Image.FORMAT_RGBA8)
+				var exact_double := true
+				for y: int in 16:
+					for x: int in 16:
+						var color := small.get_pixel(x, y)
+						if image.get_pixel(x * 2, y * 2) != color or image.get_pixel(x * 2 + 1, y * 2) != color or image.get_pixel(x * 2, y * 2 + 1) != color or image.get_pixel(x * 2 + 1, y * 2 + 1) != color:
+							exact_double = false
+				check(exact_double, "%s 32px source is exact nearest 2x of 16px" % String(icon_id))
 	check(BattleConditionIcons.texture(&"../bleeding") == null, "path-like unknown ID cannot load a texture")
 	check(BattleConditionIcons.texture(&"bleeding/../../project.godot") == null, "traversal ID cannot load a texture")
 	check(BattleConditionIcons.bbcode(&"unknown").is_empty(), "unknown ID creates no BBCode")

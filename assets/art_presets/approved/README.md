@@ -15,8 +15,9 @@
 [PIXEL_ART_GUIDE](../../../docs/PIXEL_ART_GUIDE.md).
 Папка содержит выбранные рабочие PNG; варианты/непринятые пробы остаются в docs/art.
 
-U2026-11-08: [status_icons_a_v1](status_icons_a_v1/README.md) —24 выбранных
-значка A, PNG16/32 для состояний фигур, реакций и клеток; читаемость в бою ждёт отзыва.
+U2026-11-08: [status_icons_silhouette_v1](status_icons_silhouette_v1/README.md) —
+24 принятых упрощённых значка16/32 и компактная hover-панель№4. Прежний
+[status_icons_a_v1](status_icons_a_v1/README.md) сохранён; текущую приёмку показа см. ART_DIRECTION.
 
 U2026-11-04: [acid05_selected_v1](acid05_selected_v1/README.md) — анимация01
 кислоты05. В игре показывается только верхняя поверхность поверх любого

@@ -112,7 +112,7 @@ func run() -> void:
 	check(visual.get_node("ArtRoot/EffectRoot/IceSprite").visible and visual.get_node("ArtRoot/EffectRoot/StunSprite").visible and visual.get_node("ArtRoot/EffectRoot/EntangleSprite").visible, "separate control overlays visible")
 	var hud_box := visual.status_hud_bounds()
 	check(visual._status_hud.z_index == 0, "status HUD stays in local Y-sort so foreground entities can occlude it")
-	check(hud_box.position.y == -28.0 and hud_box.size.y == 22.0 and BattleDemoIsoVisual.STATUS_ICON_SIZE == 16.0 and BattleDemoIsoVisual.STATUS_ICON_GAP == 1.0, "compact status row bounds include the hover backing")
+	check(hud_box == Rect2(-20, -27, 40, 20) and BattleDemoIsoVisual.STATUS_ICON_SIZE == 16.0, "one silhouette uses the compact twenty-pixel hover panel with fixed end caps")
 	var hud_origin := visual._status_hud.position
 	board._presentation_motion(0.5, 4, Vector2i(3, 4), Vector2i(2, 3))
 	check(visual.status_hud_bounds() == hud_box and visual._status_hud.position == hud_origin, "neighbor crossing does not shift the anchored status row")
