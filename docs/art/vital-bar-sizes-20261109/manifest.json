@@ -1,0 +1,62 @@
+{
+  "base": "f291819da3a80c18e16cadf2e80b2fa33e3f5ebf",
+  "status": "P; comparison only, no acceptance or integration",
+  "production_changes": false,
+  "method": "Godot native GPU; temporary isolated parameterized bar height/font, measured glyph centering/fit; byte-exact source restoration",
+  "variants": [
+    {
+      "font": 14.0,
+      "height": 11.0,
+      "id": "current",
+      "name": "Сейчас"
+    },
+    {
+      "font": 10.0,
+      "height": 9.0,
+      "id": "A",
+      "name": "A · Тоньше"
+    },
+    {
+      "font": 9.0,
+      "height": 8.0,
+      "id": "B",
+      "name": "B · Компактный"
+    },
+    {
+      "font": 8.0,
+      "height": 7.0,
+      "id": "C",
+      "name": "C · Минимальный"
+    }
+  ],
+  "sample": "Native battle5 classes; synthetic ally DTO128/64,18.5/7.5,24/16; no core/RNG changes",
+  "status_context": "Previous compact status C proposal; also not integrated; StatusHud above terrain only for mock",
+  "image_sha256": {
+    "A-100.png": "94c421a8dcf92ab1303a54bdb11634eeb443966a0c83cce9550d53bf33936d44",
+    "A-75.png": "844fd57f82df09dbea186f6a5334cc48885f9508962788fbf7eb08be6c5c7104",
+    "A-detail.png": "0c63ff9d70794191ad2dc2288f8c5bfa6e2123c1b563b0568635f38c4f30aec0",
+    "B-100.png": "55918ed60e1aa001af0b142c8cb134d35734a299f3747d6b9ee1a99b545de14d",
+    "B-75.png": "53cbc15e64ac4813402a5a4b0d3a2a8a860cfed623baa3758bfc85146201bffc",
+    "B-detail.png": "2080352f24ace445ee1673a4d6604392abe8755f4a1234c9a64aa48586e16874",
+    "C-100.png": "52cd76b8ab4eeda10a7f45e8231bf049b2d049f259006878f0b8adb2871423e9",
+    "C-75.png": "52a1ec754766269ef69c55831f453bac9210242ac3a19e030bba3740b3d09fc3",
+    "C-detail.png": "60878ecf0fd9aeae85be5c247696a698963509507b8794e95e179ea4f92c837f",
+    "comparison.png": "ee9ee74316002c47ac2f800b4cea402fb2d22da10ee8c9fd615ed9b3e2be22cc",
+    "current-100.png": "0eedf567a5b7ebf6aedccdc40235962a9824747d5894b0fd3d335e9ba9093599",
+    "current-75.png": "4422fb5ef90d8a3ce6c912a267e06a19b0f105918b66149f5bf16676c2c7d3d8",
+    "current-detail.png": "b3c64c213277ad4fe5dba912e42440db8b7efd2daf892030b396785906cb0dd7"
+  },
+  "script_sha256": {
+    "probe_sizes.gd.txt": "e889290837102132ff276777857dc7f58ab701d8b11d3ebb48223fe4bc64bb8e",
+    "run_stage.py.txt": "19b33d876865c0ea00851343f70ee9eb1ace948c2878ba20fdaa85e812a449f5",
+    "mock_helpers.gd.txt": "3f120165b84c9306c83681700f398a496d1d915ef18367eba6518b7182ffe24b"
+  },
+  "probe_sha256": "6ffc2759af5c91cb10c6074402e8043d22f37b8db75a8971f3a3972a1b079468",
+  "no_new_art_generation": true,
+  "non_goals": [
+    "Runtime changes",
+    "New picking/forecast/lifecycle",
+    "Full/core/manual F5/DPI/performance",
+    "Gamma/style/color changes"
+  ]
+}

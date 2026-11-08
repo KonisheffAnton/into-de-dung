@@ -1,0 +1,229 @@
+extends SceneTree
+
+var viewport: SubViewport
+var demo: HeroHubBattleView
+var captures: String
+var images: Dictionary = {}
+var snapshots: Dictionary = {}
+var units: Array[BattleDemoIsoVisual] = []
+
+func _initialize() -> void:
+	for argument: String in OS.get_cmdline_user_args():
+		if argument.begins_with("--captures="): captures = argument.trim_prefix("--captures=")
+	call_deferred("_run")
+
+func _run() -> void:
+	viewport = SubViewport.new()
+	viewport.size = Vector2i(1440, 900)
+	viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
+	root.add_child(viewport)
+	var profile := HeroHubState.create(9404, 4)
+	profile.enable_mage_deck()
+	profile = ExpeditionTransitions.apply(profile, "start").profile
+	demo = (load("res://scenes/demo/battle/hero_hub_battle.tscn") as PackedScene).instantiate() as HeroHubBattleView
+	var route := HeroHubScreen.new()
+	assert(route._configure_first_room_art(demo, profile))
+	route.free()
+	demo.supplied_session = HeroHubBattleFactory.create(profile).session
+	viewport.add_child(demo)
+	demo.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	demo.set_process(false)
+	demo.end_turn()
+	demo._confirm_selected_mulligan()
+	var session := demo.session as BattleCoreReactionsSession
+	if session.phase == BattleTacticalSession.Phase.ENEMY_TURN:
+		session._enemy_index = session._enemy_ids.size()
+		session.step_enemy()
+	demo._refresh()
+	await _settle()
+	var live_before := {"state":ItemSimulationSnapshot.capture(session.state, []).snapshot.to_dict(), "rng":session.context.get_rng().to_dict()}
+	var frame := ActionPresentationState.capture(session.state)
+	var party: Array[int] = []
+	var focus := Vector2.ZERO
+	var board := demo.board_view
+	for unit: UnitState in session.units:
+		if unit.faction != Faction.Type.PLAYER or not unit.is_alive(): continue
+		party.append(unit.id)
+		focus += board._world_cell_center(unit.cell)
+		var row: Dictionary = frame.units[unit.id]
+		row.hp = 128.0 if party.size() == 1 else (18.5 if party.size() == 2 else 24.0)
+		row.hp_max = 160.0 if party.size() == 1 else 32.0
+		row.armor = {"current":64.0 if party.size() == 1 else (7.5 if party.size() == 2 else 16.0),"maximum":80.0 if party.size() == 1 else 24.0,"extra":0.0}
+		row.balance = 4.0
+		row.balance_max = 12.0
+		row.bleeding = {}
+		row.elemental = {}
+		row.control = {}
+		row.shield = {}
+		row.raised_shield = {}
+	assert(party.size() == 3)
+	focus /= 3.0
+	board.show_presentation_state(frame)
+	board.session = null
+	demo._close_character_card()
+	var statuses: Array[Dictionary] = [
+		{"id":"bleeding","stacks":2,"remaining":3,"embodied":false},
+		{"id":"poison","stacks":3,"remaining":2,"embodied":false},
+		{"id":"acid","stacks":0,"remaining":2,"embodied":false},
+		{"id":"burning","stacks":1,"remaining":3,"embodied":false},
+		{"id":"wet","stacks":0,"remaining":2,"embodied":false}]
+	for index: int in party.size():
+		var visual := board._presentation_visual(party[index])
+		visual.status_entries = statuses.slice(0, 1 + index * 2)
+		visual.set_process(false)
+		visual.hovered = false
+		units.append(visual)
+	for visual: BattleDemoIsoVisual in board._entity_visuals:
+		visual.set_process(false)
+		for node: Node in visual.find_children("*", "AnimatedSprite2D", true, false): (node as AnimatedSprite2D).stop()
+	var metrics := await _digit_metrics()
+	var variants: Array[Dictionary] = [
+		{"id":"current", "name":"Сейчас", "height":11.0, "font":14.0},
+		{"id":"A", "name":"A · Тоньше", "height":9.0, "font":10.0},
+		{"id":"B", "name":"B · Компактный", "height":8.0, "font":9.0},
+		{"id":"C", "name":"C · Минимальный", "height":7.0, "font":8.0}]
+	for zoom: float in [1.0, 0.75]:
+		var screen_focus := Vector2(720, 340) - board.global_position
+		board.zoom_camera(zoom, screen_focus)
+		board.pan_camera(screen_focus - board.world_to_view(focus))
+		for variant: Dictionary in variants:
+			for visual: BattleDemoIsoVisual in board._entity_visuals:
+				if visual.unit == null: continue
+				visual.set_meta(&"mock_compact_c", true)
+				visual.set_meta(&"mock_bar_height", variant.height)
+				visual.set_meta(&"mock_bar_font", variant.font)
+				visual.set_meta(&"mock_font_heights", metrics.heights if variant.id != "current" else {})
+				visual.set_meta(&"mock_font_offsets", metrics.offsets if variant.id != "current" else {})
+				visual.hovered = false
+				visual.queue_redraw()
+				# Как в примере C: только для макета статусный ряд выше рельефа.
+				visual._status_hud.z_as_relative = false
+				visual._status_hud.z_index = RenderLayers.z_index_for(RenderLayers.Layer.UI_PREVIEW) + 1
+				visual._status_hud.queue_redraw()
+			await _settle()
+			await RenderingServer.frame_post_draw
+			var label := "%s-%d" % [variant.id, roundi(zoom * 100)]
+			var img := viewport.get_texture().get_image()
+			DirAccess.make_dir_recursive_absolute(captures)
+			assert(img.save_png(captures.path_join(label + ".png")) == OK)
+			images[label] = img
+			var positions: Array[Vector2] = []
+			for visual: BattleDemoIsoVisual in units:
+				positions.append(visual.get_global_transform_with_canvas() * (visual.get_visual_offset() + visual.get_unit_bars_offset() * visual.grid_config.tile_size.x / 128.0))
+			snapshots[label] = positions
+			if variant.id != "current": assert(positions == snapshots["current-%d" % roundi(zoom * 100)])
+			if zoom == 1.0:
+				var hidden: Array[BattleDemoIsoVisual] = []
+				for visual: BattleDemoIsoVisual in board._entity_visuals:
+					if visual.unit != null and visual != units[2] and visual.visible:
+						hidden.append(visual)
+						visual.hide()
+				await _settle()
+				await RenderingServer.frame_post_draw
+				var detail := viewport.get_texture().get_image().get_region(Rect2i(Vector2i(positions[2]) - Vector2i(72, 105), Vector2i(144, 160)))
+				assert(detail.save_png(captures.path_join(variant.id + "-detail.png")) == OK)
+				images[variant.id + "-detail"] = detail
+				for visual: BattleDemoIsoVisual in hidden: visual.show()
+	assert(live_before.state == ItemSimulationSnapshot.capture(session.state, []).snapshot.to_dict() and live_before.rng == session.context.get_rng().to_dict())
+	await _comparison(variants)
+	var report := FileAccess.open(captures.path_join("probe.json"), FileAccess.WRITE)
+	report.store_string(JSON.stringify({"status":"PASS", "fixture":"catalog4 seed9404; native scene; synthetic DTO128/64,18.5/7.5,24/16", "core_rng_unchanged":true, "anchors_unchanged":true, "variants":variants, "digit_metrics":metrics, "positions":snapshots, "scope":"mockup only; current vitals plus proposed thinner sizes; compact C statuses are also not integrated"}, "\t"))
+	report.close()
+	viewport.queue_free()
+	await process_frame
+	print("VITAL BAR SIZES PROBE: PASS;8 battle frames,4 cropped details,comparison; core/RNG/anchors unchanged")
+	quit(0)
+
+func _settle() -> void:
+	for index: int in 6: await process_frame
+
+func _digit_metrics() -> Dictionary:
+	# Измеряется реальный растр цифр, чтобы тонкая рамка не обрезала глифы.
+	var font := (load("res://assets/ui/combat_fonts/jersey20_numbers.ttf") as FontFile).duplicate() as FontFile
+	font.antialiasing = TextServer.FONT_ANTIALIASING_NONE
+	font.subpixel_positioning = TextServer.SUBPIXEL_POSITIONING_DISABLED
+	font.oversampling = 1.0
+	font.keep_rounding_remainders = false
+	var measure := SubViewport.new()
+	measure.size = Vector2i(256, 700)
+	measure.transparent_bg = true
+	measure.render_target_update_mode = SubViewport.UPDATE_ALWAYS
+	root.add_child(measure)
+	var pen := Node2D.new()
+	measure.add_child(pen)
+	pen.draw.connect(func() -> void:
+		for size: int in range(1, 15):
+			pen.draw_string(font, Vector2(10, (size - 1) * 50 + 35), "0123456789.", HORIZONTAL_ALIGNMENT_LEFT, -1, size, Color.BLACK)
+	)
+	pen.queue_redraw()
+	await _settle()
+	await RenderingServer.frame_post_draw
+	var img := measure.get_texture().get_image()
+	var heights: Dictionary = {}
+	var offsets: Dictionary = {}
+	for size: int in range(1, 15):
+		var ink := img.get_region(Rect2i(0, (size - 1) * 50, 256, 50)).get_used_rect()
+		heights[size] = ink.size.y
+		offsets[size] = 35.0 - ink.position.y - ink.size.y * 0.5
+	measure.queue_free()
+	await process_frame
+	return {"heights":heights,"offsets":offsets}
+
+func _comparison(variants: Array[Dictionary]) -> void:
+	var sheet := SubViewport.new()
+	sheet.size = Vector2i(1600, 1000)
+	sheet.render_target_update_mode = SubViewport.UPDATE_ALWAYS
+	root.add_child(sheet)
+	var bg := ColorRect.new()
+	bg.color = Color("171b21")
+	bg.size = Vector2(sheet.size)
+	sheet.add_child(bg)
+	_label(sheet, "ТОЛЩИНА ПОЛОС И РАЗМЕР ЦИФР · ПРИМЕРЫ", Vector2(28, 16), 26)
+	_label(sheet, "Ширина 48 px · прежние цвета и чёрная рамка · цифры Jersey 20 без сглаживания", Vector2(28, 54), 18)
+	for index: int in variants.size():
+		var variant: Dictionary = variants[index]
+		var left := 22.0 + float(index) * 397.0
+		_label(sheet, variant.name, Vector2(left, 102), 25)
+		_label(sheet, "Полоса %d px · кегль %d" % [variant.height, variant.font], Vector2(left, 139), 19)
+		_picture(sheet, images[variant.id + "-detail"], Vector2(left + 40, 178), 2.0)
+		_label(sheet, "Персонаж ×2", Vector2(left + 115, 503), 16)
+		_label(sheet, "Дроби и три знака ×3", Vector2(left, 550), 19)
+		var full: Image = images[variant.id + "-100"]
+		var positions: Array = snapshots[variant.id + "-100"]
+		for example: int in 2:
+			var unit_index := 1 if example == 0 else 0
+			var p: Vector2 = positions[unit_index]
+			var crop := full.get_region(Rect2i(Vector2i(p) + Vector2i(-26, 0), Vector2i(52, int(2 * variant.height + 10))))
+			_picture(sheet, crop, Vector2(left + 12 + example * 180, 585), 3.0)
+		_label(sheet, "100% · исходный размер", Vector2(left, 706), 18)
+		for example: int in 3:
+			var p: Vector2 = positions[example]
+			_picture(sheet, full.get_region(Rect2i(Vector2i(p) + Vector2i(-28, 0), Vector2i(56, int(2 * variant.height + 10)))), Vector2(left + 28 + example * 115, 742), 1.0)
+		_label(sheet, "75% · отдаление камеры", Vector2(left, 802), 18)
+		var small: Image = images[variant.id + "-75"]
+		var small_positions: Array = snapshots[variant.id + "-75"]
+		for example: int in 3:
+			var p: Vector2 = small_positions[example]
+			_picture(sheet, small.get_region(Rect2i(Vector2i(p) + Vector2i(-22, 0), Vector2i(44, floori((2 * variant.height + 10) * 0.75)))), Vector2(left + 34 + example * 115, 840), 1.0)
+	_label(sheet, "Все варианты — макеты. Значения одинаковые и тестовые. В игре пока ничего не менялось.", Vector2(28, 922), 19)
+	_label(sheet, "Высота указана для 100% масштаба. Кегль — параметр шрифта, а не высота чёрного рисунка цифры.", Vector2(28, 953), 17)
+	await _settle()
+	await RenderingServer.frame_post_draw
+	assert(sheet.get_texture().get_image().save_png(captures.path_join("comparison.png")) == OK)
+	sheet.queue_free()
+	await process_frame
+
+func _picture(parent: Node, img: Image, at: Vector2, factor: float) -> void:
+	var picture := TextureRect.new()
+	picture.texture = ImageTexture.create_from_image(img)
+	picture.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	picture.position = at
+	picture.scale = Vector2.ONE * factor
+	parent.add_child(picture)
+
+func _label(parent: Node, text: String, at: Vector2, font_size: int) -> void:
+	var label := Label.new()
+	label.text = text
+	label.position = at
+	label.add_theme_font_size_override("font_size", font_size)
+	parent.add_child(label)

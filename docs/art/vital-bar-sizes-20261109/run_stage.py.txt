@@ -1,0 +1,36 @@
+import importlib.util,shutil,json
+from pathlib import Path
+HERE=Path(__file__).resolve().parent
+spec=importlib.util.spec_from_file_location('isolated_checks',HERE.parent/'status-silhouette-integration-20261108/run_checks.py')
+runner=importlib.util.module_from_spec(spec)
+spec.loader.exec_module(runner)
+runner.OUT=HERE
+runner.sync()
+runner.idle_runner()
+target=runner.ISO/'scripts/demo/battle_demo_iso_visual.gd'
+original=target.read_bytes()
+assert original==(runner.ROOT/'scripts/demo/battle_demo_iso_visual.gd').read_bytes()
+source=original.decode('utf-8').replace('\r\n','\n')
+patches={
+ 'const BAR_HEIGHT: float = 11.0':'var BAR_HEIGHT: float = float(get_meta(&"mock_bar_height", 11.0))',
+ 'const HP_Y: float = 14.0':'var HP_Y: float = BAR_HEIGHT + 3.0',
+ 'Rect2(BAR_LEFT, 27, BAR_WIDTH, 4 * _vital_rim_width())':'Rect2(BAR_LEFT, 2.0 * BAR_HEIGHT + 5.0, BAR_WIDTH, 4 * _vital_rim_width())',
+ 'floori(14.0 * scale_factor)':'floori(float(get_meta(&"mock_bar_font", 14.0)) * scale_factor)',
+ 'var text_width := _combat_number_font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x':'var mock_heights: Dictionary = get_meta(&"mock_font_heights", {}) as Dictionary\n\twhile font_size > 1 and float(mock_heights.get(font_size, 0)) > floorf((rect.size.y - 2.0 * _vital_rim_width()) * scale_factor):\n\t\tfont_size -= 1\n\tvar text_width := _combat_number_font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x',
+ 'center.y + 4.0 * float(font_size) / 14.0':'center.y + float((get_meta(&"mock_font_offsets", {}) as Dictionary).get(font_size, 4.0 * float(font_size) / 14.0))',
+ 'func _draw_status_icons(canvas: Node2D) -> void:\n':'func _draw_status_icons(canvas: Node2D) -> void:\n\tif bool(get_meta(&"mock_compact_c", false)):\n\t\t_mock_compact_statuses(canvas)\n\t\treturn\n'
+}
+for before,after in patches.items():
+ assert source.count(before)==1,before
+ source=source.replace(before,after)
+source+='\n'+(HERE/'mock_helpers.gd.txt').read_text(encoding='utf-8')
+try:
+ target.write_text(source,encoding='utf-8',newline='\n')
+ shutil.copy2(HERE/'probe_sizes.gd',runner.ISO/'tests/test_vital_bar_sizes_mockup.gd')
+ runner.run('vital_bar_sizes_mockup')
+finally:
+ runner.idle_runner()
+ target.write_bytes(original)
+ assert target.read_bytes()==(runner.ROOT/'scripts/demo/battle_demo_iso_visual.gd').read_bytes()
+ (HERE/'restoration.json').write_text(json.dumps({'status':'PASS','isolate_visual_restored_byte_exact':True,'root_visual_unchanged':True}),encoding='utf-8')
+ print('Isolated source restored byte-exact; root runtime unchanged',flush=True)
