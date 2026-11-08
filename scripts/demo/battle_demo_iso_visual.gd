@@ -252,8 +252,8 @@ func status_hud_bounds() -> Rect2:
 	if entries == 0 and not overflow: return Rect2()
 	var width := maxf(0.0, float(entries - 1) * (STATUS_ICON_SIZE + STATUS_ICON_GAP) + STATUS_ICON_SIZE)
 	if overflow: width += STATUS_ICON_GAP + 26.0
-	# Bounds охватывают отдельные строки стаков и срока с контуром глифов.
-	return Rect2(-width * 0.5 - 1.0, -36, width + 2.0, 36)
+	# Числа лежат на рисунке; запас в 1 px покрывает контур и округление на экране.
+	return Rect2(-width * 0.5 - 1.0, -26, width + 2.0, 18)
 
 func _update_sort_position() -> void:
 	super._update_sort_position()
@@ -931,18 +931,18 @@ func _draw_status_icons(canvas: Node2D) -> void:
 		var stacks := int(entry.get("stacks", 0))
 		if id in ["bleeding", "burning", "poison"] and stacks > 0:
 			var badge := "99+" if stacks > 99 else "×%d" % stacks
-			# Текстовые счётчики стоят отдельно от рисунка, чтобы иконка оставалась чистой.
-			_draw_status_counter(canvas, badge, Vector2(x, -27), STATUS_ICON_SIZE, Color("f1e4c8"))
+			# Разные углы оставляют середину рисунка видимой и разделяют стаки со сроком.
+			_draw_status_counter(canvas, badge, Vector2(x, -18), STATUS_ICON_SIZE, Color("f1e4c8"), HORIZONTAL_ALIGNMENT_LEFT)
 		var remaining := int(entry.get("remaining", 0))
 		if remaining > 0:
 			var remaining_label := "99+" if remaining > 99 else str(remaining)
-			_draw_status_counter(canvas, remaining_label, Vector2(x, -1), STATUS_ICON_SIZE, Color("b6cfce"))
+			_draw_status_counter(canvas, remaining_label, Vector2(x, -10), STATUS_ICON_SIZE, Color("b6cfce"), HORIZONTAL_ALIGNMENT_RIGHT)
 		x += STATUS_ICON_SIZE + STATUS_ICON_GAP
 	if overflow > 0:
 		var overflow_label := "+99+" if overflow > 99 else "+%d" % overflow
 		_draw_status_counter(canvas, overflow_label, Vector2(x, -14), 26.0, Color("e0ddcb"))
 
-func _draw_status_counter(canvas: Node2D, text: String, local_baseline: Vector2, slot_width: float, tint: Color) -> void:
+func _draw_status_counter(canvas: Node2D, text: String, local_baseline: Vector2, slot_width: float, tint: Color, alignment: HorizontalAlignment = HORIZONTAL_ALIGNMENT_CENTER) -> void:
 	if _status_counter_font == null:
 		var numbers := (load("res://assets/ui/combat_fonts/jersey20_numbers.ttf") as FontFile).duplicate() as FontFile
 		var letters := (load("res://assets/ui/combat_fonts/combat_letters.ttf") as FontFile).duplicate() as FontFile
@@ -958,13 +958,14 @@ func _draw_status_counter(canvas: Node2D, text: String, local_baseline: Vector2,
 	var screen_scale := screen_transform.x.length()
 	if not is_finite(screen_scale) or screen_scale < 0.05:
 		return
-	var screen_font_size := maxi(1, floori(12.0 * screen_scale))
+	var screen_font_size := maxi(1, floori(10.0 * screen_scale))
 	var available_width := maxf(1.0, (slot_width - 2.0) * screen_scale)
 	while screen_font_size > 1 and _status_counter_font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, screen_font_size).x > available_width:
 		screen_font_size -= 1
 	var measured_width := _status_counter_font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, screen_font_size).x
-	var screen_baseline := screen_transform * (local_baseline + Vector2(slot_width * 0.5, 0))
-	screen_baseline.x = roundf(screen_baseline.x - measured_width * 0.5)
+	var screen_baseline := screen_transform * (local_baseline + Vector2(1.0, 0))
+	var align_weight := 0.0 if alignment == HORIZONTAL_ALIGNMENT_LEFT else (1.0 if alignment == HORIZONTAL_ALIGNMENT_RIGHT else 0.5)
+	screen_baseline.x = roundf(screen_baseline.x + (available_width - measured_width) * align_weight)
 	screen_baseline.y = roundf(screen_baseline.y)
 	canvas.draw_set_transform_matrix(screen_transform.affine_inverse())
 	canvas.draw_string_outline(_status_counter_font, screen_baseline, text, HORIZONTAL_ALIGNMENT_LEFT, -1, screen_font_size, 1, Color("171b1a"))

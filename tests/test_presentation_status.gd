@@ -105,7 +105,7 @@ func run() -> void:
 	check(visual.get_node("ArtRoot/EffectRoot/IceSprite").visible and visual.get_node("ArtRoot/EffectRoot/StunSprite").visible and visual.get_node("ArtRoot/EffectRoot/EntangleSprite").visible, "separate control overlays visible")
 	var hud_box := visual.status_hud_bounds()
 	check(visual._status_hud.z_index == 0, "status HUD stays in local Y-sort so foreground entities can occlude it")
-	check(hud_box.position.y == -36.0 and hud_box.size.y == 36.0 and BattleDemoIsoVisual.STATUS_ICON_SIZE == 16.0 and BattleDemoIsoVisual.STATUS_ICON_GAP == 1.0, "compact status row bounds include both unbacked counter rows")
+	check(hud_box.position.y == -26.0 and hud_box.size.y == 18.0 and BattleDemoIsoVisual.STATUS_ICON_SIZE == 16.0 and BattleDemoIsoVisual.STATUS_ICON_GAP == 1.0, "compact status row bounds include overlaid counter rows")
 	var hud_origin := visual._status_hud.position
 	board._presentation_motion(0.5, 4, Vector2i(3, 4), Vector2i(2, 3))
 	check(visual.status_hud_bounds() == hud_box and visual._status_hud.position == hud_origin, "neighbor crossing does not shift the anchored status row")
