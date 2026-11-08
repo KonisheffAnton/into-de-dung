@@ -1,0 +1,65 @@
+{
+  "base": "29c70f872dc31e1011c04b45e3970abb52c71301",
+  "capture_method": "GPU SubViewport, production scenes, viewport mouse/Tab; no OS focus",
+  "fixture": "HeroHubState.create(73191,2), enable_mage_deck, unique temporary isolated user:// path",
+  "checks": {
+    "hub_ux_probe": {
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 15.25,
+      "summary": [
+        "HUB UX PROBE RESULTS: 62 passed, 0 failed"
+      ]
+    }
+  },
+  "all_capture_sha256": {
+    "deck-1024x720.png": "5c6fdde3fc865e83cefa3d168007e31ac805d33d7ceddf04a07fb3b468b21202",
+    "deck-1280x850.png": "bec3ccbd2a199a690418241c6d2f46aa05dc8e6286a12ab1ea056140e87e4991",
+    "deck-1920x1080.png": "c9acd47a454f3d5ee3e1d446f3e3d8520ed678f1e104b03ada950b7ebc63cf99",
+    "deck-underfilled.png": "bc4dfb639dc54e1d1c37f6d04760fc59e542ab4cd9606a4713045835eaacebc9",
+    "departure-draft-blocked.png": "c0609b2e4afa61e753ee1333c2e40d802760621cb7437e6951ffb06bc7f2df04",
+    "development-1024x720.png": "e0c5bae442d73f6f2b804f5b4de625ad84ba712e39a7dc1745e1403977eb91f2",
+    "development-1280x850.png": "a1bc511d833410feba5ffe867dae08229ee510f2d5dcabc3d0a9cd960570ed95",
+    "empty-party.png": "7c133acd92ac9927d6bc05dfff7c16308d777a24d9b1cc99f695b845755f600a",
+    "expedition-1024x720.png": "87f0a12235aa7a859b6c480dec93bd85a61e8712ebeb9a61d9736ad1dfeb1815",
+    "expedition-1280x850.png": "0b71c3252624a0157167afad17933b2d3a7197fe02d360bc5b520c12e7a1db8b",
+    "expedition-1920x1080.png": "a0b310aace19e24ddf5b545286fbbb9add81578b8d162234c000ddfdd363acfa",
+    "keyboard-focus.png": "38a285b3343e30e31023bc2d06f7633c388671fd79ff8f668b64f1da991b21ee",
+    "legacy-management.png": "187f6c3d4b2baacf4c802458ca3c5e2be4cae4316680826720010374dc3ef8dc",
+    "mercenaries-1024x720.png": "1334a70c837d59da117ef78d2236a2c5606a4467ebad551fef679a7f325eb409",
+    "mercenaries-1280x850.png": "1270a9f8742ae816bc2fcd54ea04a9ea77044000dcf336c000f3894bd6a3ffbd",
+    "mercenaries-1920x1080.png": "00dc2976d4d8d1752ee451bbddacd563447027f8a69d6e7165dfddbe26de7f81",
+    "save-error.png": "bec77ed04b594b9be66fc1ae7b17388f8c72fabfb7a45ce1b46b5d939cf12f02",
+    "save-retry.png": "81cf0f142d5c324d292ad6a895dbac4bc9c66e80f158b26a9cf301905cacc618",
+    "schools-1024x720.png": "85c68b41019cf05b6a916f04c046ddf281b06dfd1f27a8e5f59b2789b9e58f16",
+    "schools-1280x850.png": "ac8c26f4125b98f4d31d8b1f21ee342b1dd388b7201617d8e8031cae4fbb0620",
+    "schools-1920x1080.png": "cf32759344b861cb19a617331af2dd0bd3911514a827525a865ecc7de0264168",
+    "smith-1024x720.png": "99d19b503b850eb7ad67bfd086026a7eec114a37d347987811cc5fa1220bd1b7",
+    "smith-1280x850.png": "e2b5fcde8c7e73031f352302f107a4176d38284e3a298c0ad744c7b22dca7eee",
+    "smith-1920x1080.png": "d49de70920efb9f14544e11b9fc8d5a7a73d043359b96842e0b1761fc9cca9f7"
+  },
+  "packaged_pngs": [
+    "deck-1024x720.png",
+    "deck-underfilled.png",
+    "departure-draft-blocked.png",
+    "development-1024x720.png",
+    "expedition-1280x850.png",
+    "keyboard-focus.png",
+    "legacy-management.png",
+    "mercenaries-1024x720.png",
+    "mercenaries-1920x1080.png",
+    "save-error.png",
+    "schools-1024x720.png",
+    "smith-1024x720.png"
+  ],
+  "probe_sha256": "1475d1d9fb99793510ecba3cedcffc7ff372247aefaa48e0e8592e520eeda483",
+  "observations_sha256": "de266ef74b65dc03494d24bd07989ec0d538942c10a3ff77cad9c4513f079717",
+  "caveats": [
+    "No manual F5 or human usability session",
+    "No OS DPI or performance measurement",
+    "No hub runtime changes",
+    "Empty party is presentation-only copied fixture",
+    "Temporary save failure intentionally injected and retry exercised",
+    "Two probe-authoring errors corrected: absent selected card copy; Button root mistaken for child. Failed logs preserved in report; not production defects."
+  ]
+}

@@ -1,0 +1,157 @@
+extends SceneTree
+
+var viewport: SubViewport
+var hub: HeroHubScreen
+var captures: String
+var records: Dictionary = {}
+var checks: int = 0
+var path: String
+
+func _initialize() -> void:
+	for argument: String in OS.get_cmdline_user_args():
+		if argument.begins_with("--captures="): captures = argument.trim_prefix("--captures=")
+	call_deferred("_run")
+
+func _run() -> void:
+	path = "user://hub-ux-audit-%d-%d.save" % [OS.get_process_id(), Time.get_ticks_usec()]
+	var initial := HeroHubState.create(73191, 2)
+	initial.enable_mage_deck()
+	assert(HeroHubStore.write_run(path, initial).is_empty())
+	var baseline := initial.to_dict()
+	var save_bytes := FileAccess.get_file_as_bytes(path)
+	viewport = SubViewport.new()
+	viewport.size = Vector2i(1280, 850)
+	viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
+	root.add_child(viewport)
+	viewport.notify_mouse_entered()
+	hub = (load("res://scenes/demo/hero_hub.tscn") as PackedScene).instantiate() as HeroHubScreen
+	hub.save_path = path
+	hub.expedition_mode = true
+	hub.mage_deck_mode = true
+	viewport.add_child(hub)
+	await _settle()
+	assert(hub.run != null)
+	for resolution: Vector2i in [Vector2i(1024, 720), Vector2i(1280, 850), Vector2i(1920, 1080)]:
+		viewport.size = resolution
+		await _settle()
+		for tab: String in ["Expedition", "Mercenaries", "Smith", "Schools", "Deck"]:
+			await _press(hub.find_child("Tab" + tab, true, false) as Button)
+			await _capture("%s-%dx%d" % [tab.to_lower(), resolution.x, resolution.y])
+	viewport.size = Vector2i(1280, 850)
+	await _press(hub.find_child("TabMercenaries", true, false) as Button)
+	var mercenaries := hub.find_child("MercenariesPage", true, false) as HubSectionPage
+	var party_card := mercenaries._slot("party_0")
+	await _press(party_card as Button)
+	await _press(mercenaries._action_button("development_open"))
+	await _capture("development-1280x850")
+	viewport.size = Vector2i(1024, 720)
+	await _capture("development-1024x720")
+	await _press(mercenaries._action_button("development_close"))
+	viewport.size = Vector2i(1280, 850)
+	await _press(hub.find_child("TabExpedition", true, false) as Button)
+	await _press(hub.find_child("ManageParty", true, false) as Button)
+	await _capture("legacy-management")
+	await _press(hub.find_child("DashboardBack", true, false) as Button)
+	await _press(hub.find_child("TabDeck", true, false) as Button)
+	var deck := hub.find_child("DeckPage", true, false) as HubDeckPage
+	assert(deck != null)
+	await _press(deck._action_button("edit"))
+	for node: Node in deck.find_children("*", "Button", true, false):
+		if String(node.get_meta(&"hub_type_id", "")) == "card.fire":
+			await _press(node as Button)
+			break
+	await _press(deck._action_button("minus"))
+	assert(hub.deck_editing and hub.deck_draft.size() == 9)
+	checks += 1
+	await _capture("deck-underfilled")
+	await _press(hub.find_child("TabExpedition", true, false) as Button)
+	await _capture("departure-draft-blocked")
+	await _press(hub.find_child("TabDeck", true, false) as Button)
+	await _press(deck._action_button("cancel"))
+	assert(hub.run.to_dict() == baseline and FileAccess.get_file_as_bytes(path) == save_bytes)
+	checks += 1
+	await _press(hub.find_child("TabExpedition", true, false) as Button)
+	var focus_button := hub.find_child("TabExpedition", true, false) as Button
+	focus_button.grab_focus()
+	var focus_paths: Array[String] = []
+	for index: int in 9:
+		var focus := viewport.gui_get_focus_owner()
+		focus_paths.append(str(focus.get_path()) if focus != null else "<none>")
+		var key := InputEventKey.new()
+		key.keycode = KEY_TAB
+		key.pressed = true
+		viewport.push_input(key, true)
+		key.pressed = false
+		viewport.push_input(key, true)
+		await _settle()
+	records["keyboard_tab_probe"] = focus_paths
+	await _capture("keyboard-focus")
+	# Изолированный fixture для пустого отряда; файл и опубликованный профиль не меняются.
+	var empty := HeroHubState.from_dict(baseline)
+	empty.party.clear()
+	hub._dashboard.render_profile(empty, true, &"expedition", false, "Добавьте хотя бы одного героя в отряд.")
+	await _capture("empty-party")
+	hub._render()
+	# Реальный отказ записи только в уникальном тестовом пути, затем retry в тот же fixture.
+	await _press(hub.find_child("TabDeck", true, false) as Button)
+	await _press(deck._action_button("edit"))
+	hub.save_path = path + "/blocked"
+	await _press(deck._action_button("save"))
+	assert(hub._pending_save != null and hub.run.to_dict() == baseline)
+	checks += 1
+	await _capture("save-error")
+	hub.save_path = path
+	await _press(hub.find_child("retry_save", true, false) as Button)
+	assert(hub._pending_save == null and hub.run.to_dict() == baseline)
+	checks += 1
+	await _capture("save-retry")
+	var file := FileAccess.open(captures.path_join("observations.json"), FileAccess.WRITE)
+	file.store_string(JSON.stringify(records, "\t"))
+	file.close()
+	viewport.queue_free()
+	await process_frame
+	for suffix: String in ["", ".bak", ".tmp"]:
+		if FileAccess.file_exists(path + suffix): DirAccess.remove_absolute(path + suffix)
+	print("HUB UX PROBE RESULTS: %d passed, 0 failed" % checks)
+	quit(0)
+
+func _settle() -> void:
+	for unused: int in 5: await process_frame
+
+func _press(button: Button) -> void:
+	assert(button != null and button.is_visible_in_tree() and not button.disabled)
+	var parent: Node = button.get_parent()
+	while parent != null:
+		if parent is ScrollContainer: (parent as ScrollContainer).ensure_control_visible(button)
+		parent = parent.get_parent()
+	await _settle()
+	var position := button.get_global_rect().get_center()
+	var motion := InputEventMouseMotion.new()
+	motion.position = position
+	viewport.push_input(motion, true)
+	var event := InputEventMouseButton.new()
+	event.position = position
+	event.button_index = MOUSE_BUTTON_LEFT
+	event.pressed = true
+	viewport.push_input(event, true)
+	event.pressed = false
+	viewport.push_input(event, true)
+	await _settle()
+	checks += 1
+
+func _capture(label: String) -> void:
+	await _settle()
+	await RenderingServer.frame_post_draw
+	DirAccess.make_dir_recursive_absolute(captures)
+	assert(viewport.get_texture().get_image().save_png(captures.path_join(label + ".png")) == OK)
+	var controls: Array[Dictionary] = []
+	for node: Node in hub.find_children("*", "Control", true, false):
+		var control := node as Control
+		if not control.is_visible_in_tree(): continue
+		if not (control is Label or control is Button or control is RichTextLabel): continue
+		var rect := control.get_global_rect()
+		var data := {"path":str(hub.get_path_to(control)),"rect":[rect.position.x,rect.position.y,rect.size.x,rect.size.y],"text":control.get("text"),"font_size":control.get_theme_font_size("font_size"),"focus_mode":control.focus_mode,"tooltip":control.tooltip_text}
+		if control is Button: data["disabled"] = (control as Button).disabled
+		controls.append(data)
+	records[label] = controls
+	checks += 1
