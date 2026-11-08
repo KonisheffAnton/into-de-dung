@@ -1,0 +1,10 @@
+[gd_resource type="StyleBoxTexture" load_steps=2 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/art_presets/approved/status_icons_framed_v1/frame-32.png" id="1_panel"]
+
+[resource]
+texture = ExtResource("1_panel")
+texture_margin_left = 2.0
+texture_margin_top = 2.0
+texture_margin_right = 2.0
+texture_margin_bottom = 2.0

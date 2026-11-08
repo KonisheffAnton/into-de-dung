@@ -82,7 +82,34 @@ func count_color_outside(image: Image, expected: Color, protected_rect: Rect2i) 
 				count += 1
 	return count
 
-func draw_probe(entries: Array[Dictionary], scale: float, offset: Vector2) -> Image:
+func draw_probe(entries: Array[Dictionary], scale: float, offset: Vector2, hovered: bool = false, selected: bool = false, inspected: bool = false) -> Image:
+	var viewport := SubViewport.new()
+	viewport.size = Vector2i(256, 128)
+	viewport.transparent_bg = true
+	viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
+	root.add_child(viewport)
+	var canvas := Node2D.new()
+	canvas.position = Vector2(128, 64) + offset
+	canvas.scale = Vector2.ONE * scale
+	canvas.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	viewport.add_child(canvas)
+	var visual := Visual.new()
+	visual.status_entries = entries
+	visual.hovered = hovered
+	visual.selected = selected
+	visual.inspected = inspected
+	var draw_callback := visual._draw_status_icons.bind(canvas)
+	canvas.draw.connect(draw_callback)
+	await process_frame
+	await process_frame
+	var image := viewport.get_texture().get_image()
+	canvas.draw.disconnect(draw_callback)
+	visual.free()
+	viewport.queue_free()
+	await process_frame
+	return image
+
+func draw_hover_sequence(entries: Array[Dictionary], scale: float, offset: Vector2) -> Array[Image]:
 	var viewport := SubViewport.new()
 	viewport.size = Vector2i(256, 128)
 	viewport.transparent_bg = true
@@ -97,14 +124,18 @@ func draw_probe(entries: Array[Dictionary], scale: float, offset: Vector2) -> Im
 	visual.status_entries = entries
 	var draw_callback := visual._draw_status_icons.bind(canvas)
 	canvas.draw.connect(draw_callback)
-	await process_frame
-	await process_frame
-	var image := viewport.get_texture().get_image()
+	var images: Array[Image] = []
+	for state: bool in [false, true, false]:
+		visual.hovered = state
+		canvas.queue_redraw()
+		await process_frame
+		await RenderingServer.frame_post_draw
+		images.append(viewport.get_texture().get_image())
 	canvas.draw.disconnect(draw_callback)
 	visual.free()
 	viewport.queue_free()
 	await process_frame
-	return image
+	return images
 
 func save_capture(image: Image, label: String) -> void:
 	if captures.is_empty():
@@ -116,6 +147,15 @@ func pixel_region(scale: float, offset: Vector2, local_rect: Rect2) -> Rect2i:
 	var top_left := origin + local_rect.position * scale
 	var bottom_right := origin + local_rect.end * scale
 	return Rect2i(Vector2i(floori(top_left.x), floori(top_left.y)), Vector2i(ceili(bottom_right.x) - floori(top_left.x), ceili(bottom_right.y) - floori(top_left.y)))
+
+func opaque_pixel_count(image: Image, rect: Rect2i) -> int:
+	var count := 0
+	var bounds := rect.intersection(Rect2i(Vector2i.ZERO, image.get_size()))
+	for y: int in range(bounds.position.y, bounds.end.y):
+		for x: int in range(bounds.position.x, bounds.end.x):
+			if image.get_pixel(x, y).a > 0.5:
+				count += 1
+	return count
 
 func counter_regions(scale: float, offset: Vector2) -> Dictionary:
 	return {
@@ -138,25 +178,44 @@ func run() -> void:
 	var visible := structural.visible_status_entries()
 	check(visible.size() == 5 and structural.status_overflow_count() == 3, "five icons retain +3 overflow")
 	var box := structural.status_hud_bounds()
-	check(box.position.y == -26.0 and box.size.y == 18.0, "bounds enclose icon and both overlaid counter rows")
+	check(box.position.y == -28.0 and box.size.y == 22.0, "bounds enclose status icons and their hover backing")
+	structural.hovered = true
+	check(structural.status_hud_bounds() == box, "hover backing never shifts status layout bounds")
 	structural.status_entries = wet
 	check(structural.visible_status_entries()[0].stacks == 0 and structural.visible_status_entries()[0].remaining == 2, "wet duration is retained without a stack badge")
 	structural.free()
 	if not captures.is_empty():
 		DirAccess.make_dir_recursive_absolute(captures)
-	if OS.has_feature("headless"):
+	if DisplayServer.get_name() == "headless":
 		print("STATUS COUNTER LAYOUT RESULTS: %d passed, %d failed, pixel checks skipped (headless)" % [passed, failed])
 		quit(1 if failed > 0 else 0)
 		return
 	var at_one := await draw_probe(simple, 1.0, Vector2(0.35, 0.65))
 	var at_three_quarters := await draw_probe(simple, 0.75, Vector2(0.35, 0.65))
+	var hovered_one := await draw_probe(simple, 1.0, Vector2(0.35, 0.65), true)
+	var hovered_three_quarters := await draw_probe(simple, 0.75, Vector2(0.35, 0.65), true)
+	var selected_only := await draw_probe(simple, 1.0, Vector2(0.35, 0.65), false, true, false)
+	var inspected_only := await draw_probe(simple, 1.0, Vector2(0.35, 0.65), false, false, true)
+	var hover_transitions := await draw_hover_sequence(simple, 1.0, Vector2(0.35, 0.65))
 	var reference := await draw_probe(icon_only, 1.0, Vector2(0.35, 0.65))
 	var reference_three_quarters := await draw_probe(icon_only, 0.75, Vector2(0.35, 0.65))
 	save_capture(at_one, "status-counter-simple-100")
 	save_capture(at_three_quarters, "status-counter-simple-075")
+	save_capture(hovered_one, "status-counter-hover-on-100")
+	save_capture(hovered_three_quarters, "status-counter-hover-on-075")
+	save_capture(hover_transitions[0], "status-counter-hover-off")
+	save_capture(hover_transitions[2], "status-counter-hover-restored-off")
 	var regions_one := counter_regions(1.0, Vector2(0.35, 0.65))
 	var regions_three_quarters := counter_regions(0.75, Vector2(0.35, 0.65))
 	var icon: Rect2i = regions_one["icon"]
+	var hover_panel_probe := pixel_region(1.0, Vector2(0.35, 0.65), Rect2(-1, -8, 2, 2))
+	var hover_panel_probe_075 := pixel_region(0.75, Vector2(0.35, 0.65), Rect2(-1, -8, 2, 2))
+	check(opaque_pixel_count(hover_transitions[0], hover_panel_probe) == 0 and opaque_pixel_count(hover_transitions[1], hover_panel_probe) > 0 and opaque_pixel_count(hover_transitions[2], hover_panel_probe) == 0, "hover panel appears on hover and clears when hover leaves")
+	check(opaque_pixel_count(at_one, hover_panel_probe) == 0 and opaque_pixel_count(hovered_one, hover_panel_probe) > 0, "idle icon row gains backing only while hovered at 100 percent")
+	check(opaque_pixel_count(at_three_quarters, hover_panel_probe_075) == 0 and opaque_pixel_count(hovered_three_quarters, hover_panel_probe_075) > 0, "hover backing remains visible at 75 percent zoom")
+	check(opaque_pixel_count(selected_only, hover_panel_probe) == 0 and opaque_pixel_count(inspected_only, hover_panel_probe) == 0, "selection and inspection alone do not show hover backing")
+	var empty_hover := await draw_probe([], 1.0, Vector2.ZERO, true)
+	check(opaque_pixel_count(empty_hover, Rect2i(0, 0, empty_hover.get_width(), empty_hover.get_height())) == 0, "hover does not draw a panel for an empty status row")
 	var upper_left: Rect2i = regions_one["stack"]
 	var lower_right: Rect2i = regions_one["duration"]
 	var warm_one := new_color_pixel_count(at_one, reference, WARM, upper_left)
@@ -219,13 +278,17 @@ func run() -> void:
 	var large_duration_region: Rect2i = large_regions["duration"]
 	check(new_color_pixel_count(large_image, large_reference, WARM, large_stack_region) > 0 and new_color_pixel_count(large_image, large_reference, COOL, large_duration_region) > 0, "99+ stack and remaining labels render")
 	var crowded_image := await draw_probe(crowded, 1.0, Vector2.ZERO)
+	var crowded_hover_image := await draw_probe(crowded, 1.0, Vector2.ZERO, true)
 	save_capture(crowded_image, "status-counter-overflow")
+	save_capture(crowded_hover_image, "status-counter-overflow-hover")
 	var overflow_slot_width := 26.0
 	var overflow_total_width := float(Visual.STATUS_ICON_LIMIT) * Visual.STATUS_ICON_SIZE + float(Visual.STATUS_ICON_LIMIT) * Visual.STATUS_ICON_GAP + overflow_slot_width
 	var overflow_start := 128.0 + overflow_total_width * 0.5 - overflow_slot_width
 	var overflow_baseline := 64.0 - 14.0
 	var overflow_region := Rect2i(floori(overflow_start + 1.0), floori(overflow_baseline - 12.0), 24, 14)
 	check(color_pixel_count(crowded_image, OVERFLOW, overflow_region) > 0, "overflow +3 remains visible beyond five icon slots")
+	var overflow_panel_probe := pixel_region(1.0, Vector2.ZERO, Rect2(-1, -8, 2, 2))
+	check(opaque_pixel_count(crowded_image, overflow_panel_probe) == 0 and opaque_pixel_count(crowded_hover_image, overflow_panel_probe) > 0, "overflow status row also receives backing only while hovered")
 	check(color_pixel_count(crowded_image, WARM, overflow_region) == 0 and color_pixel_count(crowded_image, COOL, overflow_region) == 0, "overflow label keeps its distinct light tint")
 	print("STATUS COUNTER LAYOUT RESULTS: %d passed, %d failed" % [passed, failed])
 	quit(1 if failed > 0 else 0)

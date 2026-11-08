@@ -251,6 +251,12 @@ func _test_battle_ui() -> void:
 		# Шапка с портретом остаётся на месте; прокрутка показывает сам предмет этой пробы.
 		card.scroll_container.scroll_vertical += floori(card.status_label.global_position.y - card.scroll_container.global_position.y - 28.0)
 		for index: int in 3: await process_frame
+		var status_bounds := visible.status_hud_bounds()
+		board.set_hovered_unit(UnitId.NONE)
+		check(not visible.hovered and visible.status_hud_bounds() == status_bounds, "idle status row keeps its geometry without the backing")
+		await _capture("h1-presentation-only-status-idle-%dx%d" % [dimensions.x, dimensions.y])
+		board.set_hovered_unit(target_id)
+		check(visible.hovered and visible.status_hud_bounds() == status_bounds, "hover reveals backing without moving the status row")
 		await _capture("h1-presentation-only-status-card-%dx%d" % [dimensions.x, dimensions.y])
 		demo._close_character_card()
 		board.session = session

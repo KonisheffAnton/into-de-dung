@@ -23,7 +23,13 @@ var selected: bool = false
 var reachable: bool = false
 var enemy_range: bool = false
 var inspected: bool = false
-var hovered: bool = false
+var hovered: bool = false:
+	set(value):
+		if hovered == value: return
+		hovered = value
+		queue_redraw()
+		# Подложка живёт в дочернем CanvasItem, чей draw родитель не обновляет.
+		if is_instance_valid(_status_hud): _status_hud.queue_redraw()
 var acting: bool = false
 var forecast_entry: Dictionary = {}
 var armor_values: Dictionary = {}
@@ -66,6 +72,7 @@ var entangled: bool = false
 const STATUS_ICON_SIZE: float = 16.0
 const STATUS_ICON_GAP: float = 1.0
 const STATUS_ICON_LIMIT: int = 5
+const STATUS_HOVER_PANEL: StyleBoxTexture = preload("res://assets/ui/status_hover_panel.tres")
 static var _combat_number_font: FontFile
 static var _status_counter_font: FontVariation
 @export var ground_base_tint: Color = Color("697553")
@@ -252,8 +259,8 @@ func status_hud_bounds() -> Rect2:
 	if entries == 0 and not overflow: return Rect2()
 	var width := maxf(0.0, float(entries - 1) * (STATUS_ICON_SIZE + STATUS_ICON_GAP) + STATUS_ICON_SIZE)
 	if overflow: width += STATUS_ICON_GAP + 26.0
-	# Числа лежат на рисунке; запас в 1 px покрывает контур и округление на экране.
-	return Rect2(-width * 0.5 - 1.0, -26, width + 2.0, 18)
+	# Геометрия подложки постоянна: появление при hover не двигает ряд и его hit-test.
+	return Rect2(-width * 0.5 - 3.0, -28, width + 6.0, 22)
 
 func _update_sort_position() -> void:
 	super._update_sort_position()
@@ -630,6 +637,12 @@ func _is_embodied_status(id: String, entry: Dictionary) -> bool:
 	return bool(entry.get("embodied", false)) or id in ["stun", "stunned", "frozen", "freeze", "entangled", "entangle"]
 
 func contains_point(point: Vector2) -> bool:
+	if role == Role.UNIT and unit != null and unit.alive and grid_config != null:
+		var factor := grid_config.tile_size.x / 128.0
+		if factor > 0.0:
+			var hud_point := (point - position - get_visual_offset()) / factor
+			# Ряд использует тот же выбор по глубине, что и тело, включая показ без session.
+			if status_hud_bounds().has_point(hud_point): return true
 	for polygon in surface_polygons():
 		if Geometry2D.is_point_in_polygon(point - position, polygon): return true
 	return false
@@ -907,6 +920,8 @@ func _draw_status_icons(canvas: Node2D) -> void:
 	var count := entries.size() + (1 if overflow > 0 else 0)
 	if count == 0:
 		return
+	if hovered:
+		canvas.draw_style_box(STATUS_HOVER_PANEL, status_hud_bounds())
 	var total_width := float(entries.size()) * STATUS_ICON_SIZE + float(maxi(0, entries.size() - 1)) * STATUS_ICON_GAP
 	if overflow > 0: total_width += STATUS_ICON_GAP + 26.0
 	var x := -total_width * 0.5

@@ -1,6 +1,13 @@
 extends SceneTree
 
 const PlayerTurnFixture = preload("res://tests/fixtures/player_turn_fixture.gd")
+
+class DrawSignalCounter extends RefCounted:
+	var count: int = 0
+
+	func record() -> void:
+		count += 1
+
 var passed: int = 0
 var failed: int = 0
 var viewport: SubViewport
@@ -105,7 +112,7 @@ func run() -> void:
 	check(visual.get_node("ArtRoot/EffectRoot/IceSprite").visible and visual.get_node("ArtRoot/EffectRoot/StunSprite").visible and visual.get_node("ArtRoot/EffectRoot/EntangleSprite").visible, "separate control overlays visible")
 	var hud_box := visual.status_hud_bounds()
 	check(visual._status_hud.z_index == 0, "status HUD stays in local Y-sort so foreground entities can occlude it")
-	check(hud_box.position.y == -26.0 and hud_box.size.y == 18.0 and BattleDemoIsoVisual.STATUS_ICON_SIZE == 16.0 and BattleDemoIsoVisual.STATUS_ICON_GAP == 1.0, "compact status row bounds include overlaid counter rows")
+	check(hud_box.position.y == -28.0 and hud_box.size.y == 22.0 and BattleDemoIsoVisual.STATUS_ICON_SIZE == 16.0 and BattleDemoIsoVisual.STATUS_ICON_GAP == 1.0, "compact status row bounds include the hover backing")
 	var hud_origin := visual._status_hud.position
 	board._presentation_motion(0.5, 4, Vector2i(3, 4), Vector2i(2, 3))
 	check(visual.status_hud_bounds() == hud_box and visual._status_hud.position == hud_origin, "neighbor crossing does not shift the anchored status row")
@@ -129,6 +136,66 @@ func run() -> void:
 		if neighbor.unit != null and neighbor != visual: neighbor.visible = false
 	visual.queue_redraw()
 	check(not visual.selected and not visual.inspected, "isolated living status carrier is unselected and uninspected")
+	var stable_status_entries := visual.visible_status_entries().duplicate(true)
+	var stable_status_bounds := visual.status_hud_bounds()
+	var stable_details := board.displayed_unit_details(1)
+	var draw_events := DrawSignalCounter.new()
+	visual._status_hud.draw.connect(draw_events.record)
+	var hover_forward := Callable(board, "set_hovered_unit")
+	board.displayed_unit_hovered.connect(hover_forward)
+	board.set_hovered_unit(UnitId.NONE)
+	await process_frame
+	var previous_draw_events := draw_events.count
+	board.displayed_unit_hovered.emit(1)
+	await process_frame
+	if DisplayServer.get_name() != "headless": await RenderingServer.frame_post_draw
+	check(visual.hovered, "published hover signal updates the isolated unit row")
+	if DisplayServer.get_name() != "headless":
+		check(draw_events.count > previous_draw_events, "hover setter redraws the child status canvas without scene sync")
+	check(visual.status_hud_bounds() == stable_status_bounds and visual.visible_status_entries() == stable_status_entries and board.displayed_unit_details(1) == stable_details, "hover leaves row geometry counts and detail text fixed")
+	await capture("status-hover-on-100")
+	board.zoom_camera(0.75, board.size * 0.5)
+	await process_frame
+	await capture("status-hover-on-075")
+	var original_status_entries := visual.status_entries.duplicate(true)
+	var hit_entries: Array[Dictionary] = []
+	for index: int in 8:
+		hit_entries.append({"id": "hover-hit-%d" % index, "stacks": 0, "remaining": 1})
+	visual.status_entries = hit_entries
+	visual._status_hud.queue_redraw()
+	var far_row_bounds := visual.status_hud_bounds()
+	var row_local_point := Vector2(far_row_bounds.position.x + 1.0, far_row_bounds.position.y + far_row_bounds.size.y * 0.5)
+	var factor := visual.grid_config.tile_size.x / 128.0
+	check(not visual.get_unit_pick_rect().has_point(row_local_point), "far status row test point lies outside body picking rectangle")
+	var displaced_neighbors: Array[BattleDemoIsoVisual] = []
+	var original_neighbor_positions: Array[Vector2] = []
+	for neighbor: BattleDemoIsoVisual in board._entity_visuals:
+		if neighbor == visual: continue
+		displaced_neighbors.append(neighbor)
+		original_neighbor_positions.append(neighbor.position)
+		neighbor.position += Vector2(10000.0 + displaced_neighbors.size() * 100.0, 10000.0)
+	var world_row_point := visual.position + visual.get_visual_offset() + row_local_point * factor
+	var screen_row_point := board.world_to_view(world_row_point)
+	check(board._pick_displayed(screen_row_point).unit_id == visual.unit.id, "shared picker selects unit through far status row outside body")
+	board.pan_camera(Vector2(20, 12))
+	world_row_point = visual.position + visual.get_visual_offset() + row_local_point * factor
+	screen_row_point = board.world_to_view(world_row_point)
+	check(board._pick_displayed(screen_row_point).unit_id == visual.unit.id, "status row picking follows zoom and pan")
+	for index: int in displaced_neighbors.size():
+		displaced_neighbors[index].position = original_neighbor_positions[index]
+	visual.status_entries = original_status_entries
+	visual._status_hud.queue_redraw()
+	board.zoom_camera(1.0, board.size * 0.5)
+	var before_exit_draw_events := draw_events.count
+	board.displayed_unit_hovered.emit(UnitId.NONE)
+	await process_frame
+	if DisplayServer.get_name() != "headless": await RenderingServer.frame_post_draw
+	check(not visual.hovered and visual.status_hud_bounds() == stable_status_bounds and board.displayed_unit_details(1) == stable_details, "hover exit clears presentation backing without changing row values")
+	if DisplayServer.get_name() != "headless":
+		check(draw_events.count > before_exit_draw_events, "hover exit also redraws the child status canvas")
+	await capture("status-hover-off")
+	board.displayed_unit_hovered.disconnect(hover_forward)
+	visual._status_hud.draw.disconnect(draw_events.record)
 	await capture("isolated-status-stacks-duration-wet")
 	# Headless использует dummy-renderer без изображения; пиксель проверяется в render-прогоне.
 	if not captures.is_empty():
@@ -234,9 +301,11 @@ func run() -> void:
 	await capture("synthetic-overflow")
 	var dead := fixture()
 	dead.units[1].alive = false
+	board.set_hovered_unit(1)
 	board.show_presentation_state(dead)
 	visual = board._presentation_visual(1)
 	check(not visual.get_node("ArtRoot/EffectRoot/StunSprite").visible and not visual.get_node("ArtRoot/EffectRoot/EntangleSprite").visible and not visual.get_node("ArtRoot/EffectRoot/IceSprite").visible, "death hides every control overlay")
+	check(not visual.hovered and not visual._status_hud.visible, "death clears hover backing and hides the dead status row")
 	check(not board.displayed_unit_details(1).contains("стаки"), "dead inspection does not advertise active statuses")
 	board.unit_visual_scene = null
 	board.show_presentation_state(fixture())

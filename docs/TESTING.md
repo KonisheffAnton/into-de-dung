@@ -35,6 +35,10 @@ Full/core, ручные F5/движение/zoom/DPI/performance и отзыв U
 `status_counter_layout` проверяет стаки/срок непосредственно на разных углах значка,
 нулевые стаки, 99+, переполнение, отсутствие старых плашек, bounds при100% и глифы при100/75% с дробным сдвигом.
 Native PNG — `status-counter-screenshots/`; headless пропускает пиксельные проверки.
+Для подложки при наведении те же gates проверяют hover on/off, пустой ряд,
+подбор фигуры по краю строки, дочернюю перерисовку и неподвижность геометрии;
+`battle_condition_icons` сохраняет пары status-idle/status-card при100/75%.
+При изменении области попадания дополнить `battle_hud_input visual_scene_contract`.
 
 Выбранные шипы (2026-11-07): `python tools/art/build_selected_spike_animations.py --check`;
 `--render-check --only hazards_ui acid_tile_animation environment_visual_contract
