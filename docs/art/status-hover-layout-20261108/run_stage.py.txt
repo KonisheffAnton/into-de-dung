@@ -1,0 +1,35 @@
+import importlib.util,shutil,sys,hashlib
+from pathlib import Path
+
+HERE=Path(__file__).resolve().parent
+spec=importlib.util.spec_from_file_location('isolated_checks',HERE.parent/'status-silhouette-integration-20261108/run_checks.py')
+runner=importlib.util.module_from_spec(spec)
+spec.loader.exec_module(runner)
+runner.OUT=HERE
+runner.sync()
+for label in sys.argv[1:]:
+ if label=='mockups':
+  runner.idle_runner()
+  target=runner.ISO/'scripts/demo/battle_demo_iso_visual.gd'
+  original=target.read_bytes()
+  root=(runner.ROOT/'scripts/demo/battle_demo_iso_visual.gd').read_bytes()
+  assert original==root
+  source=original.decode('utf-8').replace('\r\n','\n')
+  status='func _draw_status_icons(canvas: Node2D) -> void:\n'
+  insertion='\tvar layout := String(get_meta(&"mock_layout", ""))\n\tif layout in ["A", "B"]:\n\t\t_mock_status_layout(canvas, layout)\n\t\treturn\n'
+  assert source.count(status)==1
+  source=source.replace(status,status+insertion)
+  anchor='\tif unit != null:\n\t\t# Посадка нового рисунка ниже требует места полосам, не сдвигая опору клетки.'
+  assert source.count(anchor)==1
+  source=source.replace(anchor,'\tif unit != null:\n\t\tif String(get_meta(&"mock_layout", "")) == "A":\n\t\t\t_mock_vertical_vitals()\n\t\t\treturn\n\t\t# Посадка нового рисунка ниже требует места полосам, не сдвигая опору клетки.')
+  source+='\n'+(HERE/'mock_helpers.gd.txt').read_text(encoding='utf-8')
+  try:
+   target.write_text(source,encoding='utf-8',newline='\n')
+   shutil.copy2(HERE/'probe_layouts.gd',runner.ISO/'tests/test_layout_mockups.gd')
+   runner.run('layout_mockups')
+  finally:
+   runner.idle_runner()
+   target.write_bytes(original)
+   assert target.read_bytes()==(runner.ROOT/'scripts/demo/battle_demo_iso_visual.gd').read_bytes()
+   print('Isolated prototype restored byte-exact to current production source',flush=True)
+ else:runner.run(label)

@@ -1,0 +1,74 @@
+func _mock_vertical_vitals() -> void:
+	var factor := grid_config.tile_size.x / 128.0
+	var foot := get_visual_offset()
+	var right := maxf(36.0, get_unit_pick_rect().end.x + 4.0)
+	draw_set_transform(foot, 0, Vector2.ONE * factor)
+	var hp_ratio := clampf(unit.hp / unit.hp_max, 0.0, 1.0)
+	_mock_vertical_track(Rect2(right, -52, 16, 44), hp_ratio, Color("829969"), Color("96ab7c"), Color("6e8259"), Color("777d70"))
+	_mock_number(Rect2(right, -52, 16, 44), BattleEventText.amount_text(unit.hp))
+	if not armor_values.is_empty():
+		var current := float(armor_values.current)
+		var maximum := float(armor_values.maximum)
+		_mock_vertical_track(Rect2(right + 19, -52, 16, 44), clampf(current / maximum, 0.0, 1.0) if maximum > 0 else 0.0, Color("9ca5a6"), Color("b1b9b6"), Color("828d8f"), Color("747d80"))
+		_mock_number(Rect2(right + 19, -52, 16, 44), BattleEventText.amount_text(current))
+	_draw_vital_track(Rect2(right, -5, 35, 4), BattleBalanceDisplay.ratio(unit.balance, unit.balance_max), Color("bea16c"), Color("cdb888"), Color("a58b60"), Color("45494b"))
+	draw_set_transform(Vector2.ZERO)
+
+func _mock_vertical_track(rect: Rect2, ratio: float, fill: Color, light: Color, shade: Color, empty: Color) -> void:
+	draw_rect(rect, Color.BLACK)
+	var inner := rect.grow(-1)
+	draw_rect(inner, empty)
+	if ratio <= 0: return
+	var height := maxf(1.0, roundf(inner.size.y * ratio))
+	var filled := Rect2(inner.position + Vector2(0, inner.size.y - height), Vector2(inner.size.x, height))
+	draw_rect(filled, fill)
+	draw_rect(Rect2(filled.position, Vector2(2, filled.size.y)), light)
+	draw_rect(Rect2(filled.position + Vector2(filled.size.x - 2, 0), Vector2(2, filled.size.y)), shade)
+
+func _mock_number(rect: Rect2, text: String) -> void:
+	if _combat_number_font == null:
+		_combat_number_font = (load("res://assets/ui/combat_fonts/jersey20_numbers.ttf") as FontFile).duplicate() as FontFile
+		_combat_number_font.antialiasing = TextServer.FONT_ANTIALIASING_NONE
+		_combat_number_font.subpixel_positioning = TextServer.SUBPIXEL_POSITIONING_DISABLED
+		_combat_number_font.keep_rounding_remainders = false
+	var factor := grid_config.tile_size.x / 128.0
+	var local := Transform2D(Vector2(factor, 0), Vector2(0, factor), get_visual_offset())
+	var canvas := get_viewport_transform() * get_global_transform()
+	var screen := canvas * local
+	var scale_factor := screen.x.length()
+	var font_size := maxi(8, floori(14 * scale_factor))
+	while font_size > 6 and _combat_number_font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x > (rect.size.x - 2) * scale_factor:
+		font_size -= 1
+	var width := _combat_number_font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x
+	var center := screen * rect.get_center()
+	var baseline := Vector2(center.x - width * 0.5, center.y + 4.0 * float(font_size) / 14.0).round()
+	draw_set_transform_matrix(canvas.affine_inverse())
+	draw_string(_combat_number_font, baseline, text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, Color.BLACK)
+	draw_set_transform_matrix(local)
+
+func _mock_status_layout(canvas: Node2D, layout: String) -> void:
+	var entries := visible_status_entries()
+	if entries.is_empty(): return
+	var count := entries.size()
+	var step := _status_icon_step(count)
+	var length := 16.0 + float(count - 1) * step
+	var start := Vector2(-length * 0.5, 8)
+	if layout == "B": start = Vector2(maxf(36.0, get_unit_pick_rect().end.x + 4.0), -28 - length * 0.5)
+	if layout == "A":
+		canvas.draw_style_box(STATUS_HOVER_PANEL, Rect2(start + Vector2(-12, -2), Vector2(length + 24, 20)))
+	else:
+		canvas.draw_set_transform(Vector2(start.x + 8, start.y - 12), PI * 0.5)
+		canvas.draw_style_box(STATUS_HOVER_PANEL, Rect2(0, -10, length + 24, 20))
+		canvas.draw_set_transform(Vector2.ZERO)
+	for index: int in count:
+		var entry: Dictionary = entries[index]
+		var point := start + (Vector2(index * step, 0) if layout == "A" else Vector2(0, index * step))
+		var texture := BattleConditionIcons.texture(StringName(entry.id), 16, false)
+		if texture != null: canvas.draw_texture_rect(texture, Rect2(point, Vector2(16, 16)), false)
+	for index: int in count:
+		var entry: Dictionary = entries[index]
+		var point := start + (Vector2(index * step, 0) if layout == "A" else Vector2(0, index * step))
+		var stacks := int(entry.get("stacks", 0))
+		if stacks > 0: _draw_status_counter(canvas, "×%d" % stacks, point + Vector2(0, 7), 16, Color("f1e4c8"), HORIZONTAL_ALIGNMENT_LEFT)
+		var remaining := int(entry.get("remaining", 0))
+		if remaining > 0: _draw_status_counter(canvas, str(remaining), point + Vector2(0, 15), 16, Color("b6cfce"), HORIZONTAL_ALIGNMENT_RIGHT)

@@ -1,0 +1,33 @@
+{
+  "base": "763e8c76a217d6e8af191063edc0bc7eb5119099",
+  "method": "Godot GPU prototype; temporary isolated source addition with byte-exact restoration. Native sprites, textures, number/icon renderers.",
+  "production_change": "Hide entire unit status row unless hovered; no changes to bar layout",
+  "proposal_A": "Vertical HP/armor right; horizontal statuses below always visible; bottom-to-top fills; balance under vertical pair",
+  "proposal_B": "Current horizontal HP/armor/balance; vertical status row right always visible",
+  "sample": "Synthetic presentation HP24/32 or18.5/32,armor16/24 or7.5/24,balance4/12;1/3/5 statuses. core/RNG unchanged.",
+  "image_sha256": {
+    "A-100.png": "85b2b5c38ca7df3be6ac48f6a0a8cf9553d23dcf0a384ca09f59595d241a46ee",
+    "A-75.png": "19454ce07979d85aba64b26783831da3b410d2fa5733a30ed4305299529176a4",
+    "A-detail.png": "2d56c3a2583bff241f209198ef80c347dca0814ec760ba38606ee121c0f791d2",
+    "B-100.png": "4d27dc185325951a9c3a7330b6445e32c58f2b092dcfe59f821cd3320aa85b8b",
+    "B-75.png": "907be9edccca63e0491bad934a7bdb41874db80a5c63eda261d3f1f7ff1138dd",
+    "B-detail.png": "59006f5877f9aa677d22c0512591ccb9f1f619bba070180cc5359ba861ad07c9",
+    "comparison.png": "213428c8f136746974c95361a4b7c76480d69746d0b7f49a1eaba4ec770065d5",
+    "current-hover-100.png": "bfaa513ba413b3a9e892a4af5eef6c42217d5d32746be7fa3583b8d19e1920b8",
+    "current-hover-75.png": "7e356e8ccbef24b4aa6c6358d0f91feff39f10f6b78c9d5bca2adb4ffd9750c6",
+    "current-idle-100.png": "4ee62285e92c1e44845b53a2e80d2be425f8143dbb2370b35600df9558ce5531",
+    "current-idle-75.png": "62c5c920c90bfe90a9271faeccfcb25dd5d5e8a3fffdcd48f8331e8e8925a8f9"
+  },
+  "script_sha256": {
+    "probe_layouts.gd.txt": "c52ac95d6a8bca9d426868361a974d023c29c565111298f9bcf5ef88ba25baa7",
+    "mock_helpers.gd.txt": "dd217dbebdff982b0288919010f85cad947168f71c378ab47492fbeb8a75353e",
+    "run_stage.py.txt": "fc83f8ed9153742364a3bbdba97511dfe75ddf907c1a99022768e3c98bc5706d"
+  },
+  "no_new_art_generation": true,
+  "non_goals": [
+    "Implementation of A/B",
+    "prototype picking/lifecycle/forecast/overflow contract",
+    "manual F5/OS-DPI/performance",
+    "hub implementation"
+  ]
+}

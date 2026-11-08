@@ -219,10 +219,10 @@ func run() -> void:
 	var selected_only := await draw_probe(simple, 1.0, Vector2(0.35, 0.65), false, true, false)
 	var inspected_only := await draw_probe(simple, 1.0, Vector2(0.35, 0.65), false, false, true)
 	var hover_transitions := await draw_hover_sequence(simple, 1.0, Vector2(0.35, 0.65))
-	var reference := await draw_probe(icon_only, 1.0, Vector2(0.35, 0.65))
-	var reference_three_quarters := await draw_probe(icon_only, 0.75, Vector2(0.35, 0.65))
-	save_capture(at_one, "status-counter-simple-100")
-	save_capture(at_three_quarters, "status-counter-simple-075")
+	var reference := await draw_probe(icon_only, 1.0, Vector2(0.35, 0.65), true)
+	var reference_three_quarters := await draw_probe(icon_only, 0.75, Vector2(0.35, 0.65), true)
+	save_capture(at_one, "status-counter-idle-100")
+	save_capture(at_three_quarters, "status-counter-idle-075")
 	save_capture(hovered_one, "status-counter-hover-on-100")
 	save_capture(hovered_three_quarters, "status-counter-hover-on-075")
 	save_capture(hover_transitions[0], "status-counter-hover-off")
@@ -235,40 +235,43 @@ func run() -> void:
 	check(opaque_pixel_count(hover_transitions[0], hover_panel_probe) == 0 and opaque_pixel_count(hover_transitions[1], hover_panel_probe) > 0 and opaque_pixel_count(hover_transitions[2], hover_panel_probe) == 0, "hover panel appears on hover and clears when hover leaves")
 	check(opaque_pixel_count(at_one, hover_panel_probe) == 0 and opaque_pixel_count(hovered_one, hover_panel_probe) > 0, "idle icon row gains backing only while hovered at 100 percent")
 	check(opaque_pixel_count(at_three_quarters, hover_panel_probe_075) == 0 and opaque_pixel_count(hovered_three_quarters, hover_panel_probe_075) > 0, "hover backing remains visible at 75 percent zoom")
+	check(opaque_pixel_count(at_one, Rect2i(0, 0, at_one.get_width(), at_one.get_height())) == 0 and opaque_pixel_count(hovered_one, Rect2i(0, 0, hovered_one.get_width(), hovered_one.get_height())) > 0, "idle hides the full status row and hover restores icons and counters")
 	check(opaque_pixel_count(selected_only, hover_panel_probe) == 0 and opaque_pixel_count(inspected_only, hover_panel_probe) == 0, "selection and inspection alone do not show hover backing")
+	check(opaque_pixel_count(selected_only, Rect2i(0, 0, selected_only.get_width(), selected_only.get_height())) == 0 and opaque_pixel_count(inspected_only, Rect2i(0, 0, inspected_only.get_width(), inspected_only.get_height())) == 0, "selection and inspection alone hide status icons and counters")
+	check(opaque_pixel_count(hover_transitions[0], Rect2i(0, 0, hover_transitions[0].get_width(), hover_transitions[0].get_height())) == 0 and opaque_pixel_count(hover_transitions[2], Rect2i(0, 0, hover_transitions[2].get_width(), hover_transitions[2].get_height())) == 0, "status icons, counters, and backing disappear immediately when hover ends")
 	var empty_hover := await draw_probe([], 1.0, Vector2.ZERO, true)
 	check(opaque_pixel_count(empty_hover, Rect2i(0, 0, empty_hover.get_width(), empty_hover.get_height())) == 0, "hover does not draw a panel for an empty status row")
 	var upper_left: Rect2i = regions_one["stack"]
 	var lower_right: Rect2i = regions_one["duration"]
-	var warm_one := new_color_pixel_count(at_one, reference, WARM, upper_left)
-	var cool_one := new_color_pixel_count(at_one, reference, COOL, lower_right)
+	var warm_one := new_color_pixel_count(hovered_one, reference, WARM, upper_left)
+	var cool_one := new_color_pixel_count(hovered_one, reference, COOL, lower_right)
 	check(warm_one > 0, "stack glyph appears in upper-left icon region")
 	check(cool_one > 0, "duration glyph appears in lower-right icon region")
 	var remaining_icon_pixels := 0
 	for y: int in range(icon.position.y, icon.end.y):
 		for x: int in range(icon.position.x, icon.end.x):
-			var pixel := at_one.get_pixel(x, y)
+			var pixel := hovered_one.get_pixel(x, y)
 			if pixel.a >= 0.5 and pixel == reference.get_pixel(x, y):
 				remaining_icon_pixels += 1
 	check(remaining_icon_pixels > 20, "original icon foreground remains visible beneath the counters")
-	var glyph_one := new_colored_bounds(at_one, reference, WARM, upper_left)
-	var glyph_three_quarters := new_colored_bounds(at_three_quarters, reference_three_quarters, WARM, regions_three_quarters["stack"])
+	var glyph_one := new_colored_bounds(hovered_one, reference, WARM, upper_left)
+	var glyph_three_quarters := new_colored_bounds(hovered_three_quarters, reference_three_quarters, WARM, regions_three_quarters["stack"])
 	check(glyph_one.size != Vector2i.ZERO and glyph_three_quarters.size != Vector2i.ZERO and abs(glyph_one.size.y - glyph_three_quarters.size.y) <= 2, "screen-space glyph height remains legible at both scales")
-	check(new_color_pixel_count(at_three_quarters, reference_three_quarters, COOL, regions_three_quarters["duration"]) > 0, "duration remains visible inside the icon at 75 percent")
+	check(new_color_pixel_count(hovered_three_quarters, reference_three_quarters, COOL, regions_three_quarters["duration"]) > 0, "duration remains visible inside the icon at 75 percent")
 	var outside_icon := icon.grow(1)
-	check(count_color_outside(at_one, WARM, outside_icon) == 0 and count_color_outside(at_one, COOL, outside_icon) == 0, "counter tints stay within the icon with one-pixel outline tolerance")
+	check(count_color_outside(hovered_one, WARM, outside_icon) == 0 and count_color_outside(hovered_one, COOL, outside_icon) == 0, "counter tints stay within the icon with one-pixel outline tolerance")
 	var outside_icon_three_quarters: Rect2i = regions_three_quarters["icon"].grow(1)
-	check(count_color_outside(at_three_quarters, WARM, outside_icon_three_quarters) == 0 and count_color_outside(at_three_quarters, COOL, outside_icon_three_quarters) == 0, "scaled counter tints stay within the icon with one-pixel tolerance")
-	check(count_color_outside(at_one, OLD_PANEL, outside_icon) == 0, "old dark counter backplate color is absent outside icon pixels")
+	check(count_color_outside(hovered_three_quarters, WARM, outside_icon_three_quarters) == 0 and count_color_outside(hovered_three_quarters, COOL, outside_icon_three_quarters) == 0, "scaled counter tints stay within the icon with one-pixel tolerance")
+	check(count_color_outside(hovered_one, OLD_PANEL, outside_icon) == 0, "old dark counter backplate color is absent outside icon pixels")
 	var bounds_visual := Visual.new()
 	bounds_visual.status_entries = simple
 	var expected_bounds := bounds_visual.status_hud_bounds()
 	bounds_visual.free()
 	var painted := Rect2i()
 	var has_painted := false
-	for y: int in range(at_one.get_height()):
-		for x: int in range(at_one.get_width()):
-			if at_one.get_pixel(x, y).a < 0.05: continue
+	for y: int in range(hovered_one.get_height()):
+		for x: int in range(hovered_one.get_width()):
+			if hovered_one.get_pixel(x, y).a < 0.05: continue
 			if not has_painted:
 				painted = Rect2i(x, y, 1, 1)
 				has_painted = true
@@ -284,16 +287,16 @@ func run() -> void:
 		var local_bottom_right := Vector2(painted.end) - (Vector2(128, 64) + Vector2(0.35, 0.65))
 		bounds_contain_paint = expected_bounds.grow(1.0).has_point(local_top_left) and expected_bounds.grow(1.0).has_point(local_bottom_right)
 	check(bounds_contain_paint, "painted pixels fit status bounds with one-pixel tolerance")
-	var wet_image := await draw_probe(wet, 1.0, Vector2.ZERO)
-	var wet_reference := await draw_probe([status("wet", 0, 0)] as Array[Dictionary], 1.0, Vector2.ZERO)
+	var wet_image := await draw_probe(wet, 1.0, Vector2.ZERO, true)
+	var wet_reference := await draw_probe([status("wet", 0, 0)] as Array[Dictionary], 1.0, Vector2.ZERO, true)
 	save_capture(wet_image, "status-counter-wet")
 	var wet_regions := counter_regions(1.0, Vector2.ZERO)
 	var wet_stack_region: Rect2i = wet_regions["stack"]
 	check(new_color_pixel_count(wet_image, wet_reference, WARM, wet_stack_region) == 0, "zero stacks draw no stack badge")
 	var wet_duration_region: Rect2i = wet_regions["duration"]
 	check(new_color_pixel_count(wet_image, wet_reference, COOL, wet_duration_region) > 0, "zero-stack status still draws duration")
-	var large_image := await draw_probe(large, 1.0, Vector2.ZERO)
-	var large_reference := await draw_probe([status("poison", 0, 0)] as Array[Dictionary], 1.0, Vector2.ZERO)
+	var large_image := await draw_probe(large, 1.0, Vector2.ZERO, true)
+	var large_reference := await draw_probe([status("poison", 0, 0)] as Array[Dictionary], 1.0, Vector2.ZERO, true)
 	save_capture(large_image, "status-counter-99plus")
 	var large_regions := counter_regions(1.0, Vector2.ZERO)
 	var large_stack_region: Rect2i = large_regions["stack"]
@@ -308,13 +311,13 @@ func run() -> void:
 	var overflow_start := 128.0 + overflow_total_width * 0.5 - overflow_slot_width
 	var overflow_baseline := 64.0 - 14.0
 	var overflow_region := Rect2i(floori(overflow_start + 1.0), floori(overflow_baseline - 12.0), 24, 14)
-	check(color_pixel_count(crowded_image, OVERFLOW, overflow_region) > 0, "overflow +3 remains visible beyond five icon slots")
+	check(color_pixel_count(crowded_hover_image, OVERFLOW, overflow_region) > 0, "overflow +3 remains visible beyond five icon slots while hovered")
 	var overflow_panel_probe := pixel_region(1.0, Vector2.ZERO, Rect2(-58, -27, 12, 20))
 	check(opaque_pixel_count(crowded_image, overflow_panel_probe) == 0 and opaque_pixel_count(crowded_hover_image, overflow_panel_probe) > 0, "overflow status row also receives backing only while hovered")
-	check(color_pixel_count(crowded_image, WARM, overflow_region) == 0 and color_pixel_count(crowded_image, COOL, overflow_region) == 0, "overflow label keeps its distinct light tint")
+	check(color_pixel_count(crowded_hover_image, WARM, overflow_region) == 0 and color_pixel_count(crowded_hover_image, COOL, overflow_region) == 0, "overflow label keeps its distinct light tint")
 	var flat_entries: Array[Dictionary] = [status("bleeding", 2, 3), status("burning", 0, 0), status("poison", 0, 0), status("acid", 0, 0), status("wet", 0, 0)]
-	var first_alone := await draw_probe(simple, 1.0, Vector2(-24, 0))
-	var dense := await draw_probe(flat_entries, 1.0, Vector2.ZERO)
+	var first_alone := await draw_probe(simple, 1.0, Vector2(-24, 0), true)
+	var dense := await draw_probe(flat_entries, 1.0, Vector2.ZERO, true)
 	var first_slot := pixel_region(1.0, Vector2.ZERO, Rect2(-32, -26, 16, 18))
 	check(color_pixel_count(dense, WARM, first_slot) == color_pixel_count(first_alone, WARM, first_slot) and color_pixel_count(dense, COOL, first_slot) == color_pixel_count(first_alone, COOL, first_slot), "later overlapping icons cannot paint over the first icon counters")
 	for count: int in range(1, 6):

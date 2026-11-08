@@ -929,6 +929,9 @@ func _draw_unit_highlights(canvas: Node2D) -> void:
 		canvas.draw_colored_polygon(PackedVector2Array([tip, tip + Vector2(-8, 10) * factor, tip + Vector2(8, 10) * factor]), Color("b5a37e", 0.38))
 
 func _draw_status_icons(canvas: Node2D) -> void:
+	# Без наведения весь ряд скрыт: одна подложка не убирает визуальный шум значков и чисел.
+	if not hovered:
+		return
 	var entries := visible_status_entries()
 	var overflow := status_overflow_count()
 	var count := entries.size() + (1 if overflow > 0 else 0)

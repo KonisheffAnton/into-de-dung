@@ -190,13 +190,13 @@ func run() -> void:
 	board.displayed_unit_hovered.emit(UnitId.NONE)
 	await process_frame
 	if DisplayServer.get_name() != "headless": await RenderingServer.frame_post_draw
-	check(not visual.hovered and visual.status_hud_bounds() == stable_status_bounds and board.displayed_unit_details(1) == stable_details, "hover exit clears presentation backing without changing row values")
+	check(not visual.hovered and visual.status_hud_bounds() == stable_status_bounds and board.displayed_unit_details(1) == stable_details, "hover exit hides the status row without changing its geometry or values")
 	if DisplayServer.get_name() != "headless":
 		check(draw_events.count > before_exit_draw_events, "hover exit also redraws the child status canvas")
 	await capture("status-hover-off")
 	board.displayed_unit_hovered.disconnect(hover_forward)
 	visual._status_hud.draw.disconnect(draw_events.record)
-	await capture("isolated-status-stacks-duration-wet")
+	await capture("isolated-status-hover-off")
 	# Headless использует dummy-renderer без изображения; пиксель проверяется в render-прогоне.
 	if not captures.is_empty():
 		var bar_factor := visual.grid_config.tile_size.x / 128.0
