@@ -972,4 +972,5 @@ func _draw_status_counter(canvas: Node2D, text: String, local_baseline: Vector2,
 	canvas.draw_set_transform_matrix(Transform2D.IDENTITY)
 
 func _status_icon(id: String) -> Texture2D:
-	return BattleConditionIcons.texture(StringName(id))
+	# У фигур рисунок остаётся прозрачным; деревянная рамка нужна только в панелях UI.
+	return BattleConditionIcons.texture(StringName(id), 16, false)
