@@ -1,0 +1,48 @@
+{
+  "kind": "art-proposal-not-runtime",
+  "geometry": [
+    {
+      "count": 1,
+      "icon_size": 16,
+      "overlap_px": 0,
+      "stride_px": 16,
+      "backing_width": 40,
+      "canvas_height": 32
+    },
+    {
+      "count": 3,
+      "icon_size": 16,
+      "overlap_px": 2,
+      "stride_px": 14,
+      "backing_width": 68,
+      "canvas_height": 32
+    },
+    {
+      "count": 6,
+      "icon_size": 16,
+      "overlap_px": 4,
+      "stride_px": 12,
+      "backing_width": 100,
+      "canvas_height": 32
+    }
+  ],
+  "counter_font_size": 10,
+  "fixed_endcaps_px": 12,
+  "counter_draw_order": "after all icons",
+  "sources": {
+    "docs/art/status-icon-frame-20261108/idle-100.png": "91b1faf66277cc3fd2682bb81635d485304cbb51ec1fcacd954ca5294bc88321",
+    "assets/ui/combat_fonts/jersey20_numbers.ttf": "ce65411785a3a5632cbf4447dcba78de9ce52285a0c19b17dd778cb2c818f7ea",
+    "assets/ui/combat_fonts/combat_letters.ttf": "2d12eb5cadaaaa135352a0ab82544768f08e8e415b65f07f77c8acf3be8cdbaa",
+    "assets/art_presets/approved/status_icons_a_v1/16/bleeding.png": "866f037243a9cc5b6fb50764bb14b263a30b0581e0aea31b20cc303cc4f7aaf6",
+    "assets/art_presets/approved/status_icons_a_v1/16/poison.png": "443480e43073659862b840e5e628915568ae9f8e4060500505dc7356da014bfb",
+    "assets/art_presets/approved/status_icons_a_v1/16/acid.png": "1f555787e83f1d08f72e3a8ab471170d58ec7ea5054a9498e03f6ad1beeb8200",
+    "assets/art_presets/approved/status_icons_a_v1/16/stunned.png": "07ded525ac797f8739adf22d347b578dd62acfd907bc538bf3058089d210662e",
+    "assets/art_presets/approved/status_icons_a_v1/16/entangled.png": "939b7ee0964e9bc51fcccb20b0d5e3befaf1c8cdd52df2972477889537c614e9",
+    "assets/art_presets/approved/status_icons_a_v1/16/frozen.png": "1c4e7a2043a8edd14aa297f1fad32e902b455be83b6297fe641436751f8919a3",
+    "docs/art/status-hover-five-concepts-20261108/01-forged-iron.png": "bbb6d12c2ec9810c5b17ece4b07e14aab4df5c689b6139ceb06595f2b960da50",
+    "docs/art/status-hover-five-concepts-20261108/02-leather.png": "c7c75dffa2ccfc98879c778acb98f56181a96018d1613a6e83f7e36a55caf700",
+    "docs/art/status-hover-five-concepts-20261108/03-slate.png": "9ddf69536d25833d32778f2b6b157fe5ce6b8c6d0b717ba3cb12ad385dd77826",
+    "docs/art/status-hover-five-concepts-20261108/04-bronze.png": "4ad757173de4d4668eca38adbb8b71b95d9162bef38dc8b45143dfa9cd775a5c",
+    "docs/art/status-hover-five-concepts-20261108/05-timber.png": "50936073c97a5f11bbc6845f8377389853a0c9663ac4ce700aae97eae998f533"
+  }
+}

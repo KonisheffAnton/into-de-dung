@@ -1,0 +1,152 @@
+[
+  {
+    "id": "01-forged-iron",
+    "title": "Кованое железо",
+    "provider": "PixelLab",
+    "model": "pro_flash",
+    "job_id": "5a3afca1-d962-40b3-aadb-0a595d22ab1d",
+    "seed": 110830,
+    "image_size": [
+      128,
+      48
+    ],
+    "usage": {
+      "type": "generations",
+      "generations": 6.0
+    },
+    "billing_usage": {
+      "usd": 0.0,
+      "type": "generations",
+      "generations": 6
+    },
+    "sha256": "bbb6d12c2ec9810c5b17ece4b07e14aab4df5c689b6139ceb06595f2b960da50",
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "center_alpha_extrema": [
+      255,
+      255
+    ]
+  },
+  {
+    "id": "02-leather",
+    "title": "Кожаный ремень",
+    "provider": "PixelLab",
+    "model": "pro_flash",
+    "job_id": "9fcc69d2-5198-4389-b3cd-121ff5bccfcb",
+    "seed": 110831,
+    "image_size": [
+      128,
+      48
+    ],
+    "usage": {
+      "type": "generations",
+      "generations": 6.0
+    },
+    "billing_usage": {
+      "usd": 0.0,
+      "type": "generations",
+      "generations": 6
+    },
+    "sha256": "c7c75dffa2ccfc98879c778acb98f56181a96018d1613a6e83f7e36a55caf700",
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "center_alpha_extrema": [
+      255,
+      255
+    ]
+  },
+  {
+    "id": "03-slate",
+    "title": "Каменная пластина",
+    "provider": "PixelLab",
+    "model": "pro_flash",
+    "job_id": "65ada962-bcd9-4d92-8bc6-e127ede05cef",
+    "seed": 110832,
+    "image_size": [
+      128,
+      48
+    ],
+    "usage": {
+      "type": "generations",
+      "generations": 6.0
+    },
+    "billing_usage": {
+      "usd": 0.0,
+      "type": "generations",
+      "generations": 6
+    },
+    "sha256": "9ddf69536d25833d32778f2b6b157fe5ce6b8c6d0b717ba3cb12ad385dd77826",
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "center_alpha_extrema": [
+      0,
+      255
+    ]
+  },
+  {
+    "id": "04-bronze",
+    "title": "Бронзовый реликварий",
+    "provider": "PixelLab",
+    "model": "pro_flash",
+    "job_id": "bfd96bca-2e2a-4d99-afd0-395f2ba9c2f8",
+    "seed": 110833,
+    "image_size": [
+      128,
+      48
+    ],
+    "usage": {
+      "type": "generations",
+      "generations": 6.0
+    },
+    "billing_usage": {
+      "usd": 0.0,
+      "type": "generations",
+      "generations": 6
+    },
+    "sha256": "4ad757173de4d4668eca38adbb8b71b95d9162bef38dc8b45143dfa9cd775a5c",
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "center_alpha_extrema": [
+      0,
+      255
+    ]
+  },
+  {
+    "id": "05-timber",
+    "title": "Обугленное дерево",
+    "provider": "PixelLab",
+    "model": "pro_flash",
+    "job_id": "09cc5b28-d5a2-4104-8863-d532683c66fc",
+    "seed": 110834,
+    "image_size": [
+      128,
+      48
+    ],
+    "usage": {
+      "type": "generations",
+      "generations": 6.0
+    },
+    "billing_usage": {
+      "usd": 0.0,
+      "type": "generations",
+      "generations": 6
+    },
+    "sha256": "50936073c97a5f11bbc6845f8377389853a0c9663ac4ce700aae97eae998f533",
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "center_alpha_extrema": [
+      0,
+      255
+    ]
+  }
+]

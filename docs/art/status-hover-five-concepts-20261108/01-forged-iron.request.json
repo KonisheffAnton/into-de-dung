@@ -1,0 +1,9 @@
+{
+  "description": "ONE dedicated expandable hover-status backing for a gritty fantasy pixel-art tactical dungeon game. Front view orthographic horizontal strip, centered on a transparent canvas, one continuous SOLID FILLED physical plaque, not an empty frame. Silhouette extends from x=0 to x=127 and y=4 to y=43 of the 128x48 image. End cap decoration confined to outermost 12 pixels at each side. The middle 104 pixels must be a quiet opaque low contrast dark material surface, clear for colorful status icons to be overlaid later. Uniform strip thickness across the center for horizontal nine-slice stretching. Crisp hand-painted pixel clusters, hard non-antialiased pixel edges, muted material colors matching 16-bit Grey Bastion dungeon sprites, light from upper left. NO icons, NO text, NO numbers, NO letters, NO portraits, NO separate compartments, NO background scene, NO outer glow, NO cast shadow, NO perspective. Transparent only outside the physical plaque, never in its filled center. A low profile forged dark iron plaque. Clipped octagonal end caps, one tiny dull steel rivet per end, a thin cold silver worn bevel. Interior is solid near-black charcoal metal with very quiet large pixel clusters. No wood. Restrained utilitarian dungeon equipment.",
+  "image_size": {
+    "width": 128,
+    "height": 48
+  },
+  "no_background": true,
+  "seed": 110830
+}
