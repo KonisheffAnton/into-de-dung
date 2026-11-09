@@ -1,0 +1,37 @@
+{
+  "base": "4803b58f1878afde941592682dfd1cb19f428988",
+  "parent_at_closeout": "34131d62bb448df76206fbe2ecd65125a4341170",
+  "concurrent_change": "docs(hub) only; runtime diff4803..34131 empty, source parity2042 preserved",
+  "status": "P; no integration or acceptance",
+  "production_changes": false,
+  "method": "Native Godot GPU fixed-screen mock renderer; isolated visual guard with byte-exact restoration",
+  "font": "Combat Lettering / Play Bold700, GRAY AA, NORMAL hinting",
+  "font_size": 11,
+  "digit_ink_height": 7,
+  "screen_bar_size": [
+    48,
+    9
+  ],
+  "pixel_identical_tracks": 15,
+  "sample": "catalog4 seed9404;5 native classes; synthetic ally DTO128/64,18.5/7.5,24/16",
+  "layer": "FixedVitalsMock and StatusHud UI_PREVIEW+1, only in probe",
+  "image_sha256": {
+    "battle-100.png": "f24b4fb5c8d6e22b53e6e7d183c6dcaf6d000a70d78949f5621e21550152e979",
+    "battle-75.png": "30ac9b7cd51e400aad5114c0d3a3c5372bcea4f4da94274f74b5fbece9bf47c7",
+    "comparison.png": "5e9ab1f0764937e54c8db9638ef02dbf7f4d7d7219b604354a9a975e658af4c5"
+  },
+  "script_sha256": {
+    "probe_fixed.gd.txt": "90a137d364da55815376ecf12300796a3d988a7fe7eb7fbd25d4917d2938a545",
+    "run_stage.py.txt": "cf94163ce48644a960c94dc42733e264821b22163ad2eaa94bb850dd030c71f6",
+    "mock_helpers.gd.txt": "aada0a5cc07cf5ada6dc53ca8c54f58d08112d5aff12d1aee54eb0bdc185e634"
+  },
+  "probe_sha256": "36d37815ae33ce334b251579799e9f241aeb7b5f2a79021867d3317fdc903bcd",
+  "no_new_art_generation": true,
+  "non_goals": [
+    "Runtime integration",
+    "Picking/forecast/lifecycle",
+    "DPI/performance/manual F5",
+    "Full/core and previous suites",
+    "Gamma changes"
+  ]
+}

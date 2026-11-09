@@ -1,39 +1,37 @@
-# Передача — 2026-11-09: выбрана навигация хаба
+# Передача — 2026-11-09: непиксельные цифры и фиксированные полосы9px
 
-D:/Games/into-de-dung; main; base4803b58f1878afde941592682dfd1cb19f428988.
-U выбрал вкладки и диораму «Поход» сначала, кликабельные здания позже,
-как второй вход в те же разделы. Решение: docs/DESIGN_DIRECTION.md §6.1;
-приоритет H0→H1→H4 и вопросы: docs/HUB_DESIGN_PLAN.md §3/§7/§8.
-Точная композиция, названия, школы и материалы остаются P/Q.
-Изменены только документы; хаб, код, арт и гамма не менялись.
-Следующий шаг — обсуждение композиции первого экрана; реализация не начата.
-H2/H3/H5 и кликабельные здания автоматически не запускать.
-Контракты: docs/HUB_SCENES_V1.md, docs/HERO_HUB_H1.md.
-Аудит: docs/art/hub-ux-audit-20261108/; прежние62/0 и APPROVE не повторены.
+D:/Games/into-de-dung; main; base34131d62bb448df76206fbe2ecd65125a4341170.
+По U показан P-пример100/75%: HP/броня48×9 экранныхpx, Play Bold700
+(Combat Lettering), grayscale AA/NORMAL hinting, кегль11/растр7px.
+Размер при отдалении сохраняется; относительно фигур HUD крупнее.
+Цвета/рамка1px прежние; баланс48×4. Значения синтетические.
+НЕ внедрено и не принято. Runtime сохраняет48×11 базовыхpx/Jersey20
+и весь ряд статусов только при hover. Компактный статусный C в кадрах — P.
+Арт/гамма/механики прежние. Выбор docs/ART_DIRECTION.md.
+Пакет docs/art/vitals-smooth-fixed-20261109/:3 PNG, probe/исходники/manifest.
+В макете экранный renderer/StatusHud выше рельефа. До внедрения нужны
+слои/коллизии/picking/forecast/lifecycle, длинные числа, DPI/разрешения/zoom<75%.
 
-Сохранён открытый выбор предыдущего этапа: полосы HP/брони A9/10,
-B8/9, C7/8 против нынешних11px/font14. Предложение — B; выбора U нет.
-docs/ART_DIRECTION.md; docs/art/vital-bar-sizes-20261109/ (13 GPU PNG).
-Компактный статусный C: docs/art/status-compact-c-20261109/ — тоже P.
-По предыдущей передаче runtime48×11/font14, весь ряд статусов только hover;
-внедрение компактного C требует отдельной работы со слоями/picking/forecast/
-lifecycle. Новые пробы и внедрение автоматически не начинать.
-Предыдущий отчёт: test_reports/vital-bar-sizes-20261109/validation.json.
-
-Свежие проверки документации: diff/ссылки/объём/точный архив/чужие33 PASS;
-test_reports/hub-navigation-choice-20261109/validation.json.
-Godot/import/startup, прежние suites/APPROVE не повторены. Full/core,
+Свежая isolated GPU-проба PASS:15 RGBA совпадений100↔75 (5 бойцов×3 полосы),
+рамки с4 сторон, core/RNG неизменны; isolated-source восстановлен побайтно.
+Отчёт test_reports/vitals-smooth-fixed-20261109/validation.json.
+Независимое APPROVE; SHA/diff/ссылки/архив/чужие33 и документы хаба PASS.
+Import/startup, прежние suites/APPROVE не повторены. Full/core,
 ручные F5/движение/zoom/OS-DPI/usability/performance не запускались.
+Далее — отзыв U; новые пробы/внедрение автоматически не начинать.
+Хаб: параллельное U выбрало вкладки+диораму «Поход», здания позже;
+docs/DESIGN_DIRECTION.md §6.1, docs/HUB_DESIGN_PLAN.md: H0→H1→H4.
+Далее обсуждение первого экрана; композиция/названия/школы/материалы P/Q.
+Реализация хаба/H2/H3/H5 не начата; автоматически не запускать.
 Остаток: читаемость/стыки/посадка, край стрелы4 Лучницы, performance, HUD/Колода;
 presentation_foundation141/2, turn_forecast_ui26/3 не повторены.
 
 Чужие33: scenes/demo/main_menu.tscn и docs/art/battlefield-reference-03-20261017/;
-не reset/stage/commit. Core/preview/queue/RNG/save/frozen,5 классов F5,
-PLAYER вправо/ENEMY влево и возврат сохранить; каталоги1–3 не мигрировать.
-Один Godot runner, isolated project; без root import, служб/драйверов,
-принудительного фокуса, push/sidebar tasks/расписаний.
-[Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261109-3.md), [HISTORY](HISTORY.md).
-Завершение: проверки, локальный Conventional Commit только своих изменений,
-короткий HANDOFF; прежний побайтно отдельно+HISTORY. В финале/при блокере
-предложить новый чат и полный промпт: HEAD, результат, docs/artifacts, остаток,
-ограничения, проверки и это же правило. Чат автоматически не создавать.
+не reset/stage/commit. Сохранить core/preview/queue/RNG/save/frozen,5 классов F5,
+PLAYER вправо/ENEMY влево и возврат; каталоги1–3 не мигрировать. Один Godot runner,
+isolated project; без root import, служб/драйверов, фокуса, push/sidebar tasks/расписаний.
+[Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261109-4.md), [HISTORY](HISTORY.md).
+Завершение: проверки, локальный Conventional Commit своих правок, короткий HANDOFF;
+прежний побайтно отдельно+HISTORY. В финале/при блокере предложить новый чат
+и полный промпт: HEAD, результат, docs/artifacts, остаток, ограничения,
+проверки и это же правило. Чат автоматически не создавать.

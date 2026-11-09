@@ -1,0 +1,32 @@
+func _mock_compact_statuses(canvas: Node2D) -> void:
+	var entries := visible_status_entries()
+	if entries.is_empty(): return
+	var count := entries.size() if hovered else mini(3, entries.size())
+	var overflow := entries.size() - count + status_overflow_count()
+	var step := 18.0 if hovered else 17.0
+	var length := 16.0 + float(count - 1) * step
+	if overflow > 0: length += 20.0
+	var top := get_unit_bars_offset().y + 31.0 / (get_global_transform_with_canvas().x.length() * grid_config.tile_size.x / 128.0)
+	var start := Vector2(-length * 0.5, top)
+	if hovered:
+		canvas.draw_style_box(STATUS_HOVER_PANEL, Rect2(start + Vector2(-12, -2), Vector2(length + 24, 20)))
+	else:
+		# В компактном макете серая поверхность сохраняет контраст без бокового орнамента.
+		canvas.draw_rect(Rect2(start + Vector2(-2, -2), Vector2(length + 4, 20)), Color("2b2c2f"))
+		canvas.draw_rect(Rect2(start + Vector2(-1, -1), Vector2(length + 2, 18)), Color("8e8065"))
+		canvas.draw_rect(Rect2(start, Vector2(length, 16)), Color("55575c"))
+	for index: int in count:
+		var entry: Dictionary = entries[index]
+		var texture := BattleConditionIcons.texture(StringName(entry.id), 16, false)
+		if texture != null:
+			canvas.draw_texture_rect(texture, Rect2(start + Vector2(index * step, 0), Vector2(16, 16)), false)
+	if hovered:
+		for index: int in count:
+			var entry: Dictionary = entries[index]
+			var point := start + Vector2(index * step, 0)
+			var stacks := int(entry.get("stacks", 0))
+			if stacks > 0: _draw_status_counter(canvas, "×%d" % stacks, point + Vector2(0, 7), 16, Color("f1e4c8"), HORIZONTAL_ALIGNMENT_LEFT)
+			var remaining := int(entry.get("remaining", 0))
+			if remaining > 0: _draw_status_counter(canvas, str(remaining), point + Vector2(0, 15), 16, Color("b6cfce"), HORIZONTAL_ALIGNMENT_RIGHT)
+	if overflow > 0:
+		_draw_status_counter(canvas, "+%d" % overflow, Vector2(length * 0.5 - 18, top + 12), 18, Color("e0ddcb"))
