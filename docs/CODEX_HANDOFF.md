@@ -1,35 +1,39 @@
-# Передача — 2026-11-09: примеры тонких HP/брони
+# Передача — 2026-11-09: выбрана навигация хаба
 
-D:/Games/into-de-dung; main; base f291819da3a80c18e16cadf2e80b2fa33e3f5ebf.
-По U показано сравнение: нынешние полосы11px/кегль14; A9/10, B8/9, C7/8.
-Ширина48, цвета, Jersey20, чёрные цифры/рамки прежние. Новые примеры
-центрируют цифры по GPU-растру и уменьшают до внутренней высоты. C при75%
-даёт растр3px и плохо читается; предложение ведущего — B8px. Выбора U нет.
-Это P, НЕ внедрено: runtime сохраняет48×11/font14 и весь ряд статусов
-только при hover. Компактный статусный C на картинках тоже остаётся P.
-Арт, гамма и механики не менялись.
-Выбор docs/ART_DIRECTION.md; пакет docs/art/vital-bar-sizes-20261109/:
-comparison.png,13 GPU PNG, probe/исходники/manifest. Значения синтетические.
-В макете StatusHud выше рельефа; нужна отдельная реализация слоёв/picking/
-forecast/lifecycle и геометрии при выборе. Прежний C: docs/art/status-compact-c-20261109/.
+D:/Games/into-de-dung; main; base4803b58f1878afde941592682dfd1cb19f428988.
+U выбрал вкладки и диораму «Поход» сначала, кликабельные здания позже,
+как второй вход в те же разделы. Решение: docs/DESIGN_DIRECTION.md §6.1;
+приоритет H0→H1→H4 и вопросы: docs/HUB_DESIGN_PLAN.md §3/§7/§8.
+Точная композиция, названия, школы и материалы остаются P/Q.
+Изменены только документы; хаб, код, арт и гамма не менялись.
+Следующий шаг — обсуждение композиции первого экрана; реализация не начата.
+H2/H3/H5 и кликабельные здания автоматически не запускать.
+Контракты: docs/HUB_SCENES_V1.md, docs/HERO_HUB_H1.md.
+Аудит: docs/art/hub-ux-audit-20261108/; прежние62/0 и APPROVE не повторены.
 
-Свежая isolated GPU-проба PASS: кадры100/75%, core/RNG/верхние якоря
-неизменны; измерены глифы. Временный isolated-patch восстановлен побайтно.
-Отчёт test_reports/vital-bar-sizes-20261109/validation.json.
-Независимое APPROVE; SHA/diff/ссылки/точный архив/чужие33 PASS.
-Import/startup, прежние suites/APPROVE не повторены. Full/core,
-ручные F5/движение/zoom/OS-DPI/performance не запускались.
-Далее — отзыв/выбор U; новые пробы/внедрение автоматически не начинать.
-План docs/HUB_DESIGN_PLAN.md — P H0–H5, не реализация.
+Сохранён открытый выбор предыдущего этапа: полосы HP/брони A9/10,
+B8/9, C7/8 против нынешних11px/font14. Предложение — B; выбора U нет.
+docs/ART_DIRECTION.md; docs/art/vital-bar-sizes-20261109/ (13 GPU PNG).
+Компактный статусный C: docs/art/status-compact-c-20261109/ — тоже P.
+По предыдущей передаче runtime48×11/font14, весь ряд статусов только hover;
+внедрение компактного C требует отдельной работы со слоями/picking/forecast/
+lifecycle. Новые пробы и внедрение автоматически не начинать.
+Предыдущий отчёт: test_reports/vital-bar-sizes-20261109/validation.json.
+
+Свежие проверки документации: diff/ссылки/объём/точный архив/чужие33 PASS;
+test_reports/hub-navigation-choice-20261109/validation.json.
+Godot/import/startup, прежние suites/APPROVE не повторены. Full/core,
+ручные F5/движение/zoom/OS-DPI/usability/performance не запускались.
 Остаток: читаемость/стыки/посадка, край стрелы4 Лучницы, performance, HUD/Колода;
 presentation_foundation141/2, turn_forecast_ui26/3 не повторены.
 
 Чужие33: scenes/demo/main_menu.tscn и docs/art/battlefield-reference-03-20261017/;
-не reset/stage/commit. Сохранить core/preview/queue/RNG/save/frozen,5 классов F5,
-PLAYER вправо/ENEMY влево и возврат; каталоги1–3 не мигрировать. Один Godot runner,
-isolated project; без root import, служб/драйверов, фокуса, push/sidebar tasks/расписаний.
-[Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261109-2.md), [HISTORY](HISTORY.md).
-Завершение: проверки, локальный Conventional Commit, короткий HANDOFF;
-прежний побайтно отдельно+HISTORY. В финале/при блокере предложить новый чат
-и полный промпт: HEAD, результат, docs/artifacts, остаток, ограничения,
-проверки и это же правило. Чат автоматически не создавать.
+не reset/stage/commit. Core/preview/queue/RNG/save/frozen,5 классов F5,
+PLAYER вправо/ENEMY влево и возврат сохранить; каталоги1–3 не мигрировать.
+Один Godot runner, isolated project; без root import, служб/драйверов,
+принудительного фокуса, push/sidebar tasks/расписаний.
+[Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261109-3.md), [HISTORY](HISTORY.md).
+Завершение: проверки, локальный Conventional Commit только своих изменений,
+короткий HANDOFF; прежний побайтно отдельно+HISTORY. В финале/при блокере
+предложить новый чат и полный промпт: HEAD, результат, docs/artifacts, остаток,
+ограничения, проверки и это же правило. Чат автоматически не создавать.
