@@ -2144,17 +2144,18 @@ func _ensure_environment_visual(cell: Vector2i) -> BattleEnvironmentVisual:
 	return _environment_visuals.get(cell) as BattleEnvironmentVisual
 
 func _process(delta: float) -> void:
-	if not _terrain_visuals.is_empty():
-		# Смена canvas/stretch не обязана прислать transform notification дочерним узлам.
-		# Проверяем один transform доски, а авторские стыки обновляем только при его смене.
-		var screen_transform := get_screen_transform()
-		if screen_transform != _terrain_screen_transform:
-			_terrain_screen_transform = screen_transform
-			for visual: BattleTerrainVisual in _terrain_visuals.values():
-				if is_instance_valid(visual): visual.sync_view_transform()
-			for overlay: BattleEnvironmentVisual in _environment_visuals.values():
-				if overlay is BattleManagedEnvironmentVisual:
-					(overlay as BattleManagedEnvironmentVisual).sync_view_transform()
+	# Смена canvas/stretch не обязана прислать transform notification дочерним узлам.
+	var screen_transform := get_screen_transform()
+	if screen_transform != _terrain_screen_transform:
+		_terrain_screen_transform = screen_transform
+		for visual: BattleTerrainVisual in _terrain_visuals.values():
+			if is_instance_valid(visual): visual.sync_view_transform()
+		for overlay: BattleEnvironmentVisual in _environment_visuals.values():
+			if overlay is BattleManagedEnvironmentVisual:
+				(overlay as BattleManagedEnvironmentVisual).sync_view_transform()
+		for visual: BattleDemoIsoVisual in _entity_visuals:
+			if is_instance_valid(visual) and visual.role == BattleDemoIsoVisual.Role.UNIT:
+				visual.queue_screen_hud_redraw()
 	_warning_phase = fmod(_warning_phase + delta * TAU / 1.8, TAU)
 	for cell: Vector2i in _view_collapse:
 		var overlay := _environment_visuals.get(cell) as BattleEnvironmentVisual

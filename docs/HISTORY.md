@@ -1,5 +1,19 @@
 # История и свидетельства проверок
 
+## Внедрение непиксельных цифр и фиксированных полос9px — 2026-11-09
+
+U принял пробу; [внедрение](art/vitals-smooth-integration-20261109/README.md)
+сохраняет размер HP/брони при zoom/canvas, рисует Play Bold с AA и не меняет палитру.
+VitalsHud выше рельефа, ниже основного UI/карточки; статусы прежние hover-only.
+Isolated import/startup; unit_vital_bars488/0, presentation_status158/0,
+presentation_contact414/0, unit_visual_contract45/0, visual_scene_contract106/0,
+current_art_zoom520/0, status_counter_layout67/0, battle_camera_ui112/0,
+battle_hud_input163/0, battle_character_card119/0. GPU15+30 RGBA совпадений,
+core/RNG неизменны. Отчёт: `test_reports/vitals-smooth-integration-20261109/`.
+Full/core, ручные F5/движение/zoom/OS-DPI/usability/performance не запускались.
+Независимое APPROVE; diff/SHA/1403 ссылки/точный архив/чужие33 PASS.
+Прежний HANDOFF сохранён [побайтно](CODEX_HANDOFF.history-20261109-5.md).
+
 ## Непиксельные цифры и фиксированные полосы9px — 2026-11-09
 
 По U [P-пример100/75%](art/vitals-smooth-fixed-20261109/README.md):48×9

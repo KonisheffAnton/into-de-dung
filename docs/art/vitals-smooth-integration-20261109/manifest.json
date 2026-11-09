@@ -1,0 +1,120 @@
+{
+  "kind": "accepted fixed screen vitals runtime integration",
+  "base": "f6b7ee235316eb2e91ec1848e04a5c9a23c99ee7",
+  "image_sha256": {
+    "battle-100.png": "40cdcd4cad97b87f50eb00ffa1fd1358b3226e30c56833ad0dbe1ca4a36dbe71",
+    "battle-75.png": "f412664c5f040f46190bb2a1b23d0551ba4005db5a10aa74c7507aaa56a76edf",
+    "battle-canvas-113.png": "8f6c7e4849663eea2e32bfb7ba0c326e6b4e6842106e4380791c9fe5cfbbfd71"
+  },
+  "script_sha256": {
+    "probe_runtime.gd.txt": "da71a22b92d66fb634ac1f5824c835683572d6d0ad010a0762b92e44be1eb670"
+  },
+  "probe_sha256": "4ad736bd2d3e27df53443c967212d2c9069d53281b3d64a986afdbd77c9876d9",
+  "source_manifest_sha256": "4bd991e472c161a11439821454b3f2c0151e8e3a8f97cc761141dab018dc494f",
+  "renderer": "production BattleUnitVitalsPainter via BattleDemoIsoVisual/VitalsHud",
+  "status_layout": "existing hover-only; compact C not integrated",
+  "checks": {
+    "import": {
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 6.06,
+      "summary": []
+    },
+    "startup": {
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 3.23,
+      "summary": []
+    },
+    "unit_vital_bars": {
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 3.5,
+      "summary": [
+        "UNIT VITAL BARS RESULTS: 488 passed, 0 failed"
+      ]
+    },
+    "presentation_status": {
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 5.94,
+      "summary": [
+        "PRESENTATION STATUS RESULTS: 158 passed, 0 failed"
+      ]
+    },
+    "fixed_vitals_runtime": {
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 6.44,
+      "summary": []
+    },
+    "presentation_contact": {
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 4.95,
+      "summary": [
+        "PRESENTATION CONTACT RESULTS: 414 passed, 0 failed"
+      ]
+    },
+    "unit_visual_contract": {
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 2.66,
+      "summary": [
+        "UNIT VISUAL CONTRACT RESULTS: 45 passed, 0 failed"
+      ]
+    },
+    "visual_scene_contract": {
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 5.97,
+      "summary": [
+        "VISUAL SCENE CONTRACT RESULTS: 106 passed, 0 failed"
+      ]
+    },
+    "current_art_zoom": {
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 10.37,
+      "summary": [
+        "CURRENT ART ZOOM RESULTS: 520 passed, 0 failed"
+      ]
+    },
+    "status_counter_layout": {
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 3.75,
+      "summary": [
+        "STATUS COUNTER LAYOUT RESULTS: 67 passed, 0 failed"
+      ]
+    },
+    "battle_camera_ui": {
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 5.16,
+      "summary": [
+        "BATTLE CAMERA UI RESULTS: 112 passed, 0 failed"
+      ]
+    },
+    "battle_hud_input": {
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 8.24,
+      "summary": [
+        "BATTLE HUD INPUT RESULTS: 163 passed, 0 failed"
+      ]
+    },
+    "battle_character_card": {
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 9.31,
+      "summary": [
+        "BATTLE CHARACTER CARD RESULTS: 119 passed, 0 failed"
+      ]
+    }
+  },
+  "not_run": [
+    "full/core",
+    "manual F5/movement/zoom/OS-DPI/usability/performance"
+  ]
+}

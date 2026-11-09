@@ -76,11 +76,11 @@ const STATUS_OVERFLOW_GAP: float = 2.0
 const STATUS_OVERFLOW_WIDTH: float = 26.0
 const STATUS_ICON_LIMIT: int = 5
 const STATUS_HOVER_PANEL: StyleBoxTexture = preload("res://assets/ui/status_hover_panel.tres")
-static var _combat_number_font: FontFile
 static var _status_counter_font: FontVariation
 @export var ground_base_tint: Color = Color("697553")
 var _scene_art_enabled: bool = false
 var _status_hud: Node2D
+var _vitals_hud: Node2D
 var _ground_overlay: Node2D
 var _unit_highlights: Node2D
 var _ground_shadow: Node2D
@@ -145,7 +145,7 @@ func _ready() -> void:
 	super._ready()
 	if role == Role.UNIT:
 		set_notify_transform(true)
-		get_viewport().size_changed.connect(queue_redraw)
+		get_viewport().size_changed.connect(queue_screen_hud_redraw)
 	if role != Role.UNIT:
 		_ground_overlay = Node2D.new()
 		_ground_overlay.name = "GroundOverlay"
@@ -172,16 +172,38 @@ func _ready() -> void:
 	_status_hud.z_index = 0
 	add_child(_status_hud)
 	_status_hud.draw.connect(_draw_status_hud)
-	# Stretch окна меняет экранную матрицу без обязательного изменения global transform.
-	get_viewport().size_changed.connect(_status_hud.queue_redraw)
+	_vitals_hud = Node2D.new()
+	_vitals_hud.name = "VitalsHud"
+	_vitals_hud.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	# Экранные полосы выходят за ромб при zoom-out: рельеф не должен обрезать числа.
+	# Главное HUD и карточка имеют z600/650, поэтому остаются выше полос.
+	_vitals_hud.z_as_relative = false
+	_vitals_hud.z_index = RenderLayers.z_index_for(RenderLayers.Layer.UI_PREVIEW) + 1
+	add_child(_vitals_hud)
+	_vitals_hud.draw.connect(_draw_vitals_hud)
 	_sync_status_hud()
+	_sync_vitals_hud()
 
 func _notification(what: int) -> void:
 	# Пиксельная привязка цифр пересчитывается при движении/масштабе родителя камеры.
 	if what == NOTIFICATION_TRANSFORM_CHANGED and role == Role.UNIT:
-		queue_redraw()
-		# Экранные глифы имеют кэшированный обратный transform и требуют перерисовки при движении.
-		if _status_hud != null: _status_hud.queue_redraw()
+		queue_screen_hud_redraw()
+
+func queue_screen_hud_redraw() -> void:
+	# Stretch/canvas может поменяться без global-transform notification у самой фигуры.
+	queue_redraw()
+	if is_instance_valid(_status_hud): _status_hud.queue_redraw()
+	if is_instance_valid(_vitals_hud): _vitals_hud.queue_redraw()
+
+func _sync_vitals_hud() -> void:
+	if not is_instance_valid(_vitals_hud): return
+	_vitals_hud.visible = role == Role.UNIT and unit != null and unit.alive
+	_vitals_hud.queue_redraw()
+
+func _draw_vitals_hud() -> void:
+	if grid_config == null: return
+	var anchor := get_visual_offset() + get_unit_bars_offset() * grid_config.tile_size.x / 128.0
+	BattleUnitVitalsPainter.draw_vitals(_vitals_hud, unit, armor_values, forecast_entry, anchor)
 
 func _sync_status_hud() -> void:
 	if _status_hud == null: return
@@ -333,6 +355,7 @@ func sync_scene_art() -> void:
 
 func _sync_scene_art_layers() -> void:
 	_sync_status_hud()
+	_sync_vitals_hud()
 	if _unit_highlights != null: _unit_highlights.queue_redraw()
 	_sync_ground_shadow()
 	var art := get_node_or_null("ArtRoot") as Node2D
@@ -670,6 +693,7 @@ func _draw() -> void:
 	if role == Role.UNIT:
 		# Родительский draw обновляет маркеры перед отрисовкой child-слоя за спрайтом.
 		if _unit_highlights != null: _unit_highlights.queue_redraw()
+		if _vitals_hud != null: _vitals_hud.queue_redraw()
 		_draw_unit()
 		return
 	var color := Color("344858") if (grid_anchor.x + grid_anchor.y) % 2 == 0 else Color("3d5361")
@@ -807,101 +831,7 @@ func _draw_unit() -> void:
 		draw_set_transform(foot, 0, Vector2.ONE * factor)
 	var label := transient_label if unit == null else unit.debug_name
 	draw_string(ThemeDB.fallback_font, Vector2(-10, -12), label.left(1), HORIZONTAL_ALIGNMENT_CENTER, 20, 13, Color("172230"))
-	if unit != null:
-		# Посадка нового рисунка ниже требует места полосам, не сдвигая опору клетки.
-		draw_set_transform(foot + get_unit_bars_offset() * factor, 0, Vector2.ONE * factor)
-		if _combat_number_font == null:
-			# Настройки только для маленьких цифр полос, без мутации общего шрифта урона.
-			_combat_number_font = (load("res://assets/ui/combat_fonts/jersey20_numbers.ttf") as FontFile).duplicate() as FontFile
-			_combat_number_font.antialiasing = TextServer.FONT_ANTIALIASING_NONE
-			_combat_number_font.subpixel_positioning = TextServer.SUBPIXEL_POSITIONING_DISABLED
-			_combat_number_font.oversampling = 1.0
-			_combat_number_font.keep_rounding_remainders = false
-		var hp_max := unit.hp_max
-		var balance_max := unit.balance_max
-		var hp := clampf(unit.hp / hp_max if hp_max > 0 else 0, 0, 1)
-		var forecast_after: Dictionary = forecast_entry.get("after", {}) as Dictionary
-		var expected_hp := float(forecast_after.get("hp", unit.hp))
-		var expected_alive := bool(forecast_after.get("alive", unit.alive))
-		var balance := BattleBalanceDisplay.ratio(unit.balance, balance_max)
-		const BAR_WIDTH: float = 48.0
-		const BAR_HEIGHT: float = 11.0
-		const BAR_LEFT: float = -24.0
-		const HP_Y: float = 14.0
-		const ARMOR_Y: float = 1.0
-		var hp_text := BattleEventText.amount_text(unit.hp)
-		var hp_rect := Rect2(BAR_LEFT, HP_Y, BAR_WIDTH, BAR_HEIGHT)
-		var hp_inner := hp_rect.grow(-_vital_rim_width())
-		_draw_vital_track(hp_rect, hp, Color("829969"), Color("96ab7c"), Color("6e8259"), Color("777d70"))
-		if not is_equal_approx(expected_hp, unit.hp):
-			var expected_ratio := clampf(expected_hp / hp_max if hp_max > 0 else 0.0, 0.0, 1.0)
-			var current_ratio := hp
-			var segment_start := minf(current_ratio, expected_ratio)
-			var segment_width := absf(expected_ratio - current_ratio)
-			draw_rect(Rect2(hp_inner.position + Vector2(hp_inner.size.x * segment_start, 0), Vector2(hp_inner.size.x * segment_width, hp_inner.size.y)), Color("f29b9b") if expected_hp < unit.hp else Color("829969"))
-			draw_string(ThemeDB.fallback_font, Vector2(-32, 56), "%s→%s" % [hp_text, BattleEventText.amount_text(expected_hp)], HORIZONTAL_ALIGNMENT_CENTER, 64, 9, Color("f29b9b") if expected_hp < unit.hp else Color("829969"))
-			draw_line(Vector2(hp_inner.position.x + hp_inner.size.x * expected_ratio, HP_Y - 1), Vector2(hp_inner.position.x + hp_inner.size.x * expected_ratio, HP_Y + BAR_HEIGHT + 1), Color.WHITE, 1)
-		_draw_vital_amount(hp_rect, hp_text)
-		if not expected_alive: draw_string(ThemeDB.fallback_font, Vector2(-18, 67), "ПОГИБ", HORIZONTAL_ALIGNMENT_CENTER, 36, 8, Color("f29b9b"))
-		# Баланс — второстепенная шкала запаса: два цветных ряда сохраняются при отдалении.
-		_draw_vital_track(Rect2(BAR_LEFT, 27, BAR_WIDTH, 4 * _vital_rim_width()), balance, Color("bea16c"), Color("cdb888"), Color("a58b60"), Color("45494b"))
-		if not armor_values.is_empty():
-			var maximum: float = armor_values["maximum"]
-			var current: float = armor_values["current"]
-			var expected := float(forecast_after.get("armor_current", current))
-			var armor_ratio := clampf(current / maximum, 0.0, 1.0) if maximum > 0.0 else 0.0
-			var armor_text := BattleEventText.amount_text(current)
-			var armor_rect := Rect2(BAR_LEFT, ARMOR_Y, BAR_WIDTH, BAR_HEIGHT)
-			var armor_inner := armor_rect.grow(-_vital_rim_width())
-			_draw_vital_track(armor_rect, armor_ratio, Color("9ca5a6"), Color("b1b9b6"), Color("828d8f"), Color("747d80"))
-			if expected != current:
-				var mark := armor_inner.position.x + armor_inner.size.x * (clampf(expected / maximum, 0.0, 1.0) if maximum > 0.0 else 0.0)
-				draw_line(Vector2(mark, ARMOR_Y - 1), Vector2(mark, ARMOR_Y + BAR_HEIGHT + 1), Color.WHITE, 1)
-			_draw_vital_amount(armor_rect, armor_text)
 	draw_set_transform(Vector2.ZERO)
-
-func _vital_rim_width() -> float:
-	# Рамка сохраняет экранный пиксель на боевом zoom 75–125%; обзор карты не раздувает HUD.
-	var screen_scale := get_global_transform_with_canvas().x.length() * grid_config.tile_size.x / 128.0
-	return maxf(1.0, 1.0 / maxf(screen_scale, 0.75))
-
-func _draw_vital_track(rect: Rect2, ratio: float, fill: Color, light: Color, shade: Color, empty: Color) -> void:
-	var rim := _vital_rim_width()
-	var inner := rect.grow(-rim)
-	draw_rect(rect, Color.BLACK)
-	draw_rect(inner, empty)
-	if ratio <= 0.0: return
-	# При отдалении столбец не исчезает между пикселями; точный остаток остаётся в числе/осмотре.
-	var screen_scale := get_global_transform_with_canvas().x.length() * grid_config.tile_size.x / 128.0
-	var minimum_width := maxf(1.0, 1.0 / maxf(screen_scale, 0.01))
-	var filled := Rect2(inner.position, Vector2(minf(inner.size.x, maxf(minimum_width, inner.size.x * clampf(ratio, 0.0, 1.0))), inner.size.y))
-	draw_rect(filled, fill)
-	draw_rect(Rect2(filled.position, Vector2(filled.size.x, rim)), light)
-	draw_rect(Rect2(filled.position + Vector2(0, filled.size.y - rim), Vector2(filled.size.x, rim)), shade)
-
-func _draw_vital_amount(rect: Rect2, text: String) -> void:
-	var factor := grid_config.tile_size.x / 128.0
-	var bar_transform := Transform2D(Vector2(factor, 0), Vector2(0, factor), get_visual_offset() + get_unit_bars_offset() * factor)
-	var canvas := get_viewport_transform() * get_global_transform()
-	var screen := canvas * bar_transform
-	var scale_factor := screen.x.length()
-	var font_size := maxi(1, floori(14.0 * scale_factor))
-	var minimum_size := maxi(1, floori(8.0 * scale_factor))
-	var available_width := (rect.size.x - 4.0) * scale_factor
-	while font_size > minimum_size and _combat_number_font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x > available_width:
-		font_size -= 1
-	var text_width := _combat_number_font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x
-	var center := screen * rect.get_center()
-	var baseline := Vector2(center.x - text_width * 0.5, center.y + 4.0 * float(font_size) / 14.0).round()
-	# Растеризуем сразу в экранном размере: масштаб поля не растягивает готовые глифы.
-	draw_set_transform_matrix(canvas.affine_inverse())
-	draw_string(_combat_number_font, baseline, text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, Color.BLACK)
-	draw_set_transform_matrix(bar_transform)
-	var rim := _vital_rim_width()
-	draw_rect(Rect2(rect.position, Vector2(rect.size.x, rim)), Color.BLACK)
-	draw_rect(Rect2(rect.position + Vector2(0, rect.size.y - rim), Vector2(rect.size.x, rim)), Color.BLACK)
-	draw_rect(Rect2(rect.position, Vector2(rim, rect.size.y)), Color.BLACK)
-	draw_rect(Rect2(rect.position + Vector2(rect.size.x - rim, 0), Vector2(rim, rect.size.y)), Color.BLACK)
 
 func _draw_unit_highlights(canvas: Node2D) -> void:
 	if grid_config == null or role != Role.UNIT or (unit != null and not unit.alive): return

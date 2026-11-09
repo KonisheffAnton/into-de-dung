@@ -1,0 +1,133 @@
+extends SceneTree
+
+var viewport: SubViewport
+var demo: HeroHubBattleView
+var captures: String
+var images: Dictionary = {}
+var snapshots: Dictionary = {}
+var units: Array[BattleDemoIsoVisual] = []
+var all_units: Array[BattleDemoIsoVisual] = []
+
+func _initialize() -> void:
+	for argument: String in OS.get_cmdline_user_args():
+		if argument.begins_with("--captures="): captures = argument.trim_prefix("--captures=")
+	create_timer(40.0).timeout.connect(func() -> void: push_error("Runtime probe timeout"); quit(1))
+	call_deferred("_run")
+
+func _run() -> void:
+	viewport = SubViewport.new()
+	viewport.size = Vector2i(1440, 900)
+	viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
+	root.add_child(viewport)
+	var profile := HeroHubState.create(9404, 4)
+	profile.enable_mage_deck()
+	profile = ExpeditionTransitions.apply(profile, "start").profile
+	demo = (load("res://scenes/demo/battle/hero_hub_battle.tscn") as PackedScene).instantiate() as HeroHubBattleView
+	var route := HeroHubScreen.new()
+	assert(route._configure_first_room_art(demo, profile))
+	route.free()
+	demo.supplied_session = HeroHubBattleFactory.create(profile).session
+	viewport.add_child(demo)
+	demo.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	demo.set_process(false)
+	demo.end_turn()
+	demo._confirm_selected_mulligan()
+	var session := demo.session as BattleCoreReactionsSession
+	if session.phase == BattleTacticalSession.Phase.ENEMY_TURN:
+		session._enemy_index = session._enemy_ids.size()
+		session.step_enemy()
+	demo._refresh()
+	await _settle()
+	var live_before := {"state":ItemSimulationSnapshot.capture(session.state, []).snapshot.to_dict(), "rng":session.context.get_rng().to_dict()}
+	var frame := ActionPresentationState.capture(session.state)
+	var party: Array[int] = []
+	var focus := Vector2.ZERO
+	var board := demo.board_view
+	for unit: UnitState in session.units:
+		if unit.faction != Faction.Type.PLAYER or not unit.is_alive(): continue
+		party.append(unit.id)
+		focus += board._world_cell_center(unit.cell)
+		var row: Dictionary = frame.units[unit.id]
+		row.hp = 128.0 if party.size() == 1 else (18.5 if party.size() == 2 else 24.0)
+		row.hp_max = 160.0 if party.size() == 1 else 32.0
+		row.armor = {"current":64.0 if party.size() == 1 else (7.5 if party.size() == 2 else 16.0),"maximum":80.0 if party.size() == 1 else 24.0,"extra":0.0}
+		row.balance = 4.0
+		row.balance_max = 12.0
+		row.bleeding = {}
+		row.elemental = {}
+		row.control = {}
+		row.shield = {}
+		row.raised_shield = {}
+	assert(party.size() == 3)
+	focus /= 3.0
+	board.show_presentation_state(frame)
+	board.session = null
+	demo._close_character_card()
+	var statuses: Array[Dictionary] = [
+		{"id":"bleeding","stacks":2,"remaining":3,"embodied":false},
+		{"id":"poison","stacks":3,"remaining":2,"embodied":false},
+		{"id":"acid","stacks":0,"remaining":2,"embodied":false},
+		{"id":"burning","stacks":1,"remaining":3,"embodied":false},
+		{"id":"wet","stacks":0,"remaining":2,"embodied":false}]
+	for index: int in party.size():
+		var visual := board._presentation_visual(party[index])
+		visual.status_entries = statuses.slice(0, 1 + index * 2)
+		visual.set_process(false)
+		visual.hovered = false
+		units.append(visual)
+	for visual: BattleDemoIsoVisual in board._entity_visuals:
+		visual.set_process(false)
+		for node: Node in visual.find_children("*", "AnimatedSprite2D", true, false): (node as AnimatedSprite2D).stop()
+	for visual: BattleDemoIsoVisual in board._entity_visuals:
+		if visual.unit != null and visual.unit.alive: all_units.append(visual)
+	assert(all_units.size() == 5)
+	var approved := Image.load_from_file("D:/Games/into-de-dung/docs/art/vitals-smooth-fixed-20261109/battle-100.png")
+	assert(not approved.is_empty())
+	var samples: Dictionary = {}
+	var matches := 0
+	var approved_matches := 0
+	var modes: Array[Dictionary] = [{"name":"100", "zoom":1.0}, {"name":"75", "zoom":0.75}, {"name":"canvas-113", "zoom":1.0}]
+	for mode: Dictionary in modes:
+		var screen_focus := Vector2(720, 340) - board.global_position
+		board.zoom_camera(float(mode.zoom), screen_focus)
+		board.pan_camera(screen_focus - board.world_to_view(focus))
+		await _settle()
+		if mode.name == "canvas-113":
+			# Только canvas меняется: board polling должен инвалидировать экранные draw-команды.
+			viewport.canvas_transform = Transform2D(Vector2(1.13, 0), Vector2(0, 1.13), Vector2(13.37, 7.61))
+			await _settle()
+		await RenderingServer.frame_post_draw
+		var img := viewport.get_texture().get_image()
+		DirAccess.make_dir_recursive_absolute(captures)
+		assert(img.save_png(captures.path_join("battle-" + String(mode.name) + ".png")) == OK)
+		images[mode.name] = img
+		var points: Array[Vector2] = []
+		for index: int in all_units.size():
+			var visual := all_units[index]
+			var origin := visual.get_visual_offset() + visual.get_unit_bars_offset() * visual.grid_config.tile_size.x / 128.0
+			var point := (visual.get_viewport_transform() * visual.get_global_transform() * origin).round()
+			points.append(point)
+			for track: int in 3:
+				var rect := Rect2i(Vector2i(point) + Vector2i(-24, [1,12,23][track]), Vector2i(48, 9 if track < 2 else 4))
+				var pixels := img.get_region(rect).get_data()
+				var key := "%d:%d" % [index,track]
+				if mode.name == "100":
+					samples[key] = pixels
+					assert(pixels == approved.get_region(rect).get_data(), "Approved track RGBA mismatch: " + key)
+					approved_matches += 1
+				else:
+					assert(pixels == samples[key], "Screen-sized track drift: " + String(mode.name) + ":" + key)
+					matches += 1
+		snapshots[mode.name] = points
+	assert(matches == 30 and approved_matches == 15)
+	assert(live_before.state == ItemSimulationSnapshot.capture(session.state, []).snapshot.to_dict() and live_before.rng == session.context.get_rng().to_dict())
+	var report := FileAccess.open(captures.path_join("probe.json"), FileAccess.WRITE)
+	report.store_string(JSON.stringify({"status":"PASS", "core_rng_unchanged":true, "approved_rgba_tracks":approved_matches, "camera_and_canvas_rgba_tracks":matches, "production_renderer":true, "positions":snapshots, "fixture":"five native classes; synthetic presentation resources; status row kept runtime hover-only"}, "\t"))
+	report.close()
+	viewport.queue_free()
+	await process_frame
+	print("FIXED VITALS RUNTIME: PASS;15 approved RGBA tracks;30 camera/canvas RGBA matches;core/RNG unchanged")
+	quit(0)
+
+func _settle() -> void:
+	for frame: int in 6: await process_frame
