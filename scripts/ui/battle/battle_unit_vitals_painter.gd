@@ -5,9 +5,10 @@ class_name BattleUnitVitalsPainter
 const BAR_WIDTH: float = 48.0
 const BAR_HEIGHT: float = 9.0
 const NUMBER_SIZE: int = 11
-const MINIMUM_NUMBER_SIZE: int = 8
+const MINIMUM_NUMBER_SIZE: int = 7
 static var _number_font: FontFile
 static var _baseline_offsets: Dictionary = {}
+static var _glyph_heights: Dictionary = {}
 
 
 static func draw_vitals(canvas: Node2D, unit: BattleUnitView, armor: Dictionary, forecast: Dictionary, local_anchor: Vector2) -> void:
@@ -87,16 +88,25 @@ static func _baseline_offset(font_size: int) -> float:
 		bottom = maxf(bottom, offset.y + extent.y)
 	var baseline := -(top + bottom) * 0.5 if is_finite(top) and is_finite(bottom) else 3.5
 	_baseline_offsets[font_size] = baseline
+	_glyph_heights[font_size] = bottom - top if is_finite(top) and is_finite(bottom) else INF
 	return baseline
+
+
+static func _glyph_height(font_size: int) -> float:
+	# Метрики каждого кегля растеризуются один раз, а не для каждой полосы при pan.
+	_baseline_offset(font_size)
+	return float(_glyph_heights[font_size])
 
 
 static func _draw_amount(canvas: Node2D, rect: Rect2, text: String) -> void:
 	var font := _font()
 	var font_size := NUMBER_SIZE
-	while font_size > MINIMUM_NUMBER_SIZE and font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x > rect.size.x - 4.0:
+	while font_size > MINIMUM_NUMBER_SIZE and (_glyph_height(font_size) > 5.0 or font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x > rect.size.x - 4.0):
 		font_size -= 1
 	var width := font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x
 	var baseline := Vector2(rect.get_center().x - width * 0.5, rect.get_center().y + _baseline_offset(font_size)).round()
+	canvas.draw_string(font, baseline, text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, Color.BLACK)
+	# Второй проход усиливает тонкий штрих малого кегля, не расширяя его до рамки.
 	canvas.draw_string(font, baseline, text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, Color.BLACK)
 	# Прогноз может пересекать рамку; после текста восстанавливаем её внутри внешних границ.
 	canvas.draw_rect(Rect2(rect.position, Vector2(rect.size.x, 1)), Color.BLACK)

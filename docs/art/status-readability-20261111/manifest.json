@@ -1,0 +1,151 @@
+{
+  "base": "4df33b368e85d26ddda5109cd9eac7a394476717",
+  "kind": "horizontal status readability and padded 9px vitals",
+  "image_sha256": {
+    "battle-100.png": "23f3c8c82c17a1877683dd6a7ace2def803d88ea76ea696d902cdb8331e170ff",
+    "battle-75.png": "e09196a1cc3f7914a8e2dac1053d1baaa6d8fb529a91e5a9a6e27d5b4cd7bd2d",
+    "battle-canvas-113.png": "997ef802c264a2ff678b414d0e32718f391a58241b869e794d5e4d7fb01ce5d7",
+    "dense-100.png": "8224e3c67e9a8aecb14d59717b9853e101d1a1fbe0df4407aecda6cf9549e759",
+    "dense-75.png": "4dc477dc3eb8fe1be2d53ba7cd7903bfee0dda382ad79c41ee9617528b3f0f4c"
+  },
+  "script_sha256": {
+    "probe.gd.txt": "aaba2d31d58021deaf4cadebe551fe0f3e9457df33715818feb98700069925b8"
+  },
+  "probe_sha256": "de2e7def60233612fe9d72a6fd5f073ed54c7d4de2e1c8461427b11878beefd0",
+  "source_manifest_sha256": "6ea257df25c46ab388a78c46dd60f52a2d8a9960c763b8d1108e2230c0042daa",
+  "svg_sha256": {
+    "assets/ui/status_symbols/acid.svg": "f24356a87c4a3e1f6858bc3ffbe0ce521418e191697dd1f81e25dff38ae7f60f",
+    "assets/ui/status_symbols/bleeding.svg": "b93f91caba531e84925998f3090b5162cf66c90588ba7c1836b1d59e4c6915d9",
+    "assets/ui/status_symbols/burning.svg": "b89a3efbb2cde654a3c269b2f599817942188a9e908074400c324e8380e45fc1",
+    "assets/ui/status_symbols/poison.svg": "ab558c6e77af8f93c3de254fe613a9d392c37f6b159b25dec2654a80a3011cbb",
+    "assets/ui/status_symbols/wet.svg": "0a830a72a7e335c6d62c9bc26ff29e3d88b3f328f21e557385eafbc39f29d573"
+  },
+  "checks": {
+    "import": {
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 5.97,
+      "summary": []
+    },
+    "startup": {
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 3.22,
+      "summary": []
+    },
+    "unit_vital_bars": {
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 3.42,
+      "summary": [
+        "UNIT VITAL BARS RESULTS: 548 passed, 0 failed"
+      ]
+    },
+    "status_column_runtime": {
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 8.25,
+      "summary": []
+    },
+    "status_counter_layout": {
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 3.45,
+      "summary": [
+        "STATUS COUNTER LAYOUT RESULTS: 59 passed, 0 failed"
+      ]
+    },
+    "presentation_status": {
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 5.82,
+      "summary": [
+        "PRESENTATION STATUS RESULTS: 158 passed, 0 failed"
+      ]
+    },
+    "battle_condition_icons": {
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 7.93,
+      "summary": [
+        "BATTLE CONDITION ICONS RESULTS: 442 passed, 0 failed"
+      ]
+    },
+    "unit_visual_contract": {
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 3.12,
+      "summary": [
+        "UNIT VISUAL CONTRACT RESULTS: 45 passed, 0 failed"
+      ]
+    },
+    "battle_character_card": {
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 9.22,
+      "summary": [
+        "BATTLE CHARACTER CARD RESULTS: 119 passed, 0 failed"
+      ]
+    },
+    "battle_hud_input": {
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 8.55,
+      "summary": [
+        "BATTLE HUD INPUT RESULTS: 163 passed, 0 failed"
+      ]
+    },
+    "battle_camera_ui": {
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 5.44,
+      "summary": [
+        "BATTLE CAMERA UI RESULTS: 112 passed, 0 failed"
+      ]
+    },
+    "battle_execution_ui": {
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 11.73,
+      "summary": [
+        "BATTLE EXECUTION UI RESULTS: 61 passed, 0 failed"
+      ]
+    },
+    "visual_scene_contract": {
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 6.51,
+      "summary": [
+        "VISUAL SCENE CONTRACT RESULTS: 106 passed, 0 failed"
+      ]
+    },
+    "presentation_contact": {
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 5.95,
+      "summary": [
+        "PRESENTATION CONTACT RESULTS: 414 passed, 0 failed"
+      ]
+    },
+    "presentation_reactions": {
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 11.49,
+      "summary": [
+        "PRESENTATION REACTIONS RESULTS: 1426 passed, 0 failed"
+      ]
+    },
+    "current_art_zoom": {
+      "status": "PASS",
+      "exit_code": 0,
+      "seconds": 11.58,
+      "summary": [
+        "CURRENT ART ZOOM RESULTS: 520 passed, 0 failed"
+      ]
+    }
+  },
+  "not_run": [
+    "full/core",
+    "manual F5/movement/zoom/OS-DPI/usability/performance"
+  ]
+}

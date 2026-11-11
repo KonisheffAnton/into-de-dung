@@ -112,7 +112,7 @@ func run() -> void:
 	check(visual.get_node("ArtRoot/EffectRoot/IceSprite").visible and visual.get_node("ArtRoot/EffectRoot/StunSprite").visible and visual.get_node("ArtRoot/EffectRoot/EntangleSprite").visible, "separate control overlays visible")
 	var hud_box := visual.status_hud_bounds()
 	check(visual._status_hud.z_index == 0, "status HUD stays in local Y-sort so foreground entities can occlude it")
-	check(hud_box == Rect2(-20, -27, 40, 20) and BattleDemoIsoVisual.STATUS_ICON_SIZE == 16.0, "one silhouette uses the compact twenty-pixel hover panel with fixed end caps")
+	check(hud_box == Rect2(-14, -27, 28, 24) and BattleDemoIsoVisual.STATUS_ICON_SIZE == 20.0, "one status forms a 28 by 24 horizontal panel above the armor bar")
 	var hud_origin := visual._status_hud.position
 	board._presentation_motion(0.5, 4, Vector2i(3, 4), Vector2i(2, 3))
 	check(visual.status_hud_bounds() == hud_box and visual._status_hud.position == hud_origin, "neighbor crossing does not shift the anchored status row")
@@ -292,7 +292,7 @@ func run() -> void:
 	for index: int in 7:
 		visual.status_entries.append({"id": "test-%d" % index, "stacks": 0, "remaining": 2, "duration_unit": "концов хода своей команды", "embodied": false})
 	visual.status_entries.append(visual.status_entries[0].duplicate(true))
-	check(visual.visible_status_entries().size() == 5 and visual.status_overflow_count() == 3, "five icons plus distinct overflow ignores duplicate kinds")
+	check(visual.visible_status_entries().size() == 3 and visual.status_overflow_count() == 5 and visual.status_hud_bounds() == Rect2(-41, -27, 82, 24), "three icons plus +5 overflow use the capped horizontal panel")
 	for neighbor: BattleDemoIsoVisual in board._entity_visuals:
 		if neighbor.unit != null and neighbor != visual: neighbor.visible = false
 	visual.queue_redraw()

@@ -69,12 +69,12 @@ var frozen: bool = false
 var burning: bool = false
 var stunned: bool = false
 var entangled: bool = false
-const STATUS_ICON_SIZE: float = 16.0
+const STATUS_ICON_SIZE: float = 20.0
 const STATUS_ICON_MAX_OVERLAP: float = 4.0
-const STATUS_PANEL_PADDING: float = 12.0
+const STATUS_PANEL_PADDING: float = 4.0
 const STATUS_OVERFLOW_GAP: float = 2.0
-const STATUS_OVERFLOW_WIDTH: float = 26.0
-const STATUS_ICON_LIMIT: int = 5
+const STATUS_OVERFLOW_WIDTH: float = 20.0
+const STATUS_ICON_LIMIT: int = 3
 const STATUS_HOVER_PANEL: StyleBoxTexture = preload("res://assets/ui/status_hover_panel.tres")
 static var _status_counter_font: FontVariation
 @export var ground_base_tint: Color = Color("697553")
@@ -167,7 +167,7 @@ func _ready() -> void:
 	_ground_shadow.draw.connect(_draw_ground_shadow.bind(_ground_shadow))
 	_status_hud = Node2D.new()
 	_status_hud.name = "StatusHud"
-	_status_hud.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	_status_hud.texture_filter = CanvasItem.TEXTURE_FILTER_LINEAR
 	# HUD остаётся в локальной сортировке, чтобы передние фигуры и тайлы могли его закрыть.
 	_status_hud.z_index = 0
 	add_child(_status_hud)
@@ -282,19 +282,17 @@ func status_hud_bounds() -> Rect2:
 	var entries := visible_status_entries().size()
 	var overflow := status_overflow_count() > 0
 	if entries == 0 and not overflow: return Rect2()
-	var width := _status_content_width(entries, overflow)
-	# Геометрия подложки постоянна: появление при hover не двигает ряд и его hit-test.
-	return Rect2(-width * 0.5 - STATUS_PANEL_PADDING, -27, width + STATUS_PANEL_PADDING * 2.0, 20)
+	var width := _status_content_width(entries, overflow) + STATUS_PANEL_PADDING * 2.0
+	# Ряд следует авторской опоре полос: между нижним краем панели и бронёй остаётся зазор.
+	return Rect2(get_unit_bars_offset() + Vector2(-width * 0.5, -27), Vector2(width, 24))
 
 func _status_icon_step(visible_count: int) -> float:
-	# Каждый новый знак усиливает нахлёст на пиксель, но не скрывает больше четверти ширины.
-	return STATUS_ICON_SIZE - clampf(float(visible_count - 1), 0.0, STATUS_ICON_MAX_OVERLAP)
+	# Три знака с лёгким нахлёстом удерживают ряд компактным; остальные доступны через +N.
+	return STATUS_ICON_SIZE - clampf(float(visible_count - 1) * 2.0, 0.0, STATUS_ICON_MAX_OVERLAP)
 
 func _status_content_width(icon_count: int, overflow: bool) -> float:
 	if icon_count <= 0: return 0.0
-	var step := _status_icon_step(icon_count + (1 if overflow else 0))
-	var width := STATUS_ICON_SIZE + float(icon_count - 1) * step
-	# Текст +N получает отдельный зазор: нахлёст относится только к рисункам.
+	var width := STATUS_ICON_SIZE + float(icon_count - 1) * _status_icon_step(icon_count)
 	if overflow: width += STATUS_OVERFLOW_GAP + STATUS_OVERFLOW_WIDTH
 	return width
 
@@ -867,14 +865,14 @@ func _draw_status_icons(canvas: Node2D) -> void:
 	var count := entries.size() + (1 if overflow > 0 else 0)
 	if count == 0:
 		return
-	if hovered:
-		canvas.draw_style_box(STATUS_HOVER_PANEL, status_hud_bounds())
-	var step := _status_icon_step(count)
-	var total_width := _status_content_width(entries.size(), overflow > 0)
-	var x := -total_width * 0.5
+	var bounds := status_hud_bounds()
+	canvas.draw_style_box(STATUS_HOVER_PANEL, bounds)
+	var step := _status_icon_step(entries.size())
+	var x := bounds.position.x + STATUS_PANEL_PADDING
+	var y := bounds.position.y + 2.0
 	for entry: Dictionary in entries:
 		var id := String(entry.get("id", ""))
-		var rect := Rect2(Vector2(x, -25), Vector2(STATUS_ICON_SIZE, STATUS_ICON_SIZE))
+		var rect := Rect2(Vector2(x, y), Vector2(STATUS_ICON_SIZE, STATUS_ICON_SIZE))
 		var icon := _status_icon(id)
 		if icon != null:
 			canvas.draw_texture_rect(icon, rect, false)
@@ -891,23 +889,23 @@ func _draw_status_icons(canvas: Node2D) -> void:
 			var center := rect.position + rect.size * 0.5
 			canvas.draw_colored_polygon(PackedVector2Array([center + Vector2(0, -4), center + Vector2(4, 0), center + Vector2(0, 4), center + Vector2(-4, 0)]), Color("c7d4e2"))
 		x += step
-	# Сначала весь ряд рисунков, затем все числа: соседний значок не закрывает счётчик.
-	x = -total_width * 0.5
+	# Сначала весь ряд рисунков, затем все числа: следующий значок не закрывает счётчик.
+	x = bounds.position.x + STATUS_PANEL_PADDING
 	for entry: Dictionary in entries:
 		var id := String(entry.get("id", ""))
 		var stacks := int(entry.get("stacks", 0))
 		if id in ["bleeding", "burning", "poison"] and stacks > 0:
 			var badge := "99+" if stacks > 99 else "×%d" % stacks
 			# Разные углы оставляют середину рисунка видимой и разделяют стаки со сроком.
-			_draw_status_counter(canvas, badge, Vector2(x, -18), STATUS_ICON_SIZE, Color("f1e4c8"), HORIZONTAL_ALIGNMENT_LEFT)
+			_draw_status_counter(canvas, badge, Vector2(x, y + 8), STATUS_ICON_SIZE, Color("f1e4c8"), HORIZONTAL_ALIGNMENT_LEFT)
 		var remaining := int(entry.get("remaining", 0))
 		if remaining > 0:
 			var remaining_label := "99+" if remaining > 99 else str(remaining)
-			_draw_status_counter(canvas, remaining_label, Vector2(x, -10), STATUS_ICON_SIZE, Color("b6cfce"), HORIZONTAL_ALIGNMENT_RIGHT)
+			_draw_status_counter(canvas, remaining_label, Vector2(x, y + 18), STATUS_ICON_SIZE, Color("b6cfce"), HORIZONTAL_ALIGNMENT_RIGHT)
 		x += step
 	if overflow > 0:
 		var overflow_label := "+99+" if overflow > 99 else "+%d" % overflow
-		_draw_status_counter(canvas, overflow_label, Vector2(total_width * 0.5 - STATUS_OVERFLOW_WIDTH, -14), STATUS_OVERFLOW_WIDTH, Color("e0ddcb"))
+		_draw_status_counter(canvas, overflow_label, Vector2(bounds.end.x - STATUS_PANEL_PADDING - STATUS_OVERFLOW_WIDTH, bounds.position.y + 16), STATUS_OVERFLOW_WIDTH, Color("e0ddcb"))
 
 func _draw_status_counter(canvas: Node2D, text: String, local_baseline: Vector2, slot_width: float, tint: Color, alignment: HorizontalAlignment = HORIZONTAL_ALIGNMENT_CENTER) -> void:
 	if _status_counter_font == null:
@@ -940,5 +938,5 @@ func _draw_status_counter(canvas: Node2D, text: String, local_baseline: Vector2,
 	canvas.draw_set_transform_matrix(Transform2D.IDENTITY)
 
 func _status_icon(id: String) -> Texture2D:
-	# У фигур рисунок остаётся прозрачным; деревянная рамка нужна только в панелях UI.
-	return BattleConditionIcons.texture(StringName(id), 16, false)
+	var symbol := BattleConditionIcons.character_texture(StringName(id))
+	return symbol if symbol != null else BattleConditionIcons.texture(StringName(id), 32, false)

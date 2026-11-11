@@ -32,6 +32,18 @@ const _ICON_ROOT: String = "res://assets/art_presets/approved/status_icons_silho
 const _FRAMED_ROOT: String = "res://assets/art_presets/approved/status_icons_silhouette_v1/framed"
 
 static var _texture_cache: Dictionary[String, Texture2D] = {}
+const _CHARACTER_SYMBOLS: Dictionary[StringName, Texture2D] = {
+	&"bleeding": preload("res://assets/ui/status_symbols/bleeding.svg"),
+	&"burning": preload("res://assets/ui/status_symbols/burning.svg"),
+	&"poison": preload("res://assets/ui/status_symbols/poison.svg"),
+	&"acid": preload("res://assets/ui/status_symbols/acid.svg"),
+	&"wet": preload("res://assets/ui/status_symbols/wet.svg"),
+}
+
+
+static func character_texture(id: StringName) -> Texture2D:
+	# Крупный векторный источник убирает ступеньки16px; рамочные значки UI отдельные.
+	return _CHARACTER_SYMBOLS.get(id) as Texture2D
 
 
 static func texture(id: StringName, pixels: int = 16, framed: bool = true) -> Texture2D:

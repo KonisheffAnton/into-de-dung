@@ -24,7 +24,8 @@
 `--render-check --only status_counter_layout battle_condition_icons presentation_status
 unit_vital_bars battle_character_card battle_hud_input battle_camera_ui battle_execution_ui
 visual_scene_contract --screen 0`. `status_counter_layout` дополнительно проверяет
-рост панели1–5, нахлёст0–4px, отдельный overflow, порядок иконки→числа и торцы100/75%;
+после U2026-11-11 рост горизонтальной панели1–3, нахлёст0/2/4px, отдельный overflow,
+SVG96/alpha, порядок иконки→числа и торцы100/75%;
 каталог проверяет точное2× и RGBA импорта/композиции. Headless дополняет структурные проверки.
 Текущий набор не повторяет старые builders A/framed или full/core/performance.
 
@@ -48,6 +49,12 @@ Native PNG — `status-counter-screenshots/`; headless пропускает пи
 подбор фигуры по краю строки, дочернюю перерисовку и неподвижность геометрии;
 `battle_condition_icons` сохраняет пары status-idle/status-card при100/75%.
 При изменении области попадания дополнить `battle_hud_input visual_scene_contract`.
+Для последнего компактного ряда также `presentation_reactions unit_visual_contract`.
+[Проба читаемости](art/status-readability-20261111/README.md) сверяет30 RGBA треков
+при camera75/canvas113 и непрозрачные маски четырёх соседей при100/75.
+Idle фиксируется через `ambient_animation_paused` до `sync_scene_art`:
+одного `set_process(false)` недостаточно, sync включает процесс скина обратно.
+AA-край смешивается с фоном; точное RGBA проверяется только на непрозрачной маске.
 
 Выбранные шипы (2026-11-07): `python tools/art/build_selected_spike_animations.py --check`;
 `--render-check --only hazards_ui acid_tile_animation environment_visual_contract
@@ -358,6 +365,8 @@ PNG — `unit-vital-bars-screenshots/`; `current_art_zoom` дополнител�
 без ручного redraw. Числа Play Bold содержат чёрный штрих и промежуточные AA-пиксели
 поверх известной палитры; рамка остаётся чёрной с четырёх сторон. Дроби/нулевые
 значения, дробный максимум и редкое длинное число проверяются отдельно.
+После U2026-11-11 внутренние верхний/нижний ряды треков должны содержать только
+палитру, без чернил цифр: это проверяет свободный1px до рамки при всех масштабах.
 Для экранного слоя дополнить `status_counter_layout battle_camera_ui battle_hud_input
 battle_character_card`. [Runtime-проба](art/vitals-smooth-integration-20261109/README.md)
 сверяет15 треков с принятой пробой и ещё30 при75%/canvas113%, без явного redraw,

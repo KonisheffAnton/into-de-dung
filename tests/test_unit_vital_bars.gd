@@ -184,6 +184,13 @@ func _check_zoom(zoom_index: int) -> void:
 			check(_has_color_near(image, hp_frame, Color.BLACK, zoom)
 				and _has_color_near(image, armor_frame, Color.BLACK, zoom),
 				"inset black frames remain visible around HP and armor at zoom %.2f" % zoom)
+		if String(row.case) in ["full", "empty", "fractional-max"]:
+			check(_bar_edge_rows_are_palette_only(image, _bar_screen_anchor(visual), 12,
+				[Color("829969"), Color("96ab7c"), Color("6e8259"), Color("777d70")]),
+				"HP top and bottom interior rows contain only track colors at zoom %.2f for %s" % [zoom, row.case])
+			check(_bar_edge_rows_are_palette_only(image, _bar_screen_anchor(visual), 1,
+				[Color("9ca5a6"), Color("b1b9b6"), Color("828d8f"), Color("747d80")]),
+				"armor top and bottom interior rows contain only track colors at zoom %.2f for %s" % [zoom, row.case])
 		if String(row.case) == "half":
 			var hp_fill := _bar_screen_anchor(visual) + Vector2(-21.0, 16.5)
 			var armor_fill := _bar_screen_anchor(visual) + Vector2(-21.0, 5.5)
@@ -295,6 +302,22 @@ func _regions_equal(first: Image, first_anchor: Vector2, second: Image, second_a
 			if first_point.x < 0 or first_point.y < 0 or second_point.x < 0 or second_point.y < 0: return false
 			if first_point.x >= first.get_width() or first_point.y >= first.get_height() or second_point.x >= second.get_width() or second_point.y >= second.get_height(): return false
 			if first.get_pixelv(first_point) != second.get_pixelv(second_point): return false
+	return true
+
+
+func _bar_edge_rows_are_palette_only(image: Image, anchor: Vector2, bar_top: int, palette: Array[Color]) -> bool:
+	# Ряды у внутренней рамки должны оставаться заливкой/пустым треком, без цифр.
+	for y_offset: int in [bar_top + 1, bar_top + 7]:
+		for x_offset: int in range(-22, 22):
+			var point := Vector2i(roundi(anchor.x) + x_offset, roundi(anchor.y) + y_offset)
+			if point.x < 0 or point.y < 0 or point.x >= image.get_width() or point.y >= image.get_height(): return false
+			var pixel := image.get_pixelv(point)
+			var found := false
+			for color: Color in palette:
+				if pixel.is_equal_approx(color):
+					found = true
+					break
+			if not found: return false
 	return true
 
 

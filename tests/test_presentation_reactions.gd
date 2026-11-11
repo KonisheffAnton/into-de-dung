@@ -273,7 +273,7 @@ func dense_statuses() -> void:
 	for i: int in 7:
 		visual.status_entries.append({"id": "synthetic-%d" % i, "title": "Fixture", "stacks": 0, "remaining": 2, "embodied": false})
 	visual.sync_scene_art()
-	check(visual.visible_status_entries().size() == 5 and visual.status_overflow_count() == 2, "dense fixture exercises full row and overflow")
+	check(visual.visible_status_entries().size() == 3 and visual.status_overflow_count() == 4, "dense fixture exercises compact row and overflow")
 	check(not visual.show_resource_badges and visual.reaction_hud_bounds().size == Vector2.ZERO, "resource and reaction plates are hidden")
 	check(visual.reaction_view == projected.units[a.id].reaction_view and visual.action_resources_view == projected_resources, "hidden plates retain published reaction and action-resource values")
 	await capture("reaction-dense-statuses")

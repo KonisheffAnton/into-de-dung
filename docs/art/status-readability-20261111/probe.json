@@ -1,0 +1,32 @@
+{
+	"camera_and_canvas_rgba_tracks": 30,
+	"core_rng_unchanged": true,
+	"fixture": "five native classes; synthetic presentation resources; horizontal hover row3+N immediately above armor; five native classes",
+	"neighbor_body_masks_checked": 8,
+	"neighbor_row_occlusions": 0,
+	"positions": {
+		"100": [
+			"(784.0, 292.0)",
+			"(720.0, 340.0)",
+			"(656.0, 388.0)",
+			"(1168.0, 484.0)",
+			"(1040.0, 580.0)"
+		],
+		"75": [
+			"(768.0, 304.0)",
+			"(720.0, 340.0)",
+			"(672.0, 376.0)",
+			"(1056.0, 448.0)",
+			"(960.0, 520.0)"
+		],
+		"canvas-113": [
+			"(899.0, 338.0)",
+			"(827.0, 392.0)",
+			"(755.0, 446.0)",
+			"(1333.0, 555.0)",
+			"(1189.0, 663.0)"
+		]
+	},
+	"production_renderer": true,
+	"status": "PASS"
+}
