@@ -1,0 +1,575 @@
+{
+  "complete": true,
+  "generation_manifest_sha256": "012f4fa0f300ac819cb7c80b8624b346f36fe01a7a6139562723e1a17b0fcf52",
+  "briefs_sha256": "23e15c1e5a5e3783d251ce9e007b8295c30bb9906f3dc85ef5c0c51d99ef9a6b",
+  "references_manifest_sha256": "27277e95c504ba737b6a828a5b10c03a138a909fb5529534e258a805b0a02934",
+  "threshold_alpha_ge_8": 8,
+  "nearest_neighbor_presentation_only": true,
+  "hero_display_height": 456,
+  "kostyash_display_height": 304,
+  "hero_to_kostyash_display_ratio": 1.5,
+  "showcase_size": [
+    1320,
+    860
+  ],
+  "hero_scale_comparison_size": [
+    1680,
+    1280
+  ],
+  "showcase_records": [
+    {
+      "file": "variants/kostyash-01.png",
+      "name": "Тяжёлый лоб",
+      "source_sha256": "9d9a354257c3af450dea220b066c95d6bf2025ae8facc4298a5699a985fb6f3a",
+      "native_canvas": [
+        1402,
+        1122
+      ],
+      "alpha_bbox": [
+        0,
+        53,
+        1291,
+        1122
+      ],
+      "visible_bbox_alpha_ge_8": [
+        316,
+        188,
+        1120,
+        970
+      ],
+      "visible_native_height": 782,
+      "visible_margin_ltrb": [
+        316,
+        188,
+        282,
+        152
+      ],
+      "flags": [],
+      "display_bbox": [
+        63,
+        76,
+        376,
+        380
+      ],
+      "display_visible_height": 304,
+      "display_baseline": 380,
+      "scale_from_visible_height": 0.3887468030690537,
+      "raw_sha_unchanged": true
+    },
+    {
+      "file": "variants/kostyash-02.png",
+      "name": "Костяной панцирь",
+      "source_sha256": "1165183ca73623c3cac29aa3328b3acd9537ff89ecabe08b330c13a952e97838",
+      "native_canvas": [
+        1402,
+        1122
+      ],
+      "alpha_bbox": [
+        73,
+        71,
+        1245,
+        1122
+      ],
+      "visible_bbox_alpha_ge_8": [
+        323,
+        187,
+        1124,
+        975
+      ],
+      "visible_native_height": 788,
+      "visible_margin_ltrb": [
+        323,
+        187,
+        278,
+        147
+      ],
+      "flags": [],
+      "display_bbox": [
+        505,
+        76,
+        814,
+        380
+      ],
+      "display_visible_height": 304,
+      "display_baseline": 380,
+      "scale_from_visible_height": 0.38578680203045684,
+      "raw_sha_unchanged": true
+    },
+    {
+      "file": "variants/kostyash-03.png",
+      "name": "Волдырник",
+      "source_sha256": "b944340d9056b3b86e4478cdcf00acd08f16f7c949d9c9f9e58f05ff52a84098",
+      "native_canvas": [
+        1402,
+        1122
+      ],
+      "alpha_bbox": [
+        33,
+        33,
+        1382,
+        1122
+      ],
+      "visible_bbox_alpha_ge_8": [
+        305,
+        185,
+        1118,
+        973
+      ],
+      "visible_native_height": 788,
+      "visible_margin_ltrb": [
+        305,
+        185,
+        284,
+        149
+      ],
+      "flags": [],
+      "display_bbox": [
+        943,
+        76,
+        1257,
+        380
+      ],
+      "display_visible_height": 304,
+      "display_baseline": 380,
+      "scale_from_visible_height": 0.38578680203045684,
+      "raw_sha_unchanged": true
+    },
+    {
+      "file": "variants/kostyash-04.png",
+      "name": "Тяжёлые костяшки",
+      "source_sha256": "ce566fdc3673ed99789e1c558f89d2e340136695aa3498eebbd6743144961ffe",
+      "native_canvas": [
+        1402,
+        1122
+      ],
+      "alpha_bbox": [
+        0,
+        19,
+        1362,
+        1099
+      ],
+      "visible_bbox_alpha_ge_8": [
+        297,
+        186,
+        1117,
+        973
+      ],
+      "visible_native_height": 787,
+      "visible_margin_ltrb": [
+        297,
+        186,
+        285,
+        149
+      ],
+      "flags": [],
+      "display_bbox": [
+        61,
+        506,
+        378,
+        810
+      ],
+      "display_visible_height": 304,
+      "display_baseline": 810,
+      "scale_from_visible_height": 0.386277001270648,
+      "raw_sha_unchanged": true
+    },
+    {
+      "file": "variants/kostyash-05.png",
+      "name": "Кривозуб",
+      "source_sha256": "c892d4ea8c069ea4cf1883e9c7f327426aa845f9d036347161985072966d014f",
+      "native_canvas": [
+        1402,
+        1122
+      ],
+      "alpha_bbox": [
+        0,
+        40,
+        1388,
+        1106
+      ],
+      "visible_bbox_alpha_ge_8": [
+        308,
+        184,
+        1123,
+        976
+      ],
+      "visible_native_height": 792,
+      "visible_margin_ltrb": [
+        308,
+        184,
+        279,
+        146
+      ],
+      "flags": [],
+      "display_bbox": [
+        503,
+        506,
+        816,
+        810
+      ],
+      "display_visible_height": 304,
+      "display_baseline": 810,
+      "scale_from_visible_height": 0.3838383838383838,
+      "raw_sha_unchanged": true
+    },
+    {
+      "file": "references/kostyash05.png",
+      "name": "Костяш №5 · исходник",
+      "source_sha256": "502fe7babb4ca595d03e8ebd082c2d9fa301eddab799eea77ad9337f250b191b",
+      "native_canvas": [
+        1402,
+        1122
+      ],
+      "alpha_bbox": [
+        0,
+        17,
+        1386,
+        1122
+      ],
+      "visible_bbox_alpha_ge_8": [
+        313,
+        188,
+        1121,
+        971
+      ],
+      "visible_native_height": 783,
+      "visible_margin_ltrb": [
+        313,
+        188,
+        281,
+        151
+      ],
+      "flags": [],
+      "display_bbox": [
+        943,
+        506,
+        1257,
+        810
+      ],
+      "display_visible_height": 304,
+      "display_baseline": 810,
+      "scale_from_visible_height": 0.388250319284802,
+      "raw_sha_unchanged": true
+    }
+  ],
+  "hero_scale_records": [
+    {
+      "file": "references/warrior11.png",
+      "name": "Воин 11",
+      "source_sha256": "d8117c67d3b59c5943ea850b8802ff1ce895ef919ad65c06d730d0716b6146a8",
+      "native_canvas": [
+        256,
+        256
+      ],
+      "alpha_bbox": [
+        60,
+        53,
+        185,
+        205
+      ],
+      "visible_bbox_alpha_ge_8": [
+        60,
+        53,
+        185,
+        205
+      ],
+      "visible_native_height": 152,
+      "visible_margin_ltrb": [
+        60,
+        53,
+        71,
+        51
+      ],
+      "flags": [],
+      "display_bbox": [
+        22,
+        88,
+        397,
+        544
+      ],
+      "display_visible_height": 456,
+      "display_baseline": 544,
+      "scale_from_visible_height": 3.0,
+      "raw_sha_unchanged": true
+    },
+    {
+      "file": "variants/kostyash-01.png",
+      "name": "Тяжёлый лоб",
+      "source_sha256": "9d9a354257c3af450dea220b066c95d6bf2025ae8facc4298a5699a985fb6f3a",
+      "native_canvas": [
+        1402,
+        1122
+      ],
+      "alpha_bbox": [
+        0,
+        53,
+        1291,
+        1122
+      ],
+      "visible_bbox_alpha_ge_8": [
+        316,
+        188,
+        1120,
+        970
+      ],
+      "visible_native_height": 782,
+      "visible_margin_ltrb": [
+        316,
+        188,
+        282,
+        152
+      ],
+      "flags": [],
+      "display_bbox": [
+        473,
+        240,
+        786,
+        544
+      ],
+      "display_visible_height": 304,
+      "display_baseline": 544,
+      "scale_from_visible_height": 0.3887468030690537,
+      "raw_sha_unchanged": true
+    },
+    {
+      "file": "variants/kostyash-02.png",
+      "name": "Костяной панцирь",
+      "source_sha256": "1165183ca73623c3cac29aa3328b3acd9537ff89ecabe08b330c13a952e97838",
+      "native_canvas": [
+        1402,
+        1122
+      ],
+      "alpha_bbox": [
+        73,
+        71,
+        1245,
+        1122
+      ],
+      "visible_bbox_alpha_ge_8": [
+        323,
+        187,
+        1124,
+        975
+      ],
+      "visible_native_height": 788,
+      "visible_margin_ltrb": [
+        323,
+        187,
+        278,
+        147
+      ],
+      "flags": [],
+      "display_bbox": [
+        895,
+        240,
+        1204,
+        544
+      ],
+      "display_visible_height": 304,
+      "display_baseline": 544,
+      "scale_from_visible_height": 0.38578680203045684,
+      "raw_sha_unchanged": true
+    },
+    {
+      "file": "variants/kostyash-03.png",
+      "name": "Волдырник",
+      "source_sha256": "b944340d9056b3b86e4478cdcf00acd08f16f7c949d9c9f9e58f05ff52a84098",
+      "native_canvas": [
+        1402,
+        1122
+      ],
+      "alpha_bbox": [
+        33,
+        33,
+        1382,
+        1122
+      ],
+      "visible_bbox_alpha_ge_8": [
+        305,
+        185,
+        1118,
+        973
+      ],
+      "visible_native_height": 788,
+      "visible_margin_ltrb": [
+        305,
+        185,
+        284,
+        149
+      ],
+      "flags": [],
+      "display_bbox": [
+        1313,
+        240,
+        1627,
+        544
+      ],
+      "display_visible_height": 304,
+      "display_baseline": 544,
+      "scale_from_visible_height": 0.38578680203045684,
+      "raw_sha_unchanged": true
+    },
+    {
+      "file": "references/mage02.png",
+      "name": "Маг 02",
+      "source_sha256": "289b1465aac378c4d5a7093b5a11d842e04d1be66ad2b6562e4b65df5f076b50",
+      "native_canvas": [
+        256,
+        256
+      ],
+      "alpha_bbox": [
+        72,
+        50,
+        190,
+        202
+      ],
+      "visible_bbox_alpha_ge_8": [
+        72,
+        50,
+        190,
+        202
+      ],
+      "visible_native_height": 152,
+      "visible_margin_ltrb": [
+        72,
+        50,
+        66,
+        54
+      ],
+      "flags": [],
+      "display_bbox": [
+        33,
+        728,
+        387,
+        1184
+      ],
+      "display_visible_height": 456,
+      "display_baseline": 1184,
+      "scale_from_visible_height": 3.0,
+      "raw_sha_unchanged": true
+    },
+    {
+      "file": "variants/kostyash-04.png",
+      "name": "Тяжёлые костяшки",
+      "source_sha256": "ce566fdc3673ed99789e1c558f89d2e340136695aa3498eebbd6743144961ffe",
+      "native_canvas": [
+        1402,
+        1122
+      ],
+      "alpha_bbox": [
+        0,
+        19,
+        1362,
+        1099
+      ],
+      "visible_bbox_alpha_ge_8": [
+        297,
+        186,
+        1117,
+        973
+      ],
+      "visible_native_height": 787,
+      "visible_margin_ltrb": [
+        297,
+        186,
+        285,
+        149
+      ],
+      "flags": [],
+      "display_bbox": [
+        471,
+        880,
+        788,
+        1184
+      ],
+      "display_visible_height": 304,
+      "display_baseline": 1184,
+      "scale_from_visible_height": 0.386277001270648,
+      "raw_sha_unchanged": true
+    },
+    {
+      "file": "variants/kostyash-05.png",
+      "name": "Кривозуб",
+      "source_sha256": "c892d4ea8c069ea4cf1883e9c7f327426aa845f9d036347161985072966d014f",
+      "native_canvas": [
+        1402,
+        1122
+      ],
+      "alpha_bbox": [
+        0,
+        40,
+        1388,
+        1106
+      ],
+      "visible_bbox_alpha_ge_8": [
+        308,
+        184,
+        1123,
+        976
+      ],
+      "visible_native_height": 792,
+      "visible_margin_ltrb": [
+        308,
+        184,
+        279,
+        146
+      ],
+      "flags": [],
+      "display_bbox": [
+        893,
+        880,
+        1206,
+        1184
+      ],
+      "display_visible_height": 304,
+      "display_baseline": 1184,
+      "scale_from_visible_height": 0.3838383838383838,
+      "raw_sha_unchanged": true
+    },
+    {
+      "file": "references/kostyash05.png",
+      "name": "Костяш №5 · исходник",
+      "source_sha256": "502fe7babb4ca595d03e8ebd082c2d9fa301eddab799eea77ad9337f250b191b",
+      "native_canvas": [
+        1402,
+        1122
+      ],
+      "alpha_bbox": [
+        0,
+        17,
+        1386,
+        1122
+      ],
+      "visible_bbox_alpha_ge_8": [
+        313,
+        188,
+        1121,
+        971
+      ],
+      "visible_native_height": 783,
+      "visible_margin_ltrb": [
+        313,
+        188,
+        281,
+        151
+      ],
+      "flags": [],
+      "display_bbox": [
+        1313,
+        880,
+        1627,
+        1184
+      ],
+      "display_visible_height": 304,
+      "display_baseline": 1184,
+      "scale_from_visible_height": 0.388250319284802,
+      "raw_sha_unchanged": true
+    }
+  ],
+  "flags": {
+    "visible_alpha_margin_under_8px": []
+  },
+  "raw_variant_shas_unique": true,
+  "reference_shas_verified": true,
+  "scope": "Presentation-only nearest-neighbor scale fit; alpha>=8 determines visible height. Original packaged PNGs remain unchanged; this does not assert runtime dimensions or art acceptance."
+}

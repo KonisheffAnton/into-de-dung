@@ -1,0 +1,182 @@
+{
+  "provider": "built-in image_gen",
+  "mode": "five separate reference-guided edits",
+  "base": "18eb02e24f5693da51ebde6b67f253e214f385a3",
+  "complete": true,
+  "expected": 5,
+  "completed": 5,
+  "variants": [
+    {
+      "id": 1,
+      "name": "Тяжёлый лоб",
+      "focus": "Широкая костяная морда",
+      "prompt_file": "prompts/01.txt",
+      "file": "variants/kostyash-01.png",
+      "source": "D:\\Codex\\home\\generated_images\\01a1dae6-a1f7-75e1-9c8d-e16ca1c48da0\\exec-78ab3d88-bc44-4928-9824-b6101a3fadad.png",
+      "sha256": "9d9a354257c3af450dea220b066c95d6bf2025ae8facc4298a5699a985fb6f3a",
+      "size": [
+        1402,
+        1122
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        53,
+        1291,
+        1122
+      ],
+      "visible_bbox": [
+        316,
+        188,
+        1120,
+        970
+      ],
+      "visible_height": 782,
+      "visible_min_margin": 152,
+      "byte_exact": true,
+      "prompt_sha256": "c78ff42e36f93298bbed9f5a7c1aa1daf9db10c82eb1081a87f2c936579ce797"
+    },
+    {
+      "id": 2,
+      "name": "Костяной панцирь",
+      "focus": "Три тупые костяные пластины",
+      "prompt_file": "prompts/02.txt",
+      "file": "variants/kostyash-02.png",
+      "source": "D:\\Codex\\home\\generated_images\\01a1dae6-a1f7-75e1-9c8d-e16ca1c48da0\\exec-e0aef3c8-52ef-4a2c-b66c-e5cad22bad95.png",
+      "sha256": "1165183ca73623c3cac29aa3328b3acd9537ff89ecabe08b330c13a952e97838",
+      "size": [
+        1402,
+        1122
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        73,
+        71,
+        1245,
+        1122
+      ],
+      "visible_bbox": [
+        323,
+        187,
+        1124,
+        975
+      ],
+      "visible_height": 788,
+      "visible_min_margin": 147,
+      "byte_exact": true,
+      "prompt_sha256": "24194686621c729616b637189e84abdd0af185af253855fb9be803234155c898"
+    },
+    {
+      "id": 3,
+      "name": "Волдырник",
+      "focus": "Болезненная асимметрия",
+      "prompt_file": "prompts/03.txt",
+      "file": "variants/kostyash-03.png",
+      "source": "D:\\Codex\\home\\generated_images\\01a1dae6-a1f7-75e1-9c8d-e16ca1c48da0\\exec-df319742-ad30-4c72-acf9-4c37d9273c0a.png",
+      "sha256": "b944340d9056b3b86e4478cdcf00acd08f16f7c949d9c9f9e58f05ff52a84098",
+      "size": [
+        1402,
+        1122
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        33,
+        33,
+        1382,
+        1122
+      ],
+      "visible_bbox": [
+        305,
+        185,
+        1118,
+        973
+      ],
+      "visible_height": 788,
+      "visible_min_margin": 149,
+      "byte_exact": true,
+      "prompt_sha256": "42de2f8f652e2bec8267cbc5048fb9fe07f7bbaaaffe3f99483f8a374371c8e4"
+    },
+    {
+      "id": 4,
+      "name": "Тяжёлые костяшки",
+      "focus": "Массивные передние лапы",
+      "prompt_file": "prompts/04.txt",
+      "file": "variants/kostyash-04.png",
+      "source": "D:\\Codex\\home\\generated_images\\01a1dae6-a1f7-75e1-9c8d-e16ca1c48da0\\exec-926488cf-1957-45cf-b88b-be1b70bc2523.png",
+      "sha256": "ce566fdc3673ed99789e1c558f89d2e340136695aa3498eebbd6743144961ffe",
+      "size": [
+        1402,
+        1122
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        19,
+        1362,
+        1099
+      ],
+      "visible_bbox": [
+        297,
+        186,
+        1117,
+        973
+      ],
+      "visible_height": 787,
+      "visible_min_margin": 149,
+      "byte_exact": true,
+      "prompt_sha256": "c7621b02e3d131d7fd7c1bc0bd06baa0990aa8e118c485070a07991ccd6e520d"
+    },
+    {
+      "id": 5,
+      "name": "Кривозуб",
+      "focus": "Старая перекошенная морда",
+      "prompt_file": "prompts/05.txt",
+      "file": "variants/kostyash-05.png",
+      "source": "D:\\Codex\\home\\generated_images\\01a1dae6-a1f7-75e1-9c8d-e16ca1c48da0\\exec-5ee79a64-6244-4c52-809b-fed3900c3e2d.png",
+      "sha256": "c892d4ea8c069ea4cf1883e9c7f327426aa845f9d036347161985072966d014f",
+      "size": [
+        1402,
+        1122
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        40,
+        1388,
+        1106
+      ],
+      "visible_bbox": [
+        308,
+        184,
+        1123,
+        976
+      ],
+      "visible_height": 792,
+      "visible_min_margin": 146,
+      "byte_exact": true,
+      "prompt_sha256": "24b7f3c6707521eb7a4275985c3b85ca77904a5640689f978ed6f70201d682fe"
+    }
+  ],
+  "integration": false,
+  "scale_intent": "2/3 canonical hero height; exact ratio in presentation; raw large concepts unchanged"
+}

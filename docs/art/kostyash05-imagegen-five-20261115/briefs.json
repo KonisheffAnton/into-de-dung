@@ -1,0 +1,39 @@
+{
+  "variants": [
+    {
+      "id": 1,
+      "name": "Тяжёлый лоб",
+      "focus": "Широкая костяная морда",
+      "prompt_file": "prompts/01.txt",
+      "file": "variants/kostyash-01.png"
+    },
+    {
+      "id": 2,
+      "name": "Костяной панцирь",
+      "focus": "Три тупые костяные пластины",
+      "prompt_file": "prompts/02.txt",
+      "file": "variants/kostyash-02.png"
+    },
+    {
+      "id": 3,
+      "name": "Волдырник",
+      "focus": "Болезненная асимметрия",
+      "prompt_file": "prompts/03.txt",
+      "file": "variants/kostyash-03.png"
+    },
+    {
+      "id": 4,
+      "name": "Тяжёлые костяшки",
+      "focus": "Массивные передние лапы",
+      "prompt_file": "prompts/04.txt",
+      "file": "variants/kostyash-04.png"
+    },
+    {
+      "id": 5,
+      "name": "Кривозуб",
+      "focus": "Старая перекошенная морда",
+      "prompt_file": "prompts/05.txt",
+      "file": "variants/kostyash-05.png"
+    }
+  ]
+}

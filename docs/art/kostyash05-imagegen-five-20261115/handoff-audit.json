@@ -1,0 +1,36 @@
+{
+  "archive": "docs/CODEX_HANDOFF.history-20261115-9.md",
+  "archive_sha256": "fa339735d85ee3944d9cde00c58822cd31f9bc3f89c2cb5a14d192592ef1a230",
+  "archive_exact": true,
+  "base": "02e6c26b081fc2f24606fb5ed0fd948b8d05bba8",
+  "handoff_chars": 2459,
+  "handoff_lines": 37,
+  "entry_sizes": [
+    {
+      "file": "AGENTS.md",
+      "before_chars": 4565,
+      "after_chars": 4565,
+      "changed": false
+    },
+    {
+      "file": "docs/CODEX_HANDOFF.md",
+      "before_chars": 2456,
+      "after_chars": 2459,
+      "changed": true
+    },
+    {
+      "file": "docs/PROJECT_CONTEXT.md",
+      "before_chars": 3652,
+      "after_chars": 3652,
+      "changed": false
+    },
+    {
+      "file": "docs/CODEX_WORKFLOW.md",
+      "before_chars": 4482,
+      "after_chars": 4482,
+      "changed": false
+    }
+  ],
+  "preexisting_over_limit": "PROJECT_CONTEXT unchanged",
+  "preserved_parallel_work": "smith drag stage02e6c26b preserved; summary points to owner and archived exact handoff"
+}
