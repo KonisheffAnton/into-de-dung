@@ -37,6 +37,7 @@ static func finish_run(hub: HeroHubState, defeat: bool, completed: bool) -> Stri
 	if early: report.gold_awarded = gold
 	hub.last_result = "%s. Золото +%d, эссенция +%d. Найденные карты: %s." % ["Поражение" if defeat else ("Поход завершён" if completed else "Досрочное возвращение"),gold,essence,"потеряны" if defeat else "переработаны"]
 	hub.expedition = null; hub.phase = "hub"; hub._refresh_candidates()
+	hub.restore_hub_armor()
 	return ""
 
 static func valid(data: Dictionary, hub: HeroHubState) -> bool:

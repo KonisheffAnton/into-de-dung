@@ -77,6 +77,7 @@ func _run() -> void:
 	check(profile.phase == "hub" and profile.gold == 100 + loot and profile.essence == copies * 10,"camp banks gold and copies exactly once")
 	reject("leave")
 	check(profile.items.has(armor_id),"unequipped run gear survives exit")
+	check(float(profile.items[armor_id].remaining) == HeroGearCatalog.definition(String(profile.items[armor_id].definition)).armor_max, "early return repairs unequipped warehouse armor for free")
 	_merge_rules()
 	_death_and_defeat()
 	_migration()

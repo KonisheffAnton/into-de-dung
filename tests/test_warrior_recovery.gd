@@ -231,6 +231,13 @@ func _test_hub_recovery() -> void:
 	var base_recovery := floorf(float(row.hp_max) * 0.1)
 	var expected_hp := minf(float(row.hp_max), battle_hp + base_recovery * 1.2)
 	check(is_equal_approx(float(row.hp_after_recovery), expected_hp) and is_equal_approx(fighter.hp_current, expected_hp), "post-victory report and live fighter receive boosted recovery")
+	check(float(hub.equipped(5, "armor").remaining) == maximum and PostBattleRules.repair_quote(hub, 5).is_empty(), "hub return restores warrior armor freely")
+	# Бонус платного ремонта проверяется внутри похода, где сохраняется износ.
+	hub = _step_expedition(hub, "start")
+	hub = _step_expedition(hub, "choose", {"node":hub.expedition.available_nodes()[0]})
+	var outcome := _expedition_receipt(hub)
+	outcome.gear[hub.equipped(5, "armor").id] = maximum - 20
+	hub = _step_expedition(hub, "outcome", outcome)
 	var quote := PostBattleRules.repair_quote(hub, 5)
 	check(not quote.is_empty() and is_equal_approx(float(quote.amount), 12.0) and quote.cost == 20 and quote.affordable, "paid fighter repair restores 12 armor for 20 gold")
 	check(hub.repair_after_battle(5), "full fighter repair accepts quoted payment")

@@ -194,8 +194,8 @@ func test_scaling_preparation() -> void:
 	dashboard.render_profile(fixture, true, &"expedition", true, "Готово")
 	await settle()
 	var state := (squad._cards.get_child(0).get_node("State") as Label).text
-	check(state.contains("Броня") and state.contains("очк."), "armor and points coexist on one reserved card line")
-	check(not dashboard._start_button.disabled and dashboard._warnings.get_child_count() >= 2, "warnings do not block departure")
+	check(not state.contains("Броня") and state.contains("очк."), "hub card keeps points and omits obsolete armor warning")
+	check(not dashboard._start_button.disabled and dashboard._warnings.get_child_count() >= 1, "warnings do not block departure")
 	check(dashboard._start_button.get_global_rect() == button_rect, "warnings leave departure button fixed")
 	await capture("preparation-warnings")
 	dashboard.render_profile(fixture, true, &"expedition", false, "", true, [])
@@ -246,10 +246,7 @@ func test_warning_routes() -> void:
 	hub._on_hub_tab_requested(&"expedition")
 	await settle()
 	for child: Button in dashboard._warnings.get_children():
-		if child.text.contains("броня"):
-			await click(child)
-			break
-	check(hub._hub_tab == &"smith" and dashboard._section_pages[&"smith"]._selected_hero_id == hero.id, "armor warning selects correct hero at smith")
+		check(not child.text.contains("броня"), "hub preparation never offers paid armor correction")
 	hub._on_hub_tab_requested(&"expedition")
 	hub._commit(HeroHubState.from_dict(original))
 	await settle()

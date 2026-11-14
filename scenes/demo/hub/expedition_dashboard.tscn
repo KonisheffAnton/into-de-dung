@@ -444,7 +444,7 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 14
 theme_override_colors/font_color = Color(0.25, 0.18, 0.12, 1)
 autowrap_mode = 2
-text = "Перед выходом здоровье восстановится. Броня не чинится автоматически."
+text = "Броня в хабе восстановлена бесплатно. Перед выходом восстановится здоровье."
 
 [node name="WarningsScroll" type="ScrollContainer" parent="Layout/Content/PreparationPanel/PreparationContent"]
 layout_mode = 2

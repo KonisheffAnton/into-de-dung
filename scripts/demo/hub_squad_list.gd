@@ -52,12 +52,6 @@ func render_profile(profile: HeroHubState, skins: Dictionary) -> void:
 		identity.text = "%s · ур. %d" % [definition.display_name, hero.level()]
 		portrait.texture = HubSkeletonCard.hero_texture(hero.class_id, StringName(skins.get(hero.class_id, &"")))
 		var notices: Array[String] = []
-		for item_id: int in profile.items:
-			var item: Dictionary = profile.items[item_id]
-			if int(item.hero_id) != hero.id: continue
-			var gear := HeroGearCatalog.definition(String(item.definition))
-			if gear != null and gear.armor_max > 0.0 and float(item.remaining) < gear.armor_max:
-				notices.append("Броня %s/%s" % [String.num(float(item.remaining), 1), String.num(gear.armor_max, 1)])
 		if hero.available_points() > 0: notices.append("+%d очк." % hero.available_points())
 		state.text = " · ".join(notices)
 		card.tooltip_text = "%s\n%s\n%s\nКлик: выбрать героя. Перетаскивание или Alt+↑/↓: порядок." % [hero.name, identity.text, state.text]

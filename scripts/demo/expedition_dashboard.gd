@@ -180,12 +180,6 @@ func _render_warnings(profile: HeroHubState) -> void:
 		if hero == null: continue
 		if hero.available_points() > 0:
 			_add_warning("%s: +%d очк. развития" % [hero.name, hero.available_points()], id, &"development")
-		for item_id: int in profile.items:
-			var item: Dictionary = profile.items[item_id]
-			if int(item.hero_id) != id: continue
-			var gear := HeroGearCatalog.definition(String(item.definition))
-			if gear != null and gear.armor_max > 0.0 and float(item.remaining) < gear.armor_max:
-				_add_warning("%s: броня %s/%d" % [hero.name, String.num(float(item.remaining), 1), gear.armor_max], id, &"smith")
 
 func _add_warning(text: String, hero_id: int, destination: StringName) -> void:
 	var button := Button.new()

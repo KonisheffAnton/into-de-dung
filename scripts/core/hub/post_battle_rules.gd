@@ -39,6 +39,8 @@ static func finish(hub: HeroHubState, report: Dictionary, hp: Dictionary) -> voi
 	hub.battle_report = report.duplicate(true)
 
 static func repair_quote(hub: HeroHubState, hero_id: int) -> Dictionary:
+	# Платный ремонт остаётся услугой внутри похода; возврат уже восстановил всю броню.
+	if hub.phase != "expedition" or hub.expedition == null: return {}
 	var report := hub.battle_report
 	if report.get("ruleset_id") == ExpeditionRulesRegistry.DECK and report.get("reward_state") == "pending" and hub.expedition != null and hub.expedition.current_node().kind == "final": return {}
 	if report.is_empty() or not report.open or not report.victory or report.repairs.size() >= 256: return {}

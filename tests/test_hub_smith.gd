@@ -29,7 +29,6 @@ func _run() -> void:
 	var rogue_id := initial.party[2]
 	var weapon_id: int = initial.equipped(shield_id, "weapon").id
 	var armor_id: int = initial.equipped(shield_id, "armor").id
-	initial.items[armor_id].remaining = 10.5
 	baseline = initial.to_dict()
 	check(HeroHubStore.write_run(path, initial).is_empty(), "initial profile saved")
 	viewport = SubViewport.new()
@@ -39,6 +38,11 @@ func _run() -> void:
 	viewport.notify_mouse_entered()
 	await _load_hub()
 	await _press_name("TabSmith")
+	await _check_sizes("main-smith")
+	# Старые повреждения хаб восстанавливает при загрузке; здесь отдельно проверяется точность смены вещей.
+	hub.run.items[armor_id].remaining = 10.5
+	baseline = hub.run.to_dict()
+	hub._render()
 	await _item(weapon_id)
 	check(smith._selected_hero_id == shield_id and _action().text == "Снять", "default hero and equipped weapon action")
 	var file_before := FileAccess.get_file_as_bytes(path)
@@ -97,10 +101,12 @@ func _run() -> void:
 	smith.equipment_requested.emit(armor_id, shield_id, false)
 	check(hub.run.to_dict() == expected.to_dict(), "old owner request cannot strip new owner")
 	_check_saved("armor transfer")
+	await _test_drag(armor_id, archer_id, shield_id)
 	await _test_failure_retry(armor_id, archer_id)
 	await _test_roster_and_empty()
 	await _test_guards(weapon_id, shield_id)
 	await _test_reload_legacy()
+	await _test_catalog4()
 	await _test_authoring(weapon_id, shield_id)
 	viewport.queue_free()
 	await process_frame
@@ -109,13 +115,107 @@ func _run() -> void:
 	print("HUB SMITH RESULTS: %d passed, %d failed" % [passed, failed])
 	quit(0 if failed == 0 else 1)
 
+func _test_drag(armor_id: int, archer_id: int, shield_id: int) -> void:
+	await _hero(archer_id)
+	await _item(armor_id)
+	var slot := smith._slot("smith_armor_slot") as HubSmithSlot
+	var inventory := smith.get_node("Inventory") as HubSmithInventoryDrop
+	var before := hub.run.to_dict()
+	var slot_drag := HubSmithDrag.payload(smith, armor_id, "slot")
+	check(not slot_drag.is_empty() and inventory._can_drop_data(Vector2.ZERO, slot_drag), "occupied slot drags to inventory")
+	check(HubSmithDrag.reason(smith, slot_drag, "weapon").contains("Неверный"), "wrong slot gives reason")
+	check(HubSmithDrag.reason(smith, slot_drag, "armor").contains("Уже надето"), "own item on own slot is a no-op")
+	check(hub.run.to_dict() == before, "invalid and cancelled drags do not mutate")
+	inventory._drop_data(Vector2.ZERO, slot_drag)
+	check(int(hub.run.items[armor_id].hero_id) == 0 and float(hub.run.items[armor_id].remaining) == 10.5, "slot drop unequips with durability preserved")
+	check(slot.text == "+" and slot.tooltip_text.contains("пустой слот") and slot.item_id == 0, "empty armor slot has distinct symbol and cannot be drag source")
+	_check_saved("drag unequip")
+	check(HubSmithDrag.reason(smith, slot_drag, "inventory").contains("изменился"), "stale source owner rejected")
+	var warehouse_drag := HubSmithDrag.payload(smith, armor_id, "inventory")
+	check(slot._can_drop_data(Vector2.ZERO, warehouse_drag), "inventory item can target matching slot")
+	await _hero(shield_id)
+	check(HubSmithDrag.reason(smith, warehouse_drag, "armor").contains("герой"), "hero change invalidates active drag")
+	await _hero(archer_id)
+	warehouse_drag = HubSmithDrag.payload(smith, armor_id, "inventory")
+	slot._drop_data(Vector2.ZERO, warehouse_drag)
+	check(int(hub.run.items[armor_id].hero_id) == archer_id, "inventory drop equips through save route")
+	_check_saved("drag equip")
+	var other_drag := HubSmithDrag.payload(smith, int(hub.run.equipped(shield_id, "weapon").id), "inventory")
+	check(HubSmithDrag.reason(smith, other_drag, "weapon").contains("владельца"), "other owner requires separate unequip")
+	var stale_target := HubSmithDrag.payload(smith, int(hub.run.equipped(shield_id, "armor").get("id", 0)), "inventory")
+	if not stale_target.is_empty():
+		check(HubSmithDrag.reason(smith, stale_target, "armor") != "", "stale or owned target cannot replace")
+	await _native_drag(slot, inventory.get_global_rect().position + Vector2(20, 20))
+	check(int(hub.run.items[armor_id].hero_id) == 0, "native slot drag unequips")
+	check(slot.text == "+" and slot.tooltip_text.contains("пустой слот") and slot.item_id == 0, "native unequip exposes empty armor icon")
+	_check_saved("native drag unequip")
+	await _item(armor_id)
+	var index := smith._item_ids().find(armor_id)
+	var card := smith._slot("item_%d" % (index % HubSectionPage.ITEMS_PAGE_SIZE)) as HubSmithItemCard
+	await _native_drag(card, slot.get_global_rect().get_center())
+	check(int(hub.run.items[armor_id].hero_id) == archer_id, "native inventory drag equips")
+	_check_saved("native drag equip")
+	await _native_drag(slot, card.get_global_rect().get_center())
+	check(int(hub.run.items[armor_id].hero_id) == 0, "native drop over inventory card unequips")
+	await _native_drag(card, slot.get_global_rect().get_center())
+	check(int(hub.run.items[armor_id].hero_id) == archer_id, "native drag from card equips again")
+	var filter := smith._slot("smith_type_filter") as Control
+	await _native_drag(slot, filter.get_global_rect().get_center())
+	check(int(hub.run.items[armor_id].hero_id) == 0, "native drop over filter unequips")
+	await _native_drag(card, slot.get_global_rect().get_center())
+	check(int(hub.run.items[armor_id].hero_id) == archer_id, "native equip after filter target")
+	_check_saved("native drag card and filter")
+	var inventory_rect := inventory.get_global_rect()
+	var wrapper := Control.new()
+	wrapper.name = "AuthoredInventoryContainer"
+	wrapper.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	smith.add_child(wrapper)
+	wrapper.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	inventory.reparent(wrapper, true)
+	await _settle()
+	check(inventory.get_global_rect() == inventory_rect, "authored inventory reparent keeps geometry")
+	await _native_drag(slot, inventory.get_global_rect().position + Vector2(20, 20))
+	check(int(hub.run.items[armor_id].hero_id) == 0, "reparented inventory receives native slot drop")
+	inventory.reparent(smith, true)
+	wrapper.queue_free()
+	await _settle()
+	await _native_drag(card, slot.get_global_rect().get_center())
+	check(int(hub.run.items[armor_id].hero_id) == archer_id, "inventory drag works after authoring reparent")
+	_check_saved("native drag reparent")
+	var weapon_slot := smith._slot("smith_weapon_slot") as HubSmithSlot
+	var weapon_id := weapon_slot.item_id
+	await _native_drag(weapon_slot, inventory.get_global_rect().position + Vector2(20, 20))
+	check(int(hub.run.items[weapon_id].hero_id) == 0 and weapon_slot.text == "+" and weapon_slot.tooltip_text.contains("пустой слот") and weapon_slot.item_id == 0, "native unequip exposes empty weapon icon")
+	await _item(weapon_id)
+	var weapon_index := smith._item_ids().find(weapon_id)
+	var weapon_card := smith._slot("item_%d" % (weapon_index % HubSectionPage.ITEMS_PAGE_SIZE)) as HubSmithItemCard
+	await _native_drag(weapon_card, weapon_slot.get_global_rect().get_center())
+	check(int(hub.run.items[weapon_id].hero_id) == archer_id, "weapon restores after empty-slot check")
+	await _item(armor_id)
+	before = hub.run.to_dict()
+	var selected_before := smith._selected_item_id
+	await _native_begin_drag(slot)
+	_native_key(KEY_ESCAPE)
+	await _settle()
+	check(not viewport.gui_is_dragging(), "Escape cancels native smith drag")
+	_native_mouse(slot.get_global_rect().get_center(), false)
+	await _settle()
+	check(hub.run.to_dict() == before and smith._selected_item_id == selected_before, "cancel does not save or click")
+	await _native_drag(slot, Vector2(4, 4))
+	check(hub.run.to_dict() == before and smith._selected_item_id == selected_before, "outside release does not save or click")
 func _test_failure_retry(item_id: int, hero_id: int) -> void:
 	# Оба направления обязаны ждать успешной записи одного и того же candidate.
 	for equip_item: bool in [false, true]:
 		var before := hub.run.to_dict()
 		var bytes := FileAccess.get_file_as_bytes(path)
 		hub.save_path = path + "/blocked"
-		await _click(_action())
+		if equip_item:
+			await _click(_action())
+		else:
+			var equipped_slot := smith._slot("smith_armor_slot") as HubSmithSlot
+			var inventory := smith.get_node("Inventory") as HubSmithInventoryDrop
+			check(equipped_slot.item_id == item_id, "failed-save native source is selected armor")
+			await _native_drag(equipped_slot, inventory.get_global_rect().position + Vector2(20, 20))
 		check(hub._pending_save != null and hub.run.to_dict() == before, "failed equipment write keeps published profile")
 		check(not smith.is_visible_in_tree() and hub._page("ErrorPage").is_visible_in_tree(), "error page takes priority")
 		check(smith._selected_item_id == item_id and smith._selected_hero_id == hero_id, "failed write keeps both selections")
@@ -206,16 +306,17 @@ func _test_guards(item_id: int, hero_id: int) -> void:
 	hub._on_smith_equipment_requested(-1, hero_id, true)
 	hub._on_smith_equipment_requested(item_id, -1, false)
 	check(hub.run.to_dict() == before and FileAccess.get_file_as_bytes(path) == bytes, "phase report storage and unknown ID guards")
-	check((smith.get_node("ItemDetail/Upgrade") as Button).disabled and (smith.get_node("Salvage/Salvage") as Button).disabled, "upgrade and salvage remain unavailable")
+	check(smith.get_node_or_null("ItemDetail/Upgrade") == null and smith.get_node_or_null("Salvage") == null and smith.get_node_or_null("Materials") == null, "unavailable smith mechanics have no placeholders")
 
 func _test_reload_legacy() -> void:
 	await _click(_action())
-	var before := hub.run.to_dict()
+	var item_id := smith._selected_item_id
+	var expected_owner := int(hub.run.items[item_id].hero_id)
 	viewport.remove_child(hub)
 	hub.queue_free()
 	await process_frame
 	await _load_hub()
-	check(hub.run.to_dict() == before, "reloaded profile preserves equipment ownership and durability")
+	check(int(hub.run.items[item_id].hero_id) == expected_owner, "reloaded profile preserves equipment ownership")
 	await _press_name("TabSmith")
 	var legacy := HeroHubState.create(733, 1)
 	hub._commit(legacy)
@@ -231,14 +332,37 @@ func _test_reload_legacy() -> void:
 	_check_saved("legacy staff")
 	_reset()
 
+func _test_catalog4() -> void:
+	var fixture := HeroHubState.create(94115, 4)
+	fixture.enable_mage_deck()
+	hub._commit(fixture)
+	await _press_name("TabSmith")
+	var ids: Array = hub.run.heroes.keys()
+	ids.sort()
+	check(ids.size() == 5, "current catalog has five owned classes")
+	for id: int in ids:
+		await _hero(id)
+		var hero: HeroProgression = hub.run.heroes[id] as HeroProgression
+		var portrait := smith._slot("smith_portrait") as TextureRect
+		var weapon := smith._slot("smith_weapon_slot") as HubSmithSlot
+		var armor := smith._slot("smith_armor_slot") as HubSmithSlot
+		check(portrait.texture != null, "current class figure exists: " + String(hero.class_id))
+		check(weapon.item_id == int(hub.run.equipped(id, "weapon").id) and armor.item_id == int(hub.run.equipped(id, "armor").id), "current class slots match ownership: " + String(hero.class_id))
+		check(weapon.tooltip_text.contains("клик") and armor.tooltip_text.contains("клик"), "current class slot names available by tooltip: " + String(hero.class_id))
+		await _click(weapon)
+		check(smith._selected_item_id == weapon.item_id and not _text("smith_compare").is_empty(), "current class slot opens comparison: " + String(hero.class_id))
+	await _check_sizes("catalog4")
+	_reset()
+
 func _test_authoring(item_id: int, hero_id: int) -> void:
 	await _hero(hero_id)
 	await _item(item_id)
 	var button := _action()
+	var button_action := String(button.get_meta(&"hub_action", ""))
 	var hint := smith._slot("smith_equipment_hint") as Label
 	var caption := smith._slot("smith_hero") as Label
 	var next := _control("smith_hero_next")
-	var neighbor := smith.get_node("Materials") as Control
+	var neighbor := smith.get_node("HeroFigure") as Control
 	var neighbor_rect := neighbor.get_global_rect()
 	button.name = "RelocatedEquipment"
 	button.reparent(smith, true)
@@ -272,23 +396,24 @@ func _test_authoring(item_id: int, hero_id: int) -> void:
 	hint.free()
 	hub._render()
 	smith._on_action("smith_equipment")
-	check(_action() == null and smith._slot("smith_equipment_hint") == null and smith._slot("smith_hero") == null, "deleted controls not recreated")
+	check(smith._action_button(button_action) == null and smith._slot("smith_equipment_hint") == null and smith._slot("smith_hero") == null, "deleted controls not recreated")
 	check(hub.run.to_dict() == before, "authoring and local selection do not write profile")
 
 func _check_sizes(label: String) -> void:
 	for resolution: Vector2i in [Vector2i(1024, 720), Vector2i(1280, 850), Vector2i(1920, 1080)]:
 		viewport.size = resolution
 		await _settle()
-		for name: String in ["Inventory", "ItemDetail"]:
+		for name: String in ["Inventory", "HeroFigure", "ItemDetail"]:
 			var panel := smith.get_node(name) as Control
 			var controls: Array[Control] = []
 			for node: Node in panel.get_children():
 				if node is Control and (node as Control).is_visible_in_tree(): controls.append(node as Control)
 			for control: Control in controls:
 				check(panel.get_global_rect().grow(1).encloses(control.get_global_rect()), "%s fits %s" % [control.name, resolution])
-			for index: int in controls.size():
-				for other: int in range(index + 1, controls.size()):
-					check(not controls[index].get_global_rect().intersects(controls[other].get_global_rect()), "%s/%s do not overlap at %s" % [controls[index].name, controls[other].name, resolution])
+			if name != "HeroFigure":
+				for index: int in controls.size():
+					for other: int in range(index + 1, controls.size()):
+						check(not controls[index].get_global_rect().intersects(controls[other].get_global_rect()), "%s/%s do not overlap at %s" % [controls[index].name, controls[other].name, resolution])
 		await _capture("%s-%dx%d" % [label, resolution.x, resolution.y])
 	viewport.size = Vector2i(1280, 850)
 	await _settle()
@@ -315,6 +440,8 @@ func _control(key: String) -> Button:
 	return smith._action_button(key)
 
 func _action() -> Button:
+	if hub != null and hub.run != null and hub.run.items.has(smith._selected_item_id) and int(hub.run.items[smith._selected_item_id].hero_id) == smith._selected_hero_id:
+		return _control("smith_unequip")
 	return _control("smith_equipment")
 
 func _text(key: String) -> String:
@@ -366,6 +493,44 @@ func _click(button: Button) -> void:
 	viewport.push_input(event, true)
 	event.pressed = false
 	viewport.push_input(event, true)
+	await _settle()
+
+func _native_motion(point: Vector2, held: bool = false) -> void:
+	var event := InputEventMouseMotion.new()
+	event.relative = point - viewport.get_mouse_position()
+	event.position = point
+	event.button_mask = MOUSE_BUTTON_MASK_LEFT if held else 0
+	viewport.push_input(event, true)
+
+func _native_mouse(point: Vector2, pressed: bool) -> void:
+	var event := InputEventMouseButton.new()
+	event.position = point
+	event.button_index = MOUSE_BUTTON_LEFT
+	event.pressed = pressed
+	event.button_mask = MOUSE_BUTTON_MASK_LEFT if pressed else 0
+	viewport.push_input(event, true)
+
+func _native_key(code: Key) -> void:
+	var event := InputEventKey.new()
+	event.keycode = code
+	event.pressed = true
+	viewport.push_input(event, true)
+	event.pressed = false
+	viewport.push_input(event, true)
+
+func _native_begin_drag(source: Control) -> void:
+	var point := source.get_global_rect().get_center()
+	_native_motion(point)
+	_native_mouse(point, true)
+	_native_motion(point + Vector2(0, 30), true)
+	await _settle()
+	check(viewport.gui_is_dragging(), "native smith drag begins")
+
+func _native_drag(source: Control, target: Vector2) -> void:
+	await _native_begin_drag(source)
+	_native_motion(target, true)
+	await _settle()
+	_native_mouse(target, false)
 	await _settle()
 
 func _settle() -> void:

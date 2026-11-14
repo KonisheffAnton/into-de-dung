@@ -39,6 +39,8 @@ func run() -> void:
 	var battle_start := hub.to_dict()
 	var outcome := receipt(hub)
 	hub = step(hub,"outcome",outcome)
+	var worn := hub.to_dict()
+	check(not hub.restore_hub_armor() and hub.to_dict() == worn, "hub restoration refuses expedition and preserves wear")
 	check(hub.battle_report.open and hub.expedition.phase == "reward", "saved report opens before reward choice")
 	check(hub.achievements.total_points == 10 and hub.achievements.available_points == 10, "first victory and no casualties give points once")
 	check(hub.achievements.count_for("first_victory") == 1, "profile progress counts one victory")
@@ -120,6 +122,7 @@ func _losses_and_final() -> void:
 	check(hub.phase == "hub" and hub.battle_report.open and not hub.battle_report.victory,"defeat shows persistent summary in hub")
 	check(hub.battle_report.gold_lost == gold_lost and hub.achievements.total_points == 5 and hub.battle_report.points_awarded == 0,"defeat loses run gold but keeps prior achievement points")
 	check(not hub.repair_after_battle(dead_id),"defeat cannot repair or resurrect")
+	_check_full_armor(hub, "defeat keeps only surviving stored armor")
 	hub = HeroHubState.create(88125)
 	hub = step(hub,"start")
 	var guard: int = 30
@@ -132,6 +135,8 @@ func _losses_and_final() -> void:
 			"service": hub = step(hub,"service",{"kind":"repair"})
 			"camp_departure": hub = step(hub,"continue")
 	check(hub.phase == "hub" and hub.battle_report.completed and hub.battle_report.open,"final win has summary after automatic return")
+	_check_full_armor(hub, "final return")
+	check(PostBattleRules.repair_quote(hub, hub.party[0]).is_empty(), "final report has no paid repair")
 	check(hub.achievements.unlocked.has("first_expedition") and hub.battle_report.achievements.has("first_expedition"),"first expedition grants permanent achievement")
 	check(hub.battle_report.gold_scope == "hub" and hub.battle_report.gold_awarded == 180 and hub.battle_report.essence_awarded >= 10,"final summary distinguishes banked rewards and essence")
 	var progress := ProfileAchievements.new()
@@ -150,8 +155,17 @@ func _legacy() -> void:
 	for row: Dictionary in hub.battle_report.heroes:
 		if row.participated: check(row.hp_restored == 1.0 and row.hp_after_recovery == row.hp_max,"recovery caps at max HP")
 	check(hub.achievements.total_points == 10 and hub.battle_report.source == "legacy","same profile achievement subsystem in legacy H1")
-	check(hub.repair_after_battle(hub.party[0]) and hub.gold == 136,"legacy repair pays bank gold")
+	var before := hub.to_dict()
+	check(not hub.repair_after_battle(hub.party[0]) and hub.to_dict() == before and hub.gold == 140,"legacy return restores freely without paid repair")
+	_check_full_armor(hub, "legacy return")
 	check(HeroHubState.from_dict(hub.to_dict()) != null,"legacy postbattle profile validates")
+
+func _check_full_armor(hub: HeroHubState, label: String) -> void:
+	for item: Dictionary in hub.items.values():
+		if HeroGearCatalog.slot(String(item.definition)) == "armor":
+			check(float(item.remaining) == HeroGearCatalog.definition(String(item.definition)).armor_max, label + " restores retained armor")
+	var before := hub.to_dict()
+	check(not hub.restore_hub_armor() and hub.to_dict() == before, label + " restoration is idempotent and free")
 
 func _fractional_persistence() -> void:
 	var hub := HeroHubState.create(88127)

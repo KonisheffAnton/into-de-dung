@@ -27,7 +27,7 @@ func step(hub: HeroHubState, action: String, args: Dictionary = {}) -> HeroHubSt
 func receipt(hub: HeroHubState, victory: bool = true) -> Dictionary:
 	var hp: Dictionary = {}; var gear: Dictionary = {}
 	for id: int in hub.party: hp[id] = float((hub.heroes[id] as HeroProgression).max_hp()) if victory else 0.0
-	for item: Dictionary in hub.expedition.checkpoint.legacy_inputs.items: gear[item.id] = item.remaining
+	for item: Dictionary in hub.expedition.checkpoint.legacy_inputs.items: gear[item.id] = maxf(0.0, float(item.remaining) - 3.25)
 	return {"ruleset_id":ExpeditionRulesRegistry.DECK,"run_id":hub.run_serial,"node_id":hub.expedition.current_node().id,"serial":hub.expedition.battle_serial,"victory":victory,"hp":hp,"gear":gear}
 
 func run() -> void:
@@ -80,6 +80,10 @@ func run() -> void:
 		check(route.expedition == null,"terminates " + exit_kind)
 		if route.expedition != null: continue
 		var report := route.battle_report
+		for item: Dictionary in route.items.values():
+			if HeroGearCatalog.slot(String(item.definition)) == "armor":
+				check(float(item.remaining) == HeroGearCatalog.definition(String(item.definition)).armor_max, "deck " + exit_kind + " restores retained armor")
+		check(PostBattleRules.repair_quote(route, 1).is_empty(), "deck return has no paid repair " + exit_kind)
 		check(report.schema == 3 and report.open and report.return_reason == exit_kind,"open return report " + exit_kind)
 		check(report.returned_cards.size() >= 10,"all copies historical")
 		check(HeroHubState.from_dict(route.to_dict()) != null,"return reload " + exit_kind)

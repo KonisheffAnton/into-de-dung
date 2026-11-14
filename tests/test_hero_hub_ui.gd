@@ -141,8 +141,46 @@ func _run() -> void:
 	viewport.remove_child(demo); demo.queue_free(); viewport.queue_free()
 	await process_frame; await process_frame
 	DirAccess.remove_absolute(ProjectSettings.globalize_path(path))
+	await _loaded_hub_armor()
 	print("HERO HUB UI RESULTS: %d passed, %d failed" % [passed,failed])
 	quit(0 if failed == 0 else 1)
+
+func _loaded_hub_armor() -> void:
+	var path := "user://hub-armor-%d.save" % Time.get_ticks_usec()
+	var fixture := HeroHubState.create(7718)
+	var stored_armor := fixture.equipped(fixture.party[0], "armor")
+	fixture.unequip(int(stored_armor.id))
+	for item: Dictionary in fixture.items.values():
+		if HeroGearCatalog.slot(String(item.definition)) == "armor": item.remaining = 0.25
+	var before := fixture.to_dict()
+	check(HeroHubStore.write_run(path, fixture).is_empty(), "old damaged hub fixture saves unchanged")
+	var bytes := FileAccess.get_file_as_bytes(path)
+	# Каталог на месте backup моделирует отказ атомарной замены после успешного чтения.
+	var backup := ProjectSettings.globalize_path(path + ".bak")
+	DirAccess.make_dir_recursive_absolute(backup)
+	viewport = SubViewport.new(); viewport.size = Vector2i(1280, 850)
+	root.add_child(viewport)
+	demo = (load("res://scenes/demo/hero_hub.tscn") as PackedScene).instantiate()
+	demo.save_path = path; viewport.add_child(demo)
+	await process_frame; await process_frame
+	check(demo._pending_save != null and demo.run.to_dict() == before, "failed hub restoration does not publish candidate")
+	check(FileAccess.get_file_as_bytes(path) == bytes, "failed restoration preserves committed save bytes")
+	DirAccess.remove_absolute(backup)
+	demo._retry_save()
+	await process_frame; await process_frame
+	var expected := HeroHubState.from_dict(before)
+	check(expected.restore_hub_armor(), "damaged hub candidate restores armor")
+	check(demo._pending_save == null and demo.run.to_dict() == expected.to_dict(), "retry publishes only armor restoration including reserve and warehouse")
+	check(HeroHubStore.read_run(path).run.to_dict() == expected.to_dict(), "restored hub persists without schema or RNG changes")
+	viewport.remove_child(demo); demo.queue_free()
+	await process_frame
+	demo = (load("res://scenes/demo/hero_hub.tscn") as PackedScene).instantiate()
+	demo.save_path = path; viewport.add_child(demo)
+	await process_frame; await process_frame
+	check(demo._pending_save == null and demo.run.to_dict() == expected.to_dict(), "second reload is idempotent")
+	viewport.remove_child(demo); demo.queue_free(); viewport.queue_free()
+	await process_frame; await process_frame
+	DirAccess.remove_absolute(ProjectSettings.globalize_path(path))
 
 func press(name_value: String) -> void:
 	var button := demo.find_child(name_value,true,false) as Button

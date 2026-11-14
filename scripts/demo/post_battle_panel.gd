@@ -85,6 +85,9 @@ static func _show_names(host: HeroHubScreen, heading: String, values: Variant) -
 	_host_text(host, "%s: %s" % [heading, " · ".join(names)], 15)
 
 static func _show_repairs(host: HeroHubScreen, report: Dictionary) -> void:
+	if host.run.phase == "hub":
+		host._content.hide()
+		return
 	var repairs: Array = report.get("repairs", [])
 	var repairs_slot: VBoxContainer = host._content as VBoxContainer
 	repairs_slot.visible = not repairs.is_empty()

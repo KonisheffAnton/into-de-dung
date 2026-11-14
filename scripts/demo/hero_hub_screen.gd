@@ -64,6 +64,12 @@ func _ready() -> void:
 	if run != null and not run.heroes.is_empty():
 		selected_hero_id = int(run.heroes.keys()[0])
 		if not run.party.is_empty(): selected_hero_id = run.party[0]
+	if run != null and run.phase == "hub" and _storage_error.is_empty():
+		var restored := _copy_run()
+		# Старый профиль хаба проходит ту же атомарную запись; отказ не публикует лечение.
+		if restored != null and restored.restore_hub_armor():
+			_commit(restored)
+			return
 	_render()
 
 func _process(_delta: float) -> void:

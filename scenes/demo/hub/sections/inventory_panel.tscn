@@ -1,8 +1,12 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=7 format=3]
 
 [ext_resource type="Theme" path="res://assets/ui/hub/skeleton_theme.tres" id="module_theme"]
 
 [ext_resource type="PackedScene" path="res://scenes/demo/hub/sections/skeleton_card.tscn" id="card"]
+[ext_resource type="Script" path="res://scripts/demo/hub_smith_inventory_drop.gd" id="drop"]
+[ext_resource type="Script" path="res://scripts/demo/hub_smith_item_card.gd" id="item"]
+[ext_resource type="Script" path="res://scripts/demo/hub_smith_type_filter.gd" id="type_filter"]
+[ext_resource type="Script" path="res://scripts/demo/hub_smith_fit_filter.gd" id="fit_filter"]
 [node name="InventoryPanel" type="Panel"]
 theme = ExtResource("module_theme")
 layout_mode = 3
@@ -11,7 +15,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 2
+mouse_filter = 0
+script = ExtResource("drop")
 
 [node name="ItemCount" type="Label" parent="."]
 layout_mode = 1
@@ -20,108 +25,104 @@ anchor_top = 0.02
 anchor_right = 0.97
 anchor_bottom = 0.11
 autowrap_mode = 2
-text = "Предметы"
+text = "Все вещи"
 mouse_filter = 2
 theme_override_font_sizes/font_size = 20
 metadata/hub_slot = "item_count"
-[node name="SmithHeroPrev" type="Button" parent="."]
+[node name="TypeFilter" type="OptionButton" parent="."]
+script = ExtResource("type_filter")
 layout_mode = 1
 anchor_left = 0.03
 anchor_top = 0.115
-anchor_right = 0.15
-anchor_bottom = 0.205
-text = "‹"
-metadata/hub_action = "smith_hero_prev"
-[node name="SmithHero" type="Label" parent="."]
+anchor_right = 0.48
+anchor_bottom = 0.19
+metadata/hub_slot = "smith_type_filter"
+
+[node name="FitFilter" type="CheckButton" parent="."]
+script = ExtResource("fit_filter")
 layout_mode = 1
-anchor_left = 0.17
-anchor_top = 0.115
-anchor_right = 0.83
-anchor_bottom = 0.205
-autowrap_mode = 2
-horizontal_alignment = 1
-vertical_alignment = 1
-text = "Выберите героя"
-theme_override_font_sizes/font_size = 14
-metadata/hub_slot = "smith_hero"
-[node name="SmithHeroNext" type="Button" parent="."]
-layout_mode = 1
-anchor_left = 0.85
+anchor_left = 0.52
 anchor_top = 0.115
 anchor_right = 0.97
-anchor_bottom = 0.205
-text = "›"
-metadata/hub_action = "smith_hero_next"
+anchor_bottom = 0.19
+text = "Подходит"
+metadata/hub_slot = "smith_fit_filter"
 [node name="Item0" parent="." instance=ExtResource("card")]
+script = ExtResource("item")
 layout_mode = 1
 anchor_left = 0.02
-anchor_top = 0.22
-anchor_right = 0.32
-anchor_bottom = 0.52
+anchor_top = 0.23
+anchor_right = 0.48
+anchor_bottom = 0.42
 offset_left = 3.0
 offset_top = 3.0
 offset_right = -3.0
-offset_bottom = 12.0
+offset_bottom = -3.0
 custom_minimum_size = Vector2(0, 0)
 metadata/hub_slot = "item_0"
 [node name="Item1" parent="." instance=ExtResource("card")]
+script = ExtResource("item")
 layout_mode = 1
-anchor_left = 0.35
-anchor_top = 0.22
-anchor_right = 0.65
-anchor_bottom = 0.52
+anchor_left = 0.52
+anchor_top = 0.23
+anchor_right = 0.98
+anchor_bottom = 0.42
 offset_left = 3.0
 offset_top = 3.0
 offset_right = -3.0
-offset_bottom = 12.0
+offset_bottom = -3.0
 custom_minimum_size = Vector2(0, 0)
 metadata/hub_slot = "item_1"
 [node name="Item2" parent="." instance=ExtResource("card")]
+script = ExtResource("item")
 layout_mode = 1
-anchor_left = 0.68
-anchor_top = 0.22
-anchor_right = 0.98
-anchor_bottom = 0.52
+anchor_left = 0.02
+anchor_top = 0.45
+anchor_right = 0.48
+anchor_bottom = 0.64
 offset_left = 3.0
 offset_top = 3.0
 offset_right = -3.0
-offset_bottom = 12.0
+offset_bottom = -3.0
 custom_minimum_size = Vector2(0, 0)
 metadata/hub_slot = "item_2"
 [node name="Item3" parent="." instance=ExtResource("card")]
+script = ExtResource("item")
 layout_mode = 1
-anchor_left = 0.02
-anchor_top = 0.55
-anchor_right = 0.32
-anchor_bottom = 0.85
+anchor_left = 0.52
+anchor_top = 0.45
+anchor_right = 0.98
+anchor_bottom = 0.64
 offset_left = 3.0
 offset_top = 3.0
 offset_right = -3.0
-offset_bottom = 12.0
+offset_bottom = -3.0
 custom_minimum_size = Vector2(0, 0)
 metadata/hub_slot = "item_3"
 [node name="Item4" parent="." instance=ExtResource("card")]
+script = ExtResource("item")
 layout_mode = 1
-anchor_left = 0.35
-anchor_top = 0.55
-anchor_right = 0.65
-anchor_bottom = 0.85
+anchor_left = 0.02
+anchor_top = 0.67
+anchor_right = 0.48
+anchor_bottom = 0.86
 offset_left = 3.0
 offset_top = 3.0
 offset_right = -3.0
-offset_bottom = 12.0
+offset_bottom = -3.0
 custom_minimum_size = Vector2(0, 0)
 metadata/hub_slot = "item_4"
 [node name="Item5" parent="." instance=ExtResource("card")]
+script = ExtResource("item")
 layout_mode = 1
-anchor_left = 0.68
-anchor_top = 0.55
+anchor_left = 0.52
+anchor_top = 0.67
 anchor_right = 0.98
-anchor_bottom = 0.85
+anchor_bottom = 0.86
 offset_left = 3.0
 offset_top = 3.0
 offset_right = -3.0
-offset_bottom = 12.0
+offset_bottom = -3.0
 custom_minimum_size = Vector2(0, 0)
 metadata/hub_slot = "item_5"
 [editable path="Item0"]
@@ -130,55 +131,79 @@ metadata/hub_slot = "item_5"
 [editable path="Item3"]
 [editable path="Item4"]
 [editable path="Item5"]
+[node name="Portrait" parent="Item0" index="0"]
+anchor_bottom = 0.38
 [node name="Title" parent="Item0" index="1"]
-anchor_top = 0.4
-anchor_bottom = 0.84
+anchor_top = 0.40
+anchor_bottom = 0.75
+theme_override_font_sizes/font_size = 12
 [node name="Subtitle" parent="Item0" index="2"]
-anchor_top = 0.85
-anchor_bottom = 0.99
+anchor_top = 0.76
+anchor_bottom = 0.98
+theme_override_font_sizes/font_size = 11
+[node name="Portrait" parent="Item1" index="0"]
+anchor_bottom = 0.38
 [node name="Title" parent="Item1" index="1"]
-anchor_top = 0.4
-anchor_bottom = 0.84
+anchor_top = 0.40
+anchor_bottom = 0.75
+theme_override_font_sizes/font_size = 12
 [node name="Subtitle" parent="Item1" index="2"]
-anchor_top = 0.85
-anchor_bottom = 0.99
+anchor_top = 0.76
+anchor_bottom = 0.98
+theme_override_font_sizes/font_size = 11
+[node name="Portrait" parent="Item2" index="0"]
+anchor_bottom = 0.38
 [node name="Title" parent="Item2" index="1"]
-anchor_top = 0.4
-anchor_bottom = 0.84
+anchor_top = 0.40
+anchor_bottom = 0.75
+theme_override_font_sizes/font_size = 12
 [node name="Subtitle" parent="Item2" index="2"]
-anchor_top = 0.85
-anchor_bottom = 0.99
+anchor_top = 0.76
+anchor_bottom = 0.98
+theme_override_font_sizes/font_size = 11
+[node name="Portrait" parent="Item3" index="0"]
+anchor_bottom = 0.38
 [node name="Title" parent="Item3" index="1"]
-anchor_top = 0.4
-anchor_bottom = 0.84
+anchor_top = 0.40
+anchor_bottom = 0.75
+theme_override_font_sizes/font_size = 12
 [node name="Subtitle" parent="Item3" index="2"]
-anchor_top = 0.85
-anchor_bottom = 0.99
+anchor_top = 0.76
+anchor_bottom = 0.98
+theme_override_font_sizes/font_size = 11
+[node name="Portrait" parent="Item4" index="0"]
+anchor_bottom = 0.38
 [node name="Title" parent="Item4" index="1"]
-anchor_top = 0.4
-anchor_bottom = 0.84
+anchor_top = 0.40
+anchor_bottom = 0.75
+theme_override_font_sizes/font_size = 12
 [node name="Subtitle" parent="Item4" index="2"]
-anchor_top = 0.85
-anchor_bottom = 0.99
+anchor_top = 0.76
+anchor_bottom = 0.98
+theme_override_font_sizes/font_size = 11
+[node name="Portrait" parent="Item5" index="0"]
+anchor_bottom = 0.38
 [node name="Title" parent="Item5" index="1"]
-anchor_top = 0.4
-anchor_bottom = 0.84
+anchor_top = 0.40
+anchor_bottom = 0.75
+theme_override_font_sizes/font_size = 12
 [node name="Subtitle" parent="Item5" index="2"]
-anchor_top = 0.85
-anchor_bottom = 0.99
+anchor_top = 0.76
+anchor_bottom = 0.98
+theme_override_font_sizes/font_size = 11
 [node name="ItemsPrev" type="Button" parent="."]
 layout_mode = 1
-anchor_left = 0.64
+anchor_left = 0.44
 anchor_top = 0.89
-anchor_right = 0.76
+anchor_right = 0.59
 anchor_bottom = 0.98
 text = "‹"
 metadata/hub_action = "items_prev"
 [node name="ItemPage" type="Label" parent="."]
 layout_mode = 1
-anchor_left = 0.78
+anchor_left = 0.61
 anchor_top = 0.89
-anchor_right = 0.91
+anchor_right = 0.80
 anchor_bottom = 0.98
 autowrap_mode = 2
 text = "—/—"
@@ -186,9 +211,9 @@ mouse_filter = 2
 metadata/hub_slot = "item_page"
 [node name="ItemsNext" type="Button" parent="."]
 layout_mode = 1
-anchor_left = 0.92
+anchor_left = 0.82
 anchor_top = 0.89
-anchor_right = 0.99
+anchor_right = 0.97
 anchor_bottom = 0.98
 text = "›"
 metadata/hub_action = "items_next"

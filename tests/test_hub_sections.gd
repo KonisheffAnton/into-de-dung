@@ -191,14 +191,14 @@ func _test_independence(merc: HubSectionPage, smith: HubSectionPage, schools: Hu
 	merc.render_profile(hub.run)
 	check(not merc.has_node("MovedRoster") and stage.get_global_rect() == untouched_rect, "deleted module does not move neighbors")
 	await _press_name("TabSmith")
-	var materials := smith.get_node("Materials") as Control
-	materials.hide()
+	var figure := smith.get_node("HeroFigure") as Control
+	figure.hide()
 	var details := smith._slot("item_title") as Label
 	details.name = "RenamedItemTitle"
 	var item_count := smith._slot("item_count") as Label
 	item_count.free()
 	smith.render_profile(hub.run)
-	check(not materials.visible and smith._slot("item_count") == null, "smith hidden panel and removed label survive refresh")
+	check(not figure.visible and smith._slot("item_count") == null, "smith hidden panel and removed label survive refresh")
 	check(not details.text.is_empty(), "renamed item binding still updates")
 	await _press_name("TabSchools")
 	var tree := schools.get_node("SchoolTree") as Control

@@ -1,36 +1,34 @@
-# Передача — 2026-11-15: звериный Костяш с панцирем
+# Передача — 2026-11-15: кузнец и восстановление брони
 
 D:/Games/into-de-dung; main; база a94bdbce973a92a35d0d544cc1ef206b31e280f9.
-U выбрал №2 «Костяной панцирь», поручил ещё5: звериная морда, меньше деталей.
-Пять built-in imagegen выдач: docs/art/kostyash-shell02-beast-five-20261115/README.md.
-PNG/промпты/SHA, showcase.png (00 — выбранный исходник), hero-scale-comparison.png.
-Рост2/3 героя: показ304/456px, alpha≥8 исключает слабый шум; не native101px.
-PASS build/py_compile/SHA5+refs3/33чужих файла/независимое APPROVE.
-Выбор новой версии U, нативная подготовка/интеграция открыты; integration=false.
-Направление — ART_DIRECTION; исходник сохранён.
+Родитель 924723a2e143413691dbd3751b2f0e75837442f2: параллельный арт сохранён.
+U поручил внедрение принятого кузнеца и бесплатное восстановление брони.
+Готово: инвентарь/фильтры слева, герой с2 слотами поверх фигуры в центре,
+сравнение/действия справа; native drag надеть/заменить/снять, кнопки сохранены.
+Отмены/stale/owner/class/slot, save/retry/reload; без ремонта в хабе.
+Вся сохранившаяся броня восстанавливается при возврате и загрузке старого hub save.
+Износ/промежуточная починка похода сохранены; потери/HP/RNG/schema не менялись.
+Владельцы: HUB_SCENES_V1, POST_BATTLE_V1, H1; план HUB_DESIGN_PLAN, ARCHITECTURE.
+[Кадры и итог](art/hub-smith-implementation-20261115/README.md).
+Отчёт: test_reports/hub-smith-implementation-20261115/; isolated demo-e97ca62b21e749a4bdfea56f11cd0aac.
+Import/startup PASS;5 headless1030/0 +7 GPU3543/0 =4573/0; independent APPROVE.
+15 кадров кузнеца в3 размерах,5 в Git;5 текущих классов проверены.
+Исходники сверены с tested snapshot; diff/ссылки/архив/33 чужих файла проверены.
 
-HTML drag кузнеца: инвентарь→слот/замена/снятие, броня Брана в инвентаре,
-причины отказа/отмена/паритет кнопок. docs/art/hub-smith-drag-20261115/README.md;
-test_reports/hub-smith-drag-20261115/: JS parse, Edge21/0+drag27/0, APPROVE
-не повторялись. Локальный widgetState v2, без дискового save/retry/Godot.
-HUB_DESIGN_PLAN §4: композиция/drag приняты, размеры/числа/арт P.
-Параллельный чат меняет runtime хаба/брони в scenes/scripts/tests; не трогать,
-итог сверить после его сдачи.
-Принято автовосстановление брони в хабе: сохранить походный износ/промежуточный
-ремонт, убрать предупреждения/платный финальный ремонт.
-Владельцы: HUB_DESIGN_PLAN §3/POST_BATTLE_V1, H1/HUB_SCENES.
-Хаб af6b7467: docs/art/hub-approved-implementation-20261114/ и test_reports/;
-p95≈18,3мс, стабильные60FPS не достигнуты; команда3/будущий лимит Q;
-ручная приёмка/доступность открыты. Бой: читаемость/стыки/стрела4/performance/
-HUD/Колода; presentation141/2,forecast26/3 не повторены. Пять атак:
-docs/art/warrior-attack-single-five-20261114/ — выбор/возврат/шов открыты.
+Следующий шаг — отзыв U на игровой кузнец. Другие H2–H5 автоматически не начинать.
+Full/core, ручные F5/движение/zoom/OS-DPI, human usability/performance не запускались.
+Старые hub/бой/огонь/шипы/launcher gates не считать повторёнными;60FPS не заявлены.
+Открыты читаемость/стыки/стрела4/performance/HUD/Колода; presentation141/2,
+forecast26/3 не повторены. Команда3, будущий лимит Q. Предыдущий хаб: af6b7467.
+Костяш: art/kostyash-shell02-beast-five-20261115/ —5 вариантов, выбор/native/интеграция открыты.
+Атаки: art/warrior-attack-single-five-20261114/ — выбор/возврат/шов открыты.
 
-Godot/import/full/core/F5/движение/zoom/OS-DPI/performance здесь не запускались.
-Чужие main_menu.tscn, battlefield-reference-03-20261017/ и правки хаба сохранить.
-Core/preview/queue/RNG/save/frozen,5классов F5, PLAYER вправо/ENEMY влево
-и возврат после атаки сохранить; инициативы нет; каталоги1–3 не мигрировать.
-Один isolated Godot runner; без root import/служб/драйверов/фокуса ОС/push/
-sidebar tasks/расписаний. [Архив](CODEX_HANDOFF.history-20261115-10.md), [HISTORY](HISTORY.md).
+Dirty только scenes/demo/main_menu.tscn и docs/art/battlefield-reference-03-20261017/:
+не reset/stage/commit. Core/preview/queue/RNG/save/frozen,5классов F5,
+PLAYER вправо/ENEMY влево и возврат после атаки сохранить; инициативы нет.
+Каталоги1–3 не мигрировать. Один isolated Godot runner; без root import,
+служб/драйверов/фокуса ОС/push/sidebar tasks/расписаний.
+[Прежняя передача](CODEX_HANDOFF.history-20261115-11.md), [HISTORY](HISTORY.md).
 Завершение: проверки, локальный Conventional Commit, короткий HANDOFF;
 прежний побайтно отдельно+HISTORY. В финале/при блокере предложить новый чат
 и полный промпт: HEAD, результат, docs/artifacts, остаток, ограничения,

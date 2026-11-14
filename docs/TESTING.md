@@ -19,6 +19,17 @@
 
 ## Изменение игрового кода
 
+Кузнец и восстановление брони в хабе (2026-11-15):
+`python tools/demo/isolate.py --check --only hero_hub expedition_transitions
+expedition_postbattle mage_deck_expedition warrior_recovery`, затем
+`--render-check --only hub_smith hero_hub_ui hub_approved_ui hub_sections
+hub_scene_authoring hub_dashboard expedition_ui --screen 0`.
+Нативный ввод проверяет надевание/замену/снятие, включая drop поверх карточки
+и фильтра склада, Escape/outside, stale/owner/class/slot, сохранение/retry/reload;
+GPU — три размера. Возврат проверяется для H1 и обоих походов, включая ранний
+выход/поражение; старый hub save — с ошибкой записи и повтором. Износ и ремонт
+в походе сохраняются. Это не full/core, ручной F5/DPI или performance gate.
+
 Принятые силуэты/подложка№4 (2026-11-08):
 `python tools/art/build_status_silhouette_icons.py --check`, затем
 `--render-check --only status_counter_layout battle_condition_icons presentation_status

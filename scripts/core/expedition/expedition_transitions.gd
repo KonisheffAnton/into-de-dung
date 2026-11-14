@@ -220,6 +220,7 @@ static func _finish(hub: HeroHubState, defeat: bool, completed: bool) -> String:
 		if completed: hub.battle_report.gold_awarded += ExpeditionCatalog.FINAL_GOLD
 	hub.last_result = "%s · комнат %d. Золото +%d, эссенция +%d. %s\nОпыт прошлых побед сохранён; артефакты %s." % ["Поражение" if defeat else ("Поход завершён" if completed else "Досрочное возвращение"),run.route.size(),gold,essence,"Погибли: " + ", ".join(run.fallen) if not run.fallen.is_empty() else "Все герои вернулись.","потеряны" if defeat else "переработаны"]
 	hub.expedition = null; hub.phase = "hub"; hub._refresh_candidates()
+	hub.restore_hub_armor()
 	return ""
 
 static func _resolve(run: ExpeditionRunState) -> void:

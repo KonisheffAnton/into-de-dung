@@ -1,0 +1,102 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Theme" path="res://assets/ui/hub/skeleton_theme.tres" id="1_theme"]
+[ext_resource type="Script" path="res://scripts/demo/hub_smith_slot.gd" id="2_slot"]
+
+[node name="SmithHeroPanel" type="Panel"]
+theme = ExtResource("1_theme")
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Heading" type="Label" parent="."]
+layout_mode = 1
+anchor_left = 0.05
+anchor_top = 0.02
+anchor_right = 0.95
+anchor_bottom = 0.08
+horizontal_alignment = 1
+text = "Экипировка героя"
+theme_override_font_sizes/font_size = 19
+mouse_filter = 2
+
+[node name="SmithHeroPrev" type="Button" parent="."]
+layout_mode = 1
+anchor_left = 0.04
+anchor_top = 0.1
+anchor_right = 0.18
+anchor_bottom = 0.18
+text = "‹"
+metadata/hub_action = "smith_hero_prev"
+
+[node name="SmithHero" type="Label" parent="."]
+layout_mode = 1
+anchor_left = 0.19
+anchor_top = 0.1
+anchor_right = 0.81
+anchor_bottom = 0.18
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+text = "Выберите героя"
+theme_override_font_sizes/font_size = 16
+metadata/hub_slot = "smith_hero"
+
+[node name="SmithHeroNext" type="Button" parent="."]
+layout_mode = 1
+anchor_left = 0.82
+anchor_top = 0.1
+anchor_right = 0.96
+anchor_bottom = 0.18
+text = "›"
+metadata/hub_action = "smith_hero_next"
+
+[node name="HeroPortrait" type="TextureRect" parent="."]
+layout_mode = 1
+anchor_left = 0.13
+anchor_top = 0.20
+anchor_right = 0.87
+anchor_bottom = 0.88
+expand_mode = 1
+stretch_mode = 5
+mouse_filter = 2
+metadata/hub_slot = "smith_portrait"
+
+[node name="WeaponSlot" type="Button" parent="."]
+layout_mode = 1
+anchor_left = 0.67
+anchor_top = 0.45
+anchor_right = 0.83
+anchor_bottom = 0.55
+text = "⚔"
+theme_override_font_sizes/font_size = 27
+script = ExtResource("2_slot")
+gear_slot = "weapon"
+metadata/hub_slot = "smith_weapon_slot"
+
+[node name="ArmorSlot" type="Button" parent="."]
+layout_mode = 1
+anchor_left = 0.42
+anchor_top = 0.51
+anchor_right = 0.58
+anchor_bottom = 0.61
+text = "◆"
+theme_override_font_sizes/font_size = 27
+script = ExtResource("2_slot")
+gear_slot = "armor"
+metadata/hub_slot = "smith_armor_slot"
+
+[node name="SlotHelp" type="Label" parent="."]
+layout_mode = 1
+anchor_left = 0.05
+anchor_top = 0.9
+anchor_right = 0.95
+anchor_bottom = 0.98
+horizontal_alignment = 1
+autowrap_mode = 2
+text = "Перетащите вещь на слот или со слота на склад"
+theme_override_font_sizes/font_size = 12
+mouse_filter = 2

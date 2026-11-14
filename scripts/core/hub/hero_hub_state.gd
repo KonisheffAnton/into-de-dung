@@ -46,6 +46,18 @@ func dismiss_battle_report() -> bool:
 func repair_after_battle(hero_id: int) -> bool:
 	return PostBattleRules.repair(self,hero_id)
 
+func restore_hub_armor() -> bool:
+	if phase != "hub": return false
+	var changed := false
+	# Восстанавливаем только сохранившиеся вещи после расчёта потерь, включая склад и резерв.
+	for item: Dictionary in items.values():
+		if HeroGearCatalog.slot(String(item.definition)) != "armor": continue
+		var maximum := HeroGearCatalog.definition(String(item.definition)).armor_max
+		if float(item.remaining) != float(maximum):
+			item.remaining = maximum
+			changed = true
+	return changed
+
 static func create(seed_value: int = 73191, catalog_version: int = 1) -> HeroHubState:
 	if catalog_version not in [1, 2, 3, 4]: return null
 	var result := HeroHubState.new()
@@ -229,6 +241,7 @@ func finish_battle(serial: int, victory: bool, hp: Dictionary, gear: Dictionary)
 			(heroes[id] as HeroProgression).award_experience_tenths(VICTORY_XP * (10 if party.has(id) else 1))
 	phase = "hub"
 	h1_ruleset = ""
+	restore_hub_armor()
 	PostBattleRules.finish(self,report,hp)
 	last_result = ("Победа: бойцам +%d опыта, резерву +%d; +%d золота." % [VICTORY_XP, VICTORY_XP / 10, VICTORY_GOLD]) if victory else "Поражение. Опыт не начислен. Бесплатные новички доступны в найме."
 	last_result += " Погибло: %d." % lost.size()

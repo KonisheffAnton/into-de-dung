@@ -24,12 +24,46 @@ var _last_candidate_id: int = 0
 var _selected_item_id: int = 0
 var _reserve_page: int = 0
 var _items_page: int = 0
+var _smith_type: String = "all"
+var _smith_fit: bool = false
 var _school_index: int = 0
 var _skill_index: int = -1
 var _development: HubHeroDevelopment = HubHeroDevelopment.new()
 
 func _ready() -> void:
 	_connect_controls()
+	if section_id == &"smith":
+		var type_filter := _slot("smith_type_filter") as OptionButton
+		if type_filter != null:
+			type_filter.add_item("Все", 0)
+			type_filter.add_item("Оружие", 1)
+			type_filter.add_item("Доспех", 2)
+			type_filter.item_selected.connect(_on_smith_type_selected)
+		var fit_filter := _slot("smith_fit_filter") as CheckButton
+		if fit_filter != null: fit_filter.toggled.connect(_on_smith_fit_toggled)
+
+func _on_smith_type_selected(index: int) -> void:
+	_smith_type = ["all", "weapon", "armor"][index] if index >= 0 and index < 3 else "all"
+	_items_page = 0
+	if _profile != null: render_profile(_profile)
+
+func _on_smith_fit_toggled(value: bool) -> void:
+	_smith_fit = value
+	_items_page = 0
+	if _profile != null: render_profile(_profile)
+
+func _input(event: InputEvent) -> void:
+	if section_id != &"smith" or not event is InputEventKey or not event.pressed or event.keycode != KEY_ESCAPE: return
+	if is_inside_tree() and _owns_smith_drag(get_viewport().gui_get_drag_data()):
+		get_viewport().gui_cancel_drag()
+		get_viewport().set_input_as_handled()
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_VISIBILITY_CHANGED and section_id == &"smith" and not is_visible_in_tree() and is_inside_tree() and _owns_smith_drag(get_viewport().gui_get_drag_data()):
+		get_viewport().gui_cancel_drag()
+
+func _owns_smith_drag(data: Variant) -> bool:
+	return data is Dictionary and data.get("kind") == "hub_smith" and int(data.get("page_id", 0)) == get_instance_id()
 
 func render_profile(profile: HeroHubState) -> void:
 	_profile = profile
@@ -179,7 +213,15 @@ func _update_mercenary_action(hero: HeroProgression) -> void:
 
 func _item_ids() -> Array[int]:
 	var ids: Array[int] = []
-	for id: int in _profile.items: ids.append(id)
+	for id: int in _profile.items:
+		if section_id == &"smith":
+			var item: Dictionary = _profile.items[id]
+			var kind := HeroGearCatalog.slot(String(item.get("definition", "")))
+			if _smith_type != "all" and kind != _smith_type: continue
+			if _smith_fit:
+				var hero: HeroProgression = _profile.heroes.get(_selected_hero_id) as HeroProgression
+				if hero == null or not HeroGearCatalog.allowed(String(item.get("definition", "")), hero.class_id): continue
+		ids.append(id)
 	ids.sort()
 	return ids
 
