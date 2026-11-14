@@ -1,0 +1,39 @@
+{
+  "variants": [
+    {
+      "id": 1,
+      "name": "Кабаний",
+      "focus": "Тупое рыло и два коротких клыка",
+      "prompt_file": "prompts/01.txt",
+      "file": "variants/kostyash-01.png"
+    },
+    {
+      "id": 2,
+      "name": "Гиений",
+      "focus": "Клиновидная морда и низкий оскал",
+      "prompt_file": "prompts/02.txt",
+      "file": "variants/kostyash-02.png"
+    },
+    {
+      "id": 3,
+      "name": "Крысиный",
+      "focus": "Вытянутая морда и прижатые уши",
+      "prompt_file": "prompts/03.txt",
+      "file": "variants/kostyash-03.png"
+    },
+    {
+      "id": 4,
+      "name": "Слепыш",
+      "focus": "Лопатообразное рыло под панцирем",
+      "prompt_file": "prompts/04.txt",
+      "file": "variants/kostyash-04.png"
+    },
+    {
+      "id": 5,
+      "name": "Широкопаст",
+      "focus": "Широкая звериная пасть и плоская голова",
+      "prompt_file": "prompts/05.txt",
+      "file": "variants/kostyash-05.png"
+    }
+  ]
+}

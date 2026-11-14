@@ -1,0 +1,47 @@
+{
+  "result": "PASS",
+  "raw_outputs": [
+    {
+      "file": "variants/kostyash-01.png",
+      "sha256": "91f3e14f2682a6f251b6022319e533051d935f7c8b1e2ccc1d4f795c4d677a4e",
+      "source_byte_exact": true
+    },
+    {
+      "file": "variants/kostyash-02.png",
+      "sha256": "270722bf04b102bd5ccaeee502e097580a3da6f704ccc1e276877a61a935f35f",
+      "source_byte_exact": true
+    },
+    {
+      "file": "variants/kostyash-03.png",
+      "sha256": "bcc4010cd8cf4ab6cae7f6ba6664997e12485e9496351f0930183b30928b7c15",
+      "source_byte_exact": true
+    },
+    {
+      "file": "variants/kostyash-04.png",
+      "sha256": "d907168f409746d623ba448ddd56c036a5bdea76d0c1d9c9d5fb4aa985246b96",
+      "source_byte_exact": true
+    },
+    {
+      "file": "variants/kostyash-05.png",
+      "sha256": "b918d16678f45e0db9256dccb08d4044a2ac00703dd270fb22f5d505e071f0a2",
+      "source_byte_exact": true
+    }
+  ],
+  "references": [
+    {
+      "file": "references/shell02.png",
+      "source_byte_exact": true
+    },
+    {
+      "file": "references/warrior11.png",
+      "source_byte_exact": true
+    },
+    {
+      "file": "references/mage02.png",
+      "source_byte_exact": true
+    }
+  ],
+  "foreign_file_count": 33,
+  "foreign_hashes_unchanged": true,
+  "runtime_changed": false
+}

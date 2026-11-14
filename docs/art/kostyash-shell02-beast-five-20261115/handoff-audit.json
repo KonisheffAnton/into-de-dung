@@ -1,0 +1,36 @@
+{
+  "archive": "docs/CODEX_HANDOFF.history-20261115-10.md",
+  "archive_sha256": "328eafa381fd65c9890d39e1858d2623d88ff3195afabcda3f0ed6b37e478a8c",
+  "archive_exact": true,
+  "base": "a94bdbce973a92a35d0d544cc1ef206b31e280f9",
+  "handoff_chars": 2466,
+  "handoff_lines": 37,
+  "entry_sizes": [
+    {
+      "file": "AGENTS.md",
+      "before_chars": 4565,
+      "after_chars": 4565,
+      "changed": false
+    },
+    {
+      "file": "docs/CODEX_HANDOFF.md",
+      "before_chars": 2459,
+      "after_chars": 2466,
+      "changed": true
+    },
+    {
+      "file": "docs/PROJECT_CONTEXT.md",
+      "before_chars": 3652,
+      "after_chars": 3652,
+      "changed": false
+    },
+    {
+      "file": "docs/CODEX_WORKFLOW.md",
+      "before_chars": 4482,
+      "after_chars": 4482,
+      "changed": false
+    }
+  ],
+  "preexisting_over_limit": "PROJECT_CONTEXT unchanged",
+  "preserved_parallel_work": "Uncommitted smith/armor runtime changes outside art scope; status must be checked at their completion."
+}

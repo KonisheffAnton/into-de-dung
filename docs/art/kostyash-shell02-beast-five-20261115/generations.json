@@ -1,0 +1,182 @@
+{
+  "provider": "built-in image_gen",
+  "mode": "five separate reference-guided edits",
+  "base": "a94bdbce973a92a35d0d544cc1ef206b31e280f9",
+  "complete": true,
+  "expected": 5,
+  "completed": 5,
+  "variants": [
+    {
+      "id": 1,
+      "name": "Кабаний",
+      "focus": "Тупое рыло и два коротких клыка",
+      "prompt_file": "prompts/01.txt",
+      "file": "variants/kostyash-01.png",
+      "source": "D:\\Codex\\home\\generated_images\\01a1dae6-a1f7-75e1-9c8d-e16ca1c48da0\\exec-e4b53ff1-71a7-47da-a7b5-5f9275434852.png",
+      "sha256": "91f3e14f2682a6f251b6022319e533051d935f7c8b1e2ccc1d4f795c4d677a4e",
+      "size": [
+        1402,
+        1122
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        33,
+        30,
+        1372,
+        1122
+      ],
+      "visible_bbox": [
+        319,
+        193,
+        1106,
+        979
+      ],
+      "visible_height": 786,
+      "visible_min_margin": 143,
+      "byte_exact": true,
+      "prompt_sha256": "3ed3a6d1c91d0f6cba0803d15ed820d3d5e1ef8bce8c8de7e1c302a6ff87fb2a"
+    },
+    {
+      "id": 2,
+      "name": "Гиений",
+      "focus": "Клиновидная морда и низкий оскал",
+      "prompt_file": "prompts/02.txt",
+      "file": "variants/kostyash-02.png",
+      "source": "D:\\Codex\\home\\generated_images\\01a1dae6-a1f7-75e1-9c8d-e16ca1c48da0\\exec-4828dfaf-7910-4599-9fce-6065ea7462d9.png",
+      "sha256": "270722bf04b102bd5ccaeee502e097580a3da6f704ccc1e276877a61a935f35f",
+      "size": [
+        1402,
+        1122
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        25,
+        105,
+        1297,
+        1122
+      ],
+      "visible_bbox": [
+        330,
+        194,
+        1084,
+        975
+      ],
+      "visible_height": 781,
+      "visible_min_margin": 147,
+      "byte_exact": true,
+      "prompt_sha256": "b47066b9eff6950282b83b4c2670c6c893ad1a15698554981d43dbfd5f9f24a1"
+    },
+    {
+      "id": 3,
+      "name": "Крысиный",
+      "focus": "Вытянутая морда и прижатые уши",
+      "prompt_file": "prompts/03.txt",
+      "file": "variants/kostyash-03.png",
+      "source": "D:\\Codex\\home\\generated_images\\01a1dae6-a1f7-75e1-9c8d-e16ca1c48da0\\exec-edfd88dd-4362-40e4-b9c1-512cc9661e52.png",
+      "sha256": "bcc4010cd8cf4ab6cae7f6ba6664997e12485e9496351f0930183b30928b7c15",
+      "size": [
+        1402,
+        1122
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        49,
+        45,
+        1362,
+        1122
+      ],
+      "visible_bbox": [
+        332,
+        191,
+        1110,
+        981
+      ],
+      "visible_height": 790,
+      "visible_min_margin": 141,
+      "byte_exact": true,
+      "prompt_sha256": "98affa061cdd3befdb930c2da68cf50542732994a74b78c02dfbf376918243c3"
+    },
+    {
+      "id": 4,
+      "name": "Слепыш",
+      "focus": "Лопатообразное рыло под панцирем",
+      "prompt_file": "prompts/04.txt",
+      "file": "variants/kostyash-04.png",
+      "source": "D:\\Codex\\home\\generated_images\\01a1dae6-a1f7-75e1-9c8d-e16ca1c48da0\\exec-ae30671f-e28c-47af-86ce-36678684ae1a.png",
+      "sha256": "d907168f409746d623ba448ddd56c036a5bdea76d0c1d9c9d5fb4aa985246b96",
+      "size": [
+        1402,
+        1122
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        63,
+        186,
+        1253,
+        1122
+      ],
+      "visible_bbox": [
+        313,
+        187,
+        1089,
+        975
+      ],
+      "visible_height": 788,
+      "visible_min_margin": 147,
+      "byte_exact": true,
+      "prompt_sha256": "75784f6d496436a45bcb60002fdc548d8c730dc064b4ad8917d6fa09e95cf69d"
+    },
+    {
+      "id": 5,
+      "name": "Широкопаст",
+      "focus": "Широкая звериная пасть и плоская голова",
+      "prompt_file": "prompts/05.txt",
+      "file": "variants/kostyash-05.png",
+      "source": "D:\\Codex\\home\\generated_images\\01a1dae6-a1f7-75e1-9c8d-e16ca1c48da0\\exec-36ef5e3d-c9f5-4a5d-94f8-7a9b759b16e8.png",
+      "sha256": "b918d16678f45e0db9256dccb08d4044a2ac00703dd270fb22f5d505e071f0a2",
+      "size": [
+        1402,
+        1122
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        25,
+        23,
+        1356,
+        1122
+      ],
+      "visible_bbox": [
+        320,
+        200,
+        1098,
+        976
+      ],
+      "visible_height": 776,
+      "visible_min_margin": 146,
+      "byte_exact": true,
+      "prompt_sha256": "5daa84e666dee3b65145695f99fbb2277244e4a66dbecf1b909ef90ad9fb8433"
+    }
+  ],
+  "integration": false,
+  "scale_intent": "2/3 canonical hero height; exact ratio in presentation; raw large concepts unchanged"
+}

@@ -1,0 +1,582 @@
+{
+  "complete": true,
+  "generation_manifest_sha256": "95030dfbf685af0b8f5fd5571348cfc97eb7fb32f5e048339b389179fe753a14",
+  "briefs_sha256": "4f0d649e8b5c6cd95263eafb64428c52d8aa4eb900e4b44e2f8edb4989eba1a7",
+  "references_manifest_sha256": "2fd67c5d01e7cc7986a2fb1f6356d8b224e77bb49f62c209ca4866640605eaad",
+  "threshold_alpha_ge_8": 8,
+  "nearest_neighbor_presentation_only": true,
+  "hero_display_height": 456,
+  "kostyash_display_height": 304,
+  "hero_to_kostyash_display_ratio": 1.5,
+  "showcase_size": [
+    1320,
+    860
+  ],
+  "hero_scale_comparison_size": [
+    1680,
+    1280
+  ],
+  "showcase_records": [
+    {
+      "file": "variants/kostyash-01.png",
+      "name": "Кабаний",
+      "source_sha256": "91f3e14f2682a6f251b6022319e533051d935f7c8b1e2ccc1d4f795c4d677a4e",
+      "native_canvas": [
+        1402,
+        1122
+      ],
+      "alpha_bbox": [
+        33,
+        30,
+        1372,
+        1122
+      ],
+      "visible_bbox_alpha_ge_8": [
+        319,
+        193,
+        1106,
+        979
+      ],
+      "visible_native_height": 786,
+      "visible_margin_ltrb": [
+        319,
+        193,
+        296,
+        143
+      ],
+      "flags": [],
+      "display_bbox": [
+        68,
+        76,
+        372,
+        380
+      ],
+      "display_visible_height": 304,
+      "display_baseline": 380,
+      "scale_from_visible_height": 0.38676844783715014,
+      "raw_sha_unchanged": true
+    },
+    {
+      "file": "variants/kostyash-02.png",
+      "name": "Гиений",
+      "source_sha256": "270722bf04b102bd5ccaeee502e097580a3da6f704ccc1e276877a61a935f35f",
+      "native_canvas": [
+        1402,
+        1122
+      ],
+      "alpha_bbox": [
+        25,
+        105,
+        1297,
+        1122
+      ],
+      "visible_bbox_alpha_ge_8": [
+        330,
+        194,
+        1084,
+        975
+      ],
+      "visible_native_height": 781,
+      "visible_margin_ltrb": [
+        330,
+        194,
+        318,
+        147
+      ],
+      "flags": [],
+      "display_bbox": [
+        513,
+        76,
+        806,
+        380
+      ],
+      "display_visible_height": 304,
+      "display_baseline": 380,
+      "scale_from_visible_height": 0.3892445582586428,
+      "raw_sha_unchanged": true
+    },
+    {
+      "file": "variants/kostyash-03.png",
+      "name": "Крысиный",
+      "source_sha256": "bcc4010cd8cf4ab6cae7f6ba6664997e12485e9496351f0930183b30928b7c15",
+      "native_canvas": [
+        1402,
+        1122
+      ],
+      "alpha_bbox": [
+        49,
+        45,
+        1362,
+        1122
+      ],
+      "visible_bbox_alpha_ge_8": [
+        332,
+        191,
+        1110,
+        981
+      ],
+      "visible_native_height": 790,
+      "visible_margin_ltrb": [
+        332,
+        191,
+        292,
+        141
+      ],
+      "flags": [],
+      "display_bbox": [
+        950,
+        76,
+        1249,
+        380
+      ],
+      "display_visible_height": 304,
+      "display_baseline": 380,
+      "scale_from_visible_height": 0.3848101265822785,
+      "raw_sha_unchanged": true
+    },
+    {
+      "file": "variants/kostyash-04.png",
+      "name": "Слепыш",
+      "source_sha256": "d907168f409746d623ba448ddd56c036a5bdea76d0c1d9c9d5fb4aa985246b96",
+      "native_canvas": [
+        1402,
+        1122
+      ],
+      "alpha_bbox": [
+        63,
+        186,
+        1253,
+        1122
+      ],
+      "visible_bbox_alpha_ge_8": [
+        313,
+        187,
+        1089,
+        975
+      ],
+      "visible_native_height": 788,
+      "visible_margin_ltrb": [
+        313,
+        187,
+        313,
+        147
+      ],
+      "flags": [],
+      "display_bbox": [
+        70,
+        506,
+        369,
+        810
+      ],
+      "display_visible_height": 304,
+      "display_baseline": 810,
+      "scale_from_visible_height": 0.38578680203045684,
+      "raw_sha_unchanged": true
+    },
+    {
+      "file": "variants/kostyash-05.png",
+      "name": "Широкопаст",
+      "source_sha256": "b918d16678f45e0db9256dccb08d4044a2ac00703dd270fb22f5d505e071f0a2",
+      "native_canvas": [
+        1402,
+        1122
+      ],
+      "alpha_bbox": [
+        25,
+        23,
+        1356,
+        1122
+      ],
+      "visible_bbox_alpha_ge_8": [
+        320,
+        200,
+        1098,
+        976
+      ],
+      "visible_native_height": 776,
+      "visible_margin_ltrb": [
+        320,
+        200,
+        304,
+        146
+      ],
+      "flags": [],
+      "display_bbox": [
+        507,
+        506,
+        812,
+        810
+      ],
+      "display_visible_height": 304,
+      "display_baseline": 810,
+      "scale_from_visible_height": 0.3917525773195876,
+      "raw_sha_unchanged": true
+    },
+    {
+      "file": "references/shell02.png",
+      "name": "Панцирь №2 · исходник",
+      "source_sha256": "1165183ca73623c3cac29aa3328b3acd9537ff89ecabe08b330c13a952e97838",
+      "native_canvas": [
+        1402,
+        1122
+      ],
+      "alpha_bbox": [
+        73,
+        71,
+        1245,
+        1122
+      ],
+      "visible_bbox_alpha_ge_8": [
+        323,
+        187,
+        1124,
+        975
+      ],
+      "visible_native_height": 788,
+      "visible_margin_ltrb": [
+        323,
+        187,
+        278,
+        147
+      ],
+      "flags": [],
+      "display_bbox": [
+        945,
+        506,
+        1254,
+        810
+      ],
+      "display_visible_height": 304,
+      "display_baseline": 810,
+      "scale_from_visible_height": 0.38578680203045684,
+      "raw_sha_unchanged": true
+    }
+  ],
+  "hero_scale_records": [
+    {
+      "file": "references/warrior11.png",
+      "name": "Воин 11",
+      "source_sha256": "d8117c67d3b59c5943ea850b8802ff1ce895ef919ad65c06d730d0716b6146a8",
+      "native_canvas": [
+        256,
+        256
+      ],
+      "alpha_bbox": [
+        60,
+        53,
+        185,
+        205
+      ],
+      "visible_bbox_alpha_ge_8": [
+        60,
+        53,
+        185,
+        205
+      ],
+      "visible_native_height": 152,
+      "visible_margin_ltrb": [
+        60,
+        53,
+        71,
+        51
+      ],
+      "flags": [],
+      "display_bbox": [
+        22,
+        88,
+        397,
+        544
+      ],
+      "display_visible_height": 456,
+      "display_baseline": 544,
+      "scale_from_visible_height": 3.0,
+      "raw_sha_unchanged": true
+    },
+    {
+      "file": "variants/kostyash-01.png",
+      "name": "Кабаний",
+      "source_sha256": "91f3e14f2682a6f251b6022319e533051d935f7c8b1e2ccc1d4f795c4d677a4e",
+      "native_canvas": [
+        1402,
+        1122
+      ],
+      "alpha_bbox": [
+        33,
+        30,
+        1372,
+        1122
+      ],
+      "visible_bbox_alpha_ge_8": [
+        319,
+        193,
+        1106,
+        979
+      ],
+      "visible_native_height": 786,
+      "visible_margin_ltrb": [
+        319,
+        193,
+        296,
+        143
+      ],
+      "flags": [],
+      "display_bbox": [
+        478,
+        240,
+        782,
+        544
+      ],
+      "display_visible_height": 304,
+      "display_baseline": 544,
+      "scale_from_visible_height": 0.38676844783715014,
+      "raw_sha_unchanged": true
+    },
+    {
+      "file": "variants/kostyash-02.png",
+      "name": "Гиений",
+      "source_sha256": "270722bf04b102bd5ccaeee502e097580a3da6f704ccc1e276877a61a935f35f",
+      "native_canvas": [
+        1402,
+        1122
+      ],
+      "alpha_bbox": [
+        25,
+        105,
+        1297,
+        1122
+      ],
+      "visible_bbox_alpha_ge_8": [
+        330,
+        194,
+        1084,
+        975
+      ],
+      "visible_native_height": 781,
+      "visible_margin_ltrb": [
+        330,
+        194,
+        318,
+        147
+      ],
+      "flags": [],
+      "display_bbox": [
+        903,
+        240,
+        1196,
+        544
+      ],
+      "display_visible_height": 304,
+      "display_baseline": 544,
+      "scale_from_visible_height": 0.3892445582586428,
+      "raw_sha_unchanged": true
+    },
+    {
+      "file": "variants/kostyash-03.png",
+      "name": "Крысиный",
+      "source_sha256": "bcc4010cd8cf4ab6cae7f6ba6664997e12485e9496351f0930183b30928b7c15",
+      "native_canvas": [
+        1402,
+        1122
+      ],
+      "alpha_bbox": [
+        49,
+        45,
+        1362,
+        1122
+      ],
+      "visible_bbox_alpha_ge_8": [
+        332,
+        191,
+        1110,
+        981
+      ],
+      "visible_native_height": 790,
+      "visible_margin_ltrb": [
+        332,
+        191,
+        292,
+        141
+      ],
+      "flags": [],
+      "display_bbox": [
+        1320,
+        240,
+        1619,
+        544
+      ],
+      "display_visible_height": 304,
+      "display_baseline": 544,
+      "scale_from_visible_height": 0.3848101265822785,
+      "raw_sha_unchanged": true
+    },
+    {
+      "file": "references/mage02.png",
+      "name": "Маг 02",
+      "source_sha256": "289b1465aac378c4d5a7093b5a11d842e04d1be66ad2b6562e4b65df5f076b50",
+      "native_canvas": [
+        256,
+        256
+      ],
+      "alpha_bbox": [
+        72,
+        50,
+        190,
+        202
+      ],
+      "visible_bbox_alpha_ge_8": [
+        72,
+        50,
+        190,
+        202
+      ],
+      "visible_native_height": 152,
+      "visible_margin_ltrb": [
+        72,
+        50,
+        66,
+        54
+      ],
+      "flags": [],
+      "display_bbox": [
+        33,
+        728,
+        387,
+        1184
+      ],
+      "display_visible_height": 456,
+      "display_baseline": 1184,
+      "scale_from_visible_height": 3.0,
+      "raw_sha_unchanged": true
+    },
+    {
+      "file": "variants/kostyash-04.png",
+      "name": "Слепыш",
+      "source_sha256": "d907168f409746d623ba448ddd56c036a5bdea76d0c1d9c9d5fb4aa985246b96",
+      "native_canvas": [
+        1402,
+        1122
+      ],
+      "alpha_bbox": [
+        63,
+        186,
+        1253,
+        1122
+      ],
+      "visible_bbox_alpha_ge_8": [
+        313,
+        187,
+        1089,
+        975
+      ],
+      "visible_native_height": 788,
+      "visible_margin_ltrb": [
+        313,
+        187,
+        313,
+        147
+      ],
+      "flags": [],
+      "display_bbox": [
+        480,
+        880,
+        779,
+        1184
+      ],
+      "display_visible_height": 304,
+      "display_baseline": 1184,
+      "scale_from_visible_height": 0.38578680203045684,
+      "raw_sha_unchanged": true
+    },
+    {
+      "file": "variants/kostyash-05.png",
+      "name": "Широкопаст",
+      "source_sha256": "b918d16678f45e0db9256dccb08d4044a2ac00703dd270fb22f5d505e071f0a2",
+      "native_canvas": [
+        1402,
+        1122
+      ],
+      "alpha_bbox": [
+        25,
+        23,
+        1356,
+        1122
+      ],
+      "visible_bbox_alpha_ge_8": [
+        320,
+        200,
+        1098,
+        976
+      ],
+      "visible_native_height": 776,
+      "visible_margin_ltrb": [
+        320,
+        200,
+        304,
+        146
+      ],
+      "flags": [],
+      "display_bbox": [
+        897,
+        880,
+        1202,
+        1184
+      ],
+      "display_visible_height": 304,
+      "display_baseline": 1184,
+      "scale_from_visible_height": 0.3917525773195876,
+      "raw_sha_unchanged": true
+    },
+    {
+      "file": "references/shell02.png",
+      "name": "Панцирь №2 · исходник",
+      "source_sha256": "1165183ca73623c3cac29aa3328b3acd9537ff89ecabe08b330c13a952e97838",
+      "native_canvas": [
+        1402,
+        1122
+      ],
+      "alpha_bbox": [
+        73,
+        71,
+        1245,
+        1122
+      ],
+      "visible_bbox_alpha_ge_8": [
+        323,
+        187,
+        1124,
+        975
+      ],
+      "visible_native_height": 788,
+      "visible_margin_ltrb": [
+        323,
+        187,
+        278,
+        147
+      ],
+      "flags": [],
+      "display_bbox": [
+        1315,
+        880,
+        1624,
+        1184
+      ],
+      "display_visible_height": 304,
+      "display_baseline": 1184,
+      "scale_from_visible_height": 0.38578680203045684,
+      "raw_sha_unchanged": true
+    }
+  ],
+  "flags": {
+    "visible_alpha_margin_under_8px": []
+  },
+  "raw_variant_shas_unique": true,
+  "reference_shas_verified": true,
+  "prompt_canonical_sha256": {
+    "1": "3ed3a6d1c91d0f6cba0803d15ed820d3d5e1ef8bce8c8de7e1c302a6ff87fb2a",
+    "2": "b47066b9eff6950282b83b4c2670c6c893ad1a15698554981d43dbfd5f9f24a1",
+    "3": "98affa061cdd3befdb930c2da68cf50542732994a74b78c02dfbf376918243c3",
+    "4": "75784f6d496436a45bcb60002fdc548d8c730dc064b4ad8917d6fa09e95cf69d",
+    "5": "5daa84e666dee3b65145695f99fbb2277244e4a66dbecf1b909ef90ad9fb8433"
+  },
+  "scope": "Presentation-only nearest-neighbor scale fit; alpha>=8 determines visible height. Original packaged PNGs remain unchanged; this does not assert runtime dimensions or art acceptance."
+}
