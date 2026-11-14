@@ -1,0 +1,65 @@
+{
+  "key": "warrior-attack-single",
+  "kind": "attack",
+  "title": "№2 · один резкий удар",
+  "source_directory": "docs/art/warrior-attack-exaggerated-20261114/pixellab/attack-2",
+  "source_key": "attack-2",
+  "actual_frames": 13,
+  "source_frame_indices": [
+    0,
+    2,
+    3,
+    4,
+    11,
+    19,
+    20,
+    21,
+    28,
+    29,
+    30,
+    31,
+    32
+  ],
+  "durations_ms": [
+    60,
+    40,
+    40,
+    40,
+    40,
+    60,
+    20,
+    100,
+    30,
+    40,
+    50,
+    60,
+    700
+  ],
+  "timing_origin": "Выбор и длительности заданы монтажом; исходные позы не изменялись.",
+  "impact_source_frame": 21,
+  "impact_preview_frame": 7,
+  "frame_sha256": [
+    "858f29c6049336b586c111c6b65f65c05af75fe8f146920f122477f793f57cc9",
+    "812958324b7286495c48d7ad01e0608ff6194c16016085ecc37afd079a39506f",
+    "8556d66a29340a3267ba8f0459ed930c9bfe7d46a954512a2a65d887a0849abe",
+    "638c7e6e908a6989e48cfbc640801ceb01ea0d172b51becba9077543210c2896",
+    "b8fd0331ef5e963c77397a2a207489b82bd71b36d67fbbe24ebe1921734874b2",
+    "7ce093f996e5c0e9e16a437081aadbc4011e0dcc97d2de6279be66b5b3512729",
+    "2719503cf124715796b904427070c0f57ecb50de55abdea97fe2d50817d4fa6b",
+    "34b624fc02992db84821ac4322b5602412f3a0e5053da5e720fea6f752ecd1d6",
+    "b3da3f49fdeb30dffe56d0735a1ba8e668eefd9df68ea53b090dd790716572bf",
+    "9284b69c5e700ee4dc1d766ecdea6cd3d04c54010bfc2d813db1795572ceda1a",
+    "baf35aa7218199e8331e40be638ebbe92a973a6adbd81ff28a56994b1dc96438",
+    "a071a4f0ee5cb5a87796d0f6751241e46ade1017b8436ce14c4560308e921b35",
+    "e2f6af4e3cecb93e64dede711bf4a6941b95d48d5930da6af45a3d58a0d7f29b"
+  ],
+  "edge_frames": [
+    7
+  ],
+  "margin_violation_frames": [
+    7
+  ],
+  "last_frame_rgba_equal_first": false,
+  "raw_pixels_modified": false,
+  "integration": false
+}

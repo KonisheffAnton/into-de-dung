@@ -1,0 +1,13 @@
+{
+  "date": "2026-11-14",
+  "browser": "Codex in-app browser",
+  "checks": [
+    "Before33 and after13 loaded and playing",
+    "Pause and scrub after to frame7: impact marker visible",
+    "Step7 to8: marker gone, recovery begins",
+    "Zoom canvases both384x384",
+    "Replay restores both playback tracks"
+  ],
+  "result": "PASS smoke",
+  "limitations": "No full screen/DPI/fps matrix or Godot; user art acceptance open"
+}

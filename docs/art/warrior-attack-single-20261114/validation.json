@@ -1,0 +1,18 @@
+{
+  "complete": true,
+  "source_png_bytes_match": true,
+  "spritesheet_cells_rgba_match": true,
+  "transparent_nonempty_frames": true,
+  "gif_display_frames_after_merge": 13,
+  "gif_merged_frame_timing_allowed": true,
+  "gif_total_duration_ms": 1280,
+  "diagnostics": {
+    "edge_frames": [
+      7
+    ],
+    "margin_violation_frames": [
+      7
+    ],
+    "last_frame_rgba_equal_first": false
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "date": "2026-11-14",
+  "base_commit": "cf60fed3239695b8d1dde59a175d1fe24d96e71e",
+  "compile": "PASS",
+  "source_raw_sheet_gif": "PASS",
+  "embedded_two_sheets_byte_match": true,
+  "local_links": "PASS",
+  "archive": "CODEX_HANDOFF.history-20261114-8.md",
+  "archive_bytes_equal_previous_worktree": true,
+  "archive_text_equal_parent_LF": true,
+  "handoff_chars_before": 2437,
+  "handoff_chars_after": 2433,
+  "bounded_entrypoints": "Only HANDOFF changed, below2500; contracts/questions/limitations retained via owners/archive; PROJECT_CONTEXT preexisting3652 unchanged",
+  "review": "APPROVE; art acceptance open",
+  "new_provider_requests": 0,
+  "foreign_paths_preserved": [
+    "scenes/demo/main_menu.tscn",
+    "docs/art/battlefield-reference-03-20261017/"
+  ]
+}

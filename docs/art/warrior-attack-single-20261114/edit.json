@@ -1,0 +1,45 @@
+{
+  "source_directory": "docs/art/warrior-attack-exaggerated-20261114/pixellab/attack-2",
+  "frame_order": [
+    0,
+    2,
+    3,
+    4,
+    11,
+    19,
+    20,
+    21,
+    28,
+    29,
+    30,
+    31,
+    32
+  ],
+  "durations_ms": [
+    60,
+    40,
+    40,
+    40,
+    40,
+    60,
+    20,
+    100,
+    30,
+    40,
+    50,
+    60,
+    700
+  ],
+  "impact_source_frame": 21,
+  "title": "№2 · один резкий удар",
+  "base_commit": "cf60fed3239695b8d1dde59a175d1fe24d96e71e",
+  "intent": "Single existing sword strike; shorter anticipation, fast release, brief impact hold and low-blade recovery. Exact source pixels; no new lunge poses or retouch.",
+  "timing_phases": {
+    "anticipation_ms": 280,
+    "release_ms": 20,
+    "impact_ms": 100,
+    "recovery_ms": 180,
+    "pause_ms": 700
+  },
+  "new_provider_requests": 0
+}
