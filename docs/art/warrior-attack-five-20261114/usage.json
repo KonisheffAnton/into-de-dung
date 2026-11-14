@@ -1,0 +1,76 @@
+{
+  "clips": [
+    {
+      "key": "attack-1",
+      "job_id": "8f0e3782-6747-4ae9-9490-10bbd778acb0",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 5
+      }
+    },
+    {
+      "key": "attack-2",
+      "job_id": "8ac70e1d-f120-418b-8995-3006dd407935",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 5
+      }
+    },
+    {
+      "key": "attack-3",
+      "job_id": "f29c197b-5505-4a49-9c71-7873e46293ec",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 5
+      }
+    },
+    {
+      "key": "attack-4",
+      "job_id": "753a71a7-bacb-4b76-b2e7-b2ec5dd8e794",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 5
+      }
+    },
+    {
+      "key": "attack-5",
+      "job_id": "b78fee8b-4ae6-4eec-9696-4d65bfe96e92",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 5
+      }
+    }
+  ],
+  "balance_before": {
+    "credits": {
+      "type": "usd",
+      "usd": 0.0
+    },
+    "subscription": {
+      "type": "generations",
+      "status": "active",
+      "plan": "Tier 2: Pixel Artisan",
+      "generations": 3747.71063541667,
+      "total": 5000.0
+    }
+  },
+  "balance_after": {
+    "credits": {
+      "type": "usd",
+      "usd": 0.0
+    },
+    "subscription": {
+      "type": "generations",
+      "status": "active",
+      "plan": "Tier 2: Pixel Artisan",
+      "generations": 3722.71063541667,
+      "total": 5000.0
+    }
+  },
+  "subscription_delta": 25.0
+}

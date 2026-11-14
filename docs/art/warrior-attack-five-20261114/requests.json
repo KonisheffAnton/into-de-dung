@@ -1,0 +1,102 @@
+[
+  {
+    "key": "attack-1",
+    "kind": "attack",
+    "variant": 1,
+    "name": "Диагональный удар",
+    "prompt": "The warrior draws his sword hand back near the right shoulder, twists his torso slightly away from the target, then delivers one sharp diagonal descending cut toward an unseen opponent on screen-left. The blade cuts from high to low across his front, knees absorb the force and the scarf follows with a small delayed flick. One strike only, clear short anticipation, fast decisive contact, brief follow-through, then controlled recovery to the exact initial ready pose. Remain anchored in the same cell, no walking, no jump, no spin. Preserve the same body proportions, face, armor, red scarf, sword and empty off-hand. Keep the same front three-quarter view facing screen-left throughout. Full sword and body stay inside the canvas. No target, no added shield, no magic, no trail, no impact effect, no camera movement.",
+    "seed": 2026111401,
+    "frame_count": 32,
+    "expected_frames": 33,
+    "endpoint": "animate-pixminimax",
+    "loop": false,
+    "return_to_first": true,
+    "input": "model/input-256.png",
+    "captions": {
+      "direction": "south-west",
+      "view": "side",
+      "subject_description": "A compact stylized male warrior with spiky auburn hair, silver shoulder armor, brown leather armor and boots, red scarf, cream waist cloth, one steel sword in his right hand and empty left hand",
+      "initial_pose": "Standing in a front three-quarter battle stance facing screen-left, feet apart, knees slightly bent, right hand holding a lowered sword diagonally in front, left fist beside hip"
+    }
+  },
+  {
+    "key": "attack-2",
+    "kind": "attack",
+    "variant": 2,
+    "name": "Горизонтальный разрез",
+    "prompt": "The warrior winds his sword arm a short distance behind the hip, braces his legs, then turns his shoulders and delivers one compact horizontal sword slash toward screen-left at waist height. The free fist stays close to the chest, the body counterbalances the blade and the scarf settles after it. One strike only, clear short anticipation, fast decisive contact, brief follow-through, then controlled recovery to the exact initial ready pose. Remain anchored in the same cell, no walking, no jump, no spin. Preserve the same body proportions, face, armor, red scarf, sword and empty off-hand. Keep the same front three-quarter view facing screen-left throughout. Full sword and body stay inside the canvas. No target, no added shield, no magic, no trail, no impact effect, no camera movement.",
+    "seed": 2026111402,
+    "frame_count": 32,
+    "expected_frames": 33,
+    "endpoint": "animate-pixminimax",
+    "loop": false,
+    "return_to_first": true,
+    "input": "model/input-256.png",
+    "captions": {
+      "direction": "south-west",
+      "view": "side",
+      "subject_description": "A compact stylized male warrior with spiky auburn hair, silver shoulder armor, brown leather armor and boots, red scarf, cream waist cloth, one steel sword in his right hand and empty left hand",
+      "initial_pose": "Standing in a front three-quarter battle stance facing screen-left, feet apart, knees slightly bent, right hand holding a lowered sword diagonally in front, left fist beside hip"
+    }
+  },
+  {
+    "key": "attack-3",
+    "kind": "attack",
+    "variant": 3,
+    "name": "Рубящий сверху",
+    "prompt": "The warrior lifts his sword above his head with the sword hand, compresses slightly at the knees, then brings the blade down in one heavy overhead chop toward screen-left. His torso leans into the descending strike and checks its momentum low in front; the other hand balances beside the torso without touching the blade. One strike only, clear short anticipation, fast decisive contact, brief follow-through, then controlled recovery to the exact initial ready pose. Remain anchored in the same cell, no walking, no jump, no spin. Preserve the same body proportions, face, armor, red scarf, sword and empty off-hand. Keep the same front three-quarter view facing screen-left throughout. Full sword and body stay inside the canvas. No target, no added shield, no magic, no trail, no impact effect, no camera movement.",
+    "seed": 2026111403,
+    "frame_count": 32,
+    "expected_frames": 33,
+    "endpoint": "animate-pixminimax",
+    "loop": false,
+    "return_to_first": true,
+    "input": "model/input-256.png",
+    "captions": {
+      "direction": "south-west",
+      "view": "side",
+      "subject_description": "A compact stylized male warrior with spiky auburn hair, silver shoulder armor, brown leather armor and boots, red scarf, cream waist cloth, one steel sword in his right hand and empty left hand",
+      "initial_pose": "Standing in a front three-quarter battle stance facing screen-left, feet apart, knees slightly bent, right hand holding a lowered sword diagonally in front, left fist beside hip"
+    }
+  },
+  {
+    "key": "attack-4",
+    "kind": "attack",
+    "variant": 4,
+    "name": "Выпад",
+    "prompt": "The warrior draws the sword hilt close to his waist, points the tip toward an unseen opponent on screen-left, then extends the sword arm in one direct thrust. He shifts weight onto the front leg with only a small in-place lunge, the rear boot stays anchored; he withdraws the blade along the same line and regains his stance. One strike only, clear short anticipation, fast decisive contact, brief follow-through, then controlled recovery to the exact initial ready pose. Remain anchored in the same cell, no walking, no jump, no spin. Preserve the same body proportions, face, armor, red scarf, sword and empty off-hand. Keep the same front three-quarter view facing screen-left throughout. Full sword and body stay inside the canvas. No target, no added shield, no magic, no trail, no impact effect, no camera movement.",
+    "seed": 2026111404,
+    "frame_count": 32,
+    "expected_frames": 33,
+    "endpoint": "animate-pixminimax",
+    "loop": false,
+    "return_to_first": true,
+    "input": "model/input-256.png",
+    "captions": {
+      "direction": "south-west",
+      "view": "side",
+      "subject_description": "A compact stylized male warrior with spiky auburn hair, silver shoulder armor, brown leather armor and boots, red scarf, cream waist cloth, one steel sword in his right hand and empty left hand",
+      "initial_pose": "Standing in a front three-quarter battle stance facing screen-left, feet apart, knees slightly bent, right hand holding a lowered sword diagonally in front, left fist beside hip"
+    }
+  },
+  {
+    "key": "attack-5",
+    "kind": "attack",
+    "variant": 5,
+    "name": "Восходящий удар",
+    "prompt": "The warrior lowers the sword tip beside the forward knee, briefly compresses his stance, then drives one rising diagonal cut toward screen-left using his legs and torso. The sword passes upward across his front and stops below overhead height, followed by a small shoulder recoil and deliberate return of the blade to its lowered ready position. One strike only, clear short anticipation, fast decisive contact, brief follow-through, then controlled recovery to the exact initial ready pose. Remain anchored in the same cell, no walking, no jump, no spin. Preserve the same body proportions, face, armor, red scarf, sword and empty off-hand. Keep the same front three-quarter view facing screen-left throughout. Full sword and body stay inside the canvas. No target, no added shield, no magic, no trail, no impact effect, no camera movement.",
+    "seed": 2026111405,
+    "frame_count": 32,
+    "expected_frames": 33,
+    "endpoint": "animate-pixminimax",
+    "loop": false,
+    "return_to_first": true,
+    "input": "model/input-256.png",
+    "captions": {
+      "direction": "south-west",
+      "view": "side",
+      "subject_description": "A compact stylized male warrior with spiky auburn hair, silver shoulder armor, brown leather armor and boots, red scarf, cream waist cloth, one steel sword in his right hand and empty left hand",
+      "initial_pose": "Standing in a front three-quarter battle stance facing screen-left, feet apart, knees slightly bent, right hand holding a lowered sword diagonally in front, left fist beside hip"
+    }
+  }
+]

@@ -1,0 +1,31 @@
+{
+  "provider": "PixelLab",
+  "raw_directory": "C:\\Users\\Aston\\.codex\\generated_images\\warrior-attack-five-20261114",
+  "jobs": [
+    {
+      "key": "attack-1",
+      "job_id": "8f0e3782-6747-4ae9-9490-10bbd778acb0",
+      "request_sha256": "770b68bb8e8de7392a8c4e01477b4228fa4154f51c1811b0dbb452fb3767e4c7"
+    },
+    {
+      "key": "attack-2",
+      "job_id": "8ac70e1d-f120-418b-8995-3006dd407935",
+      "request_sha256": "3109c8910cdd63ce3f625246fc368851ffb33a14dcb6217d2e406a11d260317d"
+    },
+    {
+      "key": "attack-3",
+      "job_id": "f29c197b-5505-4a49-9c71-7873e46293ec",
+      "request_sha256": "95aab22ca79b404bcf3382f75ec4235dd519044be7058dc1c6093041f81fab57"
+    },
+    {
+      "key": "attack-4",
+      "job_id": "753a71a7-bacb-4b76-b2e7-b2ec5dd8e794",
+      "request_sha256": "1c9bb216a460806dec00de8fb68a3265b92500ecc9264bf0fb92bbbcc768a44e"
+    },
+    {
+      "key": "attack-5",
+      "job_id": "b78fee8b-4ae6-4eec-9696-4d65bfe96e92",
+      "request_sha256": "9b1cb4c7b8037e5bee1a7e3647280a88e0d144e91ef3b03ab0ba5059dc92e60b"
+    }
+  ]
+}

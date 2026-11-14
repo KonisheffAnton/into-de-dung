@@ -1,0 +1,33 @@
+{
+  "date": "2026-11-14",
+  "browser": "Codex in-app browser",
+  "transport": "localhost, embedded assets",
+  "cards": 5,
+  "observed_controls": [
+    "pause",
+    "replay",
+    "step",
+    "attack-4 scrub to frame9",
+    "speed0.5x",
+    "checker backdrop",
+    "game scale",
+    "zoom scale",
+    "restore default playback"
+  ],
+  "canvas_dimensions": {
+    "game": [
+      102,
+      102
+    ],
+    "zoom": [
+      384,
+      384
+    ]
+  },
+  "result": "PASS for listed checks",
+  "limitations": [
+    "No full viewport matrix or keyboard accessibility audit",
+    "Body Control+Home scrolling attempt timed out; not part of acceptance",
+    "Not Godot playback or user art acceptance"
+  ]
+}

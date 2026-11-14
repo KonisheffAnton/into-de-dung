@@ -1,0 +1,19 @@
+{
+  "date": "2026-11-14",
+  "task_base": "f5ddad7bea07972db6c3538cf5eeb315372edfa7",
+  "integration_parent": "a2d18290b174bd99242bd1a7b0ad5007dc3bfe79",
+  "diff_check": "PASS",
+  "python_compile": "PASS 4 scripts",
+  "archive_bytes_equal_HEAD": true,
+  "local_readme_handoff_links": "PASS",
+  "handoff_chars_before": 2498,
+  "handoff_chars_after": 2247,
+  "entrypoint_growth_note": "Only HANDOFF changed among bounded entrypoints; below2500 chars. Rules and previous open questions retained via owner/archive links. PROJECT_CONTEXT preexisting3652 unchanged.",
+  "independent_review": "APPROVE packaging",
+  "art_acceptance": "open",
+  "game_validation": "not run; no runtime change",
+  "unchanged_foreign_paths": [
+    "scenes/demo/main_menu.tscn",
+    "docs/art/battlefield-reference-03-20261017/"
+  ]
+}
