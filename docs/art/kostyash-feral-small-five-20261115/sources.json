@@ -1,0 +1,522 @@
+{
+  "expected": 5,
+  "completed": 5,
+  "complete": true,
+  "request_manifest_sha256": "8ff9ccbc58883a0d5adb17b4aff15f24343626c7a4e55ff03413a7500d838f1c",
+  "request_manifest_hash_policy": "UTF-8 without BOM, LF newlines",
+  "selection_manifest_sha256": "0a92066655837334202bfb3b755880df0f749a741c4bd2afdeafb7ba56a2593f",
+  "selection_manifest_hash_policy": "UTF-8 without BOM, LF newlines",
+  "input_source_manifest_sha256": "24b6ab455c11bc12608e049276c679e40799fe76bab19effd994beb240a37647",
+  "input_source_hash_policy": "UTF-8 without BOM, LF newlines",
+  "input_sources": {
+    "sources": [
+      {
+        "id": 1,
+        "source_package": "docs/art/kostyash-development-five-20261114/variants/kostyash-01.png",
+        "file": "references/kostyash-before-01.png",
+        "sha256": "00907aff67629de7757438dd1aee1183f800746815d2978836f322f9efe2d729",
+        "bbox": [
+          50,
+          69,
+          198,
+          206
+        ],
+        "height": 137
+      },
+      {
+        "id": 2,
+        "source_package": "docs/art/kostyash-development-five-20261114/variants/kostyash-02.png",
+        "file": "references/kostyash-before-02.png",
+        "sha256": "15801bea0d254b8c0a318e8c5a3b5ad0abe5d0bb80693d206d0b8ee6efa09cd9",
+        "bbox": [
+          50,
+          69,
+          198,
+          204
+        ],
+        "height": 135
+      },
+      {
+        "id": 3,
+        "source_package": "docs/art/kostyash-development-five-20261114/variants/kostyash-03.png",
+        "file": "references/kostyash-before-03.png",
+        "sha256": "f8413713f60710c4a3f5c50ca6743589ec1740bf774659029ee3e5cc50c3c934",
+        "bbox": [
+          50,
+          69,
+          197,
+          206
+        ],
+        "height": 137
+      },
+      {
+        "id": 4,
+        "source_package": "docs/art/kostyash-development-five-20261114/variants/kostyash-04.png",
+        "file": "references/kostyash-before-04.png",
+        "sha256": "88420fa92c40619d1ab453ca5c288560e953aa3260d2fa1f38388044dd2d6a64",
+        "bbox": [
+          50,
+          69,
+          201,
+          204
+        ],
+        "height": 135
+      },
+      {
+        "id": 5,
+        "source_package": "docs/art/kostyash-development-five-20261114/variants/kostyash-05.png",
+        "file": "references/kostyash-before-05.png",
+        "sha256": "6d8cd682dd229f6462b79875d7f7c4584939b05fea3f08bb619e022cdd41ad01",
+        "bbox": [
+          50,
+          69,
+          195,
+          204
+        ],
+        "height": 135
+      }
+    ],
+    "warrior_file": "references/warrior11.png",
+    "warrior_sha256": "d8117c67d3b59c5943ea850b8802ff1ce895ef919ad65c06d730d0716b6146a8",
+    "warrior_height": 152
+  },
+  "geometry_policy": "raw 160x128; target 90-110px and technical range 80-112px; at least 8px raw-canvas margin; shorter than prior source and Warrior; previews align raw feet to source feet without scaling",
+  "raw_images_unmodified": true,
+  "integration": false,
+  "variants": [
+    {
+      "id": 1,
+      "name": "Скулолом",
+      "focus": "Низкая костяная морда",
+      "file": "variants/kostyash-01.png",
+      "sha256": "ffe26db08a02bbdc3bf41d127cff07d21fbe119157e6cb11e7d4df5e687e56f7",
+      "generated_file": "generated/kostyash-01.png",
+      "generated_sha256": "ffe26db08a02bbdc3bf41d127cff07d21fbe119157e6cb11e7d4df5e687e56f7",
+      "selected_output_index": 0,
+      "selected_output_name": "original.png",
+      "generation_outputs": [
+        {
+          "index": 0,
+          "file": "original.png",
+          "sha256": "ffe26db08a02bbdc3bf41d127cff07d21fbe119157e6cb11e7d4df5e687e56f7",
+          "candidate_file": "candidates/01/01.png"
+        },
+        {
+          "index": 1,
+          "file": "original-2.png",
+          "sha256": "02fb85dc7b587eeab77278b8e77f8b0b5108718394da7d2516430ba16f778608",
+          "candidate_file": "candidates/01/02.png"
+        },
+        {
+          "index": 2,
+          "file": "original-3.png",
+          "sha256": "47a1f0723bb5fa55e2671485127b3c7ba407f212b4db6bbeda16424f0490fed5",
+          "candidate_file": "candidates/01/03.png"
+        },
+        {
+          "index": 3,
+          "file": "original-4.png",
+          "sha256": "7b9705bd7d3250609faa21be0fb4efe064a178add36d9791f308134b90eb8068",
+          "candidate_file": "candidates/01/04.png"
+        }
+      ],
+      "cleanup": null,
+      "job_id": "2a511d51-b9b8-4e62-8616-9ab16e503728",
+      "raw_width": 160,
+      "raw_height": 128,
+      "raw_mode": "RGBA",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 15
+      },
+      "request_sha256": "b114569510d10ff08b7692bb94ba7cf5b27707090ffb4fe8136204059d68f669",
+      "preview_file": "previews/kostyash-01.png",
+      "preview_sha256": "f56876de3139c13f9473335b12a1feba8756652a74b86b4b0e4d3252f1ff2b57",
+      "preview_width": 256,
+      "preview_height": 256,
+      "preview_mode": "RGBA",
+      "preview_offset": [
+        48,
+        91
+      ],
+      "source_file": "references/kostyash-before-01.png",
+      "source_package": "docs/art/kostyash-development-five-20261114/variants/kostyash-01.png",
+      "source_sha256": "00907aff67629de7757438dd1aee1183f800746815d2978836f322f9efe2d729",
+      "source_height": 137,
+      "source_bbox": [
+        50,
+        69,
+        198,
+        206
+      ],
+      "bbox": [
+        37,
+        18,
+        131,
+        115
+      ],
+      "native_height": 97,
+      "height_delta": -40,
+      "shrink_percent": 29.2,
+      "min_margin": 13,
+      "geometry_pass": true,
+      "needs_review": false,
+      "geometry_flags": []
+    },
+    {
+      "id": 2,
+      "name": "Костяной панцирь",
+      "focus": "Приземистый костяной горб",
+      "file": "variants/kostyash-02.png",
+      "sha256": "db7c25f0f368f8089cc4cb5d7dba1c29328de61787f365df06cfa076ef5d5362",
+      "generated_file": "generated/kostyash-02.png",
+      "generated_sha256": "5f83af297e1df137780fd573eb760084da6013ac64e669225509f691fd6bcfd0",
+      "selected_output_index": 3,
+      "selected_output_name": "original-4.png",
+      "generation_outputs": [
+        {
+          "index": 0,
+          "file": "original.png",
+          "sha256": "d7db993a0556001341fb9a16e426d1e36149300d3661628cabcb4c0160c6eadd",
+          "candidate_file": "candidates/02/01.png"
+        },
+        {
+          "index": 1,
+          "file": "original-2.png",
+          "sha256": "de824551ae04a6fefbbe1e5f5e3e65d14ff17ec9c14cd0a19a2c62bf211918c7",
+          "candidate_file": "candidates/02/02.png"
+        },
+        {
+          "index": 2,
+          "file": "original-3.png",
+          "sha256": "f03a7cf9b238a391c2a87b9dc780ac0f2d7a615577332d27549a2ba13067edf6",
+          "candidate_file": "candidates/02/03.png"
+        },
+        {
+          "index": 3,
+          "file": "original-4.png",
+          "sha256": "5f83af297e1df137780fd573eb760084da6013ac64e669225509f691fd6bcfd0",
+          "candidate_file": "candidates/02/04.png"
+        }
+      ],
+      "cleanup": {
+        "endpoint": "/remove-background",
+        "request_sha256": "6c9f0d1d99d58db27bffec5da7d1e953734bb028063012978abbf7abbd82272c",
+        "input_sha256": "5f83af297e1df137780fd573eb760084da6013ac64e669225509f691fd6bcfd0",
+        "output_sha256": "db7c25f0f368f8089cc4cb5d7dba1c29328de61787f365df06cfa076ef5d5362",
+        "usage": {
+          "type": "generations",
+          "generations": 1.0
+        },
+        "job_id": null
+      },
+      "job_id": "0ec1112c-5ea5-47a6-a622-9b92a5f306bb",
+      "raw_width": 160,
+      "raw_height": 128,
+      "raw_mode": "RGBA",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 15
+      },
+      "request_sha256": "b44a4c04e5255218713553570c659c00653ed6427c275199972482c8f75faf89",
+      "preview_file": "previews/kostyash-02.png",
+      "preview_sha256": "e9774798f55d37f26099150a12da852b21933b556652e6fa0cd9ebb6d9843de6",
+      "preview_width": 256,
+      "preview_height": 256,
+      "preview_mode": "RGBA",
+      "preview_offset": [
+        48,
+        92
+      ],
+      "source_file": "references/kostyash-before-02.png",
+      "source_package": "docs/art/kostyash-development-five-20261114/variants/kostyash-02.png",
+      "source_sha256": "15801bea0d254b8c0a318e8c5a3b5ad0abe5d0bb80693d206d0b8ee6efa09cd9",
+      "source_height": 135,
+      "source_bbox": [
+        50,
+        69,
+        198,
+        204
+      ],
+      "bbox": [
+        30,
+        26,
+        139,
+        112
+      ],
+      "native_height": 86,
+      "height_delta": -49,
+      "shrink_percent": 36.3,
+      "min_margin": 16,
+      "geometry_pass": false,
+      "needs_review": true,
+      "geometry_flags": [
+        "height_outside_target_90_110"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Чумной",
+      "focus": "Звериная морда и волдыри",
+      "file": "variants/kostyash-03.png",
+      "sha256": "6b1d4c64639995f5e28889150fba69547c1adbf044731bfc540e2996cc0a86da",
+      "generated_file": "generated/kostyash-03.png",
+      "generated_sha256": "d334e5e40b079ee50a83e3a41a9e15e5e797b99fd2bfcb2ce7bf2aee460c1e0c",
+      "selected_output_index": 2,
+      "selected_output_name": "original-3.png",
+      "generation_outputs": [
+        {
+          "index": 0,
+          "file": "original.png",
+          "sha256": "b36b6f72afea124f1dba21a424ecb7916e0ea1584b43f2ac39a831fef95e44b0",
+          "candidate_file": "candidates/03/01.png"
+        },
+        {
+          "index": 1,
+          "file": "original-2.png",
+          "sha256": "2c72441c3709548cc5274b8ef6e000cb274a5d5e99f2d67e4be16be0acb7be0a",
+          "candidate_file": "candidates/03/02.png"
+        },
+        {
+          "index": 2,
+          "file": "original-3.png",
+          "sha256": "d334e5e40b079ee50a83e3a41a9e15e5e797b99fd2bfcb2ce7bf2aee460c1e0c",
+          "candidate_file": "candidates/03/03.png"
+        },
+        {
+          "index": 3,
+          "file": "original-4.png",
+          "sha256": "0f82377b566e6f9ebb772c153bd18bf601265b472bc08502ede0c67f5480afac",
+          "candidate_file": "candidates/03/04.png"
+        }
+      ],
+      "cleanup": {
+        "endpoint": "/remove-background",
+        "request_sha256": "004fc2d79d8cbca68d994e3fce8ba3026697e44af2447b2c0d056d2b8712d088",
+        "input_sha256": "d334e5e40b079ee50a83e3a41a9e15e5e797b99fd2bfcb2ce7bf2aee460c1e0c",
+        "output_sha256": "6b1d4c64639995f5e28889150fba69547c1adbf044731bfc540e2996cc0a86da",
+        "usage": {
+          "type": "generations",
+          "generations": 1.0
+        },
+        "job_id": null
+      },
+      "job_id": "76ede3fa-cfb8-4f8d-9fe7-1cee2192d09e",
+      "raw_width": 160,
+      "raw_height": 128,
+      "raw_mode": "RGBA",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 15
+      },
+      "request_sha256": "96aca64eb36ecce2f416c6c357aad4a60ade1ae69f0b662920ed52e53fa5fd71",
+      "preview_file": "previews/kostyash-03.png",
+      "preview_sha256": "98f22034067b2c45aaa4c9f55a68765385136a95243bc95c840caab55eaea69e",
+      "preview_width": 256,
+      "preview_height": 256,
+      "preview_mode": "RGBA",
+      "preview_offset": [
+        48,
+        91
+      ],
+      "source_file": "references/kostyash-before-03.png",
+      "source_package": "docs/art/kostyash-development-five-20261114/variants/kostyash-03.png",
+      "source_sha256": "f8413713f60710c4a3f5c50ca6743589ec1740bf774659029ee3e5cc50c3c934",
+      "source_height": 137,
+      "source_bbox": [
+        50,
+        69,
+        197,
+        206
+      ],
+      "bbox": [
+        20,
+        20,
+        140,
+        115
+      ],
+      "native_height": 95,
+      "height_delta": -42,
+      "shrink_percent": 30.66,
+      "min_margin": 13,
+      "geometry_pass": true,
+      "needs_review": false,
+      "geometry_flags": []
+    },
+    {
+      "id": 4,
+      "name": "Падальщик",
+      "focus": "Длинные лапы и короткое тело",
+      "file": "variants/kostyash-04.png",
+      "sha256": "1f9538b8ca3ef6f96a0cd2946e328514937fded1a47cc2ab8b2c0b0b0a78d91d",
+      "generated_file": "generated/kostyash-04.png",
+      "generated_sha256": "1f9538b8ca3ef6f96a0cd2946e328514937fded1a47cc2ab8b2c0b0b0a78d91d",
+      "selected_output_index": 0,
+      "selected_output_name": "original.png",
+      "generation_outputs": [
+        {
+          "index": 0,
+          "file": "original.png",
+          "sha256": "1f9538b8ca3ef6f96a0cd2946e328514937fded1a47cc2ab8b2c0b0b0a78d91d",
+          "candidate_file": "candidates/04/01.png"
+        },
+        {
+          "index": 1,
+          "file": "original-2.png",
+          "sha256": "a00d5a15df46e05787f42a79e5255e6ac18fb04fd6f466f71d798e026f9a3a32",
+          "candidate_file": "candidates/04/02.png"
+        },
+        {
+          "index": 2,
+          "file": "original-3.png",
+          "sha256": "ff3bf33b82ec7ba8ecf1aedeff95e8a72ed9a48b175e15985c9b8a9ccc74a4c7",
+          "candidate_file": "candidates/04/03.png"
+        },
+        {
+          "index": 3,
+          "file": "original-4.png",
+          "sha256": "0103abd0396285fe4409dc5ec31698a97c67df1128c2b5589c0fc3280e6a2d28",
+          "candidate_file": "candidates/04/04.png"
+        }
+      ],
+      "cleanup": null,
+      "job_id": "4274ae57-e2cf-4e69-8c26-87c9f0dab8e2",
+      "raw_width": 160,
+      "raw_height": 128,
+      "raw_mode": "RGBA",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 15
+      },
+      "request_sha256": "52323bcb4a20e0a3fc3a1a2f2eaba491429f321785c10be33205cbf6f3dc17a2",
+      "preview_file": "previews/kostyash-04.png",
+      "preview_sha256": "f3003982b36ec5b62fac10eab647f18641c8cc05d2433148034536eae07e475c",
+      "preview_width": 256,
+      "preview_height": 256,
+      "preview_mode": "RGBA",
+      "preview_offset": [
+        48,
+        89
+      ],
+      "source_file": "references/kostyash-before-04.png",
+      "source_package": "docs/art/kostyash-development-five-20261114/variants/kostyash-04.png",
+      "source_sha256": "88420fa92c40619d1ab453ca5c288560e953aa3260d2fa1f38388044dd2d6a64",
+      "source_height": 135,
+      "source_bbox": [
+        50,
+        69,
+        201,
+        204
+      ],
+      "bbox": [
+        22,
+        31,
+        133,
+        115
+      ],
+      "native_height": 84,
+      "height_delta": -51,
+      "shrink_percent": 37.78,
+      "min_margin": 13,
+      "geometry_pass": false,
+      "needs_review": true,
+      "geometry_flags": [
+        "height_outside_target_90_110"
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Старый Костяш",
+      "focus": "Почти стелющийся старик",
+      "file": "variants/kostyash-05.png",
+      "sha256": "848c947ac20a58e86eaa8b84987aefaebd8293c7a31eb96d91497c29ef89ab23",
+      "generated_file": "generated/kostyash-05.png",
+      "generated_sha256": "0778fcd133d1fd18fc34773d1feb9f9cbe6081ae77a5822a83bd34e0eaa9cb25",
+      "selected_output_index": 2,
+      "selected_output_name": "original-3.png",
+      "generation_outputs": [
+        {
+          "index": 0,
+          "file": "original.png",
+          "sha256": "4ace0fa88e0d83a076ee0fc0c9403f40846e8d7e957d26f968889bbda7a65622",
+          "candidate_file": "candidates/05/01.png"
+        },
+        {
+          "index": 1,
+          "file": "original-2.png",
+          "sha256": "4bcba70bd9d3a2f7c1ccb589d0c0b9cc3d01348d03f5e5c97d89d7c14815b12b",
+          "candidate_file": "candidates/05/02.png"
+        },
+        {
+          "index": 2,
+          "file": "original-3.png",
+          "sha256": "0778fcd133d1fd18fc34773d1feb9f9cbe6081ae77a5822a83bd34e0eaa9cb25",
+          "candidate_file": "candidates/05/03.png"
+        },
+        {
+          "index": 3,
+          "file": "original-4.png",
+          "sha256": "749143cf3adddf61b73178af090abd0cbea210e8a04a906aac7fca9b7fbccf20",
+          "candidate_file": "candidates/05/04.png"
+        }
+      ],
+      "cleanup": {
+        "endpoint": "/remove-background",
+        "request_sha256": "a3ba95ac8a4cbfcaa40678b6699f61708fc0bee91c78f5859ac50072189216a4",
+        "input_sha256": "0778fcd133d1fd18fc34773d1feb9f9cbe6081ae77a5822a83bd34e0eaa9cb25",
+        "output_sha256": "848c947ac20a58e86eaa8b84987aefaebd8293c7a31eb96d91497c29ef89ab23",
+        "usage": {
+          "type": "generations",
+          "generations": 1.0
+        },
+        "job_id": null
+      },
+      "job_id": "8e0adb55-0f42-47d2-9bfa-cc084ef75916",
+      "raw_width": 160,
+      "raw_height": 128,
+      "raw_mode": "RGBA",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 15
+      },
+      "request_sha256": "a8c444db0103eb19e99021e522aaa82fc5a1b277da4f951bfe24e17b37578e89",
+      "preview_file": "previews/kostyash-05.png",
+      "preview_sha256": "a21783e08a5649030cd75a2510613f1732e2c5e449e9dd32afc80ce76384c5be",
+      "preview_width": 256,
+      "preview_height": 256,
+      "preview_mode": "RGBA",
+      "preview_offset": [
+        48,
+        89
+      ],
+      "source_file": "references/kostyash-before-05.png",
+      "source_package": "docs/art/kostyash-development-five-20261114/variants/kostyash-05.png",
+      "source_sha256": "6d8cd682dd229f6462b79875d7f7c4584939b05fea3f08bb619e022cdd41ad01",
+      "source_height": 135,
+      "source_bbox": [
+        50,
+        69,
+        195,
+        204
+      ],
+      "bbox": [
+        42,
+        20,
+        136,
+        115
+      ],
+      "native_height": 95,
+      "height_delta": -40,
+      "shrink_percent": 29.63,
+      "min_margin": 13,
+      "geometry_pass": true,
+      "needs_review": false,
+      "geometry_flags": []
+    }
+  ]
+}

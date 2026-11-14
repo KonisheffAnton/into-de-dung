@@ -1,0 +1,110 @@
+{
+  "complete": true,
+  "variants": 5,
+  "embedded_gallery_images": 11,
+  "raw_downloads": 5,
+  "warrior_sha256": "d8117c67d3b59c5943ea850b8802ff1ce895ef919ad65c06d730d0716b6146a8",
+  "geometry": [
+    {
+      "id": 1,
+      "source_height": 137,
+      "height": 97,
+      "shrink_percent": 29.2,
+      "needs_review": false,
+      "flags": []
+    },
+    {
+      "id": 2,
+      "source_height": 135,
+      "height": 86,
+      "shrink_percent": 36.3,
+      "needs_review": true,
+      "flags": [
+        "height_outside_target_90_110"
+      ]
+    },
+    {
+      "id": 3,
+      "source_height": 137,
+      "height": 95,
+      "shrink_percent": 30.66,
+      "needs_review": false,
+      "flags": []
+    },
+    {
+      "id": 4,
+      "source_height": 135,
+      "height": 84,
+      "shrink_percent": 37.78,
+      "needs_review": true,
+      "flags": [
+        "height_outside_target_90_110"
+      ]
+    },
+    {
+      "id": 5,
+      "source_height": 135,
+      "height": 95,
+      "shrink_percent": 29.63,
+      "needs_review": false,
+      "flags": []
+    }
+  ],
+  "sheets": {
+    "contact-sheet.png": [
+      1280,
+      290
+    ],
+    "before-after-sheet.png": [
+      1280,
+      568
+    ],
+    "reference-strip.png": [
+      1536,
+      290
+    ],
+    "showcase.png": [
+      1600,
+      290
+    ]
+  },
+  "raw_images_unmodified": true,
+  "generation_outputs": [
+    {
+      "id": 1,
+      "count": 4,
+      "selected_index": 0,
+      "generated_sha256": "ffe26db08a02bbdc3bf41d127cff07d21fbe119157e6cb11e7d4df5e687e56f7"
+    },
+    {
+      "id": 2,
+      "count": 4,
+      "selected_index": 3,
+      "generated_sha256": "5f83af297e1df137780fd573eb760084da6013ac64e669225509f691fd6bcfd0"
+    },
+    {
+      "id": 3,
+      "count": 4,
+      "selected_index": 2,
+      "generated_sha256": "d334e5e40b079ee50a83e3a41a9e15e5e797b99fd2bfcb2ce7bf2aee460c1e0c"
+    },
+    {
+      "id": 4,
+      "count": 4,
+      "selected_index": 0,
+      "generated_sha256": "1f9538b8ca3ef6f96a0cd2946e328514937fded1a47cc2ab8b2c0b0b0a78d91d"
+    },
+    {
+      "id": 5,
+      "count": 4,
+      "selected_index": 2,
+      "generated_sha256": "0778fcd133d1fd18fc34773d1feb9f9cbe6081ae77a5822a83bd34e0eaa9cb25"
+    }
+  ],
+  "cleanup_ids": [
+    2,
+    3,
+    5
+  ],
+  "scope": "Generated and optional cleanup PNG provenance plus geometry flags, exact translated 160x128-to-256 preview pixels, and embedded-gallery integrity; geometry/style acceptance remains human review"
+}

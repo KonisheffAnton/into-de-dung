@@ -1,0 +1,79 @@
+{
+  "variants": [
+    {
+      "id": 1,
+      "name": "Скулолом",
+      "focus": "Низкая костяная морда",
+      "endpoint": "/edit-images-v2",
+      "method": "edit_with_text",
+      "description": "Redesign this same Kostyash as a MUCH SMALLER, markedly LESS HUMAN feral hobgoblin. Render on the requested 224x224 transparent canvas. IMPORTANT: the entire visible creature AND weapon must occupy only 110-115 pixels in height, roughly from y=68 to y=180. Make the whole figure, including head and limbs, about 20 percent shorter and narrower than this input; leave abundant empty space, do not fill the canvas. Rebuild the silhouette, do not preserve its old dimensions. Redraw anatomy, not a miniature standing man: low almost horizontal hunched torso, shoulders higher than the head, head pushed forward with no visible neck, very short folded hind legs and splayed three-toed clawed hind feet, unusually long forearms with broad hooked claws hanging near the ground. Gaunt belly but broad squat ribcage, big head relative to tiny body. Face must become animal-like: short broad protruding muzzle, flattened wide nose, low sloping forehead, small deep-set eyes under one heavy bone brow, jutting crooked fangs and ragged sideways ears. No human lips, upright chest, long human shins, beard or hair. Still recognizably this pale bone-faced living goblin, not a skeleton. Keep a few large yellow-pink blisters, cool pale gray-blue skin, shabby near-black loincloth, rusty round shoulder scrap, and a short crude iron mace in the forward hand. Keep front three-quarter view facing image-left. Match the original pixel-art style with simple large 2-3-tone planes and dark local outlines, fewer tiny details. No gore, background, shadow or floor. Whole head, ears, hands, weapon and feet must fit with generous transparent margins. Emphasize a low broad bone muzzle and blunt asymmetrical cheekbones. Compact crouch, claws nearly scraping the ground.",
+      "input": "references/kostyash-before-01.png",
+      "seed": 2026112601,
+      "image_size": {
+        "width": 224,
+        "height": 224
+      },
+      "no_background": true
+    },
+    {
+      "id": 2,
+      "name": "Костяной панцирь",
+      "focus": "Приземистый костяной горб",
+      "endpoint": "/edit-images-v2",
+      "method": "edit_with_text",
+      "description": "Redesign this same Kostyash as a MUCH SMALLER, markedly LESS HUMAN feral hobgoblin. Render on the requested 224x224 transparent canvas. IMPORTANT: the entire visible creature AND weapon must occupy only 110-115 pixels in height, roughly from y=68 to y=180. Make the whole figure, including head and limbs, about 20 percent shorter and narrower than this input; leave abundant empty space, do not fill the canvas. Rebuild the silhouette, do not preserve its old dimensions. Redraw anatomy, not a miniature standing man: low almost horizontal hunched torso, shoulders higher than the head, head pushed forward with no visible neck, very short folded hind legs and splayed three-toed clawed hind feet, unusually long forearms with broad hooked claws hanging near the ground. Gaunt belly but broad squat ribcage, big head relative to tiny body. Face must become animal-like: short broad protruding muzzle, flattened wide nose, low sloping forehead, small deep-set eyes under one heavy bone brow, jutting crooked fangs and ragged sideways ears. No human lips, upright chest, long human shins, beard or hair. Still recognizably this pale bone-faced living goblin, not a skeleton. Keep a few large yellow-pink blisters, cool pale gray-blue skin, shabby near-black loincloth, rusty round shoulder scrap, and a short crude iron mace in the forward hand. Keep front three-quarter view facing image-left. Match the original pixel-art style with simple large 2-3-tone planes and dark local outlines, fewer tiny details. No gore, background, shadow or floor. Whole head, ears, hands, weapon and feet must fit with generous transparent margins. Keep three blunt ivory calluses over shoulder and forearm; make the back a low armored hump, without tall spikes.",
+      "input": "references/kostyash-before-02.png",
+      "seed": 2026112602,
+      "image_size": {
+        "width": 224,
+        "height": 224
+      },
+      "no_background": true
+    },
+    {
+      "id": 3,
+      "name": "Чумной",
+      "focus": "Звериная морда и волдыри",
+      "endpoint": "/edit-images-v2",
+      "method": "edit_with_text",
+      "description": "Redesign this same Kostyash as a MUCH SMALLER, markedly LESS HUMAN feral hobgoblin. Render on the requested 224x224 transparent canvas. IMPORTANT: the entire visible creature AND weapon must occupy only 110-115 pixels in height, roughly from y=68 to y=180. Make the whole figure, including head and limbs, about 20 percent shorter and narrower than this input; leave abundant empty space, do not fill the canvas. Rebuild the silhouette, do not preserve its old dimensions. Redraw anatomy, not a miniature standing man: low almost horizontal hunched torso, shoulders higher than the head, head pushed forward with no visible neck, very short folded hind legs and splayed three-toed clawed hind feet, unusually long forearms with broad hooked claws hanging near the ground. Gaunt belly but broad squat ribcage, big head relative to tiny body. Face must become animal-like: short broad protruding muzzle, flattened wide nose, low sloping forehead, small deep-set eyes under one heavy bone brow, jutting crooked fangs and ragged sideways ears. No human lips, upright chest, long human shins, beard or hair. Still recognizably this pale bone-faced living goblin, not a skeleton. Keep a few large yellow-pink blisters, cool pale gray-blue skin, shabby near-black loincloth, rusty round shoulder scrap, and a short crude iron mace in the forward hand. Keep front three-quarter view facing image-left. Match the original pixel-art style with simple large 2-3-tone planes and dark local outlines, fewer tiny details. No gore, background, shadow or floor. Whole head, ears, hands, weapon and feet must fit with generous transparent margins. Preserve the swollen eyelid, sick mauve shadows and four large uneven yellow-pink blisters on scalp, shoulder and arm.",
+      "input": "references/kostyash-before-03.png",
+      "seed": 2026112603,
+      "image_size": {
+        "width": 224,
+        "height": 224
+      },
+      "no_background": true
+    },
+    {
+      "id": 4,
+      "name": "Падальщик",
+      "focus": "Длинные лапы и короткое тело",
+      "endpoint": "/edit-images-v2",
+      "method": "edit_with_text",
+      "description": "Redesign this same Kostyash as a MUCH SMALLER, markedly LESS HUMAN feral hobgoblin. Render on the requested 224x224 transparent canvas. IMPORTANT: the entire visible creature AND weapon must occupy only 110-115 pixels in height, roughly from y=68 to y=180. Make the whole figure, including head and limbs, about 20 percent shorter and narrower than this input; leave abundant empty space, do not fill the canvas. Rebuild the silhouette, do not preserve its old dimensions. Redraw anatomy, not a miniature standing man: low almost horizontal hunched torso, shoulders higher than the head, head pushed forward with no visible neck, very short folded hind legs and splayed three-toed clawed hind feet, unusually long forearms with broad hooked claws hanging near the ground. Gaunt belly but broad squat ribcage, big head relative to tiny body. Face must become animal-like: short broad protruding muzzle, flattened wide nose, low sloping forehead, small deep-set eyes under one heavy bone brow, jutting crooked fangs and ragged sideways ears. No human lips, upright chest, long human shins, beard or hair. Still recognizably this pale bone-faced living goblin, not a skeleton. Keep a few large yellow-pink blisters, cool pale gray-blue skin, shabby near-black loincloth, rusty round shoulder scrap, and a short crude iron mace in the forward hand. Keep front three-quarter view facing image-left. Match the original pixel-art style with simple large 2-3-tone planes and dark local outlines, fewer tiny details. No gore, background, shadow or floor. Whole head, ears, hands, weapon and feet must fit with generous transparent margins. Keep a torn brown shoulder wrap, single bone belt clasp and battered short mace. Make the limbs asymmetrical and knuckle-dragging.",
+      "input": "references/kostyash-before-04.png",
+      "seed": 2026112604,
+      "image_size": {
+        "width": 224,
+        "height": 224
+      },
+      "no_background": true
+    },
+    {
+      "id": 5,
+      "name": "Старый Костяш",
+      "focus": "Почти стелющийся старик",
+      "endpoint": "/edit-images-v2",
+      "method": "edit_with_text",
+      "description": "Redesign this same Kostyash as a MUCH SMALLER, markedly LESS HUMAN feral hobgoblin. Render on the requested 224x224 transparent canvas. IMPORTANT: the entire visible creature AND weapon must occupy only 110-115 pixels in height, roughly from y=68 to y=180. Make the whole figure, including head and limbs, about 20 percent shorter and narrower than this input; leave abundant empty space, do not fill the canvas. Rebuild the silhouette, do not preserve its old dimensions. Redraw anatomy, not a miniature standing man: low almost horizontal hunched torso, shoulders higher than the head, head pushed forward with no visible neck, very short folded hind legs and splayed three-toed clawed hind feet, unusually long forearms with broad hooked claws hanging near the ground. Gaunt belly but broad squat ribcage, big head relative to tiny body. Face must become animal-like: short broad protruding muzzle, flattened wide nose, low sloping forehead, small deep-set eyes under one heavy bone brow, jutting crooked fangs and ragged sideways ears. No human lips, upright chest, long human shins, beard or hair. Still recognizably this pale bone-faced living goblin, not a skeleton. Keep a few large yellow-pink blisters, cool pale gray-blue skin, shabby near-black loincloth, rusty round shoulder scrap, and a short crude iron mace in the forward hand. Keep front three-quarter view facing image-left. Match the original pixel-art style with simple large 2-3-tone planes and dark local outlines, fewer tiny details. No gore, background, shadow or floor. Whole head, ears, hands, weapon and feet must fit with generous transparent margins. Keep the folded ear, broken fang and heavy knuckles; push the head below a rounded shoulder hump, like a low crawling beast.",
+      "input": "references/kostyash-before-05.png",
+      "seed": 2026112605,
+      "image_size": {
+        "width": 224,
+        "height": 224
+      },
+      "no_background": true
+    }
+  ]
+}

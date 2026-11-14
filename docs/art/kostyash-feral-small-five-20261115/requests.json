@@ -1,0 +1,124 @@
+{
+  "variants": [
+    {
+      "id": 1,
+      "name": "Скулолом",
+      "focus": "Низкая костяная морда",
+      "endpoint": "/generate-image-v2",
+      "method": "generate_with_references",
+      "description": "One SMALL feral Kostyash hobgoblin creature for a tactical pixel-art game, full body on transparent canvas160x128. Leave generous empty padding on EVERY edge, at least12 pixels above the crown and below toes, all ears, claws and mace inside frame. The compact whole silhouette should be about100 pixels tall, not filling the canvas. Radically nonhuman anatomy: low nearly quadrupedal crouch, very short folded hind legs with splayed three-toed clawed feet, a gaunt barrel ribcage carried almost horizontally, long muscular forelimbs with bent wrists and hooked claws near the ground. The back and shoulder hump sit above the head. NO upright humanoid posture, human neck, long shins or human hands. Oversized ugly bone-like head thrust forward low, broad short animal muzzle, flat wide nose, sloping forehead, tiny deep-set eyes, irregular blunt bone brow and cheek plates, crooked fangs, ragged sideways ears. Very pale cool gray-blue living skin with a few large yellow-pink blisters, thin belly but stocky shoulders, no gore. Keep the reference character recognizable through face and palette, one crude rust-brown shoulder scrap, minimal ragged dark loincloth and small iron mace gripped in the forward claw. Front three-quarter view facing image-left. Follow the clean pixel cluster size, dark local outline and simple2-3tone shading of the style reference. Fewer details than the character reference, broad readable shapes, no tiny speckles, no dithering or smooth rendering. No floor, shadow, text or other objects. Broad blunt low bone muzzle, asymmetric cheek plates and heavy knuckles.",
+      "input": "references/kostyash-before-01.png",
+      "seed": 2026112701,
+      "image_size": {
+        "width": 160,
+        "height": 128
+      },
+      "no_background": true,
+      "style_image": "references/warrior11.png",
+      "style_options": {
+        "color_palette": false,
+        "outline": true,
+        "detail": true,
+        "shading": true
+      },
+      "reference_usage_description": "Character identity, pale sick skin, bone face, blisters and crude gear. Redesign much smaller and substantially less human; do not copy original upright anatomy or dimensions.",
+      "style_usage_description": "Copy pixel clusters, dark outline and simple planar shading only. Keep pale gray-blue hobgoblin skin and compact nonhuman anatomy."
+    },
+    {
+      "id": 2,
+      "name": "Костяной панцирь",
+      "focus": "Приземистый костяной горб",
+      "endpoint": "/generate-image-v2",
+      "method": "generate_with_references",
+      "description": "One SMALL feral Kostyash hobgoblin creature for a tactical pixel-art game, full body on transparent canvas160x128. Leave generous empty padding on EVERY edge, at least12 pixels above the crown and below toes, all ears, claws and mace inside frame. The compact whole silhouette should be about100 pixels tall, not filling the canvas. Radically nonhuman anatomy: low nearly quadrupedal crouch, very short folded hind legs with splayed three-toed clawed feet, a gaunt barrel ribcage carried almost horizontally, long muscular forelimbs with bent wrists and hooked claws near the ground. The back and shoulder hump sit above the head. NO upright humanoid posture, human neck, long shins or human hands. Oversized ugly bone-like head thrust forward low, broad short animal muzzle, flat wide nose, sloping forehead, tiny deep-set eyes, irregular blunt bone brow and cheek plates, crooked fangs, ragged sideways ears. Very pale cool gray-blue living skin with a few large yellow-pink blisters, thin belly but stocky shoulders, no gore. Keep the reference character recognizable through face and palette, one crude rust-brown shoulder scrap, minimal ragged dark loincloth and small iron mace gripped in the forward claw. Front three-quarter view facing image-left. Follow the clean pixel cluster size, dark local outline and simple2-3tone shading of the style reference. Fewer details than the character reference, broad readable shapes, no tiny speckles, no dithering or smooth rendering. No floor, shadow, text or other objects. Three blunt ivory bone calluses on shoulder and forearm; rounded low armored hump, no tall spikes.",
+      "input": "references/kostyash-before-02.png",
+      "seed": 2026112702,
+      "image_size": {
+        "width": 160,
+        "height": 128
+      },
+      "no_background": true,
+      "style_image": "references/warrior11.png",
+      "style_options": {
+        "color_palette": false,
+        "outline": true,
+        "detail": true,
+        "shading": true
+      },
+      "reference_usage_description": "Character identity, pale sick skin, bone face, blisters and crude gear. Redesign much smaller and substantially less human; do not copy original upright anatomy or dimensions.",
+      "style_usage_description": "Copy pixel clusters, dark outline and simple planar shading only. Keep pale gray-blue hobgoblin skin and compact nonhuman anatomy."
+    },
+    {
+      "id": 3,
+      "name": "Чумной",
+      "focus": "Звериная морда и волдыри",
+      "endpoint": "/generate-image-v2",
+      "method": "generate_with_references",
+      "description": "One SMALL feral Kostyash hobgoblin creature for a tactical pixel-art game, full body on transparent canvas160x128. Leave generous empty padding on EVERY edge, at least12 pixels above the crown and below toes, all ears, claws and mace inside frame. The compact whole silhouette should be about100 pixels tall, not filling the canvas. Radically nonhuman anatomy: low nearly quadrupedal crouch, very short folded hind legs with splayed three-toed clawed feet, a gaunt barrel ribcage carried almost horizontally, long muscular forelimbs with bent wrists and hooked claws near the ground. The back and shoulder hump sit above the head. NO upright humanoid posture, human neck, long shins or human hands. Oversized ugly bone-like head thrust forward low, broad short animal muzzle, flat wide nose, sloping forehead, tiny deep-set eyes, irregular blunt bone brow and cheek plates, crooked fangs, ragged sideways ears. Very pale cool gray-blue living skin with a few large yellow-pink blisters, thin belly but stocky shoulders, no gore. Keep the reference character recognizable through face and palette, one crude rust-brown shoulder scrap, minimal ragged dark loincloth and small iron mace gripped in the forward claw. Front three-quarter view facing image-left. Follow the clean pixel cluster size, dark local outline and simple2-3tone shading of the style reference. Fewer details than the character reference, broad readable shapes, no tiny speckles, no dithering or smooth rendering. No floor, shadow, text or other objects. One swollen eyelid, four large yellow-pink blisters on scalp and arms, subtle sick mauve shadows.",
+      "input": "references/kostyash-before-03.png",
+      "seed": 2026112703,
+      "image_size": {
+        "width": 160,
+        "height": 128
+      },
+      "no_background": true,
+      "style_image": "references/warrior11.png",
+      "style_options": {
+        "color_palette": false,
+        "outline": true,
+        "detail": true,
+        "shading": true
+      },
+      "reference_usage_description": "Character identity, pale sick skin, bone face, blisters and crude gear. Redesign much smaller and substantially less human; do not copy original upright anatomy or dimensions.",
+      "style_usage_description": "Copy pixel clusters, dark outline and simple planar shading only. Keep pale gray-blue hobgoblin skin and compact nonhuman anatomy."
+    },
+    {
+      "id": 4,
+      "name": "Падальщик",
+      "focus": "Длинные лапы и короткое тело",
+      "endpoint": "/generate-image-v2",
+      "method": "generate_with_references",
+      "description": "One SMALL feral Kostyash hobgoblin creature for a tactical pixel-art game, full body on transparent canvas160x128. Leave generous empty padding on EVERY edge, at least12 pixels above the crown and below toes, all ears, claws and mace inside frame. The compact whole silhouette should be about100 pixels tall, not filling the canvas. Radically nonhuman anatomy: low nearly quadrupedal crouch, very short folded hind legs with splayed three-toed clawed feet, a gaunt barrel ribcage carried almost horizontally, long muscular forelimbs with bent wrists and hooked claws near the ground. The back and shoulder hump sit above the head. NO upright humanoid posture, human neck, long shins or human hands. Oversized ugly bone-like head thrust forward low, broad short animal muzzle, flat wide nose, sloping forehead, tiny deep-set eyes, irregular blunt bone brow and cheek plates, crooked fangs, ragged sideways ears. Very pale cool gray-blue living skin with a few large yellow-pink blisters, thin belly but stocky shoulders, no gore. Keep the reference character recognizable through face and palette, one crude rust-brown shoulder scrap, minimal ragged dark loincloth and small iron mace gripped in the forward claw. Front three-quarter view facing image-left. Follow the clean pixel cluster size, dark local outline and simple2-3tone shading of the style reference. Fewer details than the character reference, broad readable shapes, no tiny speckles, no dithering or smooth rendering. No floor, shadow, text or other objects. Ragged brown shoulder wrap, one bone clasp, battered iron mace. Longer forearms and very short folded hind legs.",
+      "input": "references/kostyash-before-04.png",
+      "seed": 2026112704,
+      "image_size": {
+        "width": 160,
+        "height": 128
+      },
+      "no_background": true,
+      "style_image": "references/warrior11.png",
+      "style_options": {
+        "color_palette": false,
+        "outline": true,
+        "detail": true,
+        "shading": true
+      },
+      "reference_usage_description": "Character identity, pale sick skin, bone face, blisters and crude gear. Redesign much smaller and substantially less human; do not copy original upright anatomy or dimensions.",
+      "style_usage_description": "Copy pixel clusters, dark outline and simple planar shading only. Keep pale gray-blue hobgoblin skin and compact nonhuman anatomy."
+    },
+    {
+      "id": 5,
+      "name": "Старый Костяш",
+      "focus": "Почти стелющийся старик",
+      "endpoint": "/generate-image-v2",
+      "method": "generate_with_references",
+      "description": "One SMALL feral Kostyash hobgoblin creature for a tactical pixel-art game, full body on transparent canvas160x128. Leave generous empty padding on EVERY edge, at least12 pixels above the crown and below toes, all ears, claws and mace inside frame. The compact whole silhouette should be about100 pixels tall, not filling the canvas. Radically nonhuman anatomy: low nearly quadrupedal crouch, very short folded hind legs with splayed three-toed clawed feet, a gaunt barrel ribcage carried almost horizontally, long muscular forelimbs with bent wrists and hooked claws near the ground. The back and shoulder hump sit above the head. NO upright humanoid posture, human neck, long shins or human hands. Oversized ugly bone-like head thrust forward low, broad short animal muzzle, flat wide nose, sloping forehead, tiny deep-set eyes, irregular blunt bone brow and cheek plates, crooked fangs, ragged sideways ears. Very pale cool gray-blue living skin with a few large yellow-pink blisters, thin belly but stocky shoulders, no gore. Keep the reference character recognizable through face and palette, one crude rust-brown shoulder scrap, minimal ragged dark loincloth and small iron mace gripped in the forward claw. Front three-quarter view facing image-left. Follow the clean pixel cluster size, dark local outline and simple2-3tone shading of the style reference. Fewer details than the character reference, broad readable shapes, no tiny speckles, no dithering or smooth rendering. No floor, shadow, text or other objects. One folded ear, broken fang, heavy knuckles and hunched old back, with head carried very low.",
+      "input": "references/kostyash-before-05.png",
+      "seed": 2026112705,
+      "image_size": {
+        "width": 160,
+        "height": 128
+      },
+      "no_background": true,
+      "style_image": "references/warrior11.png",
+      "style_options": {
+        "color_palette": false,
+        "outline": true,
+        "detail": true,
+        "shading": true
+      },
+      "reference_usage_description": "Character identity, pale sick skin, bone face, blisters and crude gear. Redesign much smaller and substantially less human; do not copy original upright anatomy or dimensions.",
+      "style_usage_description": "Copy pixel clusters, dark outline and simple planar shading only. Keep pale gray-blue hobgoblin skin and compact nonhuman anatomy."
+    }
+  ]
+}

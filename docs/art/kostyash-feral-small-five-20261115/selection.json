@@ -1,0 +1,47 @@
+{
+  "variants": [
+    {
+      "id": 1,
+      "output_index": 0,
+      "output_name": "original.png",
+      "sha256": "ffe26db08a02bbdc3bf41d127cff07d21fbe119157e6cb11e7d4df5e687e56f7",
+      "candidate_file": "candidates/01/01.png"
+    },
+    {
+      "id": 2,
+      "output_index": 3,
+      "output_name": "original-4.png",
+      "sha256": "5f83af297e1df137780fd573eb760084da6013ac64e669225509f691fd6bcfd0",
+      "candidate_file": "candidates/02/04.png"
+    },
+    {
+      "id": 3,
+      "output_index": 2,
+      "output_name": "original-3.png",
+      "sha256": "d334e5e40b079ee50a83e3a41a9e15e5e797b99fd2bfcb2ce7bf2aee460c1e0c",
+      "candidate_file": "candidates/03/03.png"
+    },
+    {
+      "id": 4,
+      "output_index": 0,
+      "output_name": "original.png",
+      "sha256": "1f9538b8ca3ef6f96a0cd2946e328514937fded1a47cc2ab8b2c0b0b0a78d91d",
+      "candidate_file": "candidates/04/01.png"
+    },
+    {
+      "id": 5,
+      "output_index": 2,
+      "output_name": "original-3.png",
+      "sha256": "0778fcd133d1fd18fc34773d1feb9f9cbe6081ae77a5822a83bd34e0eaa9cb25",
+      "candidate_file": "candidates/05/03.png"
+    }
+  ],
+  "returned_per_job": 4,
+  "selected_outputs": [
+    1,
+    4,
+    3,
+    1,
+    3
+  ]
+}

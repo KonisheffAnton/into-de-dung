@@ -1,0 +1,36 @@
+{
+  "base": "d0322dfe78401c301a106b3b7287150420d72ca5",
+  "archive": "docs/CODEX_HANDOFF.history-20261115-4.md",
+  "archive_sha256": "66100a3e1426239579f0243197f5a49d033cec1c61a40a8eafc16b2d1136cef6",
+  "archive_exact": true,
+  "handoff_lines": 34,
+  "entry_sizes": [
+    {
+      "file": "AGENTS.md",
+      "before_chars": 4565,
+      "after_chars": 4565,
+      "changed": false
+    },
+    {
+      "file": "docs/CODEX_HANDOFF.md",
+      "before_chars": 2382,
+      "after_chars": 2358,
+      "changed": true
+    },
+    {
+      "file": "docs/PROJECT_CONTEXT.md",
+      "before_chars": 3652,
+      "after_chars": 3652,
+      "changed": false
+    },
+    {
+      "file": "docs/CODEX_WORKFLOW.md",
+      "before_chars": 4482,
+      "after_chars": 4482,
+      "changed": false
+    }
+  ],
+  "preexisting_over_limit": "PROJECT_CONTEXT unchanged",
+  "foreign_files_unchanged": 33,
+  "scope": "Art/documents only; concurrent smith commit preserved"
+}

@@ -1,0 +1,76 @@
+{
+  "variants": [
+    {
+      "id": 2,
+      "external_dir": "C:\\Users\\Aston\\.codex\\generated_images\\kostyash-feral-small-five-20261115\\background-cleanup-selected\\items\\002",
+      "endpoint": "/remove-background",
+      "request": {
+        "image": {
+          "sha256": "5f83af297e1df137780fd573eb760084da6013ac64e669225509f691fd6bcfd0"
+        },
+        "image_size": {
+          "width": 160,
+          "height": 128
+        },
+        "background_removal_task": "remove_simple_background",
+        "text": "Retain the complete pale gray-blue hobgoblin, all toes and claws, small iron mace, bone plates and skin blisters. Remove every disconnected white rectangular background remnant around the outer edges. Transparent empty background.",
+        "seed": 2026112902
+      },
+      "input_file": "generated/kostyash-02.png",
+      "input_sha256": "5f83af297e1df137780fd573eb760084da6013ac64e669225509f691fd6bcfd0",
+      "output_sha256": "db7c25f0f368f8089cc4cb5d7dba1c29328de61787f365df06cfa076ef5d5362",
+      "usage": {
+        "type": "generations",
+        "generations": 1.0
+      }
+    },
+    {
+      "id": 3,
+      "external_dir": "C:\\Users\\Aston\\.codex\\generated_images\\kostyash-feral-small-five-20261115\\background-cleanup-selected\\items\\003",
+      "endpoint": "/remove-background",
+      "request": {
+        "image": {
+          "sha256": "d334e5e40b079ee50a83e3a41a9e15e5e797b99fd2bfcb2ce7bf2aee460c1e0c"
+        },
+        "image_size": {
+          "width": 160,
+          "height": 128
+        },
+        "background_removal_task": "remove_simple_background",
+        "text": "Retain the complete pale gray-blue hobgoblin, all toes and claws, small iron mace, bone plates and skin blisters. Remove every disconnected white rectangular background remnant around the outer edges. Transparent empty background.",
+        "seed": 2026112903
+      },
+      "input_file": "generated/kostyash-03.png",
+      "input_sha256": "d334e5e40b079ee50a83e3a41a9e15e5e797b99fd2bfcb2ce7bf2aee460c1e0c",
+      "output_sha256": "6b1d4c64639995f5e28889150fba69547c1adbf044731bfc540e2996cc0a86da",
+      "usage": {
+        "type": "generations",
+        "generations": 1.0
+      }
+    },
+    {
+      "id": 5,
+      "external_dir": "C:\\Users\\Aston\\.codex\\generated_images\\kostyash-feral-small-five-20261115\\background-cleanup-selected\\items\\005",
+      "endpoint": "/remove-background",
+      "request": {
+        "image": {
+          "sha256": "0778fcd133d1fd18fc34773d1feb9f9cbe6081ae77a5822a83bd34e0eaa9cb25"
+        },
+        "image_size": {
+          "width": 160,
+          "height": 128
+        },
+        "background_removal_task": "remove_simple_background",
+        "text": "Retain the complete pale gray-blue hobgoblin, all toes and claws, small iron mace, bone plates and skin blisters. Remove every disconnected white rectangular background remnant around the outer edges. Transparent empty background.",
+        "seed": 2026112905
+      },
+      "input_file": "generated/kostyash-05.png",
+      "input_sha256": "0778fcd133d1fd18fc34773d1feb9f9cbe6081ae77a5822a83bd34e0eaa9cb25",
+      "output_sha256": "848c947ac20a58e86eaa8b84987aefaebd8293c7a31eb96d91497c29ef89ab23",
+      "usage": {
+        "type": "generations",
+        "generations": 1.0
+      }
+    }
+  ]
+}

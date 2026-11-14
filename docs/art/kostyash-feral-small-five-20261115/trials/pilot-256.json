@@ -1,0 +1,39 @@
+{
+  "selected": false,
+  "reason": "Native height125px exceeds planned108..118; silhouette not yet small enough",
+  "bbox": [
+    50,
+    69,
+    202,
+    194
+  ],
+  "height": 125,
+  "sha256": "3d52a8baae0e9ddcc48b2ae1a769bd26c1d8cf7dbcb94ddfb74f74c916764576",
+  "job_id": "bb36e3d5-535d-4626-b13f-f11801705667",
+  "usage": {
+    "usd": 0.0,
+    "type": "generations",
+    "generations": 10
+  },
+  "request": {
+    "endpoint": "/edit-images-v2",
+    "body": {
+      "method": "edit_with_text",
+      "description": "Redesign this same Kostyash as a MUCH SMALLER, markedly LESS HUMAN feral hobgoblin. Keep the 256x256 transparent canvas. IMPORTANT: the entire visible creature AND weapon must occupy only 110-115 pixels in height, roughly from y=90 to y=204. Make the body about 18 percent shorter than this input; leave abundant empty space, do not fill the canvas. Redraw anatomy, not a miniature standing man: low almost horizontal hunched torso, shoulders higher than the head, head pushed forward with no visible neck, very short folded hind legs and splayed three-toed clawed hind feet, unusually long forearms with broad hooked claws hanging near the ground. Gaunt belly but broad squat ribcage, big head relative to tiny body. Face must become animal-like: short broad protruding muzzle, flattened wide nose, low sloping forehead, small deep-set eyes under one heavy bone brow, jutting crooked fangs and ragged sideways ears. No human lips, upright chest, long human shins, beard or hair. Still recognizably this pale bone-faced living goblin, not a skeleton. Keep a few large yellow-pink blisters, cool pale gray-blue skin, shabby near-black loincloth, rusty round shoulder scrap, and a short crude iron mace in the forward hand. Keep front three-quarter view facing image-left. Match the original pixel-art style with simple large 2-3-tone planes and dark local outlines, fewer tiny details. No gore, background, shadow or floor. Whole head, ears, hands, weapon and feet must fit with generous transparent margins. Emphasize a low broad bone muzzle and blunt asymmetrical cheekbones. Compact crouch, claws nearly scraping the ground.",
+      "seed": 2026112501,
+      "image_size": {
+        "width": 256,
+        "height": 256
+      },
+      "no_background": true,
+      "edit_images": [
+        {
+          "image_sha256": "00907aff67629de7757438dd1aee1183f800746815d2978836f322f9efe2d729",
+          "width": 256,
+          "height": 256
+        }
+      ]
+    }
+  },
+  "external_request": "C:\\Users\\Aston\\.codex\\generated_images\\kostyash-feral-small-five-20261115\\items\\001\\request.json"
+}

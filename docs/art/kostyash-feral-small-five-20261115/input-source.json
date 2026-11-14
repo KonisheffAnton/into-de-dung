@@ -1,0 +1,72 @@
+{
+  "sources": [
+    {
+      "id": 1,
+      "source_package": "docs/art/kostyash-development-five-20261114/variants/kostyash-01.png",
+      "file": "references/kostyash-before-01.png",
+      "sha256": "00907aff67629de7757438dd1aee1183f800746815d2978836f322f9efe2d729",
+      "bbox": [
+        50,
+        69,
+        198,
+        206
+      ],
+      "height": 137
+    },
+    {
+      "id": 2,
+      "source_package": "docs/art/kostyash-development-five-20261114/variants/kostyash-02.png",
+      "file": "references/kostyash-before-02.png",
+      "sha256": "15801bea0d254b8c0a318e8c5a3b5ad0abe5d0bb80693d206d0b8ee6efa09cd9",
+      "bbox": [
+        50,
+        69,
+        198,
+        204
+      ],
+      "height": 135
+    },
+    {
+      "id": 3,
+      "source_package": "docs/art/kostyash-development-five-20261114/variants/kostyash-03.png",
+      "file": "references/kostyash-before-03.png",
+      "sha256": "f8413713f60710c4a3f5c50ca6743589ec1740bf774659029ee3e5cc50c3c934",
+      "bbox": [
+        50,
+        69,
+        197,
+        206
+      ],
+      "height": 137
+    },
+    {
+      "id": 4,
+      "source_package": "docs/art/kostyash-development-five-20261114/variants/kostyash-04.png",
+      "file": "references/kostyash-before-04.png",
+      "sha256": "88420fa92c40619d1ab453ca5c288560e953aa3260d2fa1f38388044dd2d6a64",
+      "bbox": [
+        50,
+        69,
+        201,
+        204
+      ],
+      "height": 135
+    },
+    {
+      "id": 5,
+      "source_package": "docs/art/kostyash-development-five-20261114/variants/kostyash-05.png",
+      "file": "references/kostyash-before-05.png",
+      "sha256": "6d8cd682dd229f6462b79875d7f7c4584939b05fea3f08bb619e022cdd41ad01",
+      "bbox": [
+        50,
+        69,
+        195,
+        204
+      ],
+      "height": 135
+    }
+  ],
+  "warrior_file": "references/warrior11.png",
+  "warrior_sha256": "d8117c67d3b59c5943ea850b8802ff1ce895ef919ad65c06d730d0716b6146a8",
+  "warrior_height": 152
+}

@@ -1,0 +1,137 @@
+{
+  "pass_check": true,
+  "files": [
+    {
+      "path": "scenes/demo/main_menu.tscn",
+      "unchanged": true
+    },
+    {
+      "path": "docs/art/battlefield-reference-03-20261017/defender-benchmark.png",
+      "unchanged": true
+    },
+    {
+      "path": "docs/art/battlefield-reference-03-20261017/G01.png",
+      "unchanged": true
+    },
+    {
+      "path": "docs/art/battlefield-reference-03-20261017/G02.png",
+      "unchanged": true
+    },
+    {
+      "path": "docs/art/battlefield-reference-03-20261017/G03.png",
+      "unchanged": true
+    },
+    {
+      "path": "docs/art/battlefield-reference-03-20261017/G04.png",
+      "unchanged": true
+    },
+    {
+      "path": "docs/art/battlefield-reference-03-20261017/G05.png",
+      "unchanged": true
+    },
+    {
+      "path": "docs/art/battlefield-reference-03-20261017/G06.png",
+      "unchanged": true
+    },
+    {
+      "path": "docs/art/battlefield-reference-03-20261017/G07.png",
+      "unchanged": true
+    },
+    {
+      "path": "docs/art/battlefield-reference-03-20261017/G08.png",
+      "unchanged": true
+    },
+    {
+      "path": "docs/art/battlefield-reference-03-20261017/G09.png",
+      "unchanged": true
+    },
+    {
+      "path": "docs/art/battlefield-reference-03-20261017/G10.png",
+      "unchanged": true
+    },
+    {
+      "path": "docs/art/battlefield-reference-03-20261017/G11.png",
+      "unchanged": true
+    },
+    {
+      "path": "docs/art/battlefield-reference-03-20261017/G12.png",
+      "unchanged": true
+    },
+    {
+      "path": "docs/art/battlefield-reference-03-20261017/G13.png",
+      "unchanged": true
+    },
+    {
+      "path": "docs/art/battlefield-reference-03-20261017/G14.png",
+      "unchanged": true
+    },
+    {
+      "path": "docs/art/battlefield-reference-03-20261017/G15.png",
+      "unchanged": true
+    },
+    {
+      "path": "docs/art/battlefield-reference-03-20261017/gallery.html",
+      "unchanged": true
+    },
+    {
+      "path": "docs/art/battlefield-reference-03-20261017/iterations/G01-first.png",
+      "unchanged": true
+    },
+    {
+      "path": "docs/art/battlefield-reference-03-20261017/iterations/G13-before-projection.png",
+      "unchanged": true
+    },
+    {
+      "path": "docs/art/battlefield-reference-03-20261017/iterations/G13-projection-attempt.png",
+      "unchanged": true
+    },
+    {
+      "path": "docs/art/battlefield-reference-03-20261017/iterations/G13-projection-request.json",
+      "unchanged": true
+    },
+    {
+      "path": "docs/art/battlefield-reference-03-20261017/iterations/manifest-before-projection.json",
+      "unchanged": true
+    },
+    {
+      "path": "docs/art/battlefield-reference-03-20261017/manifest.json",
+      "unchanged": true
+    },
+    {
+      "path": "docs/art/battlefield-reference-03-20261017/projection-reference.png",
+      "unchanged": true
+    },
+    {
+      "path": "docs/art/battlefield-reference-03-20261017/prompts-final.json",
+      "unchanged": true
+    },
+    {
+      "path": "docs/art/battlefield-reference-03-20261017/prompts.json",
+      "unchanged": true
+    },
+    {
+      "path": "docs/art/battlefield-reference-03-20261017/ratings.json",
+      "unchanged": true
+    },
+    {
+      "path": "docs/art/battlefield-reference-03-20261017/README.md",
+      "unchanged": true
+    },
+    {
+      "path": "docs/art/battlefield-reference-03-20261017/reference.png",
+      "unchanged": true
+    },
+    {
+      "path": "docs/art/battlefield-reference-03-20261017/tile-geometry-guide.png",
+      "unchanged": true
+    },
+    {
+      "path": "docs/art/battlefield-reference-03-20261017/validate.py",
+      "unchanged": true
+    },
+    {
+      "path": "docs/art/battlefield-reference-03-20261017/validation.json",
+      "unchanged": true
+    }
+  ]
+}

@@ -1,0 +1,298 @@
+{
+  "url": "https://api.pixellab.ai/v2/openapi.json",
+  "date": "2026-11-15",
+  "endpoint": "/edit-images-v2",
+  "schema": {
+    "properties": {
+      "method": {
+        "type": "string",
+        "enum": [
+          "edit_with_text",
+          "edit_with_reference"
+        ],
+        "title": "Method",
+        "description": "Edit method: 'edit_with_text' or 'edit_with_reference'",
+        "default": "edit_with_text"
+      },
+      "edit_images": {
+        "items": {
+          "$ref": "#/components/schemas/EditImage"
+        },
+        "type": "array",
+        "maxItems": 16,
+        "minItems": 1,
+        "title": "Edit Images",
+        "description": "Images to edit (1-16 images depending on size)"
+      },
+      "image_size": {
+        "$ref": "#/components/schemas/app__endpoints__external__v2__edit_images_v2__ImageSize",
+        "description": "Size of output images"
+      },
+      "description": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 2000,
+            "minLength": 1
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Description",
+        "description": "Edit description (required for edit_with_text method)"
+      },
+      "reference_image": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/app__endpoints__external__v2__edit_images_v2__ReferenceImage"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "description": "Reference image (required for edit_with_reference method)"
+      },
+      "seed": {
+        "anyOf": [
+          {
+            "type": "integer",
+            "minimum": 0.0
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Seed",
+        "description": "Seed for reproducible generation"
+      },
+      "no_background": {
+        "anyOf": [
+          {
+            "type": "boolean"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "No Background",
+        "description": "Remove background from edited images",
+        "default": false
+      }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+      "edit_images",
+      "image_size"
+    ],
+    "title": "EditImagesV2Request",
+    "description": "Request model for edit-images endpoint",
+    "example": {
+      "description": "add a red hat",
+      "edit_images": [
+        {
+          "height": 64,
+          "image": {
+            "base64": "data:image/png;base64,..."
+          },
+          "width": 64
+        }
+      ],
+      "image_size": {
+        "height": 64,
+        "width": 64
+      },
+      "method": "edit_with_text",
+      "no_background": false,
+      "seed": 42
+    }
+  },
+  "target_height": [
+    110,
+    115
+  ],
+  "allowed_height": [
+    108,
+    118
+  ],
+  "final_endpoint": "/generate-image-v2",
+  "final_schema": {
+    "properties": {
+      "description": {
+        "type": "string",
+        "maxLength": 2000,
+        "minLength": 1,
+        "title": "Description",
+        "description": "Description of the image to generate"
+      },
+      "image_size": {
+        "$ref": "#/components/schemas/app__endpoints__external__v2__generate_image_v2__ImageSize",
+        "description": "Size of the output image"
+      },
+      "seed": {
+        "anyOf": [
+          {
+            "type": "integer",
+            "minimum": 0.0
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Seed",
+        "description": "Seed for reproducible generation"
+      },
+      "no_background": {
+        "anyOf": [
+          {
+            "type": "boolean"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "No Background",
+        "description": "Remove background from generated images",
+        "default": true
+      },
+      "reference_images": {
+        "anyOf": [
+          {
+            "items": {
+              "$ref": "#/components/schemas/app__endpoints__external__v2__generate_image_v2__ReferenceImage"
+            },
+            "type": "array",
+            "maxItems": 4
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Reference Images",
+        "description": "Optional reference images for subject guidance (up to 4)"
+      },
+      "style_image": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/app__endpoints__external__v2__generate_image_v2__ReferenceImage"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "description": "Optional style image for pixel size and style reference"
+      },
+      "style_options": {
+        "$ref": "#/components/schemas/StyleOptions",
+        "description": "Options for what to copy from the style image"
+      },
+      "target_palette": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/TargetPalette"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "description": "Colours the result must use and/or a colour cap: {\"colors\": [\"#081820\", \"#346856\", \"#88c070\", \"#e0f8d0\"], \"name\": \"Game Boy\", \"max_colors\": 4}. With colors the image is drawn for them and every pixel is one of them; max_colors (2-64) caps each image. With a style_image, set style_options.color_palette to false."
+      }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+      "description",
+      "image_size"
+    ],
+    "title": "GenerateImageV2Request",
+    "description": "Request model for generate-image-v2 endpoint",
+    "example": {
+      "description": "a cute wizard character",
+      "image_size": {
+        "height": 64,
+        "width": 64
+      },
+      "no_background": true,
+      "seed": 42
+    }
+  },
+  "final_geometry_policy": {
+    "target_height": [
+      90,
+      110
+    ],
+    "technical_height": [
+      80,
+      112
+    ],
+    "min_margin": 8,
+    "reason": "Native160x128 generation targets100px; preserves original edit-pilot thresholds above separately"
+  },
+  "cleanup_schema": {
+    "properties": {
+      "image": {
+        "$ref": "#/components/schemas/Base64Image",
+        "description": "The image to remove the background from (PNG or JPEG base64)"
+      },
+      "image_size": {
+        "$ref": "#/components/schemas/app__endpoints__external__v2__remove_background__ImageSize",
+        "description": "Size of the input image"
+      },
+      "background_removal_task": {
+        "type": "string",
+        "enum": [
+          "remove_simple_background",
+          "remove_complex_background"
+        ],
+        "title": "Background Removal Task",
+        "description": "Background removal complexity. 'remove_simple_background' is faster, 'remove_complex_background' handles complex edges better",
+        "default": "remove_simple_background"
+      },
+      "text": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 500
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Text",
+        "description": "Optional description of the foreground object to help with removal"
+      },
+      "seed": {
+        "anyOf": [
+          {
+            "type": "integer",
+            "minimum": 0.0
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Seed",
+        "description": "Seed for reproducible generation"
+      }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+      "image",
+      "image_size"
+    ],
+    "title": "RemoveBackgroundRequest",
+    "description": "Request model for remove-background endpoint",
+    "example": {
+      "background_removal_task": "remove_simple_background",
+      "image": {
+        "base64": "iVBORw0KGgoAAAANS..."
+      },
+      "image_size": {
+        "height": 64,
+        "width": 64
+      }
+    }
+  }
+}

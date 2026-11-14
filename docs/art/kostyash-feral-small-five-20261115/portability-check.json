@@ -1,0 +1,7 @@
+{
+  "pass_check": true,
+  "isolated_copy": "D:\\Codex\\home\\generated_images\\kostyash-feral-small-five-20261115\\portability-check\\c53bed28538c4dc3bc34aaa02f3e7fd0\\docs\\art\\kostyash-feral-small-five-20261115",
+  "guarded_reads": 87,
+  "scope": "Standalone validator; read_bytes/read_text guarded to copied package",
+  "initial_harness_error": "Fixed path alias normalization in audit recorder; validator was not the failure"
+}

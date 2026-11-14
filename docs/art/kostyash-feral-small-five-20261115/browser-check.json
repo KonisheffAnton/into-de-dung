@@ -1,0 +1,33 @@
+{
+  "pass_check": true,
+  "browser": "ChatGPT IAB",
+  "tab_id": "9",
+  "url": "http://127.0.0.1:8777/gallery.html",
+  "cards_loaded": 5,
+  "all_preview_sizes": [
+    256,
+    256
+  ],
+  "unique_before_images": 5,
+  "global_switch": true,
+  "individual_third_only": true,
+  "backgrounds": [
+    "dark",
+    "light",
+    "check"
+  ],
+  "warrior_loaded": true,
+  "modal": {
+    "width": 504,
+    "height": 504,
+    "object_fit": "contain"
+  },
+  "sheets": {
+    "count": 4,
+    "width": 1229,
+    "aspect_preserved": true
+  },
+  "horizontal_overflow": false,
+  "final_state": "variants; dark; details closed; modal closed; deliverable tab",
+  "initial_ui_issue": "Comparison sheets initially inherited width256; CSS width100% fixed and rechecked"
+}

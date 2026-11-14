@@ -1,0 +1,101 @@
+{
+  "selected": false,
+  "reason": "Editing retains old torso and native height119..136; use reference generation for stronger proportional change",
+  "variants": [
+    {
+      "id": 1,
+      "file": "trials/edit-224/kostyash-01.png",
+      "sha256": "9d892ad453ed0d3eea1000709f0cc842ab5cf5a9c33b0de9c356b01394ec665c",
+      "bbox": [
+        50,
+        69,
+        198,
+        188
+      ],
+      "height": 119,
+      "job_id": "e60d4fec-b590-40ec-89bf-e643539368f7",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 10
+      },
+      "selected": false
+    },
+    {
+      "id": 2,
+      "file": "trials/edit-224/kostyash-02.png",
+      "sha256": "fd58cba0ab3b6112ca5788083515472cbc34813fd0be221330111d1c5f2bd622",
+      "bbox": [
+        50,
+        69,
+        197,
+        196
+      ],
+      "height": 127,
+      "job_id": "0c885b17-de5c-4485-b010-7d93bb1c1d04",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 10
+      },
+      "selected": false
+    },
+    {
+      "id": 3,
+      "file": "trials/edit-224/kostyash-03.png",
+      "sha256": "b6b1877cd1aac08e2d154156050df91d689ec770854cb3157b498a37a0267af5",
+      "bbox": [
+        50,
+        69,
+        208,
+        196
+      ],
+      "height": 127,
+      "job_id": "20576911-f2df-47c5-918e-8ea51ca97085",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 10
+      },
+      "selected": false
+    },
+    {
+      "id": 4,
+      "file": "trials/edit-224/kostyash-04.png",
+      "sha256": "6a207af00eb58bbc70c40de95f6352239f1bc38729ad07187d8ab9fa7283378b",
+      "bbox": [
+        50,
+        69,
+        204,
+        205
+      ],
+      "height": 136,
+      "job_id": "0cff340b-cc42-4fae-9645-86a9aee34242",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 10
+      },
+      "selected": false
+    },
+    {
+      "id": 5,
+      "file": "trials/edit-224/kostyash-05.png",
+      "sha256": "0569e41bbb149538d75692a30149e41f262864f1fddbc66b07d9e3daf55a1f11",
+      "bbox": [
+        50,
+        69,
+        198,
+        198
+      ],
+      "height": 129,
+      "job_id": "b71f15c7-e97e-44ca-848e-383cac9d2447",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 10
+      },
+      "selected": false
+    }
+  ]
+}
