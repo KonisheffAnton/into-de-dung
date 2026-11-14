@@ -1,36 +1,39 @@
-# Передача — 2026-11-11: цифры с отступом и статусы над бронёй
+# Передача — 2026-11-14: выбран отряд слева
 
-D:/Games/into-de-dung; main; base4df33b368e85d26ddda5109cd9eac7a394476717.
-Последнее U отменило вертикаль: внедрён горизонтальный ряд прямо над бронёй,
-через опору полос класса. Пять полевых SVG со сглаживанием; до3 значков и +N,
-полный список в осмотре. Hover-only/подложка№4 сохранены; рамочные24 PNG прежние.
-Цифры HP/брони теперь с1px свободной заливки до рамки сверху/снизу;
-малый AA-штрих усилен,48×9 экранныхpx и фиксированный zoom-размер сохранены.
-Гамма/арт фигур/механики прежние. Постоянный ряд C не принят.
-Контракт docs/BATTLE_PRESENTATION_REWORK.md; выбор docs/ART_DIRECTION.md;
-устройство docs/ARCHITECTURE.md и docs/BATTLE_HUD_SCENES_V1.md.
-Пакет docs/art/status-readability-20261111/; ресурсы assets/ui/status_symbols/.
-Отчёт test_reports/status-readability-20261111/.
+D:/Games/into-de-dung; main; basea4e757a4107bed48e9a2a8f13ecab076c2df60c4.
+U оставил отряд слева, диораму в центре, подготовку справа.
+Перетаскивание карточек меняет порядок; клик открывает экран с иконками
+всех своих героев (отряд+резерв) для выбора. Подробности и границы —
+docs/HUB_DESIGN_PLAN.md §3; решение — docs/DESIGN_DIRECTION.md §6.1.
+Порядок ходов по-прежнему выбирает игрок; инициативы нет.
+Вкладки+диорама «Поход» сначала, кликабельные здания позже; H0→H1→H4.
+Композиция принята, размеры/содержимое карточек, названия/школы/материалы P/Q.
+Изменены только документы; реализация хаба, H2/H3/H5 и генерация не начаты.
+Далее — уточнение этих деталей; реализацию автоматически не запускать.
+Маршрут: docs/HUB_SCENES_V1.md; аудит docs/art/hub-ux-audit-20261108/.
 
-Свежие isolated import/startup PASS; vital548/0, status158/0, counter59/0,
-icons442/0, unit_contract45/0, card119/0, hud_input163/0, camera112/0,
-execution61/0, visual_scene106/0, contact414/0, reactions1426/0, art_zoom520/0.
-GPU30 RGBA полос,8 непрозрачных масок соседей, core/RNG PASS.
-Независимое APPROVE; closeout — validation.json. Прежние gates не повторены.
+Эскиз и прежний browser QA: test_reports/hub-composition-choice-20261114/.
+Данные/значки условные. Headless Edge: synthetic drag/keyboard, DOM-клики,
+замена/обмен, подавление клика, Esc/focus PASS; это не Godot-проверки.
+Свежие diff/ссылки/объём/архив/чужие33 PASS; validation.json там же.
+
+Сохранён результат прошлого этапа: горизонтальные hover-only статусы над
+бронёй, пять полевых SVG, до3/+N и подложка№4; рамочные24 PNG прежние.
+HP/броня48×9 экранныхpx, цифры с1px свободной заливки до рамки.
+Постоянный ряд C не принят; далее — отзыв U в бою.
+docs/art/status-readability-20261111/; test_reports/status-readability-20261111/.
+Прежние hub/battle import/startup, suites, RGBA/core/RNG и APPROVE не повторены.
 Full/core, ручные F5/движение/zoom/OS-DPI/usability/performance не запускались.
-Далее — отзыв U в бою; новые срезы автоматически не начинать.
-Хаб: вкладки+диорама «Поход», здания позже; H0→H1→H4;
-docs/DESIGN_DIRECTION.md §6.1, docs/HUB_DESIGN_PLAN.md. Первый экран обсуждается;
-композиция/названия/школы/материалы P/Q, реализация хаба/H2/H3/H5 не начата.
 Остаток: читаемость/стыки/посадка, край стрелы4 Лучницы, performance, HUD/Колода;
 presentation_foundation141/2, turn_forecast_ui26/3 не повторены.
 
 Чужие33: scenes/demo/main_menu.tscn и docs/art/battlefield-reference-03-20261017/;
-не reset/stage/commit. Сохранить core/preview/queue/RNG/save/frozen,5 классов F5,
-PLAYER вправо/ENEMY влево и возврат; каталоги1–3 не мигрировать. Один Godot runner,
-isolated project; без root import, служб/драйверов, фокуса, push/sidebar tasks/расписаний.
-[Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261111.md), [HISTORY](HISTORY.md).
-Завершение: проверки, локальный Conventional Commit, короткий HANDOFF;
-прежний побайтно отдельно+HISTORY. В финале/при блокере предложи новый чат
-и полный промпт: HEAD, результат, docs/artifacts, остаток, ограничения,
-проверки и это же правило. Чат автоматически не создавай.
+не reset/stage/commit. Core/preview/queue/RNG/save/frozen,5 классов F5,
+PLAYER вправо/ENEMY влево и возврат сохранить; каталоги1–3 не мигрировать.
+Один Godot runner, isolated project; без root import, служб/драйверов,
+принудительного фокуса, push/sidebar tasks/расписаний.
+[Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261114.md), [HISTORY](HISTORY.md).
+Завершение: проверки, локальный Conventional Commit своих изменений, короткий
+HANDOFF; прежний побайтно отдельно+HISTORY. В финале/при блокере предложить
+новый чат и полный промпт: HEAD, результат, docs/artifacts, остаток, ограничения,
+проверки и это же правило. Чат автоматически не создавать.
