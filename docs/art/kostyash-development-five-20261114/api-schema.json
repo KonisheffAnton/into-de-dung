@@ -1,0 +1,246 @@
+{
+  "endpoint": "/edit-images-v2",
+  "checked_at": "2026-11-14",
+  "schemas": {
+    "Base64Image": {
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "base64",
+          "title": "Type",
+          "description": "Image data type",
+          "default": "base64"
+        },
+        "base64": {
+          "type": "string",
+          "title": "Base64",
+          "description": "Base64 encoded image data"
+        },
+        "format": {
+          "type": "string",
+          "title": "Format",
+          "description": "Image format",
+          "default": "png"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "base64"
+      ],
+      "title": "Base64Image",
+      "description": "A base64 encoded image.\n\nAttributes:\n    type (Literal[\"base64\"]): Always \"base64\" to indicate the image encoding type\n    base64 (str): The base64 encoded image data\n    format (str): The image format (e.g., \"png\", \"jpeg\")"
+    },
+    "EditImage": {
+      "properties": {
+        "image": {
+          "$ref": "#/components/schemas/Base64Image",
+          "description": "Image to edit as base64 PNG/JPEG"
+        },
+        "width": {
+          "type": "integer",
+          "maximum": 512.0,
+          "minimum": 1.0,
+          "title": "Width",
+          "description": "Image width in pixels"
+        },
+        "height": {
+          "type": "integer",
+          "maximum": 512.0,
+          "minimum": 1.0,
+          "title": "Height",
+          "description": "Image height in pixels"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "image",
+        "width",
+        "height"
+      ],
+      "title": "EditImage",
+      "description": "An image to edit with its dimensions.",
+      "example": {
+        "height": 64,
+        "image": {
+          "base64": "data:image/png;base64,..."
+        },
+        "width": 64
+      }
+    },
+    "EditImagesV2Request": {
+      "properties": {
+        "method": {
+          "type": "string",
+          "enum": [
+            "edit_with_text",
+            "edit_with_reference"
+          ],
+          "title": "Method",
+          "description": "Edit method: 'edit_with_text' or 'edit_with_reference'",
+          "default": "edit_with_text"
+        },
+        "edit_images": {
+          "items": {
+            "$ref": "#/components/schemas/EditImage"
+          },
+          "type": "array",
+          "maxItems": 16,
+          "minItems": 1,
+          "title": "Edit Images",
+          "description": "Images to edit (1-16 images depending on size)"
+        },
+        "image_size": {
+          "$ref": "#/components/schemas/app__endpoints__external__v2__edit_images_v2__ImageSize",
+          "description": "Size of output images"
+        },
+        "description": {
+          "anyOf": [
+            {
+              "type": "string",
+              "maxLength": 2000,
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Description",
+          "description": "Edit description (required for edit_with_text method)"
+        },
+        "reference_image": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/app__endpoints__external__v2__edit_images_v2__ReferenceImage"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Reference image (required for edit_with_reference method)"
+        },
+        "seed": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0.0
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Seed",
+          "description": "Seed for reproducible generation"
+        },
+        "no_background": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "No Background",
+          "description": "Remove background from edited images",
+          "default": false
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "edit_images",
+        "image_size"
+      ],
+      "title": "EditImagesV2Request",
+      "description": "Request model for edit-images endpoint",
+      "example": {
+        "description": "add a red hat",
+        "edit_images": [
+          {
+            "height": 64,
+            "image": {
+              "base64": "data:image/png;base64,..."
+            },
+            "width": 64
+          }
+        ],
+        "image_size": {
+          "height": 64,
+          "width": 64
+        },
+        "method": "edit_with_text",
+        "no_background": false,
+        "seed": 42
+      }
+    },
+    "app__endpoints__external__v2__edit_images_v2__ImageSize": {
+      "properties": {
+        "width": {
+          "type": "integer",
+          "maximum": 512.0,
+          "minimum": 32.0,
+          "title": "Width",
+          "description": "Image width in pixels"
+        },
+        "height": {
+          "type": "integer",
+          "maximum": 512.0,
+          "minimum": 32.0,
+          "title": "Height",
+          "description": "Image height in pixels"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "width",
+        "height"
+      ],
+      "title": "ImageSize",
+      "example": {
+        "height": 64,
+        "width": 64
+      }
+    },
+    "app__endpoints__external__v2__edit_images_v2__ReferenceImage": {
+      "properties": {
+        "image": {
+          "$ref": "#/components/schemas/Base64Image",
+          "description": "Reference image as base64 PNG/JPEG"
+        },
+        "width": {
+          "type": "integer",
+          "maximum": 512.0,
+          "minimum": 1.0,
+          "title": "Width",
+          "description": "Image width in pixels"
+        },
+        "height": {
+          "type": "integer",
+          "maximum": 512.0,
+          "minimum": 1.0,
+          "title": "Height",
+          "description": "Image height in pixels"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "image",
+        "width",
+        "height"
+      ],
+      "title": "ReferenceImage",
+      "description": "Reference image for edit_with_reference method.",
+      "example": {
+        "height": 64,
+        "image": {
+          "base64": "data:image/png;base64,..."
+        },
+        "width": 64
+      }
+    }
+  }
+}

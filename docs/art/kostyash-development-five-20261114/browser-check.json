@@ -1,0 +1,20 @@
+{
+  "date": "2026-11-15",
+  "status": "PASS",
+  "browser": "IAB",
+  "url": "http://127.0.0.1:8776/gallery.html",
+  "cards": 5,
+  "all_variant_images_loaded_256x256": true,
+  "global_source_count": 5,
+  "individual_item3_source_variant": true,
+  "backgrounds": ["dark", "light", "check"],
+  "both_references_loaded_256x256": true,
+  "reference_display_width": 280,
+  "modal_item3_observed": true,
+  "modal_width": 504,
+  "modal_height": 504,
+  "horizontal_overflow": false,
+  "final_state": "five variants, dark background, references collapsed, modal closed",
+  "marked_deliverable": true,
+  "scope": "Local gallery at current desktop viewport; not Godot, game-scale or OS-DPI acceptance"
+}

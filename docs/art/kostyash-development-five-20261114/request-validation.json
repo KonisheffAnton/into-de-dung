@@ -1,0 +1,77 @@
+{
+  "status": "PASS",
+  "jobs": [
+    {
+      "id": 1,
+      "job_id": "3a5a3581-3ac1-446e-9ad7-854d2f34c947",
+      "actual_payload_match": true,
+      "input_bytes_exact": true,
+      "output_bytes_exact": true,
+      "sha256": "00907aff67629de7757438dd1aee1183f800746815d2978836f322f9efe2d729",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 10
+      }
+    },
+    {
+      "id": 2,
+      "job_id": "7076cb6e-59ac-4074-8a08-73c68959258d",
+      "actual_payload_match": true,
+      "input_bytes_exact": true,
+      "output_bytes_exact": true,
+      "sha256": "15801bea0d254b8c0a318e8c5a3b5ad0abe5d0bb80693d206d0b8ee6efa09cd9",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 10
+      }
+    },
+    {
+      "id": 3,
+      "job_id": "a8d94b4c-dbcc-4681-8905-304729cad75e",
+      "actual_payload_match": true,
+      "input_bytes_exact": true,
+      "output_bytes_exact": true,
+      "sha256": "f8413713f60710c4a3f5c50ca6743589ec1740bf774659029ee3e5cc50c3c934",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 10
+      }
+    },
+    {
+      "id": 4,
+      "job_id": "ffc2c876-3d38-4a3a-919a-03c56d9f7ddf",
+      "actual_payload_match": true,
+      "input_bytes_exact": true,
+      "output_bytes_exact": true,
+      "sha256": "88420fa92c40619d1ab453ca5c288560e953aa3260d2fa1f38388044dd2d6a64",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 10
+      }
+    },
+    {
+      "id": 5,
+      "job_id": "e8b32ff0-ae62-43b5-ab31-75d1159e160c",
+      "actual_payload_match": true,
+      "input_bytes_exact": true,
+      "output_bytes_exact": true,
+      "sha256": "6d8cd682dd229f6462b79875d7f7c4584939b05fea3f08bb619e022cdd41ad01",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 10
+      }
+    }
+  ],
+  "input_role": "Selected Kostyash07 only; warrior is display comparison, not API input",
+  "usage_generation_units": 50,
+  "usd": 0.0,
+  "balance_before": 3368.71063541667,
+  "balance_after": 3318.71063541667,
+  "balance_delta": 50.0,
+  "unselected_or_retry_jobs": 0
+}

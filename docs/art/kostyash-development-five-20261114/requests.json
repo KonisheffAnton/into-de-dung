@@ -1,0 +1,79 @@
+{
+  "variants": [
+    {
+      "id": 1,
+      "name": "Скулолом",
+      "focus": "Костяная морда и тяжёлые скулы",
+      "endpoint": "/edit-images-v2",
+      "method": "edit_with_text",
+      "description": "Develop THIS same Kostyash hobgoblin into a close design variant, not a different species or character. Preserve his compact135px native figure height, hunched lean but stocky body, oversized angular skull-like living face, heavy brow, protruding jaw, short bent legs, broad bony hands and clawed feet. Keep front3/4 view facing left, same pose and same position on a256x256 transparent canvas. Keep cool pale gray-blue sick skin, tattered near-black loincloth, one battered rust-brown round shoulder guard on image-right, and short dark iron mace held forward on image-left. Less human, slightly feral, with crooked ears and small fangs, not a human skeleton or zombie. Retain a few large yellow-pink skin blisters; no gore. Clean readable pixel clusters, dark local outlines, simple2-3tone planes like a compact fantasy tactical-game sprite. Reduce isolated noisy speckles without making the pixel grid coarser. No extra fine texture. Entire crown, ears, fingers, weapon and toes must be complete, with wide empty margins. Do not enlarge, stretch, crop or add background/shadow/base. Change only the focused design accents below; keep Kostyash recognizable. Make his facial structure more distinctive: a broad irregular bony brow ridge, blunt asymmetrical cheekbones and a wide low jaw. Add two blunt bone-hard knuckles, not long horns. Keep the skin over the bones and the original shoulder guard and mace. Face must remain expressive and readable with just a few large planes.",
+      "input": "references/kostyash07.png",
+      "seed": 2026112401,
+      "image_size": {
+        "width": 256,
+        "height": 256
+      },
+      "no_background": true
+    },
+    {
+      "id": 2,
+      "name": "Костяной панцирь",
+      "focus": "Наросты на плече и предплечье",
+      "endpoint": "/edit-images-v2",
+      "method": "edit_with_text",
+      "description": "Develop THIS same Kostyash hobgoblin into a close design variant, not a different species or character. Preserve his compact135px native figure height, hunched lean but stocky body, oversized angular skull-like living face, heavy brow, protruding jaw, short bent legs, broad bony hands and clawed feet. Keep front3/4 view facing left, same pose and same position on a256x256 transparent canvas. Keep cool pale gray-blue sick skin, tattered near-black loincloth, one battered rust-brown round shoulder guard on image-right, and short dark iron mace held forward on image-left. Less human, slightly feral, with crooked ears and small fangs, not a human skeleton or zombie. Retain a few large yellow-pink skin blisters; no gore. Clean readable pixel clusters, dark local outlines, simple2-3tone planes like a compact fantasy tactical-game sprite. Reduce isolated noisy speckles without making the pixel grid coarser. No extra fine texture. Entire crown, ears, fingers, weapon and toes must be complete, with wide empty margins. Do not enlarge, stretch, crop or add background/shadow/base. Change only the focused design accents below; keep Kostyash recognizable. Add only three large natural ivory-gray bone calluses: one over the existing shoulder guard, one along the forearm and one at the elbow. They are blunt flattened growths, not a forest of spikes or heavy full armor. Keep his thin belly, compact outline and the original small iron mace.",
+      "input": "references/kostyash07.png",
+      "seed": 2026112402,
+      "image_size": {
+        "width": 256,
+        "height": 256
+      },
+      "no_background": true
+    },
+    {
+      "id": 3,
+      "name": "Чумной",
+      "focus": "Волдыри и болезненная асимметрия",
+      "endpoint": "/edit-images-v2",
+      "method": "edit_with_text",
+      "description": "Develop THIS same Kostyash hobgoblin into a close design variant, not a different species or character. Preserve his compact135px native figure height, hunched lean but stocky body, oversized angular skull-like living face, heavy brow, protruding jaw, short bent legs, broad bony hands and clawed feet. Keep front3/4 view facing left, same pose and same position on a256x256 transparent canvas. Keep cool pale gray-blue sick skin, tattered near-black loincloth, one battered rust-brown round shoulder guard on image-right, and short dark iron mace held forward on image-left. Less human, slightly feral, with crooked ears and small fangs, not a human skeleton or zombie. Retain a few large yellow-pink skin blisters; no gore. Clean readable pixel clusters, dark local outlines, simple2-3tone planes like a compact fantasy tactical-game sprite. Reduce isolated noisy speckles without making the pixel grid coarser. No extra fine texture. Entire crown, ears, fingers, weapon and toes must be complete, with wide empty margins. Do not enlarge, stretch, crop or add background/shadow/base. Change only the focused design accents below; keep Kostyash recognizable. Emphasize a diseased living creature: four large raised yellow-pink blisters grouped asymmetrically on scalp, shoulder and forearm, one swollen eyelid, faint muted mauve sick-skin shadows. Keep clear large shapes, pallid cool skin, gaunt torso, original shoulder guard and mace. Avoid red splatter, wounds or many tiny spots.",
+      "input": "references/kostyash07.png",
+      "seed": 2026112403,
+      "image_size": {
+        "width": 256,
+        "height": 256
+      },
+      "no_background": true
+    },
+    {
+      "id": 4,
+      "name": "Падальщик",
+      "focus": "Грубое снаряжение из обломков",
+      "endpoint": "/edit-images-v2",
+      "method": "edit_with_text",
+      "description": "Develop THIS same Kostyash hobgoblin into a close design variant, not a different species or character. Preserve his compact135px native figure height, hunched lean but stocky body, oversized angular skull-like living face, heavy brow, protruding jaw, short bent legs, broad bony hands and clawed feet. Keep front3/4 view facing left, same pose and same position on a256x256 transparent canvas. Keep cool pale gray-blue sick skin, tattered near-black loincloth, one battered rust-brown round shoulder guard on image-right, and short dark iron mace held forward on image-left. Less human, slightly feral, with crooked ears and small fangs, not a human skeleton or zombie. Retain a few large yellow-pink skin blisters; no gore. Clean readable pixel clusters, dark local outlines, simple2-3tone planes like a compact fantasy tactical-game sprite. Reduce isolated noisy speckles without making the pixel grid coarser. No extra fine texture. Entire crown, ears, fingers, weapon and toes must be complete, with wide empty margins. Do not enlarge, stretch, crop or add background/shadow/base. Change only the focused design accents below; keep Kostyash recognizable. Develop the scavenged equipment: a torn dark-brown shoulder wrap beneath the existing round guard, one rough ivory bone clasp at the belt, and two uneven iron lumps on the short mace. Keep all gear simple, worn and sparsely detailed. No backpack, helmet, shield, cape or tall ornament. Preserve sick skin blisters and bony anatomy.",
+      "input": "references/kostyash07.png",
+      "seed": 2026112404,
+      "image_size": {
+        "width": 256,
+        "height": 256
+      },
+      "no_background": true
+    },
+    {
+      "id": 5,
+      "name": "Старый Костяш",
+      "focus": "Сутулый старый уродец",
+      "endpoint": "/edit-images-v2",
+      "method": "edit_with_text",
+      "description": "Develop THIS same Kostyash hobgoblin into a close design variant, not a different species or character. Preserve his compact135px native figure height, hunched lean but stocky body, oversized angular skull-like living face, heavy brow, protruding jaw, short bent legs, broad bony hands and clawed feet. Keep front3/4 view facing left, same pose and same position on a256x256 transparent canvas. Keep cool pale gray-blue sick skin, tattered near-black loincloth, one battered rust-brown round shoulder guard on image-right, and short dark iron mace held forward on image-left. Less human, slightly feral, with crooked ears and small fangs, not a human skeleton or zombie. Retain a few large yellow-pink skin blisters; no gore. Clean readable pixel clusters, dark local outlines, simple2-3tone planes like a compact fantasy tactical-game sprite. Reduce isolated noisy speckles without making the pixel grid coarser. No extra fine texture. Entire crown, ears, fingers, weapon and toes must be complete, with wide empty margins. Do not enlarge, stretch, crop or add background/shadow/base. Change only the focused design accents below; keep Kostyash recognizable. Make him older and more crooked: one folded ear, one broken short fang, slightly heavier knuckles and a rounded bony hump under the existing small shoulder guard. Preserve the same overall hunched silhouette and low height. Keep the original weapon and loincloth, just a few large blisters, no beard, hair or long horns.",
+      "input": "references/kostyash07.png",
+      "seed": 2026112405,
+      "image_size": {
+        "width": 256,
+        "height": 256
+      },
+      "no_background": true
+    }
+  ]
+}

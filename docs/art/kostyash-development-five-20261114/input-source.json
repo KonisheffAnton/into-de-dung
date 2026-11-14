@@ -1,0 +1,15 @@
+{
+  "source_package": "docs/art/hobgoblins-repair-ten-20261114/variants/hobgoblin-07.png",
+  "file": "references/kostyash07.png",
+  "sha256": "f856a4e9c5fdcf3416a45b1635ec42c3d2b18c376e5f9deae37a39479856663a",
+  "bbox": [
+    50,
+    69,
+    198,
+    204
+  ],
+  "height": 135,
+  "warrior_file": "references/warrior11.png",
+  "warrior_sha256": "d8117c67d3b59c5943ea850b8802ff1ce895ef919ad65c06d730d0716b6146a8",
+  "warrior_height": 152
+}

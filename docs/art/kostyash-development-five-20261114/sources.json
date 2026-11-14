@@ -1,0 +1,164 @@
+{
+  "expected": 5,
+  "completed": 5,
+  "complete": true,
+  "request_manifest_sha256": "a5beaa5888c0207b31350a2cc9c853fee3e26455f923aeb9ad7d7a77a6347646",
+  "request_manifest_hash_policy": "UTF-8 without BOM, LF newlines",
+  "input_source_manifest_sha256": "375d32845a6f662b6dc76277b60ed0716273730b0505db7fa1406201680b8788",
+  "input_source_hash_policy": "UTF-8 without BOM, LF newlines",
+  "input_source": {
+    "source_package": "docs/art/hobgoblins-repair-ten-20261114/variants/hobgoblin-07.png",
+    "file": "references/kostyash07.png",
+    "sha256": "f856a4e9c5fdcf3416a45b1635ec42c3d2b18c376e5f9deae37a39479856663a",
+    "bbox": [
+      50,
+      69,
+      198,
+      204
+    ],
+    "height": 135,
+    "warrior_file": "references/warrior11.png",
+    "warrior_sha256": "d8117c67d3b59c5943ea850b8802ff1ce895ef919ad65c06d730d0716b6146a8",
+    "warrior_height": 152
+  },
+  "geometry_policy": "130-140px native alpha height, shorter than Warrior, at least 8px canvas margin",
+  "raw_images_unmodified": true,
+  "integration": false,
+  "variants": [
+    {
+      "id": 1,
+      "name": "Скулолом",
+      "focus": "Костяная морда и тяжёлые скулы",
+      "file": "variants/kostyash-01.png",
+      "sha256": "00907aff67629de7757438dd1aee1183f800746815d2978836f322f9efe2d729",
+      "job_id": "3a5a3581-3ac1-446e-9ad7-854d2f34c947",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 10
+      },
+      "request_sha256": "4f3beaf88c37bacecc44cbcae3d76d4e8738ed4762cc04e8e2a66aeb6c8aefcd",
+      "width": 256,
+      "height": 256,
+      "mode": "RGBA",
+      "bbox": [
+        50,
+        69,
+        198,
+        206
+      ],
+      "native_height": 137,
+      "geometry_pass": true,
+      "needs_review": false,
+      "geometry_flags": []
+    },
+    {
+      "id": 2,
+      "name": "Костяной панцирь",
+      "focus": "Наросты на плече и предплечье",
+      "file": "variants/kostyash-02.png",
+      "sha256": "15801bea0d254b8c0a318e8c5a3b5ad0abe5d0bb80693d206d0b8ee6efa09cd9",
+      "job_id": "7076cb6e-59ac-4074-8a08-73c68959258d",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 10
+      },
+      "request_sha256": "17969713bd431c64d59688cd07bfd02b4496e569bf0e3ae67f09f2a9c6cbf918",
+      "width": 256,
+      "height": 256,
+      "mode": "RGBA",
+      "bbox": [
+        50,
+        69,
+        198,
+        204
+      ],
+      "native_height": 135,
+      "geometry_pass": true,
+      "needs_review": false,
+      "geometry_flags": []
+    },
+    {
+      "id": 3,
+      "name": "Чумной",
+      "focus": "Волдыри и болезненная асимметрия",
+      "file": "variants/kostyash-03.png",
+      "sha256": "f8413713f60710c4a3f5c50ca6743589ec1740bf774659029ee3e5cc50c3c934",
+      "job_id": "a8d94b4c-dbcc-4681-8905-304729cad75e",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 10
+      },
+      "request_sha256": "b4ba642b246223870e320ab517958208a289ba675b2bd6d2f9b5f566ecc9e4df",
+      "width": 256,
+      "height": 256,
+      "mode": "RGBA",
+      "bbox": [
+        50,
+        69,
+        197,
+        206
+      ],
+      "native_height": 137,
+      "geometry_pass": true,
+      "needs_review": false,
+      "geometry_flags": []
+    },
+    {
+      "id": 4,
+      "name": "Падальщик",
+      "focus": "Грубое снаряжение из обломков",
+      "file": "variants/kostyash-04.png",
+      "sha256": "88420fa92c40619d1ab453ca5c288560e953aa3260d2fa1f38388044dd2d6a64",
+      "job_id": "ffc2c876-3d38-4a3a-919a-03c56d9f7ddf",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 10
+      },
+      "request_sha256": "e265c80d8042dddf4ab3f76817eb3da0abe587bed34260d407b4a206fa7424c6",
+      "width": 256,
+      "height": 256,
+      "mode": "RGBA",
+      "bbox": [
+        50,
+        69,
+        201,
+        204
+      ],
+      "native_height": 135,
+      "geometry_pass": true,
+      "needs_review": false,
+      "geometry_flags": []
+    },
+    {
+      "id": 5,
+      "name": "Старый Костяш",
+      "focus": "Сутулый старый уродец",
+      "file": "variants/kostyash-05.png",
+      "sha256": "6d8cd682dd229f6462b79875d7f7c4584939b05fea3f08bb619e022cdd41ad01",
+      "job_id": "e8b32ff0-ae62-43b5-ab31-75d1159e160c",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 10
+      },
+      "request_sha256": "31e0cf477178966bbf34051917f80daddb1a2411f17c18b8262a77ba27b9866f",
+      "width": 256,
+      "height": 256,
+      "mode": "RGBA",
+      "bbox": [
+        50,
+        69,
+        195,
+        204
+      ],
+      "native_height": 135,
+      "geometry_pass": true,
+      "needs_review": false,
+      "geometry_flags": []
+    }
+  ]
+}
