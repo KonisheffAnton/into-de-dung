@@ -1,0 +1,232 @@
+[
+  {
+    "id": 1,
+    "name": "Горбатый",
+    "endpoint": "/inpaint-image-pro-flash",
+    "description": "Edit ONLY the white-mask areas of this existing small pixel-art hobgoblin. Preserve its exact pose, overall scale, 120-128px body height, large head, hunched back, skinny tucked waist, broad shoulders, short bent legs, outfit and weapon. The first context panel is this source; the other panels show style ONLY. Restore the truncated crown of the head and soles/toes into the nearby transparent margin, using only 2-4 extra pixels at top and bottom; draw complete rounded contours, no flat cut-off lines. Keep the full figure far from all 256x256 canvas edges. Make it slightly less human: broad blunt goblinoid muzzle instead of human nose/lips, irregular pointed batlike ears, knobby clawed toes and hands, small uneven tusks; keep its identity. Make exposed skin visibly sick and sallow pale gray-ivory, with 3-5 large swollen yellow-pink fluid blisters on forehead/shoulder/forearm, each a simple readable 3-5px cluster with one shadow and highlight. A few large swellings, no fine rash, no grain or tiny freckles. Clean dark local outline, chunky consistent pixel clusters, simple 2-3-tone skin shading. Transparent background, no ground/shadow/text/new objects. Do not enlarge or straighten the character. Retain this variant's distinctive face and gear.",
+    "input": "inputs/hobgoblin-01.png",
+    "mask": "masks/hobgoblin-01.png",
+    "context": "contexts/hobgoblin-01.png",
+    "bounding_box": {
+      "x": 0,
+      "y": 0,
+      "width": 256,
+      "height": 256
+    },
+    "no_background": true,
+    "output_method": "Modify current layer",
+    "crop_to_mask": true,
+    "seed": 2026111801,
+    "expected_size": [
+      256,
+      256
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Кривоклык",
+    "endpoint": "/inpaint-image-pro-flash",
+    "description": "Edit ONLY the white-mask areas of this existing small pixel-art hobgoblin. Preserve its exact pose, overall scale, 120-128px body height, large head, hunched back, skinny tucked waist, broad shoulders, short bent legs, outfit and weapon. The first context panel is this source; the other panels show style ONLY. Restore the truncated crown of the head and soles/toes into the nearby transparent margin, using only 2-4 extra pixels at top and bottom; draw complete rounded contours, no flat cut-off lines. Keep the full figure far from all 256x256 canvas edges. Make it slightly less human: broad blunt goblinoid muzzle instead of human nose/lips, irregular pointed batlike ears, knobby clawed toes and hands, small uneven tusks; keep its identity. Make exposed skin visibly sick and sallow pale gray-ivory, with 3-5 large swollen yellow-pink fluid blisters on forehead/shoulder/forearm, each a simple readable 3-5px cluster with one shadow and highlight. A few large swellings, no fine rash, no grain or tiny freckles. Clean dark local outline, chunky consistent pixel clusters, simple 2-3-tone skin shading. Transparent background, no ground/shadow/text/new objects. Do not enlarge or straighten the character. Retain this variant's distinctive face and gear.",
+    "input": "inputs/hobgoblin-02.png",
+    "mask": "masks/hobgoblin-02.png",
+    "context": "contexts/hobgoblin-02.png",
+    "bounding_box": {
+      "x": 0,
+      "y": 0,
+      "width": 256,
+      "height": 256
+    },
+    "no_background": true,
+    "output_method": "Modify current layer",
+    "crop_to_mask": true,
+    "seed": 2026111802,
+    "expected_size": [
+      256,
+      256
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Длиннорукий",
+    "endpoint": "/inpaint-image-pro-flash",
+    "description": "Edit ONLY the white-mask areas of this existing small pixel-art hobgoblin. Preserve its exact pose, overall scale, 120-128px body height, large head, hunched back, skinny tucked waist, broad shoulders, short bent legs, outfit and weapon. The first context panel is this source; the other panels show style ONLY. Restore the truncated crown of the head and soles/toes into the nearby transparent margin, using only 2-4 extra pixels at top and bottom; draw complete rounded contours, no flat cut-off lines. Keep the full figure far from all 256x256 canvas edges. Make it slightly less human: broad blunt goblinoid muzzle instead of human nose/lips, irregular pointed batlike ears, knobby clawed toes and hands, small uneven tusks; keep its identity. Make exposed skin visibly sick and sallow pale gray-ivory, with 3-5 large swollen yellow-pink fluid blisters on forehead/shoulder/forearm, each a simple readable 3-5px cluster with one shadow and highlight. A few large swellings, no fine rash, no grain or tiny freckles. Clean dark local outline, chunky consistent pixel clusters, simple 2-3-tone skin shading. Transparent background, no ground/shadow/text/new objects. Do not enlarge or straighten the character. Retain this variant's distinctive face and gear.",
+    "input": "inputs/hobgoblin-03.png",
+    "mask": "masks/hobgoblin-03.png",
+    "context": "contexts/hobgoblin-03.png",
+    "bounding_box": {
+      "x": 0,
+      "y": 0,
+      "width": 256,
+      "height": 256
+    },
+    "no_background": true,
+    "output_method": "Modify current layer",
+    "crop_to_mask": true,
+    "seed": 2026111803,
+    "expected_size": [
+      256,
+      256
+    ]
+  },
+  {
+    "id": 4,
+    "name": "Узкогрудый",
+    "endpoint": "/inpaint-image-pro-flash",
+    "description": "Edit ONLY the white-mask areas of this existing small pixel-art hobgoblin. Preserve its exact pose, overall scale, 120-128px body height, large head, hunched back, skinny tucked waist, broad shoulders, short bent legs, outfit and weapon. The first context panel is this source; the other panels show style ONLY. Restore the truncated crown of the head and soles/toes into the nearby transparent margin, using only 2-4 extra pixels at top and bottom; draw complete rounded contours, no flat cut-off lines. Keep the full figure far from all 256x256 canvas edges. Make it slightly less human: broad blunt goblinoid muzzle instead of human nose/lips, irregular pointed batlike ears, knobby clawed toes and hands, small uneven tusks; keep its identity. Make exposed skin visibly sick and sallow pale gray-ivory, with 3-5 large swollen yellow-pink fluid blisters on forehead/shoulder/forearm, each a simple readable 3-5px cluster with one shadow and highlight. A few large swellings, no fine rash, no grain or tiny freckles. Clean dark local outline, chunky consistent pixel clusters, simple 2-3-tone skin shading. Transparent background, no ground/shadow/text/new objects. Do not enlarge or straighten the character. Retain this variant's distinctive face and gear.",
+    "input": "inputs/hobgoblin-04.png",
+    "mask": "masks/hobgoblin-04.png",
+    "context": "contexts/hobgoblin-04.png",
+    "bounding_box": {
+      "x": 0,
+      "y": 0,
+      "width": 256,
+      "height": 256
+    },
+    "no_background": true,
+    "output_method": "Modify current layer",
+    "crop_to_mask": true,
+    "seed": 2026111804,
+    "expected_size": [
+      256,
+      256
+    ]
+  },
+  {
+    "id": 5,
+    "name": "Одноухий",
+    "endpoint": "/inpaint-image-pro-flash",
+    "description": "Edit ONLY the white-mask areas of this existing small pixel-art hobgoblin. Preserve its exact pose, overall scale, 120-128px body height, large head, hunched back, skinny tucked waist, broad shoulders, short bent legs, outfit and weapon. The first context panel is this source; the other panels show style ONLY. Restore the truncated crown of the head and soles/toes into the nearby transparent margin, using only 2-4 extra pixels at top and bottom; draw complete rounded contours, no flat cut-off lines. Keep the full figure far from all 256x256 canvas edges. Make it slightly less human: broad blunt goblinoid muzzle instead of human nose/lips, irregular pointed batlike ears, knobby clawed toes and hands, small uneven tusks; keep its identity. Make exposed skin visibly sick and sallow pale gray-ivory, with 3-5 large swollen yellow-pink fluid blisters on forehead/shoulder/forearm, each a simple readable 3-5px cluster with one shadow and highlight. A few large swellings, no fine rash, no grain or tiny freckles. Clean dark local outline, chunky consistent pixel clusters, simple 2-3-tone skin shading. Transparent background, no ground/shadow/text/new objects. Do not enlarge or straighten the character. Retain this variant's distinctive face and gear.",
+    "input": "inputs/hobgoblin-05.png",
+    "mask": "masks/hobgoblin-05.png",
+    "context": "contexts/hobgoblin-05.png",
+    "bounding_box": {
+      "x": 0,
+      "y": 0,
+      "width": 256,
+      "height": 256
+    },
+    "no_background": true,
+    "output_method": "Modify current layer",
+    "crop_to_mask": true,
+    "seed": 2026111805,
+    "expected_size": [
+      256,
+      256
+    ]
+  },
+  {
+    "id": 6,
+    "name": "Белоглаз",
+    "endpoint": "/inpaint-image-pro-flash",
+    "description": "Edit ONLY the white-mask areas of this existing small pixel-art hobgoblin. Preserve its exact pose, overall scale, 120-128px body height, large head, hunched back, skinny tucked waist, broad shoulders, short bent legs, outfit and weapon. The first context panel is this source; the other panels show style ONLY. Restore the truncated crown of the head and soles/toes into the nearby transparent margin, using only 2-4 extra pixels at top and bottom; draw complete rounded contours, no flat cut-off lines. Keep the full figure far from all 256x256 canvas edges. Make it slightly less human: broad blunt goblinoid muzzle instead of human nose/lips, irregular pointed batlike ears, knobby clawed toes and hands, small uneven tusks; keep its identity. Make exposed skin visibly sick and sallow pale gray-ivory, with 3-5 large swollen yellow-pink fluid blisters on forehead/shoulder/forearm, each a simple readable 3-5px cluster with one shadow and highlight. A few large swellings, no fine rash, no grain or tiny freckles. Clean dark local outline, chunky consistent pixel clusters, simple 2-3-tone skin shading. Transparent background, no ground/shadow/text/new objects. Do not enlarge or straighten the character. Retain this variant's distinctive face and gear.",
+    "input": "inputs/hobgoblin-06.png",
+    "mask": "masks/hobgoblin-06.png",
+    "context": "contexts/hobgoblin-06.png",
+    "bounding_box": {
+      "x": 0,
+      "y": 0,
+      "width": 256,
+      "height": 256
+    },
+    "no_background": true,
+    "output_method": "Modify current layer",
+    "crop_to_mask": true,
+    "seed": 2026111806,
+    "expected_size": [
+      256,
+      256
+    ]
+  },
+  {
+    "id": 7,
+    "name": "Костяш",
+    "endpoint": "/inpaint-image-pro-flash",
+    "description": "Edit ONLY the white-mask areas of this existing small pixel-art hobgoblin. Preserve its exact pose, overall scale, 120-128px body height, large head, hunched back, skinny tucked waist, broad shoulders, short bent legs, outfit and weapon. The first context panel is this source; the other panels show style ONLY. Restore the truncated crown of the head and soles/toes into the nearby transparent margin, using only 2-4 extra pixels at top and bottom; draw complete rounded contours, no flat cut-off lines. Keep the full figure far from all 256x256 canvas edges. Make it slightly less human: broad blunt goblinoid muzzle instead of human nose/lips, irregular pointed batlike ears, knobby clawed toes and hands, small uneven tusks; keep its identity. Make exposed skin visibly sick and sallow pale gray-ivory, with 3-5 large swollen yellow-pink fluid blisters on forehead/shoulder/forearm, each a simple readable 3-5px cluster with one shadow and highlight. A few large swellings, no fine rash, no grain or tiny freckles. Clean dark local outline, chunky consistent pixel clusters, simple 2-3-tone skin shading. Transparent background, no ground/shadow/text/new objects. Do not enlarge or straighten the character. Retain this variant's distinctive face and gear.",
+    "input": "inputs/hobgoblin-07.png",
+    "mask": "masks/hobgoblin-07.png",
+    "context": "contexts/hobgoblin-07.png",
+    "bounding_box": {
+      "x": 0,
+      "y": 0,
+      "width": 256,
+      "height": 256
+    },
+    "no_background": true,
+    "output_method": "Modify current layer",
+    "crop_to_mask": true,
+    "seed": 2026111807,
+    "expected_size": [
+      256,
+      256
+    ]
+  },
+  {
+    "id": 8,
+    "name": "Сутулый",
+    "endpoint": "/inpaint-image-pro-flash",
+    "description": "Edit ONLY the white-mask areas of this existing small pixel-art hobgoblin. Preserve its exact pose, overall scale, 120-128px body height, large head, hunched back, skinny tucked waist, broad shoulders, short bent legs, outfit and weapon. The first context panel is this source; the other panels show style ONLY. Restore the truncated crown of the head and soles/toes into the nearby transparent margin, using only 2-4 extra pixels at top and bottom; draw complete rounded contours, no flat cut-off lines. Keep the full figure far from all 256x256 canvas edges. Make it slightly less human: broad blunt goblinoid muzzle instead of human nose/lips, irregular pointed batlike ears, knobby clawed toes and hands, small uneven tusks; keep its identity. Make exposed skin visibly sick and sallow pale gray-ivory, with 3-5 large swollen yellow-pink fluid blisters on forehead/shoulder/forearm, each a simple readable 3-5px cluster with one shadow and highlight. A few large swellings, no fine rash, no grain or tiny freckles. Clean dark local outline, chunky consistent pixel clusters, simple 2-3-tone skin shading. Transparent background, no ground/shadow/text/new objects. Do not enlarge or straighten the character. For variant8, redraw the coarse dotty rendering to match the clean crisp outline, pixel density and shading of the neighboring hobgoblin references. Keep its exact hunched silhouette, head/limb proportions and small native size; do not add microscopic details.",
+    "input": "inputs/hobgoblin-08.png",
+    "mask": "masks/hobgoblin-08.png",
+    "context": "contexts/hobgoblin-08.png",
+    "bounding_box": {
+      "x": 0,
+      "y": 0,
+      "width": 256,
+      "height": 256
+    },
+    "no_background": true,
+    "output_method": "Modify current layer",
+    "crop_to_mask": true,
+    "seed": 2026111808,
+    "expected_size": [
+      256,
+      256
+    ]
+  },
+  {
+    "id": 9,
+    "name": "Широколобый",
+    "endpoint": "/inpaint-image-pro-flash",
+    "description": "Edit ONLY the white-mask areas of this existing small pixel-art hobgoblin. Preserve its exact pose, overall scale, 120-128px body height, large head, hunched back, skinny tucked waist, broad shoulders, short bent legs, outfit and weapon. The first context panel is this source; the other panels show style ONLY. Restore the truncated crown of the head and soles/toes into the nearby transparent margin, using only 2-4 extra pixels at top and bottom; draw complete rounded contours, no flat cut-off lines. Keep the full figure far from all 256x256 canvas edges. Make it slightly less human: broad blunt goblinoid muzzle instead of human nose/lips, irregular pointed batlike ears, knobby clawed toes and hands, small uneven tusks; keep its identity. Make exposed skin visibly sick and sallow pale gray-ivory, with 3-5 large swollen yellow-pink fluid blisters on forehead/shoulder/forearm, each a simple readable 3-5px cluster with one shadow and highlight. A few large swellings, no fine rash, no grain or tiny freckles. Clean dark local outline, chunky consistent pixel clusters, simple 2-3-tone skin shading. Transparent background, no ground/shadow/text/new objects. Do not enlarge or straighten the character. Retain this variant's distinctive face and gear.",
+    "input": "inputs/hobgoblin-09.png",
+    "mask": "masks/hobgoblin-09.png",
+    "context": "contexts/hobgoblin-09.png",
+    "bounding_box": {
+      "x": 0,
+      "y": 0,
+      "width": 256,
+      "height": 256
+    },
+    "no_background": true,
+    "output_method": "Modify current layer",
+    "crop_to_mask": true,
+    "seed": 2026111809,
+    "expected_size": [
+      256,
+      256
+    ]
+  },
+  {
+    "id": 10,
+    "name": "Косоплечий",
+    "endpoint": "/inpaint-image-pro-flash",
+    "description": "Edit ONLY the white-mask areas of this existing small pixel-art hobgoblin. Preserve its exact pose, overall scale, 120-128px body height, large head, hunched back, skinny tucked waist, broad shoulders, short bent legs, outfit and weapon. The first context panel is this source; the other panels show style ONLY. Restore the truncated crown of the head and soles/toes into the nearby transparent margin, using only 2-4 extra pixels at top and bottom; draw complete rounded contours, no flat cut-off lines. Keep the full figure far from all 256x256 canvas edges. Make it slightly less human: broad blunt goblinoid muzzle instead of human nose/lips, irregular pointed batlike ears, knobby clawed toes and hands, small uneven tusks; keep its identity. Make exposed skin visibly sick and sallow pale gray-ivory, with 3-5 large swollen yellow-pink fluid blisters on forehead/shoulder/forearm, each a simple readable 3-5px cluster with one shadow and highlight. A few large swellings, no fine rash, no grain or tiny freckles. Clean dark local outline, chunky consistent pixel clusters, simple 2-3-tone skin shading. Transparent background, no ground/shadow/text/new objects. Do not enlarge or straighten the character. Retain this variant's distinctive face and gear.",
+    "input": "inputs/hobgoblin-10.png",
+    "mask": "masks/hobgoblin-10.png",
+    "context": "contexts/hobgoblin-10.png",
+    "bounding_box": {
+      "x": 0,
+      "y": 0,
+      "width": 256,
+      "height": 256
+    },
+    "no_background": true,
+    "output_method": "Modify current layer",
+    "crop_to_mask": true,
+    "seed": 2026111810,
+    "expected_size": [
+      256,
+      256
+    ]
+  }
+]

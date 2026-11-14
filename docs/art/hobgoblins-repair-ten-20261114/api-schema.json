@@ -1,0 +1,178 @@
+{
+  "checked": "2026-11-14",
+  "source": "https://api.pixellab.ai/v2/openapi.json",
+  "endpoint": {
+    "post": {
+      "tags": [
+        "Inpaint"
+      ],
+      "summary": "Inpaint image (Pro Flash)",
+      "description": "Replace only white mask pixels, preserving unmasked RGBA exactly.\n\nSource and mask must have identical supported native dimensions. Mask RGB\nmust be pure black/white; alpha does not change mask meaning. Empty masks\nare rejected. Changes-only outputs are transparent outside the mask;\nModify current layer returns the full composite. Optional native context\nrequires its source bounding_box. Poll the returned background job.",
+      "operationId": "inpaint_image_pro_flash",
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/InpaintImageProFlashRequest"
+            }
+          }
+        },
+        "required": true
+      },
+      "responses": {
+        "202": {
+          "description": "Successful Response",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProFlashImageResponse"
+              }
+            }
+          }
+        },
+        "422": {
+          "description": "Validation Error",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/HTTPValidationError"
+              }
+            }
+          }
+        }
+      },
+      "security": [
+        {
+          "HTTPBearer": []
+        }
+      ]
+    }
+  },
+  "request": {
+    "properties": {
+      "image": {
+        "$ref": "#/components/schemas/Base64Image"
+      },
+      "mask_image": {
+        "$ref": "#/components/schemas/Base64Image"
+      },
+      "description": {
+        "type": "string",
+        "maxLength": 2000,
+        "minLength": 1,
+        "title": "Description"
+      },
+      "context_image": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/Base64Image"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "bounding_box": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/ProFlashBoundingBox"
+          },
+          {
+            "type": "null"
+          }
+        ]
+      },
+      "no_background": {
+        "type": "boolean",
+        "title": "No Background",
+        "default": false
+      },
+      "background_removal_task": {
+        "type": "string",
+        "enum": [
+          "remove_simple_background",
+          "remove_complex_background"
+        ],
+        "title": "Background Removal Task",
+        "default": "remove_simple_background"
+      },
+      "output_method": {
+        "type": "string",
+        "enum": [
+          "New layer with changes",
+          "Modify current layer, only changes",
+          "Modify current layer"
+        ],
+        "title": "Output Method",
+        "default": "Modify current layer"
+      },
+      "crop_to_mask": {
+        "type": "boolean",
+        "const": true,
+        "title": "Crop To Mask",
+        "default": true
+      },
+      "seed": {
+        "type": "integer",
+        "minimum": 0.0,
+        "title": "Seed",
+        "default": 0
+      },
+      "project_id": {
+        "anyOf": [
+          {
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Project Id"
+      }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+      "image",
+      "mask_image",
+      "description"
+    ],
+    "title": "InpaintImageProFlashRequest",
+    "description": "White RGB generates; black RGB preserves every original RGBA byte."
+  },
+  "bbox": {
+    "properties": {
+      "x": {
+        "type": "integer",
+        "minimum": 0.0,
+        "title": "X"
+      },
+      "y": {
+        "type": "integer",
+        "minimum": 0.0,
+        "title": "Y"
+      },
+      "width": {
+        "type": "integer",
+        "exclusiveMinimum": 0.0,
+        "title": "Width"
+      },
+      "height": {
+        "type": "integer",
+        "exclusiveMinimum": 0.0,
+        "title": "Height"
+      }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+      "x",
+      "y",
+      "width",
+      "height"
+    ],
+    "title": "ProFlashBoundingBox",
+    "description": "The native source rectangle within the additional context image."
+  }
+}

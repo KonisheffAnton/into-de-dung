@@ -1,0 +1,89 @@
+{
+  "complete": true,
+  "variants": 10,
+  "inpaint_outside_mask_exact": true,
+  "full_reference_edit_id8": {
+    "job_id": "350309dd-9398-4d1e-bf79-ba85a8fd9129",
+    "sha256": "1f1a0026f66d17455971fd7569b4b7daef4e72cf68b74772246351beee0bf9bb",
+    "final_bbox": [
+      53,
+      68,
+      193,
+      200
+    ],
+    "final_height": 132,
+    "outside_mask_exact": "not_applicable_no_mask_guarantee"
+  },
+  "native_heights": [
+    {
+      "id": 1,
+      "before": 126,
+      "after": 131
+    },
+    {
+      "id": 2,
+      "before": 128,
+      "after": 136
+    },
+    {
+      "id": 3,
+      "before": 125,
+      "after": 132
+    },
+    {
+      "id": 4,
+      "before": 120,
+      "after": 128
+    },
+    {
+      "id": 5,
+      "before": 128,
+      "after": 136
+    },
+    {
+      "id": 6,
+      "before": 126,
+      "after": 132
+    },
+    {
+      "id": 7,
+      "before": 128,
+      "after": 135
+    },
+    {
+      "id": 8,
+      "before": 128,
+      "after": 132
+    },
+    {
+      "id": 9,
+      "before": 128,
+      "after": 136
+    },
+    {
+      "id": 10,
+      "before": 128,
+      "after": 134
+    }
+  ],
+  "embedded_source_images": 21,
+  "sheets": {
+    "contact-sheet.png": [
+      2560,
+      1192
+    ],
+    "contact-sheet-small.png": [
+      1280,
+      596
+    ],
+    "style-compare.png": [
+      1024,
+      858
+    ],
+    "before-after-sheet.png": [
+      2560,
+      572
+    ]
+  },
+  "scope": "Pixel and artifact integrity only; visual face, feet, and blister acceptance remains human review"
+}

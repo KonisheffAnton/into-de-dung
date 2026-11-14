@@ -1,0 +1,418 @@
+{
+  "expected": 10,
+  "completed": 10,
+  "complete": true,
+  "request_manifest_sha256": "549a0be378f129a6f31e5e80acb8dcb7267d5151f608d795d29ff8d113cc3b72",
+  "request_manifest_hash_policy": "UTF-8 without BOM, LF newlines",
+  "input_sources_manifest_sha256": "8db292c933b98bbb237e194cc3084b06ab1416cfe42f3e495392903140cf6408",
+  "input_sources_hash_policy": "UTF-8 without BOM, LF newlines",
+  "whole_figure_mask_exception": {
+    "id": 8,
+    "enabled": true
+  },
+  "boundary_note": "Changed-pixel counts in top/bottom repair zones are diagnostics; outside-white-mask equality is mandatory.",
+  "style_and_blister_appearance": "Visual review required; not automatically accepted.",
+  "integration": false,
+  "variants": [
+    {
+      "id": 1,
+      "name": "Горбатый",
+      "file": "variants/hobgoblin-01.png",
+      "sha256": "5724a3b26fe958fa484488c2d08fbbd3b306cf91473b1426a0dec5f978364399",
+      "job_id": "650be24a-67b8-4033-9e46-24e3aa8bb3ab",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 9
+      },
+      "request_sha256": "6ce4df8e84fde6b69b998b615824a69aa8016a5fe648d80f0e5c453db951b563",
+      "input_file": "inputs/hobgoblin-01.png",
+      "input_sha256": "482ae02f8f5459ef531c6e78ffc28a9d6073a1e69b3c9b244a67c938fcab8bcd",
+      "mask_file": "masks/hobgoblin-01.png",
+      "mask_sha256": "84f25ee9f46dbad8683a901299d194d345c8ebb099d5c8163d28374896bea496",
+      "context_file": "contexts/hobgoblin-01.png",
+      "context_sha256": "106208730e6306b578439effa6af52efc033e1e49a2da5edb4dcc48aa3b64b7a",
+      "whole_figure_style_mask": false,
+      "source_bbox": [
+        63,
+        74,
+        192,
+        200
+      ],
+      "final_bbox": [
+        59,
+        73,
+        192,
+        204
+      ],
+      "source_height": 126,
+      "final_height": 131,
+      "height_delta": 5,
+      "height_within_repair_allowance": true,
+      "outside_white_mask_exact": true,
+      "changed_pixels_top_repair_zone": 42,
+      "changed_pixels_bottom_repair_zone": 194,
+      "edge_contact": false
+    },
+    {
+      "id": 2,
+      "name": "Кривоклык",
+      "file": "variants/hobgoblin-02.png",
+      "sha256": "e6dd76e484f93fb965c1a789c352b3add63b0cc0b0ab12cdfbb2c79c6c0e3062",
+      "job_id": "3492ff8b-fc4a-483b-8a12-b1cb2beb7cb6",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 9
+      },
+      "request_sha256": "58399fde618538db8e2ee237d983f075eb82256f0fb596a1294ebbd04df9ba37",
+      "input_file": "inputs/hobgoblin-02.png",
+      "input_sha256": "35400de4708ab5b06e5757c3f4353c63842a64411086bf3760f1b35fc94d5cae",
+      "mask_file": "masks/hobgoblin-02.png",
+      "mask_sha256": "e1d1a0e609b726c2550e3402170b127723ddd5054837dc2780c23f9ed30e1fb9",
+      "context_file": "contexts/hobgoblin-02.png",
+      "context_sha256": "efe91bc95bf33ec4ccee56271d81c2613ef1c070e5e0f63f1d20cae61de52a5e",
+      "whole_figure_style_mask": false,
+      "source_bbox": [
+        61,
+        72,
+        196,
+        200
+      ],
+      "final_bbox": [
+        57,
+        68,
+        196,
+        204
+      ],
+      "source_height": 128,
+      "final_height": 136,
+      "height_delta": 8,
+      "height_within_repair_allowance": true,
+      "outside_white_mask_exact": true,
+      "changed_pixels_top_repair_zone": 203,
+      "changed_pixels_bottom_repair_zone": 291,
+      "edge_contact": false
+    },
+    {
+      "id": 3,
+      "name": "Длиннорукий",
+      "file": "variants/hobgoblin-03.png",
+      "sha256": "88a18388d2e0066d0984e93b95e162ee23f8de7d2642351fde5358c5cfdcd89d",
+      "job_id": "d44d5c59-6d09-46a3-b755-c15bfcdef791",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 9
+      },
+      "request_sha256": "d72f3204c76cdd12c746dae6c932199d6657db54cdf8e0f0f64df92b839f8913",
+      "input_file": "inputs/hobgoblin-03.png",
+      "input_sha256": "114191f5c82099f0c241f1af371fbe96d9a66d4dab3582b11b409f0fd8920fbb",
+      "mask_file": "masks/hobgoblin-03.png",
+      "mask_sha256": "754ed5630121b91aa0aae7990cc68f898e62794d4e25913d0a049c63df11978c",
+      "context_file": "contexts/hobgoblin-03.png",
+      "context_sha256": "5998b512371af3e886fec0c19de1bbb6e804ca7ebe1a3582c3f3e749881e6d63",
+      "whole_figure_style_mask": false,
+      "source_bbox": [
+        74,
+        75,
+        190,
+        200
+      ],
+      "final_bbox": [
+        70,
+        72,
+        193,
+        204
+      ],
+      "source_height": 125,
+      "final_height": 132,
+      "height_delta": 7,
+      "height_within_repair_allowance": true,
+      "outside_white_mask_exact": true,
+      "changed_pixels_top_repair_zone": 77,
+      "changed_pixels_bottom_repair_zone": 110,
+      "edge_contact": false
+    },
+    {
+      "id": 4,
+      "name": "Узкогрудый",
+      "file": "variants/hobgoblin-04.png",
+      "sha256": "373cb137d7264782248d156fdaa140ac2e502d5fff10ed94ffa23e335bf18ee0",
+      "job_id": "4575231d-cb16-4a62-883e-7c75f36dc510",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 9
+      },
+      "request_sha256": "2b524b690cb80420c4422429a3521e262dc64505aae57f1308d3a47547c41512",
+      "input_file": "inputs/hobgoblin-04.png",
+      "input_sha256": "30ec0fdad5b0f7af01c09275bbb885f883872207a5182c9bd469831984108a61",
+      "mask_file": "masks/hobgoblin-04.png",
+      "mask_sha256": "b0a1de86ebe88c1b5b51ea149d156c60b820412fcc4d6478379423c575c5aa38",
+      "context_file": "contexts/hobgoblin-04.png",
+      "context_sha256": "60da53dd24e20ad5ce411931b65ac610bbdbeb8828e1d921df124270c1b1919d",
+      "whole_figure_style_mask": false,
+      "source_bbox": [
+        60,
+        80,
+        196,
+        200
+      ],
+      "final_bbox": [
+        56,
+        76,
+        196,
+        204
+      ],
+      "source_height": 120,
+      "final_height": 128,
+      "height_delta": 8,
+      "height_within_repair_allowance": true,
+      "outside_white_mask_exact": true,
+      "changed_pixels_top_repair_zone": 106,
+      "changed_pixels_bottom_repair_zone": 162,
+      "edge_contact": false
+    },
+    {
+      "id": 5,
+      "name": "Одноухий",
+      "file": "variants/hobgoblin-05.png",
+      "sha256": "785bedccbb22766b1da753cf2db456dcab321f2fa008a7dc4173c642c6d85f6d",
+      "job_id": "67dae16d-e468-49bd-bb6c-de206dd5e76c",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 9
+      },
+      "request_sha256": "38c57462f133850fe864e0380b119f9bf7526df7de294f315ed6759c0ef101cc",
+      "input_file": "inputs/hobgoblin-05.png",
+      "input_sha256": "d36d09be04f5fd86d291a56eb1fd15a6a630d7c2322030a63f96c22a5c60f5b0",
+      "mask_file": "masks/hobgoblin-05.png",
+      "mask_sha256": "b026298b8e1213694d226d811935c412d0fb2c3a992828c2172d0843849d2eb1",
+      "context_file": "contexts/hobgoblin-05.png",
+      "context_sha256": "4d3d76acc919507b533fef127acd5d0f38a370f81725f0a94f96ab620be2febb",
+      "whole_figure_style_mask": false,
+      "source_bbox": [
+        67,
+        72,
+        199,
+        200
+      ],
+      "final_bbox": [
+        64,
+        68,
+        200,
+        204
+      ],
+      "source_height": 128,
+      "final_height": 136,
+      "height_delta": 8,
+      "height_within_repair_allowance": true,
+      "outside_white_mask_exact": true,
+      "changed_pixels_top_repair_zone": 191,
+      "changed_pixels_bottom_repair_zone": 359,
+      "edge_contact": false
+    },
+    {
+      "id": 6,
+      "name": "Белоглаз",
+      "file": "variants/hobgoblin-06.png",
+      "sha256": "1b11c60b7cda55ce457a8080b691e73cacd9cb5b2a4b66b8cc6231cf878943e2",
+      "job_id": "df339ce4-cc28-484c-b4a1-6034edf6ae0b",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 9
+      },
+      "request_sha256": "6ef37cf2f63bcf3f4b7a2d5a3c4489879a6335dc80d8960f13ecf19d56da8c56",
+      "input_file": "inputs/hobgoblin-06.png",
+      "input_sha256": "b6dea9ae0c0d6e25a434c5b6312bc8ad705e23233ffd20c54846fe9983be40f2",
+      "mask_file": "masks/hobgoblin-06.png",
+      "mask_sha256": "f8222b350208a2d34a104e855b5a71e1d1432e578c754d3ef157b02448a4a45b",
+      "context_file": "contexts/hobgoblin-06.png",
+      "context_sha256": "9e36681e3715d03c23d2487b80c741748b9f754b1fba99084947421b942cf895",
+      "whole_figure_style_mask": false,
+      "source_bbox": [
+        67,
+        74,
+        187,
+        200
+      ],
+      "final_bbox": [
+        63,
+        71,
+        187,
+        203
+      ],
+      "source_height": 126,
+      "final_height": 132,
+      "height_delta": 6,
+      "height_within_repair_allowance": true,
+      "outside_white_mask_exact": true,
+      "changed_pixels_top_repair_zone": 112,
+      "changed_pixels_bottom_repair_zone": 138,
+      "edge_contact": false
+    },
+    {
+      "id": 7,
+      "name": "Костяш",
+      "file": "variants/hobgoblin-07.png",
+      "sha256": "f856a4e9c5fdcf3416a45b1635ec42c3d2b18c376e5f9deae37a39479856663a",
+      "job_id": "f1f96458-e2b7-454c-a2d8-899fe3088865",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 9
+      },
+      "request_sha256": "d273d8515d7693d061586419c63bab0278a2505a2a03e18198ba8f315ec72a28",
+      "input_file": "inputs/hobgoblin-07.png",
+      "input_sha256": "4dc89f5c10410900e5eb525125fba7658709f7dec07ce00a4617a54ea15cbdf9",
+      "mask_file": "masks/hobgoblin-07.png",
+      "mask_sha256": "0c2aa6d3ff78723a59bad7ab74f0d87d0df4fc5173ff001437f42243ab641985",
+      "context_file": "contexts/hobgoblin-07.png",
+      "context_sha256": "c3f82a156668097f6d809eef0ca055f2b23c8d27ede50b2c494172e25cde84db",
+      "whole_figure_style_mask": false,
+      "source_bbox": [
+        54,
+        72,
+        198,
+        200
+      ],
+      "final_bbox": [
+        50,
+        69,
+        198,
+        204
+      ],
+      "source_height": 128,
+      "final_height": 135,
+      "height_delta": 7,
+      "height_within_repair_allowance": true,
+      "outside_white_mask_exact": true,
+      "changed_pixels_top_repair_zone": 180,
+      "changed_pixels_bottom_repair_zone": 316,
+      "edge_contact": false
+    },
+    {
+      "id": 8,
+      "name": "Сутулый",
+      "file": "variants/hobgoblin-08.png",
+      "sha256": "8deeb117e6f0e4888b11d26b9fc8fdf9d07276971112493aaf725e8252cd6b68",
+      "job_id": "d94755fb-cb07-442e-989b-d8559ef254ba",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 9
+      },
+      "request_sha256": "4a80f7435bfa7585e5ca956772b4a06ff4a86a11e2a619d85d286f30b7f7d0b4",
+      "input_file": "inputs/hobgoblin-08.png",
+      "input_sha256": "f83bb29147ad7fceed12a6522662f973e6ab817b8f6b05bf5bdcf3c6421d49f4",
+      "mask_file": "masks/hobgoblin-08.png",
+      "mask_sha256": "828dfbd5ce0fc0452dcfda3cf06977f08af80cee02479c97cb97ef4a54abae3f",
+      "context_file": "contexts/hobgoblin-08.png",
+      "context_sha256": "decea13388faa7af010670dacee0d7dca594010993ea227adfd709aef572d0b7",
+      "whole_figure_style_mask": true,
+      "source_bbox": [
+        54,
+        72,
+        184,
+        200
+      ],
+      "final_bbox": [
+        53,
+        68,
+        184,
+        204
+      ],
+      "source_height": 128,
+      "final_height": 136,
+      "height_delta": 8,
+      "height_within_repair_allowance": true,
+      "outside_white_mask_exact": true,
+      "changed_pixels_top_repair_zone": 61,
+      "changed_pixels_bottom_repair_zone": 244,
+      "edge_contact": false
+    },
+    {
+      "id": 9,
+      "name": "Широколобый",
+      "file": "variants/hobgoblin-09.png",
+      "sha256": "6aff2bc61c5567c171a52300ecdec5196f1ba398c88eb33b5d53a9a5edee6352",
+      "job_id": "d4d14dc8-541c-4492-9d48-ebc4e7bc7dbd",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 9
+      },
+      "request_sha256": "3bfee538d0a12e1b81aa7d7e13e3513d86af1ff1b378f173d77cf8f452773a22",
+      "input_file": "inputs/hobgoblin-09.png",
+      "input_sha256": "c45965aeba88e57ee59b4a27aec5d8d2633a8210c9d96f270605c0dd648db720",
+      "mask_file": "masks/hobgoblin-09.png",
+      "mask_sha256": "59c52fd4b1a69a192620e89be2ea5a925b554c5d650f0becdee516b7d9dd89bb",
+      "context_file": "contexts/hobgoblin-09.png",
+      "context_sha256": "68de6f72d18121207de52a44071d0994944adea086bb518b2b2889e8d8c87006",
+      "whole_figure_style_mask": false,
+      "source_bbox": [
+        62,
+        72,
+        201,
+        200
+      ],
+      "final_bbox": [
+        58,
+        68,
+        201,
+        204
+      ],
+      "source_height": 128,
+      "final_height": 136,
+      "height_delta": 8,
+      "height_within_repair_allowance": true,
+      "outside_white_mask_exact": true,
+      "changed_pixels_top_repair_zone": 131,
+      "changed_pixels_bottom_repair_zone": 203,
+      "edge_contact": false
+    },
+    {
+      "id": 10,
+      "name": "Косоплечий",
+      "file": "variants/hobgoblin-10.png",
+      "sha256": "f2dd3dc8c1017829634f1896eace025a3351df95afc20c610818e6d19e1bef0c",
+      "job_id": "8e68c842-5682-417f-9189-56fa591793b6",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 9
+      },
+      "request_sha256": "1ddb954648589b3c70f2b0573969e3a67428a8dbac2e1d447b55bfd9d04f2a10",
+      "input_file": "inputs/hobgoblin-10.png",
+      "input_sha256": "d831386e94beccb13fd93bf2b7e9e49b3767c25ef90690306ea7a5057832c53e",
+      "mask_file": "masks/hobgoblin-10.png",
+      "mask_sha256": "82ea59b4bc8d6d4a82a1a4807a1ab5ec6e4ab653780ee619636980a962d4181a",
+      "context_file": "contexts/hobgoblin-10.png",
+      "context_sha256": "fc0b25b286e277cceff06166827f938d6e92cb11569a3aac8df05361663f72dd",
+      "whole_figure_style_mask": false,
+      "source_bbox": [
+        62,
+        72,
+        191,
+        200
+      ],
+      "final_bbox": [
+        60,
+        69,
+        191,
+        203
+      ],
+      "source_height": 128,
+      "final_height": 134,
+      "height_delta": 6,
+      "height_within_repair_allowance": true,
+      "outside_white_mask_exact": true,
+      "changed_pixels_top_repair_zone": 61,
+      "changed_pixels_bottom_repair_zone": 95,
+      "edge_contact": false
+    }
+  ]
+}

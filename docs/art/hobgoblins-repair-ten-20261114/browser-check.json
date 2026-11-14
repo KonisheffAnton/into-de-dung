@@ -1,0 +1,22 @@
+{
+  "date": "2026-11-14",
+  "status": "PASS",
+  "browser": "IAB",
+  "url": "http://127.0.0.1:8775/gallery.html",
+  "cards": 10,
+  "loaded_native_256x256_images": 10,
+  "global_before_count": 10,
+  "final_after_count": 10,
+  "item8_individual_before_after_toggle": true,
+  "backgrounds": ["dark", "light", "check"],
+  "warrior_reference_shown_and_hidden": true,
+  "reference_width_capped": true,
+  "modal_item8_observed": true,
+  "modal_rendered_width": 623.6875,
+  "modal_rendered_height": 623.6875,
+  "final_modal_closed": true,
+  "horizontal_overflow": false,
+  "final_background": "dark",
+  "marked_deliverable": true,
+  "scope": "Local gallery smoke and visual observation at current desktop viewport; no Godot or OS-DPI check"
+}

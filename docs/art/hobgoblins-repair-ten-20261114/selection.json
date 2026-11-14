@@ -1,0 +1,31 @@
+{
+  "schema": 1,
+  "note": "Base masked inpaint outputs remain unchanged. Only final gallery item 8 uses the additional full-reference style edit. No mask exactness guarantee for this final item.",
+  "overrides": [
+    {
+      "id": 8,
+      "file": "style08/final.png",
+      "sha256": "1f1a0026f66d17455971fd7569b4b7daef4e72cf68b74772246351beee0bf9bb",
+      "job_id": "350309dd-9398-4d1e-bf79-ba85a8fd9129",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 10
+      },
+      "source_input": "style08/input-inpaint.png",
+      "reference": "style08/style-reference-03.png",
+      "input_sha256": "8deeb117e6f0e4888b11d26b9fc8fdf9d07276971112493aaf725e8252cd6b68",
+      "reference_sha256": "88a18388d2e0066d0984e93b95e162ee23f8de7d2642351fde5358c5cfdcd89d",
+      "final_bbox": [
+        53,
+        68,
+        193,
+        200
+      ],
+      "final_height": 132,
+      "endpoint": "/edit-images-v2",
+      "method": "edit_with_reference",
+      "no_mask_guarantee": true
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "id": 8,
+  "endpoint": "/edit-image-pro-flash",
+  "method": "reference",
+  "description": "Match ONLY the clean pixel rendering style of the reference. Keep this source hobgoblin number8 identical in identity, hunched pose, lean stocky anatomy, large head, short bent legs, ragged brown clothes, little stick, pallid sick skin and large yellow-pink blisters. Preserve its current native size, about136px high, at exactly the same position on the256x256 transparent canvas. Keep the already repaired complete crown and toes. Replace the coarse noisy mottled texture with clean connected pixel clusters, crisp consistent dark outlines and simple readable2-3tone skin/cloth shading like the reference. No dither or scattered white speckles, no finer detail. Do not copy the reference character's pose, outfit or anatomy. Do not enlarge, stretch, recenter or crop. Leave wide transparent margins.",
+  "input": "style08/input-inpaint.png",
+  "reference": "style08/style-reference-03.png",
+  "input_sha256": "8deeb117e6f0e4888b11d26b9fc8fdf9d07276971112493aaf725e8252cd6b68",
+  "reference_sha256": "88a18388d2e0066d0984e93b95e162ee23f8de7d2642351fde5358c5cfdcd89d",
+  "no_background": true,
+  "use_color_palette_correction": false,
+  "seed": 2026111888,
+  "purpose": "Additional style correction after masked repair; no mask/exact outside-pixel promise for this pass"
+}

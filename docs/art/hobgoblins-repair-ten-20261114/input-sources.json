@@ -1,0 +1,177 @@
+{
+  "base": "ced5579bf0924bfdba9e128c84f1282b1c9b98c9",
+  "inputs": [
+    {
+      "id": 1,
+      "source": "docs/art/hobgoblins-hunched-ten-20261114/display/hobgoblin-01-256.png",
+      "input_sha256": "482ae02f8f5459ef531c6e78ffc28a9d6073a1e69b3c9b244a67c938fcab8bcd",
+      "source_bbox": [
+        63,
+        74,
+        192,
+        200
+      ],
+      "source_height": 126,
+      "mask_sha256": "84f25ee9f46dbad8683a901299d194d345c8ebb099d5c8163d28374896bea496",
+      "white_mask_pixels": 11557,
+      "context_sha256": "106208730e6306b578439effa6af52efc033e1e49a2da5edb4dcc48aa3b64b7a",
+      "identity_and_size_should_remain": true,
+      "whole_figure_style_mask": false
+    },
+    {
+      "id": 2,
+      "source": "docs/art/hobgoblins-hunched-ten-20261114/display/hobgoblin-02-256.png",
+      "input_sha256": "35400de4708ab5b06e5757c3f4353c63842a64411086bf3760f1b35fc94d5cae",
+      "source_bbox": [
+        61,
+        72,
+        196,
+        200
+      ],
+      "source_height": 128,
+      "mask_sha256": "e1d1a0e609b726c2550e3402170b127723ddd5054837dc2780c23f9ed30e1fb9",
+      "white_mask_pixels": 13939,
+      "context_sha256": "efe91bc95bf33ec4ccee56271d81c2613ef1c070e5e0f63f1d20cae61de52a5e",
+      "identity_and_size_should_remain": true,
+      "whole_figure_style_mask": false
+    },
+    {
+      "id": 3,
+      "source": "docs/art/hobgoblins-hunched-ten-20261114/display/hobgoblin-03-256.png",
+      "input_sha256": "114191f5c82099f0c241f1af371fbe96d9a66d4dab3582b11b409f0fd8920fbb",
+      "source_bbox": [
+        74,
+        75,
+        190,
+        200
+      ],
+      "source_height": 125,
+      "mask_sha256": "754ed5630121b91aa0aae7990cc68f898e62794d4e25913d0a049c63df11978c",
+      "white_mask_pixels": 10693,
+      "context_sha256": "5998b512371af3e886fec0c19de1bbb6e804ca7ebe1a3582c3f3e749881e6d63",
+      "identity_and_size_should_remain": true,
+      "whole_figure_style_mask": false
+    },
+    {
+      "id": 4,
+      "source": "docs/art/hobgoblins-hunched-ten-20261114/display/hobgoblin-04-256.png",
+      "input_sha256": "30ec0fdad5b0f7af01c09275bbb885f883872207a5182c9bd469831984108a61",
+      "source_bbox": [
+        60,
+        80,
+        196,
+        200
+      ],
+      "source_height": 120,
+      "mask_sha256": "b0a1de86ebe88c1b5b51ea149d156c60b820412fcc4d6478379423c575c5aa38",
+      "white_mask_pixels": 11577,
+      "context_sha256": "60da53dd24e20ad5ce411931b65ac610bbdbeb8828e1d921df124270c1b1919d",
+      "identity_and_size_should_remain": true,
+      "whole_figure_style_mask": false
+    },
+    {
+      "id": 5,
+      "source": "docs/art/hobgoblins-hunched-ten-20261114/display/hobgoblin-05-256.png",
+      "input_sha256": "d36d09be04f5fd86d291a56eb1fd15a6a630d7c2322030a63f96c22a5c60f5b0",
+      "source_bbox": [
+        67,
+        72,
+        199,
+        200
+      ],
+      "source_height": 128,
+      "mask_sha256": "b026298b8e1213694d226d811935c412d0fb2c3a992828c2172d0843849d2eb1",
+      "white_mask_pixels": 11749,
+      "context_sha256": "4d3d76acc919507b533fef127acd5d0f38a370f81725f0a94f96ab620be2febb",
+      "identity_and_size_should_remain": true,
+      "whole_figure_style_mask": false
+    },
+    {
+      "id": 6,
+      "source": "docs/art/hobgoblins-hunched-ten-20261114/display/hobgoblin-06-256.png",
+      "input_sha256": "b6dea9ae0c0d6e25a434c5b6312bc8ad705e23233ffd20c54846fe9983be40f2",
+      "source_bbox": [
+        67,
+        74,
+        187,
+        200
+      ],
+      "source_height": 126,
+      "mask_sha256": "f8222b350208a2d34a104e855b5a71e1d1432e578c754d3ef157b02448a4a45b",
+      "white_mask_pixels": 11831,
+      "context_sha256": "9e36681e3715d03c23d2487b80c741748b9f754b1fba99084947421b942cf895",
+      "identity_and_size_should_remain": true,
+      "whole_figure_style_mask": false
+    },
+    {
+      "id": 7,
+      "source": "docs/art/hobgoblins-hunched-ten-20261114/display/hobgoblin-07-256.png",
+      "input_sha256": "4dc89f5c10410900e5eb525125fba7658709f7dec07ce00a4617a54ea15cbdf9",
+      "source_bbox": [
+        54,
+        72,
+        198,
+        200
+      ],
+      "source_height": 128,
+      "mask_sha256": "0c2aa6d3ff78723a59bad7ab74f0d87d0df4fc5173ff001437f42243ab641985",
+      "white_mask_pixels": 11920,
+      "context_sha256": "c3f82a156668097f6d809eef0ca055f2b23c8d27ede50b2c494172e25cde84db",
+      "identity_and_size_should_remain": true,
+      "whole_figure_style_mask": false
+    },
+    {
+      "id": 8,
+      "source": "docs/art/hobgoblins-hunched-ten-20261114/display/hobgoblin-08-256.png",
+      "input_sha256": "f83bb29147ad7fceed12a6522662f973e6ab817b8f6b05bf5bdcf3c6421d49f4",
+      "source_bbox": [
+        54,
+        72,
+        184,
+        200
+      ],
+      "source_height": 128,
+      "mask_sha256": "828dfbd5ce0fc0452dcfda3cf06977f08af80cee02479c97cb97ef4a54abae3f",
+      "white_mask_pixels": 11802,
+      "context_sha256": "decea13388faa7af010670dacee0d7dca594010993ea227adfd709aef572d0b7",
+      "identity_and_size_should_remain": true,
+      "whole_figure_style_mask": true
+    },
+    {
+      "id": 9,
+      "source": "docs/art/hobgoblins-hunched-ten-20261114/display/hobgoblin-09-256.png",
+      "input_sha256": "c45965aeba88e57ee59b4a27aec5d8d2633a8210c9d96f270605c0dd648db720",
+      "source_bbox": [
+        62,
+        72,
+        201,
+        200
+      ],
+      "source_height": 128,
+      "mask_sha256": "59c52fd4b1a69a192620e89be2ea5a925b554c5d650f0becdee516b7d9dd89bb",
+      "white_mask_pixels": 12831,
+      "context_sha256": "68de6f72d18121207de52a44071d0994944adea086bb518b2b2889e8d8c87006",
+      "identity_and_size_should_remain": true,
+      "whole_figure_style_mask": false
+    },
+    {
+      "id": 10,
+      "source": "docs/art/hobgoblins-hunched-ten-20261114/display/hobgoblin-10-256.png",
+      "input_sha256": "d831386e94beccb13fd93bf2b7e9e49b3767c25ef90690306ea7a5057832c53e",
+      "source_bbox": [
+        62,
+        72,
+        191,
+        200
+      ],
+      "source_height": 128,
+      "mask_sha256": "82ea59b4bc8d6d4a82a1a4807a1ab5ec6e4ab653780ee619636980a962d4181a",
+      "white_mask_pixels": 12073,
+      "context_sha256": "fc0b25b286e277cceff06166827f938d6e92cb11569a3aac8df05361663f72dd",
+      "identity_and_size_should_remain": true,
+      "whole_figure_style_mask": false
+    }
+  ],
+  "context_policy": "Current source at0,0 in768x256; other two panels are native-size style reference, no resize",
+  "mask_policy": "White allows repair/head/skin/feet edits, black RGBA preserved by endpoint; #8 whole figure for style normalization"
+}

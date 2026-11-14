@@ -1,0 +1,22 @@
+{
+  "archive": "docs/CODEX_HANDOFF.history-20261114-14.md",
+  "archive_sha256": "b06d783cbddb4c59579902d18232dba72eb21c29a6be843a20a20d6d2ecacff1",
+  "archive_worktree_exact": true,
+  "before_chars_lf": 2491,
+  "after_chars_lf": 2411,
+  "after_lines": 36,
+  "unchanged_entry_files": [
+    "AGENTS.md",
+    "docs/PROJECT_CONTEXT.md",
+    "docs/CODEX_WORKFLOW.md"
+  ],
+  "retained_constraints": [
+    "no initiative",
+    "no integration without request",
+    "foreign changes protected",
+    "no push/sidebar/schedule",
+    "core/preview/queue/RNG/save/frozen unchanged",
+    "prior hub and battle checks not rerun",
+    "handoff archive and final prompt rule"
+  ]
+}

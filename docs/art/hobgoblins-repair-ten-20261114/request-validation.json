@@ -1,0 +1,47 @@
+{
+  "status": "PASS",
+  "base_inpaint_jobs": 10,
+  "base_payload_byte_checks": "export_pixellab.py asserts actual image/mask/context/request fields before exporting",
+  "additional_jobs": [
+    {
+      "stage": "style08",
+      "job_id": "38fe2bc7-c26c-4470-9dac-d9f9b7c69b0f",
+      "endpoint": "/edit-image-pro-flash",
+      "actual_fields_match_manifest": true,
+      "input_reference_bytes_exact": true,
+      "output_bytes_exact": true,
+      "output_sha256": "1cd318dcb20bfa315cc716d0b82a95d46e24cfd5f97630e0132868551f73f47d",
+      "selected": false,
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 9
+      }
+    },
+    {
+      "stage": "style08-pro",
+      "job_id": "350309dd-9398-4d1e-bf79-ba85a8fd9129",
+      "endpoint": "/edit-images-v2",
+      "actual_fields_match_manifest": true,
+      "input_reference_bytes_exact": true,
+      "output_bytes_exact": true,
+      "output_sha256": "1f1a0026f66d17455971fd7569b4b7daef4e72cf68b74772246351beee0bf9bb",
+      "selected": true,
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 10
+      }
+    }
+  ],
+  "usage": {
+    "base_inpaint": 90,
+    "rejected_flash_style": 9,
+    "selected_pro_style": 10,
+    "total_generation_units": 109,
+    "usd": 0,
+    "balance_before": 3477.71063541667,
+    "balance_after": 3368.71063541667
+  },
+  "no_reposted_jobs": true
+}
