@@ -1,0 +1,250 @@
+<div id="hub-smith-equipment">
+<style>
+#hub-smith-equipment .smith { --paper:light-dark(#e5d7bc,#302e29);--paper-raised:light-dark(#eee3ce,#39362f);--ink:light-dark(#332d25,#eee5d3);--muted-ink:light-dark(#665b4b,#bfb29c);--edge:light-dark(#aa9570,#6c604c);--ground:light-dark(#c8bfab,#242726);--deep:light-dark(#34352f,#1d211f);--on-deep:#eee3cf;--wine:light-dark(#76363a,#853d43);--gold:light-dark(#846020,#c5a168);--positive:light-dark(#365d38,#a3c19a);--negative:light-dark(#8c3835,#e4aaa1);font:15px/1.4 Arial,sans-serif;color:var(--ink);background:var(--ground);padding:18px; }
+#hub-smith-equipment .smith * { box-sizing:border-box; }
+#hub-smith-equipment .smith [hidden] { display:none!important; }
+#hub-smith-equipment .smith h2,#hub-smith-equipment .smith h3,#hub-smith-equipment .smith p { margin:0; }
+#hub-smith-equipment .smith button { font:inherit;color:inherit; }
+#hub-smith-equipment .smith button:disabled { opacity:.55;cursor:not-allowed; }
+#hub-smith-equipment .smith button:focus-visible { outline:3px solid var(--gold);outline-offset:3px; }
+#hub-smith-equipment .top { display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin:0 0 18px;padding-right:85px; }
+#hub-smith-equipment .navigation { display:flex;flex-wrap:wrap;gap:5px; }
+#hub-smith-equipment .nav-label { padding:8px 10px;background:var(--deep);color:var(--on-deep);border:1px solid var(--edge);border-radius:3px;font-size:13px; }
+#hub-smith-equipment .nav-label.active { background:var(--wine);border-color:var(--gold); }
+#hub-smith-equipment .wallet { display:flex;gap:14px;align-items:center;font-size:13px;white-space:nowrap; }
+#hub-smith-equipment .wallet span { display:flex;align-items:center;gap:5px; }
+#hub-smith-equipment .wallet svg { width:16px;height:16px; }
+#hub-smith-equipment .heading { display:flex;align-items:center;gap:9px;margin-bottom:16px; }
+#hub-smith-equipment .heading h2 { font-size:23px;font-weight:500; }
+#hub-smith-equipment .columns { display:grid;grid-template-columns:minmax(230px,.95fr) minmax(250px,1.1fr) minmax(270px,1.1fr);gap:14px;align-items:stretch;min-height:610px; }
+#hub-smith-equipment .panel { background:var(--paper);border:1px solid var(--edge);border-radius:3px;padding:15px;min-width:0; }
+#hub-smith-equipment .panel h3 { font-size:16px;font-weight:500; }
+#hub-smith-equipment .subtle { color:var(--muted-ink);font-size:12px; }
+#hub-smith-equipment .inventory { display:flex;flex-direction:column;min-height:585px; }
+#hub-smith-equipment .inventory-head { display:flex;align-items:center;justify-content:space-between;gap:7px;margin-bottom:5px; }
+#hub-smith-equipment .filters { display:flex;flex-wrap:wrap;gap:5px;margin:15px 0 10px; }
+#hub-smith-equipment .filter { border:1px solid var(--edge);background:transparent;padding:7px 9px;border-radius:3px;font-size:12px!important; }
+#hub-smith-equipment .filter[aria-pressed="true"] { color:var(--on-deep);background:var(--deep);border-color:var(--gold); }
+#hub-smith-equipment .compatible-toggle { display:flex;align-items:center;gap:7px;font-size:12px;margin-bottom:15px; }
+#hub-smith-equipment .compatible-toggle input { accent-color:var(--wine);width:16px;height:16px;margin:0; }
+#hub-smith-equipment .items { display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;align-content:start; }
+#hub-smith-equipment .item { position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;min-width:0;min-height:110px;padding:12px 4px 8px;border:1px solid var(--edge);border-radius:3px;background:var(--paper-raised); }
+#hub-smith-equipment .item:hover { border-color:var(--gold); }
+#hub-smith-equipment .item[aria-pressed="true"] { background:var(--deep);color:var(--on-deep);border-color:var(--gold);box-shadow:inset 0 0 0 1px var(--gold); }
+#hub-smith-equipment .item>svg { width:31px;height:31px;stroke-width:1.5;transform:scale(1.8);margin-block:6px; }
+#hub-smith-equipment .item .item-name { font-size:11px;line-height:1.25;min-height:28px;display:flex;align-items:center;justify-content:center;text-align:center;overflow-wrap:anywhere; }
+#hub-smith-equipment .owner-mark { position:absolute;right:4px;top:4px;width:19px;height:19px;display:grid;place-items:center;border-radius:50%;background:var(--wine);color:var(--on-deep);font-size:11px; }
+#hub-smith-equipment .unavailable-mark { position:absolute;left:4px;top:4px;color:var(--muted-ink); }
+#hub-smith-equipment .unavailable-mark svg { width:13px;height:13px; }
+#hub-smith-equipment .inventory-footer { display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:auto;padding-top:16px;font-size:12px;color:var(--muted-ink); }
+#hub-smith-equipment .inventory-legend { display:flex;align-items:center;gap:6px; }
+#hub-smith-equipment .legend-owner { display:grid;place-items:center;width:19px;height:19px;border-radius:50%;background:var(--wine);color:var(--on-deep);font-size:11px; }
+#hub-smith-equipment .hero-column { min-width:0;display:flex;flex-direction:column;align-items:center; }
+#hub-smith-equipment .hero-switch { display:flex;align-items:center;justify-content:center;gap:8px;width:100%;margin:0 0 14px; }
+#hub-smith-equipment .hero-choice { padding:7px 13px;border:1px solid var(--edge);border-radius:3px;background:var(--paper);font-size:13px!important; }
+#hub-smith-equipment .hero-choice[aria-pressed="true"] { background:var(--deep);color:var(--on-deep);border-color:var(--gold); }
+#hub-smith-equipment .hero-name { font-size:27px!important;font-weight:500; }
+#hub-smith-equipment .hero-class { color:var(--muted-ink);font-size:13px;margin-top:3px!important; }
+#hub-smith-equipment .hero-stage { position:relative;width:100%;height:292px;display:flex;justify-content:center;align-items:flex-end;isolation:isolate; }
+#hub-smith-equipment .workshop-arch { position:absolute;left:13%;right:13%;top:19px;bottom:35px;background:light-dark(#aea794,#363c36);border:13px solid light-dark(#9b9079,#45473b);border-bottom:0;border-radius:48% 48% 0 0;opacity:.65; }
+#hub-smith-equipment .pedestal { position:absolute;bottom:30px;width:85%;height:34px;border-radius:50%;background:light-dark(#a39d88,#1c211e);border-bottom:7px solid light-dark(#918872,#171c19); }
+#hub-smith-equipment .hero-image { position:relative;width:256px;height:256px;object-fit:contain;image-rendering:pixelated;z-index:1;margin-bottom:-26px;max-width:100%; }
+#hub-smith-equipment .gear-heading { align-self:flex-start;font-size:12px;color:var(--muted-ink);margin:7px 0 8px 2px; }
+#hub-smith-equipment .gear-slots { width:100%;display:grid;grid-template-columns:1fr 1fr;gap:8px; }
+#hub-smith-equipment .gear-slot { display:flex;flex-direction:column;align-items:center;gap:7px;min-width:0;min-height:112px;padding:12px 7px;border:1px solid var(--edge);border-radius:3px;background:var(--paper); }
+#hub-smith-equipment .gear-slot svg { width:27px;height:27px;transform:scale(1.5);margin-block:4px; }
+#hub-smith-equipment .gear-slot .slot-caption { font-size:11px;color:var(--muted-ink); }
+#hub-smith-equipment .gear-slot .slot-name { font-size:12px;text-align:center; }
+#hub-smith-equipment .gear-slot[aria-pressed="true"] { border-color:var(--gold);box-shadow:inset 0 0 0 1px var(--gold); }
+#hub-smith-equipment .hero-feedback { min-height:40px;display:flex;align-items:center;text-align:center;justify-content:center;color:var(--muted-ink);font-size:12px;margin-top:12px;padding:0 8px; }
+#hub-smith-equipment .detail { display:flex;flex-direction:column;gap:0; }
+#hub-smith-equipment .detail-label { text-transform:uppercase;letter-spacing:1.2px;font-size:11px;color:var(--muted-ink); }
+#hub-smith-equipment .selected-object { display:grid;place-items:center;height:118px;margin:11px 0 10px;background:var(--paper-raised);border:1px solid var(--edge);border-radius:3px; }
+#hub-smith-equipment .selected-object svg { width:63px;height:63px;stroke-width:1.3;transform:scale(3.5); }
+#hub-smith-equipment .item-title { font-size:20px!important;min-height:28px;font-weight:500; }
+#hub-smith-equipment .item-type { font-size:12px;color:var(--muted-ink);margin:4px 0 15px!important;min-height:18px; }
+#hub-smith-equipment .compare { width:100%;border-collapse:collapse;font-size:12px;font-variant-numeric:tabular-nums; }
+#hub-smith-equipment .compare th { font-weight:400;color:var(--muted-ink);font-size:11px;text-align:right;padding:8px 0; }
+#hub-smith-equipment .compare th:first-child { text-align:left; }
+#hub-smith-equipment .compare td { padding:12px 0;border-top:1px solid var(--edge);text-align:right;vertical-align:middle; }
+#hub-smith-equipment .compare td:first-child { text-align:left;width:45%; }
+#hub-smith-equipment .compare th:nth-child(2),#hub-smith-equipment .compare td:nth-child(2) { padding-left:5px;padding-right:9px; }
+#hub-smith-equipment .compare .change { display:inline-block;margin-left:5px;font-size:11px;min-width:25px; }
+#hub-smith-equipment .positive { color:var(--positive); }
+#hub-smith-equipment .negative { color:var(--negative); }
+#hub-smith-equipment .compare-against { font-size:11px;color:var(--muted-ink);margin-top:10px!important;min-height:32px; }
+#hub-smith-equipment .item-perk { display:flex;align-items:center;gap:8px;margin-top:12px;min-height:34px; }
+#hub-smith-equipment .perk-button { display:grid;place-items:center;width:34px;height:34px;border:1px solid var(--edge);background:var(--paper-raised);border-radius:50%; }
+#hub-smith-equipment .perk-button svg { width:19px;height:19px; }
+#hub-smith-equipment .detail-actions { margin-top:auto;padding-top:15px;display:flex;flex-direction:column;gap:8px; }
+#hub-smith-equipment .action-reason { min-height:34px;color:var(--muted-ink);font-size:12px;display:flex;align-items:flex-end; }
+#hub-smith-equipment .main-action { width:100%;min-height:49px;padding:10px;border:1px solid var(--gold);border-radius:3px;background:var(--wine);color:var(--on-deep)!important;font-size:16px!important; }
+#hub-smith-equipment .main-action:hover:not(:disabled) { filter:brightness(1.08); }
+@media(max-width:880px) and (min-width:711px) {
+ #hub-smith-equipment .smith { padding:12px; }
+ #hub-smith-equipment .columns { grid-template-columns:minmax(190px,.9fr) minmax(190px,1fr) minmax(230px,1.1fr);gap:10px; }
+ #hub-smith-equipment .panel { padding:11px; }
+ #hub-smith-equipment .items { gap:5px; }
+ #hub-smith-equipment .item { min-height:108px; }
+ #hub-smith-equipment .hero-image { width:224px;height:224px; }
+ #hub-smith-equipment .filter { padding:7px 6px; }
+}
+@media(max-width:710px) {
+ #hub-smith-equipment .smith { padding:12px; }
+ #hub-smith-equipment .top { padding-right:0;padding-top:38px; }
+ #hub-smith-equipment .columns { grid-template-columns:minmax(0,1fr);gap:18px; }
+ #hub-smith-equipment .inventory { min-height:0; }
+ #hub-smith-equipment .items { grid-template-columns:repeat(4,minmax(0,1fr)); }
+ #hub-smith-equipment .hero-column { padding:0 12px; }
+ #hub-smith-equipment .hero-stage { max-width:330px; }
+ #hub-smith-equipment .gear-slots { max-width:380px; }
+ #hub-smith-equipment .gear-heading { align-self:center; }
+ #hub-smith-equipment .detail { min-height:540px; }
+ #hub-smith-equipment .selected-object { height:100px; }
+}
+@media(max-width:380px) { #hub-smith-equipment .items { grid-template-columns:repeat(3,minmax(0,1fr)); } }
+@media(pointer:coarse) { #hub-smith-equipment .filter,#hub-smith-equipment .hero-choice,#hub-smith-equipment .compatible-toggle { min-height:44px; } }
+</style>
+<section class="smith" aria-label="Кузнец: инвентарь, герой и сравнение снаряжения">
+ <header class="top">
+  <nav class="navigation" aria-label="Разделы хаба"><span class="nav-label">Поход</span><span class="nav-label">Наёмники</span><span class="nav-label active" aria-current="page">Кузнец</span><span class="nav-label">Колода</span></nav>
+  <div class="wallet"><span><i data-lucide="coins" aria-hidden="true"></i>240</span><span><i data-lucide="gem" aria-hidden="true"></i>18</span></div>
+ </header>
+ <div class="heading"><i data-lucide="anvil" aria-hidden="true"></i><h2>Кузнец</h2></div>
+ <div class="columns">
+  <section class="panel inventory" aria-label="Инвентарь">
+   <div class="inventory-head"><h3>Инвентарь</h3><span class="subtle" id="smith-count"></span></div>
+   <p class="subtle">Все вещи, включая надетые</p>
+   <div class="filters" aria-label="Тип предмета">
+    <button type="button" class="filter cursor-interaction" data-filter="all" aria-pressed="true">Все</button>
+    <button type="button" class="filter cursor-interaction" data-filter="weapon" aria-pressed="false">Оружие</button>
+    <button type="button" class="filter cursor-interaction" data-filter="armor" aria-pressed="false">Броня</button>
+   </div>
+   <label class="compatible-toggle cursor-interaction"><input type="checkbox" id="smith-compatible">Подходит герою</label>
+   <div class="items" id="smith-items"></div>
+   <div class="inventory-footer"><span class="inventory-legend"><span class="legend-owner">Б</span>Надето на герое</span><span id="smith-visible-count"></span></div>
+  </section>
+  <section class="hero-column" aria-label="Герой и надетое снаряжение">
+   <div class="hero-switch" id="smith-heroes" aria-label="Выбор героя"></div>
+   <h3 class="hero-name" id="smith-hero-name">Бран</h3>
+   <p class="hero-class" id="smith-hero-class">Воин · уровень 4</p>
+   <div class="hero-stage"><div class="workshop-arch" aria-hidden="true"></div><div class="pedestal" aria-hidden="true"></div><img class="hero-image" src="data:image/png;base64,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" alt="Воин в снаряжении"></div>
+   <div class="gear-heading">Надето</div>
+   <div class="gear-slots" id="smith-slots"></div>
+   <div class="hero-feedback" id="smith-feedback" role="status" aria-live="polite"></div>
+  </section>
+  <section class="panel detail" aria-label="Выбранный предмет и сравнение">
+   <p class="detail-label">Выбранный предмет</p>
+   <div class="selected-object" id="smith-selected-icon" aria-hidden="true"></div>
+   <h3 class="item-title" id="smith-item-title"></h3>
+   <p class="item-type" id="smith-item-type"></p>
+   <table class="compare" aria-label="Сравнение выбранного предмета с надетым"><thead><tr><th>Характеристика</th><th>Надето</th><th>Выбрано</th></tr></thead><tbody id="smith-comparison"></tbody></table>
+   <p class="compare-against" id="smith-against"></p>
+   <div class="item-perk" id="smith-perks"></div>
+   <div class="detail-actions"><div class="action-reason" id="smith-action-reason"></div><button type="button" class="main-action cursor-interaction" id="smith-action">Надеть</button></div>
+  </section>
+ </div>
+</section>
+<script>
+(() => {
+ const root=document.getElementById('hub-smith-equipment');
+ const byId=id=>root.querySelector('#'+id);
+ const heroes=[{id:'bran',name:'Бран',classId:'warrior',className:'Воин',level:4},{id:'tor',name:'Тор',classId:'warrior',className:'Воин',level:3}];
+ const items=[
+  {id:'mail',name:'Кольчуга',slot:'armor',icon:'shirt',armor:24},
+  {id:'sword',name:'Меч',slot:'weapon',icon:'sword',classId:'warrior',damage:10,pierce:0,extra:0},
+  {id:'leather',name:'Кожаный доспех',slot:'armor',icon:'shirt',armor:16},
+  {id:'longsword',name:'Длинный меч',slot:'weapon',icon:'sword',classId:'warrior',damage:13,pierce:0,extra:0},
+  {id:'bow',name:'Лук',slot:'weapon',icon:'bow-arrow',classId:'archer',damage:9,pierce:0,extra:0},
+  {id:'plate',name:'Латный доспех',slot:'armor',icon:'shield',armor:32},
+  {id:'knives',name:'Парные ножи',slot:'weapon',icon:'swords',classId:'rogue',damage:7,pierce:35,extra:1},
+  {id:'staff',name:'Посох',slot:'weapon',icon:'wand-sparkles',classId:'mage',damage:10,pierce:0,extra:0},
+  {id:'padded',name:'Стёганый доспех',slot:'armor',icon:'shirt',armor:10}
+ ];
+ const defaultOwners={mail:null,sword:'bran',leather:'bran',longsword:'tor',bow:null,plate:'tor',knives:null,staff:null,padded:null};
+ let state={hero:'bran',selected:'mail',filter:'all',compatible:false,owners:{...defaultOwners}};
+ let feedback='';
+ const findItem=id=>items.find(item=>item.id===id);
+ const currentHero=()=>heroes.find(hero=>hero.id===state.hero);
+ const allowed=(item,hero=currentHero())=>item.slot==='armor'||item.classId===hero.classId;
+ const equipped=slot=>items.find(item=>item.slot===slot&&state.owners[item.id]===state.hero);
+ const icon=name=>`<i data-lucide="${name}" aria-hidden="true"></i>`;
+ function restore(snapshot) {
+  const saved=snapshot?.privateContent;
+  if(!saved||saved.version!==1)return;
+  if(heroes.some(h=>h.id===saved.hero))state.hero=saved.hero;
+  if(findItem(saved.selected))state.selected=saved.selected;
+  if(['all','weapon','armor'].includes(saved.filter))state.filter=saved.filter;
+  state.compatible=saved.compatible===true;
+  const owners=saved.owners;
+  if(owners&&items.every(i=>owners[i.id]===null||heroes.some(h=>h.id===owners[i.id]&&allowed(i,h)))&&heroes.every(h=>['weapon','armor'].every(slot=>items.filter(i=>i.slot===slot&&owners[i.id]===h.id).length<=1)))state.owners={...owners};
+ }
+ function remember() {
+  if(window.openai?.setWidgetState)window.openai.setWidgetState({modelContent:{preview:'Кузнец без ремонта: инвентарь слева, герой в центре, сравнение справа',selectedHero:currentHero().name,selectedItem:findItem(state.selected).name},privateContent:{version:1,...state,owners:{...state.owners}}}).catch(()=>{});
+ }
+ function render() {
+  const hero=currentHero();
+  const visible=items.filter(item=>(state.filter==='all'||item.slot===state.filter)&&(!state.compatible||allowed(item)));
+  if(visible.length&&!visible.some(item=>item.id===state.selected))state.selected=visible[0].id;
+  const selected=findItem(state.selected),worn=equipped(selected.slot),owner=heroes.find(h=>h.id===state.owners[selected.id]);
+  byId('smith-count').textContent=items.length+' вещей';
+  byId('smith-visible-count').textContent=visible.length+' / '+items.length;
+  byId('smith-compatible').checked=state.compatible;
+  root.querySelectorAll('[data-filter]').forEach(btn=>btn.setAttribute('aria-pressed',String(btn.dataset.filter===state.filter)));
+  byId('smith-items').innerHTML=visible.map(item=>{
+   const holder=heroes.find(h=>h.id===state.owners[item.id]);
+   const note=holder?'Надето: '+holder.name:allowed(item)?'На складе':'Не подходит: '+hero.className;
+   return `<button type="button" class="item cursor-interaction" data-item="${item.id}" aria-pressed="${item.id===state.selected}" aria-label="${item.name}. ${note}" data-tooltip="${item.name} · ${note}">${icon(item.icon)}<span class="item-name">${item.name}</span>${holder?`<span class="owner-mark" aria-hidden="true">${holder.name[0]}</span>`:''}${!allowed(item)?`<span class="unavailable-mark" aria-hidden="true">${icon('lock-keyhole')}</span>`:''}</button>`;
+  }).join('');
+  byId('smith-heroes').innerHTML=heroes.map(h=>`<button type="button" class="hero-choice cursor-interaction" data-hero="${h.id}" aria-pressed="${h.id===hero.id}">${h.name}</button>`).join('');
+  byId('smith-hero-name').textContent=hero.name;
+  byId('smith-hero-class').textContent=hero.className+' · уровень '+hero.level;
+  byId('smith-slots').innerHTML=['weapon','armor'].map(slot=>{
+   const item=equipped(slot);
+   return `<button type="button" class="gear-slot cursor-interaction" data-slot="${slot}" aria-pressed="${!!item&&item.id===selected.id}" aria-label="${slot==='weapon'?'Оружие':'Броня'}: ${item?item.name:'пусто'}"><span class="slot-caption">${slot==='weapon'?'Оружие':'Броня'}</span>${icon(item?item.icon:slot==='weapon'?'sword':'shirt')}<span class="slot-name">${item?item.name:'Пустой слот'}</span></button>`;
+  }).join('');
+  byId('smith-selected-icon').innerHTML=icon(selected.icon);
+  byId('smith-item-title').textContent=selected.name;
+  const classes={warrior:'Воин',archer:'Лучница',rogue:'Разбойник',mage:'Маг'};
+  byId('smith-item-type').textContent=selected.slot==='armor'?'Броня · любой класс':'Оружие · '+classes[selected.classId];
+  const fields=selected.slot==='armor'?[['Запас брони','armor','']]:[[selected.classId==='mage'?'Огненная база':'База урона','damage',''],['Пробивание','pierce','%'],['Доп. атаки','extra','']];
+  const comparable=selected.slot==='armor'||!worn||selected.classId===worn.classId;
+  byId('smith-comparison').innerHTML=fields.map(([label,key,unit])=>{
+   const before=worn?(worn[key]||0):0,after=selected[key]||0,diff=after-before;
+   return `<tr><td>${label}</td><td>${comparable?before+unit:'—'}</td><td>${after}${unit}<span class="change ${diff>0?'positive':diff<0?'negative':''}">${!comparable?'':diff>0?'+'+diff:diff<0?String(diff):'—'}</span></td></tr>`;
+  }).join('');
+  byId('smith-against').textContent=worn?'Сейчас: '+worn.name:'Сейчас: слот свободен';
+  byId('smith-perks').innerHTML=selected.extra?`<button type="button" class="perk-button cursor-interaction" aria-label="Последовательная атака: ещё одна атака по той же цели за основное действие" data-tooltip="Последовательная атака — ещё одна атака по той же цели за основное действие, если цель жива и доступна.">${icon('swords')}</button>`:'';
+  const action=byId('smith-action');
+  action.disabled=false;
+  if(owner&&owner.id===hero.id){action.textContent='Снять';byId('smith-action-reason').textContent='Надето на герое: '+hero.name;}
+  else if(owner){action.textContent='К владельцу: '+owner.name;byId('smith-action-reason').textContent='Сначала снимите предмет с другого героя.';}
+  else if(!allowed(selected)){action.textContent='Не подходит герою';action.disabled=true;byId('smith-action-reason').textContent='Нужен класс: '+classes[selected.classId]+'.';}
+  else {action.textContent='Надеть';byId('smith-action-reason').textContent=worn?'Заменит: '+worn.name:'Свободный слот';}
+  byId('smith-feedback').textContent=feedback;
+  if(globalThis.lucide)lucide.createIcons({attrs:{width:16,height:16}});
+ }
+ root.addEventListener('click',event=>{
+  const button=event.target.closest('button');if(!button||!root.contains(button))return;
+  if(button.dataset.item){state.selected=button.dataset.item;feedback='';}
+  else if(button.dataset.filter){state.filter=button.dataset.filter;feedback='';}
+  else if(button.dataset.hero){state.hero=button.dataset.hero;feedback='';}
+  else if(button.dataset.slot){state.filter=button.dataset.slot;const item=equipped(button.dataset.slot);if(item)state.selected=item.id;feedback='';}
+  else if(button.id==='smith-action'){
+   const selected=findItem(state.selected),owner=state.owners[selected.id];
+   if(owner&&owner!==state.hero){state.hero=owner;feedback='Снимите предмет, чтобы передать его.';}
+   else if(owner===state.hero){state.owners[selected.id]=null;feedback=selected.name+' → инвентарь';}
+   else if(allowed(selected)){const previous=equipped(selected.slot);if(previous)state.owners[previous.id]=null;state.owners[selected.id]=state.hero;feedback=selected.name+' → '+currentHero().name;}
+  }else return;
+  const key=button.dataset.item?'item':button.dataset.filter?'filter':button.dataset.hero?'hero':button.dataset.slot?'slot':null;
+  const val=key?button.dataset[key]:null;
+  render();
+  if(key)root.querySelector(`[data-${key}="${val}"]`)?.focus({preventScroll:true});
+  remember();
+ });
+ byId('smith-compatible').addEventListener('change',event=>{state.compatible=event.target.checked;render();remember();});
+ window.addEventListener('openai:set_globals',event=>{const snapshot=event.detail?.globals?.widgetState;if(snapshot){restore(snapshot);feedback='';render();}});
+ restore(window.openai?.widgetState);render();
+})();
+</script>
+</div>
