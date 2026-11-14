@@ -306,6 +306,21 @@ spatial_guard_stats attack_forecast_worker battle_execution_worker`.
 от оружия при сохранении прямого удара, защита и прежняя сила конца цепочки.
 Прогноз/live и workers проверяются адресно; full/core и ручная приёмка отдельно.
 
+Утверждённый хаб (2026-11-14): `python tools/demo/isolate.py --render-check --only
+hub_party_order hub_approved_ui hub_dashboard hub_mercenaries hub_sections hub_development
+hub_scene_authoring hub_smith hub_deck hero_hub hero_hub_playthrough hero_hub_ui
+expedition_ui mage_deck_ui --screen 0`.
+Новые проверки покрывают перестановку/замену/обмен и stale snapshot четырёх каталогов,
+нативный drag/отмену/автопрокрутку в обе стороны, picker/focus, отказ записи/retry,
+матрицу3/5/6×3размера, предупреждения/блокер и постоянную позицию запуска,
+иконки/подсказки, остановку анимации и500 смен вкладок. Launcher gates:
+`python tools/demo/test_isolate.py`.
+Длительная отдельная GPU-проба: в подготовленной isolated-копии запустить
+`--script tests/test_hub_diorama_soak.gd -- --seconds=300 --output=<absolute JSON>`.
+По5мин static/animated, process-frame p50/p95/p99/max, стоимость вызова диорамы,
+RenderingServer CPU/GPU, память/число узлов. Это не OS present-time и не ручной
+плейтест; протокол и ограничения — пакет `docs/art/hub-approved-implementation-20261114/`.
+
 Отдельная Колода (2026-10-24): `--render-check --only hub_deck hub_development
 hub_mercenaries hub_smith hub_sections hub_dashboard hub_scene_authoring hero_hub_ui
 expedition_ui mage_deck_ui hero_hub mage_deck_models mage_deck_expedition --screen 0`.

@@ -7,6 +7,7 @@ signal party_requested(hero_id: int, join_party: bool)
 signal equipment_requested(item_id: int, hero_id: int, equip_item: bool)
 signal allocation_requested(hero_id: int, expected: Dictionary, delta: Array[int])
 signal skin_selection_requested(class_id: StringName, skin_id: StringName)
+signal hero_route_requested(hero_id: int, destination: StringName)
 
 @export var section_id: StringName = &"mercenaries"
 
@@ -16,7 +17,10 @@ var _profile: HeroHubState
 var character_skins: Dictionary = {}
 var skin_notice: String = ""
 var _selected_hero_id: int = 0
-var _selected_candidate: bool = true
+var _selected_candidate: bool = false
+var _mercenary_mode: StringName = &"owned"
+var _last_owned_id: int = 0
+var _last_candidate_id: int = 0
 var _selected_item_id: int = 0
 var _reserve_page: int = 0
 var _items_page: int = 0
@@ -100,51 +104,7 @@ func _selected_hero() -> HeroProgression:
 	return null
 
 func _render_mercenaries() -> void:
-	# После успешной публикации найма прежний ID переходит из списка кандидатов в героев.
-	var hired_selection := _selected_candidate and _profile.heroes.has(_selected_hero_id)
-	if hired_selection:
-		_selected_candidate = false
-	_text("candidate_count", "Доступные наёмники · %d" % _profile.candidates.size())
-	for index: int in 4:
-		_render_hero_slot("candidate_%d" % index, _profile.candidates[index] if index < _profile.candidates.size() else null, true)
-	_text("party_count", "%d/%d" % [_profile.party.size(), HeroHubState.MAX_PARTY])
-	for index: int in HeroHubState.MAX_PARTY:
-		_render_hero_slot("party_%d" % index, _profile.heroes.get(_profile.party[index]) if index < _profile.party.size() else null)
-	var reserve := _reserve_ids()
-	if hired_selection:
-		var hired_reserve_index := reserve.find(_selected_hero_id)
-		if hired_reserve_index >= 0: _reserve_page = floori(float(hired_reserve_index) / float(RESERVE_PAGE_SIZE))
-	_reserve_page = clampi(_reserve_page, 0, maxi(0, (reserve.size() - 1) / RESERVE_PAGE_SIZE))
-	_text("reserve_count", "Резерв · %d" % reserve.size())
-	_text("reserve_page", "%d / %d" % [_reserve_page + 1, maxi(1, ceili(float(reserve.size()) / RESERVE_PAGE_SIZE))])
-	_action_enabled("reserve_prev", _reserve_page > 0)
-	_action_enabled("reserve_next", (_reserve_page + 1) * RESERVE_PAGE_SIZE < reserve.size())
-	for slot: int in RESERVE_PAGE_SIZE:
-		var index := _reserve_page * RESERVE_PAGE_SIZE + slot
-		_render_hero_slot("reserve_%d" % slot, _profile.heroes.get(reserve[index]) if index < reserve.size() else null)
-	var hero := _selected_hero()
-	if hero == null:
-		_selected_candidate = not _profile.candidates.is_empty()
-		if _selected_candidate: hero = _profile.candidates[0]
-		elif not _profile.heroes.is_empty(): hero = _profile.heroes.values()[0] as HeroProgression
-		_selected_hero_id = hero.id if hero != null else 0
-	if hero == null:
-		_text("hero_title", "Выберите героя")
-		_text("hero_detail", "Нет доступных героев")
-		_portrait("hero_portrait", null)
-		_render_skin_choice(null)
-		_render_skin_notice()
-		_update_mercenary_action(null)
-		return
-	_text("hero_title", hero.name)
-	var selected_skin := StringName(character_skins.get(hero.class_id, &""))
-	_portrait("hero_portrait", HubSkeletonCard.hero_texture(hero.class_id, selected_skin))
-	_render_skin_choice(hero)
-	_render_skin_notice()
-	var attrs := hero.attributes()
-	var location := "Кандидат" if _selected_candidate else ("В отряде" if _profile.party.has(hero.id) else "В резерве")
-	_text("hero_detail", "%s · ур. %d\nHP %.0f/%.0f\nМощь %d · Ловкость %d\nВыносливость %d\nИнтеллект %d · Мастерство %d" % [location, hero.level(), hero.hp_current, hero.max_hp(), attrs[0], attrs[1], attrs[2], attrs[3], attrs[4]])
-	_update_mercenary_action(hero)
+	HubMercenaryPresenter.render(self, _profile)
 
 func _render_skin_choice(hero: HeroProgression) -> void:
 	var choice := _slot("skin_choice") as OptionButton
@@ -240,6 +200,7 @@ func _on_selected(key: String) -> void:
 	match parts[0]:
 		"hero", "candidate":
 			_selected_candidate = parts[0] == "candidate"
+			_mercenary_mode = &"hire" if _selected_candidate else &"owned"
 			_selected_hero_id = int(parts[1])
 		"item": _selected_item_id = int(parts[1])
 	if section_id == &"mercenaries" and (previous_id != _selected_hero_id or previous_candidate != _selected_candidate):
@@ -247,6 +208,19 @@ func _on_selected(key: String) -> void:
 	render_profile(_profile)
 
 func _on_action(action: String) -> void:
+	if action in ["mercenaries_owned", "mercenaries_hire"]:
+		if section_id != &"mercenaries" or not is_visible_in_tree() or _profile == null: return
+		_development.close(self)
+		_mercenary_mode = &"hire" if action == "mercenaries_hire" else &"owned"
+		_selected_candidate = _mercenary_mode == &"hire"
+		_selected_hero_id = _last_candidate_id if _selected_candidate else _last_owned_id
+		render_profile(_profile)
+		return
+	if action == "hero_smith":
+		var button := _action_button(action)
+		if section_id != &"mercenaries" or _selected_candidate or not is_visible_in_tree() or button == null or not button.is_visible_in_tree() or button.disabled: return
+		hero_route_requested.emit(_selected_hero_id, &"smith")
+		return
 	if section_id == &"mercenaries" and _development.handle_action(self, _profile, action):
 		if _profile != null: render_profile(_profile)
 		return

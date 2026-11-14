@@ -134,12 +134,8 @@ func _test_limits() -> void:
 	var hired_id := merc._selected_hero_id
 	await _click(_action())
 	check(hub.run.heroes.size() == HeroHubState.MAX_ROSTER and merc._selected_hero_id == hired_id, "twelfth hero can be hired")
-	var reserve_index := merc._reserve_ids().find(hired_id)
-	check(merc._reserve_page == reserve_index / HubSectionPage.RESERVE_PAGE_SIZE, "hire reveals selected hero on last reserve page")
-	var visible_hire := false
-	for index: int in HubSectionPage.RESERVE_PAGE_SIZE:
-		if (merc._slot("reserve_%d" % index) as HubSkeletonCard).selection_key == "hero:%d" % hired_id: visible_hire = true
-	check(visible_hire, "hired reserve card is displayed")
+	var hired_card := _card("hero:%d" % hired_id)
+	check(hired_card != null and hired_card.is_visible_in_tree(), "hired reserve card appears in the all-heroes grid")
 	await _select_slot("candidate_0")
 	check(_action().disabled and _hint().contains("12"), "roster limit is disabled and explained")
 	var before := hub.run.to_dict()
@@ -187,7 +183,8 @@ func _test_guards() -> void:
 	hub._on_mercenary_hire_requested(id)
 	check(hub.run.to_dict() == before, "hidden tab requests rejected at page dashboard and host")
 	await _press_name("TabMercenaries")
-	await _press_name("ManageMercenaries")
+	await _press_name("TabExpedition")
+	await _press_name("ManageParty")
 	hub._on_mercenary_hire_requested(id)
 	check(hub.run.to_dict() == before, "old management page cannot execute section request")
 	await _press_name("deck_edit")
@@ -196,7 +193,8 @@ func _test_guards() -> void:
 	await _press_name("TabMercenaries")
 	await _click(_action())
 	check(hub.deck_editing and hub.deck_draft == draft, "hire preserves unsaved deck draft")
-	await _press_name("ManageMercenaries")
+	await _press_name("TabExpedition")
+	await _press_name("ManageParty")
 	await _press_name("deck_cancel")
 	await _press_name("DashboardBack")
 	await _press_name("TabMercenaries")
@@ -243,7 +241,7 @@ func _test_authoring() -> void:
 	await _select_slot("party_0")
 	var button := _action()
 	var hint := merc._slot("mercenary_hint") as Label
-	var sibling := merc.get_node("Candidates") as Control
+	var sibling := merc.get_node("Roster") as Control
 	var sibling_rect := sibling.get_global_rect()
 	button.name = "RenamedAction"
 	button.reparent(merc, true)
@@ -279,13 +277,17 @@ func _check_sizes(label: String) -> void:
 		viewport.size = resolution
 		await _settle()
 		var panel := merc.get_node("HeroDetail") as Control
-		var rect := panel.get_global_rect().grow(1.0)
-		var controls: Array[Control] = [_action(), merc._slot("mercenary_hint") as Control, merc._slot("hero_detail") as Control, merc._slot("hero_portrait") as Control, merc.find_child("ManageMercenaries", true, false) as Control]
-		for control: Control in controls:
-			check(rect.encloses(control.get_global_rect()), "%s inside panel at %s" % [control.name, resolution])
-		for index: int in controls.size():
-			for other: int in range(index + 1, controls.size()):
-				check(not controls[index].get_global_rect().intersects(controls[other].get_global_rect()), "%s/%s do not overlap at %s" % [controls[index].name, controls[other].name, resolution])
+		var detail_rect := panel.get_global_rect().grow(1.0)
+		var stage_rect := (merc.get_node("HeroStage") as Control).get_global_rect().grow(1.0)
+		var detail_controls: Array[Control] = [_action(), merc._slot("mercenary_hint") as Control, merc._slot("hero_points") as Control, merc._slot("hero_detail") as Control, merc._slot("hero_equipment") as Control, merc._slot("passive_icons") as Control, merc._slot("ability_icons") as Control]
+		var stage_controls: Array[Control] = [merc._slot("hero_title") as Control, merc._slot("hero_identity") as Control, merc._slot("hero_portrait") as Control, merc._slot("skin_label") as Control, merc._slot("skin_choice") as Control, merc._slot("skin_notice") as Control]
+		for control: Control in detail_controls:
+			check(detail_rect.encloses(control.get_global_rect()), "%s inside inspection panel at %s" % [control.name, resolution])
+		for control: Control in stage_controls:
+			check(stage_rect.encloses(control.get_global_rect()), "%s inside hero stage at %s" % [control.name, resolution])
+		var stats := merc._slot("hero_detail") as Control
+		var equipment := merc._slot("hero_equipment") as Control
+		check(not stats.get_global_rect().intersects(equipment.get_global_rect()), "stats and equipment rows do not overlap at %s" % resolution)
 		await _capture("%s-%dx%d" % [label, resolution.x, resolution.y])
 	viewport.size = Vector2i(1280, 850)
 	await _settle()
@@ -317,7 +319,35 @@ func _hint() -> String:
 	return (merc._slot("mercenary_hint") as Label).text
 
 func _select_slot(key: String) -> void:
-	await _click(merc._slot(key) as Button)
+	var parts: PackedStringArray = key.split("_")
+	if parts.size() != 2:
+		check(false, "selection target key is valid: " + key)
+		return
+	var candidate_selection: bool = parts[0] == "candidate"
+	var mode_action: String = "mercenaries_hire" if candidate_selection else "mercenaries_owned"
+	var mode_button := merc._action_button(mode_action)
+	if mode_button != null and not mode_button.button_pressed:
+		await _click(mode_button)
+	var index: int = int(parts[1])
+	var hero_id: int = 0
+	if candidate_selection:
+		if index >= 0 and index < hub.run.candidates.size(): hero_id = hub.run.candidates[index].id
+	elif index >= 0 and index < hub.run.party.size():
+		hero_id = hub.run.party[index]
+	if hero_id <= 0:
+		check(false, "selection target exists: " + key)
+		return
+	var card := _card(("candidate:" if candidate_selection else "hero:") + str(hero_id))
+	check(card != null, "new dynamic grid contains " + key)
+	if card != null: await _click(card)
+
+func _card(selection_key: String) -> HubSkeletonCard:
+	var grid := merc._slot("mercenary_grid") as GridContainer
+	if grid == null: return null
+	for child: Node in grid.get_children():
+		if child is HubSkeletonCard and (child as HubSkeletonCard).selection_key == selection_key:
+			return child as HubSkeletonCard
+	return null
 
 func _press_name(key: String) -> void:
 	for node: Node in hub.find_children(key, "Button", true, false):

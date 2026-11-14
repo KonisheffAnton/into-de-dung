@@ -29,6 +29,9 @@ func _run() -> void:
 	hub.expedition_mode = true
 	hub.mage_deck_mode = true
 	viewport.add_child(hub)
+	# Старую школу проверяем только локально в этой фикстуре; production-навигация её скрывает.
+	var legacy_schools_tab := hub.find_child("TabSchools", true, false) as Button
+	check(not legacy_schools_tab.visible, "legacy schools tab stays hidden in authored runtime scene")
 	await _settle()
 	var baseline := hub.run.to_dict()
 	var bytes := FileAccess.get_file_as_bytes(path)
@@ -51,16 +54,23 @@ func _run() -> void:
 				var control := node as Control
 				if control.is_visible_in_tree():
 					check(bounds.encloses(control.get_global_rect()), "%s/%s fits %s" % [page.name, control.name, resolution])
-			check(page.find_children("*", "Container", true, false).is_empty(), "section free positioning has no layout containers")
+			for child: Node in page.get_children():
+				if child is Control: check(not child is Container and child.get_parent() == page, "authored module remains freely positioned")
+			if page == merc:
+				var grid := merc._slot("mercenary_grid") as GridContainer
+				check(grid != null and grid.get_parent() is ScrollContainer, "roster grid uses its authored scroll container")
 			await _capture("%s-%dx%d" % [page.section_id, resolution.x, resolution.y])
 	viewport.size = Vector2i(1280, 850)
 	await _settle()
 	await _press_name("TabMercenaries")
-	var candidate := merc._slot("candidate_1") as HubSkeletonCard
+	await _click(_action(merc, "mercenaries_hire"))
+	var candidate_id: int = hub.run.candidates[1].id
+	var candidate := _card(merc, "candidate:%d" % candidate_id)
 	await _click(candidate)
-	check(merc._selected_hero_id == hub.run.candidates[1].id, "candidate click updates local detail selection")
+	check(merc._selected_hero_id == candidate_id, "candidate click updates local detail selection")
 	check((merc._slot("hero_title") as Label).text == hub.run.candidates[1].name, "detail comes from selected candidate")
-	await _press_name("ManageMercenaries")
+	await _press_name("TabExpedition")
+	await _press_name("ManageParty")
 	check(hub._page("BasePage").is_visible_in_tree(), "mercenaries retains management route")
 	await _press_name("DashboardBack")
 	await _press_name("TabSmith")
@@ -89,7 +99,7 @@ func _run() -> void:
 			if node.has_meta(&"hub_action") or node is HubSkeletonCard:
 				check(button.pressed.get_connections().size() == 1, "one action connection: " + String(node.name))
 		for node: Node in page.get_children():
-			if node is Control: check(not node.get_parent() is Container, "module freely positioned")
+			if node is Control: check(not node is Container and node.get_parent() == page, "module freely positioned")
 	check(hub.run.to_dict() == baseline and FileAccess.get_file_as_bytes(path) == bytes, "navigation selection pagination preserve profile RNG and save bytes")
 	await _test_profile_boundaries(merc, smith, baseline)
 	await _test_independence(merc, smith, schools)
@@ -105,30 +115,33 @@ func _test_profile_boundaries(merc: HubSectionPage, smith: HubSectionPage, basel
 	# Меняется только копия: проверяем повторный показ после изменения состава/склада.
 	var fixture := HeroHubState.from_dict(baseline)
 	await _press_name("TabMercenaries")
+	await _click(_action(merc, "mercenaries_owned"))
 	fixture.party.resize(1)
 	merc.render_profile(fixture)
-	check((merc._slot("party_count") as Label).text == "1/3", "partial party renders")
-	check((merc._slot("party_1") as HubSkeletonCard).disabled, "empty party slot clears previous hero")
+	check((merc._slot("roster_count") as Label).text == str(fixture.heroes.size()), "owned roster includes living reserve after party shrinks")
 	fixture.party.clear()
 	merc.render_profile(fixture)
-	var reserve := merc._reserve_ids()
-	check(reserve.size() > HubSectionPage.RESERVE_PAGE_SIZE, "fixture has multiple reserve pages")
-	await _click(_action(merc, "reserve_next"))
-	check(merc._reserve_page == 1, "reserve next reaches second page")
-	var last := merc._slot("reserve_0") as HubSkeletonCard
-	check(last.selection_key == "hero:%d" % reserve[3], "second reserve page binds remaining hero")
-	await _click(last)
-	check((merc._slot("hero_title") as Label).text == fixture.heroes[reserve[3]].name, "reserve click updates details")
-	fixture.party.append(reserve[0])
+	var owned_ids: Array[int] = []
+	for id: int in fixture.heroes: owned_ids.append(id)
+	var last_id: int = owned_ids[owned_ids.size() - 1]
+	check(_card(merc, "hero:%d" % last_id) != null, "all reserve heroes appear without separate pages")
+	fixture.party.append(owned_ids[0])
 	merc.render_profile(fixture)
-	check(merc._reserve_page == 0 and _action(merc, "reserve_next").disabled, "shrinking reserve clamps page and navigation")
+	check((_card(merc, "hero:%d" % owned_ids[0]).get_node("Detail") as Label).text == "В отряде", "owned card status follows current party membership")
+	var removed_id: int = owned_ids[owned_ids.size() - 1]
+	(fixture.heroes[removed_id] as HeroProgression).hp_current = 0.0
+	merc.render_profile(fixture)
+	check(_card(merc, "hero:%d" % removed_id) == null and (merc._slot("roster_count") as Label).text == str(fixture.heroes.size() - 1), "dead hero shrinks the displayed owned roster")
 	fixture.party.clear()
 	fixture.heroes.clear()
 	fixture.candidates.clear()
 	merc.render_profile(fixture)
-	check((merc._slot("party_count") as Label).text == "0/3", "empty party renders")
-	check((merc._slot("hero_portrait") as TextureRect).texture == null and (merc._slot("hero_detail") as Label).text == "Нет доступных героев", "empty roster clears stale detail and portrait")
-	check((merc._slot("candidate_0") as HubSkeletonCard).disabled and (merc._slot("reserve_0") as HubSkeletonCard).disabled, "empty candidates and reserve clear stale slots")
+	check((merc._slot("roster_count") as Label).text == "0", "empty owned roster renders")
+	check((merc._slot("hero_portrait") as TextureRect).texture == null and (merc._slot("hero_detail") as Label).text.is_empty(), "empty roster clears stale detail and portrait")
+	check((merc._slot("mercenary_grid") as GridContainer).get_child_count() == 0, "empty roster removes generated cards")
+	await _click(_action(merc, "mercenaries_hire"))
+	check((merc._slot("mercenary_grid") as GridContainer).get_child_count() == 0, "empty hire mode removes stale candidate cards")
+	await _click(_action(merc, "mercenaries_owned"))
 	merc.render_profile(hub.run)
 	await _press_name("TabSmith")
 	fixture.items.clear()
@@ -139,42 +152,44 @@ func _test_profile_boundaries(merc: HubSectionPage, smith: HubSectionPage, basel
 
 func _test_independence(merc: HubSectionPage, smith: HubSectionPage, schools: HubSectionPage) -> void:
 	await _press_name("TabMercenaries")
-	var candidates := merc.get_node("Candidates") as Control
-	var squad := merc.get_node("Squad") as Control
-	var untouched_rect := squad.get_global_rect()
-	var untouched_id := squad.get_instance_id()
-	candidates.position += Vector2(8, 6)
-	var moved := candidates.position
-	candidates.name = "MovedCandidates"
-	var count := merc._slot("candidate_count") as Label
+	await _click(_action(merc, "mercenaries_hire"))
+	var roster := merc.get_node("Roster") as Control
+	var stage := merc.get_node("HeroStage") as Control
+	var untouched_rect := stage.get_global_rect()
+	var untouched_id := stage.get_instance_id()
+	roster.position += Vector2(8, 6)
+	var moved := roster.position
+	roster.name = "MovedRoster"
+	var count := merc._slot("roster_count") as Label
 	count.reparent(merc, true)
 	count.name = "RelocatedHeading"
 	var title_position := count.position
 	count.add_theme_color_override("font_color", Color.REBECCA_PURPLE)
-	var card := merc._slot("candidate_0") as HubSkeletonCard
-	card.position += Vector2(5, 3)
-	var card_position := card.position
+	var candidate_id: int = hub.run.candidates[0].id
+	var card := _card(merc, "candidate:%d" % candidate_id)
+	var grid := merc._slot("mercenary_grid") as GridContainer
 	var title := card.get_node("Title") as Label
 	title.position += Vector2(2, 4)
 	var field_position := title.position
 	for cycle: int in 3: merc.render_profile(hub.run)
-	check(candidates.position == moved and card.position == card_position and title.position == field_position, "refresh preserves independent panel card and text positions")
-	check(count.position == title_position and count.text.contains(str(hub.run.candidates.size())), "binding survives rename and reparent")
+	check(roster.position == moved and title.position == field_position, "refresh preserves independently authored panel and card-field positions")
+	check(card.get_parent() == grid, "generated roster cards remain owned by the grid container")
+	check(count.position == title_position and count.text == str(hub.run.candidates.size()), "binding survives rename and reparent")
 	check(count.get_theme_color("font_color") == Color.REBECCA_PURPLE, "custom authored style preserved")
-	check(squad.get_instance_id() == untouched_id and squad.get_global_rect() == untouched_rect, "moving one module leaves sibling identity and layout unchanged")
-	candidates.hide()
+	check(stage.get_instance_id() == untouched_id and stage.get_global_rect() == untouched_rect, "moving one module leaves sibling identity and layout unchanged")
+	roster.hide()
 	merc.render_profile(hub.run)
-	check(not candidates.visible and squad.visible, "hidden module remains hidden independently")
-	candidates.show()
+	check(not roster.visible and stage.visible, "hidden module remains hidden independently")
+	roster.show()
 	title.free()
 	merc.render_profile(hub.run)
 	check(not card.has_node("Title"), "deleted card field is not recreated")
-	card.free()
+	grid.free()
 	merc.render_profile(hub.run)
-	check(merc._slot("candidate_0") == null, "deleted card slot is not recreated")
-	candidates.free()
+	check(merc._slot("mercenary_grid") == null, "deleted generated-card grid is not recreated")
+	roster.free()
 	merc.render_profile(hub.run)
-	check(not merc.has_node("MovedCandidates") and squad.get_global_rect() == untouched_rect, "deleted module does not move neighbors")
+	check(not merc.has_node("MovedRoster") and stage.get_global_rect() == untouched_rect, "deleted module does not move neighbors")
 	await _press_name("TabSmith")
 	var materials := smith.get_node("Materials") as Control
 	materials.hide()
@@ -205,14 +220,27 @@ func _test_independence(merc: HubSectionPage, smith: HubSectionPage, schools: Hu
 	check(link.points.is_empty(), "link safely clears when endpoint is removed")
 	check(_action(schools, "skill_3") == null, "removed school node is not recreated")
 	await _press_name("TabMercenaries")
-	check(merc._slot("candidate_0") == null and squad.get_instance_id() == untouched_id, "tab navigation preserves authored deletion and sibling instances")
+	check(merc._slot("mercenary_grid") == null and stage.get_instance_id() == untouched_id, "tab navigation preserves authored deletion and sibling instances")
 
 func _action(page: HubSectionPage, key: String) -> Button:
 	for node: Node in page.find_children("*", "Button", true, false):
 		if String(node.get_meta(&"hub_action", "")) == key: return node as Button
 	return null
 
+func _card(page: HubSectionPage, selection_key: String) -> HubSkeletonCard:
+	var grid := page._slot("mercenary_grid") as GridContainer
+	if grid == null: return null
+	for child: Node in grid.get_children():
+		if child is HubSkeletonCard and (child as HubSkeletonCard).selection_key == selection_key:
+			return child as HubSkeletonCard
+	return null
+
 func _press_name(key: String) -> void:
+	if key == "TabSchools":
+		# Школы скрыты в игре; здесь проверяется сохранённый authored-модуль, а не доступность новой механики.
+		hub._on_hub_tab_requested(&"schools")
+		await _settle()
+		return
 	for node: Node in hub.find_children(key, "Button", true, false):
 		if (node as Button).is_visible_in_tree():
 			await _click(node as Button)

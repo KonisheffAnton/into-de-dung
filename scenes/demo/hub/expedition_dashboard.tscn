@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3]
+[gd_scene load_steps=20 format=3]
 
 [ext_resource type="Texture2D" path="res://assets/ui/hub/fortress_plain.png" id="2_background"]
 
@@ -8,6 +8,10 @@
 [ext_resource type="PackedScene" path="res://scenes/demo/hub/sections/smith_page.tscn" id="section_smith"]
 [ext_resource type="PackedScene" path="res://scenes/demo/hub/sections/schools_page.tscn" id="section_schools"]
 [ext_resource type="PackedScene" path="res://scenes/demo/hub/sections/deck_page.tscn" id="section_deck"]
+
+[ext_resource type="PackedScene" path="res://scenes/demo/hub/squad_list.tscn" id="squad_list"]
+[ext_resource type="PackedScene" path="res://scenes/demo/hub/diorama.tscn" id="diorama"]
+[ext_resource type="PackedScene" path="res://scenes/demo/hub/party_picker.tscn" id="party_picker"]
 
 [sub_resource type="ButtonGroup" id="HubTabGroup"]
 resource_local_to_scene = true
@@ -189,8 +193,6 @@ mouse_filter = 2
 [node name="TabExpedition" type="Button" parent="Layout/Tabs"]
 metadata/hub_tab = &"expedition"
 layout_mode = 1
-anchor_left = 0.0
-anchor_right = 0.2
 anchor_bottom = 1.0
 offset_left = 0.0
 offset_right = -4.0
@@ -198,19 +200,19 @@ custom_minimum_size = Vector2(0, 58)
 size_flags_horizontal = 3
 toggle_mode = true
 button_group = SubResource("HubTabGroup")
-theme_override_font_sizes/font_size = 22
 theme_override_colors/font_color = Color(0.86, 0.82, 0.77, 1)
 theme_override_colors/font_pressed_color = Color(1, 0.94, 0.81, 1)
 theme_override_styles/normal = SubResource("TabNormal")
 theme_override_styles/hover = SubResource("TabNormal")
 theme_override_styles/pressed = SubResource("TabPressed")
 text = "⚔  Поход"
+anchor_left = 0
+anchor_right = 0.25
+theme_override_font_sizes/font_size = 20
 
 [node name="TabMercenaries" type="Button" parent="Layout/Tabs"]
 metadata/hub_tab = &"mercenaries"
 layout_mode = 1
-anchor_left = 0.2
-anchor_right = 0.4
 anchor_bottom = 1.0
 offset_left = 4.0
 offset_right = -4.0
@@ -218,19 +220,19 @@ custom_minimum_size = Vector2(0, 58)
 size_flags_horizontal = 3
 toggle_mode = true
 button_group = SubResource("HubTabGroup")
-theme_override_font_sizes/font_size = 22
 theme_override_colors/font_color = Color(0.86, 0.82, 0.77, 1)
 theme_override_colors/font_pressed_color = Color(1, 0.94, 0.81, 1)
 theme_override_styles/normal = SubResource("TabNormal")
 theme_override_styles/hover = SubResource("TabNormal")
 theme_override_styles/pressed = SubResource("TabPressed")
 text = "Наёмники"
+anchor_left = 0.25
+anchor_right = 0.5
+theme_override_font_sizes/font_size = 20
 
 [node name="TabSmith" type="Button" parent="Layout/Tabs"]
 metadata/hub_tab = &"smith"
 layout_mode = 1
-anchor_left = 0.4
-anchor_right = 0.6
 anchor_bottom = 1.0
 offset_left = 4.0
 offset_right = -4.0
@@ -238,13 +240,15 @@ custom_minimum_size = Vector2(0, 58)
 size_flags_horizontal = 3
 toggle_mode = true
 button_group = SubResource("HubTabGroup")
-theme_override_font_sizes/font_size = 22
 theme_override_colors/font_color = Color(0.86, 0.82, 0.77, 1)
 theme_override_colors/font_pressed_color = Color(1, 0.94, 0.81, 1)
 theme_override_styles/normal = SubResource("TabNormal")
 theme_override_styles/hover = SubResource("TabNormal")
 theme_override_styles/pressed = SubResource("TabPressed")
 text = "Кузнец"
+anchor_left = 0.5
+anchor_right = 0.75
+theme_override_font_sizes/font_size = 20
 
 [node name="TabSchools" type="Button" parent="Layout/Tabs"]
 metadata/hub_tab = &"schools"
@@ -265,12 +269,11 @@ theme_override_styles/normal = SubResource("TabNormal")
 theme_override_styles/hover = SubResource("TabNormal")
 theme_override_styles/pressed = SubResource("TabPressed")
 text = "Школы"
+visible = false
 
 [node name="TabDeck" type="Button" parent="Layout/Tabs"]
 metadata/hub_tab = &"deck"
 layout_mode = 1
-anchor_left = 0.8
-anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 4.0
 offset_right = 0.0
@@ -278,30 +281,79 @@ custom_minimum_size = Vector2(0, 58)
 size_flags_horizontal = 3
 toggle_mode = true
 button_group = SubResource("HubTabGroup")
-theme_override_font_sizes/font_size = 22
 theme_override_colors/font_color = Color(0.86, 0.82, 0.77, 1)
 theme_override_colors/font_pressed_color = Color(1, 0.94, 0.81, 1)
 theme_override_styles/normal = SubResource("TabNormal")
 theme_override_styles/hover = SubResource("TabNormal")
 theme_override_styles/pressed = SubResource("TabPressed")
 text = "Колода"
+anchor_left = 0.75
+anchor_right = 1
+theme_override_font_sizes/font_size = 20
+
+[node name="Resources" type="HBoxContainer" parent="Layout"]
+layout_mode = 1
+anchor_right = 1.0
+offset_top = 66.0
+offset_bottom = 96.0
+theme_override_constants/separation = 24
+mouse_filter = 2
+
+[node name="Gold" type="Label" parent="Layout/Resources"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_font_sizes/font_size = 16
+theme_override_colors/font_color = Color(1, 0.95, 0.83, 1)
+theme_override_colors/font_shadow_color = Color(0.1, 0.08, 0.06, 1)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+text = "Золото · —"
+
+[node name="Essence" type="Label" parent="Layout/Resources"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_font_sizes/font_size = 16
+theme_override_colors/font_color = Color(1, 0.95, 0.83, 1)
+theme_override_colors/font_shadow_color = Color(0.1, 0.08, 0.06, 1)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+text = "Эссенция · —"
+
+[node name="Items" type="Label" parent="Layout/Resources"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_font_sizes/font_size = 16
+theme_override_colors/font_color = Color(1, 0.95, 0.83, 1)
+theme_override_colors/font_shadow_color = Color(0.1, 0.08, 0.06, 1)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+text = "Экипировка · всего · —"
+
+[node name="Reserve" type="Label" parent="Layout/Resources"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_font_sizes/font_size = 16
+theme_override_colors/font_color = Color(1, 0.95, 0.83, 1)
+theme_override_colors/font_shadow_color = Color(0.1, 0.08, 0.06, 1)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+text = "В резерве · —"
 
 [node name="Content" type="HBoxContainer" parent="Layout"]
 layout_mode = 1
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = 72.0
 size_flags_vertical = 3
 theme_override_constants/separation = 16
+offset_top = 108.0
 
 [node name="LeftColumn" type="VBoxContainer" parent="Layout/Content"]
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 1.12
 theme_override_constants/separation = 12
+custom_minimum_size = Vector2(264, 0)
+size_flags_horizontal = 0
 
 [node name="PartyPanel" type="PanelContainer" parent="Layout/Content/LeftColumn"]
-size_flags_stretch_ratio = 1.2
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_styles/panel = SubResource("PanelParchment")
@@ -326,65 +378,19 @@ theme_override_colors/font_color = Color(0.2, 0.15, 0.11, 1)
 layout_mode = 2
 text = "0/3"
 
-[node name="HeroCards" type="HBoxContainer" parent="Layout/Content/LeftColumn/PartyPanel/PartyContent"]
+[node name="HeroCards" parent="Layout/Content/LeftColumn/PartyPanel/PartyContent" instance=ExtResource("squad_list")]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_constants/separation = 7
 
 [node name="ManageParty" type="Button" parent="Layout/Content/LeftColumn/PartyPanel/PartyContent"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.96, 0.9, 0.78, 1)
 theme_override_styles/normal = SubResource("ButtonDark")
 theme_override_styles/hover = SubResource("ButtonDark")
-text = "Управление отрядом"
-
-[node name="ResourcesPanel" type="PanelContainer" parent="Layout/Content/LeftColumn"]
-size_flags_vertical = 3
-size_flags_stretch_ratio = 0.9
-layout_mode = 2
-theme_override_styles/panel = SubResource("PanelDark")
-
-[node name="ResourcesContent" type="VBoxContainer" parent="Layout/Content/LeftColumn/ResourcesPanel"]
-layout_mode = 2
-theme_override_constants/separation = 6
-
-[node name="ResourcesTitle" type="Label" parent="Layout/Content/LeftColumn/ResourcesPanel/ResourcesContent"]
-theme_override_font_sizes/font_size = 24
-theme_override_colors/font_color = Color(0.94, 0.9, 0.82, 1)
-layout_mode = 2
-text = "Ресурсы"
-
-[node name="Gold" type="Label" parent="Layout/Content/LeftColumn/ResourcesPanel/ResourcesContent"]
-size_flags_vertical = 3
-vertical_alignment = 1
-theme_override_font_sizes/font_size = 20
-theme_override_colors/font_color = Color(0.94, 0.9, 0.82, 1)
-layout_mode = 2
-text = "Золото   —"
-
-[node name="Essence" type="Label" parent="Layout/Content/LeftColumn/ResourcesPanel/ResourcesContent"]
-size_flags_vertical = 3
-vertical_alignment = 1
-theme_override_font_sizes/font_size = 20
-theme_override_colors/font_color = Color(0.94, 0.9, 0.82, 1)
-layout_mode = 2
-text = "Эссенция   —"
-
-[node name="Items" type="Label" parent="Layout/Content/LeftColumn/ResourcesPanel/ResourcesContent"]
-size_flags_vertical = 3
-vertical_alignment = 1
-theme_override_font_sizes/font_size = 20
-theme_override_colors/font_color = Color(0.94, 0.9, 0.82, 1)
-layout_mode = 2
-text = "Экипировка   —"
-
-[node name="Reserve" type="Label" parent="Layout/Content/LeftColumn/ResourcesPanel/ResourcesContent"]
-size_flags_vertical = 3
-vertical_alignment = 1
-theme_override_font_sizes/font_size = 20
-theme_override_colors/font_color = Color(0.94, 0.9, 0.82, 1)
-layout_mode = 2
-text = "В резерве   —"
+text = "Дополнительно"
+tooltip_text = "Прежнее управление: достижения, сброс развития и выброс вещей"
+custom_minimum_size = Vector2(0, 40)
+theme_override_font_sizes/font_size = 16
 
 [node name="CenterSpace" type="Control" parent="Layout/Content"]
 layout_mode = 2
@@ -392,63 +398,88 @@ size_flags_horizontal = 3
 size_flags_stretch_ratio = 2.15
 mouse_filter = 2
 
+[node name="Diorama" parent="Layout/Content/CenterSpace" instance=ExtResource("diorama")]
+layout_mode = 1
+
 [node name="PreparationPanel" type="PanelContainer" parent="Layout/Content"]
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 1.08
 theme_override_styles/panel = SubResource("PanelParchment")
+custom_minimum_size = Vector2(276, 0)
+size_flags_horizontal = 0
 
 [node name="PreparationContent" type="VBoxContainer" parent="Layout/Content/PreparationPanel"]
 layout_mode = 2
-theme_override_constants/separation = 12
+theme_override_constants/separation = 8
 
 [node name="PreparationTitle" type="Label" parent="Layout/Content/PreparationPanel/PreparationContent"]
-theme_override_font_sizes/font_size = 22
 autowrap_mode = 3
 theme_override_colors/font_color = Color(0.2, 0.15, 0.11, 1)
 layout_mode = 2
 text = "Подготовка к походу"
-
-[node name="LandscapePreview" type="TextureRect" parent="Layout/Content/PreparationPanel/PreparationContent"]
-custom_minimum_size = Vector2(0, 140)
-layout_mode = 2
-texture = SubResource("LandscapePreview")
-expand_mode = 1
-stretch_mode = 6
-mouse_filter = 2
+theme_override_font_sizes/font_size = 20
 
 [node name="Route" type="Label" parent="Layout/Content/PreparationPanel/PreparationContent"]
-theme_override_font_sizes/font_size = 38
 theme_override_colors/font_color = Color(0.2, 0.15, 0.11, 1)
 layout_mode = 2
 autowrap_mode = 2
 text = "7 комнат"
+theme_override_font_sizes/font_size = 28
 
 [node name="PartySummary" type="Label" parent="Layout/Content/PreparationPanel/PreparationContent"]
-theme_override_font_sizes/font_size = 21
 theme_override_colors/font_color = Color(0.2, 0.15, 0.11, 1)
 layout_mode = 2
 autowrap_mode = 2
 text = "Отряд: 0/3"
+theme_override_font_sizes/font_size = 16
 
 [node name="DeckSummary" type="Label" parent="Layout/Content/PreparationPanel/PreparationContent"]
-theme_override_font_sizes/font_size = 21
 theme_override_colors/font_color = Color(0.2, 0.15, 0.11, 1)
 layout_mode = 2
 autowrap_mode = 2
 text = "Колода: Не используется"
+theme_override_font_sizes/font_size = 16
 
-[node name="LaunchHint" type="Label" parent="Layout/Content/PreparationPanel/PreparationContent"]
-theme_override_font_sizes/font_size = 20
-theme_override_colors/font_color = Color(0.2, 0.15, 0.11, 1)
+[node name="RecoveryNote" type="Label" parent="Layout/Content/PreparationPanel/PreparationContent"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+theme_override_colors/font_color = Color(0.25, 0.18, 0.12, 1)
+autowrap_mode = 2
+text = "Перед выходом здоровье восстановится. Броня не чинится автоматически."
+
+[node name="WarningsScroll" type="ScrollContainer" parent="Layout/Content/PreparationPanel/PreparationContent"]
 layout_mode = 2
 size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="Warnings" type="VBoxContainer" parent="Layout/Content/PreparationPanel/PreparationContent/WarningsScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="LaunchHint" type="Label" parent="Layout/Content/PreparationPanel/PreparationContent"]
+theme_override_colors/font_color = Color(0.2, 0.15, 0.11, 1)
+layout_mode = 2
 autowrap_mode = 2
 text = ""
+theme_override_font_sizes/font_size = 16
+size_flags_vertical = 0
+custom_minimum_size = Vector2(0, 44)
+
+[node name="FixSpace" type="Control" parent="Layout/Content/PreparationPanel/PreparationContent"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 40)
+
+[node name="FixIssue" type="Button" parent="Layout/Content/PreparationPanel/PreparationContent/FixSpace"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("ButtonDark")
+theme_override_styles/hover = SubResource("ButtonDark")
+text = "К колоде"
 
 [node name="StartJourney" type="Button" parent="Layout/Content/PreparationPanel/PreparationContent"]
-custom_minimum_size = Vector2(0, 70)
-theme_override_font_sizes/font_size = 30
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.94, 0.81, 1)
 theme_override_colors/font_disabled_color = Color(0.75, 0.7, 0.64, 1)
@@ -456,16 +487,18 @@ theme_override_styles/normal = SubResource("ButtonBurgundy")
 theme_override_styles/hover = SubResource("ButtonBurgundyHover")
 theme_override_styles/disabled = SubResource("ButtonDisabled")
 text = "В путь"
+theme_override_font_sizes/font_size = 20
+custom_minimum_size = Vector2(0, 52)
 
 [node name="SectionPages" type="Control" parent="."]
 layout_mode = 1
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 18.0
-offset_top = 90.0
 offset_right = -18.0
 offset_bottom = -18.0
 mouse_filter = 2
+offset_top = 126.0
 
 [node name="MercenariesPage" parent="SectionPages" instance=ExtResource("section_mercenaries")]
 visible = false
@@ -487,3 +520,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 visible = false
+
+[node name="PartyPicker" parent="." instance=ExtResource("party_picker")]
+layout_mode = 1

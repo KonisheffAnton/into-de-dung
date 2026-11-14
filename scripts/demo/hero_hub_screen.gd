@@ -42,6 +42,9 @@ func _ready() -> void:
 	_dashboard.allocation_requested.connect(_on_mercenary_allocation_requested)
 	_dashboard.skin_selection_requested.connect(_on_skin_selection_requested)
 	_dashboard.deck_action_requested.connect(_base_deck_action.bind(&"deck"))
+	_dashboard.party_move_requested.connect(_on_dashboard_party_move)
+	_dashboard.party_select_requested.connect(_on_dashboard_party_select)
+	_dashboard.hero_route_requested.connect(_on_dashboard_hero_route)
 	($Panel/Column/Header/DashboardBack as Button).pressed.connect(_return_hub_dashboard)
 	_page_host = $Panel/Column/HeroHubScroll/Content/Pages
 	for child: Node in _page_host.get_children():
@@ -332,6 +335,28 @@ func _on_hub_tab_requested(tab_id: StringName) -> void:
 
 func _can_change_mercenaries() -> bool:
 	return _can_navigate_hub() and not _hub_management and _hub_tab == &"mercenaries" and _dashboard.is_visible_in_tree() and battle_view == null
+
+func _can_change_dashboard_party() -> bool:
+	return _can_navigate_hub() and not _hub_management and _hub_tab == &"expedition" and _dashboard.is_visible_in_tree() and battle_view == null
+
+func _on_dashboard_party_move(hero_id: int, target_index: int, expected: Array[int]) -> void:
+	if not _can_change_dashboard_party() or run.party != expected: return
+	if target_index < 0 or target_index >= run.party.size() or run.party.find(hero_id) == target_index: return
+	_mutate(&"move_party_member", [hero_id, target_index, expected.duplicate()])
+
+func _on_dashboard_party_select(slot_index: int, hero_id: int, expected: Array[int]) -> void:
+	if not _can_change_dashboard_party() or run.party != expected: return
+	if slot_index >= 0 and slot_index < run.party.size() and run.party[slot_index] == hero_id: return
+	_mutate(&"select_party_member", [slot_index, hero_id, expected.duplicate()])
+
+func _on_dashboard_hero_route(hero_id: int, destination: StringName) -> void:
+	if not _can_navigate_hub() or _hub_management or not _dashboard.is_visible_in_tree() or battle_view != null: return
+	if _hub_tab not in [&"expedition", &"mercenaries"] or destination not in [&"smith", &"development"]: return
+	var hero := run.heroes.get(hero_id) as HeroProgression
+	if hero == null or hero.hp_current <= 0.0: return
+	_hub_tab = &"mercenaries" if destination == &"development" else &"smith"
+	_dashboard.select_hero_for(hero_id, destination)
+	_render()
 
 func _sync_base_deck_draft() -> void:
 	if run == null or run.phase != "hub": return

@@ -1,0 +1,127 @@
+[gd_scene load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://scripts/demo/hub_feature_icon.gd" id="1"]
+[ext_resource type="Theme" path="res://assets/ui/hub/skeleton_theme.tres" id="2"]
+
+[sub_resource type="StyleBoxFlat" id="PassiveNormal"]
+bg_color = Color(0.19, 0.2, 0.22, 1)
+border_color = Color(0.66, 0.54, 0.34, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 22
+corner_radius_top_right = 22
+corner_radius_bottom_right = 22
+corner_radius_bottom_left = 22
+
+[sub_resource type="StyleBoxFlat" id="PassiveHover"]
+bg_color = Color(0.28, 0.25, 0.2, 1)
+border_color = Color(0.91, 0.76, 0.44, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 22
+corner_radius_top_right = 22
+corner_radius_bottom_right = 22
+corner_radius_bottom_left = 22
+
+[sub_resource type="StyleBoxFlat" id="AbilityNormal"]
+bg_color = Color(0.19, 0.2, 0.22, 1)
+border_color = Color(0.66, 0.54, 0.34, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="AbilityHover"]
+bg_color = Color(0.28, 0.25, 0.2, 1)
+border_color = Color(0.91, 0.76, 0.44, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="FocusOutline"]
+bg_color = Color(0, 0, 0, 0)
+border_color = Color(1, 0.88, 0.5, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+corner_radius_top_left = 22
+corner_radius_top_right = 22
+corner_radius_bottom_right = 22
+corner_radius_bottom_left = 22
+
+[sub_resource type="StyleBoxFlat" id="AbilityFocusOutline"]
+bg_color = Color(0, 0, 0, 0)
+border_color = Color(1, 0.88, 0.5, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[node name="HubFeatureIcon" type="Button"]
+custom_minimum_size = Vector2(44, 44)
+focus_mode = 2
+mouse_filter = 0
+texture_filter = 1
+script = ExtResource("1")
+passive_normal_style = SubResource("PassiveNormal")
+passive_hover_style = SubResource("PassiveHover")
+passive_focus_style = SubResource("FocusOutline")
+ability_normal_style = SubResource("AbilityNormal")
+ability_hover_style = SubResource("AbilityHover")
+ability_focus_style = SubResource("AbilityFocusOutline")
+
+[node name="TooltipLayer" type="CanvasLayer" parent="."]
+layer = 20
+
+[node name="TooltipPanel" type="PanelContainer" parent="TooltipLayer"]
+visible = false
+offset_right = 220.0
+offset_bottom = 80.0
+custom_minimum_size = Vector2(300, 0)
+mouse_filter = 2
+theme = ExtResource("2")
+
+[node name="TooltipMargin" type="MarginContainer" parent="TooltipLayer/TooltipPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 8
+mouse_filter = 2
+
+[node name="TooltipBody" type="VBoxContainer" parent="TooltipLayer/TooltipPanel/TooltipMargin"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="Title" type="Label" parent="TooltipLayer/TooltipPanel/TooltipMargin/TooltipBody"]
+layout_mode = 2
+text = "Особенность"
+autowrap_mode = 2
+mouse_filter = 2
+theme_override_font_sizes/font_size = 16
+
+[node name="Description" type="Label" parent="TooltipLayer/TooltipPanel/TooltipMargin/TooltipBody"]
+layout_mode = 2
+text = "Описание особенности"
+autowrap_mode = 2
+mouse_filter = 2
+theme_override_font_sizes/font_size = 14

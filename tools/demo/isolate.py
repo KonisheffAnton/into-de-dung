@@ -335,7 +335,7 @@ def main():
         if label in ("fractional_armor_hit", "status_contributions", "character_attributes_v1"):
             marker = label.replace("_", " ").upper() + " RESULTS:"
             invalid = invalid or marker not in output or ", 0 failed" not in output
-        if label in ("hub_scene_authoring", "hub_dashboard", "hub_sections", "hub_mercenaries", "hub_smith", "hub_development", "hub_deck"):
+        if label in ("hub_scene_authoring", "hub_dashboard", "hub_sections", "hub_mercenaries", "hub_smith", "hub_development", "hub_deck", "hub_party_order", "hub_approved_ui"):
             marker = label.replace("_", " ").upper() + " RESULTS:"
             invalid = invalid or marker not in output or ", 0 failed" not in output
         if label == "battle_hud_authoring":
@@ -779,6 +779,11 @@ def main():
         run("status_contributions", ["--script", "tests/test_status_contributions.gd"])
         run("character_attributes_v1", ["--script", "tests/test_character_attributes_v1.gd"])
         run("hero_hub", ["--script", "tests/test_hero_hub.gd"])
+        run("hub_party_order", ["--script", "tests/test_hub_party_order.gd"])
+        approved_ui_args = ["--script", "tests/test_hub_approved_ui.gd"]
+        if args.render_check:
+            approved_ui_args += ["--", "--captures=" + str(out / "hub-approved-screenshots")]
+        run("hub_approved_ui", approved_ui_args, headless=not args.render_check)
         run("hero_hub_playthrough", ["--script", "tests/test_hero_hub_playthrough.gd"])
         hub_scene_args = ["--script", "tests/test_hub_scene_authoring.gd"]
         if args.render_check:

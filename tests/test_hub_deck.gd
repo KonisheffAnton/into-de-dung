@@ -330,7 +330,7 @@ func _check_sizes(label: String) -> void:
 		_check_layout(page, resolution)
 		var tabs: Array[Control] = []
 		for node: Node in hub._dashboard.find_children("*", "Button", true, false):
-			if node.has_meta(&"hub_tab"): tabs.append(node as Control)
+			if node.has_meta(&"hub_tab") and (node as Control).is_visible_in_tree(): tabs.append(node as Control)
 		for index: int in tabs.size():
 			check(Rect2(Vector2.ZERO, Vector2(resolution)).encloses(tabs[index].get_global_rect()), "tab fits viewport")
 			for other: int in range(index + 1, tabs.size()): check(not tabs[index].get_global_rect().intersects(tabs[other].get_global_rect()), "tabs do not overlap")

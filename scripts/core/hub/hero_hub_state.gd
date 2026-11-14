@@ -103,6 +103,34 @@ func toggle_party(id: int) -> bool:
 	else: return false
 	return true
 
+func move_party_member(hero_id: int, target_index: int, expected_party: Array[int]) -> bool:
+	# Жест относится к показанному порядку: старый drag не переставляет уже изменённый состав.
+	if phase != "hub" or party != expected_party or party.size() > MAX_PARTY: return false
+	var source_index := party.find(hero_id)
+	if source_index < 0 or target_index < 0 or target_index >= party.size() or source_index == target_index: return false
+	party.remove_at(source_index)
+	party.insert(target_index, hero_id)
+	return true
+
+func select_party_member(slot_index: int, hero_id: int, expected_party: Array[int]) -> bool:
+	if phase != "hub" or party != expected_party or party.size() > MAX_PARTY: return false
+	if slot_index < 0 or slot_index > party.size() or slot_index >= MAX_PARTY: return false
+	var hero := heroes.get(hero_id) as HeroProgression
+	if hero == null or hero.hp_current <= 0.0: return false
+	var current_index := party.find(hero_id)
+	if slot_index == party.size():
+		if current_index >= 0: return false
+		party.append(hero_id)
+	elif current_index == slot_index:
+		return false
+	elif current_index >= 0:
+		# Выбор действующего участника меняет места, резервист заменяет только выбранное место.
+		party[current_index] = party[slot_index]
+		party[slot_index] = hero_id
+	else:
+		party[slot_index] = hero_id
+	return true
+
 func allocate(id: int, delta: Array[int]) -> bool:
 	if phase != "hub" or not heroes.has(id): return false
 	return (heroes[id] as HeroProgression).apply_allocation(delta)

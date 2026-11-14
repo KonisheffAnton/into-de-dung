@@ -1,0 +1,82 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/demo/hub_squad_card.gd" id="1_script"]
+
+[sub_resource type="StyleBoxFlat" id="Card"]
+bg_color = Color(0.87, 0.78, 0.63, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.5, 0.36, 0.23, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_left = 3
+corner_radius_bottom_right = 3
+
+[sub_resource type="StyleBoxFlat" id="Focus"]
+bg_color = Color(0, 0, 0, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.75, 0.48, 0.14, 1)
+
+[node name="SquadCard" type="Button"]
+custom_minimum_size = Vector2(220, 108)
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("Card")
+theme_override_styles/hover = SubResource("Card")
+theme_override_styles/pressed = SubResource("Card")
+theme_override_styles/focus = SubResource("Focus")
+script = ExtResource("1_script")
+
+[node name="Portrait" type="TextureRect" parent="."]
+offset_left = 8.0
+offset_top = 6.0
+offset_right = 70.0
+offset_bottom = 76.0
+mouse_filter = 2
+texture_filter = 1
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Name" type="Label" parent="."]
+layout_mode = 1
+anchor_right = 1.0
+offset_left = 78.0
+offset_top = 12.0
+offset_right = -8.0
+offset_bottom = 36.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.18, 0.13, 0.09, 1)
+theme_override_font_sizes/font_size = 17
+text = "Герой"
+text_overrun_behavior = 3
+
+[node name="Identity" type="Label" parent="."]
+layout_mode = 1
+anchor_right = 1.0
+offset_left = 78.0
+offset_top = 40.0
+offset_right = -8.0
+offset_bottom = 70.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.26, 0.20, 0.15, 1)
+theme_override_font_sizes/font_size = 14
+text = "Класс · ур. 1"
+autowrap_mode = 2
+
+[node name="State" type="Label" parent="."]
+layout_mode = 1
+anchor_right = 1.0
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = -29.0
+offset_right = -8.0
+offset_bottom = -5.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.42, 0.13, 0.11, 1)
+theme_override_font_sizes/font_size = 14
+text_overrun_behavior = 3

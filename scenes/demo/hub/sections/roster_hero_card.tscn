@@ -1,0 +1,35 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="PackedScene" path="res://scenes/demo/hub/sections/skeleton_card.tscn" id="card"]
+
+[node name="RosterHeroCard" instance=ExtResource("card")]
+custom_minimum_size = Vector2(108, 144)
+size_flags_horizontal = 3
+toggle_mode = true
+
+[node name="Portrait" parent="." index="0"]
+anchor_left = 0.20
+anchor_top = 0.03
+anchor_right = 0.80
+anchor_bottom = 0.50
+
+[node name="Title" parent="." index="1"]
+anchor_top = 0.52
+anchor_bottom = 0.68
+theme_override_font_sizes/font_size = 14
+autowrap_mode = 0
+text_overrun_behavior = 3
+
+[node name="Subtitle" parent="." index="2"]
+anchor_top = 0.69
+anchor_bottom = 0.83
+theme_override_font_sizes/font_size = 14
+autowrap_mode = 0
+text_overrun_behavior = 3
+
+[node name="Detail" parent="." index="3"]
+anchor_top = 0.84
+anchor_bottom = 0.99
+theme_override_font_sizes/font_size = 14
+autowrap_mode = 0
+text_overrun_behavior = 3

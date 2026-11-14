@@ -40,6 +40,7 @@ func _run() -> void:
 	viewport.notify_mouse_entered()
 	await _load_hub()
 	await _press_name("TabMercenaries")
+	await _click(merc._action_button("mercenaries_hire"))
 	var bytes := FileAccess.get_file_as_bytes(path)
 	check(_button("open").disabled and not _panel().visible, "candidate cannot open development")
 	_button("open").pressed.emit()
@@ -144,7 +145,8 @@ func _test_guards() -> void:
 	check(hub.run.to_dict() == before and merc._development.delta == [0, 0, 0, 0, 0], "inactive tab rejects page dashboard and host requests")
 	await _press_name("TabMercenaries")
 	await _press("close")
-	await _press_name("ManageMercenaries")
+	await _press_name("TabExpedition")
+	await _press_name("ManageParty")
 	hub._on_mercenary_allocation_requested(hero_id, source, delta)
 	check(hub.run.to_dict() == before, "old management blocks new development signal")
 	await _press_name("DashboardBack")
@@ -209,7 +211,8 @@ func _test_management_and_selection() -> void:
 	await _press("apply")
 	check(hub.deck_editing and hub.deck_draft == deck, "new allocation preserves mage deck draft")
 	await _press("close")
-	await _press_name("ManageMercenaries")
+	await _press_name("TabExpedition")
+	await _press_name("ManageParty")
 	await _press_name("deck_cancel")
 	await _press_name("DashboardBack")
 	await _press_name("TabMercenaries")
@@ -266,7 +269,7 @@ func _test_authoring() -> void:
 	var plus := _button("plus_0")
 	var value := merc._slot("development_value_0") as Label
 	var preview := merc._slot("development_preview") as Label
-	var neighbor := merc.get_node("Candidates") as Control
+	var neighbor := merc.get_node("Roster") as Control
 	var neighbor_rect := neighbor.get_global_rect()
 	plus.name = "RenamedPlus"
 	plus.reparent(merc, true)
@@ -351,9 +354,20 @@ func _press(key: String) -> void:
 
 func _open_party() -> void:
 	if _panel().visible: await _press("close")
-	await _click(merc._slot("party_0") as Button)
+	var owned_tab := merc._action_button("mercenaries_owned")
+	if not owned_tab.button_pressed: await _click(owned_tab)
+	var card := _card("hero:%d" % hero_id)
+	await _click(card)
 	await _press("open")
 	check(_panel().is_visible_in_tree(), "development opens for owned hero")
+
+func _card(selection_key: String) -> HubSkeletonCard:
+	var grid := merc._slot("mercenary_grid") as GridContainer
+	if grid == null: return null
+	for child: Node in grid.get_children():
+		if child is HubSkeletonCard and (child as HubSkeletonCard).selection_key == selection_key:
+			return child as HubSkeletonCard
+	return null
 
 func _press_name(key: String) -> void:
 	for node: Node in hub.find_children(key, "Button", true, false):

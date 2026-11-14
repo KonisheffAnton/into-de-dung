@@ -1,9 +1,9 @@
 [gd_scene load_steps=2 format=3]
 
-[ext_resource type="Theme" path="res://assets/ui/hub/skeleton_theme.tres" id="module_theme"]
+[ext_resource type="Theme" path="res://assets/ui/hub/skeleton_theme.tres" id="1_theme"]
 
 [node name="HeroDetailPanel" type="Panel"]
-theme = ExtResource("module_theme")
+theme = ExtResource("1_theme")
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -12,115 +12,142 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="HeroTitle" type="Label" parent="."]
+[node name="Information" type="VBoxContainer" parent="."]
 layout_mode = 1
-anchor_left = 0.04
-anchor_top = 0.03
-anchor_right = 0.48
-anchor_bottom = 0.13
-autowrap_mode = 0
-clip_text = true
-text = "Герой"
+anchor_left = 0.05
+anchor_top = 0.015
+anchor_right = 0.95
+anchor_bottom = 1.0
+offset_bottom = -148.0
+theme_override_constants/separation = 8
 mouse_filter = 2
+
+[node name="InspectionTitle" type="Label" parent="Information"]
+layout_mode = 2
+text = "Осмотр"
 theme_override_font_sizes/font_size = 20
-metadata/hub_slot = "hero_title"
-[node name="SkinLabel" type="Label" parent="."]
-layout_mode = 1
-anchor_left = 0.50
-anchor_top = 0.045
-anchor_right = 0.62
-anchor_bottom = 0.12
-horizontal_alignment = 2
-vertical_alignment = 1
-text = "Облик"
 mouse_filter = 2
-theme_override_font_sizes/font_size = 12
-metadata/hub_slot = "skin_label"
-[node name="SkinChoice" type="OptionButton" parent="."]
-layout_mode = 1
-anchor_left = 0.64
-anchor_top = 0.035
-anchor_right = 0.96
-anchor_bottom = 0.13
-text = "Облик"
-tooltip_text = "Облик для всех бойцов этого класса"
-theme_override_font_sizes/font_size = 12
-metadata/hub_slot = "skin_choice"
-[node name="HeroPortrait" type="TextureRect" parent="."]
-layout_mode = 1
-anchor_left = 0.06
-anchor_top = 0.18
-anchor_right = 0.40
-anchor_bottom = 0.52
-mouse_filter = 2
-expand_mode = 1
-stretch_mode = 5
-texture_filter = 1
-metadata/hub_slot = "hero_portrait"
-[node name="HeroDetail" type="Label" parent="."]
-layout_mode = 1
-anchor_left = 0.44
-anchor_top = 0.17
-anchor_right = 0.96
-anchor_bottom = 0.53
-autowrap_mode = 2
-text = "Описание героя"
-mouse_filter = 2
-theme_override_font_sizes/font_size = 14
-metadata/hub_slot = "hero_detail"
-[node name="SkinNotice" type="Label" parent="."]
-layout_mode = 1
-anchor_left = 0.04
-anchor_top = 0.54
-anchor_right = 0.96
-anchor_bottom = 0.65
-autowrap_mode = 2
+
+[node name="HeroPoints" type="Label" parent="Information"]
+layout_mode = 2
 text = ""
-visible = false
+theme_override_font_sizes/font_size = 14
 mouse_filter = 2
-theme_override_colors/font_color = Color(0.75, 0.18, 0.14, 1)
-theme_override_font_sizes/font_size = 11
-metadata/hub_slot = "skin_notice"
-[node name="ManageMercenaries" type="Button" parent="."]
-layout_mode = 1
-anchor_left = 0.04
-anchor_top = 1.0
-anchor_right = 0.49
-anchor_bottom = 1.0
-offset_top = -42.0
-offset_bottom = -4.0
-text = "Управление"
-tooltip_text = "Управление отрядом, развитием, колодой, экипировкой и достижениями"
-metadata/hub_action = "manage"
-[node name="DevelopmentOpen" type="Button" parent="."]
-layout_mode = 1
-anchor_left = 0.51
-anchor_top = 1.0
-anchor_right = 0.96
-anchor_bottom = 1.0
-offset_top = -42.0
-offset_bottom = -4.0
-text = "Развитие"
-metadata/hub_action = "development_open"
-[node name="MercenaryAction" type="Button" parent="."]
-layout_mode = 1
-anchor_left = 0.04
-anchor_top = 1.0
-anchor_right = 0.96
-anchor_bottom = 1.0
-offset_top = -120.0
-offset_bottom = -76.0
-text = "Нанять бесплатно"
-metadata/hub_action = "mercenary_action"
+metadata/hub_slot = "hero_points"
+
+[node name="PassiveGroup" type="VBoxContainer" parent="Information"]
+layout_mode = 2
+theme_override_constants/separation = 5
+mouse_filter = 2
+metadata/hub_slot = "passive_group"
+
+[node name="Heading" type="Label" parent="Information/PassiveGroup"]
+layout_mode = 2
+text = "Пассивки"
+theme_override_font_sizes/font_size = 14
+mouse_filter = 2
+
+[node name="Icons" type="HFlowContainer" parent="Information/PassiveGroup"]
+layout_mode = 2
+theme_override_constants/h_separation = 6
+theme_override_constants/v_separation = 5
+mouse_filter = 2
+metadata/hub_slot = "passive_icons"
+
+[node name="AbilityGroup" type="VBoxContainer" parent="Information"]
+layout_mode = 2
+theme_override_constants/separation = 5
+mouse_filter = 2
+metadata/hub_slot = "ability_group"
+
+[node name="Heading" type="Label" parent="Information/AbilityGroup"]
+layout_mode = 2
+text = "Способности"
+theme_override_font_sizes/font_size = 14
+mouse_filter = 2
+
+[node name="Icons" type="HFlowContainer" parent="Information/AbilityGroup"]
+layout_mode = 2
+theme_override_constants/h_separation = 6
+theme_override_constants/v_separation = 5
+mouse_filter = 2
+metadata/hub_slot = "ability_icons"
+
+[node name="StatsScroll" type="ScrollContainer" parent="Information"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 1
+mouse_filter = 0
+
+[node name="StatsContent" type="VBoxContainer" parent="Information/StatsScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 6
+mouse_filter = 2
+
+[node name="HeroDetail" type="Label" parent="Information/StatsScroll/StatsContent"]
+layout_mode = 2
+autowrap_mode = 2
+text = "Характеристики героя"
+theme_override_font_sizes/font_size = 16
+mouse_filter = 2
+metadata/hub_slot = "hero_detail"
+
+[node name="HeroEquipment" type="Label" parent="Information/StatsScroll/StatsContent"]
+layout_mode = 2
+autowrap_mode = 2
+text = "Оружие и доспехи"
+theme_override_font_sizes/font_size = 14
+mouse_filter = 2
+metadata/hub_slot = "hero_equipment"
+
 [node name="MercenaryHint" type="Label" parent="."]
 layout_mode = 1
-anchor_left = 0.04
+anchor_left = 0.05
 anchor_top = 1.0
-anchor_right = 0.96
+anchor_right = 0.95
 anchor_bottom = 1.0
-offset_top = -72.0
-offset_bottom = -44.0
+offset_top = -139.0
+offset_bottom = -100.0
 autowrap_mode = 2
-text = "Действие без стоимости"
+text = ""
 theme_override_font_sizes/font_size = 11
+mouse_filter = 2
 metadata/hub_slot = "mercenary_hint"
+
+[node name="DevelopmentOpen" type="Button" parent="."]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 1
+anchor_left = 0.05
+anchor_top = 1.0
+anchor_right = 0.47
+anchor_bottom = 1.0
+offset_top = -96.0
+offset_bottom = -56.0
+text = "Развитие"
+metadata/hub_action = "development_open"
+
+[node name="ToSmith" type="Button" parent="."]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 1
+anchor_left = 0.53
+anchor_top = 1.0
+anchor_right = 0.95
+anchor_bottom = 1.0
+offset_top = -96.0
+offset_bottom = -56.0
+text = "К кузнецу"
+metadata/hub_action = "hero_smith"
+
+[node name="MercenaryAction" type="Button" parent="."]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 1
+anchor_left = 0.05
+anchor_top = 1.0
+anchor_right = 0.95
+anchor_bottom = 1.0
+offset_top = -52.0
+offset_bottom = -4.0
+text = "В отряд"
+metadata/hub_action = "mercenary_action"
