@@ -1,0 +1,309 @@
+{
+  "key": "attack-3",
+  "kind": "attack",
+  "variant": 3,
+  "name": "Низкий силовой",
+  "prompt": "Lower into a deep grounded stance with the sword near the rear hip. Push sharply from the rear leg for one low horizontal sweeping cut toward screen-left, with a strong forward torso lean. The pale crescent sweeps low across the front, the blade brakes at impact, and the body settles back. A single non-looping attack: brief wind-up, ONE fast strike with a short sharp forward weight shift, crisp impact pose, then immediate low-blade recovery to the starting stance. Never swing again during recovery; no combo, second attack or repeated cycle. At contact show one broad ivory-white crescent with a warm pale-gold inner edge, following the sword path, then promptly fading. One sword only. Preserve this warrior, gear and proportions, fixed front three-quarter camera, attacking screen-left. Rear boot anchors the lunge; return to the original cell. Body, blade and arc must stay fully inside the canvas with clear margins. No target, text or camera shake.",
+  "seed": 2026111483,
+  "frame_count": 16,
+  "expected_frames": 17,
+  "endpoint": "animate-pixminimax",
+  "loop": false,
+  "return_to_first": true,
+  "input": "model/input-256.png",
+  "captions": {
+    "subject_description": "A compact stylized male warrior with spiky auburn hair, silver shoulder armor, brown leather armor and boots, red scarf, cream waist cloth, one steel sword in his right hand and empty left hand",
+    "initial_pose": "Standing in a front three-quarter battle stance facing screen-left, feet apart, knees slightly bent, right hand holding a lowered sword diagonally in front, left fist beside hip",
+    "view": "side",
+    "direction": "south-west"
+  },
+  "provider": "PixelLab PixMiniMax",
+  "job_id": "cfb87532-846f-4854-acd2-f7c5bbcdc5fb",
+  "usage": {
+    "usd": 0.0,
+    "type": "generations",
+    "generations": 2
+  },
+  "actual_frames": 17,
+  "canvas": [
+    256,
+    256
+  ],
+  "durations_ms": [
+    40,
+    40,
+    40,
+    40,
+    40,
+    40,
+    40,
+    40,
+    40,
+    40,
+    40,
+    40,
+    40,
+    40,
+    40,
+    40,
+    700
+  ],
+  "timing_origin": "Preview timing authored locally; provider supplies poses only",
+  "gif_actual_durations_ms": [
+    40,
+    40,
+    40,
+    40,
+    40,
+    40,
+    40,
+    40,
+    40,
+    40,
+    40,
+    40,
+    40,
+    40,
+    40,
+    40,
+    700
+  ],
+  "gif_total_duration_ms": 1340,
+  "first_frame_alpha_equal": true,
+  "first_frame_alpha_differing_pixels": 0,
+  "first_frame_visible_differing_pixels": 0,
+  "first_frame_rgba_differing_pixels": 13,
+  "first_frame_transparent_rgb_differing_pixels": 13,
+  "first_frame_png_byte_equal": false,
+  "last_frame_rgba_equal": false,
+  "edge_frames": [],
+  "margin_violation_frames": [],
+  "frame_sha256": [
+    "858f29c6049336b586c111c6b65f65c05af75fe8f146920f122477f793f57cc9",
+    "87d1f5d90c9f302c279a9f8d0d29813eac2560a6d97b00ac34a6fc2d245d870a",
+    "931494f6b37ba4766c74224012c53a57afb76decfed4f7223dc1504f337b2883",
+    "ae956f11bcf0dd1d029d442463afd01bf563adec241f0922abba6d2b974cd92a",
+    "6f23c714d811e107623e3a62965f772f8d6336c885760e7ad3f3ff9e18c04c56",
+    "b75a9bac5739bd11a7dd69dcf0d3b35caf388fdf32420ee1d73f1496ef200c4d",
+    "01752fd57c8dfd8ab537a0b08a1746960705f1a231b7a49c6aa2063521e19be1",
+    "e853cba5a777ee04e3948e3d6fde92bfcd9dc9cf401da39f9108b61c1685a282",
+    "1e766135f5cab21cc259487a4061350045f21d80fe08b3df4728957c74e0e84b",
+    "d681134087576a42adfdcc52ec99607ea6f3a2840fd9758877ba28fd433eb1f8",
+    "1b9449224deaf3f96b1a6a0716ff3cb4ee351f81be6ce3b59a6928500340635e",
+    "f8e611ea33d938aff82c41a0e6e996fa831da2cc0d77d1e8541c293f71f60ba6",
+    "b6980001f02bbfeea70e9dd03c9cce2a5edc4f38ebf8416c72ffaa4a40d197d7",
+    "5fc3ae2aac43489c6b0e382691ed17933b2f3ce8a35cfa3919f450055ed2a33b",
+    "a57fadce1c4d03f2470a611addf596b7826ef460b6df0731d609d3523cae8a77",
+    "ca3b63629e45683c0e0f0e68b11bffa833fc3e4cded317b98e5f05e9c14c5711",
+    "dcc87f4ba99036f30d3e88758978fa4ebb5ba36f4aa16c6c13dfb8daa705e494"
+  ],
+  "bboxes": [
+    [
+      60,
+      53,
+      185,
+      205
+    ],
+    [
+      64,
+      55,
+      187,
+      203
+    ],
+    [
+      74,
+      60,
+      225,
+      204
+    ],
+    [
+      78,
+      62,
+      215,
+      204
+    ],
+    [
+      75,
+      66,
+      230,
+      204
+    ],
+    [
+      26,
+      71,
+      230,
+      212
+    ],
+    [
+      42,
+      71,
+      187,
+      210
+    ],
+    [
+      42,
+      71,
+      187,
+      207
+    ],
+    [
+      33,
+      71,
+      230,
+      210
+    ],
+    [
+      30,
+      51,
+      230,
+      210
+    ],
+    [
+      30,
+      42,
+      230,
+      210
+    ],
+    [
+      29,
+      66,
+      176,
+      207
+    ],
+    [
+      29,
+      66,
+      176,
+      207
+    ],
+    [
+      29,
+      66,
+      176,
+      207
+    ],
+    [
+      41,
+      63,
+      177,
+      212
+    ],
+    [
+      58,
+      58,
+      179,
+      210
+    ],
+    [
+      60,
+      53,
+      185,
+      205
+    ]
+  ],
+  "raw_alpha_bboxes": [
+    [
+      60,
+      53,
+      185,
+      205
+    ],
+    [
+      64,
+      55,
+      187,
+      203
+    ],
+    [
+      74,
+      60,
+      225,
+      204
+    ],
+    [
+      78,
+      62,
+      215,
+      204
+    ],
+    [
+      75,
+      66,
+      230,
+      204
+    ],
+    [
+      26,
+      71,
+      230,
+      212
+    ],
+    [
+      42,
+      71,
+      187,
+      210
+    ],
+    [
+      42,
+      71,
+      187,
+      207
+    ],
+    [
+      33,
+      71,
+      230,
+      210
+    ],
+    [
+      30,
+      51,
+      230,
+      210
+    ],
+    [
+      30,
+      42,
+      230,
+      210
+    ],
+    [
+      29,
+      66,
+      176,
+      207
+    ],
+    [
+      29,
+      66,
+      176,
+      207
+    ],
+    [
+      29,
+      66,
+      176,
+      207
+    ],
+    [
+      41,
+      63,
+      177,
+      212
+    ],
+    [
+      58,
+      58,
+      179,
+      210
+    ],
+    [
+      60,
+      53,
+      185,
+      205
+    ]
+  ],
+  "integration": false
+}

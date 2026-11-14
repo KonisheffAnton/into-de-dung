@@ -1,0 +1,1554 @@
+{
+  "expected": 5,
+  "completed": 5,
+  "complete": true,
+  "first_frame_policy": "Alpha and visible RGBA must match exactly; transparent RGB-only differences are diagnostic.",
+  "complete_meaning": "Count only; not artistic acceptance or runtime validation",
+  "clips": [
+    {
+      "key": "attack-1",
+      "kind": "attack",
+      "variant": 1,
+      "name": "Хлёсткий боковой",
+      "prompt": "Coil the sword arm briefly behind the hip, then snap the hips and shoulders into one forceful waist-high horizontal slash toward screen-left. The front knee drives forward as the rear leg braces. The wide crescent flashes at contact, the torso checks its momentum and the sword returns low. A single non-looping attack: brief wind-up, ONE fast strike with a short sharp forward weight shift, crisp impact pose, then immediate low-blade recovery to the starting stance. Never swing again during recovery; no combo, second attack or repeated cycle. At contact show one broad ivory-white crescent with a warm pale-gold inner edge, following the sword path, then promptly fading. One sword only. Preserve this warrior, gear and proportions, fixed front three-quarter camera, attacking screen-left. Rear boot anchors the lunge; return to the original cell. Body, blade and arc must stay fully inside the canvas with clear margins. No target, text or camera shake.",
+      "seed": 2026111481,
+      "frame_count": 16,
+      "expected_frames": 17,
+      "endpoint": "animate-pixminimax",
+      "loop": false,
+      "return_to_first": true,
+      "input": "model/input-256.png",
+      "captions": {
+        "subject_description": "A compact stylized male warrior with spiky auburn hair, silver shoulder armor, brown leather armor and boots, red scarf, cream waist cloth, one steel sword in his right hand and empty left hand",
+        "initial_pose": "Standing in a front three-quarter battle stance facing screen-left, feet apart, knees slightly bent, right hand holding a lowered sword diagonally in front, left fist beside hip",
+        "view": "side",
+        "direction": "south-west"
+      },
+      "provider": "PixelLab PixMiniMax",
+      "job_id": "4d704fb3-522f-4b74-8afd-5cace1929500",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 2
+      },
+      "actual_frames": 17,
+      "canvas": [
+        256,
+        256
+      ],
+      "durations_ms": [
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        700
+      ],
+      "timing_origin": "Preview timing authored locally; provider supplies poses only",
+      "gif_actual_durations_ms": [
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        700
+      ],
+      "gif_total_duration_ms": 1340,
+      "first_frame_alpha_equal": true,
+      "first_frame_alpha_differing_pixels": 0,
+      "first_frame_visible_differing_pixels": 0,
+      "first_frame_rgba_differing_pixels": 13,
+      "first_frame_transparent_rgb_differing_pixels": 13,
+      "first_frame_png_byte_equal": false,
+      "last_frame_rgba_equal": false,
+      "edge_frames": [],
+      "margin_violation_frames": [],
+      "frame_sha256": [
+        "858f29c6049336b586c111c6b65f65c05af75fe8f146920f122477f793f57cc9",
+        "5ffd6c2452d7a7fee87a51bb7d9bdb2badb7a63eb141fa16debfd5882832bf33",
+        "fcd2b2793502c56585633de2aeb71a244f6e439863f098bbe77119062eb95ad4",
+        "9e47768d179c2731d9a9f2352b46f90731084eed06edd8bf0bd30604a3e51bd9",
+        "e254983ebdc5b9636b7e3fe233e56229afcf141a5b3a9c165a96e3ec5d052f31",
+        "0f5ec79cf869c8f3a10f6de34c33441242ecf526bba0625f4e105de2a09878e9",
+        "078c9a9c55510792c8a16e3b16130cf76ac8fce21911a487e4ca5845e17d6893",
+        "20969c60419fbccc6ac2710b73e225fca37246f6ee8a4dbed4e375640435499b",
+        "fcd7bac795dec3d82a45fe911ac5bfd97f836de614d2d6bd61cef4013c71bcfe",
+        "b4d901fa2df882c25d7cea3b01cccb8021c1727219d363105f43aa2d5a8cac37",
+        "65d5d5cd974048eea76b3a2437fdd89b5d2bed878604548224bdc9e81d84b8ad",
+        "ca61e4138c140c7a7a3add65a4c2f54ba4edb1a6e95d24b63e8a3ef0ab6cdd3f",
+        "48a6a65609839be605c06aa404fb32a780a59614a9b7630c63057688a23d5d4d",
+        "df9e6433075fe4cd72008996cd59bdb04f1d0d47494cf6b00c2b1df611ab0476",
+        "d9cb59137d5eadd75903a724dad88b3610c3f112c9a72972ecaa01633e2da0d6",
+        "24ca077852e4b7c3b7bbe33742f9a198a06be88eb3310e0ebd745ba9d4baf581",
+        "7d17c029b376d80b93e6ae4cee7cb9ad5fe7a66f340810b5560ae56469b6b979"
+      ],
+      "bboxes": [
+        [
+          60,
+          53,
+          185,
+          205
+        ],
+        [
+          60,
+          54,
+          182,
+          204
+        ],
+        [
+          66,
+          57,
+          209,
+          203
+        ],
+        [
+          74,
+          60,
+          216,
+          203
+        ],
+        [
+          76,
+          60,
+          186,
+          203
+        ],
+        [
+          37,
+          53,
+          220,
+          206
+        ],
+        [
+          38,
+          54,
+          210,
+          206
+        ],
+        [
+          40,
+          62,
+          187,
+          202
+        ],
+        [
+          46,
+          64,
+          187,
+          202
+        ],
+        [
+          46,
+          64,
+          187,
+          202
+        ],
+        [
+          44,
+          65,
+          187,
+          202
+        ],
+        [
+          37,
+          50,
+          212,
+          206
+        ],
+        [
+          38,
+          49,
+          212,
+          206
+        ],
+        [
+          38,
+          51,
+          187,
+          202
+        ],
+        [
+          57,
+          57,
+          184,
+          210
+        ],
+        [
+          66,
+          54,
+          187,
+          207
+        ],
+        [
+          60,
+          53,
+          185,
+          205
+        ]
+      ],
+      "raw_alpha_bboxes": [
+        [
+          60,
+          53,
+          185,
+          205
+        ],
+        [
+          60,
+          54,
+          182,
+          204
+        ],
+        [
+          66,
+          57,
+          209,
+          203
+        ],
+        [
+          74,
+          60,
+          216,
+          203
+        ],
+        [
+          76,
+          60,
+          186,
+          203
+        ],
+        [
+          37,
+          53,
+          220,
+          206
+        ],
+        [
+          38,
+          54,
+          210,
+          206
+        ],
+        [
+          40,
+          62,
+          187,
+          202
+        ],
+        [
+          46,
+          64,
+          187,
+          202
+        ],
+        [
+          46,
+          64,
+          187,
+          202
+        ],
+        [
+          44,
+          65,
+          187,
+          202
+        ],
+        [
+          37,
+          50,
+          212,
+          206
+        ],
+        [
+          38,
+          49,
+          212,
+          206
+        ],
+        [
+          38,
+          51,
+          187,
+          202
+        ],
+        [
+          57,
+          57,
+          184,
+          210
+        ],
+        [
+          66,
+          54,
+          187,
+          207
+        ],
+        [
+          60,
+          53,
+          185,
+          205
+        ]
+      ],
+      "integration": false
+    },
+    {
+      "key": "attack-2",
+      "kind": "attack",
+      "variant": 2,
+      "name": "Диагональ с выпадом",
+      "prompt": "Draw the single sword above the rear shoulder in a compact wind-up, compress the legs, then drive the chest and sword forward-left in one steep diagonal descending cut. Plant the front foot firmly within the same cell. Emphasize the instant the broad crescent reaches the low contact point. A single non-looping attack: brief wind-up, ONE fast strike with a short sharp forward weight shift, crisp impact pose, then immediate low-blade recovery to the starting stance. Never swing again during recovery; no combo, second attack or repeated cycle. At contact show one broad ivory-white crescent with a warm pale-gold inner edge, following the sword path, then promptly fading. One sword only. Preserve this warrior, gear and proportions, fixed front three-quarter camera, attacking screen-left. Rear boot anchors the lunge; return to the original cell. Body, blade and arc must stay fully inside the canvas with clear margins. No target, text or camera shake.",
+      "seed": 2026111482,
+      "frame_count": 16,
+      "expected_frames": 17,
+      "endpoint": "animate-pixminimax",
+      "loop": false,
+      "return_to_first": true,
+      "input": "model/input-256.png",
+      "captions": {
+        "subject_description": "A compact stylized male warrior with spiky auburn hair, silver shoulder armor, brown leather armor and boots, red scarf, cream waist cloth, one steel sword in his right hand and empty left hand",
+        "initial_pose": "Standing in a front three-quarter battle stance facing screen-left, feet apart, knees slightly bent, right hand holding a lowered sword diagonally in front, left fist beside hip",
+        "view": "side",
+        "direction": "south-west"
+      },
+      "provider": "PixelLab PixMiniMax",
+      "job_id": "bbca1671-31fe-4808-b63e-2f14e8f0eef4",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 2
+      },
+      "actual_frames": 17,
+      "canvas": [
+        256,
+        256
+      ],
+      "durations_ms": [
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        700
+      ],
+      "timing_origin": "Preview timing authored locally; provider supplies poses only",
+      "gif_actual_durations_ms": [
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        700
+      ],
+      "gif_total_duration_ms": 1340,
+      "first_frame_alpha_equal": true,
+      "first_frame_alpha_differing_pixels": 0,
+      "first_frame_visible_differing_pixels": 0,
+      "first_frame_rgba_differing_pixels": 13,
+      "first_frame_transparent_rgb_differing_pixels": 13,
+      "first_frame_png_byte_equal": false,
+      "last_frame_rgba_equal": false,
+      "edge_frames": [],
+      "margin_violation_frames": [],
+      "frame_sha256": [
+        "858f29c6049336b586c111c6b65f65c05af75fe8f146920f122477f793f57cc9",
+        "038bede286888d534b20c4ee987481125d61a172ad2b11878c6dff338ad283ee",
+        "d7d887000780ef51ecf39b8abfd63dfaf733713684917f340bd43989f1427167",
+        "b36bc518eaa56172732b4ffe7bab2b3d1e98dadddb0d0beb68e5f8963ddeb60f",
+        "12bbbcf3ebb77c1c8244387e8be72f068990782277c0a26ee2cf9ca7382098f3",
+        "97a9a231524d02b3d7de3b24f7a133801710968547254e30eb4bc00207b13a8c",
+        "689eac48d4a3a1e67f69d7b7ee1817657e1d235e66fe1ce3b84850ca569c1979",
+        "e36733e4bc7b24ee8fd073a7ce531b99cc72faeb66c85fe6843e60369ae54989",
+        "4f71ace9f9f8483ed41db9a2d6467100665d562b6f1a9e512856655e3ea9516b",
+        "34177c4e73f1d820d052f4bfe9bc07adbb830bfd0797ec7ad8aff10bcd297465",
+        "f9338168d5374084b221b3a4aef2412ce2b3049836fb8e9f00994473b2539c9e",
+        "eba0eb7bb0c61f2859f847d6903402dcd30112039f82d42b9539addb6671ff10",
+        "f7e1bf714ac13221f15e6215510c41a27fbcf0bb1a6b225859867d6e551190e6",
+        "6c7650ff92472483962595c438f413b798b36ab08b60a5e5c2ef02ff8ef4b0b0",
+        "452cf4ea8e8b0a024501b49e87a793f40ff8677f3c90de091594c50cd8052b0d",
+        "841a0b2619797bc5b73df5e2e88683f953d731c5178541e3e52552d264186127",
+        "bb4a9559f4b98f92ca7cc8d56322c09bd9f433f7fbbe596f13623c6de2571b36"
+      ],
+      "bboxes": [
+        [
+          60,
+          53,
+          185,
+          205
+        ],
+        [
+          59,
+          54,
+          186,
+          204
+        ],
+        [
+          66,
+          56,
+          224,
+          205
+        ],
+        [
+          80,
+          57,
+          208,
+          206
+        ],
+        [
+          82,
+          44,
+          196,
+          205
+        ],
+        [
+          82,
+          48,
+          191,
+          206
+        ],
+        [
+          82,
+          50,
+          188,
+          206
+        ],
+        [
+          82,
+          48,
+          191,
+          205
+        ],
+        [
+          78,
+          44,
+          228,
+          206
+        ],
+        [
+          27,
+          48,
+          228,
+          212
+        ],
+        [
+          27,
+          49,
+          196,
+          212
+        ],
+        [
+          27,
+          49,
+          196,
+          212
+        ],
+        [
+          27,
+          49,
+          196,
+          212
+        ],
+        [
+          27,
+          50,
+          196,
+          212
+        ],
+        [
+          27,
+          64,
+          194,
+          214
+        ],
+        [
+          59,
+          58,
+          190,
+          218
+        ],
+        [
+          60,
+          53,
+          185,
+          205
+        ]
+      ],
+      "raw_alpha_bboxes": [
+        [
+          60,
+          53,
+          185,
+          205
+        ],
+        [
+          59,
+          54,
+          186,
+          204
+        ],
+        [
+          66,
+          56,
+          224,
+          205
+        ],
+        [
+          80,
+          57,
+          208,
+          206
+        ],
+        [
+          82,
+          44,
+          196,
+          205
+        ],
+        [
+          82,
+          48,
+          191,
+          206
+        ],
+        [
+          82,
+          50,
+          188,
+          206
+        ],
+        [
+          82,
+          48,
+          191,
+          205
+        ],
+        [
+          78,
+          44,
+          228,
+          206
+        ],
+        [
+          27,
+          48,
+          228,
+          212
+        ],
+        [
+          27,
+          49,
+          196,
+          212
+        ],
+        [
+          27,
+          49,
+          196,
+          212
+        ],
+        [
+          27,
+          49,
+          196,
+          212
+        ],
+        [
+          27,
+          50,
+          196,
+          212
+        ],
+        [
+          27,
+          64,
+          194,
+          214
+        ],
+        [
+          59,
+          58,
+          190,
+          218
+        ],
+        [
+          60,
+          53,
+          185,
+          205
+        ]
+      ],
+      "integration": false
+    },
+    {
+      "key": "attack-3",
+      "kind": "attack",
+      "variant": 3,
+      "name": "Низкий силовой",
+      "prompt": "Lower into a deep grounded stance with the sword near the rear hip. Push sharply from the rear leg for one low horizontal sweeping cut toward screen-left, with a strong forward torso lean. The pale crescent sweeps low across the front, the blade brakes at impact, and the body settles back. A single non-looping attack: brief wind-up, ONE fast strike with a short sharp forward weight shift, crisp impact pose, then immediate low-blade recovery to the starting stance. Never swing again during recovery; no combo, second attack or repeated cycle. At contact show one broad ivory-white crescent with a warm pale-gold inner edge, following the sword path, then promptly fading. One sword only. Preserve this warrior, gear and proportions, fixed front three-quarter camera, attacking screen-left. Rear boot anchors the lunge; return to the original cell. Body, blade and arc must stay fully inside the canvas with clear margins. No target, text or camera shake.",
+      "seed": 2026111483,
+      "frame_count": 16,
+      "expected_frames": 17,
+      "endpoint": "animate-pixminimax",
+      "loop": false,
+      "return_to_first": true,
+      "input": "model/input-256.png",
+      "captions": {
+        "subject_description": "A compact stylized male warrior with spiky auburn hair, silver shoulder armor, brown leather armor and boots, red scarf, cream waist cloth, one steel sword in his right hand and empty left hand",
+        "initial_pose": "Standing in a front three-quarter battle stance facing screen-left, feet apart, knees slightly bent, right hand holding a lowered sword diagonally in front, left fist beside hip",
+        "view": "side",
+        "direction": "south-west"
+      },
+      "provider": "PixelLab PixMiniMax",
+      "job_id": "cfb87532-846f-4854-acd2-f7c5bbcdc5fb",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 2
+      },
+      "actual_frames": 17,
+      "canvas": [
+        256,
+        256
+      ],
+      "durations_ms": [
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        700
+      ],
+      "timing_origin": "Preview timing authored locally; provider supplies poses only",
+      "gif_actual_durations_ms": [
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        700
+      ],
+      "gif_total_duration_ms": 1340,
+      "first_frame_alpha_equal": true,
+      "first_frame_alpha_differing_pixels": 0,
+      "first_frame_visible_differing_pixels": 0,
+      "first_frame_rgba_differing_pixels": 13,
+      "first_frame_transparent_rgb_differing_pixels": 13,
+      "first_frame_png_byte_equal": false,
+      "last_frame_rgba_equal": false,
+      "edge_frames": [],
+      "margin_violation_frames": [],
+      "frame_sha256": [
+        "858f29c6049336b586c111c6b65f65c05af75fe8f146920f122477f793f57cc9",
+        "87d1f5d90c9f302c279a9f8d0d29813eac2560a6d97b00ac34a6fc2d245d870a",
+        "931494f6b37ba4766c74224012c53a57afb76decfed4f7223dc1504f337b2883",
+        "ae956f11bcf0dd1d029d442463afd01bf563adec241f0922abba6d2b974cd92a",
+        "6f23c714d811e107623e3a62965f772f8d6336c885760e7ad3f3ff9e18c04c56",
+        "b75a9bac5739bd11a7dd69dcf0d3b35caf388fdf32420ee1d73f1496ef200c4d",
+        "01752fd57c8dfd8ab537a0b08a1746960705f1a231b7a49c6aa2063521e19be1",
+        "e853cba5a777ee04e3948e3d6fde92bfcd9dc9cf401da39f9108b61c1685a282",
+        "1e766135f5cab21cc259487a4061350045f21d80fe08b3df4728957c74e0e84b",
+        "d681134087576a42adfdcc52ec99607ea6f3a2840fd9758877ba28fd433eb1f8",
+        "1b9449224deaf3f96b1a6a0716ff3cb4ee351f81be6ce3b59a6928500340635e",
+        "f8e611ea33d938aff82c41a0e6e996fa831da2cc0d77d1e8541c293f71f60ba6",
+        "b6980001f02bbfeea70e9dd03c9cce2a5edc4f38ebf8416c72ffaa4a40d197d7",
+        "5fc3ae2aac43489c6b0e382691ed17933b2f3ce8a35cfa3919f450055ed2a33b",
+        "a57fadce1c4d03f2470a611addf596b7826ef460b6df0731d609d3523cae8a77",
+        "ca3b63629e45683c0e0f0e68b11bffa833fc3e4cded317b98e5f05e9c14c5711",
+        "dcc87f4ba99036f30d3e88758978fa4ebb5ba36f4aa16c6c13dfb8daa705e494"
+      ],
+      "bboxes": [
+        [
+          60,
+          53,
+          185,
+          205
+        ],
+        [
+          64,
+          55,
+          187,
+          203
+        ],
+        [
+          74,
+          60,
+          225,
+          204
+        ],
+        [
+          78,
+          62,
+          215,
+          204
+        ],
+        [
+          75,
+          66,
+          230,
+          204
+        ],
+        [
+          26,
+          71,
+          230,
+          212
+        ],
+        [
+          42,
+          71,
+          187,
+          210
+        ],
+        [
+          42,
+          71,
+          187,
+          207
+        ],
+        [
+          33,
+          71,
+          230,
+          210
+        ],
+        [
+          30,
+          51,
+          230,
+          210
+        ],
+        [
+          30,
+          42,
+          230,
+          210
+        ],
+        [
+          29,
+          66,
+          176,
+          207
+        ],
+        [
+          29,
+          66,
+          176,
+          207
+        ],
+        [
+          29,
+          66,
+          176,
+          207
+        ],
+        [
+          41,
+          63,
+          177,
+          212
+        ],
+        [
+          58,
+          58,
+          179,
+          210
+        ],
+        [
+          60,
+          53,
+          185,
+          205
+        ]
+      ],
+      "raw_alpha_bboxes": [
+        [
+          60,
+          53,
+          185,
+          205
+        ],
+        [
+          64,
+          55,
+          187,
+          203
+        ],
+        [
+          74,
+          60,
+          225,
+          204
+        ],
+        [
+          78,
+          62,
+          215,
+          204
+        ],
+        [
+          75,
+          66,
+          230,
+          204
+        ],
+        [
+          26,
+          71,
+          230,
+          212
+        ],
+        [
+          42,
+          71,
+          187,
+          210
+        ],
+        [
+          42,
+          71,
+          187,
+          207
+        ],
+        [
+          33,
+          71,
+          230,
+          210
+        ],
+        [
+          30,
+          51,
+          230,
+          210
+        ],
+        [
+          30,
+          42,
+          230,
+          210
+        ],
+        [
+          29,
+          66,
+          176,
+          207
+        ],
+        [
+          29,
+          66,
+          176,
+          207
+        ],
+        [
+          29,
+          66,
+          176,
+          207
+        ],
+        [
+          41,
+          63,
+          177,
+          212
+        ],
+        [
+          58,
+          58,
+          179,
+          210
+        ],
+        [
+          60,
+          53,
+          185,
+          205
+        ]
+      ],
+      "integration": false
+    },
+    {
+      "key": "attack-4",
+      "kind": "attack",
+      "variant": 4,
+      "name": "Короткий удар сверху",
+      "prompt": "Raise the sword in one short overhead preparation, then deliver a single explosive downward chop toward screen-left while the front knee and torso drive into contact. Keep the arm path compact and forceful. A broad curved trail culminates in a small sharp contact flare, then vanishes during recovery. A single non-looping attack: brief wind-up, ONE fast strike with a short sharp forward weight shift, crisp impact pose, then immediate low-blade recovery to the starting stance. Never swing again during recovery; no combo, second attack or repeated cycle. At contact show one broad ivory-white crescent with a warm pale-gold inner edge, following the sword path, then promptly fading. One sword only. Preserve this warrior, gear and proportions, fixed front three-quarter camera, attacking screen-left. Rear boot anchors the lunge; return to the original cell. Body, blade and arc must stay fully inside the canvas with clear margins. No target, text or camera shake.",
+      "seed": 2026111484,
+      "frame_count": 16,
+      "expected_frames": 17,
+      "endpoint": "animate-pixminimax",
+      "loop": false,
+      "return_to_first": true,
+      "input": "model/input-256.png",
+      "captions": {
+        "subject_description": "A compact stylized male warrior with spiky auburn hair, silver shoulder armor, brown leather armor and boots, red scarf, cream waist cloth, one steel sword in his right hand and empty left hand",
+        "initial_pose": "Standing in a front three-quarter battle stance facing screen-left, feet apart, knees slightly bent, right hand holding a lowered sword diagonally in front, left fist beside hip",
+        "view": "side",
+        "direction": "south-west"
+      },
+      "provider": "PixelLab PixMiniMax",
+      "job_id": "003515bf-2406-4dbf-bc7a-30b6a1cff881",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 2
+      },
+      "actual_frames": 17,
+      "canvas": [
+        256,
+        256
+      ],
+      "durations_ms": [
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        700
+      ],
+      "timing_origin": "Preview timing authored locally; provider supplies poses only",
+      "gif_actual_durations_ms": [
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        700
+      ],
+      "gif_total_duration_ms": 1340,
+      "first_frame_alpha_equal": true,
+      "first_frame_alpha_differing_pixels": 0,
+      "first_frame_visible_differing_pixels": 0,
+      "first_frame_rgba_differing_pixels": 13,
+      "first_frame_transparent_rgb_differing_pixels": 13,
+      "first_frame_png_byte_equal": false,
+      "last_frame_rgba_equal": false,
+      "edge_frames": [],
+      "margin_violation_frames": [],
+      "frame_sha256": [
+        "858f29c6049336b586c111c6b65f65c05af75fe8f146920f122477f793f57cc9",
+        "6ccf2f808e47e1eb2b1319fe7c9167de565b2ab2b129dbc9903291d8e270a78b",
+        "0eb08702420b52270ac3f3ce026fe9a7b36d3e853b937ca20a5541cf6a1f13e8",
+        "afaa038c67cf7dc4bd311734a59860497e4bffe24ff62185fd8cbea49c2b2bc6",
+        "e4a98fcf6044212ae03618075133fef05958b0c10d217a11c8445be65a9d9348",
+        "da0869ba12d03aaf55c0423b829156b4e819c27b2f4677625363568924bf65ae",
+        "1203c5f3fe44976fd4c89bd2264ba0f21d84a8ae0f92d2732aee22d718d9bf4a",
+        "18e7fe20224e6163b2c87aff1e6206b77dc1e2be57e930a54c48b43487595e21",
+        "be32360625953353107cd37eaf8bdb9251895422e19498ac8fbf44605ca34397",
+        "1f74bdbbb07962375a6993de343cbd8615f612bcb11e010cfd4b1c403efa9a7b",
+        "30ab76648e91c199189f7cbbb2a7e63087216aedc20dfdc02d8f0540f0b8609c",
+        "f2daec1cbcae90735342b8a6ca536cb4da2d9d9662f9d05490a1527252b30d02",
+        "a753b3eec9654e89fd5b898ad54f4c9bc377e69b81cb16aac804e753251abc83",
+        "39cbacadebf4254c9633f2133698a650d37a70bd00b4df1b53e054f14a89143b",
+        "c430762958b9dcc9528580ad8c11e1ad13f516597a54731bee7dbf4e64ff8508",
+        "ae6890a402cdb8c897533f8f7323ed0d4a6a0b1863f8f92ccb6d58dc6fb56b07",
+        "9bf611e68da82af49d35617f7c61fc8e86f7cafeb37a87409cbd0fe6d076026f"
+      ],
+      "bboxes": [
+        [
+          60,
+          53,
+          185,
+          205
+        ],
+        [
+          62,
+          53,
+          188,
+          203
+        ],
+        [
+          71,
+          53,
+          210,
+          204
+        ],
+        [
+          80,
+          32,
+          188,
+          203
+        ],
+        [
+          82,
+          30,
+          186,
+          203
+        ],
+        [
+          82,
+          31,
+          190,
+          203
+        ],
+        [
+          20,
+          30,
+          222,
+          243
+        ],
+        [
+          19,
+          64,
+          184,
+          230
+        ],
+        [
+          38,
+          63,
+          184,
+          213
+        ],
+        [
+          45,
+          63,
+          184,
+          210
+        ],
+        [
+          45,
+          63,
+          184,
+          210
+        ],
+        [
+          45,
+          63,
+          184,
+          210
+        ],
+        [
+          35,
+          63,
+          220,
+          230
+        ],
+        [
+          35,
+          63,
+          214,
+          230
+        ],
+        [
+          35,
+          59,
+          192,
+          230
+        ],
+        [
+          35,
+          56,
+          182,
+          228
+        ],
+        [
+          60,
+          53,
+          185,
+          205
+        ]
+      ],
+      "raw_alpha_bboxes": [
+        [
+          60,
+          53,
+          185,
+          205
+        ],
+        [
+          62,
+          53,
+          188,
+          203
+        ],
+        [
+          71,
+          53,
+          210,
+          204
+        ],
+        [
+          80,
+          32,
+          188,
+          203
+        ],
+        [
+          82,
+          30,
+          186,
+          203
+        ],
+        [
+          82,
+          31,
+          190,
+          203
+        ],
+        [
+          20,
+          30,
+          222,
+          243
+        ],
+        [
+          19,
+          64,
+          184,
+          230
+        ],
+        [
+          38,
+          63,
+          184,
+          213
+        ],
+        [
+          45,
+          63,
+          184,
+          210
+        ],
+        [
+          45,
+          63,
+          184,
+          210
+        ],
+        [
+          45,
+          63,
+          184,
+          210
+        ],
+        [
+          35,
+          63,
+          220,
+          230
+        ],
+        [
+          35,
+          63,
+          214,
+          230
+        ],
+        [
+          35,
+          59,
+          192,
+          230
+        ],
+        [
+          35,
+          56,
+          182,
+          228
+        ],
+        [
+          60,
+          53,
+          185,
+          205
+        ]
+      ],
+      "integration": false
+    },
+    {
+      "key": "attack-5",
+      "kind": "attack",
+      "variant": 5,
+      "name": "Восходящий рывок",
+      "prompt": "Pull the sword tip low beside the rear knee, compress briefly, then drive one rising diagonal cut forward-left from the hips with a sharp in-place lunge. A broad crescent follows the rising blade. Arrest the sword at shoulder height for a brief impact accent, then lower it calmly without another arc. A single non-looping attack: brief wind-up, ONE fast strike with a short sharp forward weight shift, crisp impact pose, then immediate low-blade recovery to the starting stance. Never swing again during recovery; no combo, second attack or repeated cycle. At contact show one broad ivory-white crescent with a warm pale-gold inner edge, following the sword path, then promptly fading. One sword only. Preserve this warrior, gear and proportions, fixed front three-quarter camera, attacking screen-left. Rear boot anchors the lunge; return to the original cell. Body, blade and arc must stay fully inside the canvas with clear margins. No target, text or camera shake.",
+      "seed": 2026111485,
+      "frame_count": 16,
+      "expected_frames": 17,
+      "endpoint": "animate-pixminimax",
+      "loop": false,
+      "return_to_first": true,
+      "input": "model/input-256.png",
+      "captions": {
+        "subject_description": "A compact stylized male warrior with spiky auburn hair, silver shoulder armor, brown leather armor and boots, red scarf, cream waist cloth, one steel sword in his right hand and empty left hand",
+        "initial_pose": "Standing in a front three-quarter battle stance facing screen-left, feet apart, knees slightly bent, right hand holding a lowered sword diagonally in front, left fist beside hip",
+        "view": "side",
+        "direction": "south-west"
+      },
+      "provider": "PixelLab PixMiniMax",
+      "job_id": "33bd46e4-920b-432b-a277-4306cc3e2ce5",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 2
+      },
+      "actual_frames": 17,
+      "canvas": [
+        256,
+        256
+      ],
+      "durations_ms": [
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        700
+      ],
+      "timing_origin": "Preview timing authored locally; provider supplies poses only",
+      "gif_actual_durations_ms": [
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        40,
+        700
+      ],
+      "gif_total_duration_ms": 1340,
+      "first_frame_alpha_equal": true,
+      "first_frame_alpha_differing_pixels": 0,
+      "first_frame_visible_differing_pixels": 0,
+      "first_frame_rgba_differing_pixels": 13,
+      "first_frame_transparent_rgb_differing_pixels": 13,
+      "first_frame_png_byte_equal": false,
+      "last_frame_rgba_equal": false,
+      "edge_frames": [],
+      "margin_violation_frames": [],
+      "frame_sha256": [
+        "858f29c6049336b586c111c6b65f65c05af75fe8f146920f122477f793f57cc9",
+        "e994b3ef6f679acd41a17a4903125f6badf3e70396ccf4bdf8ccc6b6ecebe3fa",
+        "127482c8d48413bacf9c0f1abece073fa6ce0147e9b9afbddf35e8e6fd9bd70d",
+        "1fe8298f9ba59129ed5ad70b89641551fcdfc9c9dc0b821c8045317bea131db6",
+        "f3cee5fe284291addb987dfe0410c0499f8cf9a8295878ffce1347d7be95ad89",
+        "37578d3683ec41a7931e596fca6698ff2c30af096f7ec49141b7a11c20cfbc8b",
+        "9e58db39cdf23a08648be629e5070b1b4658149f70b854b88bb2bc152a12911b",
+        "92b37a8103c1f72a89c675e023e92ec738eb20aaf6949c3a8ba9f50216111b97",
+        "2033b7dadcb17b833a9fc88914fee600a5fd4bcac24e352758b3dcdbf6f10a76",
+        "9f0f013238ef550e74691ed6fa7404c77735f944ff8cab6e1c313434361ffc5d",
+        "d5eb9bfaa5cba31d996191324073f4a0e6a34cab8050716c9a1bbca8516cad35",
+        "76274db847b7efe5a0d240c01527e22d5b115c469aba149690b97bbb3a0aa5ae",
+        "6b4f90180808764491e53088aa8fee2db84fa7c76143c9e0772fc531b6274214",
+        "483dd7f7847c0235722f27f76f0e99d4d433dd557c45981aaf9b1346c44bc644",
+        "04d80209844e528e181ec47224bb2753665b0a032cdfab2c7dca0eed960deefa",
+        "6ab938887cd5d91e114ca3737351ae7e29b9effcf4e33071875c4e953e9d59ef",
+        "cd49f73e583724509bec3e79a55a8928ba17d532eaba138f3a3b140a1aecc9f2"
+      ],
+      "bboxes": [
+        [
+          60,
+          53,
+          185,
+          205
+        ],
+        [
+          58,
+          54,
+          188,
+          204
+        ],
+        [
+          61,
+          56,
+          190,
+          204
+        ],
+        [
+          72,
+          57,
+          214,
+          204
+        ],
+        [
+          78,
+          58,
+          229,
+          204
+        ],
+        [
+          78,
+          59,
+          223,
+          204
+        ],
+        [
+          24,
+          40,
+          217,
+          220
+        ],
+        [
+          25,
+          34,
+          190,
+          202
+        ],
+        [
+          66,
+          34,
+          190,
+          202
+        ],
+        [
+          32,
+          42,
+          188,
+          202
+        ],
+        [
+          28,
+          62,
+          228,
+          220
+        ],
+        [
+          76,
+          59,
+          215,
+          204
+        ],
+        [
+          24,
+          57,
+          230,
+          223
+        ],
+        [
+          25,
+          56,
+          230,
+          223
+        ],
+        [
+          24,
+          55,
+          230,
+          223
+        ],
+        [
+          26,
+          54,
+          188,
+          220
+        ],
+        [
+          61,
+          53,
+          185,
+          205
+        ]
+      ],
+      "raw_alpha_bboxes": [
+        [
+          60,
+          53,
+          185,
+          205
+        ],
+        [
+          58,
+          54,
+          188,
+          204
+        ],
+        [
+          61,
+          56,
+          190,
+          204
+        ],
+        [
+          72,
+          57,
+          214,
+          204
+        ],
+        [
+          78,
+          58,
+          229,
+          204
+        ],
+        [
+          78,
+          59,
+          223,
+          204
+        ],
+        [
+          24,
+          40,
+          217,
+          220
+        ],
+        [
+          25,
+          34,
+          190,
+          202
+        ],
+        [
+          66,
+          34,
+          190,
+          202
+        ],
+        [
+          32,
+          42,
+          188,
+          202
+        ],
+        [
+          28,
+          62,
+          228,
+          220
+        ],
+        [
+          76,
+          59,
+          215,
+          204
+        ],
+        [
+          24,
+          57,
+          230,
+          223
+        ],
+        [
+          25,
+          56,
+          230,
+          223
+        ],
+        [
+          24,
+          55,
+          230,
+          223
+        ],
+        [
+          26,
+          54,
+          188,
+          220
+        ],
+        [
+          61,
+          53,
+          185,
+          205
+        ]
+      ],
+      "integration": false
+    }
+  ]
+}

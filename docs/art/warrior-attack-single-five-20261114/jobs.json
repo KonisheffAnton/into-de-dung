@@ -1,0 +1,31 @@
+{
+  "provider": "PixelLab",
+  "raw_directory": "C:\\Users\\Aston\\.codex\\generated_images\\warrior-attack-single-five-20261114",
+  "jobs": [
+    {
+      "key": "attack-1",
+      "job_id": "4d704fb3-522f-4b74-8afd-5cace1929500",
+      "request_sha256": "810d1ddea5c4cf976adc71f09842480d00b6dc9a25b67f8765022c370cf02f2c"
+    },
+    {
+      "key": "attack-2",
+      "job_id": "bbca1671-31fe-4808-b63e-2f14e8f0eef4",
+      "request_sha256": "862ff3653c8a60c60a9403b91435038bd9c301621bf7b03ec3a394fcb676e332"
+    },
+    {
+      "key": "attack-3",
+      "job_id": "cfb87532-846f-4854-acd2-f7c5bbcdc5fb",
+      "request_sha256": "f79d32c02c1323018ec71b026bec240ee5d3ddf101e04664132436bac50811e8"
+    },
+    {
+      "key": "attack-4",
+      "job_id": "003515bf-2406-4dbf-bc7a-30b6a1cff881",
+      "request_sha256": "a03b94a3e7fe320bef88cbd48685dfa712239a34a628d55b9bae6223168407ed"
+    },
+    {
+      "key": "attack-5",
+      "job_id": "33bd46e4-920b-432b-a277-4306cc3e2ce5",
+      "request_sha256": "d0c57f2cef39037b7a56595401f9ccb42175dbec1225980b39c14efe44bf721f"
+    }
+  ]
+}

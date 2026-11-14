@@ -1,0 +1,16 @@
+{
+  "source": "assets/art_presets/approved/character_skins_v1/red_bastion/still.png",
+  "sha256": "d8117c67d3b59c5943ea850b8802ff1ce895ef919ad65c06d730d0716b6146a8",
+  "canvas": [
+    256,
+    256
+  ],
+  "anchor": [
+    128,
+    200
+  ],
+  "source_facing_x": -1,
+  "base_commit": "89ee91b312750d18f34311f7dd8b346787c92212",
+  "preparation": "Exact runtime PNG; new PixelLab motion, not local retiming of old clips",
+  "style_reference": "docs/art/warrior-attack-exaggerated-20261114/pixellab/attack-2; crescent described in prompt, source video not passed as conditioning"
+}

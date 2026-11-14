@@ -1,0 +1,17 @@
+{
+  "scope": "IAB smoke not game acceptance",
+  "cards": 5,
+  "pause_scrub_step": true,
+  "last_to_zero_for_12_and_11_frames": true,
+  "replay": true,
+  "canvas_default": [
+    256,
+    256
+  ],
+  "canvas_zoom": [
+    384,
+    384
+  ],
+  "deliverable": "http://127.0.0.1:8772/gallery.html",
+  "responsive_mobile_tested": false
+}

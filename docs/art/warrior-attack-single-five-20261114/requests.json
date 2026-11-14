@@ -1,0 +1,102 @@
+[
+  {
+    "key": "attack-1",
+    "kind": "attack",
+    "variant": 1,
+    "name": "Хлёсткий боковой",
+    "prompt": "Coil the sword arm briefly behind the hip, then snap the hips and shoulders into one forceful waist-high horizontal slash toward screen-left. The front knee drives forward as the rear leg braces. The wide crescent flashes at contact, the torso checks its momentum and the sword returns low. A single non-looping attack: brief wind-up, ONE fast strike with a short sharp forward weight shift, crisp impact pose, then immediate low-blade recovery to the starting stance. Never swing again during recovery; no combo, second attack or repeated cycle. At contact show one broad ivory-white crescent with a warm pale-gold inner edge, following the sword path, then promptly fading. One sword only. Preserve this warrior, gear and proportions, fixed front three-quarter camera, attacking screen-left. Rear boot anchors the lunge; return to the original cell. Body, blade and arc must stay fully inside the canvas with clear margins. No target, text or camera shake.",
+    "seed": 2026111481,
+    "frame_count": 16,
+    "expected_frames": 17,
+    "endpoint": "animate-pixminimax",
+    "loop": false,
+    "return_to_first": true,
+    "input": "model/input-256.png",
+    "captions": {
+      "subject_description": "A compact stylized male warrior with spiky auburn hair, silver shoulder armor, brown leather armor and boots, red scarf, cream waist cloth, one steel sword in his right hand and empty left hand",
+      "initial_pose": "Standing in a front three-quarter battle stance facing screen-left, feet apart, knees slightly bent, right hand holding a lowered sword diagonally in front, left fist beside hip",
+      "view": "side",
+      "direction": "south-west"
+    }
+  },
+  {
+    "key": "attack-2",
+    "kind": "attack",
+    "variant": 2,
+    "name": "Диагональ с выпадом",
+    "prompt": "Draw the single sword above the rear shoulder in a compact wind-up, compress the legs, then drive the chest and sword forward-left in one steep diagonal descending cut. Plant the front foot firmly within the same cell. Emphasize the instant the broad crescent reaches the low contact point. A single non-looping attack: brief wind-up, ONE fast strike with a short sharp forward weight shift, crisp impact pose, then immediate low-blade recovery to the starting stance. Never swing again during recovery; no combo, second attack or repeated cycle. At contact show one broad ivory-white crescent with a warm pale-gold inner edge, following the sword path, then promptly fading. One sword only. Preserve this warrior, gear and proportions, fixed front three-quarter camera, attacking screen-left. Rear boot anchors the lunge; return to the original cell. Body, blade and arc must stay fully inside the canvas with clear margins. No target, text or camera shake.",
+    "seed": 2026111482,
+    "frame_count": 16,
+    "expected_frames": 17,
+    "endpoint": "animate-pixminimax",
+    "loop": false,
+    "return_to_first": true,
+    "input": "model/input-256.png",
+    "captions": {
+      "subject_description": "A compact stylized male warrior with spiky auburn hair, silver shoulder armor, brown leather armor and boots, red scarf, cream waist cloth, one steel sword in his right hand and empty left hand",
+      "initial_pose": "Standing in a front three-quarter battle stance facing screen-left, feet apart, knees slightly bent, right hand holding a lowered sword diagonally in front, left fist beside hip",
+      "view": "side",
+      "direction": "south-west"
+    }
+  },
+  {
+    "key": "attack-3",
+    "kind": "attack",
+    "variant": 3,
+    "name": "Низкий силовой",
+    "prompt": "Lower into a deep grounded stance with the sword near the rear hip. Push sharply from the rear leg for one low horizontal sweeping cut toward screen-left, with a strong forward torso lean. The pale crescent sweeps low across the front, the blade brakes at impact, and the body settles back. A single non-looping attack: brief wind-up, ONE fast strike with a short sharp forward weight shift, crisp impact pose, then immediate low-blade recovery to the starting stance. Never swing again during recovery; no combo, second attack or repeated cycle. At contact show one broad ivory-white crescent with a warm pale-gold inner edge, following the sword path, then promptly fading. One sword only. Preserve this warrior, gear and proportions, fixed front three-quarter camera, attacking screen-left. Rear boot anchors the lunge; return to the original cell. Body, blade and arc must stay fully inside the canvas with clear margins. No target, text or camera shake.",
+    "seed": 2026111483,
+    "frame_count": 16,
+    "expected_frames": 17,
+    "endpoint": "animate-pixminimax",
+    "loop": false,
+    "return_to_first": true,
+    "input": "model/input-256.png",
+    "captions": {
+      "subject_description": "A compact stylized male warrior with spiky auburn hair, silver shoulder armor, brown leather armor and boots, red scarf, cream waist cloth, one steel sword in his right hand and empty left hand",
+      "initial_pose": "Standing in a front three-quarter battle stance facing screen-left, feet apart, knees slightly bent, right hand holding a lowered sword diagonally in front, left fist beside hip",
+      "view": "side",
+      "direction": "south-west"
+    }
+  },
+  {
+    "key": "attack-4",
+    "kind": "attack",
+    "variant": 4,
+    "name": "Короткий удар сверху",
+    "prompt": "Raise the sword in one short overhead preparation, then deliver a single explosive downward chop toward screen-left while the front knee and torso drive into contact. Keep the arm path compact and forceful. A broad curved trail culminates in a small sharp contact flare, then vanishes during recovery. A single non-looping attack: brief wind-up, ONE fast strike with a short sharp forward weight shift, crisp impact pose, then immediate low-blade recovery to the starting stance. Never swing again during recovery; no combo, second attack or repeated cycle. At contact show one broad ivory-white crescent with a warm pale-gold inner edge, following the sword path, then promptly fading. One sword only. Preserve this warrior, gear and proportions, fixed front three-quarter camera, attacking screen-left. Rear boot anchors the lunge; return to the original cell. Body, blade and arc must stay fully inside the canvas with clear margins. No target, text or camera shake.",
+    "seed": 2026111484,
+    "frame_count": 16,
+    "expected_frames": 17,
+    "endpoint": "animate-pixminimax",
+    "loop": false,
+    "return_to_first": true,
+    "input": "model/input-256.png",
+    "captions": {
+      "subject_description": "A compact stylized male warrior with spiky auburn hair, silver shoulder armor, brown leather armor and boots, red scarf, cream waist cloth, one steel sword in his right hand and empty left hand",
+      "initial_pose": "Standing in a front three-quarter battle stance facing screen-left, feet apart, knees slightly bent, right hand holding a lowered sword diagonally in front, left fist beside hip",
+      "view": "side",
+      "direction": "south-west"
+    }
+  },
+  {
+    "key": "attack-5",
+    "kind": "attack",
+    "variant": 5,
+    "name": "Восходящий рывок",
+    "prompt": "Pull the sword tip low beside the rear knee, compress briefly, then drive one rising diagonal cut forward-left from the hips with a sharp in-place lunge. A broad crescent follows the rising blade. Arrest the sword at shoulder height for a brief impact accent, then lower it calmly without another arc. A single non-looping attack: brief wind-up, ONE fast strike with a short sharp forward weight shift, crisp impact pose, then immediate low-blade recovery to the starting stance. Never swing again during recovery; no combo, second attack or repeated cycle. At contact show one broad ivory-white crescent with a warm pale-gold inner edge, following the sword path, then promptly fading. One sword only. Preserve this warrior, gear and proportions, fixed front three-quarter camera, attacking screen-left. Rear boot anchors the lunge; return to the original cell. Body, blade and arc must stay fully inside the canvas with clear margins. No target, text or camera shake.",
+    "seed": 2026111485,
+    "frame_count": 16,
+    "expected_frames": 17,
+    "endpoint": "animate-pixminimax",
+    "loop": false,
+    "return_to_first": true,
+    "input": "model/input-256.png",
+    "captions": {
+      "subject_description": "A compact stylized male warrior with spiky auburn hair, silver shoulder armor, brown leather armor and boots, red scarf, cream waist cloth, one steel sword in his right hand and empty left hand",
+      "initial_pose": "Standing in a front three-quarter battle stance facing screen-left, feet apart, knees slightly bent, right hand holding a lowered sword diagonally in front, left fist beside hip",
+      "view": "side",
+      "direction": "south-west"
+    }
+  }
+]

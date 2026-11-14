@@ -1,0 +1,50 @@
+{
+  "complete": true,
+  "requests": [
+    {
+      "key": "attack-1",
+      "request_sha_match": true,
+      "first_last_exact_input": true,
+      "frame_count": 16,
+      "transparent": true,
+      "enhance_prompt": false,
+      "manifest_prompt_seed_captions_match": true
+    },
+    {
+      "key": "attack-2",
+      "request_sha_match": true,
+      "first_last_exact_input": true,
+      "frame_count": 16,
+      "transparent": true,
+      "enhance_prompt": false,
+      "manifest_prompt_seed_captions_match": true
+    },
+    {
+      "key": "attack-3",
+      "request_sha_match": true,
+      "first_last_exact_input": true,
+      "frame_count": 16,
+      "transparent": true,
+      "enhance_prompt": false,
+      "manifest_prompt_seed_captions_match": true
+    },
+    {
+      "key": "attack-4",
+      "request_sha_match": true,
+      "first_last_exact_input": true,
+      "frame_count": 16,
+      "transparent": true,
+      "enhance_prompt": false,
+      "manifest_prompt_seed_captions_match": true
+    },
+    {
+      "key": "attack-5",
+      "request_sha_match": true,
+      "first_last_exact_input": true,
+      "frame_count": 16,
+      "transparent": true,
+      "enhance_prompt": false,
+      "manifest_prompt_seed_captions_match": true
+    }
+  ]
+}

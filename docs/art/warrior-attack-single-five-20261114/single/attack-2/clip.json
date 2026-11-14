@@ -1,0 +1,72 @@
+{
+  "key": "attack-2",
+  "source_indices": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    7,
+    8,
+    9,
+    10,
+    14,
+    15,
+    16
+  ],
+  "durations_ms": [
+    60,
+    40,
+    40,
+    40,
+    40,
+    40,
+    20,
+    100,
+    30,
+    40,
+    60,
+    700
+  ],
+  "purpose": "One visible attack from this new PixelLab generation; suppress repeated trail/recovery stroke",
+  "raw_pixels_unchanged": true,
+  "recovery_cuts": [
+    10,
+    14
+  ],
+  "actual_frames": 12,
+  "total_ms": 1210,
+  "active_ms": 510,
+  "source_job_id": "bbca1671-31fe-4808-b63e-2f14e8f0eef4",
+  "gif_actual_durations_ms": [
+    60,
+    40,
+    40,
+    40,
+    40,
+    40,
+    20,
+    100,
+    30,
+    40,
+    60,
+    700
+  ],
+  "integration": false,
+  "source_frame_sha256": [
+    "858f29c6049336b586c111c6b65f65c05af75fe8f146920f122477f793f57cc9",
+    "038bede286888d534b20c4ee987481125d61a172ad2b11878c6dff338ad283ee",
+    "d7d887000780ef51ecf39b8abfd63dfaf733713684917f340bd43989f1427167",
+    "b36bc518eaa56172732b4ffe7bab2b3d1e98dadddb0d0beb68e5f8963ddeb60f",
+    "12bbbcf3ebb77c1c8244387e8be72f068990782277c0a26ee2cf9ca7382098f3",
+    "e36733e4bc7b24ee8fd073a7ce531b99cc72faeb66c85fe6843e60369ae54989",
+    "4f71ace9f9f8483ed41db9a2d6467100665d562b6f1a9e512856655e3ea9516b",
+    "34177c4e73f1d820d052f4bfe9bc07adbb830bfd0797ec7ad8aff10bcd297465",
+    "f9338168d5374084b221b3a4aef2412ce2b3049836fb8e9f00994473b2539c9e",
+    "452cf4ea8e8b0a024501b49e87a793f40ff8677f3c90de091594c50cd8052b0d",
+    "841a0b2619797bc5b73df5e2e88683f953d731c5178541e3e52552d264186127",
+    "bb4a9559f4b98f92ca7cc8d56322c09bd9f433f7fbbe596f13623c6de2571b36"
+  ],
+  "sheet_cells_equal_to_raw": true,
+  "limitation": "Recovery cuts and last-to-first seam need visual acceptance"
+}

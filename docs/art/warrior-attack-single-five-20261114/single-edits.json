@@ -1,0 +1,188 @@
+{
+  "source": "new PixelLab outputs of this package only",
+  "index_base": 0,
+  "integration": false,
+  "edits": [
+    {
+      "key": "attack-1",
+      "source_indices": [
+        0,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        14,
+        15,
+        16
+      ],
+      "durations_ms": [
+        60,
+        40,
+        40,
+        40,
+        20,
+        100,
+        30,
+        40,
+        40,
+        40,
+        50,
+        700
+      ],
+      "purpose": "One visible attack from this new PixelLab generation; suppress repeated trail/recovery stroke",
+      "raw_pixels_unchanged": true,
+      "recovery_cuts": [
+        9,
+        14
+      ]
+    },
+    {
+      "key": "attack-2",
+      "source_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        7,
+        8,
+        9,
+        10,
+        14,
+        15,
+        16
+      ],
+      "durations_ms": [
+        60,
+        40,
+        40,
+        40,
+        40,
+        40,
+        20,
+        100,
+        30,
+        40,
+        60,
+        700
+      ],
+      "purpose": "One visible attack from this new PixelLab generation; suppress repeated trail/recovery stroke",
+      "raw_pixels_unchanged": true,
+      "recovery_cuts": [
+        10,
+        14
+      ]
+    },
+    {
+      "key": "attack-3",
+      "source_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        11,
+        14,
+        15,
+        16
+      ],
+      "durations_ms": [
+        60,
+        40,
+        40,
+        40,
+        20,
+        100,
+        30,
+        40,
+        40,
+        50,
+        60,
+        700
+      ],
+      "purpose": "One visible attack from this new PixelLab generation; suppress repeated trail/recovery stroke",
+      "raw_pixels_unchanged": true,
+      "recovery_cuts": [
+        7,
+        11
+      ]
+    },
+    {
+      "key": "attack-4",
+      "source_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        11,
+        16
+      ],
+      "durations_ms": [
+        60,
+        40,
+        40,
+        40,
+        40,
+        40,
+        20,
+        100,
+        30,
+        50,
+        700
+      ],
+      "purpose": "One visible attack from this new PixelLab generation; suppress repeated trail/recovery stroke",
+      "raw_pixels_unchanged": true,
+      "recovery_cuts": [
+        11,
+        16
+      ]
+    },
+    {
+      "key": "attack-5",
+      "source_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        11,
+        15,
+        16
+      ],
+      "durations_ms": [
+        60,
+        40,
+        40,
+        40,
+        40,
+        20,
+        100,
+        30,
+        40,
+        60,
+        700
+      ],
+      "purpose": "One visible attack from this new PixelLab generation; suppress repeated trail/recovery stroke",
+      "raw_pixels_unchanged": true,
+      "recovery_cuts": [
+        7,
+        11
+      ]
+    }
+  ]
+}

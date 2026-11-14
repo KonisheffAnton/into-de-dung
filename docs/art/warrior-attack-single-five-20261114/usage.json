@@ -1,0 +1,35 @@
+{
+  "provider": "PixelLab",
+  "completed_jobs": 5,
+  "billing_per_job_generations": 2,
+  "total_generations": 10,
+  "balance_before": {
+    "credits": {
+      "type": "usd",
+      "usd": 0.0
+    },
+    "subscription": {
+      "type": "generations",
+      "status": "active",
+      "plan": "Tier 2: Pixel Artisan",
+      "generations": 3697.71063541667,
+      "total": 5000.0
+    }
+  },
+  "balance_after": {
+    "credits": {
+      "type": "usd",
+      "usd": 0.0
+    },
+    "subscription": {
+      "type": "generations",
+      "status": "active",
+      "plan": "Tier 2: Pixel Artisan",
+      "generations": 3687.71063541667,
+      "total": 5000.0
+    }
+  },
+  "balance_delta": 10.0,
+  "usd": 0,
+  "duplicate_post_count": 0
+}

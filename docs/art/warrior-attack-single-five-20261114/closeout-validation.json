@@ -1,0 +1,14 @@
+{
+  "base": "9bddbc2064a2fe39a4d6909f51ccc0e00db43781",
+  "archive": "docs/CODEX_HANDOFF.history-20261114-10.md",
+  "archive_sha256": "c20b8b7241508260fa59179d1a822039e165662e096f8aebff1e4ec63aa36f98",
+  "archive_exact": true,
+  "handoff_chars": 2357,
+  "handoff_lines": 36,
+  "raw_frames": 85,
+  "py_compile_files": 5,
+  "independent_review": "APPROVE integrity/single structure",
+  "user_acceptance": false,
+  "runtime_changed": false,
+  "next_user_task": "10 pale obese short hobgoblin concepts in PixelLab"
+}
