@@ -1,0 +1,202 @@
+[
+  {
+    "id": 1,
+    "name": "Горбатый",
+    "endpoint": "/generate-image-v2",
+    "description": "ONE very short, hunched, SKINNY BUT STOCKY fantasy hobgoblin. Compact ugly CHIBI proportions: enormous head about 40 percent of total visible body height, extremely short bowed legs, big squat feet. Deeply arched back, head thrust forward between broad high shoulders, knees bent, low compressed crouching stance. Thin sinewy torso and concave stomach, bony elbows, strong thick forearms and large rough hands. NO potbelly, NO fat folds, NO obese body, NO tall human anatomy. Pale chalk-white or gray-ivory albino skin, monstrous goblin face and pointed ears. Front three-quarter facing left, camera at eye level. Match reference warrior PIXEL ART STYLE: large clean chunky pixel clusters, bold dark local outlines, simple angular 2-3 tone shading, a few broad skin planes, very simplified face and clothing. NO microtexture, veins, tiny wrinkles, spots, hatching or smooth painted gradients. Entire character only 105-116 pixels tall inside 192x128 canvas, including bent head and feet; leave clear transparent margins above and below. ONE complete figure, no scene, ground, shadow, tile, labels, UI or other figures. Crude opaque shorts cover pelvis. Enormous bald square head, tiny red eyes, blunt wide nose, one jutting lower tooth, deeply crooked spine and high angular shoulder blades. Both long forearms hang forward; one fist much larger. Plain brown rag shorts, rope belt, no weapon.",
+    "image_size": {
+      "width": 192,
+      "height": 128
+    },
+    "seed": 2026111701,
+    "no_background": true,
+    "style_image": "references/warrior11.png",
+    "style_usage": "Copy STYLE and simplified visual language: chunky clean pixel clusters, large head, compact anatomy, dark outline, simple broad shading planes. New pale skinny hunched goblin identity, not warrior costume. No added microdetail.",
+    "style_options": {
+      "color_palette": false,
+      "outline": true,
+      "detail": true,
+      "shading": true
+    }
+  },
+  {
+    "id": 2,
+    "name": "Кривоклык",
+    "endpoint": "/generate-image-v2",
+    "description": "ONE very short, hunched, SKINNY BUT STOCKY fantasy hobgoblin. Compact ugly CHIBI proportions: enormous head about 40 percent of total visible body height, extremely short bowed legs, big squat feet. Deeply arched back, head thrust forward between broad high shoulders, knees bent, low compressed crouching stance. Thin sinewy torso and concave stomach, bony elbows, strong thick forearms and large rough hands. NO potbelly, NO fat folds, NO obese body, NO tall human anatomy. Pale chalk-white or gray-ivory albino skin, monstrous goblin face and pointed ears. Front three-quarter facing left, camera at eye level. Match reference warrior PIXEL ART STYLE: large clean chunky pixel clusters, bold dark local outlines, simple angular 2-3 tone shading, a few broad skin planes, very simplified face and clothing. NO microtexture, veins, tiny wrinkles, spots, hatching or smooth painted gradients. Entire character only 105-116 pixels tall inside 192x128 canvas, including bent head and feet; leave clear transparent margins above and below. ONE complete figure, no scene, ground, shadow, tile, labels, UI or other figures. Crude opaque shorts cover pelvis. Oversized broad jaw with one crooked sideways tusk, tiny narrowed eyes and unequal pointed ears. Skinny tucked-in belly, short dense shoulder girdle, bent knees. Plain dark leather shoulder flap, rag shorts, small stone cleaver held low.",
+    "image_size": {
+      "width": 192,
+      "height": 128
+    },
+    "seed": 2026111702,
+    "no_background": true,
+    "style_image": "references/warrior11.png",
+    "style_usage": "Copy STYLE and simplified visual language: chunky clean pixel clusters, large head, compact anatomy, dark outline, simple broad shading planes. New pale skinny hunched goblin identity, not warrior costume. No added microdetail.",
+    "style_options": {
+      "color_palette": false,
+      "outline": true,
+      "detail": true,
+      "shading": true
+    }
+  },
+  {
+    "id": 3,
+    "name": "Длиннорукий",
+    "endpoint": "/generate-image-v2",
+    "description": "ONE very short, hunched, SKINNY BUT STOCKY fantasy hobgoblin. Compact ugly CHIBI proportions: enormous head about 40 percent of total visible body height, extremely short bowed legs, big squat feet. Deeply arched back, head thrust forward between broad high shoulders, knees bent, low compressed crouching stance. Thin sinewy torso and concave stomach, bony elbows, strong thick forearms and large rough hands. NO potbelly, NO fat folds, NO obese body, NO tall human anatomy. Pale chalk-white or gray-ivory albino skin, monstrous goblin face and pointed ears. Front three-quarter facing left, camera at eye level. Match reference warrior PIXEL ART STYLE: large clean chunky pixel clusters, bold dark local outlines, simple angular 2-3 tone shading, a few broad skin planes, very simplified face and clothing. NO microtexture, veins, tiny wrinkles, spots, hatching or smooth painted gradients. Entire character only 105-116 pixels tall inside 192x128 canvas, including bent head and feet; leave clear transparent margins above and below. ONE complete figure, no scene, ground, shadow, tile, labels, UI or other figures. Crude opaque shorts cover pelvis. Ape-like low crouch, very large wide head, long lean arms and enormous knuckles near the ground, thin narrow waist and tiny strong bent legs. Pale ash-ivory skin. Simple olive rag shorts and wrist wraps, no weapon.",
+    "image_size": {
+      "width": 192,
+      "height": 128
+    },
+    "seed": 2026111703,
+    "no_background": true,
+    "style_image": "references/warrior11.png",
+    "style_usage": "Copy STYLE and simplified visual language: chunky clean pixel clusters, large head, compact anatomy, dark outline, simple broad shading planes. New pale skinny hunched goblin identity, not warrior costume. No added microdetail.",
+    "style_options": {
+      "color_palette": false,
+      "outline": true,
+      "detail": true,
+      "shading": true
+    }
+  },
+  {
+    "id": 4,
+    "name": "Узкогрудый",
+    "endpoint": "/generate-image-v2",
+    "description": "ONE very short, hunched, SKINNY BUT STOCKY fantasy hobgoblin. Compact ugly CHIBI proportions: enormous head about 40 percent of total visible body height, extremely short bowed legs, big squat feet. Deeply arched back, head thrust forward between broad high shoulders, knees bent, low compressed crouching stance. Thin sinewy torso and concave stomach, bony elbows, strong thick forearms and large rough hands. NO potbelly, NO fat folds, NO obese body, NO tall human anatomy. Pale chalk-white or gray-ivory albino skin, monstrous goblin face and pointed ears. Front three-quarter facing left, camera at eye level. Match reference warrior PIXEL ART STYLE: large clean chunky pixel clusters, bold dark local outlines, simple angular 2-3 tone shading, a few broad skin planes, very simplified face and clothing. NO microtexture, veins, tiny wrinkles, spots, hatching or smooth painted gradients. Entire character only 105-116 pixels tall inside 192x128 canvas, including bent head and feet; leave clear transparent margins above and below. ONE complete figure, no scene, ground, shadow, tile, labels, UI or other figures. Crude opaque shorts cover pelvis. Narrow angular chest with only two broad rib-shadow planes, thin waist, huge forward-leaning head with an underslung jaw, short broad shoulders and thick wrists. Chalk skin. Small torn brown vest and shorts, squat wooden cudgel.",
+    "image_size": {
+      "width": 192,
+      "height": 128
+    },
+    "seed": 2026111704,
+    "no_background": true,
+    "style_image": "references/warrior11.png",
+    "style_usage": "Copy STYLE and simplified visual language: chunky clean pixel clusters, large head, compact anatomy, dark outline, simple broad shading planes. New pale skinny hunched goblin identity, not warrior costume. No added microdetail.",
+    "style_options": {
+      "color_palette": false,
+      "outline": true,
+      "detail": true,
+      "shading": true
+    }
+  },
+  {
+    "id": 5,
+    "name": "Одноухий",
+    "endpoint": "/generate-image-v2",
+    "description": "ONE very short, hunched, SKINNY BUT STOCKY fantasy hobgoblin. Compact ugly CHIBI proportions: enormous head about 40 percent of total visible body height, extremely short bowed legs, big squat feet. Deeply arched back, head thrust forward between broad high shoulders, knees bent, low compressed crouching stance. Thin sinewy torso and concave stomach, bony elbows, strong thick forearms and large rough hands. NO potbelly, NO fat folds, NO obese body, NO tall human anatomy. Pale chalk-white or gray-ivory albino skin, monstrous goblin face and pointed ears. Front three-quarter facing left, camera at eye level. Match reference warrior PIXEL ART STYLE: large clean chunky pixel clusters, bold dark local outlines, simple angular 2-3 tone shading, a few broad skin planes, very simplified face and clothing. NO microtexture, veins, tiny wrinkles, spots, hatching or smooth painted gradients. Entire character only 105-116 pixels tall inside 192x128 canvas, including bent head and feet; leave clear transparent margins above and below. ONE complete figure, no scene, ground, shadow, tile, labels, UI or other figures. Crude opaque shorts cover pelvis. Large lopsided head with one long pointed ear and one small torn ear, very broad brow, big chin, small red eyes. Scrunched compact hunched back, taut skinny stomach, short stout forearms. A single broad faded blue scarf, dark shorts, small crude knife.",
+    "image_size": {
+      "width": 192,
+      "height": 128
+    },
+    "seed": 2026111705,
+    "no_background": true,
+    "style_image": "references/warrior11.png",
+    "style_usage": "Copy STYLE and simplified visual language: chunky clean pixel clusters, large head, compact anatomy, dark outline, simple broad shading planes. New pale skinny hunched goblin identity, not warrior costume. No added microdetail.",
+    "style_options": {
+      "color_palette": false,
+      "outline": true,
+      "detail": true,
+      "shading": true
+    }
+  },
+  {
+    "id": 6,
+    "name": "Белоглаз",
+    "endpoint": "/generate-image-v2",
+    "description": "ONE very short, hunched, SKINNY BUT STOCKY fantasy hobgoblin. Compact ugly CHIBI proportions: enormous head about 40 percent of total visible body height, extremely short bowed legs, big squat feet. Deeply arched back, head thrust forward between broad high shoulders, knees bent, low compressed crouching stance. Thin sinewy torso and concave stomach, bony elbows, strong thick forearms and large rough hands. NO potbelly, NO fat folds, NO obese body, NO tall human anatomy. Pale chalk-white or gray-ivory albino skin, monstrous goblin face and pointed ears. Front three-quarter facing left, camera at eye level. Match reference warrior PIXEL ART STYLE: large clean chunky pixel clusters, bold dark local outlines, simple angular 2-3 tone shading, a few broad skin planes, very simplified face and clothing. NO microtexture, veins, tiny wrinkles, spots, hatching or smooth painted gradients. Entire character only 105-116 pixels tall inside 192x128 canvas, including bent head and feet; leave clear transparent margins above and below. ONE complete figure, no scene, ground, shadow, tile, labels, UI or other figures. Crude opaque shorts cover pelvis. Huge bald head with unequal pale bulging eyes, flattened nose and two mismatched teeth; tucked narrow chest and hard angular shoulders. Very short bowed legs and thick hands. Cream-white skin. Plain muted burgundy waist sash over brown shorts, tiny dull hook.",
+    "image_size": {
+      "width": 192,
+      "height": 128
+    },
+    "seed": 2026111706,
+    "no_background": true,
+    "style_image": "references/warrior11.png",
+    "style_usage": "Copy STYLE and simplified visual language: chunky clean pixel clusters, large head, compact anatomy, dark outline, simple broad shading planes. New pale skinny hunched goblin identity, not warrior costume. No added microdetail.",
+    "style_options": {
+      "color_palette": false,
+      "outline": true,
+      "detail": true,
+      "shading": true
+    }
+  },
+  {
+    "id": 7,
+    "name": "Костяш",
+    "endpoint": "/generate-image-v2",
+    "description": "ONE very short, hunched, SKINNY BUT STOCKY fantasy hobgoblin. Compact ugly CHIBI proportions: enormous head about 40 percent of total visible body height, extremely short bowed legs, big squat feet. Deeply arched back, head thrust forward between broad high shoulders, knees bent, low compressed crouching stance. Thin sinewy torso and concave stomach, bony elbows, strong thick forearms and large rough hands. NO potbelly, NO fat folds, NO obese body, NO tall human anatomy. Pale chalk-white or gray-ivory albino skin, monstrous goblin face and pointed ears. Front three-quarter facing left, camera at eye level. Match reference warrior PIXEL ART STYLE: large clean chunky pixel clusters, bold dark local outlines, simple angular 2-3 tone shading, a few broad skin planes, very simplified face and clothing. NO microtexture, veins, tiny wrinkles, spots, hatching or smooth painted gradients. Entire character only 105-116 pixels tall inside 192x128 canvas, including bent head and feet; leave clear transparent margins above and below. ONE complete figure, no scene, ground, shadow, tile, labels, UI or other figures. Crude opaque shorts cover pelvis. Huge square forehead and one simple bony cheek bulge, lopsided pointed ears, clenched jaw. Lean sinewy body, strong short arms with oversized knuckles, deeply hunched neck. Chalk-gray skin. One dark leather shoulder pad, plain shorts, tiny flint hammer.",
+    "image_size": {
+      "width": 192,
+      "height": 128
+    },
+    "seed": 2026111707,
+    "no_background": true,
+    "style_image": "references/warrior11.png",
+    "style_usage": "Copy STYLE and simplified visual language: chunky clean pixel clusters, large head, compact anatomy, dark outline, simple broad shading planes. New pale skinny hunched goblin identity, not warrior costume. No added microdetail.",
+    "style_options": {
+      "color_palette": false,
+      "outline": true,
+      "detail": true,
+      "shading": true
+    }
+  },
+  {
+    "id": 8,
+    "name": "Сутулый",
+    "endpoint": "/generate-image-v2",
+    "description": "ONE very short, hunched, SKINNY BUT STOCKY fantasy hobgoblin. Compact ugly CHIBI proportions: enormous head about 40 percent of total visible body height, extremely short bowed legs, big squat feet. Deeply arched back, head thrust forward between broad high shoulders, knees bent, low compressed crouching stance. Thin sinewy torso and concave stomach, bony elbows, strong thick forearms and large rough hands. NO potbelly, NO fat folds, NO obese body, NO tall human anatomy. Pale chalk-white or gray-ivory albino skin, monstrous goblin face and pointed ears. Front three-quarter facing left, camera at eye level. Match reference warrior PIXEL ART STYLE: large clean chunky pixel clusters, bold dark local outlines, simple angular 2-3 tone shading, a few broad skin planes, very simplified face and clothing. NO microtexture, veins, tiny wrinkles, spots, hatching or smooth painted gradients. Entire character only 105-116 pixels tall inside 192x128 canvas, including bent head and feet; leave clear transparent margins above and below. ONE complete figure, no scene, ground, shadow, tile, labels, UI or other figures. Crude opaque shorts cover pelvis. Round oversized head almost sunk into the angular shoulders, sloping hunched back, lean concave belly, long forearms and squat bent legs. Ivory skin and sparse white top hair drawn as one simple tuft. Ragged burlap shoulder wrap, dark shorts, short crooked stick.",
+    "image_size": {
+      "width": 192,
+      "height": 128
+    },
+    "seed": 2026111708,
+    "no_background": true,
+    "style_image": "references/warrior11.png",
+    "style_usage": "Copy STYLE and simplified visual language: chunky clean pixel clusters, large head, compact anatomy, dark outline, simple broad shading planes. New pale skinny hunched goblin identity, not warrior costume. No added microdetail.",
+    "style_options": {
+      "color_palette": false,
+      "outline": true,
+      "detail": true,
+      "shading": true
+    }
+  },
+  {
+    "id": 9,
+    "name": "Широколобый",
+    "endpoint": "/generate-image-v2",
+    "description": "ONE very short, hunched, SKINNY BUT STOCKY fantasy hobgoblin. Compact ugly CHIBI proportions: enormous head about 40 percent of total visible body height, extremely short bowed legs, big squat feet. Deeply arched back, head thrust forward between broad high shoulders, knees bent, low compressed crouching stance. Thin sinewy torso and concave stomach, bony elbows, strong thick forearms and large rough hands. NO potbelly, NO fat folds, NO obese body, NO tall human anatomy. Pale chalk-white or gray-ivory albino skin, monstrous goblin face and pointed ears. Front three-quarter facing left, camera at eye level. Match reference warrior PIXEL ART STYLE: large clean chunky pixel clusters, bold dark local outlines, simple angular 2-3 tone shading, a few broad skin planes, very simplified face and clothing. NO microtexture, veins, tiny wrinkles, spots, hatching or smooth painted gradients. Entire character only 105-116 pixels tall inside 192x128 canvas, including bent head and feet; leave clear transparent margins above and below. ONE complete figure, no scene, ground, shadow, tile, labels, UI or other figures. Crude opaque shorts cover pelvis. Huge flattened wide forehead, thick angular eyebrows, tiny red eyes and wide lipless goblin mouth with three large teeth. Skinny pinched waist but broad dense shoulders, massive hands, extremely short bent legs. Pale pink-white skin. Two plain crossed leather straps, brown rag shorts, no weapon.",
+    "image_size": {
+      "width": 192,
+      "height": 128
+    },
+    "seed": 2026111709,
+    "no_background": true,
+    "style_image": "references/warrior11.png",
+    "style_usage": "Copy STYLE and simplified visual language: chunky clean pixel clusters, large head, compact anatomy, dark outline, simple broad shading planes. New pale skinny hunched goblin identity, not warrior costume. No added microdetail.",
+    "style_options": {
+      "color_palette": false,
+      "outline": true,
+      "detail": true,
+      "shading": true
+    }
+  },
+  {
+    "id": 10,
+    "name": "Косоплечий",
+    "endpoint": "/generate-image-v2",
+    "description": "ONE very short, hunched, SKINNY BUT STOCKY fantasy hobgoblin. Compact ugly CHIBI proportions: enormous head about 40 percent of total visible body height, extremely short bowed legs, big squat feet. Deeply arched back, head thrust forward between broad high shoulders, knees bent, low compressed crouching stance. Thin sinewy torso and concave stomach, bony elbows, strong thick forearms and large rough hands. NO potbelly, NO fat folds, NO obese body, NO tall human anatomy. Pale chalk-white or gray-ivory albino skin, monstrous goblin face and pointed ears. Front three-quarter facing left, camera at eye level. Match reference warrior PIXEL ART STYLE: large clean chunky pixel clusters, bold dark local outlines, simple angular 2-3 tone shading, a few broad skin planes, very simplified face and clothing. NO microtexture, veins, tiny wrinkles, spots, hatching or smooth painted gradients. Entire character only 105-116 pixels tall inside 192x128 canvas, including bent head and feet; leave clear transparent margins above and below. ONE complete figure, no scene, ground, shadow, tile, labels, UI or other figures. Crude opaque shorts cover pelvis. Uneven raised shoulders, curved back and one overdeveloped forearm; enormous tilted head with a wide crooked jaw and blunt nose. Tight lean torso, tiny bandy legs and big feet. Gray-white skin. Plain olive shoulder cloth, rope belt and brown shorts, small chipped hatchet.",
+    "image_size": {
+      "width": 192,
+      "height": 128
+    },
+    "seed": 2026111710,
+    "no_background": true,
+    "style_image": "references/warrior11.png",
+    "style_usage": "Copy STYLE and simplified visual language: chunky clean pixel clusters, large head, compact anatomy, dark outline, simple broad shading planes. New pale skinny hunched goblin identity, not warrior costume. No added microdetail.",
+    "style_options": {
+      "color_palette": false,
+      "outline": true,
+      "detail": true,
+      "shading": true
+    }
+  }
+]

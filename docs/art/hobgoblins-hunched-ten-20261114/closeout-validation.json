@@ -1,0 +1,21 @@
+{
+  "base": "af6b746791f4f0160b54795618d5fc39fe7706f8",
+  "archive": "docs/CODEX_HANDOFF.history-20261114-13.md",
+  "archive_sha256": "ab7524bc64a5a4a0fb952ca000f2abc56c1141b2645bc5b063bb206a63129b06",
+  "archive_exact": true,
+  "handoff_chars": 2491,
+  "handoff_lines": 38,
+  "raw_pngs": 10,
+  "pilot_pngs": 1,
+  "display_pngs": 10,
+  "py_compile_files": 4,
+  "relative_native_height_pass": true,
+  "independent_review": "APPROVE integrity/relative height; edge and texture issues retained",
+  "runtime_changed": false,
+  "user_acceptance": false,
+  "local_links": "PASS",
+  "foreign_paths": [
+    "scenes/demo/main_menu.tscn",
+    "docs/art/battlefield-reference-03-20261017/"
+  ]
+}

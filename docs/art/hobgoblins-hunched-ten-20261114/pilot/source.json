@@ -1,0 +1,17 @@
+{
+  "job_id": "1cb51ec5-c1fd-4083-833e-1ef2039603e8",
+  "usage": {
+    "usd": 0.0,
+    "type": "generations",
+    "generations": 10
+  },
+  "sha256": "ff98c7611ab33c176a3bef4efca2b9d08f78a790631ad7faa471e076b80c8a32",
+  "canvas": [
+    192,
+    160
+  ],
+  "alpha_height": 148,
+  "warrior_height": 152,
+  "reason_not_selected": "Only4px shorter; new final192x128 generation to achieve noticeably shorter stature",
+  "selected": false
+}

@@ -1,0 +1,77 @@
+{
+  "count": 10,
+  "unique_jobs": 10,
+  "actual_saved_payloads_checked": true,
+  "rows": [
+    {
+      "id": 1,
+      "job_id": "5e48b6de-8743-4552-ba88-8b9712ad0d04",
+      "saved_request_file_sha256": "6a718454aa8f73e7d1820f233a0b87257c2d7aa5ccd346a8a2808d82c8ba096e",
+      "body_fields_match": true,
+      "style_byte_equal": true
+    },
+    {
+      "id": 2,
+      "job_id": "e52e6683-9f34-460a-990c-b89b394f9044",
+      "saved_request_file_sha256": "8e5bc8df1b62cf1d3f72ca2194eb9f219bf62532677715edb53fee96c71446d1",
+      "body_fields_match": true,
+      "style_byte_equal": true
+    },
+    {
+      "id": 3,
+      "job_id": "6b28d927-daf9-4287-be5d-9ac696241c0a",
+      "saved_request_file_sha256": "bf716952e8c5ad971a56942ec8aafcbbdaec91af295fde62e63eeb7f919fc804",
+      "body_fields_match": true,
+      "style_byte_equal": true
+    },
+    {
+      "id": 4,
+      "job_id": "4d8f69b2-0b33-49cd-987c-76775561f9b6",
+      "saved_request_file_sha256": "44be45a999fbb086778e1e8453a31b248e08014115d08920f0471a0db56cdde6",
+      "body_fields_match": true,
+      "style_byte_equal": true
+    },
+    {
+      "id": 5,
+      "job_id": "fea6b7dc-9ed8-4ae3-b981-c9a406716e7f",
+      "saved_request_file_sha256": "32ee038ccd3c21c7959f3bac89fd1649ea710fbd3c5b90d8d3db57471456ebca",
+      "body_fields_match": true,
+      "style_byte_equal": true
+    },
+    {
+      "id": 6,
+      "job_id": "bb5ba1f4-0937-4941-8543-6766541f9df9",
+      "saved_request_file_sha256": "761371e9109de07e86246042e217d0eb675fd9353d03e5f7fed374cc0d75d622",
+      "body_fields_match": true,
+      "style_byte_equal": true
+    },
+    {
+      "id": 7,
+      "job_id": "8343d1a3-0419-4c74-829c-7f97c5b5729e",
+      "saved_request_file_sha256": "7e3f85feaf9d4ac083412d245705e550fb29090d1249915f1f152874a2f76fac",
+      "body_fields_match": true,
+      "style_byte_equal": true
+    },
+    {
+      "id": 8,
+      "job_id": "75b81808-38a6-49eb-9b69-de586b9bbd1a",
+      "saved_request_file_sha256": "498def76e2345487323be737dd16445414945197a1199a0b1044c884e9400de2",
+      "body_fields_match": true,
+      "style_byte_equal": true
+    },
+    {
+      "id": 9,
+      "job_id": "1cb443e8-5624-4095-a983-0a75ff79b6e4",
+      "saved_request_file_sha256": "e614bfe29abe43665a0e00242844c9729c987f68f17835748684d69368cf28dd",
+      "body_fields_match": true,
+      "style_byte_equal": true
+    },
+    {
+      "id": 10,
+      "job_id": "b64757b5-5d8f-4fc1-a7fd-cd46698e0758",
+      "saved_request_file_sha256": "5cec41747de61a34521adfe72ee01b16a6ef633570e4b8594e275c8d81616f69",
+      "body_fields_match": true,
+      "style_byte_equal": true
+    }
+  ]
+}
