@@ -1,0 +1,17 @@
+[
+  {
+    "file": "references/kostyash05.png",
+    "source": "docs/art/kostyash-feral-small-five-20261115/variants/kostyash-05.png",
+    "sha256": "848c947ac20a58e86eaa8b84987aefaebd8293c7a31eb96d91497c29ef89ab23"
+  },
+  {
+    "file": "references/warrior11.png",
+    "source": "assets/art_presets/approved/character_skins_v1/red_bastion/still.png",
+    "sha256": "d8117c67d3b59c5943ea850b8802ff1ce895ef919ad65c06d730d0716b6146a8"
+  },
+  {
+    "file": "references/mage02.png",
+    "source": "assets/art_presets/approved/character_skins_v1/star_hood/still.png",
+    "sha256": "289b1465aac378c4d5a7093b5a11d842e04d1be66ad2b6562e4b65df5f076b50"
+  }
+]

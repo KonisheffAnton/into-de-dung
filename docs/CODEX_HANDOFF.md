@@ -1,26 +1,26 @@
-# Передача — 2026-11-15: значки экипировки поверх героя
+# Передача — 2026-11-15: развитие Костяша №5
 
-D:/Games/into-de-dung; main; база 0f4fb48ffd6bd7df20b907efc531afea5890dc95.
-U выбрал значки надетого поверх фигуры: оружие у руки, доспех у корпуса.
-В макете две кнопки48×48, hover/focus-название, клик открывает осмотр справа;
-лицо открыто, нижние карточки убраны. В хабе два слота weapon/armor, новых нет.
-Выбор записан в HUB_DESIGN_PLAN §4; координаты/размеры/условные вещи — P.
-Пакет docs/art/hub-smith-preview-20261115/README.md; hub-smith-overlay.html,
-overlay-1024.png/overlay-dark.png. Отчёт test_reports/hub-smith-overlay-20261115/.
-JS parse; Edge21/0, отдельно overlay48×48/клик; кадры просмотрены.
-Runtime не менялся. Следующий шаг — отзыв U/обсуждение кузнеца, без автовнедрения.
+D:/Games/into-de-dung; main; база интеграции9b6e8e96adeb8601f478b90aaa2474cfa3395efe.
+U выбрал№5 маленькой пятёрки, поручил «сам рисуй», рост2/3 героя.
+Built-in image_gen:1 новый RGBA1402×1122; крупные формы/костяная морда/горб/лапки.
+Пакет: docs/art/kostyash05-imagegen-20261115/README.md; владельцы ART_DIRECTION/GRAPHICS_WORKFLOW.
+Сравнение: Воин/Маг456px, Костяш304px, baseline544, точно1,5:1; эквивалент101⅓px.
+PASS SHA/референсы/сборка/py_compile/ревью,33 чужих файла. Исходный PNG не изменён.
+Alpha1–7 шум вне тела исключён только из измерения; это ещё не native101px.
+Выбор U/стиль/посадка/нативный спрайт открыты, integration=false; анимации не запускать.
 
+Кузнец: U выбрал значки экипировки поверх фигуры, weapon/armor, новых слотов нет.
+Владелец HUB_DESIGN_PLAN §4; docs/art/hub-smith-preview-20261115/README.md.
+Макет/координаты/размеры/условные вещи — P; далее отзыв U, без автовнедрения.
 U принял бесплатное полное восстановление брони в хабе, износ в походе сохранён;
 предупреждения хаба/платный финальный ремонт убрать, промежуточный прежний.
 Ещё не внедрено; HUB_DESIGN_PLAN §3/POST_BATTLE_V1, H1/HUB_SCENES.
 Хаб af6b7467: docs/art/hub-approved-implementation-20261114/ и test_reports/;
-прежние gates не повторялись, p95≈18,3мс, стабильные60FPS не достигнуты.
-Команда3, будущий лимит Q; ручная приёмка/доступность открыты.
-Последние Костяши: docs/art/kostyash-feral-small-five-20261115/README.md;
-выбор U/стиль/посадка открыты, integration=false; анимации не начинать автоматически.
+прежние gates не повторялись, p95≈18,3мс, стабильные60FPS не достигнуты;
+команда3, будущий лимит Q; ручная приёмка/доступность открыты.
 Бой: status-readability ждёт U; стыки/стрела4 Лучницы/performance/HUD/Колода;
-presentation141/2,forecast26/3 не повторены.5атак:
-docs/art/warrior-attack-single-five-20261114/ — выбор/возврат/шов открыты.
+presentation141/2,forecast26/3 не повторены.5атак: art/warrior-attack-single-five-20261114/;
+выбор/возврат/шов открыты. Детали прежнего этапа — архив ниже.
 
 Godot/import/full/core/F5/движение/zoom/OS-DPI/performance здесь не запускались.
 Чужие scenes/demo/main_menu.tscn и docs/art/battlefield-reference-03-20261017/
@@ -28,7 +28,7 @@ Godot/import/full/core/F5/движение/zoom/OS-DPI/performance здесь н
 PLAYER вправо/ENEMY влево и возврат после атаки сохранить; инициативы нет;
 каталоги1–3 не мигрировать. Один isolated Godot runner; без root import,
 служб/драйверов/фокуса ОС/push/sidebar tasks/расписаний.
-[Прежняя передача побайтно](CODEX_HANDOFF.history-20261115-5.md), [HISTORY](HISTORY.md).
+[Прежняя передача побайтно](CODEX_HANDOFF.history-20261115-6.md), [HISTORY](HISTORY.md).
 Завершение: проверки, локальный Conventional Commit, короткий HANDOFF;
 прежний побайтно отдельно+HISTORY. В финале/при блокере предложить новый чат
 и полный промпт: HEAD, результат, docs/artifacts, остаток, ограничения,

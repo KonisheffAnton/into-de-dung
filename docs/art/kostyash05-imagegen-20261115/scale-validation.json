@@ -1,0 +1,65 @@
+{
+  "complete": true,
+  "ratio_hero_to_kostyash": 1.5,
+  "hero_display_height": 456,
+  "kostyash_display_height": 304,
+  "logical_hero_height": 152,
+  "logical_kostyash_height": 101.33333333333333,
+  "same_baseline": 544,
+  "nearest_neighbor_presentation_only": true,
+  "original_generated_png_unchanged": true,
+  "records": [
+    {
+      "name": "Воин",
+      "file": "references/warrior11.png",
+      "native_bbox": [
+        60,
+        53,
+        185,
+        205
+      ],
+      "visible_native_height": 152,
+      "visible_alpha_threshold": 8,
+      "display_width": 375,
+      "display_height": 456,
+      "display_top": 88,
+      "display_bottom": 544,
+      "scale": 3.0
+    },
+    {
+      "name": "Костяш №5",
+      "file": "kostyash05-developed.png",
+      "native_bbox": [
+        313,
+        188,
+        1121,
+        971
+      ],
+      "visible_native_height": 783,
+      "visible_alpha_threshold": 8,
+      "display_width": 314,
+      "display_height": 304,
+      "display_top": 240,
+      "display_bottom": 544,
+      "scale": 0.388250319284802
+    },
+    {
+      "name": "Маг",
+      "file": "references/mage02.png",
+      "native_bbox": [
+        72,
+        50,
+        190,
+        202
+      ],
+      "visible_native_height": 152,
+      "visible_alpha_threshold": 8,
+      "display_width": 354,
+      "display_height": 456,
+      "display_top": 88,
+      "display_bottom": 544,
+      "scale": 3.0
+    }
+  ],
+  "scope": "Static comparison of canonical stills, not runtime ArtRoot or native sprite dimensions"
+}

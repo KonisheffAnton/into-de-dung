@@ -1,0 +1,36 @@
+{
+  "archive": "docs/CODEX_HANDOFF.history-20261115-6.md",
+  "archive_sha256": "ba769f2cb4488786ba5f81c64ab32e759d2cd4832d27b92cddd4c4401210ec41",
+  "archive_exact": true,
+  "base": "9b6e8e96adeb8601f478b90aaa2474cfa3395efe",
+  "handoff_chars": 2425,
+  "handoff_lines": 35,
+  "entry_sizes": [
+    {
+      "file": "AGENTS.md",
+      "before_chars": 4565,
+      "after_chars": 4565,
+      "changed": false
+    },
+    {
+      "file": "docs/CODEX_HANDOFF.md",
+      "before_chars": 2356,
+      "after_chars": 2425,
+      "changed": true
+    },
+    {
+      "file": "docs/PROJECT_CONTEXT.md",
+      "before_chars": 3652,
+      "after_chars": 3652,
+      "changed": false
+    },
+    {
+      "file": "docs/CODEX_WORKFLOW.md",
+      "before_chars": 4482,
+      "after_chars": 4482,
+      "changed": false
+    }
+  ],
+  "preexisting_over_limit": "PROJECT_CONTEXT unchanged",
+  "preserved_parallel_work": "smith equipment overlay decision at9b6e8e96"
+}

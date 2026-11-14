@@ -1,0 +1,20 @@
+{
+  "base": "9b6e8e96adeb8601f478b90aaa2474cfa3395efe",
+  "initial_base": "0f4fb48ffd6bd7df20b907efc531afea5890dc95",
+  "build_comparison": "PASS",
+  "py_compile": "PASS",
+  "foreign_files": 33,
+  "foreign_unchanged": true,
+  "review": "APPROVE",
+  "raw_source_sha_verified": true,
+  "static_ratio": 1.5,
+  "runtime_changed": false,
+  "not_run": [
+    "Godot",
+    "full",
+    "core",
+    "F5",
+    "DPI",
+    "performance"
+  ]
+}

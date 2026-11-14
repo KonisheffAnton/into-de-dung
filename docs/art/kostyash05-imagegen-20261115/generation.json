@@ -1,0 +1,27 @@
+{
+  "provider": "built-in image_gen",
+  "mode": "reference-guided development",
+  "source": "D:\\Codex\\home\\generated_images\\01a1dae6-a1f7-75e1-9c8d-e16ca1c48da0\\exec-2e69b322-ba9e-4f6e-8355-0a8d78251247.png",
+  "file": "kostyash05-developed.png",
+  "sha256": "502fe7babb4ca595d03e8ebd082c2d9fa301eddab799eea77ad9337f250b191b",
+  "size": [
+    1402,
+    1122
+  ],
+  "mode_png": "RGBA",
+  "alpha_extrema": [
+    0,
+    255
+  ],
+  "bbox": [
+    0,
+    17,
+    1386,
+    1122
+  ],
+  "native_alpha_height": 1105,
+  "raw_byte_exact": true,
+  "user_selected_source": "previous final variant05",
+  "integration": false,
+  "scale_intent": "2/3 of hero height; exact ratio in presentation, no runtime change"
+}
