@@ -1,0 +1,31 @@
+{
+  "provider": "PixelLab",
+  "raw_directory": "C:\\Users\\Aston\\.codex\\generated_images\\warrior-attack-exaggerated-20261114",
+  "jobs": [
+    {
+      "key": "attack-1",
+      "job_id": "357aee31-b5af-4f19-85d0-1da8ad6bad8b",
+      "request_sha256": "6a29bde8cda72e69d5711f92a818734877363275837c8ebcbd94a1c363fc8f39"
+    },
+    {
+      "key": "attack-2",
+      "job_id": "6187e53e-b43c-460b-aa35-d3573b3b2839",
+      "request_sha256": "b0ebee44d252c3846df5ab602f649080a3c904ff4dfabae42fc3ed66b772d821"
+    },
+    {
+      "key": "attack-3",
+      "job_id": "6b08f09e-8eb1-42ac-9767-19ca4b1594cf",
+      "request_sha256": "3eaec66c178ea87eb8bc7be1402392762a25867ddfa27cd72e5cef7b0c5cba09"
+    },
+    {
+      "key": "attack-4",
+      "job_id": "e6e58f20-cdac-4ff6-b2b8-a0dab323baf9",
+      "request_sha256": "68e81dbe4576a5720d87040a9dddfbe77115b733eef1b6d79e3bd4be025e2b6b"
+    },
+    {
+      "key": "attack-5",
+      "job_id": "7063b402-5af8-4a10-bebf-d6830b1c81f4",
+      "request_sha256": "c58678507ffa9a570e3397ae3446d39e96ec7fcdfb2e164f6b045f1ac274fd1d"
+    }
+  ]
+}

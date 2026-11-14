@@ -1,0 +1,7 @@
+{
+  "date": "2026-11-14",
+  "browser": "Codex in-app browser",
+  "observed": "Five new cards, correct labels; all playback sliders advance. Pause, scrub attack5 to17, visual arc verification, replay and scroll observed.",
+  "result": "PASS smoke",
+  "limitations": "No full controls/viewport/DPI matrix rerun; scripts reused from approved previous gallery. Not Godot or artistic acceptance."
+}

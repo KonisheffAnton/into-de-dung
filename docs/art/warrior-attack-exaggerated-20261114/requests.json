@@ -1,0 +1,102 @@
+[
+  {
+    "key": "attack-1",
+    "kind": "attack",
+    "variant": 1,
+    "name": "Мощная диагональ",
+    "prompt": "Deeply coil the torso and raise the sword behind the shoulder. Snap one exaggerated diagonal cut from high right to low screen-left; a thick sweeping crescent crosses the front of the body. Drive the shoulders and weight into the contact pose, let the scarf whip after the blade, then recover. One powerful strike only. Exaggerate anticipation, body compression, torso twist and follow-through; sudden fast release, a brief emphatic impact hold, then controlled recovery to the original stance. The sword draws one broad bright ivory-white crescent trail with a warm pale-gold edge, widest at impact, tapering and vanishing immediately after the swing. The arc is a motion trace, not another sword. Keep exactly one sword and the same warrior proportions and clothing. Same front three-quarter view, attack screen-left. Keep boots in the same cell. Entire body, sword and large arc stay inside the 256px canvas with 12px clear margins. No target, text, camera motion or full-frame flash.",
+    "seed": 2026111451,
+    "frame_count": 32,
+    "expected_frames": 33,
+    "endpoint": "animate-pixminimax",
+    "loop": false,
+    "return_to_first": true,
+    "input": "model/input-256.png",
+    "captions": {
+      "subject_description": "A compact stylized male warrior with spiky auburn hair, silver shoulder armor, brown leather armor and boots, red scarf, cream waist cloth, one steel sword in his right hand and empty left hand",
+      "initial_pose": "Standing in a front three-quarter battle stance facing screen-left, feet apart, knees slightly bent, right hand holding a lowered sword diagonally in front, left fist beside hip",
+      "view": "side",
+      "direction": "south-west"
+    }
+  },
+  {
+    "key": "attack-2",
+    "kind": "attack",
+    "variant": 2,
+    "name": "Широкий полумесяц",
+    "prompt": "Pull the sword far back and lower into a coiled stance. Unwind the hips into one huge horizontal waist-height cut toward screen-left; a wide curved ribbon sweeps through the foreground. Brake the blade sharply at contact, hold the powerful twisted pose briefly, then recover without spinning. One powerful strike only. Exaggerate anticipation, body compression, torso twist and follow-through; sudden fast release, a brief emphatic impact hold, then controlled recovery to the original stance. The sword draws one broad bright ivory-white crescent trail with a warm pale-gold edge, widest at impact, tapering and vanishing immediately after the swing. The arc is a motion trace, not another sword. Keep exactly one sword and the same warrior proportions and clothing. Same front three-quarter view, attack screen-left. Keep boots in the same cell. Entire body, sword and large arc stay inside the 256px canvas with 12px clear margins. No target, text, camera motion or full-frame flash.",
+    "seed": 2026111452,
+    "frame_count": 32,
+    "expected_frames": 33,
+    "endpoint": "animate-pixminimax",
+    "loop": false,
+    "return_to_first": true,
+    "input": "model/input-256.png",
+    "captions": {
+      "subject_description": "A compact stylized male warrior with spiky auburn hair, silver shoulder armor, brown leather armor and boots, red scarf, cream waist cloth, one steel sword in his right hand and empty left hand",
+      "initial_pose": "Standing in a front three-quarter battle stance facing screen-left, feet apart, knees slightly bent, right hand holding a lowered sword diagonally in front, left fist beside hip",
+      "view": "side",
+      "direction": "south-west"
+    }
+  },
+  {
+    "key": "attack-3",
+    "kind": "attack",
+    "variant": 3,
+    "name": "Тяжёлый удар сверху",
+    "prompt": "Sink into bent knees, draw the sword high behind the head with a very clear wind-up. Slam one overhead chop down toward screen-left, painting a tall curved white-gold arc from above the head to low in front. The torso compresses decisively at impact; the scarf snaps and settles during recovery. One powerful strike only. Exaggerate anticipation, body compression, torso twist and follow-through; sudden fast release, a brief emphatic impact hold, then controlled recovery to the original stance. The sword draws one broad bright ivory-white crescent trail with a warm pale-gold edge, widest at impact, tapering and vanishing immediately after the swing. The arc is a motion trace, not another sword. Keep exactly one sword and the same warrior proportions and clothing. Same front three-quarter view, attack screen-left. Keep boots in the same cell. Entire body, sword and large arc stay inside the 256px canvas with 12px clear margins. No target, text, camera motion or full-frame flash.",
+    "seed": 2026111453,
+    "frame_count": 32,
+    "expected_frames": 33,
+    "endpoint": "animate-pixminimax",
+    "loop": false,
+    "return_to_first": true,
+    "input": "model/input-256.png",
+    "captions": {
+      "subject_description": "A compact stylized male warrior with spiky auburn hair, silver shoulder armor, brown leather armor and boots, red scarf, cream waist cloth, one steel sword in his right hand and empty left hand",
+      "initial_pose": "Standing in a front three-quarter battle stance facing screen-left, feet apart, knees slightly bent, right hand holding a lowered sword diagonally in front, left fist beside hip",
+      "view": "side",
+      "direction": "south-west"
+    }
+  },
+  {
+    "key": "attack-4",
+    "kind": "attack",
+    "variant": 4,
+    "name": "Взрывной восходящий",
+    "prompt": "Crouch visibly with the sword drawn low behind the hip. Explode upward through the torso without jumping and deliver one rising diagonal cut toward screen-left. A thick luminous crescent climbs across the front of the body. Snap to a strong high finish, briefly arrest the motion, then recover. One powerful strike only. Exaggerate anticipation, body compression, torso twist and follow-through; sudden fast release, a brief emphatic impact hold, then controlled recovery to the original stance. The sword draws one broad bright ivory-white crescent trail with a warm pale-gold edge, widest at impact, tapering and vanishing immediately after the swing. The arc is a motion trace, not another sword. Keep exactly one sword and the same warrior proportions and clothing. Same front three-quarter view, attack screen-left. Keep boots in the same cell. Entire body, sword and large arc stay inside the 256px canvas with 12px clear margins. No target, text, camera motion or full-frame flash.",
+    "seed": 2026111454,
+    "frame_count": 32,
+    "expected_frames": 33,
+    "endpoint": "animate-pixminimax",
+    "loop": false,
+    "return_to_first": true,
+    "input": "model/input-256.png",
+    "captions": {
+      "subject_description": "A compact stylized male warrior with spiky auburn hair, silver shoulder armor, brown leather armor and boots, red scarf, cream waist cloth, one steel sword in his right hand and empty left hand",
+      "initial_pose": "Standing in a front three-quarter battle stance facing screen-left, feet apart, knees slightly bent, right hand holding a lowered sword diagonally in front, left fist beside hip",
+      "view": "side",
+      "direction": "south-west"
+    }
+  },
+  {
+    "key": "attack-5",
+    "kind": "attack",
+    "variant": 5,
+    "name": "Двуручный сокрушающий",
+    "prompt": "Bring the free hand onto the sword grip and pull the single sword over the shoulder in a deep wind-up. Use both arms and a forceful whole-body lean for one massive diagonal cleave toward screen-left. A broad heavy crescent follows the blade; recoil at impact, then release the off-hand and recover. One powerful strike only. Exaggerate anticipation, body compression, torso twist and follow-through; sudden fast release, a brief emphatic impact hold, then controlled recovery to the original stance. The sword draws one broad bright ivory-white crescent trail with a warm pale-gold edge, widest at impact, tapering and vanishing immediately after the swing. The arc is a motion trace, not another sword. Keep exactly one sword and the same warrior proportions and clothing. Same front three-quarter view, attack screen-left. Keep boots in the same cell. Entire body, sword and large arc stay inside the 256px canvas with 12px clear margins. No target, text, camera motion or full-frame flash.",
+    "seed": 2026111455,
+    "frame_count": 32,
+    "expected_frames": 33,
+    "endpoint": "animate-pixminimax",
+    "loop": false,
+    "return_to_first": true,
+    "input": "model/input-256.png",
+    "captions": {
+      "subject_description": "A compact stylized male warrior with spiky auburn hair, silver shoulder armor, brown leather armor and boots, red scarf, cream waist cloth, one steel sword in his right hand and empty left hand",
+      "initial_pose": "Standing in a front three-quarter battle stance facing screen-left, feet apart, knees slightly bent, right hand holding a lowered sword diagonally in front, left fist beside hip",
+      "view": "side",
+      "direction": "south-west"
+    }
+  }
+]

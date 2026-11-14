@@ -1,0 +1,15 @@
+{
+  "source": "assets/art_presets/approved/character_skins_v1/red_bastion/still.png",
+  "sha256": "d8117c67d3b59c5943ea850b8802ff1ce895ef919ad65c06d730d0716b6146a8",
+  "canvas": [
+    256,
+    256
+  ],
+  "anchor": [
+    128,
+    200
+  ],
+  "source_facing_x": -1,
+  "preparation": "Byte-for-byte copy; no local redraw or scale change",
+  "base_commit": "a2d01d760b2720570c25a8d81d14c11efb2a75ad"
+}

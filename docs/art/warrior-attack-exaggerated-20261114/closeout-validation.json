@@ -1,0 +1,18 @@
+{
+  "date": "2026-11-14",
+  "task_base": "a2d01d760b2720570c25a8d81d14c11efb2a75ad",
+  "integration_parent": "35a01659dcd605f42304d9f25d3e015330801a70",
+  "archive_bytes_equal_parent": true,
+  "compile": "PASS 4 scripts",
+  "artifact_validation": "PASS 165 frames",
+  "browser": "PASS smoke; controls/viewport full matrix not repeated",
+  "review": "APPROVE packaging; art open",
+  "handoff_chars_before": 2492,
+  "handoff_chars_after": 2437,
+  "entrypoint_note": "Only HANDOFF changed among bounded entrypoints; other decisions retained via owners/exact archive. PROJECT_CONTEXT preexisting3652 unchanged.",
+  "foreign_paths_preserved": [
+    "scenes/demo/main_menu.tscn",
+    "docs/art/battlefield-reference-03-20261017/"
+  ],
+  "runtime_changes": false
+}
