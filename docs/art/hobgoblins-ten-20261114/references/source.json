@@ -1,0 +1,7 @@
+{
+  "source": "assets/art_presets/approved/character_skins_v1/red_bastion/still.png",
+  "sha256": "d8117c67d3b59c5943ea850b8802ff1ce895ef919ad65c06d730d0716b6146a8",
+  "style_owner": "docs/ART_DIRECTION.md current 2026-11-03 style (overrides old 128px format)",
+  "base": "7145a4baddcf5330cd849fdc58b90dcaf1990f89",
+  "usage": "style only, color palette false, no identity copying"
+}

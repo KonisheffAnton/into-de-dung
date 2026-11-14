@@ -1,0 +1,22 @@
+{
+  "complete": true,
+  "concepts": 10,
+  "source_pngs_verified": 10,
+  "reference_matches_runtime": true,
+  "embedded_images": 11,
+  "contact_sheets": {
+    "contact-sheet.png": [
+      2560,
+      1200
+    ],
+    "contact-sheet-small.png": [
+      1280,
+      600
+    ],
+    "style-compare.png": [
+      1024,
+      858
+    ]
+  },
+  "scope": "Source and artifact integrity only; no art acceptance or game integration"
+}

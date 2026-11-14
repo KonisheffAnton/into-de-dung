@@ -1,0 +1,77 @@
+{
+  "count": 10,
+  "unique_jobs": 10,
+  "actual_saved_payloads_checked": true,
+  "rows": [
+    {
+      "id": 1,
+      "job_id": "9491c6d7-e570-4a6b-9717-598218a9ce41",
+      "saved_request_file_sha256": "459499e3be889ca7c85b14c040c0a1f99e6d02aa092f4c35241f7172b3cff11d",
+      "body_fields_match": true,
+      "style_image_byte_equal": true
+    },
+    {
+      "id": 2,
+      "job_id": "eeb1a202-cc5e-4433-ab43-175d740c7989",
+      "saved_request_file_sha256": "eabc3f844110a894448889d28cdc48c9ebfeb7cef7636f4c500d708b6cf60b69",
+      "body_fields_match": true,
+      "style_image_byte_equal": true
+    },
+    {
+      "id": 3,
+      "job_id": "72de82b1-a557-4da4-9839-683f2d5c7e7e",
+      "saved_request_file_sha256": "898347873dbc05f82d705173113703fcfb10ff0d0a0d8521cb7a8a5a867f1d5a",
+      "body_fields_match": true,
+      "style_image_byte_equal": true
+    },
+    {
+      "id": 4,
+      "job_id": "88ac92ce-f395-4d87-83b9-4a2eb1e70ee0",
+      "saved_request_file_sha256": "12fa5d4ba88c8bbc5bb0502e542e46f084ce721d8d76ab7b9371fcad888a549d",
+      "body_fields_match": true,
+      "style_image_byte_equal": true
+    },
+    {
+      "id": 5,
+      "job_id": "239b8b30-ce46-4f50-97fb-149c0e6aea7c",
+      "saved_request_file_sha256": "5dbb6737868ef998d056fe8e795466bf4a178b85432cf3db86e9b96d156d3612",
+      "body_fields_match": true,
+      "style_image_byte_equal": true
+    },
+    {
+      "id": 6,
+      "job_id": "ae51bd0c-696b-4a36-a61b-4f7737835e75",
+      "saved_request_file_sha256": "64dace0e062b97a473961869ae556b31bbc99a5160eaefa0b479cabce8f5853e",
+      "body_fields_match": true,
+      "style_image_byte_equal": true
+    },
+    {
+      "id": 7,
+      "job_id": "2f27f439-8f72-4f30-bf4a-956d81f70fd6",
+      "saved_request_file_sha256": "3c9a590a581076b733083a71dd781a82ba7966b24bc00c7a7d11578c39ee74b3",
+      "body_fields_match": true,
+      "style_image_byte_equal": true
+    },
+    {
+      "id": 8,
+      "job_id": "e09ec6aa-100c-4d19-b9c4-cf66fbdc5604",
+      "saved_request_file_sha256": "82b23cc4dc553ed54cd49e6ab3c9d444028eb23b9651d7b6cdffe422a4b10201",
+      "body_fields_match": true,
+      "style_image_byte_equal": true
+    },
+    {
+      "id": 9,
+      "job_id": "1c179761-abc3-40bf-873b-8873d241e038",
+      "saved_request_file_sha256": "a3c9bef4290cafa1d409a165eaa9bd9ced39afb83b3996b336e9c0d27373e9e1",
+      "body_fields_match": true,
+      "style_image_byte_equal": true
+    },
+    {
+      "id": 10,
+      "job_id": "0f38c61f-961d-4ede-b58d-e552eafb3f51",
+      "saved_request_file_sha256": "c4c53f646aa006a888e9ab4bca43faf1a1800bcb6c5c19f33264533238f5df4f",
+      "body_fields_match": true,
+      "style_image_byte_equal": true
+    }
+  ]
+}

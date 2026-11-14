@@ -1,0 +1,284 @@
+{
+  "expected": 10,
+  "completed": 10,
+  "complete": true,
+  "request_manifest_sha256": "95b7a70f3902fb4ac4abb14b0269f0c10fdb68c6310997ece11649f4435b6131",
+  "request_manifest_hash_policy": "UTF-8 without BOM, LF newlines",
+  "style_reference": "references/warrior11.png",
+  "style_reference_sha256": "d8117c67d3b59c5943ea850b8802ff1ce895ef919ad65c06d730d0716b6146a8",
+  "runtime_reference_sha256": "d8117c67d3b59c5943ea850b8802ff1ce895ef919ad65c06d730d0716b6146a8",
+  "transformation": "PNG provider originals copied byte-for-byte; no repaint or resize",
+  "integration": false,
+  "variants": [
+    {
+      "id": 1,
+      "name": "Пузан",
+      "file": "variants/hobgoblin-01.png",
+      "sha256": "6bf873e2cc6c60423db3a9f650dbb2b41e529e93bdfcc8af4f58e90a6ad8e3f5",
+      "job_id": "9491c6d7-e570-4a6b-9717-598218a9ce41",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 10
+      },
+      "width": 256,
+      "height": 256,
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        52,
+        47,
+        196,
+        210
+      ],
+      "edge_contact": false,
+      "request_sha256": "8115be1bb0f66b9f77161fe1bfe933c68423cc1603f6f824df2db9f509ab7815"
+    },
+    {
+      "id": 2,
+      "name": "Жабник",
+      "file": "variants/hobgoblin-02.png",
+      "sha256": "089df68afce800029f4059c544aa17b02de5506ae7655e5a3d09d5da5d68e05f",
+      "job_id": "eeb1a202-cc5e-4433-ab43-175d740c7989",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 10
+      },
+      "width": 256,
+      "height": 256,
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        56,
+        35,
+        209,
+        227
+      ],
+      "edge_contact": false,
+      "request_sha256": "d4202e7ff0ac825f3867fcb939180fbca2f21c71bd119c55db492fce91ffe9a5"
+    },
+    {
+      "id": 3,
+      "name": "Горбун",
+      "file": "variants/hobgoblin-03.png",
+      "sha256": "c36e84dccfda469719d27f352cbacda9ff9b359e02913323d9e6b72d8f2a3fe7",
+      "job_id": "72de82b1-a557-4da4-9839-683f2d5c7e7e",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 10
+      },
+      "width": 256,
+      "height": 256,
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        53,
+        37,
+        219,
+        224
+      ],
+      "edge_contact": false,
+      "request_sha256": "a55a0c389b2d7a67ca27724d306e3458fa18520a5b5b3a11e8eca6607c8c69fb"
+    },
+    {
+      "id": 4,
+      "name": "Длиннорукий",
+      "file": "variants/hobgoblin-04.png",
+      "sha256": "933452786e886e81f8d4dcfb979a69fc8a7c5376334b8c67188d328b3750f47d",
+      "job_id": "88ac92ce-f395-4d87-83b9-4a2eb1e70ee0",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 10
+      },
+      "width": 256,
+      "height": 256,
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        34,
+        38,
+        230,
+        226
+      ],
+      "edge_contact": false,
+      "request_sha256": "992891891c801055c559418a9148617e4a8f388d42688fd1de1524a0dc85feb2"
+    },
+    {
+      "id": 5,
+      "name": "Кривоклык",
+      "file": "variants/hobgoblin-05.png",
+      "sha256": "cb4cb10e2e5dd4a9a77418e94ac933bf1bb3cef71f1ccd1d70ac9506ae7c308a",
+      "job_id": "239b8b30-ce46-4f50-97fb-149c0e6aea7c",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 10
+      },
+      "width": 256,
+      "height": 256,
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        61,
+        50,
+        208,
+        209
+      ],
+      "edge_contact": false,
+      "request_sha256": "b2744210eddb18afe357fe5f4b302a4d2618321de4368138e6d712aeddf117e5"
+    },
+    {
+      "id": 6,
+      "name": "Мешочник",
+      "file": "variants/hobgoblin-06.png",
+      "sha256": "8467c094886198de4f73b9c495b494494b2ac2d26be3dd1c547ff82d33c80343",
+      "job_id": "ae51bd0c-696b-4a36-a61b-4f7737835e75",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 10
+      },
+      "width": 256,
+      "height": 256,
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        61,
+        46,
+        210,
+        214
+      ],
+      "edge_contact": false,
+      "request_sha256": "42949d363b839b6a9df8c9ca066121cf7797e92eb943b51cb4bdc92560e6fe43"
+    },
+    {
+      "id": 7,
+      "name": "Котёл",
+      "file": "variants/hobgoblin-07.png",
+      "sha256": "f94b2d677ba29acc711177e209bb4ea4ae6f31c4b7ac2e0a7786ae1204a4b6dd",
+      "job_id": "2f27f439-8f72-4f30-bf4a-956d81f70fd6",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 10
+      },
+      "width": 256,
+      "height": 256,
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        23,
+        36,
+        210,
+        224
+      ],
+      "edge_contact": false,
+      "request_sha256": "51d86bbbe98ffc943e750be2395a45860063e5ab462a33d5e132d688bb3381b9"
+    },
+    {
+      "id": 8,
+      "name": "Складень",
+      "file": "variants/hobgoblin-08.png",
+      "sha256": "9de3f4c962207495f26ba334e016c9537f82ae9ad8944d8fb3bc035a05bb2065",
+      "job_id": "e09ec6aa-100c-4d19-b9c4-cf66fbdc5604",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 10
+      },
+      "width": 256,
+      "height": 256,
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        38,
+        34,
+        214,
+        224
+      ],
+      "edge_contact": false,
+      "request_sha256": "b9bdaafdfbd4ee4893acfee26fbcf4778b9a134c8da9f3ce4df017f1af8c5d0f"
+    },
+    {
+      "id": 9,
+      "name": "Белоглаз",
+      "file": "variants/hobgoblin-09.png",
+      "sha256": "28a53578f6200f7a511dd5b793326631aed45693ed8ef8641576ee8210a86da0",
+      "job_id": "1c179761-abc3-40bf-873b-8873d241e038",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 10
+      },
+      "width": 256,
+      "height": 256,
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        62,
+        45,
+        197,
+        216
+      ],
+      "edge_contact": false,
+      "request_sha256": "f627cb293f75d44f9b0e4f8581ddabbff6d49a0ce0a447db00d43b12b4326f52"
+    },
+    {
+      "id": 10,
+      "name": "Костяной бугор",
+      "file": "variants/hobgoblin-10.png",
+      "sha256": "d3853cd39c1292ed9a4f99c6a29d40d2d47479ce7bf5745618073ac72a87aa29",
+      "job_id": "0f38c61f-961d-4ede-b58d-e552eafb3f51",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 10
+      },
+      "width": 256,
+      "height": 256,
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        26,
+        44,
+        212,
+        218
+      ],
+      "edge_contact": false,
+      "request_sha256": "6ad9a5743eef3a420a2d847b58f57e7174019e78bc451e7a683e73192dbd2397"
+    }
+  ]
+}

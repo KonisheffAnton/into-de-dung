@@ -1,0 +1,22 @@
+{
+  "scope": "IAB desktop smoke; not game acceptance",
+  "loaded_cards": 10,
+  "original_dimensions": [
+    256,
+    256
+  ],
+  "card_aspect_ratio_preserved": true,
+  "backgrounds": [
+    "dark",
+    "light",
+    "checkered"
+  ],
+  "reference_toggle": true,
+  "modal_open_close": true,
+  "modal_actual_dimensions": [
+    504,
+    504
+  ],
+  "deliverable": "http://127.0.0.1:8773/gallery.html",
+  "mobile_or_game_tested": false
+}

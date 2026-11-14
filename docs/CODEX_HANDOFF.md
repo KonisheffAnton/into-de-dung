@@ -1,35 +1,36 @@
-# Передача — 2026-11-14: ещё пять атак через PixelLab
+# Передача — 2026-11-14: десять хобгоблинов PixelLab
 
-D:/Games/into-de-dung; main; база9bddbc2064a2fe39a4d6909f51ccc0e00db43781.
-По U получены5 новых атак Воина11,85 raw PNG; расход10 генераций.
-В raw1/3/4/5 повторная дуга, поэтому сделаны5 одиночных монтажей
-из58 точных RGBA-поз новых клипов. Движение460–520мс, акцент100мс.
-Владелец результата/промптов/отбора/ограничений:
-docs/art/warrior-attack-single-five-20261114/README.md; ART_DIRECTION.
-Исходники сохранены;15 embedded в автономной галерее, integration=false.
-PASS py_compile5,85raw/SHA/alpha/листы/GIF,58 выбранных ячеек/тайминг.
-IAB5 карточек/pause/scrub/step/wrap/replay/квадрат256–384px PASS.
-Независимый review APPROVE целостности и одиночной структуры.
-U ещё выбирает вариант; переходы возврата (особенно5), вес/выпад и шов открыты.
+D:/Games/into-de-dung; main; база7145a4baddcf5330cd849fdc58b90dcaf1990f89.
+По U получены10 новых тучных бледных/альбиносных гротескных хобгоблинов.
+PixelLab Pro,10 raw RGBA256², расход100 генераций; ключ/ответы вне Git.
+Владелец результата, промптов, происхождения/галереи/проверок:
+docs/art/hobgoblins-ten-20261114/README.md; направление — ART_DIRECTION.
+Референс текущий Воин11, raw PNG побайтно, integration=false.
+PASS py_compile4,10 payload/SHA/alpha/ID/style reference,11embedded,3листа.
+IAB10 карточек/3фона/reference/увеличение504²/пропорции PASS.
+Независимое APPROVE целостности. По виду бледные, тучные, разные лица/тела.
+P2: raw высота159–192px > Воин152px; рост относительно героя не согласован.
+Кожа/лица детальнее и мягче эталона. U выбирает образы/масштаб/приёмку стиля.
+Следующий шаг — отзыв U; анимацию/внедрение без поручения не начинать.
 Godot/import/full/core/F5/движение/OS-DPI/performance не запускались.
-Следующий U уже поручил: через PixelLab нарисовать10 хобгоблинов в нашем
-стиле — низкие, тучные, бледные/альбиносы, гротескные асимметричные мутанты.
-Статические генерации ещё не начаты. Не внедрять без отдельного поручения.
 
-Параллельный этап9bddbc2 сохранён: Наёмники — круглые пассивки,
-квадратные способности, название/описание при наведении; HUB_DESIGN_PLAN §4.
-DESIGN_DIRECTION §6.1/HUB_SCENES_V1; план H0→H1→H4/H2 только по новому U.
-Геометрия/фигуры, матрица3/5/6, названия/школы/материалы и максимум команды
-открыты; доступность/Godot не проверены. Свидетельства:
-test_reports/hub-mercenary-icons-choice-20261114/. Прежние gates не повторены.
-Бой ждёт U: docs/art/status-readability-20261111/; прежние gates открыты.
+Предыдущий этап7145a4b:5 новых атак Воина11,85raw/10 генераций и5 одиночных
+монтажей из58 точных поз новых клипов; активная часть460–520мс, акцент100мс.
+docs/art/warrior-attack-single-five-20261114/README.md;15embedded.
+Целостность/IAB/review PASS ранее; выбор U, возврат (особенно5) и шов открыты.
 
-Чужие main_menu.tscn, battlefield-reference-03 и параллельные правки хаба
-(HERO_HUB_H1, hub state/сцены/скрипты/тесты) не reset/stage/commit. Core/preview/queue/RNG/save/frozen,5 классов F5,
-PLAYER вправо/ENEMY влево и возврат после атаки прежние; инициативы нет.
-Каталоги1–3 не мигрировать; один Godot runner, isolated project, без root import,
-служб/драйверов/принудительного фокуса/push/sidebar tasks/расписаний.
-[Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261114-10.md), [HISTORY](HISTORY.md).
+Параллельный хаб: U принял круглые пассивки/квадратные способности и подсказки;
+HUB_DESIGN_PLAN §4, DESIGN_DIRECTION §6.1/HUB_SCENES_V1 — владельцы.
+Свидетельства: test_reports/hub-mercenary-icons-choice-20261114/.
+Геометрия/матрица3/5/6/материалы/максимум команды и игровые gates прежние.
+Бой ждёт U: docs/art/status-readability-20261111/; прежние gates не повторены.
+Чужие main_menu.tscn, battlefield-reference-03 и активные правки хаба
+(HERO_HUB_H1,hub state/сцены/скрипты/тесты,tools/demo/isolate.py) не stage/reset.
+Core/preview/queue/RNG/save/frozen,5 классов F5, PLAYER вправо/ENEMY влево,
+возврат после атаки прежние; инициативы нет; каталоги1–3 не мигрировать.
+Один Godot runner, isolated project, без root import/служб/драйверов,
+принудительного фокуса/push/sidebar tasks/расписаний.
+[Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261114-11.md), [HISTORY](HISTORY.md).
 Завершение: проверки, локальный Conventional Commit своих изменений,
 короткий HANDOFF; прежний побайтно отдельно+HISTORY. В финале/при блокере
 предложить новый чат и полный промпт: HEAD, результат, docs/artifacts, остаток,

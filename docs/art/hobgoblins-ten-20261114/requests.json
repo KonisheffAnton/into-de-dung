@@ -1,0 +1,202 @@
+[
+  {
+    "id": 1,
+    "name": "Пузан",
+    "endpoint": "/generate-image-v2",
+    "description": "One full-body grotesque fantasy hobgoblin monster, single character, standing in front three-quarter view facing left, eye-level camera. Very SHORT and OBESE, huge soft belly and fat folds, broad squat silhouette, oversized ugly goblin head, extremely short thick legs, pointed ears. Anatomical fantasy mutations and asymmetry, menacing ugly face rather than cute. Skin is very pale ivory, chalk or pinkish white, albino-like, NEVER green. Opaque crude loincloth or trousers cover pelvis; no nudity, no gore. Match the supplied warrior STYLE only: crisp clean pixel clusters, readable dark local contour, blocky light/shadow planes, warm highlights/cool shadows, restrained detail, clear material separation. Same pixel density and polished fantasy game sprite rendering; do not copy human face, red scarf or warrior outfit. On a transparent 256x256 canvas, character approximately 125-140px tall, feet near y=200 and centered x=128, clearly shorter and much wider than the reference warrior. Complete body and small weapon fit inside with ample empty margins; no ground, shadow, tile, pedestal, scenery, text, interface or extra people. Pear-shaped drooping enormous round belly, tiny bent legs, huge sagging cheeks, one very long ear and one stubby ear, bald chalk-white skin, small reddish eyes, two uneven lower tusks. Cracked brown leather waist wrap, rope belt, one short rough stone club held low.",
+    "image_size": {
+      "width": 256,
+      "height": 256
+    },
+    "no_background": true,
+    "seed": 2026111501,
+    "style_image": "references/warrior11.png",
+    "style_usage": "STYLE ONLY: copy clean pixel clusters, pixel density, dark local outlines, compact fantasy proportions and shading. New creature identity, pale albino skin; do not copy warrior costume or human anatomy.",
+    "style_options": {
+      "color_palette": false,
+      "outline": true,
+      "detail": true,
+      "shading": true
+    }
+  },
+  {
+    "id": 2,
+    "name": "Жабник",
+    "endpoint": "/generate-image-v2",
+    "description": "One full-body grotesque fantasy hobgoblin monster, single character, standing in front three-quarter view facing left, eye-level camera. Very SHORT and OBESE, huge soft belly and fat folds, broad squat silhouette, oversized ugly goblin head, extremely short thick legs, pointed ears. Anatomical fantasy mutations and asymmetry, menacing ugly face rather than cute. Skin is very pale ivory, chalk or pinkish white, albino-like, NEVER green. Opaque crude loincloth or trousers cover pelvis; no nudity, no gore. Match the supplied warrior STYLE only: crisp clean pixel clusters, readable dark local contour, blocky light/shadow planes, warm highlights/cool shadows, restrained detail, clear material separation. Same pixel density and polished fantasy game sprite rendering; do not copy human face, red scarf or warrior outfit. On a transparent 256x256 canvas, character approximately 125-140px tall, feet near y=200 and centered x=128, clearly shorter and much wider than the reference warrior. Complete body and small weapon fit inside with ample empty margins; no ground, shadow, tile, pedestal, scenery, text, interface or extra people. Extremely wide almost round body with a neck buried in layered jowls; flat broad toad-like goblin nose, asymmetrical heavy eyelids and a massive protruding underbite. Pale gray-pink skin, sparse white stubble. Dirty olive short trousers and torn vest open over fat belly, a tiny rusty cleaver.",
+    "image_size": {
+      "width": 256,
+      "height": 256
+    },
+    "no_background": true,
+    "seed": 2026111502,
+    "style_image": "references/warrior11.png",
+    "style_usage": "STYLE ONLY: copy clean pixel clusters, pixel density, dark local outlines, compact fantasy proportions and shading. New creature identity, pale albino skin; do not copy warrior costume or human anatomy.",
+    "style_options": {
+      "color_palette": false,
+      "outline": true,
+      "detail": true,
+      "shading": true
+    }
+  },
+  {
+    "id": 3,
+    "name": "Горбун",
+    "endpoint": "/generate-image-v2",
+    "description": "One full-body grotesque fantasy hobgoblin monster, single character, standing in front three-quarter view facing left, eye-level camera. Very SHORT and OBESE, huge soft belly and fat folds, broad squat silhouette, oversized ugly goblin head, extremely short thick legs, pointed ears. Anatomical fantasy mutations and asymmetry, menacing ugly face rather than cute. Skin is very pale ivory, chalk or pinkish white, albino-like, NEVER green. Opaque crude loincloth or trousers cover pelvis; no nudity, no gore. Match the supplied warrior STYLE only: crisp clean pixel clusters, readable dark local contour, blocky light/shadow planes, warm highlights/cool shadows, restrained detail, clear material separation. Same pixel density and polished fantasy game sprite rendering; do not copy human face, red scarf or warrior outfit. On a transparent 256x256 canvas, character approximately 125-140px tall, feet near y=200 and centered x=128, clearly shorter and much wider than the reference warrior. Complete body and small weapon fit inside with ample empty margins; no ground, shadow, tile, pedestal, scenery, text, interface or extra people. Obese forward-leaning hunchback with a huge fatty mound over the left shoulder, uneven shoulders, very short splayed legs, small deep-set eyes at different heights, crooked nose, lopsided pointed ears. Pink-white skin, white hair tuft. Ragged dark leather apron over loincloth, short bone-headed cudgel.",
+    "image_size": {
+      "width": 256,
+      "height": 256
+    },
+    "no_background": true,
+    "seed": 2026111503,
+    "style_image": "references/warrior11.png",
+    "style_usage": "STYLE ONLY: copy clean pixel clusters, pixel density, dark local outlines, compact fantasy proportions and shading. New creature identity, pale albino skin; do not copy warrior costume or human anatomy.",
+    "style_options": {
+      "color_palette": false,
+      "outline": true,
+      "detail": true,
+      "shading": true
+    }
+  },
+  {
+    "id": 4,
+    "name": "Длиннорукий",
+    "endpoint": "/generate-image-v2",
+    "description": "One full-body grotesque fantasy hobgoblin monster, single character, standing in front three-quarter view facing left, eye-level camera. Very SHORT and OBESE, huge soft belly and fat folds, broad squat silhouette, oversized ugly goblin head, extremely short thick legs, pointed ears. Anatomical fantasy mutations and asymmetry, menacing ugly face rather than cute. Skin is very pale ivory, chalk or pinkish white, albino-like, NEVER green. Opaque crude loincloth or trousers cover pelvis; no nudity, no gore. Match the supplied warrior STYLE only: crisp clean pixel clusters, readable dark local contour, blocky light/shadow planes, warm highlights/cool shadows, restrained detail, clear material separation. Same pixel density and polished fantasy game sprite rendering; do not copy human face, red scarf or warrior outfit. On a transparent 256x256 canvas, character approximately 125-140px tall, feet near y=200 and centered x=128, clearly shorter and much wider than the reference warrior. Complete body and small weapon fit inside with ample empty margins; no ground, shadow, tile, pedestal, scenery, text, interface or extra people. Huge dangling potbelly and unusually long heavy arms reaching below the knees, one massive fist and one smaller hand, tiny bowed legs, oversized broad forehead, tiny red eyes and crooked projecting teeth. Albino ivory skin. Rope wrist wraps, patched brown shorts, no weapon so the long arms read clearly.",
+    "image_size": {
+      "width": 256,
+      "height": 256
+    },
+    "no_background": true,
+    "seed": 2026111504,
+    "style_image": "references/warrior11.png",
+    "style_usage": "STYLE ONLY: copy clean pixel clusters, pixel density, dark local outlines, compact fantasy proportions and shading. New creature identity, pale albino skin; do not copy warrior costume or human anatomy.",
+    "style_options": {
+      "color_palette": false,
+      "outline": true,
+      "detail": true,
+      "shading": true
+    }
+  },
+  {
+    "id": 5,
+    "name": "Кривоклык",
+    "endpoint": "/generate-image-v2",
+    "description": "One full-body grotesque fantasy hobgoblin monster, single character, standing in front three-quarter view facing left, eye-level camera. Very SHORT and OBESE, huge soft belly and fat folds, broad squat silhouette, oversized ugly goblin head, extremely short thick legs, pointed ears. Anatomical fantasy mutations and asymmetry, menacing ugly face rather than cute. Skin is very pale ivory, chalk or pinkish white, albino-like, NEVER green. Opaque crude loincloth or trousers cover pelvis; no nudity, no gore. Match the supplied warrior STYLE only: crisp clean pixel clusters, readable dark local contour, blocky light/shadow planes, warm highlights/cool shadows, restrained detail, clear material separation. Same pixel density and polished fantasy game sprite rendering; do not copy human face, red scarf or warrior outfit. On a transparent 256x256 canvas, character approximately 125-140px tall, feet near y=200 and centered x=128, clearly shorter and much wider than the reference warrior. Complete body and small weapon fit inside with ample empty margins; no ground, shadow, tile, pedestal, scenery, text, interface or extra people. Short barrel-shaped obese body, asymmetrical oversized jaw with one huge sideways lower tusk and several broken teeth, one folded pointed ear, squashed nose and unequal narrowed red eyes. Pale warm ivory skin. Dirty blue-gray torn shoulder cloth, broad leather belt under belly, short chipped axe.",
+    "image_size": {
+      "width": 256,
+      "height": 256
+    },
+    "no_background": true,
+    "seed": 2026111505,
+    "style_image": "references/warrior11.png",
+    "style_usage": "STYLE ONLY: copy clean pixel clusters, pixel density, dark local outlines, compact fantasy proportions and shading. New creature identity, pale albino skin; do not copy warrior costume or human anatomy.",
+    "style_options": {
+      "color_palette": false,
+      "outline": true,
+      "detail": true,
+      "shading": true
+    }
+  },
+  {
+    "id": 6,
+    "name": "Мешочник",
+    "endpoint": "/generate-image-v2",
+    "description": "One full-body grotesque fantasy hobgoblin monster, single character, standing in front three-quarter view facing left, eye-level camera. Very SHORT and OBESE, huge soft belly and fat folds, broad squat silhouette, oversized ugly goblin head, extremely short thick legs, pointed ears. Anatomical fantasy mutations and asymmetry, menacing ugly face rather than cute. Skin is very pale ivory, chalk or pinkish white, albino-like, NEVER green. Opaque crude loincloth or trousers cover pelvis; no nudity, no gore. Match the supplied warrior STYLE only: crisp clean pixel clusters, readable dark local contour, blocky light/shadow planes, warm highlights/cool shadows, restrained detail, clear material separation. Same pixel density and polished fantasy game sprite rendering; do not copy human face, red scarf or warrior outfit. On a transparent 256x256 canvas, character approximately 125-140px tall, feet near y=200 and centered x=128, clearly shorter and much wider than the reference warrior. Complete body and small weapon fit inside with ample empty margins; no ground, shadow, tile, pedestal, scenery, text, interface or extra people. Very low pear-shaped body with multiple loose belly folds, almost no visible neck, hanging double chin, tiny narrowed pink eyes, extremely long drooping pointed ears of different lengths. Chalk-white skin with pale lavender shadows. Ragged burlap cowl falling behind head, dark shorts, small bone amulet and crooked short stick.",
+    "image_size": {
+      "width": 256,
+      "height": 256
+    },
+    "no_background": true,
+    "seed": 2026111506,
+    "style_image": "references/warrior11.png",
+    "style_usage": "STYLE ONLY: copy clean pixel clusters, pixel density, dark local outlines, compact fantasy proportions and shading. New creature identity, pale albino skin; do not copy warrior costume or human anatomy.",
+    "style_options": {
+      "color_palette": false,
+      "outline": true,
+      "detail": true,
+      "shading": true
+    }
+  },
+  {
+    "id": 7,
+    "name": "Котёл",
+    "endpoint": "/generate-image-v2",
+    "description": "One full-body grotesque fantasy hobgoblin monster, single character, standing in front three-quarter view facing left, eye-level camera. Very SHORT and OBESE, huge soft belly and fat folds, broad squat silhouette, oversized ugly goblin head, extremely short thick legs, pointed ears. Anatomical fantasy mutations and asymmetry, menacing ugly face rather than cute. Skin is very pale ivory, chalk or pinkish white, albino-like, NEVER green. Opaque crude loincloth or trousers cover pelvis; no nudity, no gore. Match the supplied warrior STYLE only: crisp clean pixel clusters, readable dark local contour, blocky light/shadow planes, warm highlights/cool shadows, restrained detail, clear material separation. Same pixel density and polished fantasy game sprite rendering; do not copy human face, red scarf or warrior outfit. On a transparent 256x256 canvas, character approximately 125-140px tall, feet near y=200 and centered x=128, clearly shorter and much wider than the reference warrior. Complete body and small weapon fit inside with ample empty margins; no ground, shadow, tile, pedestal, scenery, text, interface or extra people. Extremely broad spherical belly with tiny thick legs and stubby arms, bald domed head sunk between shoulders, flattened goblin nose, thick uneven lips and one blunt tusk. Pale pink-white skin. Wide rusty iron belt bands around the belly, brown loincloth, little round iron-headed mace.",
+    "image_size": {
+      "width": 256,
+      "height": 256
+    },
+    "no_background": true,
+    "seed": 2026111507,
+    "style_image": "references/warrior11.png",
+    "style_usage": "STYLE ONLY: copy clean pixel clusters, pixel density, dark local outlines, compact fantasy proportions and shading. New creature identity, pale albino skin; do not copy warrior costume or human anatomy.",
+    "style_options": {
+      "color_palette": false,
+      "outline": true,
+      "detail": true,
+      "shading": true
+    }
+  },
+  {
+    "id": 8,
+    "name": "Складень",
+    "endpoint": "/generate-image-v2",
+    "description": "One full-body grotesque fantasy hobgoblin monster, single character, standing in front three-quarter view facing left, eye-level camera. Very SHORT and OBESE, huge soft belly and fat folds, broad squat silhouette, oversized ugly goblin head, extremely short thick legs, pointed ears. Anatomical fantasy mutations and asymmetry, menacing ugly face rather than cute. Skin is very pale ivory, chalk or pinkish white, albino-like, NEVER green. Opaque crude loincloth or trousers cover pelvis; no nudity, no gore. Match the supplied warrior STYLE only: crisp clean pixel clusters, readable dark local contour, blocky light/shadow planes, warm highlights/cool shadows, restrained detail, clear material separation. Same pixel density and polished fantasy game sprite rendering; do not copy human face, red scarf or warrior outfit. On a transparent 256x256 canvas, character approximately 125-140px tall, feet near y=200 and centered x=128, clearly shorter and much wider than the reference warrior. Complete body and small weapon fit inside with ample empty margins; no ground, shadow, tile, pedestal, scenery, text, interface or extra people. Obese crumpled silhouette, lopsided hanging belly with three big readable folds, one high thick shoulder, one ear far larger than the other, two irregular forehead bumps, sunken uneven eyes. Ash-ivory pale skin, sparse white bristles. Two crude crossed leather straps, dark olive ragged shorts, squat spiked wooden club.",
+    "image_size": {
+      "width": 256,
+      "height": 256
+    },
+    "no_background": true,
+    "seed": 2026111508,
+    "style_image": "references/warrior11.png",
+    "style_usage": "STYLE ONLY: copy clean pixel clusters, pixel density, dark local outlines, compact fantasy proportions and shading. New creature identity, pale albino skin; do not copy warrior costume or human anatomy.",
+    "style_options": {
+      "color_palette": false,
+      "outline": true,
+      "detail": true,
+      "shading": true
+    }
+  },
+  {
+    "id": 9,
+    "name": "Белоглаз",
+    "endpoint": "/generate-image-v2",
+    "description": "One full-body grotesque fantasy hobgoblin monster, single character, standing in front three-quarter view facing left, eye-level camera. Very SHORT and OBESE, huge soft belly and fat folds, broad squat silhouette, oversized ugly goblin head, extremely short thick legs, pointed ears. Anatomical fantasy mutations and asymmetry, menacing ugly face rather than cute. Skin is very pale ivory, chalk or pinkish white, albino-like, NEVER green. Opaque crude loincloth or trousers cover pelvis; no nudity, no gore. Match the supplied warrior STYLE only: crisp clean pixel clusters, readable dark local contour, blocky light/shadow planes, warm highlights/cool shadows, restrained detail, clear material separation. Same pixel density and polished fantasy game sprite rendering; do not copy human face, red scarf or warrior outfit. On a transparent 256x256 canvas, character approximately 125-140px tall, feet near y=200 and centered x=128, clearly shorter and much wider than the reference warrior. Complete body and small weapon fit inside with ample empty margins; no ground, shadow, tile, pedestal, scenery, text, interface or extra people. Low bloated body with a huge fleshy double chin and thick short neck, bulging asymmetrical milky-white eyes with tiny pink centers, a blunt broad nose, small off-center mouth with two crooked teeth, a few wispy white hairs. Very pale albino skin. Ragged muted burgundy waist sash over brown shorts, tiny dull sickle held low.",
+    "image_size": {
+      "width": 256,
+      "height": 256
+    },
+    "no_background": true,
+    "seed": 2026111509,
+    "style_image": "references/warrior11.png",
+    "style_usage": "STYLE ONLY: copy clean pixel clusters, pixel density, dark local outlines, compact fantasy proportions and shading. New creature identity, pale albino skin; do not copy warrior costume or human anatomy.",
+    "style_options": {
+      "color_palette": false,
+      "outline": true,
+      "detail": true,
+      "shading": true
+    }
+  },
+  {
+    "id": 10,
+    "name": "Костяной бугор",
+    "endpoint": "/generate-image-v2",
+    "description": "One full-body grotesque fantasy hobgoblin monster, single character, standing in front three-quarter view facing left, eye-level camera. Very SHORT and OBESE, huge soft belly and fat folds, broad squat silhouette, oversized ugly goblin head, extremely short thick legs, pointed ears. Anatomical fantasy mutations and asymmetry, menacing ugly face rather than cute. Skin is very pale ivory, chalk or pinkish white, albino-like, NEVER green. Opaque crude loincloth or trousers cover pelvis; no nudity, no gore. Match the supplied warrior STYLE only: crisp clean pixel clusters, readable dark local contour, blocky light/shadow planes, warm highlights/cool shadows, restrained detail, clear material separation. Same pixel density and polished fantasy game sprite rendering; do not copy human face, red scarf or warrior outfit. On a transparent 256x256 canvas, character approximately 125-140px tall, feet near y=200 and centered x=128, clearly shorter and much wider than the reference warrior. Complete body and small weapon fit inside with ample empty margins; no ground, shadow, tile, pedestal, scenery, text, interface or extra people. Very short enormously fat body with asymmetrical bony bulges under the forehead and one cheek, one heavy brow over a small red eye, mismatched stubby tusks, uneven goblin ears, one overdeveloped forearm. Cream-white albino skin. Patchwork dark brown hide shoulder pad, ragged gray shorts and rope belt, crude small flint hammer.",
+    "image_size": {
+      "width": 256,
+      "height": 256
+    },
+    "no_background": true,
+    "seed": 2026111510,
+    "style_image": "references/warrior11.png",
+    "style_usage": "STYLE ONLY: copy clean pixel clusters, pixel density, dark local outlines, compact fantasy proportions and shading. New creature identity, pale albino skin; do not copy warrior costume or human anatomy.",
+    "style_options": {
+      "color_palette": false,
+      "outline": true,
+      "detail": true,
+      "shading": true
+    }
+  }
+]

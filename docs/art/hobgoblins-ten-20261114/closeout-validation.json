@@ -1,0 +1,16 @@
+{
+  "base": "7145a4baddcf5330cd849fdc58b90dcaf1990f89",
+  "archive": "docs/CODEX_HANDOFF.history-20261114-11.md",
+  "archive_sha256": "d54b320d760357bd62c94fe462af4af1741009f3512ba51d967bfc01b9935ad5",
+  "archive_exact": true,
+  "handoff_chars": 2460,
+  "handoff_lines": 37,
+  "raw_pngs": 10,
+  "py_compile_files": 4,
+  "independent_review": "APPROVE artifact integrity; P2 art size/style fit retained",
+  "runtime_changed": false,
+  "user_acceptance": false,
+  "foreign_changes": "active hub/menu/battlefield changes excluded from staging; not assessed here",
+  "manifest_hash_CRLF_and_LF": "PASS",
+  "manifest_hash_fix_independent_review": "APPROVE"
+}
