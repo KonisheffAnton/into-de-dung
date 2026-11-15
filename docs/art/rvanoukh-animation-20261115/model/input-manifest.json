@@ -1,0 +1,73 @@
+{
+  "source": "docs/art/kostyash-rvanoukh-rags-20261115/rvanoukh-torn-cloth.png",
+  "source_sha256": "509be25e425cc1ac3c443c0f6c69fa7d45304d9292a6c28c1d29fa1c7e280be4",
+  "source_copy": "model/source-full.png",
+  "source_copy_sha256": "509be25e425cc1ac3c443c0f6c69fa7d45304d9292a6c28c1d29fa1c7e280be4",
+  "input": "model/input-256.png",
+  "input_sha256": "6e51f2ff63ad012c87176adf4fe7aea93f7d3ee00074bb26c7eda3741bd0a85e",
+  "transform": {
+    "crop_bbox": [
+      315,
+      271,
+      1089,
+      976
+    ],
+    "source_visible_bbox_alpha_ge_8": [
+      319,
+      275,
+      1085,
+      972
+    ],
+    "source_visible_height": 697,
+    "crop_padding_source_pixels": 4,
+    "nearest_neighbor_only": true,
+    "target_visible_height": 101,
+    "canvas": [
+      256,
+      256
+    ],
+    "ground_anchor": [
+      128,
+      200
+    ],
+    "transformed_size": [
+      113,
+      103
+    ],
+    "transformed_bbox_alpha_ge_8": [
+      1,
+      1,
+      112,
+      102
+    ],
+    "placement_xy": [
+      72,
+      98
+    ],
+    "output_visible_bbox_alpha_ge_8": [
+      73,
+      99,
+      184,
+      200
+    ]
+  },
+  "transform_sha256": "7e3c9bd0375fc2de3f31a2e5434fa5866897a537654085693694f350e9eaec84",
+  "alpha_extrema": [
+    0,
+    255
+  ],
+  "alpha_bbox": [
+    72,
+    98,
+    185,
+    201
+  ],
+  "visible_bbox_alpha_ge_8": [
+    73,
+    99,
+    184,
+    200
+  ],
+  "method": "bbox(alpha>=8)+4px crop, nearest-neighbor search, centered by visible silhouette, ground anchored; no repaint",
+  "runtime_integration": false
+}

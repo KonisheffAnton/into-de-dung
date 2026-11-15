@@ -1,0 +1,1076 @@
+{
+  "kind": "death",
+  "variant": 2,
+  "name": "Завалился на бок",
+  "prompt": "One ordinary death without gore. The creature flinches briefly, its free claw scrapes inward, and its bent legs give way. The heavy hump rolls the body onto its left side toward screen left, with one small final weighty settling motion. The club slips low beside its arm, the huge brow and torn ear settle close to the floor, and the torn loincloth settles naturally. End fully motionless and collapsed, not merely crouching. Keep the whole body and club inside the canvas. No standing taller, no disappearance, no camera motion or return.",
+  "key": "death-2",
+  "seed": 2026111506,
+  "frame_count": 32,
+  "expected_frames": 33,
+  "endpoint": "animate-pixminimax",
+  "loop": false,
+  "return_to_first": false,
+  "input": "model/input-256.png",
+  "input_sha256": "6e51f2ff63ad012c87176adf4fe7aea93f7d3ee00074bb26c7eda3741bd0a85e",
+  "captions": {
+    "direction": "south-east",
+    "view": "low top-down",
+    "subject_description": "A small pale grey beastlike hunched goblin with a massive brow, torn pointed ears, short bent legs, long clawed arms, three yellow blisters on its hump, a ragged brown loincloth with holes, and one short iron-headed club in its right hand",
+    "initial_pose": "Deeply crouched facing screen right, huge head low ahead of its hump, both clawed feet planted, free clawed hand near the ground, other hand holding the short club diagonally across the belly"
+  },
+  "provider": "PixelLab animate-pixminimax",
+  "job_id": "8fa85e3d-65c5-46ad-a0e7-06b4caed2598",
+  "input_sha256_verified": "6e51f2ff63ad012c87176adf4fe7aea93f7d3ee00074bb26c7eda3741bd0a85e",
+  "request_sha256": "cb725f15f0d413a37563fc37e15cedd973ccd27646c2ce8e7c931ee3c7047fff",
+  "actual_frames": 33,
+  "canvas": [
+    256,
+    256
+  ],
+  "anchor": [
+    128,
+    200
+  ],
+  "usage": {
+    "usd": 0.0,
+    "type": "generations",
+    "generations": 5
+  },
+  "durations_ms": [
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    1500
+  ],
+  "total_duration_ms": 3740,
+  "timing_origin": "Preview timing authored by exporter; provider returns poses only",
+  "first_frame_consistency": {
+    "alpha_equal": true,
+    "alpha_differing_pixels": 0,
+    "visible_rgba_equal": true,
+    "visible_rgba_differing_pixels": 0,
+    "all_rgba_equal": false,
+    "all_rgba_differing_pixels": 11,
+    "transparent_rgb_differing_pixels": 11
+  },
+  "last_frame_consistency": {
+    "alpha_equal": false,
+    "alpha_differing_pixels": 10468,
+    "visible_rgba_equal": false,
+    "visible_rgba_differing_pixels": 10470,
+    "all_rgba_equal": false,
+    "all_rgba_differing_pixels": 10478,
+    "transparent_rgb_differing_pixels": 8
+  },
+  "first_frame_png_byte_equal_input": false,
+  "return_to_first_requested": false,
+  "last_frame_returns_to_input_rgba": false,
+  "raw_alpha_edge_frames": [],
+  "unique_rgba_frames": 29,
+  "unique_png_frames": 29,
+  "frame_records": [
+    {
+      "index": 0,
+      "file": "pixellab/death-2/frames/frame-00.png",
+      "sha256": "51d8c6364d3b8dd18616a060be6dce603fd7e8a9fce3269ab42f1dac4743a8e3",
+      "canvas": [
+        256,
+        256
+      ],
+      "format": "PNG",
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        72,
+        98,
+        185,
+        201
+      ],
+      "visible_bbox_alpha_ge_8": [
+        73,
+        99,
+        184,
+        200
+      ],
+      "alpha_margin_violation": false
+    },
+    {
+      "index": 1,
+      "file": "pixellab/death-2/frames/frame-01.png",
+      "sha256": "9a27bc7d1ad0298c743b9a49e3e3c733d42411133bdce8b20b044b0447a270d1",
+      "canvas": [
+        256,
+        256
+      ],
+      "format": "PNG",
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        73,
+        99,
+        184,
+        200
+      ],
+      "visible_bbox_alpha_ge_8": [
+        73,
+        99,
+        184,
+        200
+      ],
+      "alpha_margin_violation": false
+    },
+    {
+      "index": 2,
+      "file": "pixellab/death-2/frames/frame-02.png",
+      "sha256": "9a27bc7d1ad0298c743b9a49e3e3c733d42411133bdce8b20b044b0447a270d1",
+      "canvas": [
+        256,
+        256
+      ],
+      "format": "PNG",
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        73,
+        99,
+        184,
+        200
+      ],
+      "visible_bbox_alpha_ge_8": [
+        73,
+        99,
+        184,
+        200
+      ],
+      "alpha_margin_violation": false
+    },
+    {
+      "index": 3,
+      "file": "pixellab/death-2/frames/frame-03.png",
+      "sha256": "9a27bc7d1ad0298c743b9a49e3e3c733d42411133bdce8b20b044b0447a270d1",
+      "canvas": [
+        256,
+        256
+      ],
+      "format": "PNG",
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        73,
+        99,
+        184,
+        200
+      ],
+      "visible_bbox_alpha_ge_8": [
+        73,
+        99,
+        184,
+        200
+      ],
+      "alpha_margin_violation": false
+    },
+    {
+      "index": 4,
+      "file": "pixellab/death-2/frames/frame-04.png",
+      "sha256": "9a27bc7d1ad0298c743b9a49e3e3c733d42411133bdce8b20b044b0447a270d1",
+      "canvas": [
+        256,
+        256
+      ],
+      "format": "PNG",
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        73,
+        99,
+        184,
+        200
+      ],
+      "visible_bbox_alpha_ge_8": [
+        73,
+        99,
+        184,
+        200
+      ],
+      "alpha_margin_violation": false
+    },
+    {
+      "index": 5,
+      "file": "pixellab/death-2/frames/frame-05.png",
+      "sha256": "9a27bc7d1ad0298c743b9a49e3e3c733d42411133bdce8b20b044b0447a270d1",
+      "canvas": [
+        256,
+        256
+      ],
+      "format": "PNG",
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        73,
+        99,
+        184,
+        200
+      ],
+      "visible_bbox_alpha_ge_8": [
+        73,
+        99,
+        184,
+        200
+      ],
+      "alpha_margin_violation": false
+    },
+    {
+      "index": 6,
+      "file": "pixellab/death-2/frames/frame-06.png",
+      "sha256": "6ec61f99a0a569d9790dab2be5bbb24e30df61099b8267a9bb5c5799325c3afa",
+      "canvas": [
+        256,
+        256
+      ],
+      "format": "PNG",
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        73,
+        100,
+        194,
+        199
+      ],
+      "visible_bbox_alpha_ge_8": [
+        73,
+        100,
+        194,
+        199
+      ],
+      "alpha_margin_violation": false
+    },
+    {
+      "index": 7,
+      "file": "pixellab/death-2/frames/frame-07.png",
+      "sha256": "42506f0de2bf0de891126f06f29c4a5941d3abee6e20b137dee397511b8d58dd",
+      "canvas": [
+        256,
+        256
+      ],
+      "format": "PNG",
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        73,
+        101,
+        199,
+        199
+      ],
+      "visible_bbox_alpha_ge_8": [
+        73,
+        101,
+        199,
+        199
+      ],
+      "alpha_margin_violation": false
+    },
+    {
+      "index": 8,
+      "file": "pixellab/death-2/frames/frame-08.png",
+      "sha256": "658d3f49b9bcdf79206edd3f850ca3c064a83ce0258be411542acf513728295f",
+      "canvas": [
+        256,
+        256
+      ],
+      "format": "PNG",
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        73,
+        101,
+        203,
+        199
+      ],
+      "visible_bbox_alpha_ge_8": [
+        73,
+        101,
+        203,
+        199
+      ],
+      "alpha_margin_violation": false
+    },
+    {
+      "index": 9,
+      "file": "pixellab/death-2/frames/frame-09.png",
+      "sha256": "98c41608d1e6353cf1f360688af159f8412a83448045d66656fd560b338a02a3",
+      "canvas": [
+        256,
+        256
+      ],
+      "format": "PNG",
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        73,
+        102,
+        206,
+        200
+      ],
+      "visible_bbox_alpha_ge_8": [
+        73,
+        102,
+        206,
+        200
+      ],
+      "alpha_margin_violation": false
+    },
+    {
+      "index": 10,
+      "file": "pixellab/death-2/frames/frame-10.png",
+      "sha256": "2882db4c72fe8bd3dc840605df6de0870493723a180cbe55bfbf4f7e46d1cbab",
+      "canvas": [
+        256,
+        256
+      ],
+      "format": "PNG",
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        73,
+        102,
+        200,
+        204
+      ],
+      "visible_bbox_alpha_ge_8": [
+        73,
+        102,
+        200,
+        204
+      ],
+      "alpha_margin_violation": false
+    },
+    {
+      "index": 11,
+      "file": "pixellab/death-2/frames/frame-11.png",
+      "sha256": "beb5c46a1a020eede698fbcdf705bdb075bb99ce2ce2d8878377ad75d3a87b82",
+      "canvas": [
+        256,
+        256
+      ],
+      "format": "PNG",
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        73,
+        102,
+        190,
+        205
+      ],
+      "visible_bbox_alpha_ge_8": [
+        73,
+        102,
+        190,
+        205
+      ],
+      "alpha_margin_violation": false
+    },
+    {
+      "index": 12,
+      "file": "pixellab/death-2/frames/frame-12.png",
+      "sha256": "afd0c3afd0b6d79f8f105770cc71b96c3a05de9487c80794e1fad6382dcda3c7",
+      "canvas": [
+        256,
+        256
+      ],
+      "format": "PNG",
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        73,
+        102,
+        183,
+        205
+      ],
+      "visible_bbox_alpha_ge_8": [
+        73,
+        102,
+        183,
+        205
+      ],
+      "alpha_margin_violation": false
+    },
+    {
+      "index": 13,
+      "file": "pixellab/death-2/frames/frame-13.png",
+      "sha256": "279a8b71b98e9a7dcfa388c0b040fefb7d6ce14260149e03dc122b3e444e3581",
+      "canvas": [
+        256,
+        256
+      ],
+      "format": "PNG",
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        73,
+        101,
+        182,
+        204
+      ],
+      "visible_bbox_alpha_ge_8": [
+        73,
+        101,
+        182,
+        204
+      ],
+      "alpha_margin_violation": false
+    },
+    {
+      "index": 14,
+      "file": "pixellab/death-2/frames/frame-14.png",
+      "sha256": "c3674c6bd4fee40ce778ef9aaa0e932db077bff7213cabfe32ad07c6cc30a14f",
+      "canvas": [
+        256,
+        256
+      ],
+      "format": "PNG",
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        73,
+        100,
+        182,
+        203
+      ],
+      "visible_bbox_alpha_ge_8": [
+        73,
+        100,
+        182,
+        203
+      ],
+      "alpha_margin_violation": false
+    },
+    {
+      "index": 15,
+      "file": "pixellab/death-2/frames/frame-15.png",
+      "sha256": "f2af76adb0412f6825a6c980cb885792f0c57542ce150d6251f0cc16de1e429e",
+      "canvas": [
+        256,
+        256
+      ],
+      "format": "PNG",
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        73,
+        99,
+        187,
+        200
+      ],
+      "visible_bbox_alpha_ge_8": [
+        73,
+        99,
+        187,
+        200
+      ],
+      "alpha_margin_violation": false
+    },
+    {
+      "index": 16,
+      "file": "pixellab/death-2/frames/frame-16.png",
+      "sha256": "3c9c81df08d4d3b4a1d15291c40015efaccdea2c3bb9514be9a854db206a7c43",
+      "canvas": [
+        256,
+        256
+      ],
+      "format": "PNG",
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        73,
+        105,
+        193,
+        207
+      ],
+      "visible_bbox_alpha_ge_8": [
+        73,
+        105,
+        193,
+        207
+      ],
+      "alpha_margin_violation": false
+    },
+    {
+      "index": 17,
+      "file": "pixellab/death-2/frames/frame-17.png",
+      "sha256": "c9cb4d820a6f0b66a51890911b0c9ec881da375cd687be33c80a895cea7875ec",
+      "canvas": [
+        256,
+        256
+      ],
+      "format": "PNG",
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        67,
+        114,
+        197,
+        203
+      ],
+      "visible_bbox_alpha_ge_8": [
+        67,
+        114,
+        197,
+        203
+      ],
+      "alpha_margin_violation": false
+    },
+    {
+      "index": 18,
+      "file": "pixellab/death-2/frames/frame-18.png",
+      "sha256": "e8fd06ebafec1515db23f9b97cec0f9b6b0cfea5ba274ffdea3a8391b02a4fcb",
+      "canvas": [
+        256,
+        256
+      ],
+      "format": "PNG",
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        59,
+        117,
+        202,
+        206
+      ],
+      "visible_bbox_alpha_ge_8": [
+        59,
+        117,
+        202,
+        206
+      ],
+      "alpha_margin_violation": false
+    },
+    {
+      "index": 19,
+      "file": "pixellab/death-2/frames/frame-19.png",
+      "sha256": "d54cebaeaa8063b4ec8724bced787cdcd12e036f169331b127dabf4199e7c604",
+      "canvas": [
+        256,
+        256
+      ],
+      "format": "PNG",
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        53,
+        121,
+        204,
+        205
+      ],
+      "visible_bbox_alpha_ge_8": [
+        53,
+        121,
+        204,
+        205
+      ],
+      "alpha_margin_violation": false
+    },
+    {
+      "index": 20,
+      "file": "pixellab/death-2/frames/frame-20.png",
+      "sha256": "a03f979a4b2c1b59c634ebb9082b6fdfd3dace661f0e536ce9831742f41d570e",
+      "canvas": [
+        256,
+        256
+      ],
+      "format": "PNG",
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        52,
+        129,
+        204,
+        206
+      ],
+      "visible_bbox_alpha_ge_8": [
+        52,
+        129,
+        204,
+        206
+      ],
+      "alpha_margin_violation": false
+    },
+    {
+      "index": 21,
+      "file": "pixellab/death-2/frames/frame-21.png",
+      "sha256": "e866f837448c188a8f96d1f29f8e39a5715b531d0d594016f5ff9bfb85152836",
+      "canvas": [
+        256,
+        256
+      ],
+      "format": "PNG",
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        51,
+        134,
+        205,
+        208
+      ],
+      "visible_bbox_alpha_ge_8": [
+        51,
+        134,
+        205,
+        208
+      ],
+      "alpha_margin_violation": false
+    },
+    {
+      "index": 22,
+      "file": "pixellab/death-2/frames/frame-22.png",
+      "sha256": "205bd4cda5660ae0c4e21df7533f97cab85b5b65a7ceda7485940de06f6d33a6",
+      "canvas": [
+        256,
+        256
+      ],
+      "format": "PNG",
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        51,
+        135,
+        205,
+        208
+      ],
+      "visible_bbox_alpha_ge_8": [
+        51,
+        135,
+        205,
+        208
+      ],
+      "alpha_margin_violation": false
+    },
+    {
+      "index": 23,
+      "file": "pixellab/death-2/frames/frame-23.png",
+      "sha256": "6b919b8e239ec205fff3f4b2512e96259d74ffa27314409422b8563d83e6c4e6",
+      "canvas": [
+        256,
+        256
+      ],
+      "format": "PNG",
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        51,
+        135,
+        205,
+        208
+      ],
+      "visible_bbox_alpha_ge_8": [
+        51,
+        135,
+        205,
+        208
+      ],
+      "alpha_margin_violation": false
+    },
+    {
+      "index": 24,
+      "file": "pixellab/death-2/frames/frame-24.png",
+      "sha256": "b013ae89b3c0760d252ea5c014f4977ef8f4421281d0eb7c5ba0f7a2127329ee",
+      "canvas": [
+        256,
+        256
+      ],
+      "format": "PNG",
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        51,
+        135,
+        205,
+        208
+      ],
+      "visible_bbox_alpha_ge_8": [
+        51,
+        135,
+        205,
+        208
+      ],
+      "alpha_margin_violation": false
+    },
+    {
+      "index": 25,
+      "file": "pixellab/death-2/frames/frame-25.png",
+      "sha256": "dbb8be1b64da2f67b2d11bb3978f9e880682f5be5ec1277179796e79e176fd61",
+      "canvas": [
+        256,
+        256
+      ],
+      "format": "PNG",
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        51,
+        135,
+        205,
+        208
+      ],
+      "visible_bbox_alpha_ge_8": [
+        51,
+        135,
+        205,
+        208
+      ],
+      "alpha_margin_violation": false
+    },
+    {
+      "index": 26,
+      "file": "pixellab/death-2/frames/frame-26.png",
+      "sha256": "1d546e1ae6cd0264c10c665dff0ae62dc9be77d6a1069294f4982f9472528c97",
+      "canvas": [
+        256,
+        256
+      ],
+      "format": "PNG",
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        51,
+        135,
+        205,
+        208
+      ],
+      "visible_bbox_alpha_ge_8": [
+        51,
+        135,
+        205,
+        208
+      ],
+      "alpha_margin_violation": false
+    },
+    {
+      "index": 27,
+      "file": "pixellab/death-2/frames/frame-27.png",
+      "sha256": "f01f1e76a324d25bc175d2b18b1f4165af9ccd53f9ba2e627d881b648349664a",
+      "canvas": [
+        256,
+        256
+      ],
+      "format": "PNG",
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        51,
+        135,
+        205,
+        208
+      ],
+      "visible_bbox_alpha_ge_8": [
+        51,
+        135,
+        205,
+        208
+      ],
+      "alpha_margin_violation": false
+    },
+    {
+      "index": 28,
+      "file": "pixellab/death-2/frames/frame-28.png",
+      "sha256": "585d2e767348f2613d1910ff20817f7c40c7f6b5b3815feba49eeee1fd55e2b5",
+      "canvas": [
+        256,
+        256
+      ],
+      "format": "PNG",
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        51,
+        135,
+        205,
+        208
+      ],
+      "visible_bbox_alpha_ge_8": [
+        51,
+        135,
+        205,
+        208
+      ],
+      "alpha_margin_violation": false
+    },
+    {
+      "index": 29,
+      "file": "pixellab/death-2/frames/frame-29.png",
+      "sha256": "124cf7b38059b2dff4b46f26961db1cfccd84bd82a67e7e5c20ca57434a3e3b5",
+      "canvas": [
+        256,
+        256
+      ],
+      "format": "PNG",
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        51,
+        135,
+        205,
+        208
+      ],
+      "visible_bbox_alpha_ge_8": [
+        51,
+        135,
+        205,
+        208
+      ],
+      "alpha_margin_violation": false
+    },
+    {
+      "index": 30,
+      "file": "pixellab/death-2/frames/frame-30.png",
+      "sha256": "5072b904e7be695757f745cc7be1032f3824b2c8e55ca7d9fc4989ab0fedb366",
+      "canvas": [
+        256,
+        256
+      ],
+      "format": "PNG",
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        51,
+        135,
+        205,
+        208
+      ],
+      "visible_bbox_alpha_ge_8": [
+        51,
+        135,
+        205,
+        208
+      ],
+      "alpha_margin_violation": false
+    },
+    {
+      "index": 31,
+      "file": "pixellab/death-2/frames/frame-31.png",
+      "sha256": "04bb5d1862c5d6839384494533b7c4a4b42e06e3e11a3ddbe975d345a8b1ed04",
+      "canvas": [
+        256,
+        256
+      ],
+      "format": "PNG",
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        51,
+        135,
+        205,
+        208
+      ],
+      "visible_bbox_alpha_ge_8": [
+        51,
+        135,
+        205,
+        208
+      ],
+      "alpha_margin_violation": false
+    },
+    {
+      "index": 32,
+      "file": "pixellab/death-2/frames/frame-32.png",
+      "sha256": "9c65df49c0ab80589ae73efd4b7b82735d4e577b30a712acec8533011765a576",
+      "canvas": [
+        256,
+        256
+      ],
+      "format": "PNG",
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        51,
+        135,
+        205,
+        208
+      ],
+      "visible_bbox_alpha_ge_8": [
+        51,
+        135,
+        205,
+        208
+      ],
+      "alpha_margin_violation": false
+    }
+  ],
+  "spritesheet": {
+    "file": "pixellab/death-2/spritesheet.png",
+    "sha256": "76133a0488c9ff6752c1c31ed8ffb1af737f1f7302231b01fed81acb485dd7ef",
+    "size": [
+      2048,
+      1280
+    ]
+  },
+  "preview_gif": {
+    "file": "pixellab/death-2/preview.gif",
+    "sha256": "74ce7319c3c810032f77499556d3636c221776672af3dca1d978084940a4b9b3",
+    "frames": 29,
+    "durations_ms": [
+      70,
+      350,
+      70,
+      70,
+      70,
+      70,
+      70,
+      70,
+      70,
+      70,
+      70,
+      70,
+      70,
+      70,
+      70,
+      70,
+      70,
+      70,
+      70,
+      70,
+      70,
+      70,
+      70,
+      70,
+      70,
+      70,
+      70,
+      70,
+      1500
+    ],
+    "total_duration_ms": 3740
+  },
+  "filmstrip": {
+    "file": "pixellab/death-2/filmstrip.png",
+    "sha256": "264deef2797d45c448c1202532a727cc3bc36e0933fc3146e573a1518b5bd175"
+  },
+  "integration": false
+}

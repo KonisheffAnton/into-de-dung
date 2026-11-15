@@ -1,0 +1,23 @@
+{
+  "date": "2026-11-15",
+  "method": "CUA in-app browser, visible DOM/AX and screenshots",
+  "url": "http://127.0.0.1:8879/gallery.html",
+  "displayed_clips": 9,
+  "checks_passed": [
+    "Nine labeled animation cards with independently changing frame sliders",
+    "Native reference comparison: Rvanoukh101 and Warrior152 at the same display scale",
+    "Play/pause, restart and one-frame step",
+    "Manual ability2 scrub to frame16",
+    "Speed selection0.5x",
+    "Ability and death hold frame32 while idle continues looping",
+    "Large zoom preserves square geometry on all9 canvases:376.328125x376.328125 or376.34375x376.34375 CSS pixels",
+    "Death1 quarantine warning appears once after correction",
+    "Final full-gallery reload, native scale restored, playback restarted; tab retained as deliverable"
+  ],
+  "not_verified": [
+    "Source/GIF/PNG navigation via generated blob links in IAB",
+    "F5/gameplay integration, OS DPI and performance"
+  ],
+  "browser_policy_limitation": "Clicking Full source was blocked by the browser security policy on blob navigation. No alternate surface or workaround was attempted. Raw local PNG/GIF files are independently available in the package.",
+  "runtime_integration": false
+}

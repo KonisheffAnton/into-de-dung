@@ -1,0 +1,35 @@
+{
+  "base": "cb88eb28857f926ec62abfd8d1dd541b8926723f",
+  "archive": "docs/CODEX_HANDOFF.history-20261115-17.md",
+  "archive_matches_previous_bytes": true,
+  "archive_sha256": "3a8d7acc3a329edf1c24031a28e5462c2aab7a891e2bd57e8123d785d1633805",
+  "foreign_files_checked": 33,
+  "foreign_all_unchanged": true,
+  "entry_documents": {
+    "AGENTS.md": {
+      "before_chars_lf": 4565,
+      "after_chars_lf": 4565,
+      "unchanged": true
+    },
+    "docs/CODEX_HANDOFF.md": {
+      "before_chars_lf": 2453,
+      "after_chars_lf": 2419,
+      "unchanged": false
+    },
+    "docs/PROJECT_CONTEXT.md": {
+      "before_chars_lf": 3652,
+      "after_chars_lf": 3652,
+      "unchanged": true
+    },
+    "docs/CODEX_WORKFLOW.md": {
+      "before_chars_lf": 4482,
+      "after_chars_lf": 4482,
+      "unchanged": true
+    }
+  },
+  "notes": [
+    "PROJECT_CONTEXT existing3652 chars exceeds3500 guideline; unchanged in this task.",
+    "No gameplay/Godot change; art pipeline and offline/browser checks only.",
+    "Incomplete art acceptance and restrictions preserved with owner links; history archived exactly."
+  ]
+}

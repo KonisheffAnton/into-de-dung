@@ -1,0 +1,1080 @@
+{
+  "kind": "idle",
+  "variant": 1,
+  "name": "Тяжёлое дыхание",
+  "prompt": "A restrained seamless idle loop. The creature stays deeply hunched and grounded. Its upper back slowly rises and falls with two heavy breaths, its low head follows by only a few pixels, and the torn cloth tips gently settle. Both short legs and the free claw remain planted. The club remains gripped across the belly. No standing taller, stepping, camera movement or turning. Return smoothly to the exact original low crouch and placement.",
+  "key": "idle-1",
+  "seed": 2026111501,
+  "frame_count": 32,
+  "expected_frames": 33,
+  "endpoint": "animate-pixminimax",
+  "loop": true,
+  "return_to_first": true,
+  "input": "model/input-256.png",
+  "input_sha256": "6e51f2ff63ad012c87176adf4fe7aea93f7d3ee00074bb26c7eda3741bd0a85e",
+  "captions": {
+    "direction": "south-east",
+    "view": "low top-down",
+    "subject_description": "A small pale grey beastlike hunched goblin with a massive brow, torn pointed ears, short bent legs, long clawed arms, three yellow blisters on its hump, a ragged brown loincloth with holes, and one short iron-headed club in its right hand",
+    "initial_pose": "Deeply crouched facing screen right, huge head low ahead of its hump, both clawed feet planted, free clawed hand near the ground, other hand holding the short club diagonally across the belly"
+  },
+  "provider": "PixelLab animate-pixminimax",
+  "job_id": "043de1cd-e481-41a2-91f9-08074dbc2d48",
+  "input_sha256_verified": "6e51f2ff63ad012c87176adf4fe7aea93f7d3ee00074bb26c7eda3741bd0a85e",
+  "request_sha256": "506b839ee62cea5c11d54409c4bc82e85f0e6fb4850b1061f31a38d095b3014e",
+  "actual_frames": 33,
+  "canvas": [
+    256,
+    256
+  ],
+  "anchor": [
+    128,
+    200
+  ],
+  "usage": {
+    "usd": 0.0,
+    "type": "generations",
+    "generations": 5
+  },
+  "durations_ms": [
+    90,
+    90,
+    90,
+    90,
+    90,
+    90,
+    90,
+    90,
+    90,
+    90,
+    90,
+    90,
+    90,
+    90,
+    90,
+    90,
+    90,
+    90,
+    90,
+    90,
+    90,
+    90,
+    90,
+    90,
+    90,
+    90,
+    90,
+    90,
+    90,
+    90,
+    90,
+    90,
+    90
+  ],
+  "total_duration_ms": 2970,
+  "timing_origin": "Preview timing authored by exporter; provider returns poses only",
+  "first_frame_consistency": {
+    "alpha_equal": true,
+    "alpha_differing_pixels": 0,
+    "visible_rgba_equal": true,
+    "visible_rgba_differing_pixels": 0,
+    "all_rgba_equal": false,
+    "all_rgba_differing_pixels": 11,
+    "transparent_rgb_differing_pixels": 11
+  },
+  "last_frame_consistency": {
+    "alpha_equal": false,
+    "alpha_differing_pixels": 8258,
+    "visible_rgba_equal": false,
+    "visible_rgba_differing_pixels": 8260,
+    "all_rgba_equal": false,
+    "all_rgba_differing_pixels": 8271,
+    "transparent_rgb_differing_pixels": 11
+  },
+  "first_frame_png_byte_equal_input": false,
+  "return_to_first_requested": true,
+  "last_frame_returns_to_input_rgba": false,
+  "raw_alpha_edge_frames": [],
+  "unique_rgba_frames": 33,
+  "unique_png_frames": 33,
+  "frame_records": [
+    {
+      "index": 0,
+      "file": "pixellab/idle-1/frames/frame-00.png",
+      "sha256": "51d8c6364d3b8dd18616a060be6dce603fd7e8a9fce3269ab42f1dac4743a8e3",
+      "canvas": [
+        256,
+        256
+      ],
+      "format": "PNG",
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        72,
+        98,
+        185,
+        201
+      ],
+      "visible_bbox_alpha_ge_8": [
+        73,
+        99,
+        184,
+        200
+      ],
+      "alpha_margin_violation": false
+    },
+    {
+      "index": 1,
+      "file": "pixellab/idle-1/frames/frame-01.png",
+      "sha256": "121518ce5cea0407ce2d0984b393bea8fcacbfa51e7b7b33da47d2b1651022d0",
+      "canvas": [
+        256,
+        256
+      ],
+      "format": "PNG",
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        73,
+        99,
+        184,
+        200
+      ],
+      "visible_bbox_alpha_ge_8": [
+        73,
+        99,
+        184,
+        200
+      ],
+      "alpha_margin_violation": false
+    },
+    {
+      "index": 2,
+      "file": "pixellab/idle-1/frames/frame-02.png",
+      "sha256": "117feb0447388087e7b1cd0a05d317a0c5cdbc2f10162b058f3e67f5b31fe7be",
+      "canvas": [
+        256,
+        256
+      ],
+      "format": "PNG",
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        73,
+        99,
+        183,
+        200
+      ],
+      "visible_bbox_alpha_ge_8": [
+        73,
+        99,
+        183,
+        200
+      ],
+      "alpha_margin_violation": false
+    },
+    {
+      "index": 3,
+      "file": "pixellab/idle-1/frames/frame-03.png",
+      "sha256": "451acd833827e828c68baf8bea0c4f002b3682ac3ab641bcdd2a89d8d1b32a7c",
+      "canvas": [
+        256,
+        256
+      ],
+      "format": "PNG",
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        72,
+        99,
+        183,
+        199
+      ],
+      "visible_bbox_alpha_ge_8": [
+        72,
+        99,
+        183,
+        199
+      ],
+      "alpha_margin_violation": false
+    },
+    {
+      "index": 4,
+      "file": "pixellab/idle-1/frames/frame-04.png",
+      "sha256": "7fcad935933f1eaedae3ca365ea33de4ee9821d6fe3a7460c6172f4d4ee72394",
+      "canvas": [
+        256,
+        256
+      ],
+      "format": "PNG",
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        71,
+        97,
+        182,
+        199
+      ],
+      "visible_bbox_alpha_ge_8": [
+        71,
+        97,
+        182,
+        199
+      ],
+      "alpha_margin_violation": false
+    },
+    {
+      "index": 5,
+      "file": "pixellab/idle-1/frames/frame-05.png",
+      "sha256": "82d9dd9d520e01eb8f01727810490950b6a51e66aea4a34cab283d3559375d1c",
+      "canvas": [
+        256,
+        256
+      ],
+      "format": "PNG",
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        71,
+        96,
+        181,
+        199
+      ],
+      "visible_bbox_alpha_ge_8": [
+        71,
+        96,
+        181,
+        199
+      ],
+      "alpha_margin_violation": false
+    },
+    {
+      "index": 6,
+      "file": "pixellab/idle-1/frames/frame-06.png",
+      "sha256": "ac6b285e82ed5e072b3b86a0944fbcf890776d37aaa29fdb684c197d89e88d69",
+      "canvas": [
+        256,
+        256
+      ],
+      "format": "PNG",
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        71,
+        95,
+        180,
+        199
+      ],
+      "visible_bbox_alpha_ge_8": [
+        71,
+        95,
+        180,
+        199
+      ],
+      "alpha_margin_violation": false
+    },
+    {
+      "index": 7,
+      "file": "pixellab/idle-1/frames/frame-07.png",
+      "sha256": "a86c5c8d3eeab1efaf9c8c7614dce6793603d597569d709f1eefb4a88bd70a31",
+      "canvas": [
+        256,
+        256
+      ],
+      "format": "PNG",
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        70,
+        93,
+        180,
+        199
+      ],
+      "visible_bbox_alpha_ge_8": [
+        70,
+        93,
+        180,
+        199
+      ],
+      "alpha_margin_violation": false
+    },
+    {
+      "index": 8,
+      "file": "pixellab/idle-1/frames/frame-08.png",
+      "sha256": "ba3f1860896e753e95bb8c42298be71f0a04a9b6ed7c4abe3cd2109c7144b080",
+      "canvas": [
+        256,
+        256
+      ],
+      "format": "PNG",
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        70,
+        92,
+        180,
+        199
+      ],
+      "visible_bbox_alpha_ge_8": [
+        70,
+        92,
+        180,
+        199
+      ],
+      "alpha_margin_violation": false
+    },
+    {
+      "index": 9,
+      "file": "pixellab/idle-1/frames/frame-09.png",
+      "sha256": "aac002356c14dd49aa4b1b044f8d759052adf937f4d4869dcae17bc98715339d",
+      "canvas": [
+        256,
+        256
+      ],
+      "format": "PNG",
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        72,
+        93,
+        186,
+        199
+      ],
+      "visible_bbox_alpha_ge_8": [
+        72,
+        93,
+        186,
+        199
+      ],
+      "alpha_margin_violation": false
+    },
+    {
+      "index": 10,
+      "file": "pixellab/idle-1/frames/frame-10.png",
+      "sha256": "597177b598d4563d604f8be51c67bfc45da09a9999f188d6206e878f0765bce4",
+      "canvas": [
+        256,
+        256
+      ],
+      "format": "PNG",
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        72,
+        93,
+        182,
+        199
+      ],
+      "visible_bbox_alpha_ge_8": [
+        72,
+        93,
+        182,
+        199
+      ],
+      "alpha_margin_violation": false
+    },
+    {
+      "index": 11,
+      "file": "pixellab/idle-1/frames/frame-11.png",
+      "sha256": "e1617a6a601a6cd79095982a9144f10946f50be806c099d61da008426283ccfc",
+      "canvas": [
+        256,
+        256
+      ],
+      "format": "PNG",
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        73,
+        95,
+        184,
+        199
+      ],
+      "visible_bbox_alpha_ge_8": [
+        73,
+        95,
+        184,
+        199
+      ],
+      "alpha_margin_violation": false
+    },
+    {
+      "index": 12,
+      "file": "pixellab/idle-1/frames/frame-12.png",
+      "sha256": "076302992b52ee935a19538a3af4e70a55a6a6cf23b01c58886af42cd0088346",
+      "canvas": [
+        256,
+        256
+      ],
+      "format": "PNG",
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        73,
+        96,
+        184,
+        199
+      ],
+      "visible_bbox_alpha_ge_8": [
+        73,
+        96,
+        184,
+        199
+      ],
+      "alpha_margin_violation": false
+    },
+    {
+      "index": 13,
+      "file": "pixellab/idle-1/frames/frame-13.png",
+      "sha256": "2c1f9a58e5cf7a46bdf5658124cbcc7003bad3e2dc78a9812c7d2092e9672b58",
+      "canvas": [
+        256,
+        256
+      ],
+      "format": "PNG",
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        73,
+        97,
+        184,
+        199
+      ],
+      "visible_bbox_alpha_ge_8": [
+        73,
+        97,
+        184,
+        199
+      ],
+      "alpha_margin_violation": false
+    },
+    {
+      "index": 14,
+      "file": "pixellab/idle-1/frames/frame-14.png",
+      "sha256": "b8723d5942b91f3ccf25ef69d82e8f852b553024f2b78e2d9736db06b6156b17",
+      "canvas": [
+        256,
+        256
+      ],
+      "format": "PNG",
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        73,
+        98,
+        184,
+        199
+      ],
+      "visible_bbox_alpha_ge_8": [
+        73,
+        98,
+        184,
+        199
+      ],
+      "alpha_margin_violation": false
+    },
+    {
+      "index": 15,
+      "file": "pixellab/idle-1/frames/frame-15.png",
+      "sha256": "6ba7ac88c909e0612556d4f29f1727b5de497464a40b9e3a58e620bb3b1e2719",
+      "canvas": [
+        256,
+        256
+      ],
+      "format": "PNG",
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        73,
+        99,
+        186,
+        200
+      ],
+      "visible_bbox_alpha_ge_8": [
+        73,
+        99,
+        186,
+        200
+      ],
+      "alpha_margin_violation": false
+    },
+    {
+      "index": 16,
+      "file": "pixellab/idle-1/frames/frame-16.png",
+      "sha256": "e0595eaa90277b1b134f8504a8d84ae9389a3582c600fb96f326a09f2e9d5d67",
+      "canvas": [
+        256,
+        256
+      ],
+      "format": "PNG",
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        73,
+        99,
+        184,
+        200
+      ],
+      "visible_bbox_alpha_ge_8": [
+        73,
+        99,
+        184,
+        200
+      ],
+      "alpha_margin_violation": false
+    },
+    {
+      "index": 17,
+      "file": "pixellab/idle-1/frames/frame-17.png",
+      "sha256": "dfeee072b7d0b8de763fe3b54c7e09921e7a9a355978142da8f59154ff7d0b13",
+      "canvas": [
+        256,
+        256
+      ],
+      "format": "PNG",
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        73,
+        99,
+        184,
+        200
+      ],
+      "visible_bbox_alpha_ge_8": [
+        73,
+        99,
+        184,
+        200
+      ],
+      "alpha_margin_violation": false
+    },
+    {
+      "index": 18,
+      "file": "pixellab/idle-1/frames/frame-18.png",
+      "sha256": "d06f52319569a5ba1c149a6537e3db79ef15135eac55c5c128baa2e43e39c7ae",
+      "canvas": [
+        256,
+        256
+      ],
+      "format": "PNG",
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        73,
+        99,
+        183,
+        200
+      ],
+      "visible_bbox_alpha_ge_8": [
+        73,
+        99,
+        183,
+        200
+      ],
+      "alpha_margin_violation": false
+    },
+    {
+      "index": 19,
+      "file": "pixellab/idle-1/frames/frame-19.png",
+      "sha256": "cc96ed666426a5e8d927dfaa07e1e12e594a73570b76f26e99e551b4fa49d520",
+      "canvas": [
+        256,
+        256
+      ],
+      "format": "PNG",
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        72,
+        99,
+        183,
+        200
+      ],
+      "visible_bbox_alpha_ge_8": [
+        72,
+        99,
+        183,
+        200
+      ],
+      "alpha_margin_violation": false
+    },
+    {
+      "index": 20,
+      "file": "pixellab/idle-1/frames/frame-20.png",
+      "sha256": "645783fe1e09f18c15bf7fb88d2a9d5ec86ec7f0a7610a880bea0aeb500a13cc",
+      "canvas": [
+        256,
+        256
+      ],
+      "format": "PNG",
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        71,
+        97,
+        182,
+        199
+      ],
+      "visible_bbox_alpha_ge_8": [
+        71,
+        97,
+        182,
+        199
+      ],
+      "alpha_margin_violation": false
+    },
+    {
+      "index": 21,
+      "file": "pixellab/idle-1/frames/frame-21.png",
+      "sha256": "f025cfde849fd0c3bcaca1c4ab477e3ee0be73daba6c1d448aedea58eb26cc9a",
+      "canvas": [
+        256,
+        256
+      ],
+      "format": "PNG",
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        71,
+        96,
+        181,
+        199
+      ],
+      "visible_bbox_alpha_ge_8": [
+        71,
+        96,
+        181,
+        199
+      ],
+      "alpha_margin_violation": false
+    },
+    {
+      "index": 22,
+      "file": "pixellab/idle-1/frames/frame-22.png",
+      "sha256": "b04c4da6e088afd4dba892d9a191a6824c070d3b3cd73efb54290542ca0b4ed3",
+      "canvas": [
+        256,
+        256
+      ],
+      "format": "PNG",
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        71,
+        95,
+        180,
+        199
+      ],
+      "visible_bbox_alpha_ge_8": [
+        71,
+        95,
+        180,
+        199
+      ],
+      "alpha_margin_violation": false
+    },
+    {
+      "index": 23,
+      "file": "pixellab/idle-1/frames/frame-23.png",
+      "sha256": "26d5f5eceec555901471aeabb094bfbf076291d9e672ecd9381444bc0a2436ca",
+      "canvas": [
+        256,
+        256
+      ],
+      "format": "PNG",
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        70,
+        94,
+        180,
+        199
+      ],
+      "visible_bbox_alpha_ge_8": [
+        70,
+        94,
+        180,
+        199
+      ],
+      "alpha_margin_violation": false
+    },
+    {
+      "index": 24,
+      "file": "pixellab/idle-1/frames/frame-24.png",
+      "sha256": "da7c1efb86d9d5bf83bff516158d436514107bf0caba112de8548439db570a5f",
+      "canvas": [
+        256,
+        256
+      ],
+      "format": "PNG",
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        70,
+        92,
+        180,
+        199
+      ],
+      "visible_bbox_alpha_ge_8": [
+        70,
+        92,
+        180,
+        199
+      ],
+      "alpha_margin_violation": false
+    },
+    {
+      "index": 25,
+      "file": "pixellab/idle-1/frames/frame-25.png",
+      "sha256": "f9bbbaf1db574a6e434005a07104aa06d8d73c750e777c192401c448a8100014",
+      "canvas": [
+        256,
+        256
+      ],
+      "format": "PNG",
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        72,
+        93,
+        186,
+        199
+      ],
+      "visible_bbox_alpha_ge_8": [
+        72,
+        93,
+        186,
+        199
+      ],
+      "alpha_margin_violation": false
+    },
+    {
+      "index": 26,
+      "file": "pixellab/idle-1/frames/frame-26.png",
+      "sha256": "264e042b625083279b5f2a9507495885e7b28cd851d9b6b5965119bbfdab0b19",
+      "canvas": [
+        256,
+        256
+      ],
+      "format": "PNG",
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        72,
+        94,
+        182,
+        199
+      ],
+      "visible_bbox_alpha_ge_8": [
+        72,
+        94,
+        182,
+        199
+      ],
+      "alpha_margin_violation": false
+    },
+    {
+      "index": 27,
+      "file": "pixellab/idle-1/frames/frame-27.png",
+      "sha256": "eef0e3a5547cba52e487cc780d5ab85f383b9c6857a99bd1e1e5b39c1a8d6418",
+      "canvas": [
+        256,
+        256
+      ],
+      "format": "PNG",
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        73,
+        95,
+        183,
+        199
+      ],
+      "visible_bbox_alpha_ge_8": [
+        73,
+        95,
+        183,
+        199
+      ],
+      "alpha_margin_violation": false
+    },
+    {
+      "index": 28,
+      "file": "pixellab/idle-1/frames/frame-28.png",
+      "sha256": "4bd714eb410dc01abf37ab355b98d10920c8a0199efdd183344e67529b4a88ab",
+      "canvas": [
+        256,
+        256
+      ],
+      "format": "PNG",
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        73,
+        96,
+        184,
+        199
+      ],
+      "visible_bbox_alpha_ge_8": [
+        73,
+        96,
+        184,
+        199
+      ],
+      "alpha_margin_violation": false
+    },
+    {
+      "index": 29,
+      "file": "pixellab/idle-1/frames/frame-29.png",
+      "sha256": "3266df9b657e30768b0c62ef08df79db83c606840a4a91a2b05d831378b7c28b",
+      "canvas": [
+        256,
+        256
+      ],
+      "format": "PNG",
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        73,
+        97,
+        184,
+        199
+      ],
+      "visible_bbox_alpha_ge_8": [
+        73,
+        97,
+        184,
+        199
+      ],
+      "alpha_margin_violation": false
+    },
+    {
+      "index": 30,
+      "file": "pixellab/idle-1/frames/frame-30.png",
+      "sha256": "5036485cd7e4711e1beffb1263e590226e5a37d89c37de0eb9eced54660710ab",
+      "canvas": [
+        256,
+        256
+      ],
+      "format": "PNG",
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        73,
+        98,
+        184,
+        199
+      ],
+      "visible_bbox_alpha_ge_8": [
+        73,
+        98,
+        184,
+        199
+      ],
+      "alpha_margin_violation": false
+    },
+    {
+      "index": 31,
+      "file": "pixellab/idle-1/frames/frame-31.png",
+      "sha256": "a98eef45cebcfb10e23dcd2c285368b04dffe3b59ad73199ee8574d7a26c3531",
+      "canvas": [
+        256,
+        256
+      ],
+      "format": "PNG",
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        73,
+        99,
+        184,
+        200
+      ],
+      "visible_bbox_alpha_ge_8": [
+        73,
+        99,
+        184,
+        200
+      ],
+      "alpha_margin_violation": false
+    },
+    {
+      "index": 32,
+      "file": "pixellab/idle-1/frames/frame-32.png",
+      "sha256": "36facf0b00999d602049df936a4ad00067218d76a9bdcbaefc20467808383843",
+      "canvas": [
+        256,
+        256
+      ],
+      "format": "PNG",
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        73,
+        99,
+        184,
+        200
+      ],
+      "visible_bbox_alpha_ge_8": [
+        73,
+        99,
+        184,
+        200
+      ],
+      "alpha_margin_violation": false
+    }
+  ],
+  "spritesheet": {
+    "file": "pixellab/idle-1/spritesheet.png",
+    "sha256": "89cc1894b4589acef6aaa101e9343be44b915c1799e6e8d6f723d1fcb2885b01",
+    "size": [
+      2048,
+      1280
+    ]
+  },
+  "preview_gif": {
+    "file": "pixellab/idle-1/preview.gif",
+    "sha256": "fdd6f67359b44828999a10595fdd624977c378a1dc8a1cc01cdcd80ebf290a58",
+    "frames": 33,
+    "durations_ms": [
+      90,
+      90,
+      90,
+      90,
+      90,
+      90,
+      90,
+      90,
+      90,
+      90,
+      90,
+      90,
+      90,
+      90,
+      90,
+      90,
+      90,
+      90,
+      90,
+      90,
+      90,
+      90,
+      90,
+      90,
+      90,
+      90,
+      90,
+      90,
+      90,
+      90,
+      90,
+      90,
+      90
+    ],
+    "total_duration_ms": 2970
+  },
+  "filmstrip": {
+    "file": "pixellab/idle-1/filmstrip.png",
+    "sha256": "2e95aacc02bccb28278d08b32f04a8031da4d9e9aa7560ba01859f1c16d80fc1"
+  },
+  "integration": false
+}
