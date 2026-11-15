@@ -827,8 +827,6 @@ func _draw_unit() -> void:
 		draw_rect(Rect2(-8, -37, 16, 13), tint.lightened(0.25))
 		draw_line(Vector2(-4, -30), Vector2(7, -30), Color("172230"), 3)
 		draw_set_transform(foot, 0, Vector2.ONE * factor)
-	var label := transient_label if unit == null else unit.debug_name
-	draw_string(ThemeDB.fallback_font, Vector2(-10, -12), label.left(1), HORIZONTAL_ALIGNMENT_CENTER, 20, 13, Color("172230"))
 	draw_set_transform(Vector2.ZERO)
 
 func _draw_unit_highlights(canvas: Node2D) -> void:

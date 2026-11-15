@@ -60,7 +60,7 @@ func _test_rendered_skins() -> void:
 			var visual := _make_visual(700 + row * 4 + column, entry.class, faction, entry.id)
 			var anchor := Vector2(120 + column * 240, 150 + row * 200)
 			visual.position = anchor
-			# Проверяем зеркальные пиксели тела отдельно от незеркальных букв/HP.
+			# Проверяем зеркальные пиксели тела отдельно от незеркальных полос показателей.
 			visual.self_modulate.a = 0.0
 			if column == 2: visual.sample_buff(1.12)
 			if column == 3: visual.sample_death(1.0)

@@ -19,6 +19,12 @@
 
 ## Изменение игрового кода
 
+Удаление букв на телах персонажей (2026-11-15):
+`python tools/demo/isolate.py --render-check --only unit_visual_contract
+class_showcase_ui --screen 0`. Существующие проверки lifecycle/фигур и реального
+меню→хаб→поход дают GPU-кадр без букв; имена карточек и полосы остаются прежними.
+[Отчёт](art/unit-letter-removal-20261115/README.md).
+
 Нездоровый хоб-гоблин (2026-11-15):
 `python tools/art/build_hobgoblin_skin.py --check`,
 `python tools/art/build_character_skins.py --check`,

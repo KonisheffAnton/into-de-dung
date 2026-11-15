@@ -1,0 +1,67 @@
+{
+  "base": "d27f0c8ceb5234664906f313bc74ebf0f0834ff3",
+  "report": "test_reports/demo-92777eb228ef47ec9d245fca1db36273",
+  "checks": {
+    "import": {
+      "elapsed_seconds": 27.719453499885276,
+      "status": "PASS"
+    },
+    "startup": {
+      "elapsed_seconds": 4.566532799974084,
+      "status": "PASS"
+    },
+    "unit_visual_contract": {
+      "elapsed_seconds": 4.601534400135279,
+      "status": "PASS"
+    },
+    "class_showcase_ui": {
+      "elapsed_seconds": 8.352849800139666,
+      "status": "PASS"
+    }
+  },
+  "suites": {
+    "unit_visual_contract": {
+      "passed": 45,
+      "failed": 0
+    },
+    "class_showcase_ui": {
+      "passed": 54,
+      "failed": 0
+    }
+  },
+  "assertions_passed": 99,
+  "review": "game_reviewer APPROVE",
+  "gpu_image_inspected": true,
+  "tested_files_sha256": {
+    "scripts/demo/battle_demo_iso_visual.gd": "6dd8c17dce365ea39bd9d1ec7fa8c9a54a8233909d30829f2b7500d6445ad5f0",
+    "tests/test_character_skins.gd": "a6341157c324eeedefed76098eaf23797b54946968694015c86dee9415526918"
+  },
+  "protected_files_unchanged": 33,
+  "protected_manifest": "docs/art/sick-hobgoblin-integration-20261115/baseline.json",
+  "archive_exact": true,
+  "archive_sha256": "6a7b7b24fa5f03d5df78d4695129cf8318554c17ee2429e0bf98c61858489966",
+  "entry_document_lengths_LF": {
+    "AGENTS.md": {
+      "before": 4565,
+      "after": 4565
+    },
+    "docs/CODEX_HANDOFF.md": {
+      "before": 2213,
+      "after": 2139
+    },
+    "docs/PROJECT_CONTEXT.md": {
+      "before": 3652,
+      "after": 3652
+    },
+    "docs/CODEX_WORKFLOW.md": {
+      "before": 4482,
+      "after": 4482
+    }
+  },
+  "growth_note": "PROJECT_CONTEXT3652 is preexisting and unchanged; other entry docs within guideline.",
+  "limits": [
+    "manual F5/DPI/performance not run",
+    "not full/core"
+  ],
+  "gpu_sha256": "8bdad896af07c1902a83e4e9d6471872d2b797fa54f59c76d44d5a3a6bd81e4c"
+}
