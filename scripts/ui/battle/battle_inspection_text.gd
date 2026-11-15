@@ -32,7 +32,7 @@ static func build_live(unit: UnitState, state: ItemSimulationState, options: Opt
 	text = _append_status_and_armor(text, unit, state, options)
 	var descriptions := _item_descriptions(unit, state, options)
 	if unit.guard_stance:
-		text += "\nОхранная стойка: прямой урон −30%, воздействие −50% до следующего хода команды; движение и атака снимают стойку."
+		text += "\nОхранная стойка: прямой урон −30%%, воздействие −%d очка (минимум 0) до следующего хода команды; движение и атака снимают стойку." % BalancePoints.GUARD_REDUCTION
 	text += "\nЭффекты: " + ("нет активных." if descriptions.is_empty() else "\n" + "\n".join(descriptions))
 	return text
 

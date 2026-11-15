@@ -309,6 +309,7 @@ func _validated_snapshot_components() -> Dictionary:
 	if not stats.snapshot_runtime_valid():
 		return {}
 	var vital_data := vitals.to_dict()
+	if not BalancePoints.valid(vitals.get_balance()): return {}
 	if typeof(vital_data["hp"]) != TYPE_FLOAT or typeof(vital_data["balance"]) != TYPE_FLOAT or typeof(vital_data["is_alive"]) != TYPE_BOOL or not is_finite(vital_data["hp"]) or not is_finite(vital_data["balance"]) or vital_data["hp"] < 0.0 or vital_data["balance"] < 0.0:
 		return {}
 	if action_resources != null:
@@ -436,6 +437,7 @@ static func validate_snapshot_dict(data: Variant) -> bool:
 	if not _has_exact_string_keys(v, ["hp", "balance", "is_alive"]): return false
 	if typeof(v["hp"]) != TYPE_FLOAT or not is_finite(v["hp"]) or v["hp"] < 0.0: return false
 	if typeof(v["balance"]) != TYPE_FLOAT or not is_finite(v["balance"]) or v["balance"] < 0.0: return false
+	if not BalancePoints.valid(v["balance"]): return false
 	if d.has("armor"):
 		if not _snapshot_armor_hp_valid(v["hp"], d["stats"], d.armor.get("fractional", false)): return false
 	return typeof(v["is_alive"]) == TYPE_BOOL

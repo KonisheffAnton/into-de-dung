@@ -179,7 +179,7 @@ func _normal_and_fraction() -> void:
 	links = events(receipt, &"chain_link")
 	check(receipt.status == ActionReceipt.APPLIED and links.size() == 2, "fractional chain executes")
 	if links.size() == 2:
-		check(links[0]["impulse"] == 7.5 and links[1]["impulse"] == 5.625, "75 percent remains exact across links")
+		check(links[0]["impulse"] == 7.0 and links[1]["impulse"] == 5.0, "each receiver gets whole impact after exact 75 percent decay")
 	check(s.units[2].vitals.get_hp() == 244.0 and s.units[5].vitals.get_hp() == 251.0, "D0 floors 7.5 to 7 and 5.625 to 5 on each collision")
 	check(s.units[5].cell == Vector2i(5, 3), "fractional force still pushes terminal")
 	s.close()
@@ -194,10 +194,10 @@ func _stops_and_stance() -> void:
 	s.close()
 	s = fixture()
 	s.units[2].guard_stance = true
-	receipt = parity(s, "middle guard halves onward impulse")
+	receipt = parity(s, "middle guard subtracts two from onward force")
 	links = events(receipt, &"chain_link")
 	check(receipt.status == ActionReceipt.APPLIED and links.size() == 2, "guarded middle still breaks")
-	if links.size() == 2: check(links[0]["impulse"] == 6.0 and links[1]["impulse"] == 4.5, "guard attenuation is inherited by next transfer")
+	if links.size() == 2: check(links[0]["impulse"] == 10.0 and links[1]["impulse"] == 7.0, "flat guard reduction is inherited and each receiver gets whole points")
 	s.close()
 	s = fixture()
 	s.units[2].control.entangled_turns = 1
@@ -341,7 +341,7 @@ func _admission_and_faults() -> void:
 	var middle: UnitState = s.units[2]
 	var last: UnitState = s.units[5]
 	var mutate := func(_old: float, _new: float) -> void: last.guard_stance = true
-	middle.vitals.add_impact(0.5)
+	middle.vitals.set_balance(1.0)
 	middle.vitals.balance_changed.connect(mutate)
 	receipt = s.attack_unit(s.units[1].id)
 	middle.vitals.balance_changed.disconnect(mutate)

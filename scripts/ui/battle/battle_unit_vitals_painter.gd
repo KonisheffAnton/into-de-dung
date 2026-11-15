@@ -127,17 +127,38 @@ static func _draw_track(canvas: Node2D, rect: Rect2, ratio: float, fill: Color, 
 
 
 static func _draw_balance(canvas: Node2D, rect: Rect2, disruption: float, maximum: float) -> void:
-	var ratio := BattleBalanceDisplay.ratio(disruption, maximum)
-	_draw_track(canvas, rect, ratio, Color("bea16c"), Color("cdb888"), Color("a58b60"), Color("45494b"))
-	# Невосприимчивость не имеет делимых очков, а плотные деления на узких шкалах слились бы в шум.
-	if maximum <= 0.0:
-		return
+	var whole_maximum := BalancePoints.whole(maximum)
+	var remaining := BattleBalanceDisplay.remaining(disruption, whole_maximum)
+	canvas.draw_rect(rect, Color.BLACK)
 	var inner := rect.grow(-1.0)
-	if inner.size.x / maximum < 2.0:
+	canvas.draw_rect(inner, Color("45494b"))
+	# Невосприимчивость не имеет делимых очков и показывает полный ресурс без делений.
+	if whole_maximum <= 0.0:
+		_draw_balance_segment(canvas, inner, Color("bea16c"))
 		return
-	var point_count := floori(maximum)
-	for point: int in range(1, point_count + 1):
-		var x := roundf(inner.position.x + inner.size.x * float(point) / maximum)
-		if x >= inner.end.x:
-			continue
-		canvas.draw_rect(Rect2(Vector2(x, inner.position.y), Vector2(1.0, inner.size.y)), Color.BLACK)
+	# При плотной шкале сохраняем пропорцию трека, потому что отдельные очки неразличимы.
+	if inner.size.x / whole_maximum < 2.0:
+		var ratio := BattleBalanceDisplay.ratio(disruption, whole_maximum)
+		var dense_width := minf(inner.size.x, maxf(1.0, inner.size.x * ratio))
+		if ratio > 0.0:
+			_draw_balance_segment(canvas, Rect2(inner.position, Vector2(dense_width, inner.size.y)), Color("bea16c"))
+		return
+	var section_count := int(whole_maximum)
+	var filled_sections := int(remaining)
+	var edges: Array[int] = []
+	for point: int in range(section_count + 1):
+		# Целые экранные границы не оставляют случайных дробных полос внутри очка.
+		edges.append(roundi(inner.position.x + inner.size.x * float(point) / float(section_count)))
+	for section: int in section_count:
+		var section_rect := Rect2(Vector2(edges[section], inner.position.y),
+			Vector2(edges[section + 1] - edges[section], inner.size.y))
+		if section < filled_sections:
+			_draw_balance_segment(canvas, section_rect, Color("bea16c"))
+	for point: int in range(1, section_count):
+		canvas.draw_rect(Rect2(Vector2(edges[point], inner.position.y), Vector2(1.0, inner.size.y)), Color.BLACK)
+
+
+static func _draw_balance_segment(canvas: Node2D, rect: Rect2, fill: Color) -> void:
+	canvas.draw_rect(rect, fill)
+	canvas.draw_rect(Rect2(rect.position, Vector2(rect.size.x, 1.0)), Color("cdb888"))
+	canvas.draw_rect(Rect2(rect.position + Vector2(0.0, rect.size.y - 1.0), Vector2(rect.size.x, 1.0)), Color("a58b60"))

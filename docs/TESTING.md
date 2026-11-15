@@ -19,6 +19,16 @@
 
 ## Изменение игрового кода
 
+Целые очки равновесия и Guard−2 (2026-11-15):
+`python tools/demo/isolate.py --render-check --only core integer_balance
+balance_recovery push_chain guard warrior_class unit_vital_bars current_schema_boundary
+restore_vitals forecast_restore_isolation spatial_guard_stats character_attributes_v1
+sick_hobgoblin action_event_validator battle_inspection_text --screen 0`.
+Проверяются итоговое округление после множителей, фиксированная защита, кик/цепь,
+целые DTO и события, отказ без мутаций, preview/live/RNG/IDs, граница командного хода.
+GPU проверяет каждое деление при5/7 очках и zoom50–125%, ноль/плотный порог,
+сохранность дробных HP/брони. [Отчёт](art/integer-balance-20261115/README.md).
+
 Удаление букв на телах персонажей (2026-11-15):
 `python tools/demo/isolate.py --render-check --only unit_visual_contract
 class_showcase_ui --screen 0`. Существующие проверки lifecycle/фигур и реального

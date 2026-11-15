@@ -58,9 +58,10 @@ static func gather(board: BattleBoard, actor: UnitState, target: UnitState, impa
 			return _failure(&"chain/invalid_stat")
 		var force := effective.multiply(ArmorFraction.make(3, 4))
 		if not force.valid: return _failure(&"chain/fraction_overflow")
-		var next_effective := force.multiply(ArmorFraction.make(1, 2)) if receiver.guard_stance else force
+		var next_effective := force.add(ArmorFraction.make(-BalancePoints.GUARD_REDUCTION)) if receiver.guard_stance else force
 		if not next_effective.valid: return _failure(&"chain/fraction_overflow")
-		var impulse := _value(next_effective)
+		if next_effective.numerator < 0: next_effective = ArmorFraction.make(0)
+		var impulse := BalancePoints.whole(_value(next_effective))
 		if not is_finite(impulse): return _failure(&"chain/nonfinite_impact")
 		var total := before
 		if impulse > 0.0 and maximum > 0.0:

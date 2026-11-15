@@ -191,7 +191,7 @@ static func _item_values(state: ItemSimulationState, actor_id: int, item_id: int
 static func unit_values(board: BattleBoard, state: ItemSimulationState = null, include_identity: bool = false) -> Dictionary:
 	var result: Dictionary = {}
 	for unit in board.get_all_units():
-		result[unit.id] = {"hp": unit.vitals.get_hp(), "hp_max": unit.get_stat(StatTypes.StatType.HP_MAX), "balance": unit.vitals.get_balance(), "balance_max": unit.get_stat(StatTypes.StatType.BALANCE_MAX), "cell": unit.cell, "alive": unit.is_alive(), "main": unit.action_resources.get_main_left() if unit.action_resources != null else 0, "bonus": unit.action_resources.get_bonus_left() if unit.action_resources != null else 0, "move": unit.move_points_left, "guard_stance": unit.guard_stance}
+		result[unit.id] = {"hp": unit.vitals.get_hp(), "hp_max": unit.get_stat(StatTypes.StatType.HP_MAX), "balance": unit.vitals.get_balance(), "balance_max": unit.vitals.get_balance_max(), "cell": unit.cell, "alive": unit.is_alive(), "main": unit.action_resources.get_main_left() if unit.action_resources != null else 0, "bonus": unit.action_resources.get_bonus_left() if unit.action_resources != null else 0, "move": unit.move_points_left, "guard_stance": unit.guard_stance}
 		if include_identity:
 			result[unit.id].merge({"id": unit.id, "name": unit.debug_name, "owner_unit_id": state.summon_owner_id(unit.id), "pending": state.is_summon_pending(unit.id), "summoned": state.is_summon(unit.id), "mage_summon": state.is_mage_summon(unit.id)})
 		if unit.armor != null:

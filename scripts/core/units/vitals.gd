@@ -158,9 +158,10 @@ func add_spatial_impact(amount: float, checkpoint: Callable, maximum_multiplier:
 	if stats_copy == null or not stats_copy.has_stat(StatTypes.StatType.BALANCE_MAX):
 		receipt.reason = &"spatial/invalid_mutation"
 		return receipt
-	receipt.balance_max = stats_copy.get_value(StatTypes.StatType.BALANCE_MAX)
+	receipt.balance_max = BalancePoints.whole(stats_copy.get_value(StatTypes.StatType.BALANCE_MAX))
 	# Подготовка команды передаёт множитель текущего состояния: сам stat остаётся прежним.
 	if maximum_multiplier == 2: receipt.balance_max *= 2.0
+	amount = BalancePoints.whole(amount)
 	receipt.impact = amount
 	if not is_finite(receipt.balance_max):
 		receipt.reason = &"spatial/invalid_mutation"
@@ -176,7 +177,7 @@ func add_spatial_impact(amount: float, checkpoint: Callable, maximum_multiplier:
 	receipt.balance_after = 0.0 if receipt.broke else total
 	_balance = receipt.balance_after
 	receipt.balance_written = true
-	if not is_equal_approx(receipt.balance_before, receipt.balance_after):
+	if receipt.balance_before != receipt.balance_after:
 		balance_changed.emit(receipt.balance_before, receipt.balance_after)
 	receipt.reason = checkpoint.call(&"balance_written")
 	if receipt.reason != &"":
@@ -223,7 +224,7 @@ func get_balance() -> float:
 func get_balance_max() -> float:
 	if _stats == null:
 		return 0.0
-	return _stats.get_value(StatTypes.StatType.BALANCE_MAX)
+	return BalancePoints.whole(_stats.get_value(StatTypes.StatType.BALANCE_MAX))
 
 
 func get_balance_ratio() -> float:
@@ -302,6 +303,8 @@ func revive(hp_ratio: float = 1.0) -> void:
 ##
 ## Сброс в 0 — сохранённое правило из модуля 6: шкала начинает копиться заново.
 func add_impact(amount: float) -> bool:
+	if not is_finite(amount) or not BalancePoints.valid(_balance): return false
+	amount = BalancePoints.whole(amount)
 	if amount <= 0.0 or not _is_alive:
 		return false
 
@@ -315,7 +318,7 @@ func add_impact(amount: float) -> bool:
 	var broke := old_balance + amount >= max_balance
 	_balance = 0.0 if broke else old_balance + amount
 
-	if not is_equal_approx(old_balance, _balance):
+	if old_balance != _balance:
 		balance_changed.emit(old_balance, _balance)
 	if broke:
 		balance_broken.emit()
@@ -327,23 +330,25 @@ func add_impact(amount: float) -> bool:
 ## `BalanceSystem.would_break()`; логика сохранена, но теперь живёт рядом с
 ## данными, поэтому превью и применение не могут разойтись.
 func would_break(added_impact: float) -> bool:
+	if not is_finite(added_impact) or not BalancePoints.valid(_balance): return false
 	var max_balance := get_balance_max()
-	if max_balance <= 0.0:
+	if max_balance <= 0.0 or BalancePoints.whole(added_impact) <= 0.0:
 		return false
-	return _balance + added_impact >= max_balance
+	return _balance + BalancePoints.whole(added_impact) >= max_balance
 
 
 func reset_balance() -> void:
 	var old_balance := _balance
 	_balance = 0.0
-	if not is_equal_approx(old_balance, _balance):
+	if old_balance != _balance:
 		balance_changed.emit(old_balance, _balance)
 
 
 func set_balance(value: float) -> void:
+	if not is_finite(value): return
 	var old_balance := _balance
-	_balance = maxf(0.0, value)
-	if not is_equal_approx(old_balance, _balance):
+	_balance = BalancePoints.whole(maxf(0.0, value))
+	if old_balance != _balance:
 		balance_changed.emit(old_balance, _balance)
 
 

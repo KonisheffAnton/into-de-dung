@@ -5231,7 +5231,7 @@ func _test_p07_a02_balance() -> void:
 		f.actor.stats.set_base_value(StatTypes.StatType.IMPACT_POWER, values[0])
 		var r := _p07_submit(f)
 		_check(r.status == &"APPLIED" and f.target.vitals.get_balance() == values[1] and _p07_events(r, &"moved").size() == (1 if values[1] == 0.0 else 0), "P07 A02 accumulated 2+2+1: %s" % str(values), r.reason)
-	for values: Array in [[12.0, 5.0, 0.0, 0.0, 1], [5.0, 5.0, 0.0, 0.0, 1], [0.0, 5.0, 9.0, 9.0, 0], [5.0, 0.0, 9.0, 9.0, 0], [5.0, -1.0, 9.0, 9.0, 0], [0.25, 5.0, 0.125, 0.375, 0], [0.5, 5.0, 9.0, 0.0, 1]]:
+	for values: Array in [[12.0, 5.0, 0.0, 0.0, 1], [5.0, 5.0, 0.0, 0.0, 1], [0.0, 5.0, 9.0, 9.0, 0], [5.0, 0.0, 9.0, 9.0, 0], [5.0, -1.0, 9.0, 9.0, 0], [0.25, 5.0, 0.125, 0.0, 0], [0.5, 5.0, 9.0, 9.0, 0]]:
 		var local := _p07_fixture()
 		local.actor.stats.set_base_value(StatTypes.StatType.IMPACT_POWER, values[0])
 		local.target.stats.set_base_value(StatTypes.StatType.BALANCE_MAX, values[1])
@@ -5549,10 +5549,10 @@ func _test_p07_a15_snapshots() -> void:
 	states[1].get_board().get_unit_by_id(f.actor.id).action_resources.try_spend_main(1)
 	_check(states[1].get_board().get_unit_by_id(f.target.id).vitals.get_balance() == 0.0 and f.target.vitals.get_balance() == 1.0 and states[0].get_board().get_unit_by_id(f.actor.id).action_resources.get_main_left() == 3 and f.actor.action_resources.get_main_left() == 4, "P07 A15 bidirectional isolation")
 	for unit: UnitState in [f.actor, _p06_unit()]:
-		unit.vitals.set_balance(9.25)
+		unit.vitals.set_balance(9.0)
 		var dto := unit.to_snapshot_dict()
 		var restored := UnitState.from_snapshot_dict(dto)
-		_check(restored != null and restored.vitals.get_balance() == 9.25 and (restored.action_resources == null) == (unit.action_resources == null), "P07 A15 Unit v1/v2 over-max balance and ledger round-trip")
+		_check(restored != null and restored.vitals.get_balance() == 9.0 and (restored.action_resources == null) == (unit.action_resources == null), "P07 A15 Unit v1/v2 whole over-max balance and ledger round-trip")
 	var corpse := _p07_fixture(8.0)
 	_p07_submit(corpse)
 	var board_snapshot := SimulationSnapshot.capture_board(corpse.board, [])

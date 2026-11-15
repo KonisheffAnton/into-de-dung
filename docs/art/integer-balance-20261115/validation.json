@@ -1,0 +1,256 @@
+{
+  "start_base": "448e97890269e3bfc189e0cf1a9dd1942c91cd8b",
+  "integration_base": "e4b0509ca9c1b947d0a32f92c461f038f90e1ec2",
+  "suites": {
+    "unit_vital_bars": {
+      "passed": 1504,
+      "failed": 0,
+      "report": "test_reports/demo-55d8780bc0e84c2492c06c7d63f43f9b/unit_vital_bars.log"
+    },
+    "warrior_class": {
+      "passed": 67,
+      "failed": 0,
+      "report": "test_reports/demo-55d8780bc0e84c2492c06c7d63f43f9b/warrior_class.log"
+    },
+    "sick_hobgoblin": {
+      "passed": 65,
+      "failed": 0,
+      "report": "test_reports/demo-55d8780bc0e84c2492c06c7d63f43f9b/sick_hobgoblin.log"
+    },
+    "character_attributes_v1": {
+      "passed": 873,
+      "failed": 0,
+      "report": "test_reports/demo-55d8780bc0e84c2492c06c7d63f43f9b/character_attributes_v1.log"
+    },
+    "restore_vitals": {
+      "passed": 60,
+      "failed": 0,
+      "report": "test_reports/demo-55d8780bc0e84c2492c06c7d63f43f9b/restore_vitals.log"
+    },
+    "action_event_validator": {
+      "passed": 7,
+      "failed": 0,
+      "report": "test_reports/demo-55d8780bc0e84c2492c06c7d63f43f9b/action_event_validator.log"
+    },
+    "current_schema_boundary": {
+      "passed": 592,
+      "failed": 0,
+      "report": "test_reports/demo-55d8780bc0e84c2492c06c7d63f43f9b/current_schema_boundary.log"
+    },
+    "forecast_restore_isolation": {
+      "passed": 2112,
+      "failed": 0,
+      "report": "test_reports/demo-55d8780bc0e84c2492c06c7d63f43f9b/forecast_restore_isolation.log"
+    },
+    "balance_recovery": {
+      "passed": 32,
+      "failed": 0,
+      "report": "test_reports/demo-55d8780bc0e84c2492c06c7d63f43f9b/balance_recovery.log"
+    },
+    "integer_balance": {
+      "passed": 95,
+      "failed": 0,
+      "report": "test_reports/demo-b2efab313a0649eb81e26d3d70b33744/integer_balance.log"
+    },
+    "push_chain": {
+      "passed": 636,
+      "failed": 0,
+      "report": "test_reports/demo-55d8780bc0e84c2492c06c7d63f43f9b/push_chain.log"
+    },
+    "spatial_guard_stats": {
+      "passed": 15,
+      "failed": 0,
+      "report": "test_reports/demo-55d8780bc0e84c2492c06c7d63f43f9b/spatial_guard_stats.log"
+    },
+    "guard": {
+      "passed": 268,
+      "failed": 0,
+      "report": "test_reports/demo-55d8780bc0e84c2492c06c7d63f43f9b/guard.log"
+    },
+    "core": {
+      "passed": 9424,
+      "failed": 0,
+      "report": "test_reports/demo-b2efab313a0649eb81e26d3d70b33744/core.log"
+    },
+    "battle_inspection_text": {
+      "passed": 126,
+      "failed": 0,
+      "report": "test_reports/demo-b2efab313a0649eb81e26d3d70b33744/battle_inspection_text.log"
+    }
+  },
+  "unique_suites": 15,
+  "unique_assertions_passed": 15876,
+  "failed": 0,
+  "launcher_python_tests": {
+    "command": "python tools/demo/test_isolate.py",
+    "passed": 37,
+    "failed": 0,
+    "elapsed_seconds": 18.136,
+    "evidence": "Completed exec session 37620, exit 0"
+  },
+  "reports": {
+    "test_reports/demo-55d8780bc0e84c2492c06c7d63f43f9b": {
+      "import": {
+        "elapsed_seconds": 23.901413700077683,
+        "status": "PASS"
+      },
+      "startup": {
+        "elapsed_seconds": 3.6033793000970036,
+        "status": "PASS"
+      },
+      "unit_vital_bars": {
+        "elapsed_seconds": 5.732840800192207,
+        "status": "PASS"
+      },
+      "warrior_class": {
+        "elapsed_seconds": 5.635553400032222,
+        "status": "PASS"
+      },
+      "sick_hobgoblin": {
+        "elapsed_seconds": 4.7086761998943985,
+        "status": "PASS"
+      },
+      "character_attributes_v1": {
+        "elapsed_seconds": 4.05274139996618,
+        "status": "PASS"
+      },
+      "restore_vitals": {
+        "elapsed_seconds": 1.6517058999743313,
+        "status": "PASS"
+      },
+      "action_event_validator": {
+        "elapsed_seconds": 1.9363455998245627,
+        "status": "PASS"
+      },
+      "current_schema_boundary": {
+        "elapsed_seconds": 1.8346692000050098,
+        "status": "PASS"
+      },
+      "forecast_restore_isolation": {
+        "elapsed_seconds": 4.5289316000416875,
+        "status": "PASS"
+      },
+      "balance_recovery": {
+        "elapsed_seconds": 4.161531299818307,
+        "status": "PASS"
+      },
+      "integer_balance": {
+        "elapsed_seconds": 3.975223299814388,
+        "status": "PASS"
+      },
+      "push_chain": {
+        "elapsed_seconds": 11.87487949989736,
+        "status": "PASS"
+      },
+      "spatial_guard_stats": {
+        "elapsed_seconds": 1.74030079995282,
+        "status": "PASS"
+      },
+      "guard": {
+        "elapsed_seconds": 3.965051299892366,
+        "status": "PASS"
+      },
+      "core": {
+        "elapsed_seconds": 87.82963759987615,
+        "status": "PASS"
+      }
+    },
+    "test_reports/demo-b2efab313a0649eb81e26d3d70b33744": {
+      "import": {
+        "elapsed_seconds": 26.026527900015935,
+        "status": "PASS"
+      },
+      "startup": {
+        "elapsed_seconds": 4.270746499998495,
+        "status": "PASS"
+      },
+      "battle_inspection_text": {
+        "elapsed_seconds": 3.1420185000170022,
+        "status": "PASS"
+      },
+      "integer_balance": {
+        "elapsed_seconds": 3.9834083998575807,
+        "status": "PASS"
+      },
+      "core": {
+        "elapsed_seconds": 94.60225089988671,
+        "status": "PASS"
+      }
+    }
+  },
+  "review": {
+    "role": "game_reviewer",
+    "agent": "/root/hobgoblin_integration_review",
+    "status": "APPROVE",
+    "resolved": [
+      "Reject fractional queue events and draft impulses",
+      "Exact balance comparisons at large values",
+      "Escape percent in formatted Guard tooltip"
+    ]
+  },
+  "tested_files_sha256": {
+    "scripts/core/actions/action_event_validator.gd": "46d260a6322d710e7166ab4816d97444529b0c108cfab958486c25ceadcbfb47",
+    "scripts/core/actions/balance_push_rules.gd": "99bd7c4cef94c81e52026f6479b1beb18fd466e97ab2e61af18930cb38af0658",
+    "scripts/core/actions/control_rules.gd": "9b2cfcf99f6e2e1c8ea1b051b3a103fc36ab49f8fe9c4849fc67719ca435d5ed",
+    "scripts/core/actions/forecast_simulation.gd": "61d8c28c846bfce953794c31955801e1afe07895c47f741e0c370e34bf3273d6",
+    "scripts/core/actions/item_simulation_snapshot.gd": "da837142725d9a723d6e481896c023504f38f42d05ee88fdef4e8efaa2aca19b",
+    "scripts/core/actions/push_chain_command.gd": "f25ddea48c8d8336c1ad65e1cb4e4b424fc3f373d5153f4963acb2ca9d943bc6",
+    "scripts/core/actions/push_chain_rules.gd": "77f3550830f5faeaa7718db12fb958497fc190a1f1f1d32012f4d6d6098fc785",
+    "scripts/core/combat/damage_calculator.gd": "96ea2a56b656259abe7d62e54ebdd5879b300c451b9a4de04fa6194c12d0f15c",
+    "scripts/core/units/unit_state.gd": "eb02dcd754f3a4e01034be59055336d9632a071dcb9cc8e3cffa8de63447a56f",
+    "scripts/core/units/vitals.gd": "241c1e1c31c91fef53e54c9c97206c3692253c26f799038642eed8e5b6f4b3a0",
+    "scripts/demo/battle_balance_display.gd": "988837d7c5c763e0679246e95b757d881cba6df74e26925c16f64844a34feb48",
+    "scripts/ui/battle/battle_inspection_text.gd": "ea11889a6b3dd038b32a93ded3e326cca38f7f2994d38d1dffbbf595d3312e2a",
+    "scripts/ui/battle/battle_unit_vitals_painter.gd": "5b4d15caa7df05a99cc40ce3dfb10da7d87b73907ce1ce154146f7279a27c5eb",
+    "tests/fixtures/battle_inspection_text_expected.json": "f7f5f97fe700f62ce020cd1e468a0256443056dfad3348e1bd93c22e64a2caf7",
+    "tests/run_tests.gd": "2f4d2bb7adadb238d0dcec1d232cb3885799ea9ba1bed21937c594f4d8429b3e",
+    "tests/test_balance_recovery.gd": "8d28236c472358052a1254f240f74dc8a5e198485b55ccb046493142a94ead78",
+    "tests/test_guard_stance.gd": "75e12fd6a3eff6063352a72f31780c65e3ef926810cb1ed837bda9500c3554bb",
+    "tests/test_push_chain.gd": "2af430f31c4885d70a19f24574eb55129c867b4acf70780433eafe8ea70b922e",
+    "tests/test_unit_vital_bars.gd": "cdd06ebc7219ad0567ec782c1ddb609aa64615533d2a5b86371bf9dc9d2b9b2f",
+    "tests/test_warrior_class.gd": "8ce1e4dcfc951abc94928e70188aa5bcbf0410e821cec8d0750796ea2512fa5a",
+    "tools/demo/isolate.py": "295b7771168658d0d7ccfd36b4efc120b5e22d277535b0c20c140fe93425b8d4",
+    "scripts/core/units/balance_points.gd": "0b58c416985fbb72e7120c59d3bef4cc7d9bc6ee3ccbd652dfebebc402fdcf9d",
+    "scripts/core/units/balance_points.gd.uid": "b777fbc85a1a7e289ea8fac639af2d59a320236a6c31fb12f02eaaa5af543282",
+    "tests/test_integer_balance.gd": "a81670fea72c6aa360ba79b6f15a87d22d75fd6dbc5a728669c59ce8a0e973b5",
+    "tests/test_integer_balance.gd.uid": "e02acac7ca84944d130dfb1647e5a022ce44fd0816c7bf8d8bfb31d5dd44e5e9"
+  },
+  "tested_worktree_exact": true,
+  "foreign_files_unchanged": 33,
+  "foreign_sha256_reference": "docs/art/sick-hobgoblin-integration-20261115/baseline.json",
+  "concurrent_design_commit_preserved": "e4b0509ca9c1b947d0a32f92c461f038f90e1ec2",
+  "archive_exact": true,
+  "archive_sha256": "1be9780ea1decc04839b1f68eb525f963540eeba316a6ae5099d53f0602afa2f",
+  "entry_document_lengths_LF": {
+    "AGENTS.md": {
+      "before": 4565,
+      "after": 4565
+    },
+    "docs/CODEX_HANDOFF.md": {
+      "before": 2392,
+      "after": 2436
+    },
+    "docs/PROJECT_CONTEXT.md": {
+      "before": 3734,
+      "after": 3734
+    },
+    "docs/CODEX_WORKFLOW.md": {
+      "before": 4482,
+      "after": 4482
+    }
+  },
+  "growth_note": "PROJECT_CONTEXT length 3734 existed in integration HEAD; this task does not change it. Changed HANDOFF is within 2500 characters and below 10% growth.",
+  "local_document_links_checked": 1279,
+  "gpu_sha256": {
+    "unit-vitals-five-sections.png": "c42c6d5e4460e8263649fd02d0c5b2b1124373a7c1e44e97f18d8ea4f9d7afca",
+    "unit-vitals-zoom-0-5.png": "48da06a25cdd4134de11a191f84fa7ac33001b438371916612dd636cab839535",
+    "unit-vitals-zoom-1-25.png": "ca1fdd3589930a75141804c9e45f3632a8cbc9adb9aa2380c23c51a916ca6515"
+  },
+  "limits": [
+    "No full suite rerun",
+    "No manual F5/Editor/OS DPI acceptance",
+    "Guard -2 balance awaits user feedback",
+    "No performance or 60 FPS claim",
+    "No push"
+  ]
+}

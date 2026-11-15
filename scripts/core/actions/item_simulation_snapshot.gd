@@ -520,6 +520,7 @@ static func _live_board_shape_error(board: BattleBoard) -> String:
 			if unit.combat_perks.to_dict().is_empty(): return "board/unit/combat_perks"
 		if unit.debug_name.to_utf8_buffer().size() > MAX_STRING_BYTES: return "board/unit/name/string_bytes"
 		if not is_finite(unit.move_points_left) or not is_finite(unit.vitals._hp) or not is_finite(unit.vitals._balance): return "board/unit/finite"
+		if not BalancePoints.valid(unit.vitals._balance): return "board/unit/balance/integer"
 		for stat_key: Variant in unit.stats._stats:
 			if typeof(stat_key) != TYPE_INT or not (unit.stats._stats[stat_key] is Stat): return "board/unit/stats/type"
 			var stat: Stat = unit.stats._stats[stat_key]

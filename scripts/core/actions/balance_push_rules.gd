@@ -84,7 +84,8 @@ static func prepare_attack(context: ActionContext, actor: UnitState, target: Uni
 	# balance остаётся наблюдаемым и не отклоняет постороннюю атаку.
 	var sum := before
 	if impact_multiplier == 2: impact *= 2.0
-	if target.guard_stance: impact *= 0.5
+	if target.guard_stance: impact = BalancePoints.guard_impact(impact)
+	impact = BalancePoints.whole(impact)
 	if impact > 0.0 and maximum > 0.0:
 		sum = before + impact
 		if not is_finite(sum): out["reason"] = &"balance/nonfinite_sum"; return out
@@ -370,12 +371,15 @@ static func _prepare_spatial_attack(context: ActionContext, actor: UnitState, ta
 		if not is_finite(impact): out["reason"] = &"balance/invalid_stat"; return out
 		impact = maxf(1.0, impact)
 		if impact_multiplier == 2: impact *= 2.0
-	if target.guard_stance: impact *= 0.5
+	if target.guard_stance: impact = BalancePoints.guard_impact(impact)
 	if kick:
 		# У пинка собственная сила воздействия без множителя высоты/крита и округления до единицы.
 		impact = maxf(0.0, _stat(actor, StatTypes.StatType.POWER)) / 4.0
 		if not is_finite(impact): out["reason"] = &"balance/invalid_stat"; return out
 	if reaction: impact = 0.0
+	# Сила цепного столкновения сохраняет точность урона; в равновесие пишутся только очки.
+	var transmitted_impact := impact
+	impact = BalancePoints.whole(impact)
 	var total := before + impact if impact > 0.0 and maximum > 0.0 else before
 	if not is_finite(total): out["reason"] = &"balance/nonfinite_sum"; return out
 	var broke := impact > 0.0 and maximum > 0.0 and total >= maximum
@@ -405,7 +409,7 @@ static func _prepare_spatial_attack(context: ActionContext, actor: UnitState, ta
 			types[target.id].append(StatTypes.StatType.HP_MAX)
 	var chain: Dictionary = {}
 	if chain_push and armor_request != null and blocker != null:
-		var gathered := PushChainRules.gather(board, actor, target, impact)
+		var gathered := PushChainRules.gather(board, actor, target, transmitted_impact)
 		if gathered.reason != &"": out["reason"] = gathered.reason; return out
 		chain = gathered.plan
 		for participant: UnitState in gathered.units:

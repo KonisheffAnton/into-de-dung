@@ -73,13 +73,13 @@ static func calculate(
 	var attacker_strength := attacker.get_stat(StatTypes.StatType.STRENGTH)
 	var target_armor := target.get_stat(StatTypes.StatType.ARMOR)
 	info.final_damage = maxf(0.0, base_damage + attacker_strength - target_armor)
-	info.balance_added = impact_power
+	info.balance_added = BalancePoints.whole(impact_power)
 
 	# Предсказание смерти и слома баланса — читаем текущее состояние,
 	# но НЕ меняем его.
 	if target.vitals != null:
 		info.would_kill = target.vitals.get_hp() - info.final_damage <= 0.0
-		info.would_break_balance = target.vitals.would_break(impact_power)
+		info.would_break_balance = target.vitals.would_break(info.balance_added)
 
 	if info.would_break_balance:
 		info.push_direction = PushResolver.compute_push_direction(attacker_cell, target_cell)
@@ -146,7 +146,7 @@ static func apply(info: DamageInfo, sink: EventSink = null) -> void:
 		var old_balance := vitals.get_balance()
 		var broke := vitals.add_impact(info.balance_added)
 		var new_balance := vitals.get_balance()
-		if not is_equal_approx(old_balance, new_balance):
+		if old_balance != new_balance:
 			event_sink.unit_balance_changed(info.target, old_balance, new_balance)
 		if broke:
 			event_sink.unit_balance_broken(info.target)

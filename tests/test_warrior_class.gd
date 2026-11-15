@@ -118,7 +118,7 @@ func _skills_and_parity() -> void:
 			check(actor.combat_perks.warrior.ready_turn == session.state.abilities.serials[actor.faction] + 2, "cooldown belongs to warrior")
 		else:
 			check(is_equal_approx(hp_before - target.vitals.get_hp(), 22.0), "kick damage exactly 2P without weapon or repeated power factor")
-			check(is_equal_approx(target.vitals.get_balance() - balance_before, 2.75), "kick balance P/4 preserves fraction")
+			check(is_equal_approx(target.vitals.get_balance() - balance_before, 2.0), "kick balance floors final P/4 to whole points")
 			check(actor.action_resources.get_main_left() == 0 and actor.action_resources.get_bonus_left() == 0, "kick works after main spent and costs bonus only")
 			check(session.warrior_reason(WarriorKit.KICK) == &"attack/insufficient_bonus", "no second kick without bonus")
 	session.close()

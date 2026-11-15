@@ -93,12 +93,12 @@ func _run() -> void:
 func _vital_cases() -> Array[Dictionary]:
 	return [
 		{"hp": 100.0, "hp_max": 100.0, "armor": 100.0, "armor_max": 100.0, "balance": 0.0, "balance_max": 5.0, "case": "full"},
-		{"hp": 50.5, "hp_max": 100.0, "armor": 50.5, "armor_max": 100.0, "balance": 3.5, "balance_max": 7.0, "case": "half"},
-		{"hp": 0.1, "hp_max": 100.0, "armor": 0.1, "armor_max": 100.0, "balance": 4.9, "balance_max": 5.0, "case": "near-zero"},
+		{"hp": 50.5, "hp_max": 100.0, "armor": 50.5, "armor_max": 100.0, "balance": 3.0, "balance_max": 7.0, "case": "half"},
+		{"hp": 0.1, "hp_max": 100.0, "armor": 0.1, "armor_max": 100.0, "balance": 4.0, "balance_max": 5.0, "case": "near-zero"},
 		{"hp": 0.0, "hp_max": 100.0, "armor": 0.0, "armor_max": 100.0, "balance": 7.0, "balance_max": 7.0, "case": "empty"},
 		{"hp": 123456789012.5, "hp_max": 123456789012.5, "armor": 105.0, "armor_max": 120.0, "balance": 0.0, "balance_max": 120.0, "case": "long-number"},
 		{"hp": 35.25, "hp_max": 60.0, "armor": 2.25, "armor_max": 50.0, "balance": 0.0, "balance_max": 0.0, "case": "immune"},
-		{"hp": 0.75, "hp_max": 1.5, "armor": 0.5, "armor_max": 0.5, "balance": 0.5, "balance_max": 5.0, "case": "fractional-max"},
+		{"hp": 0.75, "hp_max": 1.5, "armor": 0.5, "armor_max": 0.5, "balance": 1.0, "balance_max": 5.0, "case": "fractional-max"},
 	]
 
 
@@ -241,7 +241,7 @@ func _check_zoom(zoom_index: int) -> void:
 				"subunit armor maximum preserves a fully filled fractional value at zoom %.2f" % zoom)
 			var partial_balance := _bar_screen_anchor(visual) + Vector2(0.0, 29.0)
 			check(_has_color_near(image, partial_balance, Color("a58b60"), zoom),
-				"fractional balance reserve remains amber at zoom %.2f" % zoom)
+				"four whole balance points remain filled beside fractional HP/armor at zoom %.2f" % zoom)
 		if is_equal_approx(zoom, 1.0) and row_index < 6:
 			var enemy_index := row_index + 7
 			var enemy_visual := visuals[enemy_index]
@@ -258,28 +258,79 @@ func _check_balance_sections() -> void:
 	var visual := visuals[0]
 	var old_balance := visual.unit.balance
 	var old_maximum := visual.unit.balance_max
-	# Пиксели подтверждают и пустые секции: разделитель отличается от пустого трека.
+	var fixed_edges: Dictionary = {
+		5: [-23, -14, -5, 5, 14, 23],
+		7: [-23, -16, -10, -3, 3, 10, 16, 23],
+	}
+	# Ожидаемые целые экранные границы заданы отдельно от алгоритма рисования.
 	for zoom: float in ZOOMS:
 		stage.scale = Vector2.ONE * zoom
-		for sample: Vector2 in [Vector2(0, 5), Vector2(0, 7), Vector2(3.5, 7), Vector2(4.9, 5), Vector2(5, 5), Vector2(0, 0), Vector2(0, 120), Vector2(0, 1e30), Vector2(0.5, 5.5)]:
-			visual.unit.balance = sample.x
-			visual.unit.balance_max = sample.y
+		for maximum: int in [5, 7]:
+			var edges: Array = fixed_edges[maximum]
+			for remaining_points: int in range(maximum + 1):
+				visual.unit.balance = float(maximum - remaining_points)
+				visual.unit.balance_max = float(maximum)
+				visual.queue_redraw()
+				await process_frame
+				await RenderingServer.frame_post_draw
+				var image := viewport.get_texture().get_image()
+				var anchor := Vector2i(_bar_screen_anchor(visual))
+				var separators: Array[int] = []
+				for point: int in range(1, maximum):
+					var edge := int(edges[point])
+					if image.get_pixelv(anchor + Vector2i(edge, 28)).is_equal_approx(Color.BLACK) \
+						and image.get_pixelv(anchor + Vector2i(edge, 29)).is_equal_approx(Color.BLACK): separators.append(edge)
+				check(separators == edges.slice(1, maximum),
+					"%d whole-point separators land on approved integer boundaries at zoom %.2f" % [maximum, zoom])
+				for section: int in maximum:
+					var sample_x := floori((float(edges[section]) + float(edges[section + 1]) - 1.0) * 0.5)
+					var pixel := image.get_pixelv(anchor + Vector2i(sample_x, 29))
+					var filled := section < remaining_points
+					check(pixel.is_equal_approx(Color("a58b60")) if filled else pixel.is_equal_approx(Color("45494b")),
+						"%d/%d point section %d is fully %s at zoom %.2f" % [remaining_points, maximum, section + 1, "filled" if filled else "empty", zoom])
+					if filled:
+						check(not pixel.is_equal_approx(Color("45494b")), "filled section has a negative empty-track control")
+					else:
+						check(not pixel.is_equal_approx(Color("a58b60")), "empty section has a negative filled-track control")
+				if maximum == 5 and remaining_points == 5 and is_equal_approx(zoom, 1.0):
+					await _capture(image, "unit-vitals-five-sections")
+		# Неполные DTO значения округляются вниз до целых очков перед разметкой.
+		visual.unit.balance = 3.75
+		visual.unit.balance_max = 7.8
+		visual.queue_redraw()
+		await process_frame
+		await RenderingServer.frame_post_draw
+		var fractional_image := viewport.get_texture().get_image()
+		var fractional_anchor := Vector2i(_bar_screen_anchor(visual))
+		check(BattleBalanceDisplay.remaining(3.75, 7.8) == 4.0
+			and BattleBalanceDisplay.ratio(3.75, 7.8) == 4.0 / 7.0
+			and BattleBalanceDisplay.value_text(3.75, 7.8) == "4/7",
+			"synthetic fractional balance DTO floors to four of seven whole points")
+		check(fractional_image.get_pixelv(fractional_anchor + Vector2i(0, 29)).is_equal_approx(Color("a58b60"))
+			and fractional_image.get_pixelv(fractional_anchor + Vector2i(6, 29)).is_equal_approx(Color("45494b")),
+			"fractional DTO paints four whole sections and a fully empty fifth section")
+		for maximum: float in [120.0, 1e30]:
+			visual.unit.balance = 0.0
+			visual.unit.balance_max = maximum
 			visual.queue_redraw()
 			await process_frame
 			await RenderingServer.frame_post_draw
-			var image := viewport.get_texture().get_image()
-			var anchor := Vector2i(_bar_screen_anchor(visual))
-			var separators: Array[int] = []
+			var dense_image := viewport.get_texture().get_image()
+			var dense_anchor := Vector2i(_bar_screen_anchor(visual))
+			var dense_separators := 0
 			for x: int in range(-23, 23):
-				if image.get_pixelv(anchor + Vector2i(x, 28)).is_equal_approx(Color.BLACK) and image.get_pixelv(anchor + Vector2i(x, 29)).is_equal_approx(Color.BLACK): separators.append(x)
-			var expected: Array[int] = []
-			if sample.y > 0.0 and sample.y <= 23.0:
-				for point: int in range(1, ceili(sample.y)):
-					expected.append(roundi(-23.0 + 46.0 * float(point) / sample.y))
-			check(separators == expected, "one visible separator per point including empty cells: %s zoom %.2f" % [sample, zoom])
-			if sample == Vector2(3.5, 7):
-				check(image.get_pixelv(anchor + Vector2i(-1, 29)).is_equal_approx(Color("a58b60")) and image.get_pixelv(anchor + Vector2i(1, 29)).is_equal_approx(Color("45494b")), "fractional remaining point fills only half its section")
-			if sample == Vector2(0, 5) and is_equal_approx(zoom, 1.0): await _capture(image, "unit-vitals-five-sections")
+				if dense_image.get_pixelv(dense_anchor + Vector2i(x, 28)).is_equal_approx(Color.BLACK) \
+					and dense_image.get_pixelv(dense_anchor + Vector2i(x, 29)).is_equal_approx(Color.BLACK): dense_separators += 1
+			check(dense_separators == 0 and dense_image.get_pixelv(dense_anchor + Vector2i(0, 29)).is_equal_approx(Color("a58b60")),
+				"dense %s point maximum keeps a solid full reserve without dividers" % String.num(maximum, 0))
+		visual.unit.balance = 0.0
+		visual.unit.balance_max = 0.0
+		visual.queue_redraw()
+		await process_frame
+		await RenderingServer.frame_post_draw
+		var immune_image := viewport.get_texture().get_image()
+		check(immune_image.get_pixelv(Vector2i(_bar_screen_anchor(visual)) + Vector2i(0, 29)).is_equal_approx(Color("a58b60")),
+			"zero maximum keeps full immunity fill without segmented divisions")
 	visual.unit.balance = old_balance
 	visual.unit.balance_max = old_maximum
 	visual.queue_redraw()

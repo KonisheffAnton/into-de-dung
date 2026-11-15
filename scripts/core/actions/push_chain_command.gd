@@ -102,4 +102,4 @@ static func valid_draft(draft: Dictionary) -> bool:
 	if not ItemSimulationSnapshot._shape(draft, {"kind": TYPE_STRING_NAME, "actor_unit_id": TYPE_INT, "from_unit_id": TYPE_INT, "target_unit_id": TYPE_INT, "impulse": TYPE_FLOAT, "broke": TYPE_BOOL}): return false
 	for key: String in ["actor_unit_id", "from_unit_id", "target_unit_id"]:
 		if draft[key] <= 0 or draft[key] >= ActionContext.MAX_ID: return false
-	return draft.kind == &"chain_link" and draft.actor_unit_id != draft.from_unit_id and draft.actor_unit_id != draft.target_unit_id and draft.from_unit_id != draft.target_unit_id and is_finite(draft.impulse) and draft.impulse >= 0.0
+	return draft.kind == &"chain_link" and draft.actor_unit_id != draft.from_unit_id and draft.actor_unit_id != draft.target_unit_id and draft.from_unit_id != draft.target_unit_id and BalancePoints.valid(draft.impulse)

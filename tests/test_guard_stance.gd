@@ -170,9 +170,23 @@ func _test_combat() -> void:
 	guard(s, s.units[1])
 	var f := parity(s, "guarded target")
 	check(is_equal_approx(s.units[1].vitals.get_hp(), 76.4), "8 direct reduced to5.6 then item heals2")
-	check(is_equal_approx(s.units[1].vitals.get_balance(), 2.5) and s.units[1].cell == Vector2i(4, 3), "5impact reduced2.5 prevents push")
+	check(is_equal_approx(s.units[1].vitals.get_balance(), 3.0) and s.units[1].cell == Vector2i(4, 3), "5impact loses two whole points and prevents push")
 	check(s.units[1].guard_stance and f.units[s.units[1].id]["after"]["guard_stance"], "hit preserves stance/DTO")
 	s.close()
+	for sample: Dictionary in [
+		{"raw": 1.0, "expected": 0.0},
+		{"raw": 2.0, "expected": 0.0},
+		{"raw": 3.0, "expected": 1.0},
+		{"raw": 6.0, "expected": 4.0},
+	]:
+		s = fixture()
+		guard(s, s.units[1])
+		s.units[0].stats.set_base_value(StatTypes.StatType.IMPACT_POWER, float(sample.raw))
+		f = parity(s, "fixed guard reduction " + str(sample.raw))
+		check(float(f.units[s.units[1].id]["after"]["balance"]) == float(sample.expected)
+			and s.units[1].vitals.get_balance() == float(sample.expected),
+			"guard maps raw impact %s to %s in preview and live receipt" % [sample.raw, sample.expected])
+		s.close()
 	s = fixture()
 	guard(s, s.units[0])
 	s.units[0].action_resources._set_for_refill(1, 1)
@@ -228,7 +242,7 @@ func _test_combat() -> void:
 	guard(s, s.units[1])
 	s.board.set_height_steps(s.units[0].cell, 1)
 	parity(s, "height then guard")
-	check(is_equal_approx(s.units[1].vitals.get_hp(), 75.7) and is_equal_approx(s.units[1].vitals.get_balance(), 2.75), "height modifier precedes guard")
+	check(is_equal_approx(s.units[1].vitals.get_hp(), 75.7) and is_equal_approx(s.units[1].vitals.get_balance(), 3.0), "height impact 5.5 loses two whole points after the height modifier")
 	s.close()
 	s = fixture()
 	guard(s, s.units[1])

@@ -25,6 +25,7 @@ static func critical_target(unit: UnitState) -> bool:
 	return unit != null and unit.control != null and unit.control.get_script() == ControlState and ControlState.valid(unit.control.to_dict()) and (unit.control.stunned_turns > 0 or unit.control.entangled_turns > 0)
 
 static func balance_maximum(unit: UnitState, base: float) -> float:
+	base = BalancePoints.whole(base)
 	if unit == null or unit.control == null: return base
 	if unit.control.get_script() != ControlState or not ControlState.valid(unit.control.to_dict()): return NAN
 	return base * 2.0 if unit.control.entangled_turns > 0 and base != 0.0 else base
