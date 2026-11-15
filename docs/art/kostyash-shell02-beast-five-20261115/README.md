@@ -54,7 +54,8 @@ U 2026-11-15 выбрал №2 [предыдущей серии](../kostyash05-i
 ## Границы
 
 База генерации main, `a94bdbce973a92a35d0d544cc1ef206b31e280f9`.
-Статические концепты, `integration=false`; выбор новой версии за U.
+Статические концепты, `integration=false`. Последующий отзыв U: эта серия
+не принята; U вернулся к [Кривозубу и Тяжёлому лбу](../kostyash-brow-crooked-compare-20261115/README.md).
 Нативная подготовка, анимация и игровая интеграция не выполнялись.
 Godot/import/full/core/F5/DPI/performance не запускались ради арт-пакета.
 Чужие main_menu.tscn и battlefield-reference-03 сохранены; без push.

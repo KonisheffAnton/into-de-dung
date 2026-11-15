@@ -1,0 +1,37 @@
+{
+  "archive": "docs/CODEX_HANDOFF.history-20261115-12.md",
+  "archive_sha256": "b4c544d51caebd3d38502fa16f22916c564f6590ee3d51700647b67f786ff0dd",
+  "archive_exact": true,
+  "base": "e7abaa9de03c4dc87d2540a2c5e455599467809c",
+  "handoff_chars": 2460,
+  "handoff_lines": 37,
+  "entry_sizes": [
+    {
+      "file": "AGENTS.md",
+      "before_chars": 4565,
+      "after_chars": 4565,
+      "changed": false
+    },
+    {
+      "file": "docs/CODEX_HANDOFF.md",
+      "before_chars": 2459,
+      "after_chars": 2460,
+      "changed": true
+    },
+    {
+      "file": "docs/PROJECT_CONTEXT.md",
+      "before_chars": 3652,
+      "after_chars": 3652,
+      "changed": false
+    },
+    {
+      "file": "docs/CODEX_WORKFLOW.md",
+      "before_chars": 4482,
+      "after_chars": 4482,
+      "changed": false
+    }
+  ],
+  "preexisting_over_limit": "PROJECT_CONTEXT unchanged",
+  "foreign_files_unchanged": 33,
+  "preserved_parallel_work": "Completed smith/armor stage e7abaa9d preserved; gates not rerun"
+}

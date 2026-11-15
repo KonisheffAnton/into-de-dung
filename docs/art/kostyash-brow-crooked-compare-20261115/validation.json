@@ -1,0 +1,131 @@
+{
+  "result": "PASS",
+  "generation": false,
+  "retouch": false,
+  "source_package": "kostyash05-imagegen-five-20261115",
+  "hero_to_kostyash_ratio": 1.5,
+  "size": [
+    1320,
+    640
+  ],
+  "records": [
+    {
+      "file": "variants/kostyash-05.png",
+      "name": "Кривозуб",
+      "source_sha256": "c892d4ea8c069ea4cf1883e9c7f327426aa845f9d036347161985072966d014f",
+      "native_canvas": [
+        1402,
+        1122
+      ],
+      "alpha_bbox": [
+        0,
+        40,
+        1388,
+        1106
+      ],
+      "visible_bbox_alpha_ge_8": [
+        308,
+        184,
+        1123,
+        976
+      ],
+      "visible_native_height": 792,
+      "visible_margin_ltrb": [
+        308,
+        184,
+        279,
+        146
+      ],
+      "flags": [],
+      "display_bbox": [
+        63,
+        246,
+        376,
+        550
+      ],
+      "display_visible_height": 304,
+      "display_baseline": 550,
+      "scale_from_visible_height": 0.3838383838383838,
+      "raw_sha_unchanged": true
+    },
+    {
+      "file": "references/warrior11.png",
+      "name": "Воин 11",
+      "source_sha256": "d8117c67d3b59c5943ea850b8802ff1ce895ef919ad65c06d730d0716b6146a8",
+      "native_canvas": [
+        256,
+        256
+      ],
+      "alpha_bbox": [
+        60,
+        53,
+        185,
+        205
+      ],
+      "visible_bbox_alpha_ge_8": [
+        60,
+        53,
+        185,
+        205
+      ],
+      "visible_native_height": 152,
+      "visible_margin_ltrb": [
+        60,
+        53,
+        71,
+        51
+      ],
+      "flags": [],
+      "display_bbox": [
+        472,
+        94,
+        847,
+        550
+      ],
+      "display_visible_height": 456,
+      "display_baseline": 550,
+      "scale_from_visible_height": 3.0,
+      "raw_sha_unchanged": true
+    },
+    {
+      "file": "variants/kostyash-01.png",
+      "name": "Тяжёлый лоб",
+      "source_sha256": "9d9a354257c3af450dea220b066c95d6bf2025ae8facc4298a5699a985fb6f3a",
+      "native_canvas": [
+        1402,
+        1122
+      ],
+      "alpha_bbox": [
+        0,
+        53,
+        1291,
+        1122
+      ],
+      "visible_bbox_alpha_ge_8": [
+        316,
+        188,
+        1120,
+        970
+      ],
+      "visible_native_height": 782,
+      "visible_margin_ltrb": [
+        316,
+        188,
+        282,
+        152
+      ],
+      "flags": [],
+      "display_bbox": [
+        943,
+        246,
+        1256,
+        550
+      ],
+      "display_visible_height": 304,
+      "display_baseline": 550,
+      "scale_from_visible_height": 0.3887468030690537,
+      "raw_sha_unchanged": true
+    }
+  ],
+  "scope": "Existing images, nearest-neighbor presentation only; alpha>=8 body height; no native or runtime scale claim."
+}
