@@ -1,0 +1,12 @@
+[
+  {
+    "file": "references/original.png",
+    "source": "docs/art/kostyash-warrior-style-five-20261115/variants/kostyash-05.png",
+    "sha256": "ab51177946d550f1d9956b9bdd8a5a6363d2a1dfe3d29d06de7a7dbc62841939"
+  },
+  {
+    "file": "references/warrior11.png",
+    "source": "assets/art_presets/approved/character_skins_v1/red_bastion/still.png",
+    "sha256": "d8117c67d3b59c5943ea850b8802ff1ce895ef919ad65c06d730d0716b6146a8"
+  }
+]

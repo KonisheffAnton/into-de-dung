@@ -1,0 +1,37 @@
+{
+  "archive": "docs/CODEX_HANDOFF.history-20261115-15.md",
+  "archive_sha256": "05abc64e60fff0528ac2bc999252b526fa6a3c5c4e7f64d305af66cc3a8403ac",
+  "archive_exact": true,
+  "base": "7323988f19d4386257934140fac52708cc936215",
+  "handoff_chars": 2493,
+  "handoff_lines": 38,
+  "entry_sizes": [
+    {
+      "file": "AGENTS.md",
+      "before_chars": 4565,
+      "after_chars": 4565,
+      "changed": false
+    },
+    {
+      "file": "docs/CODEX_HANDOFF.md",
+      "before_chars": 2477,
+      "after_chars": 2493,
+      "changed": true
+    },
+    {
+      "file": "docs/PROJECT_CONTEXT.md",
+      "before_chars": 3652,
+      "after_chars": 3652,
+      "changed": false
+    },
+    {
+      "file": "docs/CODEX_WORKFLOW.md",
+      "before_chars": 4482,
+      "after_chars": 4482,
+      "changed": false
+    }
+  ],
+  "preexisting_over_limit": "PROJECT_CONTEXT unchanged",
+  "foreign_files_unchanged": 33,
+  "preserved_parallel_work": "Stats/progression/tests outside art stage."
+}

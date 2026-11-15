@@ -1,0 +1,48 @@
+{
+  "result": "PASS",
+  "records": [
+    {
+      "file": "references/original.png",
+      "sha256": "ab51177946d550f1d9956b9bdd8a5a6363d2a1dfe3d29d06de7a7dbc62841939",
+      "visible_native_height": 700,
+      "display_height": 304,
+      "display_bottom": 550,
+      "visible_bbox": [
+        316,
+        274,
+        1088,
+        974
+      ]
+    },
+    {
+      "file": "references/warrior11.png",
+      "sha256": "d8117c67d3b59c5943ea850b8802ff1ce895ef919ad65c06d730d0716b6146a8",
+      "visible_native_height": 152,
+      "display_height": 456,
+      "display_bottom": 550,
+      "visible_bbox": [
+        60,
+        53,
+        185,
+        205
+      ]
+    },
+    {
+      "file": "rvanoukh-torn-cloth.png",
+      "sha256": "509be25e425cc1ac3c443c0f6c69fa7d45304d9292a6c28c1d29fa1c7e280be4",
+      "visible_native_height": 697,
+      "display_height": 304,
+      "display_bottom": 550,
+      "visible_bbox": [
+        319,
+        275,
+        1085,
+        972
+      ]
+    }
+  ],
+  "hero_to_kostyash_ratio": 1.5,
+  "source_pngs_unchanged": true,
+  "presentation_only": true,
+  "scope": "NN presentation, alpha>=8 height; warrior silhouette includes sword; no native/runtime claim."
+}

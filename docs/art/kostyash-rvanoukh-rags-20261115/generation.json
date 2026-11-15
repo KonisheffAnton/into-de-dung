@@ -1,0 +1,29 @@
+{
+  "provider": "built-in image_gen",
+  "mode": "single precise clothing edit",
+  "base": "7323988f19d4386257934140fac52708cc936215",
+  "file": "rvanoukh-torn-cloth.png",
+  "source": "D:\\Codex\\home\\generated_images\\01a1dae6-a1f7-75e1-9c8d-e16ca1c48da0\\exec-04c9921e-122f-4a48-85b8-1076b47a9152.png",
+  "sha256": "509be25e425cc1ac3c443c0f6c69fa7d45304d9292a6c28c1d29fa1c7e280be4",
+  "byte_exact": true,
+  "size": [
+    1402,
+    1122
+  ],
+  "mode_png": "RGBA",
+  "alpha_extrema": [
+    0,
+    255
+  ],
+  "visible_bbox": [
+    319,
+    275,
+    1085,
+    972
+  ],
+  "visible_height": 697,
+  "visible_min_margin": 150,
+  "prompt_file": "prompt.txt",
+  "prompt_sha256": "d43dcd8f893f3cc4f8e410045574ce84a49c5933fafd00ad37d9f00613015a60",
+  "integration": false
+}
