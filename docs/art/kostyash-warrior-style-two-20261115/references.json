@@ -1,0 +1,17 @@
+[
+  {
+    "file": "references/original-05.png",
+    "source": "docs/art/kostyash05-imagegen-five-20261115/variants/kostyash-05.png",
+    "sha256": "c892d4ea8c069ea4cf1883e9c7f327426aa845f9d036347161985072966d014f"
+  },
+  {
+    "file": "references/original-01.png",
+    "source": "docs/art/kostyash05-imagegen-five-20261115/variants/kostyash-01.png",
+    "sha256": "9d9a354257c3af450dea220b066c95d6bf2025ae8facc4298a5699a985fb6f3a"
+  },
+  {
+    "file": "references/warrior11.png",
+    "source": "assets/art_presets/approved/character_skins_v1/red_bastion/still.png",
+    "sha256": "d8117c67d3b59c5943ea850b8802ff1ce895ef919ad65c06d730d0716b6146a8"
+  }
+]

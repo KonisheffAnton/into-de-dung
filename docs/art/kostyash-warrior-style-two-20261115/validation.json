@@ -1,0 +1,323 @@
+{
+  "complete": true,
+  "generations_sha256": "eb305a7eea8307427cb46a55298a082f895ebe17f72376c68a5cef06589a3026",
+  "briefs_sha256": "d319d885ea10eb4c479e41bc11de16655b9cf83fe399f987d56f781a6a440737",
+  "references_manifest_sha256": "891194d3181eed98167ff664b278159263eab169314589720fb46d328c827696",
+  "prompt_canonical_sha256": {
+    "5": "b749759ae86b60486fb4c02aa4b3d4cc2a2892d072925fcd805f2c2b62a99ff5",
+    "1": "45c5c6110166e3caf223a83ba688985281802d4f6dc03bfb94b6a563c2bf2eff"
+  },
+  "alpha_threshold": 8,
+  "nearest_neighbor_presentation_only": true,
+  "comparison_size": [
+    1320,
+    640
+  ],
+  "comparison_bottom_y": 550,
+  "before_after_size": [
+    1760,
+    450
+  ],
+  "before_after_bottom_y": 385,
+  "hero_display_height": 456,
+  "goblin_display_height": 304,
+  "hero_to_goblin_ratio": 1.5,
+  "comparison_records": [
+    {
+      "file": "variants/crooked-fang.png",
+      "name": "Кривозуб №5",
+      "png_sha256": "e00b240babbfcb9edcd7859ebd57904f9f5a2546a4f123f892f00e26b469f067",
+      "native_size": [
+        1402,
+        1122
+      ],
+      "alpha_bbox": [
+        0,
+        13,
+        1364,
+        1122
+      ],
+      "visible_bbox_alpha_ge_8": [
+        329,
+        190,
+        1113,
+        970
+      ],
+      "visible_native_height": 780,
+      "visible_margins_ltrb": [
+        329,
+        190,
+        289,
+        152
+      ],
+      "flags": [],
+      "display_visible_height": 304,
+      "display_bottom": 550,
+      "presentation_scale": 0.38974358974358975,
+      "raw_sha_unchanged": true
+    },
+    {
+      "file": "references/warrior11.png",
+      "name": "Воин 11",
+      "png_sha256": "d8117c67d3b59c5943ea850b8802ff1ce895ef919ad65c06d730d0716b6146a8",
+      "native_size": [
+        256,
+        256
+      ],
+      "alpha_bbox": [
+        60,
+        53,
+        185,
+        205
+      ],
+      "visible_bbox_alpha_ge_8": [
+        60,
+        53,
+        185,
+        205
+      ],
+      "visible_native_height": 152,
+      "visible_margins_ltrb": [
+        60,
+        53,
+        71,
+        51
+      ],
+      "flags": [],
+      "display_visible_height": 456,
+      "display_bottom": 550,
+      "presentation_scale": 3.0,
+      "raw_sha_unchanged": true
+    },
+    {
+      "file": "variants/heavy-brow.png",
+      "name": "Тяжёлый лоб №1",
+      "png_sha256": "22252cb51b7f889b43d4b7ded7c292eac7cbcd012f35271308e5671e2cb2f108",
+      "native_size": [
+        1402,
+        1122
+      ],
+      "alpha_bbox": [
+        0,
+        21,
+        1383,
+        1122
+      ],
+      "visible_bbox_alpha_ge_8": [
+        316,
+        200,
+        1109,
+        973
+      ],
+      "visible_native_height": 773,
+      "visible_margins_ltrb": [
+        316,
+        200,
+        293,
+        149
+      ],
+      "flags": [],
+      "display_visible_height": 304,
+      "display_bottom": 550,
+      "presentation_scale": 0.39327296248382926,
+      "raw_sha_unchanged": true
+    }
+  ],
+  "before_after_records": [
+    {
+      "file": "references/original-05.png",
+      "name": "Кривозуб №5 · раньше",
+      "png_sha256": "c892d4ea8c069ea4cf1883e9c7f327426aa845f9d036347161985072966d014f",
+      "native_size": [
+        1402,
+        1122
+      ],
+      "alpha_bbox": [
+        0,
+        40,
+        1388,
+        1106
+      ],
+      "visible_bbox_alpha_ge_8": [
+        308,
+        184,
+        1123,
+        976
+      ],
+      "visible_native_height": 792,
+      "visible_margins_ltrb": [
+        308,
+        184,
+        279,
+        146
+      ],
+      "flags": [],
+      "display_visible_height": 304,
+      "display_bottom": 385,
+      "presentation_scale": 0.3838383838383838,
+      "raw_sha_unchanged": true
+    },
+    {
+      "file": "variants/crooked-fang.png",
+      "name": "Кривозуб №5 · теперь",
+      "png_sha256": "e00b240babbfcb9edcd7859ebd57904f9f5a2546a4f123f892f00e26b469f067",
+      "native_size": [
+        1402,
+        1122
+      ],
+      "alpha_bbox": [
+        0,
+        13,
+        1364,
+        1122
+      ],
+      "visible_bbox_alpha_ge_8": [
+        329,
+        190,
+        1113,
+        970
+      ],
+      "visible_native_height": 780,
+      "visible_margins_ltrb": [
+        329,
+        190,
+        289,
+        152
+      ],
+      "flags": [],
+      "display_visible_height": 304,
+      "display_bottom": 385,
+      "presentation_scale": 0.38974358974358975,
+      "raw_sha_unchanged": true
+    },
+    {
+      "file": "references/original-01.png",
+      "name": "Тяжёлый лоб №1 · раньше",
+      "png_sha256": "9d9a354257c3af450dea220b066c95d6bf2025ae8facc4298a5699a985fb6f3a",
+      "native_size": [
+        1402,
+        1122
+      ],
+      "alpha_bbox": [
+        0,
+        53,
+        1291,
+        1122
+      ],
+      "visible_bbox_alpha_ge_8": [
+        316,
+        188,
+        1120,
+        970
+      ],
+      "visible_native_height": 782,
+      "visible_margins_ltrb": [
+        316,
+        188,
+        282,
+        152
+      ],
+      "flags": [],
+      "display_visible_height": 304,
+      "display_bottom": 385,
+      "presentation_scale": 0.3887468030690537,
+      "raw_sha_unchanged": true
+    },
+    {
+      "file": "variants/heavy-brow.png",
+      "name": "Тяжёлый лоб №1 · теперь",
+      "png_sha256": "22252cb51b7f889b43d4b7ded7c292eac7cbcd012f35271308e5671e2cb2f108",
+      "native_size": [
+        1402,
+        1122
+      ],
+      "alpha_bbox": [
+        0,
+        21,
+        1383,
+        1122
+      ],
+      "visible_bbox_alpha_ge_8": [
+        316,
+        200,
+        1109,
+        973
+      ],
+      "visible_native_height": 773,
+      "visible_margins_ltrb": [
+        316,
+        200,
+        293,
+        149
+      ],
+      "flags": [],
+      "display_visible_height": 304,
+      "display_bottom": 385,
+      "presentation_scale": 0.39327296248382926,
+      "raw_sha_unchanged": true
+    }
+  ],
+  "references": {
+    "references/original-01.png": {
+      "sha256": "9d9a354257c3af450dea220b066c95d6bf2025ae8facc4298a5699a985fb6f3a",
+      "size": [
+        1402,
+        1122
+      ],
+      "alpha_bbox": [
+        0,
+        53,
+        1291,
+        1122
+      ],
+      "visible_bbox_alpha_ge_8": [
+        316,
+        188,
+        1120,
+        970
+      ]
+    },
+    "references/original-05.png": {
+      "sha256": "c892d4ea8c069ea4cf1883e9c7f327426aa845f9d036347161985072966d014f",
+      "size": [
+        1402,
+        1122
+      ],
+      "alpha_bbox": [
+        0,
+        40,
+        1388,
+        1106
+      ],
+      "visible_bbox_alpha_ge_8": [
+        308,
+        184,
+        1123,
+        976
+      ]
+    },
+    "references/warrior11.png": {
+      "sha256": "d8117c67d3b59c5943ea850b8802ff1ce895ef919ad65c06d730d0716b6146a8",
+      "size": [
+        256,
+        256
+      ],
+      "alpha_bbox": [
+        60,
+        53,
+        185,
+        205
+      ],
+      "visible_bbox_alpha_ge_8": [
+        60,
+        53,
+        185,
+        205
+      ]
+    }
+  },
+  "visible_edge_flags": [],
+  "raw_variant_shas_unique": true,
+  "all_source_pngs_unchanged": true,
+  "scope": "Presentation-only NN scale fit; alpha>=8 defines visible height. No runtime/integration or art-quality claim."
+}

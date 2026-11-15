@@ -1,0 +1,17 @@
+[
+  {
+    "file": "references/crooked-fang.png",
+    "source": "docs/art/kostyash-warrior-style-two-20261115/variants/crooked-fang.png",
+    "sha256": "e00b240babbfcb9edcd7859ebd57904f9f5a2546a4f123f892f00e26b469f067"
+  },
+  {
+    "file": "references/heavy-brow.png",
+    "source": "docs/art/kostyash-warrior-style-two-20261115/variants/heavy-brow.png",
+    "sha256": "22252cb51b7f889b43d4b7ded7c292eac7cbcd012f35271308e5671e2cb2f108"
+  },
+  {
+    "file": "references/warrior11.png",
+    "source": "assets/art_presets/approved/character_skins_v1/red_bastion/still.png",
+    "sha256": "d8117c67d3b59c5943ea850b8802ff1ce895ef919ad65c06d730d0716b6146a8"
+  }
+]

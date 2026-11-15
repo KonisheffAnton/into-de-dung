@@ -1,0 +1,32 @@
+{
+  "result": "PASS",
+  "raw_outputs": [
+    {
+      "file": "variants/crooked-fang.png",
+      "sha256": "e00b240babbfcb9edcd7859ebd57904f9f5a2546a4f123f892f00e26b469f067",
+      "source_byte_exact": true
+    },
+    {
+      "file": "variants/heavy-brow.png",
+      "sha256": "22252cb51b7f889b43d4b7ded7c292eac7cbcd012f35271308e5671e2cb2f108",
+      "source_byte_exact": true
+    }
+  ],
+  "references": [
+    {
+      "file": "references/original-05.png",
+      "source_byte_exact": true
+    },
+    {
+      "file": "references/original-01.png",
+      "source_byte_exact": true
+    },
+    {
+      "file": "references/warrior11.png",
+      "source_byte_exact": true
+    }
+  ],
+  "foreign_file_count": 33,
+  "foreign_hashes_unchanged": true,
+  "runtime_changed": false
+}

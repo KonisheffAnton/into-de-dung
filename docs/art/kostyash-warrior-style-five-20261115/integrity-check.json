@@ -1,0 +1,48 @@
+{
+  "result": "PASS",
+  "raw_outputs": [
+    {
+      "file": "variants/kostyash-01.png",
+      "sha256": "eb2691e1aa5f99a51c8960618cee7c079e82e7678ad5aa83cdff8484d1740ca4",
+      "source_byte_exact": true
+    },
+    {
+      "file": "variants/kostyash-02.png",
+      "sha256": "a0fc196ee409bdc0c36b5bdd90e4619c2a3caf81a632603c5f8e8e1c489f6dab",
+      "source_byte_exact": true
+    },
+    {
+      "file": "variants/kostyash-03.png",
+      "sha256": "c4bfec750d9a9746001da39daac7ebcaf76bf6f978d8fbbd099c8832ff0c6a7c",
+      "source_byte_exact": true
+    },
+    {
+      "file": "variants/kostyash-04.png",
+      "sha256": "10b9571a5ce38016d8beeafb27c6c9feefca56fffc65083db45da3d24e1798d6",
+      "source_byte_exact": true
+    },
+    {
+      "file": "variants/kostyash-05.png",
+      "sha256": "ab51177946d550f1d9956b9bdd8a5a6363d2a1dfe3d29d06de7a7dbc62841939",
+      "source_byte_exact": true
+    }
+  ],
+  "references": [
+    {
+      "file": "references/crooked-fang.png",
+      "source_byte_exact": true
+    },
+    {
+      "file": "references/heavy-brow.png",
+      "source_byte_exact": true
+    },
+    {
+      "file": "references/warrior11.png",
+      "source_byte_exact": true
+    }
+  ],
+  "foreign_snapshot": "../kostyash-warrior-style-two-20261115/foreign-before.json",
+  "foreign_file_count": 33,
+  "foreign_hashes_unchanged": true,
+  "runtime_changed": false
+}

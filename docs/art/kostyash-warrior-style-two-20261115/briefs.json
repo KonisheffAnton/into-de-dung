@@ -1,0 +1,20 @@
+{
+  "variants": [
+    {
+      "id": 5,
+      "key": "crooked-fang",
+      "name": "Кривозуб",
+      "focus": "Перекошенная морда и сломанный клык в прорисовке Воина",
+      "file": "variants/crooked-fang.png",
+      "prompt_file": "prompts/crooked-fang.txt"
+    },
+    {
+      "id": 1,
+      "key": "heavy-brow",
+      "name": "Тяжёлый лоб",
+      "focus": "Широкая костяная морда в прорисовке Воина",
+      "file": "variants/heavy-brow.png",
+      "prompt_file": "prompts/heavy-brow.txt"
+    }
+  ]
+}

@@ -1,0 +1,289 @@
+{
+  "complete": true,
+  "generation_manifest_sha256": "3e1910a096da163e774f927f8d71f1ae77a9c4048c5ea0d380891d26abd394e4",
+  "briefs_sha256": "9331eeaddcef1a948a05ae5c168b26734e124ad0742d8b652fe722f2a21e5975",
+  "references_manifest_sha256": "057758be8a880eaecab83b2963861390bf844bf2dd942f8fb0f64a225305440e",
+  "prompt_canonical_sha256": {
+    "1": "0dadafc58f524850aa43369adbcb259d1077fdd10613899194e6065484482112",
+    "2": "2c2a56e3d4e3c8352123a5cdc42ca55700fdfeb1b2869b8960705468c2396fc0",
+    "3": "bd7d1e3f6e14a7c7569e8a3600961065d767bedccb8e5b1468ff171ea2b22b9b",
+    "4": "5bbdfa15a95ddb8e3ffac9a57c4060f0bb813fd3adf1b1b60e864d4070a4f350",
+    "5": "d588614c7a5224870d5ea1da4024257bbb9665f35848276c58bffbaaf90266a3"
+  },
+  "reference_checks": {
+    "references/crooked-fang.png": {
+      "sha256": "e00b240babbfcb9edcd7859ebd57904f9f5a2546a4f123f892f00e26b469f067",
+      "size": [
+        1402,
+        1122
+      ],
+      "alpha_bbox": [
+        0,
+        13,
+        1364,
+        1122
+      ],
+      "visible_bbox_alpha_ge_8": [
+        329,
+        190,
+        1113,
+        970
+      ]
+    },
+    "references/heavy-brow.png": {
+      "sha256": "22252cb51b7f889b43d4b7ded7c292eac7cbcd012f35271308e5671e2cb2f108",
+      "size": [
+        1402,
+        1122
+      ],
+      "alpha_bbox": [
+        0,
+        21,
+        1383,
+        1122
+      ],
+      "visible_bbox_alpha_ge_8": [
+        316,
+        200,
+        1109,
+        973
+      ]
+    },
+    "references/warrior11.png": {
+      "sha256": "d8117c67d3b59c5943ea850b8802ff1ce895ef919ad65c06d730d0716b6146a8",
+      "size": [
+        256,
+        256
+      ],
+      "alpha_bbox": [
+        60,
+        53,
+        185,
+        205
+      ],
+      "visible_bbox_alpha_ge_8": [
+        60,
+        53,
+        185,
+        205
+      ]
+    }
+  },
+  "alpha_threshold": 8,
+  "nearest_neighbor_presentation_only": true,
+  "comparison_size": [
+    1320,
+    1280
+  ],
+  "row_baselines": [
+    550,
+    1190
+  ],
+  "hero_display_height": 456,
+  "kostyash_display_height": 304,
+  "hero_to_kostyash_ratio": 1.5,
+  "records": [
+    {
+      "file": "variants/kostyash-01.png",
+      "name": "01 · Кривоклык",
+      "sha256": "eb2691e1aa5f99a51c8960618cee7c079e82e7678ad5aa83cdff8484d1740ca4",
+      "native_size": [
+        1402,
+        1122
+      ],
+      "alpha_bbox": [
+        0,
+        71,
+        1372,
+        1122
+      ],
+      "visible_bbox_alpha_ge_8": [
+        326,
+        188,
+        1110,
+        973
+      ],
+      "visible_native_height": 785,
+      "visible_margins_ltrb": [
+        326,
+        188,
+        292,
+        149
+      ],
+      "flags": [],
+      "display_visible_height": 304,
+      "display_bottom": 550,
+      "presentation_scale": 0.3872611464968153,
+      "raw_sha_unchanged": true
+    },
+    {
+      "file": "references/warrior11.png",
+      "name": "Воин 11",
+      "sha256": "d8117c67d3b59c5943ea850b8802ff1ce895ef919ad65c06d730d0716b6146a8",
+      "native_size": [
+        256,
+        256
+      ],
+      "alpha_bbox": [
+        60,
+        53,
+        185,
+        205
+      ],
+      "visible_bbox_alpha_ge_8": [
+        60,
+        53,
+        185,
+        205
+      ],
+      "visible_native_height": 152,
+      "visible_margins_ltrb": [
+        60,
+        53,
+        71,
+        51
+      ],
+      "flags": [],
+      "display_visible_height": 456,
+      "display_bottom": 550,
+      "presentation_scale": 3.0,
+      "raw_sha_unchanged": true
+    },
+    {
+      "file": "variants/kostyash-02.png",
+      "name": "02 · Прищур",
+      "sha256": "a0fc196ee409bdc0c36b5bdd90e4619c2a3caf81a632603c5f8e8e1c489f6dab",
+      "native_size": [
+        1402,
+        1122
+      ],
+      "alpha_bbox": [
+        0,
+        19,
+        1352,
+        1122
+      ],
+      "visible_bbox_alpha_ge_8": [
+        297,
+        164,
+        1125,
+        996
+      ],
+      "visible_native_height": 832,
+      "visible_margins_ltrb": [
+        297,
+        164,
+        277,
+        126
+      ],
+      "flags": [],
+      "display_visible_height": 304,
+      "display_bottom": 550,
+      "presentation_scale": 0.36538461538461536,
+      "raw_sha_unchanged": true
+    },
+    {
+      "file": "variants/kostyash-03.png",
+      "name": "03 · Камнелоб",
+      "sha256": "c4bfec750d9a9746001da39daac7ebcaf76bf6f978d8fbbd099c8832ff0c6a7c",
+      "native_size": [
+        1402,
+        1122
+      ],
+      "alpha_bbox": [
+        0,
+        19,
+        1386,
+        1122
+      ],
+      "visible_bbox_alpha_ge_8": [
+        309,
+        180,
+        1108,
+        976
+      ],
+      "visible_native_height": 796,
+      "visible_margins_ltrb": [
+        309,
+        180,
+        294,
+        146
+      ],
+      "flags": [],
+      "display_visible_height": 304,
+      "display_bottom": 1190,
+      "presentation_scale": 0.38190954773869346,
+      "raw_sha_unchanged": true
+    },
+    {
+      "file": "variants/kostyash-04.png",
+      "name": "04 · Широкоскул",
+      "sha256": "10b9571a5ce38016d8beeafb27c6c9feefca56fffc65083db45da3d24e1798d6",
+      "native_size": [
+        1402,
+        1122
+      ],
+      "alpha_bbox": [
+        31,
+        23,
+        1372,
+        1122
+      ],
+      "visible_bbox_alpha_ge_8": [
+        305,
+        194,
+        1094,
+        977
+      ],
+      "visible_native_height": 783,
+      "visible_margins_ltrb": [
+        305,
+        194,
+        308,
+        145
+      ],
+      "flags": [],
+      "display_visible_height": 304,
+      "display_bottom": 1190,
+      "presentation_scale": 0.388250319284802,
+      "raw_sha_unchanged": true
+    },
+    {
+      "file": "variants/kostyash-05.png",
+      "name": "05 · Рваноух",
+      "sha256": "ab51177946d550f1d9956b9bdd8a5a6363d2a1dfe3d29d06de7a7dbc62841939",
+      "native_size": [
+        1402,
+        1122
+      ],
+      "alpha_bbox": [
+        0,
+        32,
+        1382,
+        1122
+      ],
+      "visible_bbox_alpha_ge_8": [
+        316,
+        274,
+        1088,
+        974
+      ],
+      "visible_native_height": 700,
+      "visible_margins_ltrb": [
+        316,
+        274,
+        314,
+        148
+      ],
+      "flags": [],
+      "display_visible_height": 304,
+      "display_bottom": 1190,
+      "presentation_scale": 0.4342857142857143,
+      "raw_sha_unchanged": true
+    }
+  ],
+  "visible_edge_flags": [],
+  "all_source_pngs_unchanged": true,
+  "raw_variant_shas_unique": true,
+  "scope": "Presentation-only nearest-neighbor scale fit; alpha>=8 determines visible body. It does not change packaged pixels or assert runtime dimensions."
+}

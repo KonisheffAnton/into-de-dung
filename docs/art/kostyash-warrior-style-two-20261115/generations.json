@@ -1,0 +1,82 @@
+{
+  "provider": "built-in image_gen",
+  "mode": "two separate style-transfer edits",
+  "base": "5276e12ba04f1b72485a4bde64325bf7c61414d5",
+  "complete": true,
+  "expected": 2,
+  "completed": 2,
+  "variants": [
+    {
+      "id": 5,
+      "key": "crooked-fang",
+      "name": "Кривозуб",
+      "focus": "Перекошенная морда и сломанный клык в прорисовке Воина",
+      "file": "variants/crooked-fang.png",
+      "prompt_file": "prompts/crooked-fang.txt",
+      "source": "D:\\Codex\\home\\generated_images\\01a1dae6-a1f7-75e1-9c8d-e16ca1c48da0\\exec-c2e3a009-ee41-4acd-bf61-97e54b47abfc.png",
+      "sha256": "e00b240babbfcb9edcd7859ebd57904f9f5a2546a4f123f892f00e26b469f067",
+      "size": [
+        1402,
+        1122
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        13,
+        1364,
+        1122
+      ],
+      "visible_bbox": [
+        329,
+        190,
+        1113,
+        970
+      ],
+      "visible_height": 780,
+      "visible_min_margin": 152,
+      "byte_exact": true,
+      "prompt_sha256": "b749759ae86b60486fb4c02aa4b3d4cc2a2892d072925fcd805f2c2b62a99ff5"
+    },
+    {
+      "id": 1,
+      "key": "heavy-brow",
+      "name": "Тяжёлый лоб",
+      "focus": "Широкая костяная морда в прорисовке Воина",
+      "file": "variants/heavy-brow.png",
+      "prompt_file": "prompts/heavy-brow.txt",
+      "source": "D:\\Codex\\home\\generated_images\\01a1dae6-a1f7-75e1-9c8d-e16ca1c48da0\\exec-4adbdfe0-cf1e-47ed-a9d3-f81ce4b9d050.png",
+      "sha256": "22252cb51b7f889b43d4b7ded7c292eac7cbcd012f35271308e5671e2cb2f108",
+      "size": [
+        1402,
+        1122
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        21,
+        1383,
+        1122
+      ],
+      "visible_bbox": [
+        316,
+        200,
+        1109,
+        973
+      ],
+      "visible_height": 773,
+      "visible_min_margin": 149,
+      "byte_exact": true,
+      "prompt_sha256": "45c5c6110166e3caf223a83ba688985281802d4f6dc03bfb94b6a563c2bf2eff"
+    }
+  ],
+  "integration": false,
+  "scale_intent": "2/3 canonical warrior height; exact ratio in presentation; raw concepts unchanged"
+}

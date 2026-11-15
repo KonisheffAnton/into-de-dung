@@ -1,0 +1,188 @@
+{
+  "provider": "built-in image_gen",
+  "mode": "five separate reference-guided edits of the newly repainted pair",
+  "base": "5276e12ba04f1b72485a4bde64325bf7c61414d5",
+  "parent_package": "../kostyash-warrior-style-two-20261115",
+  "complete": true,
+  "expected": 5,
+  "completed": 5,
+  "variants": [
+    {
+      "id": 1,
+      "name": "Кривоклык",
+      "focus": "Косая челюсть и крупный сколотый клык",
+      "parent": "crooked-fang",
+      "file": "variants/kostyash-01.png",
+      "prompt_file": "prompts/01.txt",
+      "source": "D:\\Codex\\home\\generated_images\\01a1dae6-a1f7-75e1-9c8d-e16ca1c48da0\\exec-81b9e37c-a7d3-4478-8cd2-1d10a5ad2b6e.png",
+      "sha256": "eb2691e1aa5f99a51c8960618cee7c079e82e7678ad5aa83cdff8484d1740ca4",
+      "size": [
+        1402,
+        1122
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        71,
+        1372,
+        1122
+      ],
+      "visible_bbox": [
+        326,
+        188,
+        1110,
+        973
+      ],
+      "visible_height": 785,
+      "visible_min_margin": 149,
+      "byte_exact": true,
+      "prompt_sha256": "0dadafc58f524850aa43369adbcb259d1077fdd10613899194e6065484482112"
+    },
+    {
+      "id": 2,
+      "name": "Прищур",
+      "focus": "Опухшее веко и сжатая морда",
+      "parent": "crooked-fang",
+      "file": "variants/kostyash-02.png",
+      "prompt_file": "prompts/02.txt",
+      "source": "D:\\Codex\\home\\generated_images\\01a1dae6-a1f7-75e1-9c8d-e16ca1c48da0\\exec-66e2ee6b-bb3d-490c-aa43-a85017a9c0cd.png",
+      "sha256": "a0fc196ee409bdc0c36b5bdd90e4619c2a3caf81a632603c5f8e8e1c489f6dab",
+      "size": [
+        1402,
+        1122
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        19,
+        1352,
+        1122
+      ],
+      "visible_bbox": [
+        297,
+        164,
+        1125,
+        996
+      ],
+      "visible_height": 832,
+      "visible_min_margin": 126,
+      "byte_exact": true,
+      "prompt_sha256": "2c2a56e3d4e3c8352123a5cdc42ca55700fdfeb1b2869b8960705468c2396fc0"
+    },
+    {
+      "id": 3,
+      "name": "Камнелоб",
+      "focus": "Широкий цельный костяной надбровный валик",
+      "parent": "heavy-brow",
+      "file": "variants/kostyash-03.png",
+      "prompt_file": "prompts/03.txt",
+      "source": "D:\\Codex\\home\\generated_images\\01a1dae6-a1f7-75e1-9c8d-e16ca1c48da0\\exec-774ee870-45ee-456f-bf50-7930f623f7da.png",
+      "sha256": "c4bfec750d9a9746001da39daac7ebcaf76bf6f978d8fbbd099c8832ff0c6a7c",
+      "size": [
+        1402,
+        1122
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        19,
+        1386,
+        1122
+      ],
+      "visible_bbox": [
+        309,
+        180,
+        1108,
+        976
+      ],
+      "visible_height": 796,
+      "visible_min_margin": 146,
+      "byte_exact": true,
+      "prompt_sha256": "bd7d1e3f6e14a7c7569e8a3600961065d767bedccb8e5b1468ff171ea2b22b9b"
+    },
+    {
+      "id": 4,
+      "name": "Широкоскул",
+      "focus": "Тяжёлые скулы и короткая широкая челюсть",
+      "parent": "heavy-brow",
+      "file": "variants/kostyash-04.png",
+      "prompt_file": "prompts/04.txt",
+      "source": "D:\\Codex\\home\\generated_images\\01a1dae6-a1f7-75e1-9c8d-e16ca1c48da0\\exec-de79c283-4be4-44ae-9e4e-5106c7a67c8f.png",
+      "sha256": "10b9571a5ce38016d8beeafb27c6c9feefca56fffc65083db45da3d24e1798d6",
+      "size": [
+        1402,
+        1122
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        31,
+        23,
+        1372,
+        1122
+      ],
+      "visible_bbox": [
+        305,
+        194,
+        1094,
+        977
+      ],
+      "visible_height": 783,
+      "visible_min_margin": 145,
+      "byte_exact": true,
+      "prompt_sha256": "5bbdfa15a95ddb8e3ffac9a57c4060f0bb813fd3adf1b1b60e864d4070a4f350"
+    },
+    {
+      "id": 5,
+      "name": "Рваноух",
+      "focus": "Асимметричные уши и скошенный костяной лоб",
+      "parent": "heavy-brow",
+      "file": "variants/kostyash-05.png",
+      "prompt_file": "prompts/05.txt",
+      "source": "D:\\Codex\\home\\generated_images\\01a1dae6-a1f7-75e1-9c8d-e16ca1c48da0\\exec-1fe5bead-c57e-44a6-9647-3b6796330fcc.png",
+      "sha256": "ab51177946d550f1d9956b9bdd8a5a6363d2a1dfe3d29d06de7a7dbc62841939",
+      "size": [
+        1402,
+        1122
+      ],
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        32,
+        1382,
+        1122
+      ],
+      "visible_bbox": [
+        316,
+        274,
+        1088,
+        974
+      ],
+      "visible_height": 700,
+      "visible_min_margin": 148,
+      "byte_exact": true,
+      "prompt_sha256": "d588614c7a5224870d5ea1da4024257bbb9665f35848276c58bffbaaf90266a3"
+    }
+  ],
+  "integration": false,
+  "scale_intent": "2/3 warrior silhouette; exact comparison height ratio; no native/runtime claim"
+}

@@ -1,0 +1,44 @@
+{
+  "variants": [
+    {
+      "id": 1,
+      "name": "Кривоклык",
+      "focus": "Косая челюсть и крупный сколотый клык",
+      "parent": "crooked-fang",
+      "file": "variants/kostyash-01.png",
+      "prompt_file": "prompts/01.txt"
+    },
+    {
+      "id": 2,
+      "name": "Прищур",
+      "focus": "Опухшее веко и сжатая морда",
+      "parent": "crooked-fang",
+      "file": "variants/kostyash-02.png",
+      "prompt_file": "prompts/02.txt"
+    },
+    {
+      "id": 3,
+      "name": "Камнелоб",
+      "focus": "Широкий цельный костяной надбровный валик",
+      "parent": "heavy-brow",
+      "file": "variants/kostyash-03.png",
+      "prompt_file": "prompts/03.txt"
+    },
+    {
+      "id": 4,
+      "name": "Широкоскул",
+      "focus": "Тяжёлые скулы и короткая широкая челюсть",
+      "parent": "heavy-brow",
+      "file": "variants/kostyash-04.png",
+      "prompt_file": "prompts/04.txt"
+    },
+    {
+      "id": 5,
+      "name": "Рваноух",
+      "focus": "Асимметричные уши и скошенный костяной лоб",
+      "parent": "heavy-brow",
+      "file": "variants/kostyash-05.png",
+      "prompt_file": "prompts/05.txt"
+    }
+  ]
+}
