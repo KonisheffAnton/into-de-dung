@@ -18,9 +18,9 @@ static func critical_multiplier(value: float) -> float:
 static func max_hp(value: float) -> float:
 	return 28.0 + maxf(0.0, value) - 10.0
 
-static func balance_max(_value: float) -> float:
-	# Выносливость повышает только HP; постоянный запас растёт исключительно от перков.
-	return BASE_BALANCE_MAX
+static func balance_max(value: float) -> float:
+	# Пятёрки дают ступенчатый рост; floor сохраняет штраф ниже нейтральных десяти.
+	return BASE_BALANCE_MAX + floorf((maxf(0.0, value) - 10.0) / 5.0)
 
 static func move_max(value: float) -> float:
 	var delta := maxf(0.0, value) - 10.0

@@ -112,7 +112,7 @@ func _test_attribute_rules() -> void:
 	_check(is_equal_approx(CharacterAttributeRules.position_bonus_multiplier(19.0), 1.54), "position bonus at nineteen")
 	_check(is_equal_approx(CharacterAttributeRules.critical_multiplier(30.0), 4.0), "critical at thirty")
 	_check(is_equal_approx(CharacterAttributeRules.max_hp(3.0), 21.0), "hp at three")
-	_check(is_equal_approx(CharacterAttributeRules.balance_max(9.0), 5.0), "balance at nine remains the fixed base")
+	_check(is_equal_approx(CharacterAttributeRules.balance_max(9.0), 4.0), "balance at nine applies one full-step penalty")
 	_check(is_equal_approx(CharacterAttributeRules.move_max(0.0), 2.0), "movement at zero")
 	_check(is_equal_approx(CharacterAttributeRules.move_max(30.0), 8.0), "movement at thirty")
 	_check(is_equal_approx(CharacterAttributeRules.resistance_contribution(3.0), -7.0), "resistance permits negative contribution")
@@ -125,18 +125,27 @@ func _test_attribute_rules() -> void:
 	_check(HeroProgression.from_dict(data) == null, "codec rejects base below minimum")
 
 func _test_balance_base_and_perk() -> void:
-	for endurance: float in [0.0, 3.0, 9.0, 10.0, 19.0, 30.0, 100.0]:
-		_check(CharacterAttributeRules.balance_max(endurance) == 5.0, "endurance does not change base balance " + str(endurance))
+	var endurance_cases: Array[Array] = [
+		[-5.0, 3.0], [0.0, 3.0], [3.0, 3.0], [4.0, 3.0], [5.0, 4.0],
+		[9.0, 4.0], [10.0, 5.0], [14.0, 5.0], [15.0, 6.0], [19.0, 6.0],
+		[20.0, 7.0], [24.0, 7.0], [25.0, 8.0], [30.0, 9.0], [100.0, 23.0],
+		[14.99, 5.0], [15.0, 6.0], [19.99, 6.0], [20.0, 7.0],
+	]
+	for test_case: Array in endurance_cases:
+		var endurance := float(test_case[0])
+		var expected_base := float(test_case[1])
+		_check(is_equal_approx(CharacterAttributeRules.balance_max(endurance), expected_base), "balance threshold for endurance " + str(endurance))
 	for perk: StringName in [&"hardy", &"steady", &"fleet", &"force"]:
 		var hero := _hero(perk)
 		var expected := 7 if perk == &"steady" else 5
-		_check(hero.balance_max() == expected, "only steady raises the five-point base: " + String(perk))
-		hero.award_experience_tenths(45000)
-		_check(hero.apply_allocation([0, 0, 9, 0, 0]) and hero.balance_max() == expected, "endurance allocation preserves perk-only balance")
+		_check(hero.balance_max() == expected, "perk bonus remains separate at neutral endurance: " + String(perk))
+		hero.award_experience_tenths(100000)
+		_check(hero.apply_allocation([0, 0, 4, 0, 0]) and hero.balance_max() == expected, "allocation below next threshold does not change balance")
+		_check(hero.apply_allocation([0, 0, 1, 0, 0]) and hero.balance_max() == expected + 1, "crossing endurance threshold adds balance independently of perk")
 		var packed := hero.to_dict()
 		var restored := HeroProgression.from_dict(packed)
-		_check(restored != null and restored.to_dict() == packed and restored.balance_max() == expected, "existing hero schema roundtrips without storing derived balance")
-		_check(hero.reset_allocations() and hero.balance_max() == expected, "attribute reset preserves perk-only balance")
+		_check(restored != null and restored.to_dict() == packed and restored.balance_max() == expected + 1, "existing hero schema roundtrips without storing derived balance")
+		_check(hero.reset_allocations() and hero.balance_max() == expected, "attribute reset restores endurance-derived balance")
 
 func _sum(values: Array[int]) -> int:
 	var total := 0

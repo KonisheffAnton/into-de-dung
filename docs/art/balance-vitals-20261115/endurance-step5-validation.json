@@ -1,0 +1,83 @@
+{
+  "base": "7323988f19d4386257934140fac52708cc936215",
+  "preserved_parallel_commit": "c4462204c30b379568f0b0063b13ee063003ab6f",
+  "runner": "test_reports\\demo-a687b7922ac7486c953c16fd33945603",
+  "import_startup": "PASS",
+  "suites": {
+    "battle_character_card": {
+      "passed": 119,
+      "failed": 0
+    },
+    "character_attributes_v1": {
+      "passed": 873,
+      "failed": 0
+    },
+    "class_showcase": {
+      "passed": 262,
+      "failed": 0
+    },
+    "current_schema_boundary": {
+      "passed": 592,
+      "failed": 0
+    },
+    "expedition_transitions": {
+      "passed": 190,
+      "failed": 0
+    },
+    "hero_hub": {
+      "passed": 98,
+      "failed": 0
+    },
+    "hero_progression": {
+      "passed": 287,
+      "failed": 0
+    },
+    "hub_development": {
+      "passed": 2609,
+      "failed": 0
+    },
+    "mage_deck_expedition": {
+      "passed": 519,
+      "failed": 0
+    }
+  },
+  "passed": 5549,
+  "failed": 0,
+  "source_checks": {
+    "scripts/core/stats/character_attribute_rules.gd": {
+      "sha256": "4c8756da53b1016c3b07b8d81668b55060804427855daeff7dd9ec1fa09c7a3c",
+      "tested_sha256": "4c8756da53b1016c3b07b8d81668b55060804427855daeff7dd9ec1fa09c7a3c",
+      "match": true
+    },
+    "scripts/demo/hero_hub_battle_factory.gd": {
+      "sha256": "f6ea7dab66e42d9115484a7669decdb6348c458fb7072a296fe35143f723f83a",
+      "tested_sha256": "f6ea7dab66e42d9115484a7669decdb6348c458fb7072a296fe35143f723f83a",
+      "match": true
+    },
+    "tests/test_class_showcase.gd": {
+      "sha256": "e6d8a3f8a1f4aa0b58deec61b3f44194c2e257a89fdb4fd3f45cece36d94c5ef",
+      "tested_sha256": "e6d8a3f8a1f4aa0b58deec61b3f44194c2e257a89fdb4fd3f45cece36d94c5ef",
+      "match": true
+    },
+    "tests/test_hero_progression.gd": {
+      "sha256": "dfc96ee255f8963be3ad459c43098b77bfba1f83856d1eca79f208419731ce44",
+      "tested_sha256": "dfc96ee255f8963be3ad459c43098b77bfba1f83856d1eca79f208419731ce44",
+      "match": true
+    },
+    "tests/test_hub_development.gd": {
+      "sha256": "1401135c19de7b3b93c3dddb71c9a5adb2dae867b14547bc59db3fc62917d18a",
+      "tested_sha256": "1401135c19de7b3b93c3dddb71c9a5adb2dae867b14547bc59db3fc62917d18a",
+      "match": true
+    }
+  },
+  "protected_count": 33,
+  "protected_unchanged": true,
+  "independent_review": "APPROVE",
+  "full_core_repeated": false,
+  "manual_acceptance": false,
+  "handoff_archive": {
+    "path": "docs/CODEX_HANDOFF.history-20261115-16.md",
+    "exact": true,
+    "sha256": "6539fa0d9c0ab0b363d7ff56648916aeb6168b6eb8d292d43e33218064d21866"
+  }
+}

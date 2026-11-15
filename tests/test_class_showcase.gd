@@ -69,7 +69,7 @@ func _run() -> void:
 				for hero_id: int in bundle.hero_units:
 					if bundle.hero_units[hero_id] == unit.id:
 						var hero: HeroProgression = profile.heroes[hero_id]
-						check(unit.stats.get_value(StatTypes.StatType.BALANCE_MAX) == (7.0 if hero.perk == &"steady" else 5.0), "player base five plus steady only")
+						check(unit.stats.get_value(StatTypes.StatType.BALANCE_MAX) == float(hero.balance_max()), "player uses endurance threshold plus perk from saved progression")
 			if unit.faction != Faction.Type.ENEMY: continue
 			check(unit.stats.get_value(StatTypes.StatType.BALANCE_MAX) == 5.0, "current class enemy base balance is five")
 			check(session.unit_visual_classes.get(unit.id) == class_id, "real enemy class matches visual")

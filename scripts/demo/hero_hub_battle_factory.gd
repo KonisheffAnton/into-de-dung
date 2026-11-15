@@ -56,13 +56,14 @@ static func create(run: HeroHubState) -> Dictionary:
 		var enemy_class: StringName = showcase_classes[enemy_index] if hero == null and not showcase_classes.is_empty() else &""
 		var enemy_definition := HeroCatalog.class_definition(enemy_class)
 		var hero_class := HeroCatalog.class_definition(hero.class_id) if hero != null else null
+		var enemy_balance := CharacterAttributeRules.balance_max(float(enemy_definition.base_attributes[2])) if enemy_definition != null else float(encounter.enemy_balance)
 		var stats := StatsBag.from_base_values({
 			StatTypes.StatType.HP_MAX: float(hero.max_hp() if hero != null else enemy_hp),
 			StatTypes.StatType.ARMOR: 0.0,
 			StatTypes.StatType.STRENGTH: float(3 if hero != null and hero.class_id != &"mage" else 0 if hero != null else enemy_strength),
 			StatTypes.StatType.WEAPON_DAMAGE: 0.0 if hero != null else float(encounter.enemy_weapon_damage),
 			StatTypes.StatType.IMPACT_POWER: 4.0 if hero != null else float(encounter.enemy_impact),
-			StatTypes.StatType.BALANCE_MAX: float(hero.balance_max()) if hero != null else CharacterAttributeRules.BASE_BALANCE_MAX if run.hero_catalog_version >= 4 else float(encounter.enemy_balance),
+			StatTypes.StatType.BALANCE_MAX: float(hero.balance_max()) if hero != null else enemy_balance,
 			StatTypes.StatType.MOVE_RANGE: hero.move_max() if hero != null else float(encounter.enemy_move),
 			StatTypes.StatType.MAIN_ACTIONS_MAX: 1.0,
 			StatTypes.StatType.BONUS_ACTIONS_MAX: 1.0,
