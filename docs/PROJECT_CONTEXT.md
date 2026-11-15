@@ -28,6 +28,7 @@
 | Броня / типы D2 | [ARMOR_DAMAGE_D2](ARMOR_DAMAGE_D2.md) |
 | Эффекты K17 / legacy D3 | [K17](STATUS_EFFECTS_NEXT.md) / [D3](BLEEDING_D3.md) |
 | Маг, откаты / щит, призыв | [K18](MAGE_COOLDOWNS_K18.md) / [R14](MAGE_SUPPORT_R14.md) |
+| Вселение мага (концепт) | [U/Q](DESIGN_DIRECTION.md#mage-possession-20261115) |
 | Колода мага, рука / награды / костёр | [MAGE_DECK_V1](MAGE_DECK_V1.md) |
 | Полный цикл / legacy D4 | [U14](EXPEDITION_U14.md) / [D4](EXPEDITION_D4.md) |
 | Среда | [D5](ENVIRONMENT_D5.md) / [Ловушки](ENVIRONMENT_HAZARDS_V1.md) |
