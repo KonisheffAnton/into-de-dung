@@ -1,0 +1,76 @@
+{
+  "base": "ad26edcb471e69e6069ff367d5c21253f8fe5dc2",
+  "foreign_files_unchanged": {
+    "scenes/demo/main_menu.tscn": true,
+    "docs/art/battlefield-reference-03-20261017/defender-benchmark.png": true,
+    "docs/art/battlefield-reference-03-20261017/G01.png": true,
+    "docs/art/battlefield-reference-03-20261017/G02.png": true,
+    "docs/art/battlefield-reference-03-20261017/G03.png": true,
+    "docs/art/battlefield-reference-03-20261017/G04.png": true,
+    "docs/art/battlefield-reference-03-20261017/G05.png": true,
+    "docs/art/battlefield-reference-03-20261017/G06.png": true,
+    "docs/art/battlefield-reference-03-20261017/G07.png": true,
+    "docs/art/battlefield-reference-03-20261017/G08.png": true,
+    "docs/art/battlefield-reference-03-20261017/G09.png": true,
+    "docs/art/battlefield-reference-03-20261017/G10.png": true,
+    "docs/art/battlefield-reference-03-20261017/G11.png": true,
+    "docs/art/battlefield-reference-03-20261017/G12.png": true,
+    "docs/art/battlefield-reference-03-20261017/G13.png": true,
+    "docs/art/battlefield-reference-03-20261017/G14.png": true,
+    "docs/art/battlefield-reference-03-20261017/G15.png": true,
+    "docs/art/battlefield-reference-03-20261017/gallery.html": true,
+    "docs/art/battlefield-reference-03-20261017/manifest.json": true,
+    "docs/art/battlefield-reference-03-20261017/projection-reference.png": true,
+    "docs/art/battlefield-reference-03-20261017/prompts-final.json": true,
+    "docs/art/battlefield-reference-03-20261017/prompts.json": true,
+    "docs/art/battlefield-reference-03-20261017/ratings.json": true,
+    "docs/art/battlefield-reference-03-20261017/README.md": true,
+    "docs/art/battlefield-reference-03-20261017/reference.png": true,
+    "docs/art/battlefield-reference-03-20261017/tile-geometry-guide.png": true,
+    "docs/art/battlefield-reference-03-20261017/validate.py": true,
+    "docs/art/battlefield-reference-03-20261017/validation.json": true,
+    "docs/art/battlefield-reference-03-20261017/iterations/G01-first.png": true,
+    "docs/art/battlefield-reference-03-20261017/iterations/G13-before-projection.png": true,
+    "docs/art/battlefield-reference-03-20261017/iterations/G13-projection-attempt.png": true,
+    "docs/art/battlefield-reference-03-20261017/iterations/G13-projection-request.json": true,
+    "docs/art/battlefield-reference-03-20261017/iterations/manifest-before-projection.json": true
+  },
+  "archive_exact_to_prechange_test_snapshot": true,
+  "archive_sha256": "b753af8dfb35c32863b78828fa6e5932aa2989a733f1b7f936f90bc0191ed6e6",
+  "entry_document_lengths_LF": {
+    "AGENTS.md": {
+      "before": 4565,
+      "after": 4565
+    },
+    "docs/CODEX_HANDOFF.md": {
+      "before": 2478,
+      "after": 2213
+    },
+    "docs/PROJECT_CONTEXT.md": {
+      "before": 3652,
+      "after": 3652
+    },
+    "docs/CODEX_WORKFLOW.md": {
+      "before": 4482,
+      "after": 4482
+    }
+  },
+  "growth_notes": [
+    "PROJECT_CONTEXT at3652 predates this change and was not modified."
+  ],
+  "rules_preserved": [
+    "core/preview/queue/RNG/save/frozen",
+    "no initiative; party3",
+    "catalogs1-3 unchanged",
+    "five classes; facing and return",
+    "foreign files; no push",
+    "single isolated runner; no root import/services/drivers/OS focus/sidebar/schedules",
+    "prior open issues and acceptance; H2-H5 not started",
+    "archive+HISTORY+local commit+full next-chat prompt"
+  ],
+  "captured_gpu_sha256": {
+    "class-roster-facing.png": "1cdf9f022eda267ebbf79a0e3371c402ee7864f83ba1cffbe18ca2586cc43891",
+    "hobgoblin-selected-in-game.png": "552182b64d9266d8cbb5bee2496cab406e191e2a715c05e4660c28e77527eb98",
+    "hub-skin-choice.png": "147aadee744017c376b84844f69e063c4524a3a5243a4419e62c2c35f9e3df5e"
+  }
+}

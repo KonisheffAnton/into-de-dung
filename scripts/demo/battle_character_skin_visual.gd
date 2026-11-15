@@ -8,6 +8,9 @@ var _skin_owner: int = UnitId.NONE
 var _skin_buff_elapsed: float = -1.0
 var _skin_dying: bool = false
 var _skin_durations: Dictionary[StringName, float] = {}
+var _skin_ambient_wait: float = 0.0
+var _skin_ambient_elapsed: float = -1.0
+var _skin_ambient_first: bool = true
 
 func _ready() -> void:
 	_skin_sprite = get_node_or_null("ArtRoot/CharacterSkinSprite") as Sprite2D
@@ -23,6 +26,8 @@ func apply_view(values: Dictionary, config: IsoGridConfig) -> bool:
 		_skin_owner = int(values["unit"]["id"])
 		_skin_buff_elapsed = -1.0
 		_skin_dying = false
+		_cancel_ambient_buff()
+		_skin_ambient_first = true
 		_skin_durations.clear()
 		if next != null:
 			for animation: StringName in [&"idle", &"idle_secondary", &"buff", &"death"]:
@@ -51,6 +56,7 @@ func get_unit_art_scale() -> float:
 	return super.get_unit_art_scale()
 
 func get_unit_pick_rect() -> Rect2:
+	if _has_skin() and visual_class_id == &"sick_hobgoblin": return Rect2(-31, -55, 62, 58)
 	if _has_skin() and visual_class_id in [&"mage", &"archer"]: return Rect2(-40, -78, 80, 82)
 	return super.get_unit_pick_rect()
 
@@ -78,6 +84,7 @@ func _sync_scene_art_layers() -> void:
 	if _idle_sprite != null: _idle_sprite.visible = false
 	_skin_sprite.visible = _skin_can_show()
 	set_process(false)
+	if not _skin_idle_allowed(): _cancel_ambient_buff()
 	if not _skin_sprite.visible: return
 	# У моделей исходная ориентация различается, поэтому базовое отражение задаёт сторону относительно направления автора.
 	var desired_facing := 1 if unit.faction == Faction.Type.PLAYER else -1
@@ -97,7 +104,8 @@ func _sync_scene_art_layers() -> void:
 		_draw_skin_clip(&"buff", _skin_buff_elapsed)
 	elif _skin_idle_allowed():
 		set_process(true)
-		_draw_skin_idle()
+		if _skin_ambient_elapsed >= 0.0: _draw_skin_clip(&"buff", _skin_ambient_elapsed)
+		else: _draw_skin_idle()
 	else:
 		_set_skin_texture(skin_definition.still)
 
@@ -139,10 +147,35 @@ func _process(delta: float) -> void:
 		return
 	if _skin_buff_elapsed >= 0.0 or _skin_dying: return
 	if not _skin_idle_allowed():
+		_cancel_ambient_buff()
 		sync_scene_art()
 		return
+	if not is_finite(delta) or delta <= 0.0: return
+	if _skin_ambient_elapsed >= 0.0:
+		_skin_ambient_elapsed += delta
+		if _skin_ambient_elapsed >= float(_skin_durations.get(&"buff", 0.0)):
+			_cancel_ambient_buff()
+			_draw_skin_idle()
+		else:
+			_draw_skin_clip(&"buff", _skin_ambient_elapsed)
+		return
 	skin_clock.advance(delta)
+	var interval := skin_definition.ambient_buff_interval
+	if interval > 0.0 and _skin_clip_available(&"buff"):
+		# Рык — только рисунок: собственные часы не расходуют действия и RNG боя.
+		_skin_ambient_wait += delta
+		var delay := minf(6.0, interval) if _skin_ambient_first else interval
+		if _skin_ambient_wait >= delay and not skin_clock.secondary:
+			_skin_ambient_elapsed = 0.0
+			_skin_ambient_first = false
+			_skin_ambient_wait = 0.0
+			_draw_skin_clip(&"buff", 0.0)
+			return
 	_draw_skin_idle()
+
+func _cancel_ambient_buff() -> void:
+	_skin_ambient_elapsed = -1.0
+	_skin_ambient_wait = 0.0
 
 func can_play_buff() -> bool:
 	if not _has_skin(): return super.can_play_buff()
@@ -156,6 +189,7 @@ func sample_buff(elapsed: float) -> void:
 	if not _has_skin():
 		super.sample_buff(elapsed)
 		return
+	_cancel_ambient_buff()
 	_skin_buff_elapsed = maxf(0.0, elapsed)
 	sync_scene_art()
 
@@ -178,15 +212,19 @@ func sample_death(progress: float) -> void:
 		super.sample_death(progress)
 		return
 	_skin_dying = true
+	_cancel_ambient_buff()
 	_skin_buff_elapsed = -1.0
 	death_progress = progress
 
 func reset_view_pose() -> void:
+	# Refresh/resize сбрасывает только позу: локальный рык и его ожидание принадлежат тому же владельцу.
 	_skin_dying = false
 	_skin_buff_elapsed = -1.0
 	super.reset_view_pose()
 
 func retire_view() -> void:
+	_cancel_ambient_buff()
+	_skin_ambient_first = true
 	_skin_dying = false
 	_skin_buff_elapsed = -1.0
 	_skin_owner = UnitId.NONE

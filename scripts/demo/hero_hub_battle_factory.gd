@@ -1,6 +1,8 @@
 extends RefCounted
 class_name HeroHubBattleFactory
 
+const SICK_HOBGOBLIN: SickHobgoblinDefinition = preload("res://resources/enemies/sick_hobgoblin.tres")
+
 static func create(run: HeroHubState) -> Dictionary:
 	if run == null or HeroHubState.from_dict(run.to_dict()) == null: return {}
 	var expedition := run.phase == "expedition" and run.expedition != null and run.expedition.phase == "battle"
@@ -18,11 +20,13 @@ static func create(run: HeroHubState) -> Dictionary:
 	var board_size: Vector2i = BiomeShowcaseLayout.SIZE if showcase_layout else Vector2i(8, 8)
 	session.board = BattleBoard.new(board_size.x, board_size.y)
 	var showcase_classes := ClassShowcaseRoster.enemies(run)
+	# Новый вид дополняет обзор классов; старые каталоги и сохранённый план не мигрируем.
+	var add_hobgoblin: bool = run.hero_catalog_version >= 4
 	var enemy_cells: Array[Vector2i] = []
 	for index: int in enemy_count:
 		enemy_cells.append(ExpeditionOpening.cell(opening.enemies[index].cell) if not opening.is_empty() else encounter.enemy_cells[index])
 	if not showcase_classes.is_empty():
-		enemy_count = showcase_classes.size()
+		enemy_count = showcase_classes.size() + (1 if add_hobgoblin else 0)
 		enemy_cells = ClassShowcaseRoster.cells(enemy_cells, enemy_count, opening, board_size)
 		if enemy_cells.size() < enemy_count:
 			session.close(); return {}
@@ -52,8 +56,9 @@ static func create(run: HeroHubState) -> Dictionary:
 	for index: int in range(run.party.size() + enemy_count):
 		var hero: HeroProgression = run.heroes[run.party[index]] if index < run.party.size() else null
 		var enemy_index := index - run.party.size()
-		var enemy_data: Dictionary = opening.enemies[enemy_index] if hero == null and not opening.is_empty() and enemy_index < opening.enemies.size() else {}
-		var enemy_class: StringName = showcase_classes[enemy_index] if hero == null and not showcase_classes.is_empty() else &""
+		var is_hobgoblin: bool = hero == null and add_hobgoblin and enemy_index == showcase_classes.size()
+		var enemy_data: Dictionary = opening.enemies[enemy_index] if hero == null and not is_hobgoblin and not opening.is_empty() and enemy_index < opening.enemies.size() else {}
+		var enemy_class: StringName = showcase_classes[enemy_index] if hero == null and not is_hobgoblin and not showcase_classes.is_empty() else &""
 		var enemy_definition := HeroCatalog.class_definition(enemy_class)
 		var hero_class := HeroCatalog.class_definition(hero.class_id) if hero != null else null
 		var enemy_balance := CharacterAttributeRules.balance_max(float(enemy_definition.base_attributes[2])) if enemy_definition != null else float(encounter.enemy_balance)
@@ -70,6 +75,7 @@ static func create(run: HeroHubState) -> Dictionary:
 			StatTypes.StatType.ATTACK_RANGE: float(hero_class.attack_range if hero != null else enemy_definition.attack_range if enemy_definition != null else encounter.enemy_range),
 			StatTypes.StatType.PHYSICAL_PIERCING_PERCENT: 0.0,
 		})
+		if is_hobgoblin: stats = StatsBag.from_base_values(SICK_HOBGOBLIN.base_stats())
 		if hero != null:
 			var attributes := hero.attributes()
 			var attribute_types := [StatTypes.StatType.POWER, StatTypes.StatType.DEXTERITY, StatTypes.StatType.ENDURANCE, StatTypes.StatType.INTELLECT, StatTypes.StatType.MASTERY]
@@ -80,6 +86,7 @@ static func create(run: HeroHubState) -> Dictionary:
 			for attribute_index: int in attribute_types.size(): stats.set_base_value(attribute_types[attribute_index], float(enemy_definition.base_attributes[attribute_index]))
 		var cell := Vector2i(1, 2 + index) if hero != null else enemy_cells[enemy_index]
 		var unit := UnitState.create(Faction.Type.PLAYER if hero != null else Faction.Type.ENEMY, cell, stats, hero.name if hero != null else "Дозорный %d" % (index - run.party.size() + 1))
+		if is_hobgoblin: unit.debug_name = SICK_HOBGOBLIN.display_name
 		unit.armor = ArmorState.new(); unit.armor.in_battle = false
 		unit.armor.fractional = true
 		unit.bleeding = BleedingState.new(); unit.bleeding.stacked = true
@@ -126,6 +133,14 @@ static func create(run: HeroHubState) -> Dictionary:
 			definitions.append(attack)
 			session.actor_loadouts[unit.id] = {"class_id":enemy_class, "attack_id":attack.id}
 			session.unit_visual_classes[unit.id] = enemy_class
+		if is_hobgoblin:
+			# Собственная обычная атака не наследует огонь demo_strike или классовые приёмы.
+			var attack := _attack(MageDeckRules.hero_attack_id(unit.id))
+			definitions.append(attack)
+			session.actor_loadouts[unit.id] = {"class_id":SICK_HOBGOBLIN.id, "attack_id":attack.id}
+			session.unit_visual_classes[unit.id] = SICK_HOBGOBLIN.id
+			unit.armor.natural.physical = int(CharacterAttributeRules.resistance_contribution(SICK_HOBGOBLIN.attributes[1]))
+			unit.armor.natural.fire = int(CharacterAttributeRules.resistance_contribution(SICK_HOBGOBLIN.attributes[3]))
 		unit.combat_perks.uses_bonus_actions = true
 		unit.enable_action_resources(); unit.try_refill_turn_resources()
 		session.board.add_unit(unit)
@@ -226,6 +241,7 @@ static func create(run: HeroHubState) -> Dictionary:
 			if not showcase_classes.is_empty():
 				var names: PackedStringArray = []
 				for class_id: StringName in showcase_classes: names.append(HeroCatalog.class_definition(class_id).display_name)
+				if add_hobgoblin: names.append(SICK_HOBGOBLIN.display_name)
 				opponents = ", ".join(names)
 			session.flow_log.append("Стартовая комната: %s; шипы, огонь, уступ, стена, пропасти и обрушение. После победы откроется выбор пути." % opponents)
 	if rules.validate() != &"" or session.state.abilities == null or not session.begin_deployment() or ItemSimulationSnapshot.capture(session.state, []).code != ItemSnapshotResult.Code.OK:

@@ -65,8 +65,15 @@ func _run() -> void:
 	var selected_texture: Texture2D = CharacterSkinCatalog.definition(&"shieldbearer", &"grey_bastion").still
 	_check((page._slot("hero_portrait") as TextureRect).texture == selected_texture, "mercenary detail portrait follows selected skin")
 	var dashboard_cards := hub._dashboard._hero_cards
-	var dashboard_portrait := dashboard_cards.get_child(0).get_node("Content/Portrait") as TextureRect
-	_check(dashboard_portrait.texture == selected_texture, "dashboard party portrait follows the same class skin")
+	var dashboard_rows := dashboard_cards.get_node_or_null("Cards") as VBoxContainer
+	var dashboard_portrait: TextureRect = null
+	if dashboard_rows != null and not profile.party.is_empty():
+		for card: Node in dashboard_rows.get_children():
+			if int(card.get("hero_id")) != profile.party[0]: continue
+			dashboard_portrait = card.get_node_or_null("Portrait") as TextureRect
+			break
+	_check(dashboard_portrait != null and dashboard_portrait.texture == selected_texture,
+		"selected Shieldbearer party card portrait follows the same class skin")
 	_check(HubSkeletonCard.hero_texture(&"shieldbearer", &"unknown") == CharacterSkinCatalog.definition(&"shieldbearer", &"watch_shield").still, "unknown skin falls back within class")
 	_check(choice.item_count == choices, "render does not duplicate skin options")
 	if DisplayServer.get_name() != "headless":

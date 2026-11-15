@@ -97,14 +97,16 @@ func _check_live_roster(view: HeroHubBattleView, profile: HeroHubState) -> Dicti
 	var board := view.board_view
 	check(session != null and board != null, "first tactical field owns its factory session and board")
 	if session == null or board == null: return {}
-	check(session.units.size() == 5 and session.actor_loadouts.size() == 5,
-		"three class heroes and two missing classes share one five-actor field")
+	check(session.units.size() == 6 and session.actor_loadouts.size() == 6,
+		"three class heroes, two missing classes and the named hobgoblin share one field")
 	var counts: Dictionary = {}
 	var enemy_count := 0
 	var enemy_without_loadout := 0
+	var hobgoblin_count := 0
 	var expected_skins: Dictionary[StringName, StringName] = {
 		&"shieldbearer": &"watch_shield", &"fighter": &"red_bastion",
 		&"rogue": &"short_cape", &"mage": &"star_hood", &"archer": &"silver_ranger",
+		&"sick_hobgoblin": &"sick_hobgoblin",
 	}
 	for unit: UnitState in session.units:
 		var loadout: Dictionary = session.actor_loadouts.get(unit.id, {})
@@ -119,8 +121,13 @@ func _check_live_roster(view: HeroHubBattleView, profile: HeroHubState) -> Dicti
 		check(skin_visual != null and skin_visual.skin_definition != null
 			and skin_visual.skin_definition.id == expected_skin,
 			"five-class production roster uses its registered skin: " + String(class_id))
+		if class_id == &"sick_hobgoblin":
+			check(loadout.get("attack_id", &"") == MageDeckRules.hero_attack_id(unit.id)
+				and session.unit_visual_classes.get(unit.id) == &"sick_hobgoblin",
+				"named hobgoblin keeps its ordinary personal strike and visual class")
 		if unit.faction != Faction.Type.ENEMY: continue
 		enemy_count += 1
+		if class_id == &"sick_hobgoblin": hobgoblin_count += 1
 		if loadout.is_empty(): enemy_without_loadout += 1
 		if visual == null: continue
 		var presets := visual.get_node_or_null("ArtRoot/EnemyPresets")
@@ -130,11 +137,13 @@ func _check_live_roster(view: HeroHubBattleView, profile: HeroHubState) -> Dicti
 				if node is CanvasItem and (node as CanvasItem).visible: presets_hidden = false
 		check(presets_hidden, "named class actor does not borrow an EnemyPreset: " + String(class_id))
 	var expected: Array[StringName] = HeroCatalog.class_ids(4)
-	var exactly_one_of_each := counts.size() == expected.size()
+	var exactly_one_of_each := counts.size() == expected.size() + 1
 	for class_id: StringName in expected:
 		if int(counts.get(class_id, 0)) != 1: exactly_one_of_each = false
-	check(enemy_count == 2 and enemy_without_loadout == 0, "two enemies both carry their own class loadouts")
-	check(exactly_one_of_each, "all five class identities appear exactly once across the field")
+	check(enemy_count == 3 and enemy_without_loadout == 0, "two absent classes and hobgoblin carry their own enemy loadouts")
+	check(hobgoblin_count == 1 and int(counts.get(&"sick_hobgoblin", 0)) == 1,
+		"one named hobgoblin appears independently of the five hero classes")
+	check(exactly_one_of_each, "all five hero class identities and one hobgoblin appear exactly once")
 	check(view.expedition_battle and profile.phase == "expedition" and profile.expedition.phase == "battle",
 		"showcase is the selected expedition battle, without starting a new campaign mode")
 	# У исходников разные направления; покой фигуры определяется её командой.
@@ -152,7 +161,7 @@ func _test_single_party_mage_enemy() -> void:
 	check((profile.heroes[5] as HeroProgression).class_id == &"fighter", "single-party factory profile keeps Fighter as its only ally")
 	check(profile.start_battle(), "single-party catalog4 factory fixture starts")
 	var bundle := HeroHubBattleFactory.create(profile)
-	check(not bundle.is_empty(), "single-party factory adds four absent classes")
+	check(not bundle.is_empty(), "single-party factory adds four absent classes and the named hobgoblin")
 	if bundle.is_empty(): return
 	var session: BattleCoreReactionsSession = bundle.session
 	var view := BATTLE_SCENE.instantiate() as HeroHubBattleView
@@ -164,8 +173,8 @@ func _test_single_party_mage_enemy() -> void:
 	var mage: UnitState = null
 	for unit: UnitState in session.units:
 		if unit.faction == Faction.Type.ENEMY and session.actor_loadouts.get(unit.id, {}).get("class_id", &"") == &"mage": mage = unit
-	check(session.units.size() == 5 and session.actor_loadouts.size() == 5 and mage != null,
-		"single Fighter party yields a Mage enemy with a personal loadout")
+	check(session.units.size() == 6 and session.actor_loadouts.size() == 6 and mage != null,
+		"single Fighter party yields four absent hero classes and the named enemy")
 	if mage != null and board != null:
 		var visual := board._presentation_visual(mage.id)
 		var body := visual.get_node_or_null("ArtRoot/BodySprite") as Sprite2D if visual != null else null

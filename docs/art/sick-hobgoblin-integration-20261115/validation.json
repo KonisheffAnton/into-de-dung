@@ -1,0 +1,97 @@
+{
+  "base": "ad26edcb471e69e6069ff367d5c21253f8fe5dc2",
+  "report": "test_reports/demo-aeace896ee2849178c38ce919caf137a",
+  "import": "PASS",
+  "startup": "PASS",
+  "suites": {
+    "class_showcase": {
+      "passed": 282,
+      "failed": 0
+    },
+    "class_showcase_ui": {
+      "passed": 54,
+      "failed": 0
+    },
+    "character_skins_hub": {
+      "passed": 34,
+      "failed": 0
+    },
+    "character_skins": {
+      "passed": 1475,
+      "failed": 0
+    },
+    "mage_archer_skins": {
+      "passed": 424,
+      "failed": 0
+    },
+    "sick_hobgoblin": {
+      "passed": 65,
+      "failed": 0
+    },
+    "hero_hub": {
+      "passed": 98,
+      "failed": 0
+    },
+    "expedition_transitions": {
+      "passed": 190,
+      "failed": 0
+    },
+    "mage_deck_expedition": {
+      "passed": 519,
+      "failed": 0
+    },
+    "current_schema_boundary": {
+      "passed": 592,
+      "failed": 0
+    }
+  },
+  "total_assertions": 3733,
+  "launcher_python_tests": {
+    "passed": 37,
+    "failed": 0
+  },
+  "build_hobgoblin_skin": "PASS: 5 source PNGs byte-exact; 132 atlas cells; deterministic outputs",
+  "build_character_skins": "PASS: 43 deterministic outputs; 27 source PNGs byte-exact; 693 visible atlas cells",
+  "review": {
+    "role": "game_reviewer",
+    "verdict": "APPROVE",
+    "resolved": [
+      "ordinary personal attack ID accepted by deck restore",
+      "ambient first/repeat timers and phase retained through real board refresh/resize",
+      "hub portrait test follows current card structure"
+    ]
+  },
+  "tested_worktree_match": true,
+  "tested_files_sha256": {
+    "assets/art_presets/approved/character_skins_v1/sick_hobgoblin/README.md": "7f4dbdddbc40d0c8276042877e4211b77968014e01295461e70d01898d61422b",
+    "assets/art_presets/approved/character_skins_v1/sick_hobgoblin/buff.png": "7069b707e22bf5dd0633b2bbb83fa2a8142a1b126e0cb906b65d7878878b660c",
+    "assets/art_presets/approved/character_skins_v1/sick_hobgoblin/death.png": "59c1176a6b5c50eadf048df6f61092dd1681fed328decc03ae99539f00ea78bd",
+    "assets/art_presets/approved/character_skins_v1/sick_hobgoblin/frames.tres": "46463fc60b9d75039e3d3bd938f56cee6bc939df84d5494438db97cb9fe1d891",
+    "assets/art_presets/approved/character_skins_v1/sick_hobgoblin/idle.png": "f5eb994c0f63938d63a4e596175bd7e4f051fae0d03a5f1d7756a7e571626422",
+    "assets/art_presets/approved/character_skins_v1/sick_hobgoblin/idle_secondary.png": "3f6f9bb11d0661fffe066e1bf6ea3f25674c2ca895e65d4d61c633f86b58e007",
+    "assets/art_presets/approved/character_skins_v1/sick_hobgoblin/manifest.json": "1279930cf2200e17218c3e9d3e098ead10fdd574f59d52bfacbfc362df04c8e4",
+    "assets/art_presets/approved/character_skins_v1/sick_hobgoblin/skin.tres": "1e223a26abe8931e409610e110479870ae7a65d44d06733c594b6a0411668d49",
+    "assets/art_presets/approved/character_skins_v1/sick_hobgoblin/still.png": "6e51f2ff63ad012c87176adf4fe7aea93f7d3ee00074bb26c7eda3741bd0a85e",
+    "resources/enemies/sick_hobgoblin.tres": "6844a3f42e1259e37bc465b60076db07dc72e44fbb63e36f2974293aae4c16af",
+    "scripts/core/expedition/sick_hobgoblin_definition.gd": "6519c643d8b1a3773df4f44fcddc4188de637cbb581052b4e52ffa817c9fca09",
+    "scripts/core/expedition/sick_hobgoblin_definition.gd.uid": "e9e054c05c8c482c4c641dd3e3b82e7b37d51fc4a29a8b676375040d469d57d9",
+    "scripts/demo/battle_character_skin_visual.gd": "250ea7cf6940b89da0e124be5bc26ace6f03c3e1a2e2d22bb22fecd3a6d4362c",
+    "scripts/demo/character_skin_catalog.gd": "891c370b31f7343e2694f007ca5ec9b1bc6a23ac24495e6a7bbd89dd99a2656b",
+    "scripts/demo/character_skin_definition.gd": "37020c6dc7a2659c79ff080922167c0da358a2f11c693cc02091c170b97a1991",
+    "scripts/demo/hero_hub_battle_factory.gd": "dd7b6303f00b1b85121b368adb3222190dc05800b55368fd919380e7d339eab6",
+    "tests/test_character_skins.gd": "96184b412cf30b0168277085c6e32f98f315f5346797abd82f9ee08ae6c32e32",
+    "tests/test_character_skins_hub.gd": "15daf3581d84aaf8f9f7427af22cb5190e9f8be0064e84b6b682ed69be7a96c2",
+    "tests/test_class_showcase.gd": "28e101e82c265cf682bd990da7d4fa6b20cd1c718bebb10c20d23fa4cc4d7a50",
+    "tests/test_class_showcase_ui.gd": "35f5fdd194db73bda419479abb4cab57f212380a822bfdd346f9aa3977380b8b",
+    "tests/test_sick_hobgoblin.gd": "77a5e622d3930486a903bf6ea516585a116667a745f214db9fbed37dae746ce9",
+    "tests/test_sick_hobgoblin.gd.uid": "2ca3fd24e38d4ca672c258f7870ae0fccc3a4e11f7cddafefa7dec76d6ae2cec",
+    "tools/art/build_hobgoblin_skin.py": "d0d143c6243343d342d6418452af8371c7d0a0e8004c6b75c6d260dfc7c1c591",
+    "tools/demo/isolate.py": "57bd7403dcb0e1c2d69fbd3083939af21d2657f20562e2c74c71692ebccda2f9"
+  },
+  "limits": [
+    "not full/core",
+    "manual F5/Editor/DPI not accepted",
+    "balance and performance not accepted",
+    "source animation seam visual acceptance remains open"
+  ]
+}

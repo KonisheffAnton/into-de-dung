@@ -10,6 +10,8 @@ extends Resource
 @export var texture_scale: float = 0.5
 @export_enum("Left:-1", "Right:1") var source_facing_x: int = 1
 @export_range(0.0, 1.0) var shieldbearer_palette_strength: float = 0.0
+## Периодический жест вне действий не имеет боевого эффекта; ноль сохраняет прежнее поведение.
+@export_range(0.0, 120.0) var ambient_buff_interval: float = 0.0
 
 func clip_valid(animation: StringName) -> bool:
 	if animations == null or not animations.has_animation(animation): return false

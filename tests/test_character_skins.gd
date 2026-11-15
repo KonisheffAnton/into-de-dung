@@ -9,6 +9,7 @@ const SKINS: Array[Dictionary] = [
 	{"id": &"short_cape", "class": &"rogue"},
 	{"id": &"star_hood", "class": &"mage"},
 	{"id": &"silver_ranger", "class": &"archer"},
+	{"id": &"sick_hobgoblin", "class": &"sick_hobgoblin"},
 ]
 
 var passed: int = 0
@@ -66,8 +67,8 @@ func _test_rendered_skins() -> void:
 			visual.set_process(false)
 			visual_cells.append({"visual": visual, "anchor": anchor, "label": "%s %d" % [entry.id, column]})
 			var label := Label.new()
-			var action_label: String = {&"short_cape": "ability 3", &"star_hood": "ability 5", &"silver_ranger": "ability 4"}.get(entry.id, "ability 2")
-			var death_label := "death 2" if entry.id == &"short_cape" else "death 3"
+			var action_label: String = {&"short_cape": "ability 3", &"star_hood": "ability 5", &"silver_ranger": "ability 4", &"sick_hobgoblin": "ability 1"}.get(entry.id, "ability 2")
+			var death_label := "death 2" if entry.id == &"short_cape" else ("death 1" if entry.id == &"sick_hobgoblin" else "death 3")
 			label.text = "%s · %s" % [entry.id, ["idle PLAYER", "idle ENEMY", action_label, death_label][column]]
 			label.position = anchor + Vector2(-110, 35)
 			viewport.add_child(label)
@@ -146,7 +147,7 @@ func _test_skins_and_clock() -> void:
 		check(definition.still != null and definition.animations != null and definition.anchor == Vector2(128, 200)
 			and is_equal_approx(definition.texture_scale, 0.5), "%s has approved still, SpriteFrames, anchor and scale" % skin_id)
 		var required_clips: Array[StringName] = [&"idle", &"buff", &"death"]
-		if skin_id in [&"watch_shield", &"star_hood", &"silver_ranger"]: required_clips.append(&"idle_secondary")
+		if skin_id in [&"watch_shield", &"star_hood", &"silver_ranger", &"sick_hobgoblin"]: required_clips.append(&"idle_secondary")
 		for animation: StringName in required_clips:
 			check(definition.clip_valid(animation) and definition.animations.get_frame_count(animation) == 33,
 				"%s %s clip has 33 valid atlas frames" % [skin_id, animation])
@@ -159,10 +160,10 @@ func _test_skins_and_clock() -> void:
 			check(atlas_frame != null and atlas_frame.atlas.resource_path.ends_with("/%s/%s.png" % [skin_id, animation]),
 				"%s %s resolves the selected PixelLab sheet" % [skin_id, animation])
 		check(is_equal_approx(definition.clip_duration(&"idle"), 2.97), "%s idle duration is retained" % skin_id)
-		var expected_buff_seconds := 2.94 if skin_id in [&"star_hood", &"silver_ranger"] else 2.31
+		var expected_buff_seconds := 2.74 if skin_id == &"sick_hobgoblin" else (2.94 if skin_id in [&"star_hood", &"silver_ranger"] else 2.31)
 		check(is_equal_approx(definition.clip_duration(&"buff"), expected_buff_seconds), "%s selected ability duration is retained" % skin_id)
 		check(is_equal_approx(definition.clip_duration(&"death"), 3.74), "%s retains the selected death timing and final hold" % skin_id)
-		if skin_id in [&"watch_shield", &"star_hood", &"silver_ranger"]:
+		if skin_id in [&"watch_shield", &"star_hood", &"silver_ranger", &"sick_hobgoblin"]:
 			check(definition.clip_valid(&"idle_secondary") and definition.animations.get_animation_loop(&"idle_secondary"),
 				"%s exposes its repeating secondary idle" % skin_id)
 		else:
@@ -219,7 +220,7 @@ func _test_skins_and_clock() -> void:
 			visual.sample_death(1.0)
 			check(sprite.texture == definition.animations.get_frame_texture(&"death", 32),
 				"%s %s death3 selects its held final atlas pose" % [skin_id, faction])
-			if skin_id in [&"star_hood", &"silver_ranger"]:
+			if skin_id in [&"star_hood", &"silver_ranger", &"sick_hobgoblin"]:
 				visual.reset_view_pose()
 				for animation: StringName in [&"idle", &"idle_secondary"]:
 					var idle_elapsed := 0.0
@@ -330,7 +331,7 @@ func _test_skins_and_clock() -> void:
 	idle_visual.skin_clock.advance(secondary_seconds + 0.002)
 	check(not idle_visual.skin_clock.secondary and idle_visual.skin_clock.elapsed < 0.01
 		and idle_visual.skin_clock._normal_cycles in range(3, 7), "secondary returns to primary and schedules another gap")
-	for secondary_skin_id: StringName in [&"star_hood", &"silver_ranger"]:
+	for secondary_skin_id: StringName in [&"star_hood", &"silver_ranger", &"sick_hobgoblin"]:
 		var secondary_visual := by_skin_and_side["%s:%d" % [secondary_skin_id, int(Faction.Type.PLAYER)]] as BattleCharacterSkinVisual
 		var secondary_definition := secondary_visual.skin_definition
 		var secondary_idle_seconds := secondary_definition.clip_duration(&"idle_secondary")
@@ -792,6 +793,7 @@ func _test_lethal_skin_deaths() -> void:
 		{"skin": &"short_cape", "class": &"rogue"},
 		{"skin": &"star_hood", "class": &"mage"},
 		{"skin": &"silver_ranger", "class": &"archer"},
+		{"skin": &"sick_hobgoblin", "class": &"sick_hobgoblin"},
 	]
 	for route: Dictionary in routes:
 		var skin_id: StringName = route.skin

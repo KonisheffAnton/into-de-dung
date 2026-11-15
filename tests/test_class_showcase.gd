@@ -23,6 +23,7 @@ func _run() -> void:
 		check(HeroHubState.from_dict(profile.to_dict()).to_dict() == profile.to_dict(), "roundtrip catalog " + str(version))
 	check(ClassShowcaseRoster.enemies(fresh) == [&"shieldbearer", &"archer"], "only missing classes go to enemy without filler")
 	check(ClassShowcaseRoster.enemies(old).is_empty(), "legacy enemy policy untouched")
+	check(not HeroCatalog.class_ids(4).has(&"sick_hobgoblin"), "enemy archetype is excluded from the hero catalog")
 	for version: int in [1, 2, 3]:
 		var legacy := HeroHubState.create(441, version)
 		check(legacy.start_battle(), "legacy battle starts without catalog migration")
@@ -55,10 +56,11 @@ func _run() -> void:
 		check(not bundle.is_empty(), "build showcase " + str(mode))
 		if bundle.is_empty(): continue
 		var session: BattleCoreReactionsSession = bundle.session
-		check(session.units.size() == 5 and session.actor_loadouts.size() == 5, "exactly five class actors and no anonymous filler")
-		check(session.living_ids(Faction.Type.ENEMY).size() == 5 - profile.party.size(), "enemy count follows absent classes instead of encounter quota")
+		check(session.units.size() == 6 and session.actor_loadouts.size() == 6, "five hero classes and one named hobgoblin actor, without anonymous filler")
+		check(session.living_ids(Faction.Type.ENEMY).size() == 6 - profile.party.size(), "enemy count follows absent classes and the named hobgoblin")
 		check(not "\n".join(session.flow_log).contains("Страж, Щит, Дозорный"), "opening text names actual class opponents")
 		var classes: Array[StringName] = []
+		var hobgoblin_count := 0
 		var occupied: Array[Vector2i] = []
 		for unit: UnitState in session.units:
 			var class_id: StringName = session.actor_loadouts.get(unit.id, {}).get("class_id", &"")
@@ -71,6 +73,11 @@ func _run() -> void:
 						var hero: HeroProgression = profile.heroes[hero_id]
 						check(unit.stats.get_value(StatTypes.StatType.BALANCE_MAX) == float(hero.balance_max()), "player uses endurance threshold plus perk from saved progression")
 			if unit.faction != Faction.Type.ENEMY: continue
+			if class_id == &"sick_hobgoblin":
+				hobgoblin_count += 1
+				check(session.actor_loadouts[unit.id].attack_id == MageDeckRules.hero_attack_id(unit.id), "hobgoblin uses its own strike loadout")
+				check(session.unit_visual_classes.get(unit.id) == &"sick_hobgoblin", "hobgoblin uses its own enemy visual class")
+				continue
 			check(unit.stats.get_value(StatTypes.StatType.BALANCE_MAX) == 5.0, "current class enemy base balance is five")
 			check(session.unit_visual_classes.get(unit.id) == class_id, "real enemy class matches visual")
 			check(session.context.get_attack_rules().get_definition(session.actor_loadouts[unit.id].attack_id) != null, "enemy has actual attack loadout")
@@ -79,6 +86,7 @@ func _run() -> void:
 			if class_id == &"rogue": check(unit.combat_perks.definition.sneak_attack, "enemy rogue capability")
 			if class_id == &"archer": check(unit.stats.get_value(StatTypes.StatType.ATTACK_RANGE) == 4.0, "enemy archer range")
 		for class_id: StringName in HeroCatalog.class_ids(4): check(classes.count(class_id) == 1, "exactly one of every class visible: " + String(class_id))
+		check(hobgoblin_count == 1, "exactly one sick hobgoblin appears separately from hero classes")
 		var snapshot := ItemSimulationSnapshot.capture(session.state, []).snapshot.to_dict()
 		var rng := session.context.get_rng().to_dict()
 		session.close()

@@ -19,6 +19,21 @@
 
 ## Изменение игрового кода
 
+Нездоровый хоб-гоблин (2026-11-15):
+`python tools/art/build_hobgoblin_skin.py --check`,
+`python tools/art/build_character_skins.py --check`,
+`python tools/demo/test_isolate.py`, затем
+`python tools/demo/isolate.py --render-check --only sick_hobgoblin class_showcase
+class_showcase_ui character_skins character_skins_hub mage_archer_skins hero_hub
+expedition_transitions mage_deck_expedition current_schema_boundary --screen 0`.
+Проверяются обычный персональный удар без эффектов, BT/preview/live, пять классов
+плюс один враг, восстановление колоды/checkpoint и старые каталоги, отсутствие
+монстра среди героев/косметики. GPU: выбранные клипы/масштаб, редкий idle,
+refresh/resize без сброса рыка и повтор через18с, прерывание/смерть/retire.
+Кадры лежат в `character-skins-screenshots/` и `class-showcase-screenshots/`.
+[Отчёт](art/sick-hobgoblin-integration-20261115/README.md); это не full/core,
+ручная F5/DPI/баланс/60FPS-приёмка.
+
 Равновесие5 и читаемость полос (2026-11-15):
 `python tools/demo/isolate.py --render-check --only core hero_progression
 character_attributes_v1 class_showcase hero_hub current_schema_boundary
