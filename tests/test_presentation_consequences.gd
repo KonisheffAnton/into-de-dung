@@ -45,6 +45,14 @@ func shown_texts() -> String:
 	for number: BattlePresentationNumber in board._numbers.get_children(): texts.append(number._label.text.replace("\n", " · "))
 	return "\n".join(texts)
 
+func check_feedback(expected: String, label: String) -> void:
+	if not expected.is_empty(): check(shown_texts().contains(expected), label + " retained consequence is visible")
+	var has_balance_notice := false
+	for number: BattlePresentationNumber in board._numbers.get_children():
+		if number.feedback_kind == &"consequence" and (number.get_meta("parts", {}) as Dictionary).has(&"balance"):
+			has_balance_notice = true
+	check(not has_balance_notice, label + " balance remains bar-only without a floating caption")
+
 func advance(seconds: float) -> void:
 	if not player.active: return
 	player._tween.pause()
@@ -100,7 +108,11 @@ func play_checked(s: BattleCoreReactionsSession, data: Dictionary, expected: Str
 	if player.active: player._tween.pause()
 	check(board._numbers.get_child_count() == 0, label + " no result before publication")
 	finish()
-	check(shown_texts().contains(expected), label + " honest after feedback visible")
+	check_feedback(expected, label + " after")
+	for entry: Dictionary in data.after.units.values():
+		var visual := board._presentation_visual(int(entry.id))
+		if visual != null and visual.unit != null:
+			check(visual.unit.balance == float(entry.balance) and visual.unit.balance_max == float(entry.balance_max), label + " bar receives exact after balance")
 	var notice_owners: Dictionary = {}
 	for number: BattlePresentationNumber in board._numbers.get_children():
 		if number.feedback_kind != &"consequence": continue
@@ -114,14 +126,14 @@ func play_checked(s: BattleCoreReactionsSession, data: Dictionary, expected: Str
 	await capture(label)
 	board.size += Vector2(8, 8)
 	board.zoom_camera(0.75, board.size * 0.5)
-	check(shown_texts().contains(expected), label + " resize and zoom retain feedback")
+	check_feedback(expected, label + " resize and zoom")
 	player.cancel()
 	check(board._numbers.get_child_count() == 0, label + " cancel cleans feedback")
 	player.set_speed(3.0)
 	player.play(board, data.before, data.frames, data.after)
 	if player.active: player._tween.pause()
 	finish()
-	check(shown_texts().contains(expected), label + " x3 retains readable feedback")
+	check_feedback(expected, label + " x3")
 	player.play(board, data.before, data.frames, data.after)
 	player.skip()
 	check(board._numbers.get_child_count() == 0 and board._ghosts.get_child_count() == 0 and board._action_offsets.is_empty(), label + " skip clears captions and poses")
@@ -142,7 +154,7 @@ func balance_cases() -> void:
 		if mode == "fall": s.board.set_terrain(Vector2i(3, 3), TerrainType.Type.VOID)
 		var data := packet(s, mode)
 		var entries := feedback(data)
-		var expected := "Устоял · запас 8/12" if mode == "held" else "Потеря равновесия"
+		var expected := "" if mode == "held" else "Сдвиг"
 		check(count_text(entries, "Потеря равновесия", target.id) == (0 if mode == "held" else 1), mode + " change+break emit exactly one break cue")
 		if mode in ["held", "wall", "height"]: check(not has_text(entries, "Сдвиг"), mode + " no invented displacement")
 		if mode == "open": check(count_text(entries, "Сдвиг", target.id) == 1, "actual moved produces shift cue")
@@ -164,8 +176,6 @@ func chain_cases() -> void:
 		check(count_text(entries, "Импульс передан", s.units[1].id) == 1, "chain acknowledges original target passing force")
 		check(count_text(entries, "Сдвиг", s.units[1].id) == 0, "original target never promised movement")
 		var expected := "Столкновение:"
-		if mode == "held": expected = "Цепь остановлена · устоял"
-		if mode == "immune": expected = "Цепь остановлена · невосприимчив"
 		if mode == "wall": expected = "Упор: стена"
 		if mode != "moves": check(count_text(entries, "Сдвиг") == 0, "stopped chain has no shift cue")
 		else: check(count_text(entries, "Сдвиг", s.units[5].id) == 1, "only terminal link receives shift cue")
@@ -234,7 +244,8 @@ func consecutive_roots() -> void:
 	player.play(board, data.before, data.frames, data.after)
 	if player.active: player._tween.pause()
 	finish()
-	check(shown_texts().contains("Устоял"), "first root leaves a readable balance notice")
+	check_feedback("", "first root")
+	check(not shown_texts().contains("Устоял"), "first root omits the balance notice")
 	var target := s.units[1]
 	var next_before := ActionPresentationState.capture(s.state)
 	var receipt := s._queue.submit(MoveCommand.new(target.id, [target.cell, target.cell + Vector2i(0, 1)], s.context.get_revision()), s.context)
@@ -510,7 +521,7 @@ func recovery_feedback() -> void:
 	check(receipt.status == ActionReceipt.APPLIED and receipt.get_events().is_empty(), "recovery remains eventless refill, without fake impact/damage")
 	player.play(board, before, receipt.get_presentation_frames(), after)
 	finish()
-	check(board._presentation_visual(id).unit.balance == 7.0 and shown_texts().contains("Восстановлен запас равновесия · +1"), "refill publishes increased reserve and visible recovery together")
+	check(board._presentation_visual(id).unit.balance == 7.0 and board._numbers.get_child_count() == 0, "refill publishes increased reserve without floating text")
 	check(not shown_texts().contains("Потеря равновесия") and not shown_texts().contains("HP"), "recovery invents neither break nor damage")
 	check(board.displayed_unit_details(id).contains("восстанавливается до 1 ед. равновесия"), "inspection describes turn reserve recovery")
 	var depleted_recovery := BattleConsequenceFeedback.recovery_entries(

@@ -23,6 +23,19 @@ func _run() -> void:
 		check(HeroHubState.from_dict(profile.to_dict()).to_dict() == profile.to_dict(), "roundtrip catalog " + str(version))
 	check(ClassShowcaseRoster.enemies(fresh) == [&"shieldbearer", &"archer"], "only missing classes go to enemy without filler")
 	check(ClassShowcaseRoster.enemies(old).is_empty(), "legacy enemy policy untouched")
+	for version: int in [1, 2, 3]:
+		var legacy := HeroHubState.create(441, version)
+		check(legacy.start_battle(), "legacy battle starts without catalog migration")
+		var saved := legacy.to_dict()
+		var bundle := HeroHubBattleFactory.create(legacy)
+		check(not bundle.is_empty(), "legacy battle factory remains available")
+		if not bundle.is_empty():
+			var legacy_session: BattleCoreReactionsSession = bundle.session
+			for unit: UnitState in legacy_session.units:
+				if unit.faction == Faction.Type.ENEMY:
+					check(unit.stats.get_value(StatTypes.StatType.BALANCE_MAX) == float(ExpeditionCatalog.encounter("battle", 0).enemy_balance), "legacy authored enemy threshold remains unchanged")
+			legacy_session.close()
+		check(legacy.to_dict() == saved, "factory does not migrate catalog or saved profile")
 	var authored: Array[Vector2i] = [Vector2i(6, 1), Vector2i(6, 2), Vector2i(6, 3)]
 	check(ClassShowcaseRoster.cells(authored, 2, {}, Vector2i(8, 8)) == authored.slice(0, 2), "unused old enemy cell removed")
 	for mode: int in 3:
@@ -52,7 +65,13 @@ func _run() -> void:
 			classes.append(class_id)
 			check(not occupied.has(unit.cell) and session.board.get_terrain(unit.cell) == TerrainType.Type.FLOOR, "safe unique cell")
 			occupied.append(unit.cell)
+			if unit.faction == Faction.Type.PLAYER:
+				for hero_id: int in bundle.hero_units:
+					if bundle.hero_units[hero_id] == unit.id:
+						var hero: HeroProgression = profile.heroes[hero_id]
+						check(unit.stats.get_value(StatTypes.StatType.BALANCE_MAX) == (7.0 if hero.perk == &"steady" else 5.0), "player base five plus steady only")
 			if unit.faction != Faction.Type.ENEMY: continue
+			check(unit.stats.get_value(StatTypes.StatType.BALANCE_MAX) == 5.0, "current class enemy base balance is five")
 			check(session.unit_visual_classes.get(unit.id) == class_id, "real enemy class matches visual")
 			check(session.context.get_attack_rules().get_definition(session.actor_loadouts[unit.id].attack_id) != null, "enemy has actual attack loadout")
 			if class_id == &"shieldbearer": check(unit.combat_perks.definition.passive_opportunist and not unit.armor.raised_shield.is_empty(), "enemy shieldbearer capabilities")

@@ -29,6 +29,7 @@ func _run() -> void:
 	_test_reset_and_snapshot()
 	_test_catalog()
 	_test_attribute_rules()
+	_test_balance_base_and_perk()
 	print("HERO PROGRESSION RESULTS: %d passed, %d failed" % [passed, failed])
 	quit(0 if failed == 0 else 1)
 
@@ -111,7 +112,7 @@ func _test_attribute_rules() -> void:
 	_check(is_equal_approx(CharacterAttributeRules.position_bonus_multiplier(19.0), 1.54), "position bonus at nineteen")
 	_check(is_equal_approx(CharacterAttributeRules.critical_multiplier(30.0), 4.0), "critical at thirty")
 	_check(is_equal_approx(CharacterAttributeRules.max_hp(3.0), 21.0), "hp at three")
-	_check(is_equal_approx(CharacterAttributeRules.balance_max(9.0), 13.0), "balance at nine")
+	_check(is_equal_approx(CharacterAttributeRules.balance_max(9.0), 5.0), "balance at nine remains the fixed base")
 	_check(is_equal_approx(CharacterAttributeRules.move_max(0.0), 2.0), "movement at zero")
 	_check(is_equal_approx(CharacterAttributeRules.move_max(30.0), 8.0), "movement at thirty")
 	_check(is_equal_approx(CharacterAttributeRules.resistance_contribution(3.0), -7.0), "resistance permits negative contribution")
@@ -122,6 +123,20 @@ func _test_attribute_rules() -> void:
 	_check(high_base != null and high_base.attributes()[0] == 38, "codec accepts valid high base attributes")
 	data["base_attributes"] = [39, 3, 3, 3, 2]
 	_check(HeroProgression.from_dict(data) == null, "codec rejects base below minimum")
+
+func _test_balance_base_and_perk() -> void:
+	for endurance: float in [0.0, 3.0, 9.0, 10.0, 19.0, 30.0, 100.0]:
+		_check(CharacterAttributeRules.balance_max(endurance) == 5.0, "endurance does not change base balance " + str(endurance))
+	for perk: StringName in [&"hardy", &"steady", &"fleet", &"force"]:
+		var hero := _hero(perk)
+		var expected := 7 if perk == &"steady" else 5
+		_check(hero.balance_max() == expected, "only steady raises the five-point base: " + String(perk))
+		hero.award_experience_tenths(45000)
+		_check(hero.apply_allocation([0, 0, 9, 0, 0]) and hero.balance_max() == expected, "endurance allocation preserves perk-only balance")
+		var packed := hero.to_dict()
+		var restored := HeroProgression.from_dict(packed)
+		_check(restored != null and restored.to_dict() == packed and restored.balance_max() == expected, "existing hero schema roundtrips without storing derived balance")
+		_check(hero.reset_allocations() and hero.balance_max() == expected, "attribute reset preserves perk-only balance")
 
 func _sum(values: Array[int]) -> int:
 	var total := 0

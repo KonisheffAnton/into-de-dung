@@ -1,0 +1,160 @@
+{
+  "base_commit": "5276e12ba04f1b72485a4bde64325bf7c61414d5",
+  "source_checks": {
+    "scripts/core/stats/character_attribute_rules.gd": {
+      "sha256": "32fc10aca41a7bba9b5750420ed006a038918870d7fbf9b9e94ed9d166078ad5",
+      "tested_sha256": "32fc10aca41a7bba9b5750420ed006a038918870d7fbf9b9e94ed9d166078ad5",
+      "match": true
+    },
+    "scripts/demo/hero_hub_battle_factory.gd": {
+      "sha256": "5a36057b683514fabf27d6ddee0ee5a4f5c8926121215273d870314f48e4ce1c",
+      "tested_sha256": "5a36057b683514fabf27d6ddee0ee5a4f5c8926121215273d870314f48e4ce1c",
+      "match": true
+    },
+    "scripts/demo/battle_demo_board.gd": {
+      "sha256": "765b4005458d4d3e5e1cdee2d0c8a94a567ba84244c796320f31504b8bb0c494",
+      "tested_sha256": "765b4005458d4d3e5e1cdee2d0c8a94a567ba84244c796320f31504b8bb0c494",
+      "match": true
+    },
+    "scripts/ui/battle/battle_unit_vitals_painter.gd": {
+      "sha256": "40e41535f879d68609856a8c8cf1321082e03e68994e9c7b983dc555d5cf0815",
+      "tested_sha256": "40e41535f879d68609856a8c8cf1321082e03e68994e9c7b983dc555d5cf0815",
+      "match": true
+    },
+    "tests/test_class_showcase.gd": {
+      "sha256": "a63e04c998ca8eabe9535400de6831dd0e8edf21cf9ef0267158c2715c67ab30",
+      "tested_sha256": "a63e04c998ca8eabe9535400de6831dd0e8edf21cf9ef0267158c2715c67ab30",
+      "match": true
+    },
+    "tests/test_hero_progression.gd": {
+      "sha256": "6e07a42cbaad2f0f8dfe056f1214c184fd26be875ca67806421b63ac85711fea",
+      "tested_sha256": "6e07a42cbaad2f0f8dfe056f1214c184fd26be875ca67806421b63ac85711fea",
+      "match": true
+    },
+    "tests/test_hub_development.gd": {
+      "sha256": "54cb97922c2e13315b7b7d09e070c764e757af4b21a61f1881a568ca58a98659",
+      "tested_sha256": "54cb97922c2e13315b7b7d09e070c764e757af4b21a61f1881a568ca58a98659",
+      "match": true
+    },
+    "tests/test_presentation_consequences.gd": {
+      "sha256": "673a2c247a497626668c04a053a3b3e9d818513fc9a34dd7351a64db33b59930",
+      "tested_sha256": "673a2c247a497626668c04a053a3b3e9d818513fc9a34dd7351a64db33b59930",
+      "match": true
+    },
+    "tests/test_presentation_status.gd": {
+      "sha256": "8c35d7572589da59ce6e64759f06ddfd75e870d79da51c77ad9a5dd14c495a34",
+      "tested_sha256": "8c35d7572589da59ce6e64759f06ddfd75e870d79da51c77ad9a5dd14c495a34",
+      "match": true
+    },
+    "tests/test_unit_vital_bars.gd": {
+      "sha256": "daec388d967d84944295f974d337ac0e9b1449bb421be433343c0d2c0a9ae0df",
+      "tested_sha256": "daec388d967d84944295f974d337ac0e9b1449bb421be433343c0d2c0a9ae0df",
+      "match": true
+    }
+  },
+  "protected_file_count": 33,
+  "protected_unchanged": true,
+  "concurrent_art_changes_outside_patch": [
+    "docs/art/kostyash-warrior-style-two-20261115/before-after.png",
+    "docs/art/kostyash-warrior-style-two-20261115/build_comparison.py",
+    "docs/art/kostyash-warrior-style-two-20261115/comparison.png",
+    "docs/art/kostyash-warrior-style-two-20261115/README.md",
+    "docs/art/kostyash-warrior-style-two-20261115/validation.json"
+  ],
+  "headless": {
+    "core": {
+      "passed": 9424,
+      "failed": 0
+    },
+    "hero_progression": {
+      "passed": 271,
+      "failed": 0
+    },
+    "character_attributes_v1": {
+      "passed": 873,
+      "failed": 0
+    },
+    "class_showcase": {
+      "passed": 262,
+      "failed": 0
+    },
+    "hero_hub": {
+      "passed": 98,
+      "failed": 0
+    },
+    "current_schema_boundary": {
+      "passed": 592,
+      "failed": 0
+    },
+    "expedition_transitions": {
+      "passed": 190,
+      "failed": 0
+    },
+    "mage_deck_expedition": {
+      "passed": 519,
+      "failed": 0
+    },
+    "balance_recovery": {
+      "passed": 32,
+      "failed": 0
+    },
+    "push_chain": {
+      "passed": 636,
+      "failed": 0
+    }
+  },
+  "gpu": {
+    "unit_vital_bars": {
+      "passed": 599,
+      "failed": 0
+    },
+    "presentation_status": {
+      "passed": 158,
+      "failed": 0
+    },
+    "presentation_consequences": {
+      "passed": 2217,
+      "failed": 0
+    },
+    "hub_development": {
+      "passed": 2609,
+      "failed": 0
+    },
+    "battle_character_card": {
+      "passed": 119,
+      "failed": 0
+    },
+    "class_showcase_ui": {
+      "passed": 47,
+      "failed": 0
+    },
+    "battle_presentation_owned": {
+      "passed": 64,
+      "failed": 0
+    }
+  },
+  "totals": {
+    "headless": 12897,
+    "gpu": 5813,
+    "failed": 0
+  },
+  "captures": {
+    "balance-recovery.png": "3cb20b3c868031e302ad67e9e380e2da746a140a4f9b51966bc9c43973fcaeaa",
+    "battle-five-classes.png": "58a24aa704e292ce50bb8b673cf8558c43cb8071a9f72fbcb1194e9b26cba802",
+    "vitals-gallery.png": "2cc6fdd4ea7b647a57f8f1c109e5b0f15acbf051d4edfd511527905110ef0c91"
+  },
+  "initial_failures": {
+    "unit_vital_bars": "549/50; darker empty tracks reduced black numeral contrast; fixed production colors",
+    "presentation_consequences": "2211/6; tests expected interim push caption instead of final collision",
+    "hub_development": "2608/1; old 13->13 expected instead of 5->5"
+  },
+  "independent_review": "APPROVE",
+  "manual_acceptance": false,
+  "full_suite": false,
+  "preserved_parallel_commit": "53396a74f061b8e5ccb2ab274edc656b7a5ee735",
+  "handoff_archive": {
+    "path": "docs\\CODEX_HANDOFF.history-20261115-14.md",
+    "sha256": "a9d803c4203cd897d96a2aab21d7828e486f4141615b1ad99301e1bc72a4f237",
+    "exact": true
+  }
+}

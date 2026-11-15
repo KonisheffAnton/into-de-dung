@@ -550,6 +550,8 @@ func _show_event_feedback(events: Array, strike: Dictionary, show_results: bool,
 func _show_consequence_feedback(entries: Array[Dictionary], root_id: int) -> void:
 	var grouped: Dictionary = {}
 	for entry: Dictionary in entries:
+		# Запас, пробой и восстановление видны по шкале; текст не заслоняет поле.
+		if StringName(entry.kind) == &"balance": continue
 		var id := int(entry.unit_id)
 		if not grouped.has(id): grouped[id] = {}
 		var parts: Dictionary = grouped[id]

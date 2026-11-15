@@ -1,6 +1,8 @@
 extends RefCounted
 class_name CharacterAttributeRules
 
+const BASE_BALANCE_MAX: float = 5.0
+
 static func power_multiplier(value: float) -> float:
 	return 1.0 + 0.02 * (maxf(0.0, value) - 10.0)
 
@@ -16,8 +18,9 @@ static func critical_multiplier(value: float) -> float:
 static func max_hp(value: float) -> float:
 	return 28.0 + maxf(0.0, value) - 10.0
 
-static func balance_max(value: float) -> float:
-	return 14.0 + floorf((maxf(0.0, value) - 10.0) / 3.0)
+static func balance_max(_value: float) -> float:
+	# Выносливость повышает только HP; постоянный запас растёт исключительно от перков.
+	return BASE_BALANCE_MAX
 
 static func move_max(value: float) -> float:
 	var delta := maxf(0.0, value) - 10.0

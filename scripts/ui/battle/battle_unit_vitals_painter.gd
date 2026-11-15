@@ -3,8 +3,8 @@ class_name BattleUnitVitalsPainter
 
 ## Только опубликованный снимок: экранная геометрия не меняет бой и picking фигуры.
 const BAR_WIDTH: float = 48.0
-const BAR_HEIGHT: float = 9.0
-const NUMBER_SIZE: int = 11
+const BAR_HEIGHT: float = 11.0
+const NUMBER_SIZE: int = 12
 const MINIMUM_NUMBER_SIZE: int = 7
 static var _number_font: FontFile
 static var _baseline_offsets: Dictionary = {}
@@ -19,18 +19,18 @@ static func draw_vitals(canvas: Node2D, unit: BattleUnitView, armor: Dictionary,
 	var hp_text := BattleEventText.amount_text(unit.hp)
 	var armor_text := BattleEventText.amount_text(float(armor.get("current", 0.0)))
 	var width := _track_width(hp_text, armor_text if not armor.is_empty() else "")
-	var hp_rect := Rect2(origin + Vector2(-width * 0.5, 12), Vector2(width, BAR_HEIGHT))
+	var hp_rect := Rect2(origin + Vector2(-width * 0.5, 14), Vector2(width, BAR_HEIGHT))
 	var armor_rect := Rect2(origin + Vector2(-width * 0.5, 1), Vector2(width, BAR_HEIGHT))
 	var after: Dictionary = forecast.get("after", {}) as Dictionary
 	var expected_hp := float(after.get("hp", unit.hp))
 	var hp_ratio := clampf(unit.hp / unit.hp_max if unit.hp_max > 0.0 else 0.0, 0.0, 1.0)
 	# Компенсируем весь canvas/stretch сразу; числа и рамка не уменьшаются с камерой.
 	canvas.draw_set_transform_matrix(screen.affine_inverse())
-	_draw_track(canvas, hp_rect, hp_ratio, Color("829969"), Color("96ab7c"), Color("6e8259"), Color("777d70"))
+	_draw_track(canvas, hp_rect, hp_ratio, Color("a2bf7b"), Color("bad592"), Color("89a365"), Color("777d70"))
 	if not is_equal_approx(expected_hp, unit.hp):
 		var expected_ratio := clampf(expected_hp / unit.hp_max if unit.hp_max > 0.0 else 0.0, 0.0, 1.0)
 		var inner := hp_rect.grow(-1.0)
-		var tint := Color("f29b9b") if expected_hp < unit.hp else Color("829969")
+		var tint := Color("f29b9b") if expected_hp < unit.hp else Color("a2bf7b")
 		canvas.draw_rect(Rect2(inner.position + Vector2(inner.size.x * minf(hp_ratio, expected_ratio), 0), Vector2(inner.size.x * absf(hp_ratio - expected_ratio), inner.size.y)), tint)
 		canvas.draw_string(ThemeDB.fallback_font, origin + Vector2(-32, 56), "%s→%s" % [hp_text, BattleEventText.amount_text(expected_hp)], HORIZONTAL_ALIGNMENT_CENTER, 64, 9, tint)
 		var mark := inner.position.x + inner.size.x * expected_ratio
@@ -38,12 +38,12 @@ static func draw_vitals(canvas: Node2D, unit: BattleUnitView, armor: Dictionary,
 	_draw_amount(canvas, hp_rect, hp_text)
 	if not bool(after.get("alive", unit.alive)):
 		canvas.draw_string(ThemeDB.fallback_font, origin + Vector2(-18, 67), "ПОГИБ", HORIZONTAL_ALIGNMENT_CENTER, 36, 8, Color("f29b9b"))
-	_draw_track(canvas, Rect2(origin + Vector2(-width * 0.5, 23), Vector2(width, 4)), BattleBalanceDisplay.ratio(unit.balance, unit.balance_max), Color("bea16c"), Color("cdb888"), Color("a58b60"), Color("45494b"))
+	_draw_balance(canvas, Rect2(origin + Vector2(-width * 0.5, 27), Vector2(width, 4)), unit.balance, unit.balance_max)
 	if not armor.is_empty():
 		var maximum := float(armor.get("maximum", 0.0))
 		var current := float(armor.get("current", 0.0))
 		var expected := float(after.get("armor_current", current))
-		_draw_track(canvas, armor_rect, current / maximum if maximum > 0.0 else 0.0, Color("9ca5a6"), Color("b1b9b6"), Color("828d8f"), Color("747d80"))
+		_draw_track(canvas, armor_rect, current / maximum if maximum > 0.0 else 0.0, Color("c0cacb"), Color("dce4e2"), Color("a4b1b4"), Color("747d80"))
 		if expected != current:
 			var inner := armor_rect.grow(-1.0)
 			var mark := inner.position.x + inner.size.x * (clampf(expected / maximum, 0.0, 1.0) if maximum > 0.0 else 0.0)
@@ -101,7 +101,7 @@ static func _glyph_height(font_size: int) -> float:
 static func _draw_amount(canvas: Node2D, rect: Rect2, text: String) -> void:
 	var font := _font()
 	var font_size := NUMBER_SIZE
-	while font_size > MINIMUM_NUMBER_SIZE and (_glyph_height(font_size) > 5.0 or font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x > rect.size.x - 4.0):
+	while font_size > MINIMUM_NUMBER_SIZE and (_glyph_height(font_size) > 7.0 or font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x > rect.size.x - 4.0):
 		font_size -= 1
 	var width := font.get_string_size(text, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size).x
 	var baseline := Vector2(rect.get_center().x - width * 0.5, rect.get_center().y + _baseline_offset(font_size)).round()
@@ -124,3 +124,20 @@ static func _draw_track(canvas: Node2D, rect: Rect2, ratio: float, fill: Color, 
 	canvas.draw_rect(filled, fill)
 	canvas.draw_rect(Rect2(filled.position, Vector2(filled.size.x, 1)), light)
 	canvas.draw_rect(Rect2(filled.end - Vector2(filled.size.x, 1), Vector2(filled.size.x, 1)), shade)
+
+
+static func _draw_balance(canvas: Node2D, rect: Rect2, disruption: float, maximum: float) -> void:
+	var ratio := BattleBalanceDisplay.ratio(disruption, maximum)
+	_draw_track(canvas, rect, ratio, Color("bea16c"), Color("cdb888"), Color("a58b60"), Color("45494b"))
+	# Невосприимчивость не имеет делимых очков, а плотные деления на узких шкалах слились бы в шум.
+	if maximum <= 0.0:
+		return
+	var inner := rect.grow(-1.0)
+	if inner.size.x / maximum < 2.0:
+		return
+	var point_count := floori(maximum)
+	for point: int in range(1, point_count + 1):
+		var x := roundf(inner.position.x + inner.size.x * float(point) / maximum)
+		if x >= inner.end.x:
+			continue
+		canvas.draw_rect(Rect2(Vector2(x, inner.position.y), Vector2(1.0, inner.size.y)), Color.BLACK)

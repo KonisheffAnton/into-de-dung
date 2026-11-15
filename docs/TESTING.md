@@ -19,6 +19,19 @@
 
 ## Изменение игрового кода
 
+Равновесие5 и читаемость полос (2026-11-15):
+`python tools/demo/isolate.py --render-check --only core hero_progression
+character_attributes_v1 class_showcase hero_hub current_schema_boundary
+expedition_transitions mage_deck_expedition balance_recovery push_chain
+unit_vital_bars presentation_status presentation_consequences battle_character_card
+hub_development --screen 0`.
+Проверяются постоянная база5/перк+2 без роста от Выносливости, старые enemy-пороги
+каталогов1–3, snapshot/RNG и реальные preview/live последствия; отсутствие всплывающих
+подписей равновесия при ударе/пробое/восстановлении. GPU сверяет секции5/7,
+дробь/ноль/иммунитет/слишком плотный порог, числа и зазор до рамки при50–125%.
+`class_showcase_ui` дополнительно даёт кадр пяти текущих классов на игровом поле.
+Full и ручная F5/zoom/OS-DPI/usability/performance приёмка остаются отдельными.
+
 Кузнец и восстановление брони в хабе (2026-11-15):
 `python tools/demo/isolate.py --check --only hero_hub expedition_transitions
 expedition_postbattle mage_deck_expedition warrior_recovery`, затем

@@ -81,6 +81,7 @@ func _run() -> void:
 		await _check_zoom(zoom_index)
 	if not captures.is_empty():
 		await _check_crisp_number_pixels()
+		await _check_balance_sections()
 	_check_action_pose_invariants()
 	await _check_death_hides_bars()
 	viewport.queue_free()
@@ -91,13 +92,13 @@ func _run() -> void:
 
 func _vital_cases() -> Array[Dictionary]:
 	return [
-		{"hp": 100.0, "hp_max": 100.0, "armor": 100.0, "armor_max": 100.0, "balance": 0.0, "balance_max": 100.0, "case": "full"},
-		{"hp": 50.5, "hp_max": 100.0, "armor": 50.5, "armor_max": 100.0, "balance": 50.0, "balance_max": 100.0, "case": "half"},
-		{"hp": 0.1, "hp_max": 100.0, "armor": 0.1, "armor_max": 100.0, "balance": 99.9, "balance_max": 100.0, "case": "near-zero"},
-		{"hp": 0.0, "hp_max": 100.0, "armor": 0.0, "armor_max": 100.0, "balance": 100.0, "balance_max": 100.0, "case": "empty"},
+		{"hp": 100.0, "hp_max": 100.0, "armor": 100.0, "armor_max": 100.0, "balance": 0.0, "balance_max": 5.0, "case": "full"},
+		{"hp": 50.5, "hp_max": 100.0, "armor": 50.5, "armor_max": 100.0, "balance": 3.5, "balance_max": 7.0, "case": "half"},
+		{"hp": 0.1, "hp_max": 100.0, "armor": 0.1, "armor_max": 100.0, "balance": 4.9, "balance_max": 5.0, "case": "near-zero"},
+		{"hp": 0.0, "hp_max": 100.0, "armor": 0.0, "armor_max": 100.0, "balance": 7.0, "balance_max": 7.0, "case": "empty"},
 		{"hp": 123456789012.5, "hp_max": 123456789012.5, "armor": 105.0, "armor_max": 120.0, "balance": 0.0, "balance_max": 120.0, "case": "long-number"},
 		{"hp": 35.25, "hp_max": 60.0, "armor": 2.25, "armor_max": 50.0, "balance": 0.0, "balance_max": 0.0, "case": "immune"},
-		{"hp": 0.75, "hp_max": 1.5, "armor": 0.5, "armor_max": 0.5, "balance": 4.5, "balance_max": 10.0, "case": "fractional-max"},
+		{"hp": 0.75, "hp_max": 1.5, "armor": 0.5, "armor_max": 0.5, "balance": 0.5, "balance_max": 5.0, "case": "fractional-max"},
 	]
 
 
@@ -167,90 +168,121 @@ func _check_zoom(zoom_index: int) -> void:
 		var visual := visuals[row_index]
 		var case_index := row_index % 7
 		var row := _vital_cases()[case_index]
-		var hp_text_point := _bar_screen_anchor(visual) + Vector2(0.0, 16.5)
-		var armor_text_point := _bar_screen_anchor(visual) + Vector2(0.0, 5.5)
+		var hp_text_point := _bar_screen_anchor(visual) + Vector2(0.0, 19.5)
+		var armor_text_point := _bar_screen_anchor(visual) + Vector2(0.0, 6.5)
 		check(_has_centered_dark_ink(image, hp_text_point, zoom),
 			"HP amount ink stays centered and legible at zoom %.2f for %s %s" % [zoom, visual.visual_class_id, row.case])
 		if String(row.case) == "long-number":
 			check(visual.unit.hp == 123456789012.5 and BattleEventText.amount_text(visual.unit.hp) == "123456789012.5",
 				"long HP keeps its exact published amount for the displayed text")
-			check(_has_dark_ink_outside_standard_track(image, _bar_screen_anchor(visual) + Vector2(0.0, 16.5)),
+			check(_has_dark_ink_outside_standard_track(image, _bar_screen_anchor(visual) + Vector2(0.0, 19.5)),
 				"long HP glyphs remain visible beyond the original 48-pixel track width")
 		check(_has_centered_dark_ink(image, armor_text_point, zoom),
 			"armor amount ink stays centered and legible at zoom %.2f for %s %s" % [zoom, visual.visual_class_id, row.case])
 		if String(row.case) == "full":
-			var hp_frame := _bar_screen_anchor(visual) + Vector2(-23.5, 16.5)
-			var armor_frame := _bar_screen_anchor(visual) + Vector2(-23.5, 5.5)
+			var hp_frame := _bar_screen_anchor(visual) + Vector2(-23.5, 19.5)
+			var armor_frame := _bar_screen_anchor(visual) + Vector2(-23.5, 6.5)
 			check(_has_color_near(image, hp_frame, Color.BLACK, zoom)
 				and _has_color_near(image, armor_frame, Color.BLACK, zoom),
 				"inset black frames remain visible around HP and armor at zoom %.2f" % zoom)
 		if String(row.case) in ["full", "empty", "fractional-max"]:
-			check(_bar_edge_rows_are_palette_only(image, _bar_screen_anchor(visual), 12,
-				[Color("829969"), Color("96ab7c"), Color("6e8259"), Color("777d70")]),
+			check(_bar_edge_rows_are_palette_only(image, _bar_screen_anchor(visual), 14,
+				[Color("a2bf7b"), Color("bad592"), Color("89a365"), Color("777d70")]),
 				"HP top and bottom interior rows contain only track colors at zoom %.2f for %s" % [zoom, row.case])
 			check(_bar_edge_rows_are_palette_only(image, _bar_screen_anchor(visual), 1,
-				[Color("9ca5a6"), Color("b1b9b6"), Color("828d8f"), Color("747d80")]),
+				[Color("c0cacb"), Color("dce4e2"), Color("a4b1b4"), Color("747d80")]),
 				"armor top and bottom interior rows contain only track colors at zoom %.2f for %s" % [zoom, row.case])
 		if String(row.case) == "half":
-			var hp_fill := _bar_screen_anchor(visual) + Vector2(-21.0, 16.5)
-			var armor_fill := _bar_screen_anchor(visual) + Vector2(-21.0, 5.5)
-			check(_has_color_near(image, hp_fill, Color("829969"), zoom),
+			var hp_fill := _bar_screen_anchor(visual) + Vector2(-21.0, 19.5)
+			var armor_fill := _bar_screen_anchor(visual) + Vector2(-21.0, 6.5)
+			check(_has_color_near(image, hp_fill, Color("a2bf7b"), zoom),
 				"half HP remains green at zoom %.2f" % zoom)
-			check(_has_color_near(image, armor_fill, Color("9ca5a6"), zoom),
+			check(_has_color_near(image, armor_fill, Color("c0cacb"), zoom),
 				"half armor remains metallic gray at zoom %.2f" % zoom)
-			var forecast_fill := _bar_screen_anchor(visual) + Vector2(-16.0, 16.5)
+			var forecast_fill := _bar_screen_anchor(visual) + Vector2(-16.0, 19.5)
 			check(_has_color_near(image, forecast_fill, Color("f29b9b"), zoom),
 				"damage forecast segment remains distinct at zoom %.2f" % zoom)
 		if String(row.case) == "empty":
-			var hp_track := _bar_screen_anchor(visual) + Vector2(-18.0, 16.5)
-			var armor_track := _bar_screen_anchor(visual) + Vector2(-18.0, 5.5)
+			var hp_track := _bar_screen_anchor(visual) + Vector2(-18.0, 19.5)
+			var armor_track := _bar_screen_anchor(visual) + Vector2(-18.0, 6.5)
 			check(_has_color_near(image, hp_track, Color("777d70"), zoom),
 				"zero HP keeps a neutral track visible at zoom %.2f" % zoom)
 			check(_has_color_near(image, armor_track, Color("747d80"), zoom),
 				"zero armor keeps a neutral metallic track visible at zoom %.2f" % zoom)
 		if String(row.case) == "near-zero":
-			var reserve_pixel := _bar_screen_anchor(visual) + Vector2(-22.5, 25.0)
+			var reserve_pixel := _bar_screen_anchor(visual) + Vector2(-22.5, 29.0)
 			check(_has_color_near(image, reserve_pixel, Color("a58b60"), zoom),
 				"positive tiny balance reserve remains visible at zoom %.2f" % zoom)
 		if String(row.case) == "full":
-			var balance_start := _bar_screen_anchor(visual) + Vector2(-20.0, 25.0)
-			var balance_end := _bar_screen_anchor(visual) + Vector2(20.0, 25.0)
-			var balance_upper := _bar_screen_anchor(visual) + Vector2(0.0, 23.0)
-			var balance_lower := _bar_screen_anchor(visual) + Vector2(0.0, 26.0)
+			var balance_start := _bar_screen_anchor(visual) + Vector2(-20.0, 29.0)
+			var balance_end := _bar_screen_anchor(visual) + Vector2(20.0, 29.0)
+			var balance_upper := _bar_screen_anchor(visual) + Vector2(0.0, 27.0)
+			var balance_lower := _bar_screen_anchor(visual) + Vector2(0.0, 30.0)
 			check(_has_color_near(image, balance_start, Color("a58b60"), zoom)
 				and _has_color_near(image, balance_end, Color("a58b60"), zoom),
 				"full reserve spans the framed balance bar at zoom %.2f" % zoom)
 			check(_has_color_near(image, balance_upper, Color("cdb888"), zoom)
 				and _has_color_near(image, balance_lower, Color("a58b60"), zoom),
 				"balance fill stays visibly thicker than a one-pixel line at zoom %.2f" % zoom)
-			var partial_end := _bar_screen_anchor(visuals[1]) + Vector2(10.0, 25.0)
+			var partial_end := _bar_screen_anchor(visuals[1]) + Vector2(10.0, 29.0)
 			check(_has_color_near(image, partial_end, Color("45494b"), zoom),
 				"half reserve leaves its far half empty at zoom %.2f" % zoom)
 		if String(row.case) == "empty":
-			var empty_reserve := _bar_screen_anchor(visual) + Vector2(-22.0, 25.0)
+			var empty_reserve := _bar_screen_anchor(visual) + Vector2(-22.0, 29.0)
 			check(_has_color_near(image, empty_reserve, Color("45494b"), zoom),
 				"depleted balance shows an empty neutral track at zoom %.2f" % zoom)
 		if String(row.case) == "immune":
-			var immune_pixel := _bar_screen_anchor(visual) + Vector2(0.0, 25.0)
+			var immune_pixel := _bar_screen_anchor(visual) + Vector2(0.0, 29.0)
 			check(_has_color_near(image, immune_pixel, Color("a58b60"), zoom),
 				"zero maximum balance shows full immunity reserve at zoom %.2f" % zoom)
 		if String(row.case) == "fractional-max":
-			var fractional_armor := _bar_screen_anchor(visual) + Vector2(20.0, 5.5)
-			check(_has_color_near(image, fractional_armor, Color("9ca5a6"), zoom),
+			var fractional_armor := _bar_screen_anchor(visual) + Vector2(20.0, 6.5)
+			check(_has_color_near(image, fractional_armor, Color("c0cacb"), zoom),
 				"subunit armor maximum preserves a fully filled fractional value at zoom %.2f" % zoom)
-			var partial_balance := _bar_screen_anchor(visual) + Vector2(0.0, 25.0)
+			var partial_balance := _bar_screen_anchor(visual) + Vector2(0.0, 29.0)
 			check(_has_color_near(image, partial_balance, Color("a58b60"), zoom),
 				"fractional balance reserve remains amber at zoom %.2f" % zoom)
 		if is_equal_approx(zoom, 1.0) and row_index < 6:
 			var enemy_index := row_index + 7
 			var enemy_visual := visuals[enemy_index]
-			var player_color_point := _bar_screen_anchor(visual) + Vector2(-18.0, 16.5)
-			var enemy_color_point := _bar_screen_anchor(enemy_visual) + Vector2(-18.0, 16.5)
+			var player_color_point := _bar_screen_anchor(visual) + Vector2(-18.0, 19.5)
+			var enemy_color_point := _bar_screen_anchor(enemy_visual) + Vector2(-18.0, 19.5)
 			if String(row.case) == "half":
 				check(_sampled_colors_match(image, player_color_point, enemy_color_point),
 					"ally and enemy receive the same HP fill color for %s" % visual.visual_class_id)
 	check(BattleBalanceDisplay.ratio(99.9, 100.0) > 0.0 and BattleBalanceDisplay.ratio(0.0, 0.0) == 1.0,
 		"balance sample semantics retain positive reserve and maximum-zero immunity")
+
+
+func _check_balance_sections() -> void:
+	var visual := visuals[0]
+	var old_balance := visual.unit.balance
+	var old_maximum := visual.unit.balance_max
+	# Пиксели подтверждают и пустые секции: разделитель отличается от пустого трека.
+	for zoom: float in ZOOMS:
+		stage.scale = Vector2.ONE * zoom
+		for sample: Vector2 in [Vector2(0, 5), Vector2(0, 7), Vector2(3.5, 7), Vector2(4.9, 5), Vector2(5, 5), Vector2(0, 0), Vector2(0, 120), Vector2(0, 1e30), Vector2(0.5, 5.5)]:
+			visual.unit.balance = sample.x
+			visual.unit.balance_max = sample.y
+			visual.queue_redraw()
+			await process_frame
+			await RenderingServer.frame_post_draw
+			var image := viewport.get_texture().get_image()
+			var anchor := Vector2i(_bar_screen_anchor(visual))
+			var separators: Array[int] = []
+			for x: int in range(-23, 23):
+				if image.get_pixelv(anchor + Vector2i(x, 28)).is_equal_approx(Color.BLACK) and image.get_pixelv(anchor + Vector2i(x, 29)).is_equal_approx(Color.BLACK): separators.append(x)
+			var expected: Array[int] = []
+			if sample.y > 0.0 and sample.y <= 23.0:
+				for point: int in range(1, ceili(sample.y)):
+					expected.append(roundi(-23.0 + 46.0 * float(point) / sample.y))
+			check(separators == expected, "one visible separator per point including empty cells: %s zoom %.2f" % [sample, zoom])
+			if sample == Vector2(3.5, 7):
+				check(image.get_pixelv(anchor + Vector2i(-1, 29)).is_equal_approx(Color("a58b60")) and image.get_pixelv(anchor + Vector2i(1, 29)).is_equal_approx(Color("45494b")), "fractional remaining point fills only half its section")
+			if sample == Vector2(0, 5) and is_equal_approx(zoom, 1.0): await _capture(image, "unit-vitals-five-sections")
+	visual.unit.balance = old_balance
+	visual.unit.balance_max = old_maximum
+	visual.queue_redraw()
 
 
 func _bar_origin(visual: BattleDemoIsoVisual) -> Vector2:
@@ -286,10 +318,10 @@ func _check_crisp_number_pixels() -> void:
 					reference_anchors[reference_key] = anchor
 				else:
 					var reference_anchor: Vector2 = reference_anchors[reference_key]
-					for region: Rect2i in [Rect2i(-24, 1, 48, 9), Rect2i(-24, 12, 48, 9), Rect2i(-24, 23, 48, 4)]:
+					for region: Rect2i in [Rect2i(-24, 1, 48, 11), Rect2i(-24, 14, 48, 11), Rect2i(-24, 27, 48, 4)]:
 						check(_regions_equal(reference_image, reference_anchor, image, anchor, region),
 							"fixed RGBA bar region matches zoom 1.0 at %.2f for %s row %d" % [zoom, row.case, faction_row])
-				check(_has_antialiased_black_ink(image, anchor + Vector2(0, 16.5)),
+				check(_has_antialiased_black_ink(image, anchor + Vector2(0, 19.5)),
 					"PlayBold HP text has black ink and blended antialias edges at zoom %.2f" % zoom)
 		if is_equal_approx(zoom, 1.13): await _capture(image, "unit-vitals-fixed-fractional-pan")
 
@@ -307,7 +339,7 @@ func _regions_equal(first: Image, first_anchor: Vector2, second: Image, second_a
 
 func _bar_edge_rows_are_palette_only(image: Image, anchor: Vector2, bar_top: int, palette: Array[Color]) -> bool:
 	# Ряды у внутренней рамки должны оставаться заливкой/пустым треком, без цифр.
-	for y_offset: int in [bar_top + 1, bar_top + 7]:
+	for y_offset: int in [bar_top + 1, bar_top + 9]:
 		for x_offset: int in range(-22, 22):
 			var point := Vector2i(roundi(anchor.x) + x_offset, roundi(anchor.y) + y_offset)
 			if point.x < 0 or point.y < 0 or point.x >= image.get_width() or point.y >= image.get_height(): return false
@@ -324,7 +356,7 @@ func _bar_edge_rows_are_palette_only(image: Image, anchor: Vector2, bar_top: int
 func _has_antialiased_black_ink(image: Image, center: Vector2) -> bool:
 	var saw_black := false
 	var saw_edge := false
-	var hp_palette: Array[Color] = [Color("829969"), Color("96ab7c"), Color("6e8259"), Color("777d70")]
+	var hp_palette: Array[Color] = [Color("a2bf7b"), Color("bad592"), Color("89a365"), Color("777d70")]
 	for y: int in range(roundi(center.y) - 3, roundi(center.y) + 4):
 		for x: int in range(roundi(center.x) - 20, roundi(center.x) + 21):
 			if x < 0 or y < 0 or x >= image.get_width() or y >= image.get_height(): continue
@@ -448,8 +480,8 @@ func _check_death_hides_bars() -> void:
 	var image := viewport.get_texture().get_image()
 	if image.is_empty(): return
 	if not _has_rendered_color(image): return
-	var point := _bar_screen_anchor(visual) + Vector2(0.0, 16.0)
-	check(not _has_color_near(image, point, Color("829969"), 1.0),
+	var point := _bar_screen_anchor(visual) + Vector2(0.0, 19.0)
+	check(not _has_color_near(image, point, Color("a2bf7b"), 1.0),
 		"death does not leave a living green HP fill on the stage")
 	await _capture(image, "unit-vitals-death")
 
