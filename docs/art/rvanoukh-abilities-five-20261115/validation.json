@@ -1,0 +1,91 @@
+{
+  "status": "PASS",
+  "scope": "raw provenance, canvas, alpha, sheet cells, source, timing, embedded sheets, protected files",
+  "quality_status": "EDGES_PASS",
+  "quality_issues": [],
+  "clips": [
+    {
+      "key": "ability-1",
+      "frames": 33,
+      "raw_api_bytes_exact": true,
+      "sheet_pixels_exact": true,
+      "edge_frames": [],
+      "visible_height_range": [
+        95,
+        101
+      ],
+      "last_rgba_differing_pixels": 8271,
+      "preview_ms": 2740
+    },
+    {
+      "key": "ability-2",
+      "frames": 33,
+      "raw_api_bytes_exact": true,
+      "sheet_pixels_exact": true,
+      "edge_frames": [],
+      "visible_height_range": [
+        93,
+        101
+      ],
+      "last_rgba_differing_pixels": 8271,
+      "preview_ms": 2740
+    },
+    {
+      "key": "ability-3",
+      "frames": 33,
+      "raw_api_bytes_exact": true,
+      "sheet_pixels_exact": true,
+      "edge_frames": [],
+      "visible_height_range": [
+        82,
+        101
+      ],
+      "last_rgba_differing_pixels": 8271,
+      "preview_ms": 2740
+    },
+    {
+      "key": "ability-4",
+      "frames": 33,
+      "raw_api_bytes_exact": true,
+      "sheet_pixels_exact": true,
+      "edge_frames": [],
+      "visible_height_range": [
+        91,
+        101
+      ],
+      "last_rgba_differing_pixels": 8271,
+      "preview_ms": 2740
+    },
+    {
+      "key": "ability-5",
+      "frames": 33,
+      "raw_api_bytes_exact": true,
+      "sheet_pixels_exact": true,
+      "edge_frames": [],
+      "visible_height_range": [
+        100,
+        103
+      ],
+      "last_rgba_differing_pixels": 8271,
+      "preview_ms": 2740
+    }
+  ],
+  "raw_pngs_verified": 165,
+  "embedded_pngs": 9,
+  "preview_gif": {
+    "size": [
+      1552,
+      1112
+    ],
+    "frames": 33,
+    "duration_ms": 2740
+  },
+  "foreign_files_unchanged": 33,
+  "runtime_integration": false,
+  "open": [
+    "user choice",
+    "exact return seam",
+    "gameplay meaning",
+    "runtime/F5"
+  ]
+}

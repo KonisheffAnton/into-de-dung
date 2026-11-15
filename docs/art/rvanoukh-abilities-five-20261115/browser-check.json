@@ -1,0 +1,41 @@
+{
+  "status": "PASS",
+  "url": "http://127.0.0.1:8881/gallery.html",
+  "tab_id": "10",
+  "cards": 5,
+  "checks": [
+    "five Russian numbered labels",
+    "one-shot final frame32 hold all5",
+    "global pause",
+    "first slider Home and one-frame step to1",
+    "global restart resumes playback",
+    "speed0.5 selected and playback restarted",
+    "square canvas75/100/125 percent after fix",
+    "repeat checkboxes enabled all5 and observed motion beyond prior end",
+    "deliverable tab retained"
+  ],
+  "canvas_dimensions": {
+    "75%": [
+      282.75,
+      282.75
+    ],
+    "100%": [
+      377,
+      377
+    ],
+    "125%": [
+      471.25,
+      471.25
+    ]
+  },
+  "fixed": "125% canvas previously stretched; absolute centered canvas with height:auto preserves square",
+  "final_state": {
+    "speed": 1,
+    "zoom": 1,
+    "repeat_all": true
+  },
+  "limits": [
+    "Full-page screenshot API failed; native viewport screenshot succeeded.",
+    "Not runtime/F5 or user acceptance."
+  ]
+}

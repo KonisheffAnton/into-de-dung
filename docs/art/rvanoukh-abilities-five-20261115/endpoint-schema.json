@@ -1,0 +1,208 @@
+{
+  "source": "https://api.pixellab.ai/v2/openapi.json",
+  "endpoint": {
+    "tags": [
+      "Animate"
+    ],
+    "summary": "Animate with text (PixMiniMax)",
+    "description": "Beta. Generate an animation from a frame and a text description of the motion. Powered by MiniMax H3.\n\nReturns immediately with a background job ID. Poll `GET /v2/background-jobs/{job_id}`\nto retrieve results when generation completes.\n\n**How it works:**\n1. Submit the first frame and motion description; receive a `background_job_id` immediately.\n2. Poll `GET /v2/background-jobs/{background_job_id}` every 2-5 seconds.\n3. When `status` is `completed`, `last_response.images` holds `frame_count + 1` frames:\n   index 0 is your input frame unchanged, then the generated frames.\n\n**Size Limits:**\n- Maximum image dimension: 256x256 pixels\n- Frame count: multiples of 4, from 4 to 40 at any size up to 256x256\n\n**Prompt enhancement:** set `enhance_prompt: true` to have a short description\n(\"shooting a bow\") expanded into a detailed PixMiniMax motion prompt first; add\n`direction` to hold the sprite's facing and aim attacks that way. The expanded\ntext comes back in `enhanced_prompt` (+0.05 generations).\n\n**Caption fields:** `subject_description`, `initial_pose`, `view` and `direction`\ndescribe the first frame to the model. Any left out are read off the image by an\nAI model, which can decline some requests; the job then fails asking you to send\nthem yourself. With all four sent and `enhance_prompt` off, nothing is rewritten.\n\n**Cost:** priced by generation time, 6 generations for the longest clip (40 frames). Examples: 64x64 at 4 / 8 / 16 / 40 frames = 1 / 1 / 2 / 6 generations; 80x80 at 8 frames = 1; 32x32 at 4 frames = 1. Use `GET /animate-minimax-h3/cost` semantics: the price depends on size and frame count, and sizes just above 64 or 128 pixels are cheaper than sizes just below them because the model works on an upscaled canvas.\n\nTypical generation time: 1-5 minutes.",
+    "operationId": "animate_pixminimax_animate_pixminimax_post",
+    "requestBody": {
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "#/components/schemas/AnimatePixminimaxRequest"
+          }
+        }
+      },
+      "required": true
+    },
+    "responses": {
+      "200": {
+        "description": "Background job accepted",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/AnimatePixminimaxResponse"
+            },
+            "example": {
+              "background_job_id": "123e4567-e89b-12d3-a456-426614174000",
+              "status": "processing"
+            }
+          }
+        }
+      },
+      "401": {
+        "description": "Invalid API token"
+      },
+      "402": {
+        "description": "Insufficient credits"
+      },
+      "422": {
+        "description": "Validation error"
+      },
+      "429": {
+        "description": "Too many concurrent background jobs"
+      }
+    },
+    "security": [
+      {
+        "HTTPBearer": []
+      }
+    ]
+  },
+  "request_schema": {
+    "properties": {
+      "first_frame": {
+        "$ref": "#/components/schemas/Base64Image",
+        "description": "Frame to animate (PNG base64, max 256x256)."
+      },
+      "last_frame": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/Base64Image"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "description": "Optional end pose, same size as first_frame \u2014 the motion is generated between the two."
+      },
+      "description": {
+        "type": "string",
+        "maxLength": 1000,
+        "minLength": 1,
+        "title": "Description",
+        "description": "The motion to generate (e.g. 'walking forward', 'sword slash', 'flame flickering'). Describe movement, not appearance."
+      },
+      "frame_count": {
+        "type": "integer",
+        "title": "Frame Count",
+        "description": "Frames to generate, a multiple of 4 from 4 to 40, at any size up to 256x256.",
+        "default": 8
+      },
+      "seed": {
+        "anyOf": [
+          {
+            "type": "integer",
+            "minimum": 0.0
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Seed",
+        "description": "Seed for reproducible generation (0 = random)",
+        "default": 0
+      },
+      "no_background": {
+        "type": "boolean",
+        "title": "No Background",
+        "description": "True returns the frames on transparency; an opaque input is cut out of its first frame before animating. False keeps an opaque backdrop.",
+        "default": true
+      },
+      "drift_threshold": {
+        "anyOf": [
+          {
+            "type": "number",
+            "minimum": 0.0
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Drift Threshold",
+        "description": "Color de-flicker sensitivity. Frames whose foreground drifts from the first frame beyond this are corrected toward it; 0 corrects every frame, higher values correct fewer. Omit for the default."
+      },
+      "enhance_prompt": {
+        "type": "boolean",
+        "title": "Enhance Prompt",
+        "description": "If true, rewrite `description` as PixMiniMax's action caption before generating: the motion in playback order with weight, follow-through and recovery, and nothing about appearance, pose, view or facing (those are separate caption fields). Equivalent to calling /v2/enhance-animation-v3-prompt with engine='pixminimax' first. Costs an additional 0.05 generations (or equivalent credits). The expanded text is returned in `enhanced_prompt`.",
+        "default": false
+      },
+      "direction": {
+        "anyOf": [
+          {
+            "type": "string",
+            "enum": [
+              "south",
+              "north",
+              "east",
+              "west",
+              "south-east",
+              "south-west",
+              "north-east",
+              "north-west"
+            ]
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Direction",
+        "description": "Facing direction of the sprite (south = towards the camera), the model's facing caption field. Omit to have it read from the image."
+      },
+      "view": {
+        "anyOf": [
+          {
+            "type": "string",
+            "enum": [
+              "low top-down",
+              "high top-down",
+              "side"
+            ]
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "View",
+        "description": "Camera view of the sprite, the model's view caption field. Omit to have it read from the image."
+      },
+      "subject_description": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 300,
+            "minLength": 1
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Subject Description",
+        "description": "What first_frame shows, one noun phrase (e.g. 'a knight in silver plate armour'), the model's subject caption field. Omit to have it read from the image."
+      },
+      "initial_pose": {
+        "anyOf": [
+          {
+            "type": "string",
+            "maxLength": 300,
+            "minLength": 1
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Initial Pose",
+        "description": "The pose first_frame is in (e.g. 'standing upright with the sword lowered'), the model's starting-pose caption field. Omit to have it read from the image."
+      }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+      "first_frame",
+      "description"
+    ],
+    "title": "AnimatePixminimaxRequest",
+    "description": "Request model for the PixMiniMax animation endpoint (powered by MiniMax H3)",
+    "example": {
+      "description": "walking forward",
+      "first_frame": {
+        "base64": "data:image/png;base64,..."
+      },
+      "frame_count": 8,
+      "seed": 42
+    }
+  }
+}

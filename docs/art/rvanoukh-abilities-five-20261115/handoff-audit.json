@@ -1,0 +1,29 @@
+{
+  "base": "47a2be5dcc3d9b91b4009f9d9c6ba4a299393519",
+  "archive": "docs/CODEX_HANDOFF.history-20261115-19.md",
+  "archive_sha256": "43889104f20a0ce8384832835e69a4c9356ae8219a9cf1b8fa4236c7092ce39c",
+  "archive_byte_exact": true,
+  "entry_documents": {
+    "AGENTS.md": {
+      "before_chars_lf": 4565,
+      "after_chars_lf": 4565
+    },
+    "docs/CODEX_HANDOFF.md": {
+      "before_chars_lf": 2481,
+      "after_chars_lf": 2478
+    },
+    "docs/PROJECT_CONTEXT.md": {
+      "before_chars_lf": 3652,
+      "after_chars_lf": 3652
+    },
+    "docs/CODEX_WORKFLOW.md": {
+      "before_chars_lf": 4482,
+      "after_chars_lf": 4482
+    }
+  },
+  "foreign_files_unchanged": true,
+  "foreign_files_checked": 33,
+  "notes": [
+    "PROJECT_CONTEXT3652 is unchanged pre-existing guideline excess; no root import/Godot/runtime claims."
+  ]
+}

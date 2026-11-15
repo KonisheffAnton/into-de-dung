@@ -1,0 +1,122 @@
+[
+  {
+    "key": "ability-1",
+    "kind": "ability",
+    "variant": 1,
+    "name": "Рык",
+    "title": "Рык",
+    "prompt": "One non-contact intimidation roar. Sink slightly lower, inhale with a broad shoulder expansion, draw the muzzle back a little, then open the jaw in one strong rasping roar. The low head pushes only a few pixels forward; shoulders shudder once and ears lag behind. Hold the open-mouth silhouette briefly, close the jaw and slowly settle into the exact original crouch. The club hand stays down across the belly throughout. No weapon swing, strike, bite, projectile or magic effect. Keep both short feet planted at the same spot and the spine deeply hunched, never stand taller or turn around. Preserve the small body size, simple pixel clusters and torn clothing. Fixed camera and scale, transparent background, whole figure and club within the canvas with empty edge margins.",
+    "seed": 2026111551,
+    "frame_count": 32,
+    "expected_frames": 33,
+    "endpoint": "animate-pixminimax",
+    "loop": false,
+    "return_to_first": true,
+    "input": "model/input-256.png",
+    "input_sha256": "6e51f2ff63ad012c87176adf4fe7aea93f7d3ee00074bb26c7eda3741bd0a85e",
+    "captions": {
+      "direction": "south-east",
+      "view": "low top-down",
+      "subject_description": "A small pale grey beastlike hunched goblin with a massive brow, torn pointed ears, short bent legs, long clawed arms, three yellow blisters on its hump, a ragged brown loincloth with holes, and one short iron-headed club in its right hand",
+      "initial_pose": "Deeply crouched facing screen right, huge head low ahead of its hump, both clawed feet planted, free clawed hand near the ground, other hand holding the short club diagonally across the belly"
+    },
+    "attack": false,
+    "gameplay_mechanic_defined": false
+  },
+  {
+    "key": "ability-2",
+    "kind": "ability",
+    "variant": 2,
+    "name": "Прикрыться",
+    "title": "Прикрыться",
+    "prompt": "One defensive bracing gesture. Lower the head behind the heavy brow and compact the hump. Lift the free forearm slowly from the ground to shield the side of the face, claws curled inward, while tucking the club close against the belly without swinging. Hold a low compact protective silhouette, then lower the free palm back onto the original spot and relax to the exact original crouch. No strike, weapon wind-up, push, lunge, contact, projectile or magic effect. Keep both short feet planted at the same spot and the spine deeply hunched, never stand taller or turn around. Preserve the small body size, simple pixel clusters and torn clothing. Fixed camera and scale, transparent background, whole figure and club within the canvas with empty edge margins.",
+    "seed": 2026111552,
+    "frame_count": 32,
+    "expected_frames": 33,
+    "endpoint": "animate-pixminimax",
+    "loop": false,
+    "return_to_first": true,
+    "input": "model/input-256.png",
+    "input_sha256": "6e51f2ff63ad012c87176adf4fe7aea93f7d3ee00074bb26c7eda3741bd0a85e",
+    "captions": {
+      "direction": "south-east",
+      "view": "low top-down",
+      "subject_description": "A small pale grey beastlike hunched goblin with a massive brow, torn pointed ears, short bent legs, long clawed arms, three yellow blisters on its hump, a ragged brown loincloth with holes, and one short iron-headed club in its right hand",
+      "initial_pose": "Deeply crouched facing screen right, huge head low ahead of its hump, both clawed feet planted, free clawed hand near the ground, other hand holding the short club diagonally across the belly"
+    },
+    "attack": false,
+    "gameplay_mechanic_defined": false
+  },
+  {
+    "key": "ability-3",
+    "kind": "ability",
+    "variant": 3,
+    "name": "Взять след",
+    "title": "Взять след",
+    "prompt": "One deliberate scent-tracking ability gesture, larger and clearer than quiet idle sniffing. Lower the broad muzzle almost to the ground, sweep it slowly from near the planted free claw toward screen right, pause for two clear short sniffs, then tilt one torn ear as if locating a smell. Draw the muzzle back and settle into the exact original crouch. The torso follows in a low compact arc; the club stays tucked across the belly. No bite, strike, weapon swing, target, projectile or magic effect. Keep both short feet planted at the same spot and the spine deeply hunched, never stand taller or turn around. Preserve the small body size, simple pixel clusters and torn clothing. Fixed camera and scale, transparent background, whole figure and club within the canvas with empty edge margins.",
+    "seed": 2026111553,
+    "frame_count": 32,
+    "expected_frames": 33,
+    "endpoint": "animate-pixminimax",
+    "loop": false,
+    "return_to_first": true,
+    "input": "model/input-256.png",
+    "input_sha256": "6e51f2ff63ad012c87176adf4fe7aea93f7d3ee00074bb26c7eda3741bd0a85e",
+    "captions": {
+      "direction": "south-east",
+      "view": "low top-down",
+      "subject_description": "A small pale grey beastlike hunched goblin with a massive brow, torn pointed ears, short bent legs, long clawed arms, three yellow blisters on its hump, a ragged brown loincloth with holes, and one short iron-headed club in its right hand",
+      "initial_pose": "Deeply crouched facing screen right, huge head low ahead of its hump, both clawed feet planted, free clawed hand near the ground, other hand holding the short club diagonally across the belly"
+    },
+    "attack": false,
+    "gameplay_mechanic_defined": false
+  },
+  {
+    "key": "ability-4",
+    "kind": "ability",
+    "variant": 4,
+    "name": "Чутьё земли",
+    "title": "Чутьё земли",
+    "prompt": "One ground-listening gesture. Slowly spread the free claws and gently flatten that palm on the ground directly beneath its current position. Sink the low head and lean the ear toward the planted palm as if listening through the earth. Pause in this weighted listening pose; the shoulder and hump give one small responsive tremor. Ease the weight back, curl the fingers and return to the exact original crouch. The club remains low across the belly. No ground slam, hit, forceful impact, weapon swing, projectile or magic effect. Keep both short feet planted at the same spot and the spine deeply hunched, never stand taller or turn around. Preserve the small body size, simple pixel clusters and torn clothing. Fixed camera and scale, transparent background, whole figure and club within the canvas with empty edge margins.",
+    "seed": 2026111554,
+    "frame_count": 32,
+    "expected_frames": 33,
+    "endpoint": "animate-pixminimax",
+    "loop": false,
+    "return_to_first": true,
+    "input": "model/input-256.png",
+    "input_sha256": "6e51f2ff63ad012c87176adf4fe7aea93f7d3ee00074bb26c7eda3741bd0a85e",
+    "captions": {
+      "direction": "south-east",
+      "view": "low top-down",
+      "subject_description": "A small pale grey beastlike hunched goblin with a massive brow, torn pointed ears, short bent legs, long clawed arms, three yellow blisters on its hump, a ragged brown loincloth with holes, and one short iron-headed club in its right hand",
+      "initial_pose": "Deeply crouched facing screen right, huge head low ahead of its hump, both clawed feet planted, free clawed hand near the ground, other hand holding the short club diagonally across the belly"
+    },
+    "attack": false,
+    "gameplay_mechanic_defined": false
+  },
+  {
+    "key": "ability-5",
+    "kind": "ability",
+    "variant": 5,
+    "name": "Стряхнуть",
+    "title": "Стряхнуть",
+    "prompt": "One beastlike shake-off gesture. Tense the shoulders in a deeper crouch, then give one short controlled left-right body shiver that travels from the heavy head through the hump. The loose torn ears and ragged cloth lag and flap once; the claws flex. Keep the muzzle low and the club tucked firmly against the belly. Let the wobble settle and return to the exact original crouch and hand placement. No weapon swing, strike, biting, stomping, leap, target, projectile or magic effect. Keep both short feet planted at the same spot and the spine deeply hunched, never stand taller or turn around. Preserve the small body size, simple pixel clusters and torn clothing. Fixed camera and scale, transparent background, whole figure and club within the canvas with empty edge margins.",
+    "seed": 2026111555,
+    "frame_count": 32,
+    "expected_frames": 33,
+    "endpoint": "animate-pixminimax",
+    "loop": false,
+    "return_to_first": true,
+    "input": "model/input-256.png",
+    "input_sha256": "6e51f2ff63ad012c87176adf4fe7aea93f7d3ee00074bb26c7eda3741bd0a85e",
+    "captions": {
+      "direction": "south-east",
+      "view": "low top-down",
+      "subject_description": "A small pale grey beastlike hunched goblin with a massive brow, torn pointed ears, short bent legs, long clawed arms, three yellow blisters on its hump, a ragged brown loincloth with holes, and one short iron-headed club in its right hand",
+      "initial_pose": "Deeply crouched facing screen right, huge head low ahead of its hump, both clawed feet planted, free clawed hand near the ground, other hand holding the short club diagonally across the belly"
+    },
+    "attack": false,
+    "gameplay_mechanic_defined": false
+  }
+]
