@@ -1,0 +1,272 @@
+{
+  "endpoint": "inpaint-v3",
+  "input": "inputs/inpaint-atlas.png",
+  "mask": "inputs/inpaint-mask.png",
+  "input_sha256": "09cc3bcea3e4ae9cdda62f0db26a118ff4208e3af5cc74f63c2c5df138e8eb9d",
+  "mask_sha256": "3f3282c021074bfc6d7ed538530ed7aebc893f051e09c025a6fafbebb507da73",
+  "seed": 2026111519,
+  "no_background": true,
+  "crop_to_mask": true,
+  "quadrants": [
+    {
+      "quadrant": 0,
+      "source_frame": 9,
+      "offset": [
+        0,
+        0
+      ],
+      "source": "rvanoukh-animation-20261115/pixellab/death-1/frames/frame-09.png",
+      "source_sha256": "1f9eecf5ce33c33667e4153b3508ff2c5caae3e0ad8918c02c1c1430bf8d8109",
+      "eye_boxes_xyxy": [
+        [
+          161,
+          176,
+          171,
+          184
+        ],
+        [
+          178,
+          172,
+          188,
+          181
+        ]
+      ],
+      "corner_box_xyxy": [
+        0,
+        0,
+        4,
+        4
+      ]
+    },
+    {
+      "quadrant": 1,
+      "source_frame": 10,
+      "offset": [
+        256,
+        0
+      ],
+      "source": "rvanoukh-animation-20261115/pixellab/death-1/frames/frame-10.png",
+      "source_sha256": "0f093d5f27a378eabdb32c77a30415ccd336e93b8ea6466dcecdac503681280d",
+      "eye_boxes_xyxy": [
+        [
+          161,
+          172,
+          172,
+          180
+        ],
+        [
+          178,
+          168,
+          188,
+          177
+        ]
+      ],
+      "corner_box_xyxy": [
+        0,
+        0,
+        4,
+        4
+      ]
+    },
+    {
+      "quadrant": 2,
+      "source_frame": 11,
+      "offset": [
+        0,
+        256
+      ],
+      "source": "rvanoukh-animation-20261115/pixellab/death-1/frames/frame-11.png",
+      "source_sha256": "6fceb215c7a3b5e5e2477d4c0e8f62252d0dc17ec3dd7dd66cd6acc0b0dbf0fd",
+      "eye_boxes_xyxy": [
+        [
+          161,
+          175,
+          172,
+          183
+        ],
+        [
+          178,
+          171,
+          188,
+          180
+        ]
+      ],
+      "corner_box_xyxy": [
+        0,
+        0,
+        4,
+        4
+      ]
+    },
+    {
+      "quadrant": 3,
+      "source_frame": 12,
+      "offset": [
+        256,
+        256
+      ],
+      "source": "rvanoukh-animation-20261115/pixellab/death-1/frames/frame-12.png",
+      "source_sha256": "45c1786d5545bdb5aa1685ba63b4ff1e74ea0c7a903ef1068b96415b6660dc64",
+      "eye_boxes_xyxy": [
+        [
+          161,
+          177,
+          172,
+          185
+        ],
+        [
+          178,
+          174,
+          188,
+          183
+        ]
+      ],
+      "corner_box_xyxy": [
+        0,
+        0,
+        4,
+        4
+      ]
+    }
+  ],
+  "assembly_policy": "Use only PixelLab-generated eye/corner pixels within recorded masks. Preserve all other source pixels exactly. No manual eyelid drawing.",
+  "frame_mapping": {
+    "0": {
+      "eyes_from": null,
+      "corner_from": null
+    },
+    "1": {
+      "eyes_from": null,
+      "corner_from": 10
+    },
+    "2": {
+      "eyes_from": null,
+      "corner_from": 10
+    },
+    "3": {
+      "eyes_from": null,
+      "corner_from": 10
+    },
+    "4": {
+      "eyes_from": null,
+      "corner_from": 10
+    },
+    "5": {
+      "eyes_from": null,
+      "corner_from": 10
+    },
+    "6": {
+      "eyes_from": null,
+      "corner_from": 10
+    },
+    "7": {
+      "eyes_from": null,
+      "corner_from": 10
+    },
+    "8": {
+      "eyes_from": null,
+      "corner_from": 10
+    },
+    "9": {
+      "eyes_from": 9,
+      "corner_from": 10
+    },
+    "10": {
+      "eyes_from": 10,
+      "corner_from": 10
+    },
+    "11": {
+      "eyes_from": 11,
+      "corner_from": 10
+    },
+    "12": {
+      "eyes_from": 12,
+      "corner_from": 10
+    },
+    "13": {
+      "eyes_from": 12,
+      "corner_from": 10
+    },
+    "14": {
+      "eyes_from": 12,
+      "corner_from": 10
+    },
+    "15": {
+      "eyes_from": 12,
+      "corner_from": 10
+    },
+    "16": {
+      "eyes_from": 12,
+      "corner_from": 10
+    },
+    "17": {
+      "eyes_from": 12,
+      "corner_from": 10
+    },
+    "18": {
+      "eyes_from": 12,
+      "corner_from": 10
+    },
+    "19": {
+      "eyes_from": 12,
+      "corner_from": 10
+    },
+    "20": {
+      "eyes_from": 12,
+      "corner_from": 10
+    },
+    "21": {
+      "eyes_from": 12,
+      "corner_from": 10
+    },
+    "22": {
+      "eyes_from": 12,
+      "corner_from": 10
+    },
+    "23": {
+      "eyes_from": 12,
+      "corner_from": 10
+    },
+    "24": {
+      "eyes_from": 12,
+      "corner_from": 10
+    },
+    "25": {
+      "eyes_from": 12,
+      "corner_from": 10
+    },
+    "26": {
+      "eyes_from": 12,
+      "corner_from": 10
+    },
+    "27": {
+      "eyes_from": 12,
+      "corner_from": 10
+    },
+    "28": {
+      "eyes_from": 12,
+      "corner_from": 10
+    },
+    "29": {
+      "eyes_from": 12,
+      "corner_from": 10
+    },
+    "30": {
+      "eyes_from": 12,
+      "corner_from": 10
+    },
+    "31": {
+      "eyes_from": 12,
+      "corner_from": 10
+    },
+    "32": {
+      "eyes_from": 12,
+      "corner_from": 10
+    }
+  },
+  "corner_choice_after_provider_review": {
+    "selected_source_pose": 10,
+    "selected_quadrant": 1,
+    "reason": "PixelLab removed all alpha from masked corner in quadrants1/2/3; quadrant0 retained6 opaque pixels. Reuse only the successful generated transparent patch; raw output unchanged."
+  }
+}

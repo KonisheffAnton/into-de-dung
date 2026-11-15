@@ -1,0 +1,173 @@
+{
+  "date": "2026-11-15",
+  "source": "https://api.pixellab.ai/v2/openapi.json",
+  "endpoint": {
+    "tags": [
+      "Inpaint"
+    ],
+    "summary": "Inpaint image (Pro)",
+    "description": "Inpaint/edit pixel art images using AI.\n\nThis endpoint uses AI-powered inpainting for high-quality\nresults. It allows you to edit specific areas of an image based on a\ntext description.\nReturns immediately with a background job ID. Poll `GET /v2/background-jobs/{job_id}`\nto check status and retrieve results.\n\n**Key Features:**\n- AI-powered inpainting with text descriptions\n- Optional context image for style guidance\n- Bounding box support for precise editing\n- Background removal option\n- Mask-based editing (white = generate, black = preserve)\n- Non-blocking: returns job ID immediately\n\n**Image Sizes:**\n- Inpainting image: 32x32 to 512x512 pixels\n- Context image: up to 1024x1024 pixels (optional)\n\n**Mask Format:**\n- White pixels = areas to generate/replace\n- Black pixels = areas to preserve\n\n**Usage Pattern:**\n1. POST to this endpoint (returns `background_job_id`)\n2. Poll `GET /v2/background-jobs/{background_job_id}` every 5-10 seconds\n3. When `status` is `completed`, inpainted image is in `last_response`\n\nUsing the Python client:\n```python\nimport pixellab\n\nclient = pixellab.Client(secret=\"YOUR_API_TOKEN\")\n\nresponse = client.inpaint_v3(\n    description=\"add a glowing sword\",\n    inpainting_image=character_image,\n    mask_image=sword_area_mask,\n)\n\nresponse.images[0].pil_image().save(\"edited.png\")\n```",
+    "operationId": "inpaint_v3_inpaint_v3_post",
+    "requestBody": {
+      "content": {
+        "application/json": {
+          "schema": {
+            "$ref": "#/components/schemas/InpaintV3Request"
+          }
+        }
+      },
+      "required": true
+    },
+    "responses": {
+      "202": {
+        "description": "Inpainting job accepted and processing",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/InpaintV3Response"
+            },
+            "example": {
+              "background_job_id": "123e4567-e89b-12d3-a456-426614174000",
+              "status": "processing",
+              "usage": {
+                "type": "usd",
+                "usd": 0.0
+              }
+            }
+          }
+        }
+      },
+      "401": {
+        "description": "Invalid API token"
+      },
+      "402": {
+        "description": "Insufficient credits"
+      },
+      "422": {
+        "description": "Validation error"
+      },
+      "429": {
+        "description": "Too many concurrent jobs"
+      }
+    },
+    "security": [
+      {
+        "HTTPBearer": []
+      }
+    ]
+  },
+  "request": {
+    "properties": {
+      "description": {
+        "type": "string",
+        "maxLength": 2000,
+        "minLength": 1,
+        "title": "Description",
+        "description": "Description of what to generate in the masked area"
+      },
+      "inpainting_image": {
+        "$ref": "#/components/schemas/InpaintImage",
+        "description": "Image to inpaint (32x32 to 512x512)"
+      },
+      "mask_image": {
+        "$ref": "#/components/schemas/InpaintImage",
+        "description": "Mask for the image (same dimensions as inpainting_image). White = generate, Black = preserve"
+      },
+      "context_image": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/InpaintImage"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "description": "Context image (deprecated)",
+        "deprecated": true
+      },
+      "bounding_box": {
+        "anyOf": [
+          {
+            "$ref": "#/components/schemas/BoundingBox"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "description": "Bounding box (deprecated)",
+        "deprecated": true
+      },
+      "seed": {
+        "anyOf": [
+          {
+            "type": "integer",
+            "minimum": 0.0
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Seed",
+        "description": "Seed for reproducible generation"
+      },
+      "no_background": {
+        "anyOf": [
+          {
+            "type": "boolean"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "No Background",
+        "description": "Remove background from generated content",
+        "default": false
+      },
+      "crop_to_mask": {
+        "anyOf": [
+          {
+            "type": "boolean"
+          },
+          {
+            "type": "null"
+          }
+        ],
+        "title": "Crop To Mask",
+        "description": "Whether to crop generated content to mask boundary (ensures clean edges)",
+        "default": true
+      }
+    },
+    "additionalProperties": false,
+    "type": "object",
+    "required": [
+      "description",
+      "inpainting_image",
+      "mask_image"
+    ],
+    "title": "InpaintV3Request",
+    "description": "Request model for inpaint-v3 endpoint",
+    "example": {
+      "description": "add a glowing sword",
+      "inpainting_image": {
+        "image": {
+          "base64": "..."
+        },
+        "size": {
+          "height": 64,
+          "width": 64
+        }
+      },
+      "mask_image": {
+        "image": {
+          "base64": "..."
+        },
+        "size": {
+          "height": 64,
+          "width": 64
+        }
+      },
+      "no_background": false,
+      "seed": 42
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "date": "2026-11-15",
+  "method": "CUA: rendered browser state, DOM geometry and screenshots",
+  "url": "http://127.0.0.1:8880/gallery.html",
+  "status": "PASS",
+  "selected_cards": ["Основное ожидание №3", "Редкое ожидание №2", "Смерть №1 — закрытые глаза"],
+  "checks": [
+    "Exactly3 selected animation cards; no attack card",
+    "Both idle clips advance and loop; death holds frame32",
+    "Play/pause, restart, one-frame step, manual death scrub to32",
+    "Speed0.5x, then restored1x",
+    "All3 canvases square at small128x128 and native256x256",
+    "All3 large canvases square:373.65625x373.65625 or373.671875x373.671875 CSS pixels",
+    "Death frame32 visibly has closed eyelids and no upper-left artifact",
+    "Native scale and1x playback retained; selected gallery marked deliverable"
+  ],
+  "not_tested": ["Source toggle button", "F5/game integration", "OS DPI/performance", "Runtime frequency of rare idle"],
+  "runtime_integration": false
+}

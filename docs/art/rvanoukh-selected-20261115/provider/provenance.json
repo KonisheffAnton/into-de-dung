@@ -1,0 +1,18 @@
+{
+  "endpoint": "inpaint-v3",
+  "job_id": "41d92196-8d34-4996-91fc-f4cea1fc38ab",
+  "usage": {
+    "usd": 0.0,
+    "type": "generations",
+    "generations": 25
+  },
+  "atlas_sha256": "daf5278cfd96b7bfa53b74d56d0064f423fbae1d8f21219d8776355ce9e38770",
+  "atlas_size": [
+    512,
+    512
+  ],
+  "atlas_mode": "RGBA",
+  "request_sha256": "e016b285873ed216c8ddff8717164a826597c4ccf224b18d7135bc0770b1b6b1",
+  "input_sha256": "09cc3bcea3e4ae9cdda62f0db26a118ff4208e3af5cc74f63c2c5df138e8eb9d",
+  "mask_sha256": "3f3282c021074bfc6d7ed538530ed7aebc893f051e09c025a6fafbebb507da73"
+}

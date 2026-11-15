@@ -1,0 +1,22 @@
+{
+  "main_idle": {
+    "source": "../rvanoukh-animation-20261115/pixellab/idle-3",
+    "variant": 3
+  },
+  "rare_idle": {
+    "source": "../rvanoukh-animation-20261115/pixellab/idle-2",
+    "variant": 2
+  },
+  "death": {
+    "source": "../rvanoukh-animation-20261115/pixellab/death-1",
+    "variant": 1,
+    "correction": "Close eyes at collapse; remove corner artifact"
+  },
+  "ability": {
+    "status": "deferred_by_user",
+    "generate": false,
+    "integrate": false
+  },
+  "runtime_integration": false,
+  "rare_idle_frequency": "not specified; do not invent a gameplay probability"
+}

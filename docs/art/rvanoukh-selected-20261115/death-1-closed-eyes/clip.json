@@ -1,0 +1,647 @@
+{
+  "kind": "death",
+  "variant": 1,
+  "name": "Рухнул вперёд — закрытые глаза",
+  "key": "death-1-closed-eyes",
+  "source_clip": "../rvanoukh-animation-20261115/pixellab/death-1",
+  "source_clip_sha256": "8feff0efc5f9132f7dc20c8f20ef12f3f80f140fddd1252ea2624f8a4233500c",
+  "json_hash_policy": "Parsed JSON, sorted keys, compact separators, ensure_ascii=True, UTF-8 without BOM; binary PNG hashes remain raw",
+  "anchor": [
+    128,
+    200
+  ],
+  "canvas": [
+    256,
+    256
+  ],
+  "actual_frames": 33,
+  "loop": false,
+  "durations_ms": [
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    1500
+  ],
+  "total_duration_ms": 3740,
+  "provider": {
+    "file": "provider/raw-atlas.png",
+    "sha256": "daf5278cfd96b7bfa53b74d56d0064f423fbae1d8f21219d8776355ce9e38770",
+    "job_id": "41d92196-8d34-4996-91fc-f4cea1fc38ab",
+    "usage": {
+      "usd": 0.0,
+      "type": "generations",
+      "generations": 25
+    },
+    "atlas_size": [
+      512,
+      512
+    ]
+  },
+  "edit_manifest_sha256": "5e24ac3027acec20ad64c3741ac0efc3cd9c65339ab9831c50061786518df606",
+  "assembly_policy": "Use only PixelLab-generated eye/corner pixels within recorded masks. Preserve all other source pixels exactly. No manual eyelid drawing.",
+  "frames": [
+    {
+      "index": 0,
+      "file": "death-1-closed-eyes/frames/frame-00.png",
+      "sha256": "51d8c6364d3b8dd18616a060be6dce603fd7e8a9fce3269ab42f1dac4743a8e3",
+      "source_file": "docs/art/rvanoukh-animation-20261115/pixellab/death-1/frames/frame-00.png",
+      "source_sha256": "51d8c6364d3b8dd18616a060be6dce603fd7e8a9fce3269ab42f1dac4743a8e3",
+      "provider_patch_sources": {
+        "eyes_from": null,
+        "corner_from": null
+      },
+      "byte_equal_source": true,
+      "canvas": [
+        256,
+        256
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "index": 1,
+      "file": "death-1-closed-eyes/frames/frame-01.png",
+      "sha256": "816d4ded7156df3488b0ad3894887b4d930ea2cb69d354b10d82e517ed7dc6b6",
+      "source_file": "docs/art/rvanoukh-animation-20261115/pixellab/death-1/frames/frame-01.png",
+      "source_sha256": "d0263893039822ac6baab1bff255d337bb8df11fe44717080f6a36ecc33fabb3",
+      "provider_patch_sources": {
+        "eyes_from": null,
+        "corner_from": 10
+      },
+      "byte_equal_source": false,
+      "canvas": [
+        256,
+        256
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "index": 2,
+      "file": "death-1-closed-eyes/frames/frame-02.png",
+      "sha256": "abec61286edce68a9cd02a4f200abad3bc52ebaf33dbe2a136f8830388dd0288",
+      "source_file": "docs/art/rvanoukh-animation-20261115/pixellab/death-1/frames/frame-02.png",
+      "source_sha256": "6aeb625ead40362c49f9fd65f75c4bb98f602c6ab376e1a28392bd490fb45bd3",
+      "provider_patch_sources": {
+        "eyes_from": null,
+        "corner_from": 10
+      },
+      "byte_equal_source": false,
+      "canvas": [
+        256,
+        256
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "index": 3,
+      "file": "death-1-closed-eyes/frames/frame-03.png",
+      "sha256": "fa56a22b4b03567d8356d7923b9975577c208f021a1f403fe1f7038878378d76",
+      "source_file": "docs/art/rvanoukh-animation-20261115/pixellab/death-1/frames/frame-03.png",
+      "source_sha256": "19a29af738c99d8adb2b5b611d77f4c39008f76ba548d4c36c28de95f1b223a2",
+      "provider_patch_sources": {
+        "eyes_from": null,
+        "corner_from": 10
+      },
+      "byte_equal_source": false,
+      "canvas": [
+        256,
+        256
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "index": 4,
+      "file": "death-1-closed-eyes/frames/frame-04.png",
+      "sha256": "9c223d6b56a182d99fc6c13cf2db292ccbc5f690e4170cc75490ea304645806b",
+      "source_file": "docs/art/rvanoukh-animation-20261115/pixellab/death-1/frames/frame-04.png",
+      "source_sha256": "d659e5e4f55f07f77922d35452671e444d13a7007fc157e17a2b0f316aada618",
+      "provider_patch_sources": {
+        "eyes_from": null,
+        "corner_from": 10
+      },
+      "byte_equal_source": false,
+      "canvas": [
+        256,
+        256
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "index": 5,
+      "file": "death-1-closed-eyes/frames/frame-05.png",
+      "sha256": "9c4f9fa383c99fe3a8fdd5462aa765a105e7b0eb1192874d0eb720396faa4a4b",
+      "source_file": "docs/art/rvanoukh-animation-20261115/pixellab/death-1/frames/frame-05.png",
+      "source_sha256": "edc61924de5ad45971da206fce433df554f68d8a9bdc54c7f5cfb8e686c030cd",
+      "provider_patch_sources": {
+        "eyes_from": null,
+        "corner_from": 10
+      },
+      "byte_equal_source": false,
+      "canvas": [
+        256,
+        256
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "index": 6,
+      "file": "death-1-closed-eyes/frames/frame-06.png",
+      "sha256": "14e19c1556d2431e2e1f569502482c60b57c21626f3a72646dd9df3001cd12ac",
+      "source_file": "docs/art/rvanoukh-animation-20261115/pixellab/death-1/frames/frame-06.png",
+      "source_sha256": "f05837922f9b6f9371365bd82e0e5e41685e520d250e193e3907f9e6c4c07815",
+      "provider_patch_sources": {
+        "eyes_from": null,
+        "corner_from": 10
+      },
+      "byte_equal_source": false,
+      "canvas": [
+        256,
+        256
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "index": 7,
+      "file": "death-1-closed-eyes/frames/frame-07.png",
+      "sha256": "63bf96a96fdf6e7218784c8195e8e49ab6580fc3a0f3fdd684bf8e752d688384",
+      "source_file": "docs/art/rvanoukh-animation-20261115/pixellab/death-1/frames/frame-07.png",
+      "source_sha256": "88a9850b9bdb2a36fecc14f91b36352cf53850d66599f3d24f5643e8dc8a300e",
+      "provider_patch_sources": {
+        "eyes_from": null,
+        "corner_from": 10
+      },
+      "byte_equal_source": false,
+      "canvas": [
+        256,
+        256
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "index": 8,
+      "file": "death-1-closed-eyes/frames/frame-08.png",
+      "sha256": "231f81361440deff1c7512e36a3c490d3b61b18956eccf046f1cbc0681accc21",
+      "source_file": "docs/art/rvanoukh-animation-20261115/pixellab/death-1/frames/frame-08.png",
+      "source_sha256": "b0075cc4ab5ac3a55507985a9f4761733a12d4df8aa34e70e9268d6dd1557b36",
+      "provider_patch_sources": {
+        "eyes_from": null,
+        "corner_from": 10
+      },
+      "byte_equal_source": false,
+      "canvas": [
+        256,
+        256
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "index": 9,
+      "file": "death-1-closed-eyes/frames/frame-09.png",
+      "sha256": "f2597c4211a851ba5fee97b3ed464695b8b23d835a28cfe3ed39ef62ae9975a6",
+      "source_file": "docs/art/rvanoukh-animation-20261115/pixellab/death-1/frames/frame-09.png",
+      "source_sha256": "1f9eecf5ce33c33667e4153b3508ff2c5caae3e0ad8918c02c1c1430bf8d8109",
+      "provider_patch_sources": {
+        "eyes_from": 9,
+        "corner_from": 10
+      },
+      "byte_equal_source": false,
+      "canvas": [
+        256,
+        256
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "index": 10,
+      "file": "death-1-closed-eyes/frames/frame-10.png",
+      "sha256": "29da110fcffb3a6e0000dfc6b42167a33c02193d3233e6bd2ab5e604db7cc95c",
+      "source_file": "docs/art/rvanoukh-animation-20261115/pixellab/death-1/frames/frame-10.png",
+      "source_sha256": "0f093d5f27a378eabdb32c77a30415ccd336e93b8ea6466dcecdac503681280d",
+      "provider_patch_sources": {
+        "eyes_from": 10,
+        "corner_from": 10
+      },
+      "byte_equal_source": false,
+      "canvas": [
+        256,
+        256
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "index": 11,
+      "file": "death-1-closed-eyes/frames/frame-11.png",
+      "sha256": "95f957b32654a4fad434d72067e6e5ad49edf0fe255026c54fe7b71012209abb",
+      "source_file": "docs/art/rvanoukh-animation-20261115/pixellab/death-1/frames/frame-11.png",
+      "source_sha256": "6fceb215c7a3b5e5e2477d4c0e8f62252d0dc17ec3dd7dd66cd6acc0b0dbf0fd",
+      "provider_patch_sources": {
+        "eyes_from": 11,
+        "corner_from": 10
+      },
+      "byte_equal_source": false,
+      "canvas": [
+        256,
+        256
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "index": 12,
+      "file": "death-1-closed-eyes/frames/frame-12.png",
+      "sha256": "366ca8c4d06dc82ed9ba82f027d1cace77c7141fd2ffe1d848d790ffde15f0fe",
+      "source_file": "docs/art/rvanoukh-animation-20261115/pixellab/death-1/frames/frame-12.png",
+      "source_sha256": "45c1786d5545bdb5aa1685ba63b4ff1e74ea0c7a903ef1068b96415b6660dc64",
+      "provider_patch_sources": {
+        "eyes_from": 12,
+        "corner_from": 10
+      },
+      "byte_equal_source": false,
+      "canvas": [
+        256,
+        256
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "index": 13,
+      "file": "death-1-closed-eyes/frames/frame-13.png",
+      "sha256": "1cdbfee895b4bb2e6a0258daded3d99969b2f227aa945840fff0e00c18950ece",
+      "source_file": "docs/art/rvanoukh-animation-20261115/pixellab/death-1/frames/frame-13.png",
+      "source_sha256": "df31ea62bb49a8eb57bada65ada4ab12d67cd1fa1db6760deb5b36c409e4dc61",
+      "provider_patch_sources": {
+        "eyes_from": 12,
+        "corner_from": 10
+      },
+      "byte_equal_source": false,
+      "canvas": [
+        256,
+        256
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "index": 14,
+      "file": "death-1-closed-eyes/frames/frame-14.png",
+      "sha256": "e6b997416999d4050a199b78633d34590a78a69a75d1e2a0c3a32cf299aeff7f",
+      "source_file": "docs/art/rvanoukh-animation-20261115/pixellab/death-1/frames/frame-14.png",
+      "source_sha256": "ca59d8adb6d7b70225fea39a694b92b8784585c6481ac1b35377a48e57d0cfc5",
+      "provider_patch_sources": {
+        "eyes_from": 12,
+        "corner_from": 10
+      },
+      "byte_equal_source": false,
+      "canvas": [
+        256,
+        256
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "index": 15,
+      "file": "death-1-closed-eyes/frames/frame-15.png",
+      "sha256": "5f73709dcee7de4c90e3f61a2bcb6559b0143cba09a63a2ba6d27874aec229fc",
+      "source_file": "docs/art/rvanoukh-animation-20261115/pixellab/death-1/frames/frame-15.png",
+      "source_sha256": "485e103cb2352e24625650e8cdd2af61ce0fb6f1710592460b45e80e872cd788",
+      "provider_patch_sources": {
+        "eyes_from": 12,
+        "corner_from": 10
+      },
+      "byte_equal_source": false,
+      "canvas": [
+        256,
+        256
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "index": 16,
+      "file": "death-1-closed-eyes/frames/frame-16.png",
+      "sha256": "fe216ee8e0e42f6514e894df3adee6b4fb6748f2f2a7a2951f9a4c3b30fa237e",
+      "source_file": "docs/art/rvanoukh-animation-20261115/pixellab/death-1/frames/frame-16.png",
+      "source_sha256": "986e996ca4ef4bd56242ea2ec3aac1e3d6864c55a0f11705a0f3d0861c5d7dfa",
+      "provider_patch_sources": {
+        "eyes_from": 12,
+        "corner_from": 10
+      },
+      "byte_equal_source": false,
+      "canvas": [
+        256,
+        256
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "index": 17,
+      "file": "death-1-closed-eyes/frames/frame-17.png",
+      "sha256": "a1718d8eaceeb8a56c94d5993603c3cc1a9253abb939ace60afbd06dfdadcd50",
+      "source_file": "docs/art/rvanoukh-animation-20261115/pixellab/death-1/frames/frame-17.png",
+      "source_sha256": "7a087e6197fe6bd85737dc6c30d221bb13412d426ec9e2c0220e9cc76b141659",
+      "provider_patch_sources": {
+        "eyes_from": 12,
+        "corner_from": 10
+      },
+      "byte_equal_source": false,
+      "canvas": [
+        256,
+        256
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "index": 18,
+      "file": "death-1-closed-eyes/frames/frame-18.png",
+      "sha256": "adaf937bcebec92ebf5e6253a5bc99e393ac34088f60ec898b25a836d8c6ce79",
+      "source_file": "docs/art/rvanoukh-animation-20261115/pixellab/death-1/frames/frame-18.png",
+      "source_sha256": "574ba9141afb8ddd2595f97cd549c8e6b15fb28f5903ac096fb18c0d969a403a",
+      "provider_patch_sources": {
+        "eyes_from": 12,
+        "corner_from": 10
+      },
+      "byte_equal_source": false,
+      "canvas": [
+        256,
+        256
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "index": 19,
+      "file": "death-1-closed-eyes/frames/frame-19.png",
+      "sha256": "568cf4bff2211fd58ef10209f6791140f66636f5e5d113fc983c68e8407fa8c1",
+      "source_file": "docs/art/rvanoukh-animation-20261115/pixellab/death-1/frames/frame-19.png",
+      "source_sha256": "8af79a62cdb0dbb14724d2bb5c027f36c75d3e4686fa798cff3adae372914465",
+      "provider_patch_sources": {
+        "eyes_from": 12,
+        "corner_from": 10
+      },
+      "byte_equal_source": false,
+      "canvas": [
+        256,
+        256
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "index": 20,
+      "file": "death-1-closed-eyes/frames/frame-20.png",
+      "sha256": "520b88bce196977b38e1579f0a07186b691d995ae52ad063eef0a16681371e59",
+      "source_file": "docs/art/rvanoukh-animation-20261115/pixellab/death-1/frames/frame-20.png",
+      "source_sha256": "575fce43f60fe8afeaea703610282863c536381878c9be26f4d10bd6f60fd822",
+      "provider_patch_sources": {
+        "eyes_from": 12,
+        "corner_from": 10
+      },
+      "byte_equal_source": false,
+      "canvas": [
+        256,
+        256
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "index": 21,
+      "file": "death-1-closed-eyes/frames/frame-21.png",
+      "sha256": "40d50c7cd089acdf56fec083a9728148b2dc8366f3e2a1431e703194756d27c8",
+      "source_file": "docs/art/rvanoukh-animation-20261115/pixellab/death-1/frames/frame-21.png",
+      "source_sha256": "1175d9c285fedfc61386516ce316d9900a8dcb6b8c2e928126b763534bfbd6c8",
+      "provider_patch_sources": {
+        "eyes_from": 12,
+        "corner_from": 10
+      },
+      "byte_equal_source": false,
+      "canvas": [
+        256,
+        256
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "index": 22,
+      "file": "death-1-closed-eyes/frames/frame-22.png",
+      "sha256": "82664033e902504427850acf3f0971572468eaa1bf507bae8a502412a3a4d537",
+      "source_file": "docs/art/rvanoukh-animation-20261115/pixellab/death-1/frames/frame-22.png",
+      "source_sha256": "1e1f8ac6b352a72fbc45abcc28311d53e90b655db5922de9713c917d5bdb2c96",
+      "provider_patch_sources": {
+        "eyes_from": 12,
+        "corner_from": 10
+      },
+      "byte_equal_source": false,
+      "canvas": [
+        256,
+        256
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "index": 23,
+      "file": "death-1-closed-eyes/frames/frame-23.png",
+      "sha256": "8f9f380d8b40f8945ca55986d27531dc8eadc441fc8db0f8e6deee0f6cfb7696",
+      "source_file": "docs/art/rvanoukh-animation-20261115/pixellab/death-1/frames/frame-23.png",
+      "source_sha256": "0cf631c56841ecd3a3a33503aef5634ac4c4bae9f6fd2d11a1a2601000512e9d",
+      "provider_patch_sources": {
+        "eyes_from": 12,
+        "corner_from": 10
+      },
+      "byte_equal_source": false,
+      "canvas": [
+        256,
+        256
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "index": 24,
+      "file": "death-1-closed-eyes/frames/frame-24.png",
+      "sha256": "5127e72e8c743f4c5ea8b256dfb1fc68d77615dac03a990696c10f604b83a88c",
+      "source_file": "docs/art/rvanoukh-animation-20261115/pixellab/death-1/frames/frame-24.png",
+      "source_sha256": "5f51bb781d42ef181d441ee67787e29c2176e877dc24c3eb27d3b441ba7cf6a8",
+      "provider_patch_sources": {
+        "eyes_from": 12,
+        "corner_from": 10
+      },
+      "byte_equal_source": false,
+      "canvas": [
+        256,
+        256
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "index": 25,
+      "file": "death-1-closed-eyes/frames/frame-25.png",
+      "sha256": "53b8cfd500941e7a9f6799acd5d7196cceec782a2aeea575161720be68ee7c19",
+      "source_file": "docs/art/rvanoukh-animation-20261115/pixellab/death-1/frames/frame-25.png",
+      "source_sha256": "c863b3d99ae1d590294818da441f45aa2c8c8ec7c82857c609d1278b9886f76f",
+      "provider_patch_sources": {
+        "eyes_from": 12,
+        "corner_from": 10
+      },
+      "byte_equal_source": false,
+      "canvas": [
+        256,
+        256
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "index": 26,
+      "file": "death-1-closed-eyes/frames/frame-26.png",
+      "sha256": "c314767e4839c504edaae6bb140d6ae92afe4b90f0aa926ab612eed7950030ae",
+      "source_file": "docs/art/rvanoukh-animation-20261115/pixellab/death-1/frames/frame-26.png",
+      "source_sha256": "27bd71a2c0e9763e793b17f87908e9b2ff7b694d4aba041450b1b9fd5122ea58",
+      "provider_patch_sources": {
+        "eyes_from": 12,
+        "corner_from": 10
+      },
+      "byte_equal_source": false,
+      "canvas": [
+        256,
+        256
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "index": 27,
+      "file": "death-1-closed-eyes/frames/frame-27.png",
+      "sha256": "e3262003c846dbb9c4cf7ef2def2f94d0c3717fca0cff212e405b6fedc1efa5b",
+      "source_file": "docs/art/rvanoukh-animation-20261115/pixellab/death-1/frames/frame-27.png",
+      "source_sha256": "6b68ba47eb9bfacba20a03567945feea502c265cddbe86b0d17c88a662c3b2a7",
+      "provider_patch_sources": {
+        "eyes_from": 12,
+        "corner_from": 10
+      },
+      "byte_equal_source": false,
+      "canvas": [
+        256,
+        256
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "index": 28,
+      "file": "death-1-closed-eyes/frames/frame-28.png",
+      "sha256": "0f07022d0b61326624f1f03b50bd83ca87f3ad83e326c30c438a94a586a21228",
+      "source_file": "docs/art/rvanoukh-animation-20261115/pixellab/death-1/frames/frame-28.png",
+      "source_sha256": "76fac785d6da8d228aa8fc4c5da01c5f0c4af8f88869b16bc62f0678372e6ad0",
+      "provider_patch_sources": {
+        "eyes_from": 12,
+        "corner_from": 10
+      },
+      "byte_equal_source": false,
+      "canvas": [
+        256,
+        256
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "index": 29,
+      "file": "death-1-closed-eyes/frames/frame-29.png",
+      "sha256": "af70f34ce85f0147b0df33996dd2dcad89d69cb58640757a35bc7b3b332dd4bc",
+      "source_file": "docs/art/rvanoukh-animation-20261115/pixellab/death-1/frames/frame-29.png",
+      "source_sha256": "9a0141b142b3f28b77f207a418f3dfdc8a5bf72dd905f4ecdd6fee85ce3ed668",
+      "provider_patch_sources": {
+        "eyes_from": 12,
+        "corner_from": 10
+      },
+      "byte_equal_source": false,
+      "canvas": [
+        256,
+        256
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "index": 30,
+      "file": "death-1-closed-eyes/frames/frame-30.png",
+      "sha256": "b518ce426bcdc26ca5903683b7384c88b7d9f00ce396fc285c863f4c1fd6fb6b",
+      "source_file": "docs/art/rvanoukh-animation-20261115/pixellab/death-1/frames/frame-30.png",
+      "source_sha256": "eb6d44c823f71ac2e59b53827d015da0fe247fb6c839148f7b97949e24cf8a51",
+      "provider_patch_sources": {
+        "eyes_from": 12,
+        "corner_from": 10
+      },
+      "byte_equal_source": false,
+      "canvas": [
+        256,
+        256
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "index": 31,
+      "file": "death-1-closed-eyes/frames/frame-31.png",
+      "sha256": "a3b6e60cbf2c36f3fe2c53accd16dd4734de3fb4ac9a412f4a302cc9ae23cfe3",
+      "source_file": "docs/art/rvanoukh-animation-20261115/pixellab/death-1/frames/frame-31.png",
+      "source_sha256": "84d71e68fba12fb6f09187f52fde534e53a06f1c58fd1860a59a814f43e460b3",
+      "provider_patch_sources": {
+        "eyes_from": 12,
+        "corner_from": 10
+      },
+      "byte_equal_source": false,
+      "canvas": [
+        256,
+        256
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "index": 32,
+      "file": "death-1-closed-eyes/frames/frame-32.png",
+      "sha256": "d57649a728e5612683a1674f24aaf951775f6387ccc9b09be84dc3323b9870fd",
+      "source_file": "docs/art/rvanoukh-animation-20261115/pixellab/death-1/frames/frame-32.png",
+      "source_sha256": "e35efbe318f94e2b460cba29b87af9004c137dd8952f3e3dcb3508b58635f3cc",
+      "provider_patch_sources": {
+        "eyes_from": 12,
+        "corner_from": 10
+      },
+      "byte_equal_source": false,
+      "canvas": [
+        256,
+        256
+      ],
+      "mode": "RGBA"
+    }
+  ],
+  "spritesheet": {
+    "file": "death-1-closed-eyes/spritesheet.png",
+    "sha256": "59c1176a6b5c50eadf048df6f61092dd1681fed328decc03ae99539f00ea78bd",
+    "size": [
+      2048,
+      1280
+    ]
+  },
+  "filmstrip": {
+    "file": "death-1-closed-eyes/filmstrip.png",
+    "sha256": "e4396f9b62800b9c09537d703041986561ef85891b3b38d0a278d7622da10b07"
+  },
+  "runtime_integration": false
+}

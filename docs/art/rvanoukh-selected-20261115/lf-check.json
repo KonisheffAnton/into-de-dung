@@ -1,0 +1,10 @@
+{
+  "status": "PASS",
+  "normalized_json_files": 33,
+  "isolated_root": "D:\\Codex\\home\\generated_images\\rvanoukh-selected-20261115\\lf-check",
+  "validator_exit": 0,
+  "outside_mask_rgba_exact": true,
+  "source_atlas_matches": true,
+  "mask_white_pixels": 768,
+  "meaning": "Complete validator passed with LF/noBOM JSON copies; PNG bytes unchanged, original worktree sources untouched"
+}

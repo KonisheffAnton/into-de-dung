@@ -1,0 +1,34 @@
+{
+  "base": "e2edf27e583ffe72b3cc9d63dbfd07eb778369f7",
+  "archive": "docs/CODEX_HANDOFF.history-20261115-18.md",
+  "archive_sha256": "0b3a605a8da4ced874bd5bafd64d832f53d9efff4250a79c9584c542e83c1d8c",
+  "archive_byte_exact": true,
+  "foreign_files_checked": 33,
+  "foreign_all_unchanged": true,
+  "entry_documents": {
+    "AGENTS.md": {
+      "before_chars_lf": 4565,
+      "after_chars_lf": 4565,
+      "unchanged": true
+    },
+    "docs/CODEX_HANDOFF.md": {
+      "before_chars_lf": 2419,
+      "after_chars_lf": 2481,
+      "unchanged": false
+    },
+    "docs/PROJECT_CONTEXT.md": {
+      "before_chars_lf": 3652,
+      "after_chars_lf": 3652,
+      "unchanged": true
+    },
+    "docs/CODEX_WORKFLOW.md": {
+      "before_chars_lf": 4482,
+      "after_chars_lf": 4482,
+      "unchanged": true
+    }
+  },
+  "notes": [
+    "PROJECT_CONTEXT3652 chars is an unchanged pre-existing guideline excess.",
+    "No game-code changes or Godot claims; user attack deferral and prior open acceptance preserved."
+  ]
+}
