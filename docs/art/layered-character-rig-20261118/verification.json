@@ -1,0 +1,249 @@
+{
+  "status": "PASS",
+  "base_commit": "c0b15f912bc6d9939d990ae25a2af111c1025266",
+  "scope": "Real layered offline HTML prototype; no game integration",
+  "browser_checks": 12,
+  "same_pose_combinations": 4,
+  "sample_times": 125,
+  "renders_without_opaque_edge_clipping": 500,
+  "static_assets": {
+    "head": {
+      "size": [
+        42,
+        44
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "9465f27c8dcd4696a7b9606fc3b9e6a54773e53ff9ba0f8a60c31b18091e6420"
+    },
+    "torso": {
+      "size": [
+        48,
+        62
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "6da36925b3911717cb5ecfb729ab59b954242a1f9d5c43ca875c643b44fd1ec4"
+    },
+    "pelvis": {
+      "size": [
+        34,
+        22
+      ],
+      "alpha_extrema": [
+        0,
+        253
+      ],
+      "sha256": "8a551c98b9083ee22c91746b2ce729514e9d0aa2ed72ccf97c3a716b0db130c0"
+    },
+    "upper_arm": {
+      "size": [
+        16,
+        32
+      ],
+      "alpha_extrema": [
+        0,
+        253
+      ],
+      "sha256": "877e584174b9041fecd4da03fedc82c46929f112ac01f8b2bb50db264332575a"
+    },
+    "forearm": {
+      "size": [
+        14,
+        28
+      ],
+      "alpha_extrema": [
+        0,
+        253
+      ],
+      "sha256": "ec429574bf6b2a26cf982e31b1a672a0e6954b426dee556b0357b85a081f1edd"
+    },
+    "hand": {
+      "size": [
+        12,
+        14
+      ],
+      "alpha_extrema": [
+        0,
+        253
+      ],
+      "sha256": "8d7d2ef23c59667659dd59da115b6290c4d21a5fed073475a13b8bd67b4a392b"
+    },
+    "leg_left": {
+      "size": [
+        16,
+        38
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "d09f5fb6bc22c2d339694272efd8f61f0bc266280a8dff8dd8ef81b049ce7520"
+    },
+    "leg_right": {
+      "size": [
+        16,
+        38
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "398678b0f574a8b56a09c7d465da8ab7097cff4a76d2b6e15bf7ffe79c2c676e"
+    },
+    "armor_light": {
+      "size": [
+        48,
+        62
+      ],
+      "alpha_extrema": [
+        0,
+        253
+      ],
+      "sha256": "1ca28cd300f8ab2ab576f75a94646046586d2c12c83cb60a9d3339d502bb6727"
+    },
+    "armor_heavy": {
+      "size": [
+        48,
+        62
+      ],
+      "alpha_extrema": [
+        0,
+        253
+      ],
+      "sha256": "1e0f31184a77990c945ec5df2d853c2dc57e68eea3fcefc8ec38c541cb851062"
+    },
+    "shoulder_light": {
+      "size": [
+        22,
+        22
+      ],
+      "alpha_extrema": [
+        0,
+        253
+      ],
+      "sha256": "a0b8edaf4f68009acc3321bb15efea073d0819a7afb51ec88c63e49cab976cd9"
+    },
+    "shoulder_heavy": {
+      "size": [
+        22,
+        22
+      ],
+      "alpha_extrema": [
+        0,
+        253
+      ],
+      "sha256": "6f32cd35b73eade9a299fd217245a7a52f0c2e0ad70adf121f35b448c0c13916"
+    },
+    "sword": {
+      "size": [
+        20,
+        52
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "88b1c4dad525c00cf3f72472368812c178132dbeb20249f04640aa03ea810a8d"
+    },
+    "axe": {
+      "size": [
+        28,
+        52
+      ],
+      "alpha_extrema": [
+        0,
+        253
+      ],
+      "sha256": "b59f6cafcf6311dac7a96beaa4499b6f0bb158c3a2e0574f6eb137d10a5436dd"
+    },
+    "bracer_light": {
+      "size": [
+        16,
+        24
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "05e133d001ed1603e35724eee75a917bec9d59981977a9635ddc512d3efae5cf"
+    },
+    "bracer_heavy": {
+      "size": [
+        16,
+        24
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "9a43b2103ed2e6a062fa7415ed60671e6008ae29e9b141e123d682cdaaea56f5"
+    }
+  },
+  "media": {
+    "overview.gif": {
+      "frames": 50,
+      "duration_ms": 5000,
+      "size": [
+        512,
+        576
+      ],
+      "sha256": "ec7f79919d242e9c35945c83860d38d9d4da5126aefd5bf33c9e880fbc710c0d"
+    },
+    "swap.gif": {
+      "frames": 4,
+      "duration_ms": 2800,
+      "size": [
+        512,
+        512
+      ],
+      "sha256": "2b2f0c6616c5120d48857455c12f0ac7b4ceb2bcb2a1ba23ff483e150d4b39dd"
+    }
+  },
+  "independent_review": "APPROVE",
+  "foreign_protected": 33,
+  "foreign_changed": [],
+  "handoff_archive": {
+    "path": "docs\\CODEX_HANDOFF.history-20261118-2.md",
+    "sha256": "04ebeb4a55e9c67bdb487ee6073d12f44c7fae92e097ecb91b3c75c8cb930202"
+  },
+  "entry_document_sizes": {
+    "AGENTS.md": {
+      "before": 4565,
+      "after": 4565,
+      "changed": false
+    },
+    "docs/CODEX_HANDOFF.md": {
+      "before": 2292,
+      "after": 2442,
+      "changed": true
+    },
+    "docs/PROJECT_CONTEXT.md": {
+      "before": 3734,
+      "after": 3734,
+      "changed": false
+    },
+    "docs/CODEX_WORKFLOW.md": {
+      "before": 4482,
+      "after": 4482,
+      "changed": false
+    }
+  },
+  "visual_qa": "Leader inspected headless gallery, motion poses, exploded view; reviewer inspected overview/motion/exploded images",
+  "user_art_acceptance": "pending",
+  "not_run": [
+    "Godot import/startup",
+    "game/full/core tests",
+    "F5/Editor/DPI",
+    "performance"
+  ],
+  "limitations": [
+    "Rigid flat limbs; no walking/knee bends/cloth/depth switching",
+    "Same sword/axe timing deliberately; different weapon weights not modeled",
+    "Fixed facing and one character body; no general runtime compatibility proved"
+  ]
+}

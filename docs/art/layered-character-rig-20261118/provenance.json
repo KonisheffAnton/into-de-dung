@@ -1,0 +1,16 @@
+{
+  "mode": "built-in image_gen",
+  "reference": "reference.png",
+  "reference_sha256": "d8117c67d3b59c5943ea850b8802ff1ce895ef919ad65c06d730d0716b6146a8",
+  "atlas": "parts-atlas-original.png",
+  "atlas_sha256": "3ee4285136129dfc68a1c4d4cb63ccc15f18df10f0f4aa51a043d0e2eb0a003f",
+  "brief": "generation-brief.txt",
+  "brief_kind": "Normalized generation brief; exact tool invocation retained in conversation",
+  "local_operations": [
+    "cell extraction",
+    "alpha-bbox crop",
+    "nearest resizing",
+    "runtime part transforms"
+  ],
+  "authorization": "User2026-11-18 explicitly requests actual layered character with shared animation; no game integration"
+}

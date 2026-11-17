@@ -1,0 +1,26 @@
+{
+  "status": "APPROVE",
+  "role": "game_reviewer",
+  "base_commit": "c0b15f912bc6d9939d990ae25a2af111c1025266",
+  "files": {
+    "rig.js": "6a3d07d198027e2b9a72f82a7434421c35ac676b013d7a2c966e494134b20a43",
+    "build_preview.py": "62966a01aa07444853f047d72dde82565df0782c1065596a5f93c4c739f14f56",
+    "extract_assets.py": "f2ffadae18b06e3e9dfdebc15a3b00b05dea18b3c7c6a9a3fd37cfe555df257b",
+    "check_preview.py": "9ae02cd54c7a4691d44a9b501855ee0065bb30ab224fdaa0b1f5079b343ceb56",
+    "assets/manifest.json": "1ecafad8d2ab155cd282721319807eb33920b14232311026867152356a388697"
+  },
+  "checks": [
+    "Shared pose independent of equipment",
+    "Armor/weapon swapping preserves time",
+    "Cycle endpoint and asset/socket binding",
+    "16assets+atlas hashes/dimensions",
+    "Generated gallery matches rig.js",
+    "Read browser report12PASS",
+    "Viewed overview,motion poses,exploded image"
+  ],
+  "not_run": [
+    "Reviewer did not rerun browser writer",
+    "User visual acceptance",
+    "Godot runtime integration/performance"
+  ]
+}

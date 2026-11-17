@@ -1,0 +1,379 @@
+{
+  "parts": {
+    "head": {
+      "file": "assets/head.png",
+      "width": 42,
+      "height": 44,
+      "pivot": [
+        0.5,
+        1
+      ],
+      "flip_x": true,
+      "source_cell": [
+        0,
+        0,
+        314,
+        314
+      ],
+      "source_crop": [
+        59,
+        70,
+        277,
+        278
+      ],
+      "sha256": "9465f27c8dcd4696a7b9606fc3b9e6a54773e53ff9ba0f8a60c31b18091e6420"
+    },
+    "torso": {
+      "file": "assets/torso.png",
+      "width": 48,
+      "height": 62,
+      "pivot": [
+        0.5,
+        1
+      ],
+      "flip_x": false,
+      "source_cell": [
+        314,
+        0,
+        627,
+        314
+      ],
+      "source_crop": [
+        61,
+        69,
+        254,
+        283
+      ],
+      "sha256": "6da36925b3911717cb5ecfb729ab59b954242a1f9d5c43ca875c643b44fd1ec4"
+    },
+    "pelvis": {
+      "file": "assets/pelvis.png",
+      "width": 34,
+      "height": 22,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "flip_x": false,
+      "source_cell": [
+        627,
+        0,
+        940,
+        314
+      ],
+      "source_crop": [
+        44,
+        118,
+        262,
+        278
+      ],
+      "sha256": "8a551c98b9083ee22c91746b2ce729514e9d0aa2ed72ccf97c3a716b0db130c0"
+    },
+    "upper_arm": {
+      "file": "assets/upper_arm.png",
+      "width": 16,
+      "height": 32,
+      "pivot": [
+        0.5,
+        0
+      ],
+      "flip_x": false,
+      "source_cell": [
+        940,
+        0,
+        1254,
+        314
+      ],
+      "source_crop": [
+        100,
+        78,
+        214,
+        268
+      ],
+      "sha256": "877e584174b9041fecd4da03fedc82c46929f112ac01f8b2bb50db264332575a"
+    },
+    "forearm": {
+      "file": "assets/forearm.png",
+      "width": 14,
+      "height": 28,
+      "pivot": [
+        0.5,
+        0
+      ],
+      "flip_x": false,
+      "source_cell": [
+        0,
+        314,
+        314,
+        627
+      ],
+      "source_crop": [
+        106,
+        73,
+        218,
+        250
+      ],
+      "sha256": "ec429574bf6b2a26cf982e31b1a672a0e6954b426dee556b0357b85a081f1edd"
+    },
+    "hand": {
+      "file": "assets/hand.png",
+      "width": 12,
+      "height": 14,
+      "pivot": [
+        0.5,
+        0.2
+      ],
+      "flip_x": false,
+      "source_cell": [
+        314,
+        314,
+        627,
+        627
+      ],
+      "source_crop": [
+        89,
+        102,
+        223,
+        227
+      ],
+      "sha256": "8d7d2ef23c59667659dd59da115b6290c4d21a5fed073475a13b8bd67b4a392b"
+    },
+    "leg_left": {
+      "file": "assets/leg_left.png",
+      "width": 16,
+      "height": 38,
+      "pivot": [
+        0.5,
+        0
+      ],
+      "flip_x": false,
+      "source_cell": [
+        627,
+        314,
+        940,
+        627
+      ],
+      "source_crop": [
+        64,
+        38,
+        224,
+        284
+      ],
+      "sha256": "d09f5fb6bc22c2d339694272efd8f61f0bc266280a8dff8dd8ef81b049ce7520"
+    },
+    "leg_right": {
+      "file": "assets/leg_right.png",
+      "width": 16,
+      "height": 38,
+      "pivot": [
+        0.5,
+        0
+      ],
+      "flip_x": false,
+      "source_cell": [
+        940,
+        314,
+        1254,
+        627
+      ],
+      "source_crop": [
+        93,
+        38,
+        245,
+        284
+      ],
+      "sha256": "398678b0f574a8b56a09c7d465da8ab7097cff4a76d2b6e15bf7ffe79c2c676e"
+    },
+    "armor_light": {
+      "file": "assets/armor_light.png",
+      "width": 48,
+      "height": 62,
+      "pivot": [
+        0.5,
+        1
+      ],
+      "flip_x": false,
+      "source_cell": [
+        0,
+        627,
+        314,
+        940
+      ],
+      "source_crop": [
+        62,
+        55,
+        256,
+        270
+      ],
+      "sha256": "1ca28cd300f8ab2ab576f75a94646046586d2c12c83cb60a9d3339d502bb6727"
+    },
+    "armor_heavy": {
+      "file": "assets/armor_heavy.png",
+      "width": 48,
+      "height": 62,
+      "pivot": [
+        0.5,
+        1
+      ],
+      "flip_x": false,
+      "source_cell": [
+        314,
+        627,
+        627,
+        940
+      ],
+      "source_crop": [
+        61,
+        55,
+        254,
+        270
+      ],
+      "sha256": "1e0f31184a77990c945ec5df2d853c2dc57e68eea3fcefc8ec38c541cb851062"
+    },
+    "shoulder_light": {
+      "file": "assets/shoulder_light.png",
+      "width": 22,
+      "height": 22,
+      "pivot": [
+        0.5,
+        0.2
+      ],
+      "flip_x": false,
+      "source_cell": [
+        627,
+        627,
+        940,
+        940
+      ],
+      "source_crop": [
+        65,
+        76,
+        243,
+        229
+      ],
+      "sha256": "a0b8edaf4f68009acc3321bb15efea073d0819a7afb51ec88c63e49cab976cd9"
+    },
+    "shoulder_heavy": {
+      "file": "assets/shoulder_heavy.png",
+      "width": 22,
+      "height": 22,
+      "pivot": [
+        0.5,
+        0.2
+      ],
+      "flip_x": false,
+      "source_cell": [
+        940,
+        627,
+        1254,
+        940
+      ],
+      "source_crop": [
+        66,
+        76,
+        245,
+        233
+      ],
+      "sha256": "6f32cd35b73eade9a299fd217245a7a52f0c2e0ad70adf121f35b448c0c13916"
+    },
+    "sword": {
+      "file": "assets/sword.png",
+      "width": 20,
+      "height": 52,
+      "pivot": [
+        0.5,
+        0.86
+      ],
+      "flip_x": false,
+      "source_cell": [
+        0,
+        940,
+        314,
+        1254
+      ],
+      "source_crop": [
+        102,
+        13,
+        216,
+        283
+      ],
+      "sha256": "88b1c4dad525c00cf3f72472368812c178132dbeb20249f04640aa03ea810a8d"
+    },
+    "axe": {
+      "file": "assets/axe.png",
+      "width": 28,
+      "height": 52,
+      "pivot": [
+        0.22,
+        0.86
+      ],
+      "flip_x": false,
+      "source_cell": [
+        314,
+        940,
+        627,
+        1254
+      ],
+      "source_crop": [
+        106,
+        25,
+        236,
+        283
+      ],
+      "sha256": "b59f6cafcf6311dac7a96beaa4499b6f0bb158c3a2e0574f6eb137d10a5436dd"
+    },
+    "bracer_light": {
+      "file": "assets/bracer_light.png",
+      "width": 16,
+      "height": 24,
+      "pivot": [
+        0.5,
+        0
+      ],
+      "flip_x": false,
+      "source_cell": [
+        627,
+        940,
+        940,
+        1254
+      ],
+      "source_crop": [
+        102,
+        74,
+        206,
+        226
+      ],
+      "sha256": "05e133d001ed1603e35724eee75a917bec9d59981977a9635ddc512d3efae5cf"
+    },
+    "bracer_heavy": {
+      "file": "assets/bracer_heavy.png",
+      "width": 16,
+      "height": 24,
+      "pivot": [
+        0.5,
+        0
+      ],
+      "flip_x": false,
+      "source_cell": [
+        940,
+        940,
+        1254,
+        1254
+      ],
+      "source_crop": [
+        97,
+        73,
+        210,
+        226
+      ],
+      "sha256": "9a43b2103ed2e6a062fa7415ed60671e6008ae29e9b141e123d682cdaaea56f5"
+    }
+  },
+  "provenance": {
+    "provider": "built-in image_gen",
+    "source": "parts-atlas-original.png",
+    "source_sha256": "3ee4285136129dfc68a1c4d4cb63ccc15f18df10f0f4aa51a043d0e2eb0a003f",
+    "processing": "Equal4x4 cells, alpha>=128 content bbox +2px border, nearest resize; no generated motion, no retouching",
+    "animation": "Local shared hierarchical transforms, explicitly requested by user2026-11-18"
+  }
+}

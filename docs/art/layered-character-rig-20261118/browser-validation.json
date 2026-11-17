@@ -1,0 +1,58 @@
+{
+  "checks": [
+    {
+      "name": "16 transparent static layers loaded",
+      "pass": true
+    },
+    {
+      "name": "same body transforms across4equipment combinations125times",
+      "pass": true
+    },
+    {
+      "name": "same weapon socket across4equipment combinations125times",
+      "pass": true
+    },
+    {
+      "name": "cycle actually moves",
+      "pass": true
+    },
+    {
+      "name": "no opaque edge clipping in500renders",
+      "pass": true
+    },
+    {
+      "name": "loop endpoint identical transforms",
+      "pass": true
+    },
+    {
+      "name": "strike mode advances",
+      "pass": true
+    },
+    {
+      "name": "armor toggle removes armor layers",
+      "pass": true
+    },
+    {
+      "name": "weapon toggle removes weapon layer",
+      "pass": true
+    },
+    {
+      "name": "exploded view separates armor",
+      "pass": true
+    },
+    {
+      "name": "equipment swap preserves time and pause",
+      "pass": true
+    },
+    {
+      "name": "equipment swap changes rendered image",
+      "pass": true
+    }
+  ],
+  "pass": true,
+  "export": {
+    "frames": 50,
+    "duration_ms": 5000,
+    "source": "Screenshots from exact shared JS renderer, not separate animation code"
+  }
+}
