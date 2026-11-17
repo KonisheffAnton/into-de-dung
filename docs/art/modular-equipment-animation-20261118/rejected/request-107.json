@@ -1,0 +1,21 @@
+{
+  "id": 107,
+  "key": "light-spear-attack",
+  "variant": "light-spear",
+  "kind": "attack",
+  "title": "Лёгкий · Двуручное копьё",
+  "source": "D:\\Codex\\home\\generated_images\\modular-equipment-animation-20261118\\items\\003\\original.png",
+  "source_sha256": "75909bc33d06d2664c6ccd7904e7700897dde8e50cddb44a27dd614bdc0453ad",
+  "endpoint": "/animate-pixminimax",
+  "request": {
+    "description": "Draws the spear slightly back in both hands, delivers ONE straight two-handed spear thrust toward screen right, then retracts the spear and smoothly recovers to the starting ready pose. Both hands remain attached to the same shaft. Use a compact action that keeps the entire weapon inside the frame. Keep both feet in the same area, retain facing, no full spin, no jumping, no extra attacks, no trails or effects.",
+    "frame_count": 24,
+    "seed": 181103,
+    "no_background": true,
+    "enhance_prompt": false,
+    "subject_description": "Compact auburn-haired adventurer with red scarf, olive padded sleeves, brown leather vest, small steel shoulder caps, brown boots; one wooden spear with a steel point held diagonally in BOTH hands, no sword and no shield",
+    "initial_pose": "Standing in a compact combat-ready stance with equipment held securely and both feet planted",
+    "view": "low top-down",
+    "direction": "south-east"
+  }
+}

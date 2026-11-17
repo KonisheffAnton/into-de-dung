@@ -1,0 +1,523 @@
+{
+  "structural_pass": true,
+  "complete": true,
+  "exported_counts": {
+    "still": 6,
+    "idle": 6,
+    "attack": 6
+  },
+  "expected_counts": {
+    "still": 6,
+    "idle": 6,
+    "attack": 6
+  },
+  "usage_totals": {
+    "usd": 0.0,
+    "generations": 36
+  },
+  "usage_by_job": [
+    {
+      "id": 1,
+      "kind": "still",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 1
+      }
+    },
+    {
+      "id": 2,
+      "kind": "still",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 1
+      }
+    },
+    {
+      "id": 3,
+      "kind": "still",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 1
+      }
+    },
+    {
+      "id": 4,
+      "kind": "still",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 1
+      }
+    },
+    {
+      "id": 5,
+      "kind": "still",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 1
+      }
+    },
+    {
+      "id": 6,
+      "kind": "still",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 1
+      }
+    },
+    {
+      "id": 102,
+      "kind": "idle",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 2
+      }
+    },
+    {
+      "id": 103,
+      "kind": "attack",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 3
+      }
+    },
+    {
+      "id": 104,
+      "kind": "idle",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 2
+      }
+    },
+    {
+      "id": 105,
+      "kind": "attack",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 3
+      }
+    },
+    {
+      "id": 106,
+      "kind": "idle",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 2
+      }
+    },
+    {
+      "id": 107,
+      "kind": "attack",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 3
+      }
+    },
+    {
+      "id": 108,
+      "kind": "idle",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 2
+      }
+    },
+    {
+      "id": 109,
+      "kind": "attack",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 3
+      }
+    },
+    {
+      "id": 110,
+      "kind": "idle",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 2
+      }
+    },
+    {
+      "id": 111,
+      "kind": "attack",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 3
+      }
+    },
+    {
+      "id": 112,
+      "kind": "idle",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 2
+      }
+    },
+    {
+      "id": 113,
+      "kind": "attack",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 3
+      }
+    }
+  ],
+  "visual_acceptance": "pending",
+  "runtime_integration": false,
+  "expected_jobs": 18,
+  "exported_jobs": 18,
+  "missing_or_pending": [],
+  "failed_jobs": [],
+  "exports": [
+    {
+      "id": 1,
+      "key": "light-sword",
+      "kind": "still",
+      "path": "preview/inputs/light-sword.png",
+      "sha256": "b7828084ed22be8a28a6977f0ffb370d0dbfe9fdc53395be72746e5221ecfe78",
+      "canvas": [
+        256,
+        256
+      ],
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 1
+      }
+    },
+    {
+      "id": 2,
+      "key": "light-axe",
+      "kind": "still",
+      "path": "preview/inputs/light-axe.png",
+      "sha256": "2f0a92b46af7ddb726546917714ed05e4ac6fed66abd8ce5b1b9cdcb5f666528",
+      "canvas": [
+        256,
+        256
+      ],
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 1
+      }
+    },
+    {
+      "id": 3,
+      "key": "light-spear",
+      "kind": "still",
+      "path": "preview/inputs/light-spear.png",
+      "sha256": "75909bc33d06d2664c6ccd7904e7700897dde8e50cddb44a27dd614bdc0453ad",
+      "canvas": [
+        256,
+        256
+      ],
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 1
+      }
+    },
+    {
+      "id": 4,
+      "key": "heavy-sword",
+      "kind": "still",
+      "path": "preview/inputs/heavy-sword.png",
+      "sha256": "38bdb28a0a7248438eb544859a824eac03c34f4c45d45ed853df36cda5aaad65",
+      "canvas": [
+        256,
+        256
+      ],
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 1
+      }
+    },
+    {
+      "id": 5,
+      "key": "heavy-axe",
+      "kind": "still",
+      "path": "preview/inputs/heavy-axe.png",
+      "sha256": "3be766e54b304a7f0ecc40af7515b87729b27ad3515d83581d3f22b1dd441fa4",
+      "canvas": [
+        256,
+        256
+      ],
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 1
+      }
+    },
+    {
+      "id": 6,
+      "key": "heavy-spear",
+      "kind": "still",
+      "path": "preview/inputs/heavy-spear.png",
+      "sha256": "9b488e218001dd695ee661d35ebe9f275033462dea2e34f508d9df360904252c",
+      "canvas": [
+        256,
+        256
+      ],
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 1
+      }
+    },
+    {
+      "id": 102,
+      "key": "light-sword",
+      "kind": "idle",
+      "path": "preview/clips/light-sword/idle",
+      "actual_frames": 17,
+      "edge_frames": [],
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 2
+      },
+      "gif_actual_frames": 17,
+      "gif_total_duration_ms": 2040
+    },
+    {
+      "id": 103,
+      "key": "light-sword",
+      "kind": "attack",
+      "path": "preview/clips/light-sword/attack",
+      "actual_frames": 25,
+      "edge_frames": [],
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 3
+      },
+      "gif_actual_frames": 25,
+      "gif_total_duration_ms": 2180
+    },
+    {
+      "id": 104,
+      "key": "light-axe",
+      "kind": "idle",
+      "path": "preview/clips/light-axe/idle",
+      "actual_frames": 17,
+      "edge_frames": [],
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 2
+      },
+      "gif_actual_frames": 15,
+      "gif_total_duration_ms": 2040
+    },
+    {
+      "id": 105,
+      "key": "light-axe",
+      "kind": "attack",
+      "path": "preview/clips/light-axe/attack",
+      "actual_frames": 25,
+      "edge_frames": [],
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 3
+      },
+      "gif_actual_frames": 25,
+      "gif_total_duration_ms": 2180
+    },
+    {
+      "id": 106,
+      "key": "light-spear",
+      "kind": "idle",
+      "path": "preview/clips/light-spear/idle",
+      "actual_frames": 17,
+      "edge_frames": [],
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 2
+      },
+      "gif_actual_frames": 14,
+      "gif_total_duration_ms": 2040
+    },
+    {
+      "id": 107,
+      "key": "light-spear",
+      "kind": "attack",
+      "path": "preview/clips/light-spear/attack",
+      "actual_frames": 25,
+      "edge_frames": [],
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 3
+      },
+      "gif_actual_frames": 19,
+      "gif_total_duration_ms": 2180
+    },
+    {
+      "id": 108,
+      "key": "heavy-sword",
+      "kind": "idle",
+      "path": "preview/clips/heavy-sword/idle",
+      "actual_frames": 17,
+      "edge_frames": [],
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 2
+      },
+      "gif_actual_frames": 17,
+      "gif_total_duration_ms": 2040
+    },
+    {
+      "id": 109,
+      "key": "heavy-sword",
+      "kind": "attack",
+      "path": "preview/clips/heavy-sword/attack",
+      "actual_frames": 25,
+      "edge_frames": [],
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 3
+      },
+      "gif_actual_frames": 25,
+      "gif_total_duration_ms": 2180
+    },
+    {
+      "id": 110,
+      "key": "heavy-axe",
+      "kind": "idle",
+      "path": "preview/clips/heavy-axe/idle",
+      "actual_frames": 17,
+      "edge_frames": [],
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 2
+      },
+      "gif_actual_frames": 17,
+      "gif_total_duration_ms": 2040
+    },
+    {
+      "id": 111,
+      "key": "heavy-axe",
+      "kind": "attack",
+      "path": "preview/clips/heavy-axe/attack",
+      "actual_frames": 25,
+      "edge_frames": [],
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 3
+      },
+      "gif_actual_frames": 25,
+      "gif_total_duration_ms": 2180
+    },
+    {
+      "id": 112,
+      "key": "heavy-spear",
+      "kind": "idle",
+      "path": "preview/clips/heavy-spear/idle",
+      "actual_frames": 17,
+      "edge_frames": [],
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 2
+      },
+      "gif_actual_frames": 17,
+      "gif_total_duration_ms": 2040
+    },
+    {
+      "id": 113,
+      "key": "heavy-spear",
+      "kind": "attack",
+      "path": "preview/clips/heavy-spear/attack",
+      "actual_frames": 25,
+      "edge_frames": [],
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 3
+      },
+      "gif_actual_frames": 18,
+      "gif_total_duration_ms": 2180
+    }
+  ],
+  "note": "Наличие и структура файлов не подтверждают художественную приемку; проверьте персонажа, экипировку, обрезку и край холста визуально.",
+  "overview": {
+    "gif": "overview.gif",
+    "snapshot": "overview.png",
+    "variants": 6,
+    "layout": "3 колонки оружия × 2 строки доспеха",
+    "phase_frames": {
+      "idle": 17,
+      "attack": 25
+    },
+    "durations_ms": [
+      120,
+      120,
+      120,
+      120,
+      120,
+      120,
+      120,
+      120,
+      120,
+      120,
+      120,
+      120,
+      120,
+      120,
+      120,
+      120,
+      120,
+      70,
+      70,
+      70,
+      70,
+      70,
+      70,
+      70,
+      70,
+      70,
+      70,
+      70,
+      70,
+      70,
+      70,
+      70,
+      70,
+      70,
+      70,
+      70,
+      70,
+      70,
+      70,
+      70,
+      70,
+      500
+    ],
+    "synchronized": true,
+    "ready": true
+  }
+}

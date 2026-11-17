@@ -1,0 +1,41 @@
+{
+  "pass": true,
+  "checks": [
+    {
+      "name": "12 loaded players",
+      "pass": true
+    },
+    {
+      "name": "all sprites visible",
+      "pass": true
+    },
+    {
+      "name": "play advances frames",
+      "pass": true
+    },
+    {
+      "name": "pause holds pose",
+      "pass": true
+    },
+    {
+      "name": "scrub seeks all clips",
+      "pass": true
+    },
+    {
+      "name": "attack filter",
+      "pass": true
+    },
+    {
+      "name": "speed control",
+      "pass": true
+    },
+    {
+      "name": "large view",
+      "pass": true
+    },
+    {
+      "name": "restart",
+      "pass": true
+    }
+  ]
+}

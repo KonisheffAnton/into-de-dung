@@ -1,0 +1,44 @@
+[
+  {
+    "key": "light-sword",
+    "outfit": "light",
+    "weapon": "sword",
+    "title": "Лёгкий · Меч и щит",
+    "still_id": 1
+  },
+  {
+    "key": "light-axe",
+    "outfit": "light",
+    "weapon": "axe",
+    "title": "Лёгкий · Топор и щит",
+    "still_id": 2
+  },
+  {
+    "key": "light-spear",
+    "outfit": "light",
+    "weapon": "spear",
+    "title": "Лёгкий · Двуручное копьё",
+    "still_id": 3
+  },
+  {
+    "key": "heavy-sword",
+    "outfit": "heavy",
+    "weapon": "sword",
+    "title": "Тяжёлый · Меч и щит",
+    "still_id": 4
+  },
+  {
+    "key": "heavy-axe",
+    "outfit": "heavy",
+    "weapon": "axe",
+    "title": "Тяжёлый · Топор и щит",
+    "still_id": 5
+  },
+  {
+    "key": "heavy-spear",
+    "outfit": "heavy",
+    "weapon": "spear",
+    "title": "Тяжёлый · Двуручное копьё",
+    "still_id": 6
+  }
+]

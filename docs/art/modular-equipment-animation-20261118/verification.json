@@ -1,0 +1,63 @@
+{
+  "status": "PASS",
+  "base_commit": "fcfe0c3ddf70690b82bd7bb424c0ddf107417cbd",
+  "scope": "Offline art preview; no runtime integration",
+  "selected_jobs": 18,
+  "actual_provider_jobs": 19,
+  "animation_clips": 12,
+  "frames": 252,
+  "canvas": [
+    256,
+    256
+  ],
+  "selected_edge_frames": 0,
+  "first_frames_equal_source": 12,
+  "last_frames_equal_source": 0,
+  "usage_generations_selected": 36,
+  "usage_generations_total": 39,
+  "browser_checks_passed": 9,
+  "independent_review": "APPROVE",
+  "protected_foreign_files": 33,
+  "foreign_changed": [],
+  "handoff_archive": {
+    "archive": "docs\\CODEX_HANDOFF.history-20261118.md",
+    "sha256": "575f9a9a88d5c2aadd9f1d6d31ec07a155568486f0f1a668a88e49770c7ed015",
+    "byte_identical": true
+  },
+  "entry_document_sizes": {
+    "AGENTS.md": {
+      "before": 4565,
+      "after": 4565,
+      "changed": false
+    },
+    "docs/CODEX_HANDOFF.md": {
+      "before": 2262,
+      "after": 2292,
+      "changed": true
+    },
+    "docs/PROJECT_CONTEXT.md": {
+      "before": 3734,
+      "after": 3734,
+      "changed": false
+    },
+    "docs/CODEX_WORKFLOW.md": {
+      "before": 4482,
+      "after": 4482,
+      "changed": false
+    }
+  },
+  "visual_qa": "Key poses of all12 clips, full corrected spear sheet, overview and headless gallery screenshot inspected",
+  "user_acceptance": "pending",
+  "not_run": [
+    "Godot import/startup",
+    "Game tests/full/core",
+    "Manual F5/Editor/DPI",
+    "Performance"
+  ],
+  "limitations": [
+    "All12 last poses differ from source; loop seams remain for user evaluation",
+    "Full-frame PixelLab animations do not implement a modular rig",
+    "Fine equipment details vary across independent generations"
+  ],
+  "broken_links": []
+}

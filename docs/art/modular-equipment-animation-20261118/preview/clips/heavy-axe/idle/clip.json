@@ -1,0 +1,310 @@
+{
+  "id": 110,
+  "key": "heavy-axe",
+  "variant": "heavy-axe",
+  "kind": "idle",
+  "title": "Тяжёлый · Топор и щит",
+  "source": "D:\\Codex\\home\\generated_images\\modular-equipment-animation-20261118\\items\\005\\original.png",
+  "source_sha256": "3be766e54b304a7f0ecc40af7515b87729b27ad3515d83581d3f22b1dd441fa4",
+  "endpoint": "/animate-pixminimax",
+  "request": {
+    "description": "One calm breathing cycle: chest and shoulders gently rise and fall, hands and equipment follow by a tiny amount, scarf settles softly. Feet remain planted. No stepping, no attacks, no turning. Return to the starting pose.",
+    "frame_count": 16,
+    "seed": 181105,
+    "no_background": true,
+    "enhance_prompt": false,
+    "subject_description": "Compact auburn-haired adventurer with red scarf, blue-grey steel breastplate, large plate pauldrons, bracers and greaves, short burgundy cape; one-handed iron battle axe and large red-and-steel kite shield",
+    "initial_pose": "Standing in a compact combat-ready stance with equipment held securely and both feet planted",
+    "view": "low top-down",
+    "direction": "south-east"
+  },
+  "outfit": "heavy",
+  "weapon": "axe",
+  "still_id": 5,
+  "provider": "PixelLab",
+  "provider_job_id": "7fd74fb8-48b7-46a8-9c42-59c650d991ea",
+  "usage": {
+    "usd": 0.0,
+    "type": "generations",
+    "generations": 2
+  },
+  "canvas": [
+    256,
+    256
+  ],
+  "actual_frames": 17,
+  "durations_ms": [
+    120,
+    120,
+    120,
+    120,
+    120,
+    120,
+    120,
+    120,
+    120,
+    120,
+    120,
+    120,
+    120,
+    120,
+    120,
+    120,
+    120
+  ],
+  "gif_actual_frames": 17,
+  "gif_actual_durations_ms": [
+    120,
+    120,
+    120,
+    120,
+    120,
+    120,
+    120,
+    120,
+    120,
+    120,
+    120,
+    120,
+    120,
+    120,
+    120,
+    120,
+    120
+  ],
+  "gif_total_duration_ms": 2040,
+  "timing_origin": "Локальный тайминг просмотра; PixelLab задаёт только позы",
+  "frame_sha256": [
+    "3be766e54b304a7f0ecc40af7515b87729b27ad3515d83581d3f22b1dd441fa4",
+    "b013bcc12539fc1776863a7cafe574c856adeda78ca02fe92ef55c757b6f0374",
+    "53b7b802ae23a994f5640599eb763dac88ec78d84c19d9831976ec5a8964c2fa",
+    "b67d961c335c788609b4cddbac03c4509ba2f92bbf04a20928c405511dc93bf5",
+    "cf68c645952a4ae3d1facebdfd8a75a35857d5bca0d63f1d0e333fb6b73e8af9",
+    "3458d12be908fd5e0dac963a3c992c77324078450748a93cbd8ab1ff8603f7b3",
+    "21c9b7673b6e8d3b5a08d1062e39b31a47f7bcafa691553ad9548100a880833a",
+    "4a1e12a319ab92e736b04f587ed60f5468175e1c59dd99a88ad48aeac3096547",
+    "cb585b6ce76f48d83cdf163c2752da1899137dc4f290477bc645a9e2d39f0584",
+    "73b1a5ab5abf1e464019812319967a589100881d7d338c330e8bad75ad78a7fa",
+    "2cd41464fe1760fe19fa91c7babf042884f56b29ee684ec330ffe0b1f85531a9",
+    "6bf0450c26879e58df56d6b13f6ea1e550bbf9d8681178ba97daf9d38d63f189",
+    "dd6afc9cffce1535dc4af2e03fd83e9e5ef4376563bbe143f834c5d1a8e9f1d0",
+    "96c80ac1f50f42e4301db573cdbc3d7b2cd3d0ec7f06900133bbdc8f49c44444",
+    "e17bce8d338404454727ae2e586a24c2add2660b2752ae129a923fbb4e954624",
+    "9781ee9af7a2b31471a9ec2e70a1c6c2b5a526ab6f52d38905538e18b3a05f6c",
+    "14a0cb7e6fb4bde8db520e92ecee87964043b3d224d75d68777e3ee8f51bfff6"
+  ],
+  "alpha_bboxes": [
+    [
+      40,
+      53,
+      214,
+      201
+    ],
+    [
+      40,
+      53,
+      214,
+      201
+    ],
+    [
+      40,
+      53,
+      214,
+      201
+    ],
+    [
+      40,
+      53,
+      214,
+      201
+    ],
+    [
+      40,
+      53,
+      214,
+      201
+    ],
+    [
+      40,
+      52,
+      214,
+      201
+    ],
+    [
+      40,
+      51,
+      214,
+      201
+    ],
+    [
+      40,
+      50,
+      214,
+      201
+    ],
+    [
+      40,
+      50,
+      214,
+      201
+    ],
+    [
+      40,
+      50,
+      214,
+      201
+    ],
+    [
+      40,
+      50,
+      214,
+      201
+    ],
+    [
+      40,
+      50,
+      214,
+      201
+    ],
+    [
+      40,
+      50,
+      214,
+      201
+    ],
+    [
+      40,
+      52,
+      214,
+      201
+    ],
+    [
+      40,
+      52,
+      214,
+      201
+    ],
+    [
+      40,
+      53,
+      214,
+      201
+    ],
+    [
+      40,
+      53,
+      214,
+      201
+    ]
+  ],
+  "raw_alpha_bboxes": [
+    [
+      40,
+      53,
+      214,
+      201
+    ],
+    [
+      40,
+      53,
+      214,
+      201
+    ],
+    [
+      40,
+      53,
+      214,
+      201
+    ],
+    [
+      40,
+      53,
+      214,
+      201
+    ],
+    [
+      40,
+      53,
+      214,
+      201
+    ],
+    [
+      40,
+      52,
+      214,
+      201
+    ],
+    [
+      40,
+      51,
+      214,
+      201
+    ],
+    [
+      40,
+      50,
+      214,
+      201
+    ],
+    [
+      40,
+      50,
+      214,
+      201
+    ],
+    [
+      40,
+      50,
+      214,
+      201
+    ],
+    [
+      40,
+      50,
+      214,
+      201
+    ],
+    [
+      40,
+      50,
+      214,
+      201
+    ],
+    [
+      40,
+      50,
+      214,
+      201
+    ],
+    [
+      40,
+      52,
+      214,
+      201
+    ],
+    [
+      40,
+      52,
+      214,
+      201
+    ],
+    [
+      40,
+      53,
+      214,
+      201
+    ],
+    [
+      40,
+      53,
+      214,
+      201
+    ]
+  ],
+  "edge_frames": [],
+  "first_frame_rgba_equal_source": true,
+  "first_frame_png_byte_equal_source": true,
+  "last_frame_rgba_equal_source": false,
+  "gif": "preview.gif",
+  "integration": false
+}

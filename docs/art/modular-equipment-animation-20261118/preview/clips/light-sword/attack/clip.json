@@ -1,0 +1,430 @@
+{
+  "id": 103,
+  "key": "light-sword",
+  "variant": "light-sword",
+  "kind": "attack",
+  "title": "Лёгкий · Меч и щит",
+  "source": "D:\\Codex\\home\\generated_images\\modular-equipment-animation-20261118\\items\\001\\original.png",
+  "source_sha256": "b7828084ed22be8a28a6977f0ffb370d0dbfe9fdc53395be72746e5221ecfe78",
+  "endpoint": "/animate-pixminimax",
+  "request": {
+    "description": "Raises the sword for a short wind-up, delivers ONE crisp diagonal sword slash toward screen right while keeping the shield near the chest, then smoothly recovers to the starting ready pose. Use a compact action that keeps the entire weapon inside the frame. Keep both feet in the same area, retain facing, no full spin, no jumping, no extra attacks, no trails or effects.",
+    "frame_count": 24,
+    "seed": 181101,
+    "no_background": true,
+    "enhance_prompt": false,
+    "subject_description": "Compact auburn-haired adventurer with red scarf, olive padded sleeves, brown leather vest, small steel shoulder caps, brown boots; short broad iron sword and round wooden buckler",
+    "initial_pose": "Standing in a compact combat-ready stance with equipment held securely and both feet planted",
+    "view": "low top-down",
+    "direction": "south-east"
+  },
+  "outfit": "light",
+  "weapon": "sword",
+  "still_id": 1,
+  "provider": "PixelLab",
+  "provider_job_id": "da438636-0374-43ab-9452-5a9a792a7394",
+  "usage": {
+    "usd": 0.0,
+    "type": "generations",
+    "generations": 3
+  },
+  "canvas": [
+    256,
+    256
+  ],
+  "actual_frames": 25,
+  "durations_ms": [
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    500
+  ],
+  "gif_actual_frames": 25,
+  "gif_actual_durations_ms": [
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    70,
+    500
+  ],
+  "gif_total_duration_ms": 2180,
+  "timing_origin": "Локальный тайминг просмотра; PixelLab задаёт только позы",
+  "frame_sha256": [
+    "b7828084ed22be8a28a6977f0ffb370d0dbfe9fdc53395be72746e5221ecfe78",
+    "842d65136c66124f4bd34e309551352665558d3d3271f07d45256854d220f9eb",
+    "77ea531c79a181969a9488da095a72568e93af5b3055f15e279bec5671628758",
+    "5ef2a3da8eb07142e54086b7d46cae952a62d599070f15808b1b4220ff51e1c5",
+    "7e12b6492e007382134144a9de1581689bfad2db4d916c07c6c02239e1f3e386",
+    "93787b1430b739952ec65a5e608e46378379681732e44e4feb1950c8e4ae2595",
+    "cfb32116704407574c797dddbaf3ff599b904ceb739a247df8d819d4f69a6be4",
+    "b1e0d95549083e85e91d8349cff87a911474a651bb1e1ff1c53a0c1d267ddd75",
+    "a2313918bdd0e9ab273c1fc8e53a1c7b9fd99560f9643cc555af79c686697fba",
+    "fc9f3dcd59a9c0e77b6f80dcb8bf5738d4f29adb27b93d902b0ec8179ed54831",
+    "0eb697a42cae8ba81c0d8ff26e4df620c1d70a83fe22d92ffaf52e2e9e6b1e8c",
+    "ebacf55329a1f58373fcc48797ec1409e860267fff0fd7bc72f7cc8dfa578e47",
+    "e9364ac590ae3f68cf6ac5a00572246ee2ad965ecebcbb7ea05af432e6a69666",
+    "c4c352fb0bbba50a6e46db8985be1dab2965044b3c6963d724f18b30978b5dc6",
+    "df7d2f5d1998bbcf10ad44d8c326a27ce7d5f4d7fdfd6df508a70ca5c5b8b1e3",
+    "0f74bf55d7533ce3dfe363519df10437b4846e6b060b970fa4a433ac34f63384",
+    "d1cfebed052d5cb57f1209fc9c9f7b957e0d84cc12cdaa6b44da91201a84ec01",
+    "6eb03708fc781cf27140134e091b7595a19421e21c0f01539a1fc4824af9c684",
+    "8fdc7038b0c43dd16ae647250596f500256da92577d26f151702f78946d3bbff",
+    "f2dcc3dfe597f108b9485c6af01a29a48783cf8d6f0281c891780200421ae55e",
+    "fc5344e6cedd39b74e23b20c6650cb8fa6e2020196290468f9ff30c4618b4f98",
+    "6421384e3a9ccc1d4376a92447d8d70825fe5134eee898468e4cf2e3a497f3d0",
+    "e428a70b9eb14b1a2eef760a01b0a71c9fec1b4934e5fa86761eb36bae918286",
+    "638494d2b4d3dfbd0f6ecf5e8906db6e5746dfa9c2378b762336c4da50bf34c2",
+    "6f6d1e6c957ab110f8cf231bb246aaff0e2f02ce48a5de043f5a9283c0d018c4"
+  ],
+  "alpha_bboxes": [
+    [
+      60,
+      53,
+      199,
+      205
+    ],
+    [
+      61,
+      53,
+      197,
+      203
+    ],
+    [
+      62,
+      52,
+      194,
+      199
+    ],
+    [
+      56,
+      51,
+      190,
+      199
+    ],
+    [
+      54,
+      50,
+      187,
+      200
+    ],
+    [
+      53,
+      50,
+      186,
+      200
+    ],
+    [
+      53,
+      50,
+      186,
+      200
+    ],
+    [
+      53,
+      50,
+      186,
+      200
+    ],
+    [
+      31,
+      57,
+      194,
+      203
+    ],
+    [
+      73,
+      62,
+      224,
+      205
+    ],
+    [
+      67,
+      62,
+      217,
+      205
+    ],
+    [
+      68,
+      62,
+      215,
+      205
+    ],
+    [
+      72,
+      61,
+      206,
+      205
+    ],
+    [
+      68,
+      59,
+      197,
+      205
+    ],
+    [
+      68,
+      57,
+      198,
+      203
+    ],
+    [
+      65,
+      55,
+      198,
+      205
+    ],
+    [
+      60,
+      53,
+      199,
+      205
+    ],
+    [
+      59,
+      53,
+      199,
+      205
+    ],
+    [
+      58,
+      53,
+      199,
+      205
+    ],
+    [
+      58,
+      53,
+      199,
+      205
+    ],
+    [
+      56,
+      53,
+      199,
+      205
+    ],
+    [
+      57,
+      53,
+      199,
+      205
+    ],
+    [
+      57,
+      53,
+      199,
+      205
+    ],
+    [
+      58,
+      53,
+      199,
+      205
+    ],
+    [
+      60,
+      53,
+      199,
+      205
+    ]
+  ],
+  "raw_alpha_bboxes": [
+    [
+      60,
+      53,
+      199,
+      205
+    ],
+    [
+      61,
+      53,
+      197,
+      203
+    ],
+    [
+      62,
+      52,
+      194,
+      199
+    ],
+    [
+      56,
+      51,
+      190,
+      199
+    ],
+    [
+      54,
+      50,
+      187,
+      200
+    ],
+    [
+      53,
+      50,
+      186,
+      200
+    ],
+    [
+      53,
+      50,
+      186,
+      200
+    ],
+    [
+      53,
+      50,
+      186,
+      200
+    ],
+    [
+      31,
+      57,
+      194,
+      203
+    ],
+    [
+      73,
+      62,
+      224,
+      205
+    ],
+    [
+      67,
+      62,
+      217,
+      205
+    ],
+    [
+      68,
+      62,
+      215,
+      205
+    ],
+    [
+      72,
+      61,
+      206,
+      205
+    ],
+    [
+      68,
+      59,
+      197,
+      205
+    ],
+    [
+      68,
+      57,
+      198,
+      203
+    ],
+    [
+      65,
+      55,
+      198,
+      205
+    ],
+    [
+      60,
+      53,
+      199,
+      205
+    ],
+    [
+      59,
+      53,
+      199,
+      205
+    ],
+    [
+      58,
+      53,
+      199,
+      205
+    ],
+    [
+      58,
+      53,
+      199,
+      205
+    ],
+    [
+      56,
+      53,
+      199,
+      205
+    ],
+    [
+      57,
+      53,
+      199,
+      205
+    ],
+    [
+      57,
+      53,
+      199,
+      205
+    ],
+    [
+      58,
+      53,
+      199,
+      205
+    ],
+    [
+      60,
+      53,
+      199,
+      205
+    ]
+  ],
+  "edge_frames": [],
+  "first_frame_rgba_equal_source": true,
+  "first_frame_png_byte_equal_source": true,
+  "last_frame_rgba_equal_source": false,
+  "gif": "preview.gif",
+  "integration": false
+}

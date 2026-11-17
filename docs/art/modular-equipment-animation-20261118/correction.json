@@ -1,0 +1,12 @@
+{
+  "canonical_id": 107,
+  "selected_job_id": 207,
+  "rejected_job_id": 107,
+  "reason": "Initial solid spear tip clipped at right edge in frames 8 and 9",
+  "selected_frames": 25,
+  "selected_edge_frames": [],
+  "selected_rightmost_alpha_bbox_x": 235,
+  "rejected_public_artifacts": "rejected/light-spear-attack-initial",
+  "extra_usage_generations": 3,
+  "approval": "Leader technical selection for preview; user art acceptance pending"
+}

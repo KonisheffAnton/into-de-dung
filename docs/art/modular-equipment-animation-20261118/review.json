@@ -1,0 +1,29 @@
+{
+  "status": "APPROVE",
+  "role": "game_reviewer",
+  "scope": "Offline preparation/export/gallery scripts; no runtime integration",
+  "files": {
+    "prepare_requests.py": "1e3fd7ae23489413c2ab5c5e522a66b38edf3140e1b151366c620abc4691e127",
+    "export_preview.py": "2d73e04eca587faf2582f2e0e999e54b33c610101a9590b162fad13021b8fe9a",
+    "build_gallery.py": "c7c57098c97a248e91a8894a79d22ac437780243a4c5828151c56367ab483a1e"
+  },
+  "resolved": [
+    "Aggregate outputs require all six stills and twelve clips",
+    "Incomplete rerun invalidates stale overview and gallery",
+    "Decoded animation frames match saved provider output hashes",
+    "Selected job bound to endpoint, prompt fields and both input PNG hashes",
+    "Overview captions fit each cell on two lines"
+  ],
+  "checks": [
+    "Python syntax",
+    "Read-only source and manifest review",
+    "18 original request bindings accepted; wrong-variant substitution rejected",
+    "Final207 binding, all252 frame boundaries/source equality and browser report reviewed"
+  ],
+  "not_reviewed": [
+    "User visual acceptance",
+    "Actual modular rig/runtime",
+    "Godot/F5/Editor/DPI/performance"
+  ],
+  "state_at_review": "Final selected18/18; canonical107 selects207;252frames; final browser report9PASS"
+}

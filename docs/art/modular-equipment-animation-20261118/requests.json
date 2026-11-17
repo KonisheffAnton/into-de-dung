@@ -1,0 +1,345 @@
+[
+  {
+    "id": 1,
+    "key": "light-sword",
+    "kind": "still",
+    "endpoint": "/edit-image-pixen",
+    "source": "D:\\Games\\into-de-dung\\assets\\art_presets\\approved\\character_skins_v1\\red_bastion\\still.png",
+    "source_sha256": "d8117c67d3b59c5943ea850b8802ff1ce895ef919ad65c06d730d0716b6146a8",
+    "request": {
+      "description": "Keep the SAME face, spiky auburn hair, red scarf, compact proportions, pixel style, scale and foot position. Face screen right. Change equipment to olive padded sleeves, brown leather vest, small steel shoulder caps, brown boots; short broad iron sword and round wooden buckler. Fully visible compact ready pose, entire weapon within the canvas. Transparent background. Preserve large clean pixel clusters.",
+      "width": 256,
+      "height": 256,
+      "seed": 181101,
+      "no_background": true
+    }
+  },
+  {
+    "id": 2,
+    "key": "light-axe",
+    "kind": "still",
+    "endpoint": "/edit-image-pixen",
+    "source": "D:\\Games\\into-de-dung\\assets\\art_presets\\approved\\character_skins_v1\\red_bastion\\still.png",
+    "source_sha256": "d8117c67d3b59c5943ea850b8802ff1ce895ef919ad65c06d730d0716b6146a8",
+    "request": {
+      "description": "Keep the SAME face, spiky auburn hair, red scarf, compact proportions, pixel style, scale and foot position. Face screen right. Change equipment to olive padded sleeves, brown leather vest, small steel shoulder caps, brown boots; one-handed iron battle axe and round wooden buckler. Fully visible compact ready pose, entire weapon within the canvas. Transparent background. Preserve large clean pixel clusters.",
+      "width": 256,
+      "height": 256,
+      "seed": 181102,
+      "no_background": true
+    }
+  },
+  {
+    "id": 3,
+    "key": "light-spear",
+    "kind": "still",
+    "endpoint": "/edit-image-pixen",
+    "source": "D:\\Games\\into-de-dung\\assets\\art_presets\\approved\\character_skins_v1\\red_bastion\\still.png",
+    "source_sha256": "d8117c67d3b59c5943ea850b8802ff1ce895ef919ad65c06d730d0716b6146a8",
+    "request": {
+      "description": "Keep the SAME face, spiky auburn hair, red scarf, compact proportions, pixel style, scale and foot position. Face screen right. Change equipment to olive padded sleeves, brown leather vest, small steel shoulder caps, brown boots; one wooden spear with a steel point held diagonally in BOTH hands, no sword and no shield. Fully visible compact ready pose, entire weapon within the canvas. Transparent background. Preserve large clean pixel clusters.",
+      "width": 256,
+      "height": 256,
+      "seed": 181103,
+      "no_background": true
+    }
+  },
+  {
+    "id": 4,
+    "key": "heavy-sword",
+    "kind": "still",
+    "endpoint": "/edit-image-pixen",
+    "source": "D:\\Games\\into-de-dung\\assets\\art_presets\\approved\\character_skins_v1\\red_bastion\\still.png",
+    "source_sha256": "d8117c67d3b59c5943ea850b8802ff1ce895ef919ad65c06d730d0716b6146a8",
+    "request": {
+      "description": "Keep the SAME face, spiky auburn hair, red scarf, compact proportions, pixel style, scale and foot position. Face screen right. Change equipment to blue-grey steel breastplate, large plate pauldrons, bracers and greaves, short burgundy cape; short broad iron sword and large red-and-steel kite shield. Fully visible compact ready pose, entire weapon within the canvas. Transparent background. Preserve large clean pixel clusters.",
+      "width": 256,
+      "height": 256,
+      "seed": 181104,
+      "no_background": true
+    }
+  },
+  {
+    "id": 5,
+    "key": "heavy-axe",
+    "kind": "still",
+    "endpoint": "/edit-image-pixen",
+    "source": "D:\\Games\\into-de-dung\\assets\\art_presets\\approved\\character_skins_v1\\red_bastion\\still.png",
+    "source_sha256": "d8117c67d3b59c5943ea850b8802ff1ce895ef919ad65c06d730d0716b6146a8",
+    "request": {
+      "description": "Keep the SAME face, spiky auburn hair, red scarf, compact proportions, pixel style, scale and foot position. Face screen right. Change equipment to blue-grey steel breastplate, large plate pauldrons, bracers and greaves, short burgundy cape; one-handed iron battle axe and large red-and-steel kite shield. Fully visible compact ready pose, entire weapon within the canvas. Transparent background. Preserve large clean pixel clusters.",
+      "width": 256,
+      "height": 256,
+      "seed": 181105,
+      "no_background": true
+    }
+  },
+  {
+    "id": 6,
+    "key": "heavy-spear",
+    "kind": "still",
+    "endpoint": "/edit-image-pixen",
+    "source": "D:\\Games\\into-de-dung\\assets\\art_presets\\approved\\character_skins_v1\\red_bastion\\still.png",
+    "source_sha256": "d8117c67d3b59c5943ea850b8802ff1ce895ef919ad65c06d730d0716b6146a8",
+    "request": {
+      "description": "Keep the SAME face, spiky auburn hair, red scarf, compact proportions, pixel style, scale and foot position. Face screen right. Change equipment to blue-grey steel breastplate, large plate pauldrons, bracers and greaves, short burgundy cape; one wooden spear with a steel point held diagonally in BOTH hands, no sword and no shield. Fully visible compact ready pose, entire weapon within the canvas. Transparent background. Preserve large clean pixel clusters.",
+      "width": 256,
+      "height": 256,
+      "seed": 181106,
+      "no_background": true
+    }
+  },
+  {
+    "id": 102,
+    "key": "light-sword-idle",
+    "variant": "light-sword",
+    "kind": "idle",
+    "title": "Лёгкий · Меч и щит",
+    "source": "D:\\Codex\\home\\generated_images\\modular-equipment-animation-20261118\\items\\001\\original.png",
+    "source_sha256": "b7828084ed22be8a28a6977f0ffb370d0dbfe9fdc53395be72746e5221ecfe78",
+    "endpoint": "/animate-pixminimax",
+    "request": {
+      "description": "One calm breathing cycle: chest and shoulders gently rise and fall, hands and equipment follow by a tiny amount, scarf settles softly. Feet remain planted. No stepping, no attacks, no turning. Return to the starting pose.",
+      "frame_count": 16,
+      "seed": 181101,
+      "no_background": true,
+      "enhance_prompt": false,
+      "subject_description": "Compact auburn-haired adventurer with red scarf, olive padded sleeves, brown leather vest, small steel shoulder caps, brown boots; short broad iron sword and round wooden buckler",
+      "initial_pose": "Standing in a compact combat-ready stance with equipment held securely and both feet planted",
+      "view": "low top-down",
+      "direction": "south-east"
+    }
+  },
+  {
+    "id": 103,
+    "key": "light-sword-attack",
+    "variant": "light-sword",
+    "kind": "attack",
+    "title": "Лёгкий · Меч и щит",
+    "source": "D:\\Codex\\home\\generated_images\\modular-equipment-animation-20261118\\items\\001\\original.png",
+    "source_sha256": "b7828084ed22be8a28a6977f0ffb370d0dbfe9fdc53395be72746e5221ecfe78",
+    "endpoint": "/animate-pixminimax",
+    "request": {
+      "description": "Raises the sword for a short wind-up, delivers ONE crisp diagonal sword slash toward screen right while keeping the shield near the chest, then smoothly recovers to the starting ready pose. Use a compact action that keeps the entire weapon inside the frame. Keep both feet in the same area, retain facing, no full spin, no jumping, no extra attacks, no trails or effects.",
+      "frame_count": 24,
+      "seed": 181101,
+      "no_background": true,
+      "enhance_prompt": false,
+      "subject_description": "Compact auburn-haired adventurer with red scarf, olive padded sleeves, brown leather vest, small steel shoulder caps, brown boots; short broad iron sword and round wooden buckler",
+      "initial_pose": "Standing in a compact combat-ready stance with equipment held securely and both feet planted",
+      "view": "low top-down",
+      "direction": "south-east"
+    }
+  },
+  {
+    "id": 104,
+    "key": "light-axe-idle",
+    "variant": "light-axe",
+    "kind": "idle",
+    "title": "Лёгкий · Топор и щит",
+    "source": "D:\\Codex\\home\\generated_images\\modular-equipment-animation-20261118\\items\\002\\original.png",
+    "source_sha256": "2f0a92b46af7ddb726546917714ed05e4ac6fed66abd8ce5b1b9cdcb5f666528",
+    "endpoint": "/animate-pixminimax",
+    "request": {
+      "description": "One calm breathing cycle: chest and shoulders gently rise and fall, hands and equipment follow by a tiny amount, scarf settles softly. Feet remain planted. No stepping, no attacks, no turning. Return to the starting pose.",
+      "frame_count": 16,
+      "seed": 181102,
+      "no_background": true,
+      "enhance_prompt": false,
+      "subject_description": "Compact auburn-haired adventurer with red scarf, olive padded sleeves, brown leather vest, small steel shoulder caps, brown boots; one-handed iron battle axe and round wooden buckler",
+      "initial_pose": "Standing in a compact combat-ready stance with equipment held securely and both feet planted",
+      "view": "low top-down",
+      "direction": "south-east"
+    }
+  },
+  {
+    "id": 105,
+    "key": "light-axe-attack",
+    "variant": "light-axe",
+    "kind": "attack",
+    "title": "Лёгкий · Топор и щит",
+    "source": "D:\\Codex\\home\\generated_images\\modular-equipment-animation-20261118\\items\\002\\original.png",
+    "source_sha256": "2f0a92b46af7ddb726546917714ed05e4ac6fed66abd8ce5b1b9cdcb5f666528",
+    "endpoint": "/animate-pixminimax",
+    "request": {
+      "description": "Draws the axe back with a small torso twist, delivers ONE weighty downward axe chop toward screen right with a brief follow-through, then pulls the axe back to the starting ready pose. The shield stays on the other arm. Use a compact action that keeps the entire weapon inside the frame. Keep both feet in the same area, retain facing, no full spin, no jumping, no extra attacks, no trails or effects.",
+      "frame_count": 24,
+      "seed": 181102,
+      "no_background": true,
+      "enhance_prompt": false,
+      "subject_description": "Compact auburn-haired adventurer with red scarf, olive padded sleeves, brown leather vest, small steel shoulder caps, brown boots; one-handed iron battle axe and round wooden buckler",
+      "initial_pose": "Standing in a compact combat-ready stance with equipment held securely and both feet planted",
+      "view": "low top-down",
+      "direction": "south-east"
+    }
+  },
+  {
+    "id": 106,
+    "key": "light-spear-idle",
+    "variant": "light-spear",
+    "kind": "idle",
+    "title": "Лёгкий · Двуручное копьё",
+    "source": "D:\\Codex\\home\\generated_images\\modular-equipment-animation-20261118\\items\\003\\original.png",
+    "source_sha256": "75909bc33d06d2664c6ccd7904e7700897dde8e50cddb44a27dd614bdc0453ad",
+    "endpoint": "/animate-pixminimax",
+    "request": {
+      "description": "One calm breathing cycle: chest and shoulders gently rise and fall, hands and equipment follow by a tiny amount, scarf settles softly. Feet remain planted. No stepping, no attacks, no turning. Return to the starting pose.",
+      "frame_count": 16,
+      "seed": 181103,
+      "no_background": true,
+      "enhance_prompt": false,
+      "subject_description": "Compact auburn-haired adventurer with red scarf, olive padded sleeves, brown leather vest, small steel shoulder caps, brown boots; one wooden spear with a steel point held diagonally in BOTH hands, no sword and no shield",
+      "initial_pose": "Standing in a compact combat-ready stance with equipment held securely and both feet planted",
+      "view": "low top-down",
+      "direction": "south-east"
+    }
+  },
+  {
+    "id": 107,
+    "key": "light-spear-attack",
+    "variant": "light-spear",
+    "kind": "attack",
+    "title": "Лёгкий · Двуручное копьё",
+    "source": "D:\\Codex\\home\\generated_images\\modular-equipment-animation-20261118\\items\\003\\original.png",
+    "source_sha256": "75909bc33d06d2664c6ccd7904e7700897dde8e50cddb44a27dd614bdc0453ad",
+    "endpoint": "/animate-pixminimax",
+    "request": {
+      "description": "First withdraws the spear well BACK toward the chest and bends the knees, then performs ONE SHORT two-handed forward jab. The spear tip reaches ONLY its starting horizontal position, never farther right than the tip in the first frame. The body shifts slightly BACK during the thrust so the whole spear stays well inside the canvas. Retracts and returns to the starting ready pose. Small controlled movement, no step forward, no spinning, no jumping, no extra attacks, no trails or effects. Keep the complete spear visible with clear empty space beyond its tip throughout.",
+      "frame_count": 24,
+      "seed": 181207,
+      "no_background": true,
+      "enhance_prompt": false,
+      "subject_description": "Compact auburn-haired adventurer with red scarf, olive padded sleeves, brown leather vest, small steel shoulder caps, brown boots; one wooden spear with a steel point held diagonally in BOTH hands, no sword and no shield",
+      "initial_pose": "Standing in a compact combat-ready stance with equipment held securely and both feet planted",
+      "view": "low top-down",
+      "direction": "south-east"
+    },
+    "selected_job_id": 207
+  },
+  {
+    "id": 108,
+    "key": "heavy-sword-idle",
+    "variant": "heavy-sword",
+    "kind": "idle",
+    "title": "Тяжёлый · Меч и щит",
+    "source": "D:\\Codex\\home\\generated_images\\modular-equipment-animation-20261118\\items\\004\\original.png",
+    "source_sha256": "38bdb28a0a7248438eb544859a824eac03c34f4c45d45ed853df36cda5aaad65",
+    "endpoint": "/animate-pixminimax",
+    "request": {
+      "description": "One calm breathing cycle: chest and shoulders gently rise and fall, hands and equipment follow by a tiny amount, scarf settles softly. Feet remain planted. No stepping, no attacks, no turning. Return to the starting pose.",
+      "frame_count": 16,
+      "seed": 181104,
+      "no_background": true,
+      "enhance_prompt": false,
+      "subject_description": "Compact auburn-haired adventurer with red scarf, blue-grey steel breastplate, large plate pauldrons, bracers and greaves, short burgundy cape; short broad iron sword and large red-and-steel kite shield",
+      "initial_pose": "Standing in a compact combat-ready stance with equipment held securely and both feet planted",
+      "view": "low top-down",
+      "direction": "south-east"
+    }
+  },
+  {
+    "id": 109,
+    "key": "heavy-sword-attack",
+    "variant": "heavy-sword",
+    "kind": "attack",
+    "title": "Тяжёлый · Меч и щит",
+    "source": "D:\\Codex\\home\\generated_images\\modular-equipment-animation-20261118\\items\\004\\original.png",
+    "source_sha256": "38bdb28a0a7248438eb544859a824eac03c34f4c45d45ed853df36cda5aaad65",
+    "endpoint": "/animate-pixminimax",
+    "request": {
+      "description": "Raises the sword for a short wind-up, delivers ONE crisp diagonal sword slash toward screen right while keeping the shield near the chest, then smoothly recovers to the starting ready pose. Use a compact action that keeps the entire weapon inside the frame. Keep both feet in the same area, retain facing, no full spin, no jumping, no extra attacks, no trails or effects.",
+      "frame_count": 24,
+      "seed": 181104,
+      "no_background": true,
+      "enhance_prompt": false,
+      "subject_description": "Compact auburn-haired adventurer with red scarf, blue-grey steel breastplate, large plate pauldrons, bracers and greaves, short burgundy cape; short broad iron sword and large red-and-steel kite shield",
+      "initial_pose": "Standing in a compact combat-ready stance with equipment held securely and both feet planted",
+      "view": "low top-down",
+      "direction": "south-east"
+    }
+  },
+  {
+    "id": 110,
+    "key": "heavy-axe-idle",
+    "variant": "heavy-axe",
+    "kind": "idle",
+    "title": "Тяжёлый · Топор и щит",
+    "source": "D:\\Codex\\home\\generated_images\\modular-equipment-animation-20261118\\items\\005\\original.png",
+    "source_sha256": "3be766e54b304a7f0ecc40af7515b87729b27ad3515d83581d3f22b1dd441fa4",
+    "endpoint": "/animate-pixminimax",
+    "request": {
+      "description": "One calm breathing cycle: chest and shoulders gently rise and fall, hands and equipment follow by a tiny amount, scarf settles softly. Feet remain planted. No stepping, no attacks, no turning. Return to the starting pose.",
+      "frame_count": 16,
+      "seed": 181105,
+      "no_background": true,
+      "enhance_prompt": false,
+      "subject_description": "Compact auburn-haired adventurer with red scarf, blue-grey steel breastplate, large plate pauldrons, bracers and greaves, short burgundy cape; one-handed iron battle axe and large red-and-steel kite shield",
+      "initial_pose": "Standing in a compact combat-ready stance with equipment held securely and both feet planted",
+      "view": "low top-down",
+      "direction": "south-east"
+    }
+  },
+  {
+    "id": 111,
+    "key": "heavy-axe-attack",
+    "variant": "heavy-axe",
+    "kind": "attack",
+    "title": "Тяжёлый · Топор и щит",
+    "source": "D:\\Codex\\home\\generated_images\\modular-equipment-animation-20261118\\items\\005\\original.png",
+    "source_sha256": "3be766e54b304a7f0ecc40af7515b87729b27ad3515d83581d3f22b1dd441fa4",
+    "endpoint": "/animate-pixminimax",
+    "request": {
+      "description": "Draws the axe back with a small torso twist, delivers ONE weighty downward axe chop toward screen right with a brief follow-through, then pulls the axe back to the starting ready pose. The shield stays on the other arm. Use a compact action that keeps the entire weapon inside the frame. Keep both feet in the same area, retain facing, no full spin, no jumping, no extra attacks, no trails or effects.",
+      "frame_count": 24,
+      "seed": 181105,
+      "no_background": true,
+      "enhance_prompt": false,
+      "subject_description": "Compact auburn-haired adventurer with red scarf, blue-grey steel breastplate, large plate pauldrons, bracers and greaves, short burgundy cape; one-handed iron battle axe and large red-and-steel kite shield",
+      "initial_pose": "Standing in a compact combat-ready stance with equipment held securely and both feet planted",
+      "view": "low top-down",
+      "direction": "south-east"
+    }
+  },
+  {
+    "id": 112,
+    "key": "heavy-spear-idle",
+    "variant": "heavy-spear",
+    "kind": "idle",
+    "title": "Тяжёлый · Двуручное копьё",
+    "source": "D:\\Codex\\home\\generated_images\\modular-equipment-animation-20261118\\items\\006\\original.png",
+    "source_sha256": "9b488e218001dd695ee661d35ebe9f275033462dea2e34f508d9df360904252c",
+    "endpoint": "/animate-pixminimax",
+    "request": {
+      "description": "One calm breathing cycle: chest and shoulders gently rise and fall, hands and equipment follow by a tiny amount, scarf settles softly. Feet remain planted. No stepping, no attacks, no turning. Return to the starting pose.",
+      "frame_count": 16,
+      "seed": 181106,
+      "no_background": true,
+      "enhance_prompt": false,
+      "subject_description": "Compact auburn-haired adventurer with red scarf, blue-grey steel breastplate, large plate pauldrons, bracers and greaves, short burgundy cape; one wooden spear with a steel point held diagonally in BOTH hands, no sword and no shield",
+      "initial_pose": "Standing in a compact combat-ready stance with equipment held securely and both feet planted",
+      "view": "low top-down",
+      "direction": "south-east"
+    }
+  },
+  {
+    "id": 113,
+    "key": "heavy-spear-attack",
+    "variant": "heavy-spear",
+    "kind": "attack",
+    "title": "Тяжёлый · Двуручное копьё",
+    "source": "D:\\Codex\\home\\generated_images\\modular-equipment-animation-20261118\\items\\006\\original.png",
+    "source_sha256": "9b488e218001dd695ee661d35ebe9f275033462dea2e34f508d9df360904252c",
+    "endpoint": "/animate-pixminimax",
+    "request": {
+      "description": "Draws the spear slightly back in both hands, delivers ONE straight two-handed spear thrust toward screen right, then retracts the spear and smoothly recovers to the starting ready pose. Both hands remain attached to the same shaft. Use a compact action that keeps the entire weapon inside the frame. Keep both feet in the same area, retain facing, no full spin, no jumping, no extra attacks, no trails or effects.",
+      "frame_count": 24,
+      "seed": 181106,
+      "no_background": true,
+      "enhance_prompt": false,
+      "subject_description": "Compact auburn-haired adventurer with red scarf, blue-grey steel breastplate, large plate pauldrons, bracers and greaves, short burgundy cape; one wooden spear with a steel point held diagonally in BOTH hands, no sword and no shield",
+      "initial_pose": "Standing in a compact combat-ready stance with equipment held securely and both feet planted",
+      "view": "low top-down",
+      "direction": "south-east"
+    }
+  }
+]
