@@ -1,0 +1,27 @@
+{
+  "base": "b41c92cf3c509968ecb786411e04f884c0fd2881",
+  "date": "2026-11-18",
+  "decision": "Сначала одно цельное тело",
+  "scope_question_closed": true,
+  "art_acceptance_still_open": true,
+  "documentation_only": true,
+  "code_and_art_unchanged": true,
+  "new_generations": 0,
+  "checks": {
+    "diff": "PASS",
+    "archive_byte_equal_to_base": true,
+    "foreign_files_unchanged": 33
+  },
+  "handoff": {
+    "before_chars": 2484,
+    "after_chars": 2471,
+    "archive": "docs/CODEX_HANDOFF.history-20261118-5.md",
+    "archive_sha256": "3627098a5de82c4390fed8efcce837999c885bd14a20a48b1b0867de2860ae4f"
+  },
+  "not_rerun": [
+    "browser QA",
+    "Godot",
+    "code review"
+  ],
+  "reason": "Only user scope choice recorded; prior technical evidence remains from the art stage."
+}

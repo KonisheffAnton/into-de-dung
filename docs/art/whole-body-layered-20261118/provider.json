@@ -733,7 +733,12 @@
     "frames": 3,
     "generations": 25,
     "continued": false,
-    "reason": "Additional full-outfit animation scope asked asynchronously; no confirmation received."
+    "reason": "At generation time the optional scope question was pending; the batch was not continued.",
+    "user_scope_decision": {
+      "date": "2026-11-18",
+      "answer": "Сначала одно цельное тело",
+      "additional_outfit_requested": false
+    }
   },
   "failed_job": {
     "id": 15,

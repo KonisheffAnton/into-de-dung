@@ -104,8 +104,13 @@
     "game performance"
   ],
   "open": [
-    "user art acceptance: naturalness, grip, helmet",
-    "second full animated outfit scope/cost choice"
+    "user art acceptance: naturalness, grip, helmet"
   ],
-  "known_completed_generation_usage": 37
+  "known_completed_generation_usage": 37,
+  "scope_choice_update": {
+    "date": "2026-11-18",
+    "decision": "one whole body first; second animated outfit outside current scope",
+    "evidence": "scope-choice-validation.json",
+    "prior_checks_rerun": false
+  }
 }
