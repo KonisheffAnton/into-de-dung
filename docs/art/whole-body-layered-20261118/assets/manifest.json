@@ -1,0 +1,741 @@
+{
+  "canvas": 256,
+  "slots": [
+    "body",
+    "weapon",
+    "helmet"
+  ],
+  "bodies": {
+    "light": {
+      "idle": [
+        "assets/body/light/idle/000.png",
+        "assets/body/light/idle/001.png",
+        "assets/body/light/idle/002.png",
+        "assets/body/light/idle/003.png",
+        "assets/body/light/idle/004.png",
+        "assets/body/light/idle/005.png",
+        "assets/body/light/idle/006.png",
+        "assets/body/light/idle/007.png",
+        "assets/body/light/idle/008.png",
+        "assets/body/light/idle/009.png",
+        "assets/body/light/idle/010.png",
+        "assets/body/light/idle/011.png",
+        "assets/body/light/idle/012.png"
+      ],
+      "attack": [
+        "assets/body/light/attack/000.png",
+        "assets/body/light/attack/001.png",
+        "assets/body/light/attack/002.png",
+        "assets/body/light/attack/003.png",
+        "assets/body/light/attack/004.png",
+        "assets/body/light/attack/005.png",
+        "assets/body/light/attack/006.png",
+        "assets/body/light/attack/007.png",
+        "assets/body/light/attack/008.png",
+        "assets/body/light/attack/009.png",
+        "assets/body/light/attack/010.png",
+        "assets/body/light/attack/011.png",
+        "assets/body/light/attack/012.png",
+        "assets/body/light/attack/013.png",
+        "assets/body/light/attack/014.png",
+        "assets/body/light/attack/015.png"
+      ]
+    }
+  },
+  "clips": {
+    "idle": {
+      "durations": [
+        120,
+        120,
+        120,
+        120,
+        120,
+        120,
+        120,
+        120,
+        120,
+        120,
+        120,
+        120,
+        120
+      ],
+      "sockets": [
+        {
+          "hand": [
+            128,
+            127
+          ],
+          "weaponAngle": 2.22,
+          "head": [
+            132,
+            96
+          ],
+          "headAngle": 0,
+          "headScale": 1,
+          "helmetVariant": "front",
+          "weaponBehind": false,
+          "gripRadius": 5,
+          "root": [
+            -12,
+            0
+          ]
+        },
+        {
+          "hand": [
+            127,
+            127
+          ],
+          "weaponAngle": 2.22,
+          "head": [
+            132,
+            96
+          ],
+          "headAngle": 0,
+          "headScale": 1,
+          "helmetVariant": "front",
+          "weaponBehind": false,
+          "gripRadius": 5,
+          "root": [
+            -12,
+            0
+          ]
+        },
+        {
+          "hand": [
+            128,
+            127
+          ],
+          "weaponAngle": 2.22,
+          "head": [
+            132,
+            95
+          ],
+          "headAngle": 0,
+          "headScale": 1,
+          "helmetVariant": "front",
+          "weaponBehind": false,
+          "gripRadius": 5,
+          "root": [
+            -12,
+            0
+          ]
+        },
+        {
+          "hand": [
+            130,
+            126
+          ],
+          "weaponAngle": 2.22,
+          "head": [
+            132,
+            94
+          ],
+          "headAngle": 0,
+          "headScale": 1,
+          "helmetVariant": "front",
+          "weaponBehind": false,
+          "gripRadius": 5,
+          "root": [
+            -12,
+            0
+          ]
+        },
+        {
+          "hand": [
+            132,
+            124
+          ],
+          "weaponAngle": 2.22,
+          "head": [
+            131,
+            94
+          ],
+          "headAngle": 0,
+          "headScale": 1,
+          "helmetVariant": "front",
+          "weaponBehind": false,
+          "gripRadius": 5,
+          "root": [
+            -12,
+            0
+          ]
+        },
+        {
+          "hand": [
+            133,
+            124
+          ],
+          "weaponAngle": 2.22,
+          "head": [
+            130,
+            92
+          ],
+          "headAngle": 0,
+          "headScale": 1,
+          "helmetVariant": "front",
+          "weaponBehind": false,
+          "gripRadius": 5,
+          "root": [
+            -12,
+            0
+          ]
+        },
+        {
+          "hand": [
+            133,
+            124
+          ],
+          "weaponAngle": 2.22,
+          "head": [
+            130,
+            92
+          ],
+          "headAngle": 0,
+          "headScale": 1,
+          "helmetVariant": "front",
+          "weaponBehind": false,
+          "gripRadius": 5,
+          "root": [
+            -12,
+            0
+          ]
+        },
+        {
+          "hand": [
+            130,
+            128
+          ],
+          "weaponAngle": 2.22,
+          "head": [
+            130,
+            93
+          ],
+          "headAngle": 0,
+          "headScale": 1,
+          "helmetVariant": "front",
+          "weaponBehind": false,
+          "gripRadius": 5,
+          "root": [
+            -12,
+            0
+          ]
+        },
+        {
+          "hand": [
+            128,
+            129
+          ],
+          "weaponAngle": 2.22,
+          "head": [
+            132,
+            94
+          ],
+          "headAngle": 0,
+          "headScale": 1,
+          "helmetVariant": "front",
+          "weaponBehind": false,
+          "gripRadius": 5,
+          "root": [
+            -12,
+            0
+          ]
+        },
+        {
+          "hand": [
+            126,
+            130
+          ],
+          "weaponAngle": 2.22,
+          "head": [
+            132,
+            95
+          ],
+          "headAngle": 0,
+          "headScale": 1,
+          "helmetVariant": "front",
+          "weaponBehind": false,
+          "gripRadius": 5,
+          "root": [
+            -12,
+            0
+          ]
+        },
+        {
+          "hand": [
+            126,
+            129
+          ],
+          "weaponAngle": 2.22,
+          "head": [
+            132,
+            96
+          ],
+          "headAngle": 0,
+          "headScale": 1,
+          "helmetVariant": "front",
+          "weaponBehind": false,
+          "gripRadius": 5,
+          "root": [
+            -12,
+            0
+          ]
+        },
+        {
+          "hand": [
+            127,
+            128
+          ],
+          "weaponAngle": 2.22,
+          "head": [
+            132,
+            96
+          ],
+          "headAngle": 0,
+          "headScale": 1,
+          "helmetVariant": "front",
+          "weaponBehind": false,
+          "gripRadius": 5,
+          "root": [
+            -12,
+            0
+          ]
+        },
+        {
+          "hand": [
+            128,
+            127
+          ],
+          "weaponAngle": 2.22,
+          "head": [
+            132,
+            96
+          ],
+          "headAngle": 0,
+          "headScale": 1,
+          "helmetVariant": "front",
+          "weaponBehind": false,
+          "gripRadius": 5,
+          "root": [
+            -12,
+            0
+          ]
+        }
+      ]
+    },
+    "attack": {
+      "durations": [
+        120,
+        80,
+        110,
+        90,
+        80,
+        60,
+        40,
+        40,
+        40,
+        50,
+        100,
+        80,
+        70,
+        90,
+        110,
+        200
+      ],
+      "sockets": [
+        {
+          "hand": [
+            128,
+            127
+          ],
+          "weaponAngle": 2.22,
+          "head": [
+            132,
+            96
+          ],
+          "headAngle": 0,
+          "headScale": 1,
+          "helmetVariant": "front",
+          "weaponBehind": false,
+          "gripRadius": 5,
+          "root": [
+            -12,
+            0
+          ]
+        },
+        {
+          "hand": [
+            128,
+            127
+          ],
+          "weaponAngle": 2.22,
+          "head": [
+            132,
+            96
+          ],
+          "headAngle": 0,
+          "headScale": 1,
+          "helmetVariant": "front",
+          "weaponBehind": false,
+          "gripRadius": 5,
+          "root": [
+            -12,
+            0
+          ]
+        },
+        {
+          "hand": [
+            91,
+            88
+          ],
+          "weaponAngle": 0.45,
+          "head": [
+            124,
+            98
+          ],
+          "headAngle": 0,
+          "headScale": 1,
+          "helmetVariant": "front",
+          "weaponBehind": false,
+          "gripRadius": 5,
+          "root": [
+            -10,
+            2
+          ]
+        },
+        {
+          "hand": [
+            82,
+            77
+          ],
+          "weaponAngle": -0.2,
+          "head": [
+            120,
+            100
+          ],
+          "headAngle": 0,
+          "headScale": 1,
+          "helmetVariant": "front",
+          "weaponBehind": false,
+          "gripRadius": 5,
+          "root": [
+            -8,
+            3
+          ]
+        },
+        {
+          "hand": [
+            88,
+            70
+          ],
+          "weaponAngle": -0.45,
+          "head": [
+            116,
+            100
+          ],
+          "headAngle": 0,
+          "headScale": 1,
+          "helmetVariant": "front",
+          "weaponBehind": false,
+          "gripRadius": 5,
+          "root": [
+            -8,
+            3
+          ]
+        },
+        {
+          "hand": [
+            80,
+            70
+          ],
+          "weaponAngle": -0.55,
+          "head": [
+            116,
+            100
+          ],
+          "headAngle": 0,
+          "headScale": 1,
+          "helmetVariant": "front",
+          "weaponBehind": false,
+          "gripRadius": 5,
+          "root": [
+            -8,
+            3
+          ]
+        },
+        {
+          "hand": [
+            80,
+            70
+          ],
+          "weaponAngle": -0.55,
+          "head": [
+            116,
+            100
+          ],
+          "headAngle": 0,
+          "headScale": 1,
+          "helmetVariant": "front",
+          "weaponBehind": false,
+          "gripRadius": 5,
+          "root": [
+            -8,
+            3
+          ]
+        },
+        {
+          "hand": [
+            80,
+            70
+          ],
+          "weaponAngle": -0.55,
+          "head": [
+            116,
+            100
+          ],
+          "headAngle": 0,
+          "headScale": 1,
+          "helmetVariant": "front",
+          "weaponBehind": false,
+          "gripRadius": 5,
+          "root": [
+            -8,
+            3
+          ]
+        },
+        {
+          "hand": [
+            80,
+            70
+          ],
+          "weaponAngle": -0.55,
+          "head": [
+            116,
+            100
+          ],
+          "headAngle": 0,
+          "headScale": 1,
+          "helmetVariant": "front",
+          "weaponBehind": false,
+          "gripRadius": 5,
+          "root": [
+            -8,
+            3
+          ]
+        },
+        {
+          "hand": [
+            194,
+            129
+          ],
+          "weaponAngle": 1.48,
+          "head": [
+            134,
+            104
+          ],
+          "headAngle": 0,
+          "headScale": 1,
+          "helmetVariant": "front",
+          "weaponBehind": false,
+          "gripRadius": 5,
+          "root": [
+            -4,
+            0
+          ]
+        },
+        {
+          "hand": [
+            192,
+            154
+          ],
+          "weaponAngle": 2.28,
+          "head": [
+            158,
+            111
+          ],
+          "headAngle": 0,
+          "headScale": 1,
+          "helmetVariant": "front",
+          "weaponBehind": false,
+          "gripRadius": 5,
+          "root": [
+            -14,
+            -1
+          ]
+        },
+        {
+          "hand": [
+            192,
+            154
+          ],
+          "weaponAngle": 2.4,
+          "head": [
+            158,
+            111
+          ],
+          "headAngle": 0,
+          "headScale": 1,
+          "helmetVariant": "front",
+          "weaponBehind": false,
+          "gripRadius": 5,
+          "root": [
+            -14,
+            -1
+          ]
+        },
+        {
+          "hand": [
+            192,
+            154
+          ],
+          "weaponAngle": 2.4,
+          "head": [
+            158,
+            111
+          ],
+          "headAngle": 0,
+          "headScale": 1,
+          "helmetVariant": "front",
+          "weaponBehind": false,
+          "gripRadius": 5,
+          "root": [
+            -14,
+            -1
+          ]
+        },
+        {
+          "hand": [
+            180,
+            149
+          ],
+          "weaponAngle": 2.35,
+          "head": [
+            152,
+            108
+          ],
+          "headAngle": 0,
+          "headScale": 1,
+          "helmetVariant": "front",
+          "weaponBehind": false,
+          "gripRadius": 5,
+          "root": [
+            -13,
+            -1
+          ]
+        },
+        {
+          "hand": [
+            165,
+            136
+          ],
+          "weaponAngle": 2.3,
+          "head": [
+            144,
+            103
+          ],
+          "headAngle": 0,
+          "headScale": 1,
+          "helmetVariant": "front",
+          "weaponBehind": false,
+          "gripRadius": 5,
+          "root": [
+            -14,
+            0
+          ]
+        },
+        {
+          "hand": [
+            128,
+            127
+          ],
+          "weaponAngle": 2.22,
+          "head": [
+            132,
+            96
+          ],
+          "headAngle": 0,
+          "headScale": 1,
+          "helmetVariant": "front",
+          "weaponBehind": false,
+          "gripRadius": 5,
+          "root": [
+            -12,
+            0
+          ]
+        }
+      ]
+    }
+  },
+  "equipment": {
+    "sword": {
+      "file": "assets/sword.png",
+      "width": 26,
+      "height": 65,
+      "pivot": [
+        0.5,
+        0.86
+      ]
+    },
+    "axe": {
+      "file": "assets/axe.png",
+      "width": 36,
+      "height": 64,
+      "pivot": [
+        0.22,
+        0.86
+      ]
+    },
+    "helmet_front": {
+      "file": "assets/helmet_front.png",
+      "width": 62,
+      "height": 62,
+      "pivot": [
+        0.5,
+        1
+      ]
+    },
+    "helmet_profile": {
+      "file": "assets/helmet_profile.png",
+      "width": 60,
+      "height": 62,
+      "pivot": [
+        0.5,
+        1
+      ]
+    }
+  },
+  "files_sha256": {
+    "assets/body/light/idle/000.png": "1c52bc1f498b953ef3ec353c5af45a5aeeed6b21ee12b970cfcd6db4c08e011f",
+    "assets/body/light/idle/001.png": "c11fa757d3331e6d7474ba20b77eaf03b130a930f3bccc3b5af7817fb5b6d907",
+    "assets/body/light/idle/002.png": "8f4138c7e35b9050a6a33dc22ed8a10229f2eae4e6c4737b98cbbfeb94ca3ba9",
+    "assets/body/light/idle/003.png": "8494e132b5db372e1e2d895fb3fc019ec02bfe366459fdc215032a5d945efca9",
+    "assets/body/light/idle/004.png": "8f11472cb426a121d0189680a59c34b4979395dd2344d51b347d96e50e08e3c8",
+    "assets/body/light/idle/005.png": "7d804fc5d8bbcb77d0195bee93f7d2ee3c92c85f5aa3ca5ded0aa369077a7b2c",
+    "assets/body/light/idle/006.png": "6d0781198dcdb5dbdada9a2a7e925cc51fef34adeba180a179606f0786ece4e5",
+    "assets/body/light/idle/007.png": "6d694c814ad9653b69e601da223d7ae4ee1ce7d449493b50a2a7b5f9177bb1f4",
+    "assets/body/light/idle/008.png": "6d7df35d4a158bcbe6ee07fc324218ea475c1e201700c294fddf2973df508349",
+    "assets/body/light/idle/009.png": "f6e3667137d340af927c01f10f13049b713bd1141ef6e64ad1a54f1d63e96043",
+    "assets/body/light/idle/010.png": "12e4b98732c69a84a433fdee2ce6e0c2fbccdd73f8059c3ac247961f5da67f25",
+    "assets/body/light/idle/011.png": "35f9841a77f886931338a8d6bd61746d517537c88f6a2cb26cfef146d027d1d3",
+    "assets/body/light/idle/012.png": "74a03b5401265a53697020b0f4b5a97d30ac2806ea708a686eb7063cc6bc3687",
+    "assets/body/light/attack/000.png": "1c52bc1f498b953ef3ec353c5af45a5aeeed6b21ee12b970cfcd6db4c08e011f",
+    "assets/body/light/attack/001.png": "ce3b226ebaeaedefdf004c097e1661fc65e225a370afb78e76328bee54b96f6e",
+    "assets/body/light/attack/002.png": "a5b1a13bff969e4b5b43d74e5e6d0d010eaa904e3b94bfbf963b4d2c24124327",
+    "assets/body/light/attack/003.png": "f59f86d270fd7fe69eb91ed2055778930c0d59f3d72dc6b5ab1fc6cc73405059",
+    "assets/body/light/attack/004.png": "bf4981b487f72aa4dc1422fc55eed4759ff655b4dd3b99545ea2d7406619d1bf",
+    "assets/body/light/attack/005.png": "bf4981b487f72aa4dc1422fc55eed4759ff655b4dd3b99545ea2d7406619d1bf",
+    "assets/body/light/attack/006.png": "bf4981b487f72aa4dc1422fc55eed4759ff655b4dd3b99545ea2d7406619d1bf",
+    "assets/body/light/attack/007.png": "bf4981b487f72aa4dc1422fc55eed4759ff655b4dd3b99545ea2d7406619d1bf",
+    "assets/body/light/attack/008.png": "bf4981b487f72aa4dc1422fc55eed4759ff655b4dd3b99545ea2d7406619d1bf",
+    "assets/body/light/attack/009.png": "4bd30c900dc6179f24e38a78622de26034f8edb273b6a5a5522e8b215d06adc1",
+    "assets/body/light/attack/010.png": "928cecde8a969f7e1c94a55cb022f0e26bacf47abe6ba382dd9370a50e1ca2b1",
+    "assets/body/light/attack/011.png": "453dbad0ddfb7e6dc81ace962eb850892a4cf3a1a989fbac45152a42208dd317",
+    "assets/body/light/attack/012.png": "02f4adabf76f06a0a9c51ad07107fa50c964197287f16638d80868271521ffd1",
+    "assets/body/light/attack/013.png": "3afdefa3ef9790647b9413a1ed92acfca4b0d8b688ad0228f7df1ae78e6492a6",
+    "assets/body/light/attack/014.png": "72c9893e9a82500f9f3210142bf32fed52c44bcdbf0b39e5afcd3b15bffd0f3e",
+    "assets/body/light/attack/015.png": "6f335de3604f45e9f5626ff12a02b129d130d0a89e31db4c03efdbf5ece4abd4",
+    "assets/sword.png": "ff2a96068b37fb89af48184fd8b13c3861e2ab7b66d628c31ae41adb20459063",
+    "assets/axe.png": "ef89e45775c1745f4dda71bb69943493071d7de53a83fedaec35bda18950d2ab",
+    "assets/helmet_front.png": "5a8ec7152265e6d155557c4623b8aa8e4e2ad73e024ff08b79348b3bf4802825",
+    "assets/helmet_profile.png": "30a41010d8ec4be99db8a203ef130f095a02e08fafca536f7e0c4a26a8040af2"
+  }
+}

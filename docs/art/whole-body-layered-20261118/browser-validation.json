@@ -1,0 +1,222 @@
+{
+  "checks": [
+    {
+      "name": "assets loaded",
+      "pass": true
+    },
+    {
+      "name": "exactly three slots",
+      "pass": true
+    },
+    {
+      "name": "playback time and scrub wrap within the auto cycle",
+      "pass": true
+    },
+    {
+      "name": "frame selection idle/0",
+      "pass": true
+    },
+    {
+      "name": "frame selection idle/1",
+      "pass": true
+    },
+    {
+      "name": "frame selection idle/2",
+      "pass": true
+    },
+    {
+      "name": "frame selection idle/3",
+      "pass": true
+    },
+    {
+      "name": "frame selection idle/4",
+      "pass": true
+    },
+    {
+      "name": "frame selection idle/5",
+      "pass": true
+    },
+    {
+      "name": "frame selection idle/6",
+      "pass": true
+    },
+    {
+      "name": "frame selection idle/7",
+      "pass": true
+    },
+    {
+      "name": "frame selection idle/8",
+      "pass": true
+    },
+    {
+      "name": "frame selection idle/9",
+      "pass": true
+    },
+    {
+      "name": "frame selection idle/10",
+      "pass": true
+    },
+    {
+      "name": "frame selection idle/11",
+      "pass": true
+    },
+    {
+      "name": "frame selection idle/12",
+      "pass": true
+    },
+    {
+      "name": "frame selection attack/0",
+      "pass": true
+    },
+    {
+      "name": "frame selection attack/1",
+      "pass": true
+    },
+    {
+      "name": "frame selection attack/2",
+      "pass": true
+    },
+    {
+      "name": "frame selection attack/3",
+      "pass": true
+    },
+    {
+      "name": "frame selection attack/4",
+      "pass": true
+    },
+    {
+      "name": "frame selection attack/5",
+      "pass": true
+    },
+    {
+      "name": "frame selection attack/6",
+      "pass": true
+    },
+    {
+      "name": "frame selection attack/7",
+      "pass": true
+    },
+    {
+      "name": "frame selection attack/8",
+      "pass": true
+    },
+    {
+      "name": "frame selection attack/9",
+      "pass": true
+    },
+    {
+      "name": "frame selection attack/10",
+      "pass": true
+    },
+    {
+      "name": "frame selection attack/11",
+      "pass": true
+    },
+    {
+      "name": "frame selection attack/12",
+      "pass": true
+    },
+    {
+      "name": "frame selection attack/13",
+      "pass": true
+    },
+    {
+      "name": "frame selection attack/14",
+      "pass": true
+    },
+    {
+      "name": "frame selection attack/15",
+      "pass": true
+    },
+    {
+      "name": "one whole-body draw per frame",
+      "pass": true
+    },
+    {
+      "name": "optional root defaults to zero or contains finite coordinates",
+      "pass": true
+    },
+    {
+      "name": "whole-body draw operation reports root-adjusted display coordinates",
+      "pass": true
+    },
+    {
+      "name": "same shared clip frame across all 6 gear combinations",
+      "pass": true
+    },
+    {
+      "name": "same attachment sockets across all 6 gear combinations",
+      "pass": true
+    },
+    {
+      "name": "attachment positions stay within broad canvas bounds",
+      "pass": true
+    },
+    {
+      "name": "all rendered gear combinations have transparent RGBA canvas borders",
+      "pass": true
+    },
+    {
+      "name": "body frames are whole-frame 256-square PNGs",
+      "pass": true
+    },
+    {
+      "name": "body layer toggle renders the exact full PNG at each root offset",
+      "pass": true
+    },
+    {
+      "name": "pause stops time",
+      "pass": true
+    },
+    {
+      "name": "restart resets playback",
+      "pass": true
+    },
+    {
+      "name": "scrub selects a fixed time and pauses",
+      "pass": true
+    },
+    {
+      "name": "weapon UI selection changes visible pixels",
+      "pass": true
+    },
+    {
+      "name": "weapon swap preserves shared time",
+      "pass": true
+    },
+    {
+      "name": "weapon changes only its own image path",
+      "pass": true
+    },
+    {
+      "name": "helmet UI selection changes visible pixels",
+      "pass": true
+    },
+    {
+      "name": "helmet swap preserves shared time",
+      "pass": true
+    },
+    {
+      "name": "helmet changes only its own image path",
+      "pass": true
+    },
+    {
+      "name": "body selector matches available whole-body variants",
+      "pass": true
+    },
+    {
+      "name": "single body variant has no fabricated duplicate",
+      "pass": true
+    }
+  ],
+  "pass": true,
+  "export": {
+    "overview_frames": 29,
+    "overview_duration_ms": 2920,
+    "swap_frames": 4,
+    "body_only_frames": 29,
+    "body_only_duration_ms": 2920,
+    "source": "FrameRig.render at exact body-frame boundaries"
+  },
+  "browser_exit_code": 0
+}

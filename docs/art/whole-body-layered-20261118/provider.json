@@ -1,0 +1,749 @@
+{
+  "provider": "PixelLab",
+  "api": "https://api.pixellab.ai/v2",
+  "raw_folder": "D:\\Codex\\home\\generated_images\\whole-body-layered-20261118",
+  "completed_jobs_generation_usage": 37,
+  "jobs": [
+    {
+      "id": 1,
+      "key": "light-body",
+      "endpoint": "/edit-image-pixen",
+      "job_id": "e8c21d03-4a81-4224-af78-765b4c884cac",
+      "status": "completed",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 1
+      },
+      "request_parameters": {
+        "description": "Redraw as ONE coherent full-body sprite, same auburn-haired hero and pixel style, facing RIGHT. Natural compact athletic proportions, connected shoulders/elbows/knees, no puppet seams. Entire leather armor outfit, olive sleeves, fitted trousers, red scarf, boots. NO weapon, shield, helmet or cape. Ready stance, knees soft; near hand closed to grip a weapon, clearly visible at right waist; far hand guards chest. Feet grounded, whole figure inside canvas, transparent background.",
+        "width": 256,
+        "height": 256,
+        "seed": 181841,
+        "no_background": true
+      },
+      "source_sha256": "d8117c67d3b59c5943ea850b8802ff1ce895ef919ad65c06d730d0716b6146a8",
+      "frame_refs": null,
+      "outputs": [
+        {
+          "sha256": "1c52bc1f498b953ef3ec353c5af45a5aeeed6b21ee12b970cfcd6db4c08e011f",
+          "size": [
+            256,
+            256
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "key": "heavy-body",
+      "endpoint": "/edit-image-pixen",
+      "job_id": "1be4d1c9-3937-400d-b3f3-83ac5d399074",
+      "status": "completed",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 1
+      },
+      "request_parameters": {
+        "description": "Keep EXACT pose, anatomy, facing right, head/face/hair, red scarf, hands, foot positions and silhouette. Replace the entire clothing outfit with coherent blue-grey steel plate armor including torso, arms and legs. ONE whole full-body drawing, naturally connected joints, no separate floating pieces or puppet joints. No weapon, shield, helmet or cape. Transparent background. Preserve exact scale and placement.",
+        "width": 256,
+        "height": 256,
+        "seed": 181842,
+        "no_background": true
+      },
+      "source_sha256": "1c52bc1f498b953ef3ec353c5af45a5aeeed6b21ee12b970cfcd6db4c08e011f",
+      "frame_refs": null,
+      "outputs": [
+        {
+          "sha256": "8f3a55a93fd77622387edfad11fa9150d1a6291a5853328554fac0bc98a3d469",
+          "size": [
+            256,
+            256
+          ]
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "key": "idle",
+      "endpoint": "/animate-pixminimax",
+      "job_id": "ff355ba2-8895-40ba-9368-751567f69fa2",
+      "status": "completed",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 2
+      },
+      "request_parameters": {
+        "description": "One relaxed breathing cycle in a ready stance: chest gently expands, shoulders lift slightly then settle, hands follow softly, tiny delayed head and scarf settling. Weight stays grounded through relaxed knees, feet remain planted. Empty hands stay near the torso. Return naturally to the same ready pose. No attack, no stepping, no prop or weapon appears.",
+        "frame_count": 12,
+        "seed": 181851,
+        "no_background": true,
+        "enhance_prompt": false,
+        "subject_description": "Compact auburn-haired human adventurer wearing a red scarf and one complete leather armor outfit, empty hands, no weapon or helmet",
+        "initial_pose": "Facing screen right, natural ready stance, both fists near chest, knees relaxed and feet grounded",
+        "direction": "south-east",
+        "view": "low top-down"
+      },
+      "source_sha256": "1c52bc1f498b953ef3ec353c5af45a5aeeed6b21ee12b970cfcd6db4c08e011f",
+      "frame_refs": null,
+      "outputs": [
+        {
+          "sha256": "1c52bc1f498b953ef3ec353c5af45a5aeeed6b21ee12b970cfcd6db4c08e011f",
+          "size": [
+            256,
+            256
+          ]
+        },
+        {
+          "sha256": "c11fa757d3331e6d7474ba20b77eaf03b130a930f3bccc3b5af7817fb5b6d907",
+          "size": [
+            256,
+            256
+          ]
+        },
+        {
+          "sha256": "8f4138c7e35b9050a6a33dc22ed8a10229f2eae4e6c4737b98cbbfeb94ca3ba9",
+          "size": [
+            256,
+            256
+          ]
+        },
+        {
+          "sha256": "8494e132b5db372e1e2d895fb3fc019ec02bfe366459fdc215032a5d945efca9",
+          "size": [
+            256,
+            256
+          ]
+        },
+        {
+          "sha256": "8f11472cb426a121d0189680a59c34b4979395dd2344d51b347d96e50e08e3c8",
+          "size": [
+            256,
+            256
+          ]
+        },
+        {
+          "sha256": "7d804fc5d8bbcb77d0195bee93f7d2ee3c92c85f5aa3ca5ded0aa369077a7b2c",
+          "size": [
+            256,
+            256
+          ]
+        },
+        {
+          "sha256": "6d0781198dcdb5dbdada9a2a7e925cc51fef34adeba180a179606f0786ece4e5",
+          "size": [
+            256,
+            256
+          ]
+        },
+        {
+          "sha256": "6d694c814ad9653b69e601da223d7ae4ee1ce7d449493b50a2a7b5f9177bb1f4",
+          "size": [
+            256,
+            256
+          ]
+        },
+        {
+          "sha256": "6d7df35d4a158bcbe6ee07fc324218ea475c1e201700c294fddf2973df508349",
+          "size": [
+            256,
+            256
+          ]
+        },
+        {
+          "sha256": "f6e3667137d340af927c01f10f13049b713bd1141ef6e64ad1a54f1d63e96043",
+          "size": [
+            256,
+            256
+          ]
+        },
+        {
+          "sha256": "12e4b98732c69a84a433fdee2ce6e0c2fbccdd73f8059c3ac247961f5da67f25",
+          "size": [
+            256,
+            256
+          ]
+        },
+        {
+          "sha256": "35f9841a77f886931338a8d6bd61746d517537c88f6a2cb26cfef146d027d1d3",
+          "size": [
+            256,
+            256
+          ]
+        },
+        {
+          "sha256": "74a03b5401265a53697020b0f4b5a97d30ac2806ea708a686eb7063cc6bc3687",
+          "size": [
+            256,
+            256
+          ]
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "key": "attack",
+      "endpoint": "/animate-pixminimax",
+      "job_id": "45b9f1b3-2958-4752-8f2f-c585df16a184",
+      "status": "completed",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 3
+      },
+      "request_parameters": {
+        "description": "Mimes ONE natural one-handed diagonal weapon chop toward screen right, gripping an INVISIBLE handle in the near fist. Coils hips and shoulders with a slight knee bend; lifts that fist beside and above the head; pushes from the rear leg, torso unwinds first, then elbow and fist sweep fast down and forward in a curved arc. Brief low follow-through and relaxed recovery to the initial ready pose. Other hand counterbalances near chest. Keep feet grounded in the same area, small heel pivot only, no jump, no spin, no repeated strike. Hands remain empty throughout: do not draw any weapon, shield, prop, trail or effect.",
+        "frame_count": 24,
+        "seed": 181852,
+        "no_background": true,
+        "enhance_prompt": false,
+        "subject_description": "Compact auburn-haired human adventurer wearing a red scarf and one complete leather armor outfit, empty hands, no weapon or helmet",
+        "initial_pose": "Facing screen right, natural ready stance, both fists near chest, knees relaxed and feet grounded",
+        "direction": "south-east",
+        "view": "low top-down"
+      },
+      "source_sha256": "1c52bc1f498b953ef3ec353c5af45a5aeeed6b21ee12b970cfcd6db4c08e011f",
+      "frame_refs": null,
+      "outputs": [
+        {
+          "sha256": "1c52bc1f498b953ef3ec353c5af45a5aeeed6b21ee12b970cfcd6db4c08e011f",
+          "size": [
+            256,
+            256
+          ]
+        },
+        {
+          "sha256": "fdd5495c6c1356482f1e0696022ab46be029daaa922b5844d9d61b0309b8ecd8",
+          "size": [
+            256,
+            256
+          ]
+        },
+        {
+          "sha256": "9906d0405090bf244ecd2138eabd109be62a3ec5602cfd9d6e275003968e2882",
+          "size": [
+            256,
+            256
+          ]
+        },
+        {
+          "sha256": "3c8dcdb4b99ca72ab53574cd622afbc30921b0a09bc9b7f43e807504ab44414d",
+          "size": [
+            256,
+            256
+          ]
+        },
+        {
+          "sha256": "4bd30c900dc6179f24e38a78622de26034f8edb273b6a5a5522e8b215d06adc1",
+          "size": [
+            256,
+            256
+          ]
+        },
+        {
+          "sha256": "68e69fde3e68eb66b86ce48d550c86f9dca94c4ce4ba037a0f83fe6bbf6212b4",
+          "size": [
+            256,
+            256
+          ]
+        },
+        {
+          "sha256": "a1a4a8492f87ec3e3dd96247f3015532e0dc824ee330e362efa7ef44c200caef",
+          "size": [
+            256,
+            256
+          ]
+        },
+        {
+          "sha256": "00598f5ec5d852c931778d176b99d1a880294cfcdfeb22709e7a0b40ae123d86",
+          "size": [
+            256,
+            256
+          ]
+        },
+        {
+          "sha256": "fd5783e08c5798c3971c8c6bb7e2dd2f233914d42fcbefdb139115cc28825061",
+          "size": [
+            256,
+            256
+          ]
+        },
+        {
+          "sha256": "f97497eeefc1fceade028a6b2e334fd08a3718aa0799cca6ec9a5a1768b86dd2",
+          "size": [
+            256,
+            256
+          ]
+        },
+        {
+          "sha256": "337a4d9929162b33ed563e2c72988d1307e724a2f213f13dcb503e6f3a14cbea",
+          "size": [
+            256,
+            256
+          ]
+        },
+        {
+          "sha256": "f45aadf2042cc1e60212a871c9b5ecb4801a9c1b6494e2c660b51220cd805cc3",
+          "size": [
+            256,
+            256
+          ]
+        },
+        {
+          "sha256": "c08154f56ed8ff3e50545b5de0919d9462bdc8e6ce8cccd6c988483e23d76366",
+          "size": [
+            256,
+            256
+          ]
+        },
+        {
+          "sha256": "c1bb09304049cc169c1f2f8650ee34e0387c1302821677a548722e4af5b527ae",
+          "size": [
+            256,
+            256
+          ]
+        },
+        {
+          "sha256": "a8240b14997b20949bfa454d753548ae3dd3b4d472e4b46d65c6d230a8155753",
+          "size": [
+            256,
+            256
+          ]
+        },
+        {
+          "sha256": "51ac3652928bd75a9f1e67d17cc83985a9b438a6d835ded028849ae9892e85c5",
+          "size": [
+            256,
+            256
+          ]
+        },
+        {
+          "sha256": "469f073b1c0852491f24b945125243e6b4e47bc58722c2dd93a732dc4384427f",
+          "size": [
+            256,
+            256
+          ]
+        },
+        {
+          "sha256": "ab44515c5456f1d1a23275de15d967a49800fd3c8a932f0c4e6751a956e97c48",
+          "size": [
+            256,
+            256
+          ]
+        },
+        {
+          "sha256": "52d7b7727f8bcb64bb0660b925a29130527af5aabe0a440c0595a3714c3e52a0",
+          "size": [
+            256,
+            256
+          ]
+        },
+        {
+          "sha256": "295251a6e09a1392cdabaf3f7f8603b44cd8a927f2b2939a733b2abbda6bd908",
+          "size": [
+            256,
+            256
+          ]
+        },
+        {
+          "sha256": "cb0be2969506de6dcfe264bc44cb5fd1b04e0d1bc4a90f74af8ac8aaf28e1154",
+          "size": [
+            256,
+            256
+          ]
+        },
+        {
+          "sha256": "872b6b609a2a30064ad6b4f3b37ba9f21efc5692349a57a9bf288097586e3830",
+          "size": [
+            256,
+            256
+          ]
+        },
+        {
+          "sha256": "a36d68dfed757488ac32d115af9923b062be97f0294907b0ec879ac27166e4d5",
+          "size": [
+            256,
+            256
+          ]
+        },
+        {
+          "sha256": "05d778fbfddd9fc2d57d48415f5274a0aeca16836c1ec53a12e1742b02e13691",
+          "size": [
+            256,
+            256
+          ]
+        },
+        {
+          "sha256": "6f4b1ecf864279e1e83ffcbe523496d448f363897df4f2790f0c9e30d16b1032",
+          "size": [
+            256,
+            256
+          ]
+        }
+      ]
+    },
+    {
+      "id": 101,
+      "key": "heavy-idle-01-03",
+      "endpoint": "/transfer-outfit-v2",
+      "job_id": "39da6674-a2d9-445e-9886-da3be0724f1f",
+      "status": "completed",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 25
+      },
+      "request_parameters": {
+        "image_size": {
+          "width": 256,
+          "height": 256
+        },
+        "seed": 181901,
+        "no_background": true,
+        "additional_instructions": "Change ONLY the complete clothing/armor appearance to the reference steel armor. Keep EXACT original animation pose, anatomy, head/hair/face, hand and foot positions, facing, silhouette size, pixel style and global canvas placement in EACH frame. Preserve the red scarf. ONE connected full-body drawing per frame, no separate pieces. Empty hands, NO weapon, NO shield, NO helmet, NO cape. Do not change or reanimate the motion. Transparent background."
+      },
+      "source_sha256": null,
+      "frame_refs": [
+        [
+          "idle",
+          1
+        ],
+        [
+          "idle",
+          2
+        ],
+        [
+          "idle",
+          3
+        ]
+      ],
+      "outputs": [
+        {
+          "sha256": "b9fb02d185142b811db44e6493def299989363b3b389cd559065b35701884567",
+          "size": [
+            256,
+            256
+          ]
+        },
+        {
+          "sha256": "92fcb70ec0368a968a704542e4a49559cfac9582cbef3e42ca3064ec7e0afd05",
+          "size": [
+            256,
+            256
+          ]
+        },
+        {
+          "sha256": "006ef26e46f53da55fd3029ef4b34bdb7fd3d9b0525ee75459c4bb3c27bff131",
+          "size": [
+            256,
+            256
+          ]
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "key": "attack-corrected",
+      "endpoint": "/animate-pixminimax",
+      "job_id": "97c07c5f-b5c2-4591-ac0a-374e41460f98",
+      "status": "completed",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 3
+      },
+      "request_parameters": {
+        "description": "Performs ONE controlled overhead hammer-fist movement. From the ready stance the near elbow lifts and the closed empty fist rises beside the ear, with a gentle knee bend and torso coil. After a brief anticipation, hips shift forward and shoulders turn, then the fist travels in ONE fast curved path forward and downward, finishing near the forward hip. Weight follows into the front leg. Smoothly relax and return to the initial ready stance. Other hand counterbalances close to the chest. The entire movement happens only once, never jab forward first. Both feet stay in the same area, no jump or spin. Only the character moves. Absolutely plain empty transparent space around him in every frame: no white arcs, streaks, trails, flashes, objects or effects.",
+        "frame_count": 24,
+        "seed": 181859,
+        "no_background": true,
+        "enhance_prompt": false,
+        "subject_description": "Compact auburn-haired human adventurer wearing a red scarf and one complete leather armor outfit, empty hands, no weapon or helmet",
+        "initial_pose": "Facing screen right, natural ready stance, both fists near chest, knees relaxed and feet grounded",
+        "direction": "south-east",
+        "view": "low top-down"
+      },
+      "source_sha256": "1c52bc1f498b953ef3ec353c5af45a5aeeed6b21ee12b970cfcd6db4c08e011f",
+      "frame_refs": null,
+      "outputs": [
+        {
+          "sha256": "1c52bc1f498b953ef3ec353c5af45a5aeeed6b21ee12b970cfcd6db4c08e011f",
+          "size": [
+            256,
+            256
+          ]
+        },
+        {
+          "sha256": "ce3b226ebaeaedefdf004c097e1661fc65e225a370afb78e76328bee54b96f6e",
+          "size": [
+            256,
+            256
+          ]
+        },
+        {
+          "sha256": "ce3b226ebaeaedefdf004c097e1661fc65e225a370afb78e76328bee54b96f6e",
+          "size": [
+            256,
+            256
+          ]
+        },
+        {
+          "sha256": "ce3b226ebaeaedefdf004c097e1661fc65e225a370afb78e76328bee54b96f6e",
+          "size": [
+            256,
+            256
+          ]
+        },
+        {
+          "sha256": "a5b1a13bff969e4b5b43d74e5e6d0d010eaa904e3b94bfbf963b4d2c24124327",
+          "size": [
+            256,
+            256
+          ]
+        },
+        {
+          "sha256": "f59f86d270fd7fe69eb91ed2055778930c0d59f3d72dc6b5ab1fc6cc73405059",
+          "size": [
+            256,
+            256
+          ]
+        },
+        {
+          "sha256": "bf4981b487f72aa4dc1422fc55eed4759ff655b4dd3b99545ea2d7406619d1bf",
+          "size": [
+            256,
+            256
+          ]
+        },
+        {
+          "sha256": "bf4981b487f72aa4dc1422fc55eed4759ff655b4dd3b99545ea2d7406619d1bf",
+          "size": [
+            256,
+            256
+          ]
+        },
+        {
+          "sha256": "bf4981b487f72aa4dc1422fc55eed4759ff655b4dd3b99545ea2d7406619d1bf",
+          "size": [
+            256,
+            256
+          ]
+        },
+        {
+          "sha256": "bf4981b487f72aa4dc1422fc55eed4759ff655b4dd3b99545ea2d7406619d1bf",
+          "size": [
+            256,
+            256
+          ]
+        },
+        {
+          "sha256": "bf4981b487f72aa4dc1422fc55eed4759ff655b4dd3b99545ea2d7406619d1bf",
+          "size": [
+            256,
+            256
+          ]
+        },
+        {
+          "sha256": "bf4981b487f72aa4dc1422fc55eed4759ff655b4dd3b99545ea2d7406619d1bf",
+          "size": [
+            256,
+            256
+          ]
+        },
+        {
+          "sha256": "bf4981b487f72aa4dc1422fc55eed4759ff655b4dd3b99545ea2d7406619d1bf",
+          "size": [
+            256,
+            256
+          ]
+        },
+        {
+          "sha256": "bf4981b487f72aa4dc1422fc55eed4759ff655b4dd3b99545ea2d7406619d1bf",
+          "size": [
+            256,
+            256
+          ]
+        },
+        {
+          "sha256": "bf4981b487f72aa4dc1422fc55eed4759ff655b4dd3b99545ea2d7406619d1bf",
+          "size": [
+            256,
+            256
+          ]
+        },
+        {
+          "sha256": "bf4981b487f72aa4dc1422fc55eed4759ff655b4dd3b99545ea2d7406619d1bf",
+          "size": [
+            256,
+            256
+          ]
+        },
+        {
+          "sha256": "3beebef1260c6a3dd01f6c102aebdfb5b63cf9edb0b2c847cddf42418b3ecb6e",
+          "size": [
+            256,
+            256
+          ]
+        },
+        {
+          "sha256": "928cecde8a969f7e1c94a55cb022f0e26bacf47abe6ba382dd9370a50e1ca2b1",
+          "size": [
+            256,
+            256
+          ]
+        },
+        {
+          "sha256": "eaf927a5e04a7282e63e28d2fc52eb862dcbb3d46cf1599087678a41df28fe02",
+          "size": [
+            256,
+            256
+          ]
+        },
+        {
+          "sha256": "453dbad0ddfb7e6dc81ace962eb850892a4cf3a1a989fbac45152a42208dd317",
+          "size": [
+            256,
+            256
+          ]
+        },
+        {
+          "sha256": "6f416c5bc1872a15934541be53664b07332be7f8d929bd28d8336b779c8e7c0e",
+          "size": [
+            256,
+            256
+          ]
+        },
+        {
+          "sha256": "02f4adabf76f06a0a9c51ad07107fa50c964197287f16638d80868271521ffd1",
+          "size": [
+            256,
+            256
+          ]
+        },
+        {
+          "sha256": "3afdefa3ef9790647b9413a1ed92acfca4b0d8b688ad0228f7df1ae78e6492a6",
+          "size": [
+            256,
+            256
+          ]
+        },
+        {
+          "sha256": "72c9893e9a82500f9f3210142bf32fed52c44bcdbf0b39e5afcd3b15bffd0f3e",
+          "size": [
+            256,
+            256
+          ]
+        },
+        {
+          "sha256": "6f335de3604f45e9f5626ff12a02b129d130d0a89e31db4c03efdbf5ece4abd4",
+          "size": [
+            256,
+            256
+          ]
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "key": "clean-impact-frame",
+      "endpoint": "/edit-image-pixen",
+      "job_id": "abd984d9-87a8-4c85-8056-6124347c1a16",
+      "status": "completed",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 1
+      },
+      "request_parameters": {
+        "description": "Remove ALL white and grey motion swooshes, arcs, streaks and ghost trails. Reveal one clean solid character underneath, with one coherent bent arm and closed empty fist completing a diagonal downward swing toward screen right. Preserve the same head, face, clothing, pose, grounded legs, scale, position and pixel style. One whole-body sprite only, transparent background. NO weapon, shield, helmet, effects or extra limbs.",
+        "width": 256,
+        "height": 256,
+        "seed": 181860,
+        "no_background": true
+      },
+      "source_sha256": "3beebef1260c6a3dd01f6c102aebdfb5b63cf9edb0b2c847cddf42418b3ecb6e",
+      "frame_refs": null,
+      "outputs": [
+        {
+          "sha256": "498a12c6acae9c870b870f540e19e93483239bbe7bcb188f27f44b2ba00c1547",
+          "size": [
+            256,
+            256
+          ]
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "key": "clean-contact-pose",
+      "endpoint": "/edit-image-pixen",
+      "job_id": "991175fa-2e22-451b-85f3-21506cb3c70b",
+      "status": "failed",
+      "usage": {
+        "type": "usd",
+        "usd": 0.0
+      },
+      "request_parameters": {
+        "description": "Keep this EXACT fully clothed hero, same face/hair, red scarf, leather vest, olive long sleeves, brown gloves, trousers, boots, legs, torso, size, placement and transparent canvas. Change ONLY the near arm pose: shoulder forward, elbow partly bent, closed gloved fist in front at chest height around pixel (185,120), not low at waist. ONE coherent whole-body drawing. Keep BOTH sleeves and gloves. Hands empty. No motion lines, effects, props, weapon, shield, helmet, bare arms or extra limbs.",
+        "width": 256,
+        "height": 256,
+        "seed": 181861,
+        "no_background": true
+      },
+      "source_sha256": "928cecde8a969f7e1c94a55cb022f0e26bacf47abe6ba382dd9370a50e1ca2b1",
+      "frame_refs": null,
+      "outputs": []
+    },
+    {
+      "id": 16,
+      "key": "clean-contact-pose-retry",
+      "endpoint": "/edit-image-pixen",
+      "job_id": "6df16c7b-2353-49ab-91bd-30baf968fd98",
+      "status": "completed",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 1
+      },
+      "request_parameters": {
+        "description": "Keep this EXACT fully clothed hero, same face/hair, red scarf, leather vest, olive long sleeves, brown gloves, trousers, boots, legs, torso, size, placement and transparent canvas. Change ONLY the near arm pose: shoulder forward, elbow partly bent, closed gloved fist in front at chest height around pixel (185,120), not low at waist. ONE coherent whole-body drawing. Keep BOTH sleeves and gloves. Hands empty. No motion lines, effects, props, weapon, shield, helmet, bare arms or extra limbs.",
+        "width": 256,
+        "height": 256,
+        "seed": 181862,
+        "no_background": true
+      },
+      "source_sha256": "928cecde8a969f7e1c94a55cb022f0e26bacf47abe6ba382dd9370a50e1ca2b1",
+      "frame_refs": null,
+      "outputs": [
+        {
+          "sha256": "c19f391e924d84cb492122c489bcb1d9bc29c61062159212c036b8a9e3405019",
+          "size": [
+            256,
+            256
+          ]
+        }
+      ]
+    }
+  ],
+  "selection": "selected_frames.json",
+  "unused_outfit_probe": {
+    "job": 101,
+    "frames": 3,
+    "generations": 25,
+    "continued": false,
+    "reason": "Additional full-outfit animation scope asked asynchronously; no confirmation received."
+  },
+  "failed_job": {
+    "id": 15,
+    "status": "failed",
+    "automatically_resubmitted": false,
+    "explicit_bounded_retry": 16
+  },
+  "selection_notes": [
+    "Complete clip12 was rejected for duplicate motion/effects; clean full frame4 was reused as contact pose.",
+    "Clip13 effect frame16 excluded. Edits14 and16 discarded for changed appearance/pose.",
+    "Every displayed body frame is an unchanged full provider PNG; no cut body parts."
+  ]
+}

@@ -1,0 +1,111 @@
+{
+  "base": "4acb4f9177e31ee872fe4c58a745cbe6f31b1b66",
+  "scope": "offline whole-body PNG animation + independent weapon/helmet; no game integration",
+  "review": {
+    "status": "APPROVE",
+    "agent": "whole_body_review / game_reviewer",
+    "source_hashes": {
+      "renderer.js": "2d84c25a8b620bd421395e533c6aa03e48e3562f621dde9c9d065802f62250ab",
+      "export_body.py": "3deda436bb9df898e82c842cfc37ff5ea2eea980067ff5cc11ab4c40e65ee336",
+      "build_preview.py": "2ae8357e6d6b3e863beeaa32f7ff98a3d4c21e134f32e121f1be1df63d07e148",
+      "check_preview.py": "68970c14753110c317da1559293d2d54bca918c520bd7ad2a450a0e911ef5055"
+    }
+  },
+  "body_frames": {
+    "count": 29,
+    "bodies": [
+      "light"
+    ],
+    "all_unchanged_whole_provider_pngs": true,
+    "single_full_draw_per_body_frame": true
+  },
+  "assets": {
+    "count": 33,
+    "sha256_and_rgba_pass": true
+  },
+  "browser": {
+    "checks_passed": 52,
+    "source_frame_positions": 29,
+    "equipment_combinations": 6,
+    "all_frame_combo_edges_checked": 174,
+    "exit_code": 0,
+    "report_sha256": "260cc284d6f29c4091ad58ae175654fa427f020d464fdac4881636aa1f0d5334"
+  },
+  "exports": {
+    "overview.gif": {
+      "encoded_frames": 26,
+      "duration_ms": 2920,
+      "size": [
+        512,
+        512
+      ],
+      "sha256": "f0cd5ea64c8b88ceda45d354a536c6964eeb97666ec06ff5921d9b6390d9deec"
+    },
+    "body-only.gif": {
+      "encoded_frames": 25,
+      "duration_ms": 2920,
+      "size": [
+        256,
+        256
+      ],
+      "sha256": "4f0dad1242b65fdacf75804c41ba4b1d3abb9efeda389065d6ac005ffda4e74b"
+    },
+    "swap.gif": {
+      "encoded_frames": 4,
+      "duration_ms": 2800,
+      "size": [
+        512,
+        288
+      ],
+      "sha256": "d2a119c6bbdd1e263943e03c1c1154a4a57b2372ed6930870612567556baf384"
+    }
+  },
+  "export_note": "29 renderer inputs may merge into fewer GIF frames when adjacent pixels match; total time2920ms retained.",
+  "syntax": {
+    "python_compile": "PASS",
+    "node_check": "PASS"
+  },
+  "handoff_archive": {
+    "path": "docs/CODEX_HANDOFF.history-20261118-4.md",
+    "sha256": "96dac073098e925abec89f4d596fd027ff431c96053bc2587a585468515ed363",
+    "byte_equal_to_base": true
+  },
+  "foreign": {
+    "count": 33,
+    "all_sha256_preserved": true
+  },
+  "input_document_sizes": {
+    "AGENTS.md": {
+      "before_chars": 4565,
+      "after_chars": 4565,
+      "changed": false
+    },
+    "docs/CODEX_HANDOFF.md": {
+      "before_chars": 2457,
+      "after_chars": 2484,
+      "changed": true
+    },
+    "docs/PROJECT_CONTEXT.md": {
+      "before_chars": 3734,
+      "after_chars": 3734,
+      "changed": false
+    },
+    "docs/CODEX_WORKFLOW.md": {
+      "before_chars": 4482,
+      "after_chars": 4482,
+      "changed": false
+    }
+  },
+  "size_note": "Only HANDOFF changed among entry documents; within2500 and growthunder10%. PROJECT_CONTEXT remains above3500 baselineunchanged.",
+  "not_run": [
+    "Godot import/startup",
+    "full/core",
+    "F5/Editor/DPI",
+    "game performance"
+  ],
+  "open": [
+    "user art acceptance: naturalness, grip, helmet",
+    "second full animated outfit scope/cost choice"
+  ],
+  "known_completed_generation_usage": 37
+}

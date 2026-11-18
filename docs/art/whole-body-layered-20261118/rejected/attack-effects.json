@@ -1,0 +1,10 @@
+{
+  "rejected_job_id": "45b9f1b3-2958-4752-8f2f-c585df16a184",
+  "reason": "Extra white motion arcs and an initial extra forward strike; not suitable as a clean independent body layer",
+  "raw_folder": "D:\\Codex\\home\\generated_images\\whole-body-layered-20261118\\items\\012",
+  "correction_job_id": "97c07c5f-b5c2-4591-ac0a-374e41460f98",
+  "selected_clean_full_frames": [
+    4
+  ],
+  "note": "The original clip as a sequence is rejected; only its clean full contact pose4 is reused."
+}
