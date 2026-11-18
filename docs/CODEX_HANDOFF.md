@@ -1,34 +1,37 @@
-# Передача — 2026-11-18: крупный показ тела
+# Передача — 2026-11-19: удар и доспех
 
-D:/Games/into-de-dung; main; базаe7d751026c0f61b8109b5032cb354af6ada76d53.
-U выбрал сначала одно цельное тело.3 слоя: тело в броне целиком,
-оружие, шлем; перчатки/сапоги отдельно облик не меняют.
-Позы PixelLab, общий тайминг/привязки; не разрезать тело на части.
-[Пакет](art/whole-body-layered-20261118/README.md),
-[галерея](art/whole-body-layered-20261118/gallery.html).
-Новый [крупный GIF](art/whole-body-layered-20261118/closeup/sequence-3x.gif):
-тело без предметов → меч → топор, без шлема, дыхание/удар,3× nearest,
-скорость1×. Исходные PNG/рендерер/движение сохранены, новых генераций нет.
-[Проверки/ревью](art/whole-body-layered-20261118/closeup/report.md).
-503/503 PASS, py_compile PASS; независимое ревью APPROVE.
+D:/Games/into-de-dung; main; базаbd7e7ef91b0de18463733c6a8192a3411245fa72.
+По U доработан удар: разворот/перенос веса; доспех по «Красному бастиону».
+[Пакет](art/whole-body-weighted-strike-20261118/README.md),
+[галерея](art/whole-body-weighted-strike-20261118/gallery.html),
+[крупно](art/whole-body-weighted-strike-20261118/sequence.gif).
+Одно цельное тело в броне, отдельные оружие/шлем. Перчатки/сапоги отдельно
+облик не меняют. Тело не разрезать:13idle+33attack PNG PixelLab;
+одна цельная поза исправлена PixelLab от дуги.9 генераций.
+Root постоянный, общие тайминг/привязки; цикл3110мс, меч/топор/шлем.
+[Проверки](art/whole-body-weighted-strike-20261118/verification.json),
+[ревью](art/whole-body-weighted-strike-20261118/review.md).
+2313 browser checks PASS,276 поз/комбинаций без обрезки; Python/Node PASS.
+Независимое ревью APPROVE; художественная приёмка не заменена.
+GIF сравнения содержит10мс: ритм оценивать в HTML, основные GIF от20мс.
 Приёмка естественности/хвата/шлема открыта; второй комплект вне этапа.
 Runtime не менялся; Godot/full/core/F5/Editor/DPI/performance не запускались.
 Следующий шаг — отзыв; новые серии/внедрение самостоятельно не начинать.
 
-Прежние пробы и неполная приёмка — в архиве. Игровой этап bccb7f08:
-[целое равновесие](BALANCE_INTEGER_V1.md), Guard−2 открыт. Старые игровые
-проверки не повторялись;60FPS не заявлены. [Вселение/карты](DESIGN_DIRECTION.md#mage-possession-20261115)
+Прежние пробы/приёмка — в архиве. Игровой этап bccb7f08:
+[целое равновесие](BALANCE_INTEGER_V1.md), Guard−2 открыт; старые игровые
+проверки не повторялись,60FPS не заявлены. [Вселение/карты](DESIGN_DIRECTION.md#mage-possession-20261115)
 — только дизайн, реализация запрещена. Хоб-гоблин внедрён; новые атаки без U
 не делать. Полосы/кузнец U, стрела4, performance/HUD/Колода, атаки Воина
 открыты; presentation141/2 и forecast26/3 не повторены; детали в архиве.
 
 Dirty main_menu.tscn и art/battlefield-reference-03-20261017 — чужие;
 не reset/stage/commit. Только свои локальные коммиты, без push.
-H2–H5 не начинать; сохранить core/preview/queue/RNG/save/frozen,5классов F5,
+H2–H5 не начинать; core/preview/queue/RNG/save/frozen,5классов F5 сохранять;
 PLAYER вправо/ENEMY влево и возврат после атаки. Инициативы нет, команда3,
 будущий лимит Q; каталоги1–3 не мигрировать. Один isolated runner,
 без root import, служб/драйверов, фокуса ОС, sidebar tasks и расписаний.
-[Прежняя передача побайтно](CODEX_HANDOFF.history-20261118-6.md), [HISTORY](HISTORY.md).
+[Прежняя передача побайтно](CODEX_HANDOFF.history-20261119.md), [HISTORY](HISTORY.md).
 После этапа: проверки, независимое ревью кода, локальный Conventional Commit
 своего, короткий HANDOFF; прежний побайтно отдельно+HISTORY. В финале/при
 блокере предложить новый чат и полный промпт: HEAD,результат,docs/artifacts,

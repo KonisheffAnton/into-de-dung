@@ -1,0 +1,23 @@
+{
+  "sources": [
+    {
+      "role": "primary",
+      "path": "assets/art_presets/approved/character_skins_v1/red_bastion/still.png",
+      "sha256": "d8117c67d3b59c5943ea850b8802ff1ce895ef919ad65c06d730d0716b6146a8",
+      "use": "input image for body edit"
+    },
+    {
+      "role": "secondary",
+      "path": "assets/art_presets/approved/character_skins_v1/watch_shield/still.png",
+      "sha256": "3b9c5fd3106551659bc699f7f5c0489f7d2f40490d51f608bcbb97631f1529bc",
+      "use": "visual inspection only, not submitted to provider"
+    },
+    {
+      "role": "secondary",
+      "path": "assets/art_presets/approved/character_skins_v1/grey_bastion/still.png",
+      "sha256": "70f27bbb92a0fe819c411c241a0e56b93608cc6738d72e966aa43167664c048a",
+      "use": "visual inspection only, not submitted to provider"
+    }
+  ],
+  "selection": "User requested armor closer to game style; red_bastion is approved reference, this derivative is not user-approved yet."
+}
