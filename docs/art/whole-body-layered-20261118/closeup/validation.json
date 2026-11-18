@@ -1,0 +1,2401 @@
+{
+  "pass": true,
+  "checks": [
+    {
+      "name": "gallery assets loaded",
+      "pass": true
+    },
+    {
+      "name": "expected 29 sampled frames",
+      "pass": true
+    },
+    {
+      "name": "cycle duration is 2920ms",
+      "pass": true,
+      "detail": "2920"
+    },
+    {
+      "name": "body body path and socket idle/0",
+      "pass": true
+    },
+    {
+      "name": "body no helmet ops idle/0",
+      "pass": true
+    },
+    {
+      "name": "body weapon ops idle/0",
+      "pass": true
+    },
+    {
+      "name": "body transparent native border idle/0",
+      "pass": true
+    },
+    {
+      "name": "body nearest-neighbor exact 3x idle/0",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "body body path and socket idle/1",
+      "pass": true
+    },
+    {
+      "name": "body no helmet ops idle/1",
+      "pass": true
+    },
+    {
+      "name": "body weapon ops idle/1",
+      "pass": true
+    },
+    {
+      "name": "body transparent native border idle/1",
+      "pass": true
+    },
+    {
+      "name": "body nearest-neighbor exact 3x idle/1",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "body body path and socket idle/2",
+      "pass": true
+    },
+    {
+      "name": "body no helmet ops idle/2",
+      "pass": true
+    },
+    {
+      "name": "body weapon ops idle/2",
+      "pass": true
+    },
+    {
+      "name": "body transparent native border idle/2",
+      "pass": true
+    },
+    {
+      "name": "body nearest-neighbor exact 3x idle/2",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "body body path and socket idle/3",
+      "pass": true
+    },
+    {
+      "name": "body no helmet ops idle/3",
+      "pass": true
+    },
+    {
+      "name": "body weapon ops idle/3",
+      "pass": true
+    },
+    {
+      "name": "body transparent native border idle/3",
+      "pass": true
+    },
+    {
+      "name": "body nearest-neighbor exact 3x idle/3",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "body body path and socket idle/4",
+      "pass": true
+    },
+    {
+      "name": "body no helmet ops idle/4",
+      "pass": true
+    },
+    {
+      "name": "body weapon ops idle/4",
+      "pass": true
+    },
+    {
+      "name": "body transparent native border idle/4",
+      "pass": true
+    },
+    {
+      "name": "body nearest-neighbor exact 3x idle/4",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "body body path and socket idle/5",
+      "pass": true
+    },
+    {
+      "name": "body no helmet ops idle/5",
+      "pass": true
+    },
+    {
+      "name": "body weapon ops idle/5",
+      "pass": true
+    },
+    {
+      "name": "body transparent native border idle/5",
+      "pass": true
+    },
+    {
+      "name": "body nearest-neighbor exact 3x idle/5",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "body body path and socket idle/6",
+      "pass": true
+    },
+    {
+      "name": "body no helmet ops idle/6",
+      "pass": true
+    },
+    {
+      "name": "body weapon ops idle/6",
+      "pass": true
+    },
+    {
+      "name": "body transparent native border idle/6",
+      "pass": true
+    },
+    {
+      "name": "body nearest-neighbor exact 3x idle/6",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "body body path and socket idle/7",
+      "pass": true
+    },
+    {
+      "name": "body no helmet ops idle/7",
+      "pass": true
+    },
+    {
+      "name": "body weapon ops idle/7",
+      "pass": true
+    },
+    {
+      "name": "body transparent native border idle/7",
+      "pass": true
+    },
+    {
+      "name": "body nearest-neighbor exact 3x idle/7",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "body body path and socket idle/8",
+      "pass": true
+    },
+    {
+      "name": "body no helmet ops idle/8",
+      "pass": true
+    },
+    {
+      "name": "body weapon ops idle/8",
+      "pass": true
+    },
+    {
+      "name": "body transparent native border idle/8",
+      "pass": true
+    },
+    {
+      "name": "body nearest-neighbor exact 3x idle/8",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "body body path and socket idle/9",
+      "pass": true
+    },
+    {
+      "name": "body no helmet ops idle/9",
+      "pass": true
+    },
+    {
+      "name": "body weapon ops idle/9",
+      "pass": true
+    },
+    {
+      "name": "body transparent native border idle/9",
+      "pass": true
+    },
+    {
+      "name": "body nearest-neighbor exact 3x idle/9",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "body body path and socket idle/10",
+      "pass": true
+    },
+    {
+      "name": "body no helmet ops idle/10",
+      "pass": true
+    },
+    {
+      "name": "body weapon ops idle/10",
+      "pass": true
+    },
+    {
+      "name": "body transparent native border idle/10",
+      "pass": true
+    },
+    {
+      "name": "body nearest-neighbor exact 3x idle/10",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "body body path and socket idle/11",
+      "pass": true
+    },
+    {
+      "name": "body no helmet ops idle/11",
+      "pass": true
+    },
+    {
+      "name": "body weapon ops idle/11",
+      "pass": true
+    },
+    {
+      "name": "body transparent native border idle/11",
+      "pass": true
+    },
+    {
+      "name": "body nearest-neighbor exact 3x idle/11",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "body body path and socket idle/12",
+      "pass": true
+    },
+    {
+      "name": "body no helmet ops idle/12",
+      "pass": true
+    },
+    {
+      "name": "body weapon ops idle/12",
+      "pass": true
+    },
+    {
+      "name": "body transparent native border idle/12",
+      "pass": true
+    },
+    {
+      "name": "body nearest-neighbor exact 3x idle/12",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "body body path and socket attack/0",
+      "pass": true
+    },
+    {
+      "name": "body no helmet ops attack/0",
+      "pass": true
+    },
+    {
+      "name": "body weapon ops attack/0",
+      "pass": true
+    },
+    {
+      "name": "body transparent native border attack/0",
+      "pass": true
+    },
+    {
+      "name": "body nearest-neighbor exact 3x attack/0",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "body body path and socket attack/1",
+      "pass": true
+    },
+    {
+      "name": "body no helmet ops attack/1",
+      "pass": true
+    },
+    {
+      "name": "body weapon ops attack/1",
+      "pass": true
+    },
+    {
+      "name": "body transparent native border attack/1",
+      "pass": true
+    },
+    {
+      "name": "body nearest-neighbor exact 3x attack/1",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "body body path and socket attack/2",
+      "pass": true
+    },
+    {
+      "name": "body no helmet ops attack/2",
+      "pass": true
+    },
+    {
+      "name": "body weapon ops attack/2",
+      "pass": true
+    },
+    {
+      "name": "body transparent native border attack/2",
+      "pass": true
+    },
+    {
+      "name": "body nearest-neighbor exact 3x attack/2",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "body body path and socket attack/3",
+      "pass": true
+    },
+    {
+      "name": "body no helmet ops attack/3",
+      "pass": true
+    },
+    {
+      "name": "body weapon ops attack/3",
+      "pass": true
+    },
+    {
+      "name": "body transparent native border attack/3",
+      "pass": true
+    },
+    {
+      "name": "body nearest-neighbor exact 3x attack/3",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "body body path and socket attack/4",
+      "pass": true
+    },
+    {
+      "name": "body no helmet ops attack/4",
+      "pass": true
+    },
+    {
+      "name": "body weapon ops attack/4",
+      "pass": true
+    },
+    {
+      "name": "body transparent native border attack/4",
+      "pass": true
+    },
+    {
+      "name": "body nearest-neighbor exact 3x attack/4",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "body body path and socket attack/5",
+      "pass": true
+    },
+    {
+      "name": "body no helmet ops attack/5",
+      "pass": true
+    },
+    {
+      "name": "body weapon ops attack/5",
+      "pass": true
+    },
+    {
+      "name": "body transparent native border attack/5",
+      "pass": true
+    },
+    {
+      "name": "body nearest-neighbor exact 3x attack/5",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "body body path and socket attack/6",
+      "pass": true
+    },
+    {
+      "name": "body no helmet ops attack/6",
+      "pass": true
+    },
+    {
+      "name": "body weapon ops attack/6",
+      "pass": true
+    },
+    {
+      "name": "body transparent native border attack/6",
+      "pass": true
+    },
+    {
+      "name": "body nearest-neighbor exact 3x attack/6",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "body body path and socket attack/7",
+      "pass": true
+    },
+    {
+      "name": "body no helmet ops attack/7",
+      "pass": true
+    },
+    {
+      "name": "body weapon ops attack/7",
+      "pass": true
+    },
+    {
+      "name": "body transparent native border attack/7",
+      "pass": true
+    },
+    {
+      "name": "body nearest-neighbor exact 3x attack/7",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "body body path and socket attack/8",
+      "pass": true
+    },
+    {
+      "name": "body no helmet ops attack/8",
+      "pass": true
+    },
+    {
+      "name": "body weapon ops attack/8",
+      "pass": true
+    },
+    {
+      "name": "body transparent native border attack/8",
+      "pass": true
+    },
+    {
+      "name": "body nearest-neighbor exact 3x attack/8",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "body body path and socket attack/9",
+      "pass": true
+    },
+    {
+      "name": "body no helmet ops attack/9",
+      "pass": true
+    },
+    {
+      "name": "body weapon ops attack/9",
+      "pass": true
+    },
+    {
+      "name": "body transparent native border attack/9",
+      "pass": true
+    },
+    {
+      "name": "body nearest-neighbor exact 3x attack/9",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "body body path and socket attack/10",
+      "pass": true
+    },
+    {
+      "name": "body no helmet ops attack/10",
+      "pass": true
+    },
+    {
+      "name": "body weapon ops attack/10",
+      "pass": true
+    },
+    {
+      "name": "body transparent native border attack/10",
+      "pass": true
+    },
+    {
+      "name": "body nearest-neighbor exact 3x attack/10",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "body body path and socket attack/11",
+      "pass": true
+    },
+    {
+      "name": "body no helmet ops attack/11",
+      "pass": true
+    },
+    {
+      "name": "body weapon ops attack/11",
+      "pass": true
+    },
+    {
+      "name": "body transparent native border attack/11",
+      "pass": true
+    },
+    {
+      "name": "body nearest-neighbor exact 3x attack/11",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "body body path and socket attack/12",
+      "pass": true
+    },
+    {
+      "name": "body no helmet ops attack/12",
+      "pass": true
+    },
+    {
+      "name": "body weapon ops attack/12",
+      "pass": true
+    },
+    {
+      "name": "body transparent native border attack/12",
+      "pass": true
+    },
+    {
+      "name": "body nearest-neighbor exact 3x attack/12",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "body body path and socket attack/13",
+      "pass": true
+    },
+    {
+      "name": "body no helmet ops attack/13",
+      "pass": true
+    },
+    {
+      "name": "body weapon ops attack/13",
+      "pass": true
+    },
+    {
+      "name": "body transparent native border attack/13",
+      "pass": true
+    },
+    {
+      "name": "body nearest-neighbor exact 3x attack/13",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "body body path and socket attack/14",
+      "pass": true
+    },
+    {
+      "name": "body no helmet ops attack/14",
+      "pass": true
+    },
+    {
+      "name": "body weapon ops attack/14",
+      "pass": true
+    },
+    {
+      "name": "body transparent native border attack/14",
+      "pass": true
+    },
+    {
+      "name": "body nearest-neighbor exact 3x attack/14",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "body body path and socket attack/15",
+      "pass": true
+    },
+    {
+      "name": "body no helmet ops attack/15",
+      "pass": true
+    },
+    {
+      "name": "body weapon ops attack/15",
+      "pass": true
+    },
+    {
+      "name": "body transparent native border attack/15",
+      "pass": true
+    },
+    {
+      "name": "body nearest-neighbor exact 3x attack/15",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "sword same socket, time and body path 0",
+      "pass": true
+    },
+    {
+      "name": "sword body path and socket idle/0",
+      "pass": true
+    },
+    {
+      "name": "sword no helmet ops idle/0",
+      "pass": true
+    },
+    {
+      "name": "sword weapon ops idle/0",
+      "pass": true
+    },
+    {
+      "name": "sword transparent native border idle/0",
+      "pass": true
+    },
+    {
+      "name": "sword nearest-neighbor exact 3x idle/0",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "sword same socket, time and body path 1",
+      "pass": true
+    },
+    {
+      "name": "sword body path and socket idle/1",
+      "pass": true
+    },
+    {
+      "name": "sword no helmet ops idle/1",
+      "pass": true
+    },
+    {
+      "name": "sword weapon ops idle/1",
+      "pass": true
+    },
+    {
+      "name": "sword transparent native border idle/1",
+      "pass": true
+    },
+    {
+      "name": "sword nearest-neighbor exact 3x idle/1",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "sword same socket, time and body path 2",
+      "pass": true
+    },
+    {
+      "name": "sword body path and socket idle/2",
+      "pass": true
+    },
+    {
+      "name": "sword no helmet ops idle/2",
+      "pass": true
+    },
+    {
+      "name": "sword weapon ops idle/2",
+      "pass": true
+    },
+    {
+      "name": "sword transparent native border idle/2",
+      "pass": true
+    },
+    {
+      "name": "sword nearest-neighbor exact 3x idle/2",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "sword same socket, time and body path 3",
+      "pass": true
+    },
+    {
+      "name": "sword body path and socket idle/3",
+      "pass": true
+    },
+    {
+      "name": "sword no helmet ops idle/3",
+      "pass": true
+    },
+    {
+      "name": "sword weapon ops idle/3",
+      "pass": true
+    },
+    {
+      "name": "sword transparent native border idle/3",
+      "pass": true
+    },
+    {
+      "name": "sword nearest-neighbor exact 3x idle/3",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "sword same socket, time and body path 4",
+      "pass": true
+    },
+    {
+      "name": "sword body path and socket idle/4",
+      "pass": true
+    },
+    {
+      "name": "sword no helmet ops idle/4",
+      "pass": true
+    },
+    {
+      "name": "sword weapon ops idle/4",
+      "pass": true
+    },
+    {
+      "name": "sword transparent native border idle/4",
+      "pass": true
+    },
+    {
+      "name": "sword nearest-neighbor exact 3x idle/4",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "sword same socket, time and body path 5",
+      "pass": true
+    },
+    {
+      "name": "sword body path and socket idle/5",
+      "pass": true
+    },
+    {
+      "name": "sword no helmet ops idle/5",
+      "pass": true
+    },
+    {
+      "name": "sword weapon ops idle/5",
+      "pass": true
+    },
+    {
+      "name": "sword transparent native border idle/5",
+      "pass": true
+    },
+    {
+      "name": "sword nearest-neighbor exact 3x idle/5",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "sword same socket, time and body path 6",
+      "pass": true
+    },
+    {
+      "name": "sword body path and socket idle/6",
+      "pass": true
+    },
+    {
+      "name": "sword no helmet ops idle/6",
+      "pass": true
+    },
+    {
+      "name": "sword weapon ops idle/6",
+      "pass": true
+    },
+    {
+      "name": "sword transparent native border idle/6",
+      "pass": true
+    },
+    {
+      "name": "sword nearest-neighbor exact 3x idle/6",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "sword same socket, time and body path 7",
+      "pass": true
+    },
+    {
+      "name": "sword body path and socket idle/7",
+      "pass": true
+    },
+    {
+      "name": "sword no helmet ops idle/7",
+      "pass": true
+    },
+    {
+      "name": "sword weapon ops idle/7",
+      "pass": true
+    },
+    {
+      "name": "sword transparent native border idle/7",
+      "pass": true
+    },
+    {
+      "name": "sword nearest-neighbor exact 3x idle/7",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "sword same socket, time and body path 8",
+      "pass": true
+    },
+    {
+      "name": "sword body path and socket idle/8",
+      "pass": true
+    },
+    {
+      "name": "sword no helmet ops idle/8",
+      "pass": true
+    },
+    {
+      "name": "sword weapon ops idle/8",
+      "pass": true
+    },
+    {
+      "name": "sword transparent native border idle/8",
+      "pass": true
+    },
+    {
+      "name": "sword nearest-neighbor exact 3x idle/8",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "sword same socket, time and body path 9",
+      "pass": true
+    },
+    {
+      "name": "sword body path and socket idle/9",
+      "pass": true
+    },
+    {
+      "name": "sword no helmet ops idle/9",
+      "pass": true
+    },
+    {
+      "name": "sword weapon ops idle/9",
+      "pass": true
+    },
+    {
+      "name": "sword transparent native border idle/9",
+      "pass": true
+    },
+    {
+      "name": "sword nearest-neighbor exact 3x idle/9",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "sword same socket, time and body path 10",
+      "pass": true
+    },
+    {
+      "name": "sword body path and socket idle/10",
+      "pass": true
+    },
+    {
+      "name": "sword no helmet ops idle/10",
+      "pass": true
+    },
+    {
+      "name": "sword weapon ops idle/10",
+      "pass": true
+    },
+    {
+      "name": "sword transparent native border idle/10",
+      "pass": true
+    },
+    {
+      "name": "sword nearest-neighbor exact 3x idle/10",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "sword same socket, time and body path 11",
+      "pass": true
+    },
+    {
+      "name": "sword body path and socket idle/11",
+      "pass": true
+    },
+    {
+      "name": "sword no helmet ops idle/11",
+      "pass": true
+    },
+    {
+      "name": "sword weapon ops idle/11",
+      "pass": true
+    },
+    {
+      "name": "sword transparent native border idle/11",
+      "pass": true
+    },
+    {
+      "name": "sword nearest-neighbor exact 3x idle/11",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "sword same socket, time and body path 12",
+      "pass": true
+    },
+    {
+      "name": "sword body path and socket idle/12",
+      "pass": true
+    },
+    {
+      "name": "sword no helmet ops idle/12",
+      "pass": true
+    },
+    {
+      "name": "sword weapon ops idle/12",
+      "pass": true
+    },
+    {
+      "name": "sword transparent native border idle/12",
+      "pass": true
+    },
+    {
+      "name": "sword nearest-neighbor exact 3x idle/12",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "sword same socket, time and body path 13",
+      "pass": true
+    },
+    {
+      "name": "sword body path and socket attack/0",
+      "pass": true
+    },
+    {
+      "name": "sword no helmet ops attack/0",
+      "pass": true
+    },
+    {
+      "name": "sword weapon ops attack/0",
+      "pass": true
+    },
+    {
+      "name": "sword transparent native border attack/0",
+      "pass": true
+    },
+    {
+      "name": "sword nearest-neighbor exact 3x attack/0",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "sword same socket, time and body path 14",
+      "pass": true
+    },
+    {
+      "name": "sword body path and socket attack/1",
+      "pass": true
+    },
+    {
+      "name": "sword no helmet ops attack/1",
+      "pass": true
+    },
+    {
+      "name": "sword weapon ops attack/1",
+      "pass": true
+    },
+    {
+      "name": "sword transparent native border attack/1",
+      "pass": true
+    },
+    {
+      "name": "sword nearest-neighbor exact 3x attack/1",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "sword same socket, time and body path 15",
+      "pass": true
+    },
+    {
+      "name": "sword body path and socket attack/2",
+      "pass": true
+    },
+    {
+      "name": "sword no helmet ops attack/2",
+      "pass": true
+    },
+    {
+      "name": "sword weapon ops attack/2",
+      "pass": true
+    },
+    {
+      "name": "sword transparent native border attack/2",
+      "pass": true
+    },
+    {
+      "name": "sword nearest-neighbor exact 3x attack/2",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "sword same socket, time and body path 16",
+      "pass": true
+    },
+    {
+      "name": "sword body path and socket attack/3",
+      "pass": true
+    },
+    {
+      "name": "sword no helmet ops attack/3",
+      "pass": true
+    },
+    {
+      "name": "sword weapon ops attack/3",
+      "pass": true
+    },
+    {
+      "name": "sword transparent native border attack/3",
+      "pass": true
+    },
+    {
+      "name": "sword nearest-neighbor exact 3x attack/3",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "sword same socket, time and body path 17",
+      "pass": true
+    },
+    {
+      "name": "sword body path and socket attack/4",
+      "pass": true
+    },
+    {
+      "name": "sword no helmet ops attack/4",
+      "pass": true
+    },
+    {
+      "name": "sword weapon ops attack/4",
+      "pass": true
+    },
+    {
+      "name": "sword transparent native border attack/4",
+      "pass": true
+    },
+    {
+      "name": "sword nearest-neighbor exact 3x attack/4",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "sword same socket, time and body path 18",
+      "pass": true
+    },
+    {
+      "name": "sword body path and socket attack/5",
+      "pass": true
+    },
+    {
+      "name": "sword no helmet ops attack/5",
+      "pass": true
+    },
+    {
+      "name": "sword weapon ops attack/5",
+      "pass": true
+    },
+    {
+      "name": "sword transparent native border attack/5",
+      "pass": true
+    },
+    {
+      "name": "sword nearest-neighbor exact 3x attack/5",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "sword same socket, time and body path 19",
+      "pass": true
+    },
+    {
+      "name": "sword body path and socket attack/6",
+      "pass": true
+    },
+    {
+      "name": "sword no helmet ops attack/6",
+      "pass": true
+    },
+    {
+      "name": "sword weapon ops attack/6",
+      "pass": true
+    },
+    {
+      "name": "sword transparent native border attack/6",
+      "pass": true
+    },
+    {
+      "name": "sword nearest-neighbor exact 3x attack/6",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "sword same socket, time and body path 20",
+      "pass": true
+    },
+    {
+      "name": "sword body path and socket attack/7",
+      "pass": true
+    },
+    {
+      "name": "sword no helmet ops attack/7",
+      "pass": true
+    },
+    {
+      "name": "sword weapon ops attack/7",
+      "pass": true
+    },
+    {
+      "name": "sword transparent native border attack/7",
+      "pass": true
+    },
+    {
+      "name": "sword nearest-neighbor exact 3x attack/7",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "sword same socket, time and body path 21",
+      "pass": true
+    },
+    {
+      "name": "sword body path and socket attack/8",
+      "pass": true
+    },
+    {
+      "name": "sword no helmet ops attack/8",
+      "pass": true
+    },
+    {
+      "name": "sword weapon ops attack/8",
+      "pass": true
+    },
+    {
+      "name": "sword transparent native border attack/8",
+      "pass": true
+    },
+    {
+      "name": "sword nearest-neighbor exact 3x attack/8",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "sword same socket, time and body path 22",
+      "pass": true
+    },
+    {
+      "name": "sword body path and socket attack/9",
+      "pass": true
+    },
+    {
+      "name": "sword no helmet ops attack/9",
+      "pass": true
+    },
+    {
+      "name": "sword weapon ops attack/9",
+      "pass": true
+    },
+    {
+      "name": "sword transparent native border attack/9",
+      "pass": true
+    },
+    {
+      "name": "sword nearest-neighbor exact 3x attack/9",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "sword same socket, time and body path 23",
+      "pass": true
+    },
+    {
+      "name": "sword body path and socket attack/10",
+      "pass": true
+    },
+    {
+      "name": "sword no helmet ops attack/10",
+      "pass": true
+    },
+    {
+      "name": "sword weapon ops attack/10",
+      "pass": true
+    },
+    {
+      "name": "sword transparent native border attack/10",
+      "pass": true
+    },
+    {
+      "name": "sword nearest-neighbor exact 3x attack/10",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "sword same socket, time and body path 24",
+      "pass": true
+    },
+    {
+      "name": "sword body path and socket attack/11",
+      "pass": true
+    },
+    {
+      "name": "sword no helmet ops attack/11",
+      "pass": true
+    },
+    {
+      "name": "sword weapon ops attack/11",
+      "pass": true
+    },
+    {
+      "name": "sword transparent native border attack/11",
+      "pass": true
+    },
+    {
+      "name": "sword nearest-neighbor exact 3x attack/11",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "sword same socket, time and body path 25",
+      "pass": true
+    },
+    {
+      "name": "sword body path and socket attack/12",
+      "pass": true
+    },
+    {
+      "name": "sword no helmet ops attack/12",
+      "pass": true
+    },
+    {
+      "name": "sword weapon ops attack/12",
+      "pass": true
+    },
+    {
+      "name": "sword transparent native border attack/12",
+      "pass": true
+    },
+    {
+      "name": "sword nearest-neighbor exact 3x attack/12",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "sword same socket, time and body path 26",
+      "pass": true
+    },
+    {
+      "name": "sword body path and socket attack/13",
+      "pass": true
+    },
+    {
+      "name": "sword no helmet ops attack/13",
+      "pass": true
+    },
+    {
+      "name": "sword weapon ops attack/13",
+      "pass": true
+    },
+    {
+      "name": "sword transparent native border attack/13",
+      "pass": true
+    },
+    {
+      "name": "sword nearest-neighbor exact 3x attack/13",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "sword same socket, time and body path 27",
+      "pass": true
+    },
+    {
+      "name": "sword body path and socket attack/14",
+      "pass": true
+    },
+    {
+      "name": "sword no helmet ops attack/14",
+      "pass": true
+    },
+    {
+      "name": "sword weapon ops attack/14",
+      "pass": true
+    },
+    {
+      "name": "sword transparent native border attack/14",
+      "pass": true
+    },
+    {
+      "name": "sword nearest-neighbor exact 3x attack/14",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "sword same socket, time and body path 28",
+      "pass": true
+    },
+    {
+      "name": "sword body path and socket attack/15",
+      "pass": true
+    },
+    {
+      "name": "sword no helmet ops attack/15",
+      "pass": true
+    },
+    {
+      "name": "sword weapon ops attack/15",
+      "pass": true
+    },
+    {
+      "name": "sword transparent native border attack/15",
+      "pass": true
+    },
+    {
+      "name": "sword nearest-neighbor exact 3x attack/15",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "axe same socket, time and body path 0",
+      "pass": true
+    },
+    {
+      "name": "axe body path and socket idle/0",
+      "pass": true
+    },
+    {
+      "name": "axe no helmet ops idle/0",
+      "pass": true
+    },
+    {
+      "name": "axe weapon ops idle/0",
+      "pass": true
+    },
+    {
+      "name": "axe transparent native border idle/0",
+      "pass": true
+    },
+    {
+      "name": "axe nearest-neighbor exact 3x idle/0",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "axe same socket, time and body path 1",
+      "pass": true
+    },
+    {
+      "name": "axe body path and socket idle/1",
+      "pass": true
+    },
+    {
+      "name": "axe no helmet ops idle/1",
+      "pass": true
+    },
+    {
+      "name": "axe weapon ops idle/1",
+      "pass": true
+    },
+    {
+      "name": "axe transparent native border idle/1",
+      "pass": true
+    },
+    {
+      "name": "axe nearest-neighbor exact 3x idle/1",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "axe same socket, time and body path 2",
+      "pass": true
+    },
+    {
+      "name": "axe body path and socket idle/2",
+      "pass": true
+    },
+    {
+      "name": "axe no helmet ops idle/2",
+      "pass": true
+    },
+    {
+      "name": "axe weapon ops idle/2",
+      "pass": true
+    },
+    {
+      "name": "axe transparent native border idle/2",
+      "pass": true
+    },
+    {
+      "name": "axe nearest-neighbor exact 3x idle/2",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "axe same socket, time and body path 3",
+      "pass": true
+    },
+    {
+      "name": "axe body path and socket idle/3",
+      "pass": true
+    },
+    {
+      "name": "axe no helmet ops idle/3",
+      "pass": true
+    },
+    {
+      "name": "axe weapon ops idle/3",
+      "pass": true
+    },
+    {
+      "name": "axe transparent native border idle/3",
+      "pass": true
+    },
+    {
+      "name": "axe nearest-neighbor exact 3x idle/3",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "axe same socket, time and body path 4",
+      "pass": true
+    },
+    {
+      "name": "axe body path and socket idle/4",
+      "pass": true
+    },
+    {
+      "name": "axe no helmet ops idle/4",
+      "pass": true
+    },
+    {
+      "name": "axe weapon ops idle/4",
+      "pass": true
+    },
+    {
+      "name": "axe transparent native border idle/4",
+      "pass": true
+    },
+    {
+      "name": "axe nearest-neighbor exact 3x idle/4",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "axe same socket, time and body path 5",
+      "pass": true
+    },
+    {
+      "name": "axe body path and socket idle/5",
+      "pass": true
+    },
+    {
+      "name": "axe no helmet ops idle/5",
+      "pass": true
+    },
+    {
+      "name": "axe weapon ops idle/5",
+      "pass": true
+    },
+    {
+      "name": "axe transparent native border idle/5",
+      "pass": true
+    },
+    {
+      "name": "axe nearest-neighbor exact 3x idle/5",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "axe same socket, time and body path 6",
+      "pass": true
+    },
+    {
+      "name": "axe body path and socket idle/6",
+      "pass": true
+    },
+    {
+      "name": "axe no helmet ops idle/6",
+      "pass": true
+    },
+    {
+      "name": "axe weapon ops idle/6",
+      "pass": true
+    },
+    {
+      "name": "axe transparent native border idle/6",
+      "pass": true
+    },
+    {
+      "name": "axe nearest-neighbor exact 3x idle/6",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "axe same socket, time and body path 7",
+      "pass": true
+    },
+    {
+      "name": "axe body path and socket idle/7",
+      "pass": true
+    },
+    {
+      "name": "axe no helmet ops idle/7",
+      "pass": true
+    },
+    {
+      "name": "axe weapon ops idle/7",
+      "pass": true
+    },
+    {
+      "name": "axe transparent native border idle/7",
+      "pass": true
+    },
+    {
+      "name": "axe nearest-neighbor exact 3x idle/7",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "axe same socket, time and body path 8",
+      "pass": true
+    },
+    {
+      "name": "axe body path and socket idle/8",
+      "pass": true
+    },
+    {
+      "name": "axe no helmet ops idle/8",
+      "pass": true
+    },
+    {
+      "name": "axe weapon ops idle/8",
+      "pass": true
+    },
+    {
+      "name": "axe transparent native border idle/8",
+      "pass": true
+    },
+    {
+      "name": "axe nearest-neighbor exact 3x idle/8",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "axe same socket, time and body path 9",
+      "pass": true
+    },
+    {
+      "name": "axe body path and socket idle/9",
+      "pass": true
+    },
+    {
+      "name": "axe no helmet ops idle/9",
+      "pass": true
+    },
+    {
+      "name": "axe weapon ops idle/9",
+      "pass": true
+    },
+    {
+      "name": "axe transparent native border idle/9",
+      "pass": true
+    },
+    {
+      "name": "axe nearest-neighbor exact 3x idle/9",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "axe same socket, time and body path 10",
+      "pass": true
+    },
+    {
+      "name": "axe body path and socket idle/10",
+      "pass": true
+    },
+    {
+      "name": "axe no helmet ops idle/10",
+      "pass": true
+    },
+    {
+      "name": "axe weapon ops idle/10",
+      "pass": true
+    },
+    {
+      "name": "axe transparent native border idle/10",
+      "pass": true
+    },
+    {
+      "name": "axe nearest-neighbor exact 3x idle/10",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "axe same socket, time and body path 11",
+      "pass": true
+    },
+    {
+      "name": "axe body path and socket idle/11",
+      "pass": true
+    },
+    {
+      "name": "axe no helmet ops idle/11",
+      "pass": true
+    },
+    {
+      "name": "axe weapon ops idle/11",
+      "pass": true
+    },
+    {
+      "name": "axe transparent native border idle/11",
+      "pass": true
+    },
+    {
+      "name": "axe nearest-neighbor exact 3x idle/11",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "axe same socket, time and body path 12",
+      "pass": true
+    },
+    {
+      "name": "axe body path and socket idle/12",
+      "pass": true
+    },
+    {
+      "name": "axe no helmet ops idle/12",
+      "pass": true
+    },
+    {
+      "name": "axe weapon ops idle/12",
+      "pass": true
+    },
+    {
+      "name": "axe transparent native border idle/12",
+      "pass": true
+    },
+    {
+      "name": "axe nearest-neighbor exact 3x idle/12",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "axe same socket, time and body path 13",
+      "pass": true
+    },
+    {
+      "name": "axe body path and socket attack/0",
+      "pass": true
+    },
+    {
+      "name": "axe no helmet ops attack/0",
+      "pass": true
+    },
+    {
+      "name": "axe weapon ops attack/0",
+      "pass": true
+    },
+    {
+      "name": "axe transparent native border attack/0",
+      "pass": true
+    },
+    {
+      "name": "axe nearest-neighbor exact 3x attack/0",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "axe same socket, time and body path 14",
+      "pass": true
+    },
+    {
+      "name": "axe body path and socket attack/1",
+      "pass": true
+    },
+    {
+      "name": "axe no helmet ops attack/1",
+      "pass": true
+    },
+    {
+      "name": "axe weapon ops attack/1",
+      "pass": true
+    },
+    {
+      "name": "axe transparent native border attack/1",
+      "pass": true
+    },
+    {
+      "name": "axe nearest-neighbor exact 3x attack/1",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "axe same socket, time and body path 15",
+      "pass": true
+    },
+    {
+      "name": "axe body path and socket attack/2",
+      "pass": true
+    },
+    {
+      "name": "axe no helmet ops attack/2",
+      "pass": true
+    },
+    {
+      "name": "axe weapon ops attack/2",
+      "pass": true
+    },
+    {
+      "name": "axe transparent native border attack/2",
+      "pass": true
+    },
+    {
+      "name": "axe nearest-neighbor exact 3x attack/2",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "axe same socket, time and body path 16",
+      "pass": true
+    },
+    {
+      "name": "axe body path and socket attack/3",
+      "pass": true
+    },
+    {
+      "name": "axe no helmet ops attack/3",
+      "pass": true
+    },
+    {
+      "name": "axe weapon ops attack/3",
+      "pass": true
+    },
+    {
+      "name": "axe transparent native border attack/3",
+      "pass": true
+    },
+    {
+      "name": "axe nearest-neighbor exact 3x attack/3",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "axe same socket, time and body path 17",
+      "pass": true
+    },
+    {
+      "name": "axe body path and socket attack/4",
+      "pass": true
+    },
+    {
+      "name": "axe no helmet ops attack/4",
+      "pass": true
+    },
+    {
+      "name": "axe weapon ops attack/4",
+      "pass": true
+    },
+    {
+      "name": "axe transparent native border attack/4",
+      "pass": true
+    },
+    {
+      "name": "axe nearest-neighbor exact 3x attack/4",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "axe same socket, time and body path 18",
+      "pass": true
+    },
+    {
+      "name": "axe body path and socket attack/5",
+      "pass": true
+    },
+    {
+      "name": "axe no helmet ops attack/5",
+      "pass": true
+    },
+    {
+      "name": "axe weapon ops attack/5",
+      "pass": true
+    },
+    {
+      "name": "axe transparent native border attack/5",
+      "pass": true
+    },
+    {
+      "name": "axe nearest-neighbor exact 3x attack/5",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "axe same socket, time and body path 19",
+      "pass": true
+    },
+    {
+      "name": "axe body path and socket attack/6",
+      "pass": true
+    },
+    {
+      "name": "axe no helmet ops attack/6",
+      "pass": true
+    },
+    {
+      "name": "axe weapon ops attack/6",
+      "pass": true
+    },
+    {
+      "name": "axe transparent native border attack/6",
+      "pass": true
+    },
+    {
+      "name": "axe nearest-neighbor exact 3x attack/6",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "axe same socket, time and body path 20",
+      "pass": true
+    },
+    {
+      "name": "axe body path and socket attack/7",
+      "pass": true
+    },
+    {
+      "name": "axe no helmet ops attack/7",
+      "pass": true
+    },
+    {
+      "name": "axe weapon ops attack/7",
+      "pass": true
+    },
+    {
+      "name": "axe transparent native border attack/7",
+      "pass": true
+    },
+    {
+      "name": "axe nearest-neighbor exact 3x attack/7",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "axe same socket, time and body path 21",
+      "pass": true
+    },
+    {
+      "name": "axe body path and socket attack/8",
+      "pass": true
+    },
+    {
+      "name": "axe no helmet ops attack/8",
+      "pass": true
+    },
+    {
+      "name": "axe weapon ops attack/8",
+      "pass": true
+    },
+    {
+      "name": "axe transparent native border attack/8",
+      "pass": true
+    },
+    {
+      "name": "axe nearest-neighbor exact 3x attack/8",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "axe same socket, time and body path 22",
+      "pass": true
+    },
+    {
+      "name": "axe body path and socket attack/9",
+      "pass": true
+    },
+    {
+      "name": "axe no helmet ops attack/9",
+      "pass": true
+    },
+    {
+      "name": "axe weapon ops attack/9",
+      "pass": true
+    },
+    {
+      "name": "axe transparent native border attack/9",
+      "pass": true
+    },
+    {
+      "name": "axe nearest-neighbor exact 3x attack/9",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "axe same socket, time and body path 23",
+      "pass": true
+    },
+    {
+      "name": "axe body path and socket attack/10",
+      "pass": true
+    },
+    {
+      "name": "axe no helmet ops attack/10",
+      "pass": true
+    },
+    {
+      "name": "axe weapon ops attack/10",
+      "pass": true
+    },
+    {
+      "name": "axe transparent native border attack/10",
+      "pass": true
+    },
+    {
+      "name": "axe nearest-neighbor exact 3x attack/10",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "axe same socket, time and body path 24",
+      "pass": true
+    },
+    {
+      "name": "axe body path and socket attack/11",
+      "pass": true
+    },
+    {
+      "name": "axe no helmet ops attack/11",
+      "pass": true
+    },
+    {
+      "name": "axe weapon ops attack/11",
+      "pass": true
+    },
+    {
+      "name": "axe transparent native border attack/11",
+      "pass": true
+    },
+    {
+      "name": "axe nearest-neighbor exact 3x attack/11",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "axe same socket, time and body path 25",
+      "pass": true
+    },
+    {
+      "name": "axe body path and socket attack/12",
+      "pass": true
+    },
+    {
+      "name": "axe no helmet ops attack/12",
+      "pass": true
+    },
+    {
+      "name": "axe weapon ops attack/12",
+      "pass": true
+    },
+    {
+      "name": "axe transparent native border attack/12",
+      "pass": true
+    },
+    {
+      "name": "axe nearest-neighbor exact 3x attack/12",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "axe same socket, time and body path 26",
+      "pass": true
+    },
+    {
+      "name": "axe body path and socket attack/13",
+      "pass": true
+    },
+    {
+      "name": "axe no helmet ops attack/13",
+      "pass": true
+    },
+    {
+      "name": "axe weapon ops attack/13",
+      "pass": true
+    },
+    {
+      "name": "axe transparent native border attack/13",
+      "pass": true
+    },
+    {
+      "name": "axe nearest-neighbor exact 3x attack/13",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "axe same socket, time and body path 27",
+      "pass": true
+    },
+    {
+      "name": "axe body path and socket attack/14",
+      "pass": true
+    },
+    {
+      "name": "axe no helmet ops attack/14",
+      "pass": true
+    },
+    {
+      "name": "axe weapon ops attack/14",
+      "pass": true
+    },
+    {
+      "name": "axe transparent native border attack/14",
+      "pass": true
+    },
+    {
+      "name": "axe nearest-neighbor exact 3x attack/14",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "axe same socket, time and body path 28",
+      "pass": true
+    },
+    {
+      "name": "axe body path and socket attack/15",
+      "pass": true
+    },
+    {
+      "name": "axe no helmet ops attack/15",
+      "pass": true
+    },
+    {
+      "name": "axe weapon ops attack/15",
+      "pass": true
+    },
+    {
+      "name": "axe transparent native border attack/15",
+      "pass": true
+    },
+    {
+      "name": "axe nearest-neighbor exact 3x attack/15",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "body browser frame count",
+      "pass": true
+    },
+    {
+      "name": "sword browser frame count",
+      "pass": true
+    },
+    {
+      "name": "axe browser frame count",
+      "pass": true
+    },
+    {
+      "name": "body-3x.gif GIF duration is 2920ms",
+      "pass": true
+    },
+    {
+      "name": "sword-3x.gif GIF duration is 2920ms",
+      "pass": true
+    },
+    {
+      "name": "axe-3x.gif GIF duration is 2920ms",
+      "pass": true
+    },
+    {
+      "name": "sequence GIF duration is 8760ms",
+      "pass": true
+    }
+  ],
+  "errors": [],
+  "export": {
+    "native_frames_per_variant": 29,
+    "browser_frame_durations_ms": {
+      "body": [
+        120,
+        120,
+        120,
+        120,
+        120,
+        120,
+        120,
+        120,
+        120,
+        120,
+        120,
+        120,
+        120,
+        120,
+        80,
+        110,
+        90,
+        80,
+        60,
+        40,
+        40,
+        40,
+        50,
+        100,
+        80,
+        70,
+        90,
+        110,
+        200
+      ],
+      "sword": [
+        120,
+        120,
+        120,
+        120,
+        120,
+        120,
+        120,
+        120,
+        120,
+        120,
+        120,
+        120,
+        120,
+        120,
+        80,
+        110,
+        90,
+        80,
+        60,
+        40,
+        40,
+        40,
+        50,
+        100,
+        80,
+        70,
+        90,
+        110,
+        200
+      ],
+      "axe": [
+        120,
+        120,
+        120,
+        120,
+        120,
+        120,
+        120,
+        120,
+        120,
+        120,
+        120,
+        120,
+        120,
+        120,
+        80,
+        110,
+        90,
+        80,
+        60,
+        40,
+        40,
+        40,
+        50,
+        100,
+        80,
+        70,
+        90,
+        110,
+        200
+      ]
+    },
+    "gif_artifacts": {
+      "body-3x.gif": {
+        "frames": 25,
+        "duration_ms": 2920,
+        "frame_durations_ms": [
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          80,
+          110,
+          90,
+          260,
+          50,
+          100,
+          80,
+          70,
+          90,
+          110,
+          200
+        ],
+        "size_bytes": 499852
+      },
+      "sword-3x.gif": {
+        "frames": 26,
+        "duration_ms": 2920,
+        "frame_durations_ms": [
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          80,
+          110,
+          90,
+          80,
+          180,
+          50,
+          100,
+          80,
+          70,
+          90,
+          110,
+          200
+        ],
+        "size_bytes": 561650
+      },
+      "axe-3x.gif": {
+        "frames": 26,
+        "duration_ms": 2920,
+        "frame_durations_ms": [
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          80,
+          110,
+          90,
+          80,
+          180,
+          50,
+          100,
+          80,
+          70,
+          90,
+          110,
+          200
+        ],
+        "size_bytes": 582853
+      },
+      "sequence-3x.gif": {
+        "frames": 77,
+        "duration_ms": 8760,
+        "frame_durations_ms": [
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          80,
+          110,
+          90,
+          260,
+          50,
+          100,
+          80,
+          70,
+          90,
+          110,
+          200,
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          80,
+          110,
+          90,
+          80,
+          180,
+          50,
+          100,
+          80,
+          70,
+          90,
+          110,
+          200,
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          120,
+          80,
+          110,
+          90,
+          80,
+          180,
+          50,
+          100,
+          80,
+          70,
+          90,
+          110,
+          200
+        ],
+        "size_bytes": 1644289
+      }
+    },
+    "first_frame_png_size_bytes": 21272,
+    "sword_strike": {
+      "time_ms": 2370,
+      "clip": "attack",
+      "frame": 11,
+      "size_bytes": 27059
+    },
+    "edge_exit_code": 0
+  },
+  "source_hashes": {
+    "renderer.js": "2d84c25a8b620bd421395e533c6aa03e48e3562f621dde9c9d065802f62250ab",
+    "gallery.html": "8960f061fd5d3a9390876cccd79200dd211c9ac5ee23f3fcc807d5c092f02155",
+    "assets/manifest.json": "533fe632a5cbfa696ac230a92a27eeb1f5d2447dc928063ab245c6521fb274f9"
+  }
+}
