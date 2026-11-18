@@ -1,0 +1,123 @@
+{
+  "checks": [
+    {
+      "name": "manifest layers loaded",
+      "pass": true
+    },
+    {
+      "name": "PixelLab reference sheet loaded",
+      "pass": true
+    },
+    {
+      "name": "exactly three equipment slots",
+      "pass": true
+    },
+    {
+      "name": "auto loop endpoint deterministic",
+      "pass": true
+    },
+    {
+      "name": "pose deterministic at fixed time",
+      "pass": true
+    },
+    {
+      "name": "body transforms identical for all four equipment combinations at 125 samples",
+      "pass": true
+    },
+    {
+      "name": "weapon socket identical across equipment at 125 samples",
+      "pass": true
+    },
+    {
+      "name": "character moves across the cycle",
+      "pass": true
+    },
+    {
+      "name": "knee angle changes",
+      "pass": true
+    },
+    {
+      "name": "hips shift",
+      "pass": true
+    },
+    {
+      "name": "chest yaw changes",
+      "pass": true
+    },
+    {
+      "name": "foot IK reach error below 0.01 at all samples",
+      "pass": true
+    },
+    {
+      "name": "all joint coordinates finite at all samples",
+      "pass": true
+    },
+    {
+      "name": "no opaque edge clipping for all gear combinations at 125 samples",
+      "pass": true
+    },
+    {
+      "name": "armor group contains exactly six whole-suit parts",
+      "pass": true
+    },
+    {
+      "name": "hands and boots stay unchanged body parts",
+      "pass": true
+    },
+    {
+      "name": "full armor changes torso pixels",
+      "pass": true
+    },
+    {
+      "name": "full armor changes arms pixels",
+      "pass": true
+    },
+    {
+      "name": "full armor changes legs pixels",
+      "pass": true
+    },
+    {
+      "name": "weapon changes image independently",
+      "pass": true
+    },
+    {
+      "name": "weapon swap preserves time and playback",
+      "pass": true
+    },
+    {
+      "name": "armor changes image independently",
+      "pass": true
+    },
+    {
+      "name": "armor swap preserves time and playback",
+      "pass": true
+    },
+    {
+      "name": "helmet changes image independently",
+      "pass": true
+    },
+    {
+      "name": "helmet swap preserves time and playback",
+      "pass": true
+    },
+    {
+      "name": "auto, breath and strike advance",
+      "pass": true
+    },
+    {
+      "name": "PixelLab reference index advances in strike mode",
+      "pass": true
+    }
+  ],
+  "pass": true,
+  "export": {
+    "overview_frames": 50,
+    "overview_duration_ms": 4000,
+    "swap_frames": 4,
+    "swap_duration_ms": 2800,
+    "comparison_frames": 50,
+    "comparison_duration_ms": 4000,
+    "source": "NaturalRig.render through the browser QA page"
+  },
+  "browser_exit_code": 0
+}

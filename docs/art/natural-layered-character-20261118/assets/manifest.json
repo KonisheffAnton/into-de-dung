@@ -1,0 +1,675 @@
+{
+  "parts": {
+    "head": {
+      "file": "assets/head.png",
+      "width": 38,
+      "height": 40,
+      "pivot": [
+        0.5,
+        1
+      ],
+      "flip_x": true,
+      "sha256": "a34361b2761b8aeeb5ff7a25d1347a3e03a01b65cadc4fded583952977f00b69",
+      "origin": {
+        "path": "layered-character-rig-20261118\\assets\\head.png",
+        "sha256": "9465f27c8dcd4696a7b9606fc3b9e6a54773e53ff9ba0f8a60c31b18091e6420"
+      }
+    },
+    "torso": {
+      "file": "assets/torso.png",
+      "width": 50,
+      "height": 48,
+      "pivot": [
+        0.5,
+        1
+      ],
+      "flip_x": false,
+      "sha256": "e43ae89242399c4cba05288681335a24f6464d6f731d9f251fe27d7d9b0e949a",
+      "origin": {
+        "path": "layered-character-rig-20261118\\assets\\torso.png",
+        "sha256": "6da36925b3911717cb5ecfb729ab59b954242a1f9d5c43ca875c643b44fd1ec4"
+      }
+    },
+    "pelvis": {
+      "file": "assets/pelvis.png",
+      "width": 40,
+      "height": 22,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "flip_x": false,
+      "sha256": "02ba0c5be6455eeb0e7d1d2fdd9f6308d8edc7d55aefc9cfa925f571353bdd23",
+      "origin": {
+        "path": "layered-character-rig-20261118\\assets\\pelvis.png",
+        "sha256": "8a551c98b9083ee22c91746b2ce729514e9d0aa2ed72ccf97c3a716b0db130c0"
+      }
+    },
+    "upper_arm": {
+      "file": "assets/upper_arm.png",
+      "width": 18,
+      "height": 28,
+      "pivot": [
+        0.5,
+        0.1
+      ],
+      "flip_x": false,
+      "sha256": "d6e128a0d89b3ec5c1d486456a9159121ba58f1bf2884f1451573a46e7dccbd5",
+      "origin": {
+        "path": "layered-character-rig-20261118\\assets\\upper_arm.png",
+        "sha256": "877e584174b9041fecd4da03fedc82c46929f112ac01f8b2bb50db264332575a"
+      }
+    },
+    "forearm": {
+      "file": "assets/forearm.png",
+      "width": 16,
+      "height": 27,
+      "pivot": [
+        0.5,
+        0.1
+      ],
+      "flip_x": false,
+      "sha256": "d17a57f19ba54326c8d094b0f5580bd42a58652b4d9435e1c1593000f55ee0c4",
+      "origin": {
+        "path": "layered-character-rig-20261118\\assets\\forearm.png",
+        "sha256": "ec429574bf6b2a26cf982e31b1a672a0e6954b426dee556b0357b85a081f1edd"
+      }
+    },
+    "hand": {
+      "file": "assets/hand.png",
+      "width": 13,
+      "height": 14,
+      "pivot": [
+        0.5,
+        0.3
+      ],
+      "flip_x": false,
+      "sha256": "81abbdb547e4737ddb1373d79e06d8e6417e6259980e26e9ea7d567fb597828e",
+      "origin": {
+        "path": "layered-character-rig-20261118\\assets\\hand.png",
+        "sha256": "8d7d2ef23c59667659dd59da115b6290c4d21a5fed073475a13b8bd67b4a392b"
+      }
+    },
+    "sword": {
+      "file": "assets/sword.png",
+      "width": 20,
+      "height": 50,
+      "pivot": [
+        0.5,
+        0.86
+      ],
+      "flip_x": false,
+      "sha256": "c70e66c541f06707f1d1864b951a8d55bef9f879ddecbe1264c67ad357dd6315",
+      "origin": {
+        "path": "layered-character-rig-20261118\\assets\\sword.png",
+        "sha256": "88b1c4dad525c00cf3f72472368812c178132dbeb20249f04640aa03ea810a8d"
+      }
+    },
+    "axe": {
+      "file": "assets/axe.png",
+      "width": 28,
+      "height": 50,
+      "pivot": [
+        0.22,
+        0.86
+      ],
+      "flip_x": false,
+      "sha256": "46dbfb7bf27dfe109a861d76a46ff112ca223500db0d3e7b255fd82b31e5c452",
+      "origin": {
+        "path": "layered-character-rig-20261118\\assets\\axe.png",
+        "sha256": "b59f6cafcf6311dac7a96beaa4499b6f0bb158c3a2e0574f6eb137d10a5436dd"
+      }
+    },
+    "thigh_far": {
+      "file": "assets/thigh_far.png",
+      "width": 20,
+      "height": 28,
+      "pivot": [
+        0.5,
+        0.1
+      ],
+      "flip_x": false,
+      "sha256": "fb127b6692ce4ad8341dd09582231eefd4447af6a61590835b78a8a7c3e67dad",
+      "origin": {
+        "atlas": "joints-helmet-atlas.png",
+        "cell": [
+          0,
+          0,
+          444,
+          444
+        ],
+        "crop": [
+          118,
+          69,
+          335,
+          404
+        ]
+      }
+    },
+    "thigh_near": {
+      "file": "assets/thigh_near.png",
+      "width": 20,
+      "height": 28,
+      "pivot": [
+        0.5,
+        0.1
+      ],
+      "flip_x": false,
+      "sha256": "02c4f2fe204ae47961a51a498c101628ef0cc31932d42c1388b6e695317e4b10",
+      "origin": {
+        "atlas": "joints-helmet-atlas.png",
+        "cell": [
+          444,
+          0,
+          887,
+          444
+        ],
+        "crop": [
+          108,
+          69,
+          325,
+          404
+        ]
+      }
+    },
+    "shin_far": {
+      "file": "assets/shin_far.png",
+      "width": 15,
+      "height": 29,
+      "pivot": [
+        0.5,
+        0.1
+      ],
+      "flip_x": false,
+      "sha256": "ed443f75c024dbc6564d1d83c4c3cf25618740144d1baa5e0395de9e8c2479ab",
+      "origin": {
+        "atlas": "joints-helmet-atlas.png",
+        "cell": [
+          887,
+          0,
+          1330,
+          444
+        ],
+        "crop": [
+          126,
+          83,
+          311,
+          402
+        ]
+      }
+    },
+    "shin_near": {
+      "file": "assets/shin_near.png",
+      "width": 15,
+      "height": 29,
+      "pivot": [
+        0.5,
+        0.1
+      ],
+      "flip_x": false,
+      "sha256": "088a94841edb9b3499e09f4fcc8afceb675587d24ba02a1f8eae336cc32723cc",
+      "origin": {
+        "atlas": "joints-helmet-atlas.png",
+        "cell": [
+          1330,
+          0,
+          1774,
+          444
+        ],
+        "crop": [
+          129,
+          83,
+          315,
+          402
+        ]
+      }
+    },
+    "boot_far": {
+      "file": "assets/boot_far.png",
+      "width": 23,
+      "height": 18,
+      "pivot": [
+        0.7,
+        0.2
+      ],
+      "flip_x": false,
+      "sha256": "e6caaaab25ddf45b4ed2c1630f8f18d280c577d45f45975c1245bf1a5067d963",
+      "origin": {
+        "atlas": "joints-helmet-atlas.png",
+        "cell": [
+          0,
+          444,
+          444,
+          887
+        ],
+        "crop": [
+          87,
+          107,
+          348,
+          369
+        ]
+      }
+    },
+    "boot_near": {
+      "file": "assets/boot_near.png",
+      "width": 23,
+      "height": 18,
+      "pivot": [
+        0.3,
+        0.2
+      ],
+      "flip_x": false,
+      "sha256": "c2857e8f2573ac2c65db2cbd7f864dc85722aa912b5bd22ea2006a3042227552",
+      "origin": {
+        "atlas": "joints-helmet-atlas.png",
+        "cell": [
+          444,
+          444,
+          887,
+          887
+        ],
+        "crop": [
+          95,
+          107,
+          358,
+          369
+        ]
+      }
+    },
+    "helmet": {
+      "file": "assets/helmet.png",
+      "width": 44,
+      "height": 44,
+      "pivot": [
+        0.5,
+        1
+      ],
+      "flip_x": false,
+      "sha256": "0fd2974dbe45c0a5070f34dc709d84886293215eafef693fd593ec46e4e6a18e",
+      "origin": {
+        "atlas": "joints-helmet-atlas.png",
+        "cell": [
+          887,
+          444,
+          1330,
+          887
+        ],
+        "crop": [
+          62,
+          68,
+          368,
+          376
+        ]
+      }
+    },
+    "helmet_profile": {
+      "file": "assets/helmet_profile.png",
+      "width": 42,
+      "height": 44,
+      "pivot": [
+        0.5,
+        1
+      ],
+      "flip_x": false,
+      "sha256": "229c51cfdd36db68cb0cd2290db44468792bab74c18e1c3083e9960249bea05c",
+      "origin": {
+        "atlas": "joints-helmet-atlas.png",
+        "cell": [
+          1330,
+          444,
+          1774,
+          887
+        ],
+        "crop": [
+          71,
+          68,
+          367,
+          379
+        ]
+      }
+    },
+    "armor_light_torso": {
+      "file": "assets/armor_light_torso.png",
+      "width": 50,
+      "height": 48,
+      "pivot": [
+        0.5,
+        1
+      ],
+      "flip_x": false,
+      "sha256": "93c8a368e105f8a32537f1f20fd46ced1348711f6da7d4f78a21146253027dbe",
+      "origin": {
+        "atlas": "full-suit-atlas.png",
+        "cell": [
+          0,
+          0,
+          362,
+          362
+        ],
+        "crop": [
+          71,
+          59,
+          330,
+          344
+        ]
+      }
+    },
+    "armor_light_pelvis": {
+      "file": "assets/armor_light_pelvis.png",
+      "width": 42,
+      "height": 23,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "flip_x": false,
+      "sha256": "3882fa83c1976f89c92502043a763bd50f5422573dbc1c597d1e347544896f97",
+      "origin": {
+        "atlas": "full-suit-atlas.png",
+        "cell": [
+          362,
+          0,
+          724,
+          362
+        ],
+        "crop": [
+          53,
+          103,
+          333,
+          329
+        ]
+      }
+    },
+    "armor_light_upper_arm": {
+      "file": "assets/armor_light_upper_arm.png",
+      "width": 22,
+      "height": 28,
+      "pivot": [
+        0.5,
+        0.1
+      ],
+      "flip_x": false,
+      "sha256": "0daf809389acdfdb099017d1931cf1d4239cd480c6c16bf2c5960ef86b3ef17f",
+      "origin": {
+        "atlas": "full-suit-atlas.png",
+        "cell": [
+          724,
+          0,
+          1086,
+          362
+        ],
+        "crop": [
+          85,
+          70,
+          278,
+          337
+        ]
+      }
+    },
+    "armor_light_forearm": {
+      "file": "assets/armor_light_forearm.png",
+      "width": 18,
+      "height": 27,
+      "pivot": [
+        0.5,
+        0.1
+      ],
+      "flip_x": false,
+      "sha256": "ed11954d4255f09c1ab29d1809a87120ccec1ea616e074a8b4fcc18ad644525b",
+      "origin": {
+        "atlas": "full-suit-atlas.png",
+        "cell": [
+          1086,
+          0,
+          1448,
+          362
+        ],
+        "crop": [
+          97,
+          104,
+          242,
+          332
+        ]
+      }
+    },
+    "armor_light_thigh": {
+      "file": "assets/armor_light_thigh.png",
+      "width": 22,
+      "height": 28,
+      "pivot": [
+        0.5,
+        0.1
+      ],
+      "flip_x": false,
+      "sha256": "75f25c8a97879cd196613c344b8dbc2c4d045b8a01ff3290c1f4c22c837ac9a7",
+      "origin": {
+        "atlas": "full-suit-atlas.png",
+        "cell": [
+          0,
+          362,
+          362,
+          724
+        ],
+        "crop": [
+          112,
+          50,
+          296,
+          308
+        ]
+      }
+    },
+    "armor_light_shin": {
+      "file": "assets/armor_light_shin.png",
+      "width": 17,
+      "height": 29,
+      "pivot": [
+        0.5,
+        0.1
+      ],
+      "flip_x": false,
+      "sha256": "8e2e70eb3b69ada918c942ed8896ec4b621b060ec9ff2e106093402919c2a552",
+      "origin": {
+        "atlas": "full-suit-atlas.png",
+        "cell": [
+          362,
+          362,
+          724,
+          724
+        ],
+        "crop": [
+          112,
+          59,
+          259,
+          304
+        ]
+      }
+    },
+    "armor_heavy_torso": {
+      "file": "assets/armor_heavy_torso.png",
+      "width": 50,
+      "height": 48,
+      "pivot": [
+        0.5,
+        1
+      ],
+      "flip_x": false,
+      "sha256": "51ea4d57b15a620b83d7fa1389b4e7de428f06c2caaa213ef54bce7fcad19196",
+      "origin": {
+        "atlas": "full-suit-atlas.png",
+        "cell": [
+          724,
+          362,
+          1086,
+          724
+        ],
+        "crop": [
+          41,
+          35,
+          309,
+          316
+        ]
+      }
+    },
+    "armor_heavy_pelvis": {
+      "file": "assets/armor_heavy_pelvis.png",
+      "width": 42,
+      "height": 23,
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "flip_x": false,
+      "sha256": "482962b153a95f2d1f4b0f449e5a6671fdef8ea582901eee5717d8ee74489788",
+      "origin": {
+        "atlas": "full-suit-atlas.png",
+        "cell": [
+          1086,
+          362,
+          1448,
+          724
+        ],
+        "crop": [
+          39,
+          76,
+          320,
+          299
+        ]
+      }
+    },
+    "armor_heavy_upper_arm": {
+      "file": "assets/armor_heavy_upper_arm.png",
+      "width": 22,
+      "height": 28,
+      "pivot": [
+        0.5,
+        0.1
+      ],
+      "flip_x": false,
+      "sha256": "88845e385e8144b2a8c2c02944f7d8dc731a58d16eb1f5958d44ea12bcc9e8bb",
+      "origin": {
+        "atlas": "full-suit-atlas.png",
+        "cell": [
+          0,
+          724,
+          362,
+          1086
+        ],
+        "crop": [
+          91,
+          18,
+          310,
+          283
+        ]
+      }
+    },
+    "armor_heavy_forearm": {
+      "file": "assets/armor_heavy_forearm.png",
+      "width": 18,
+      "height": 27,
+      "pivot": [
+        0.5,
+        0.1
+      ],
+      "flip_x": false,
+      "sha256": "43cc509fe0ff9fe7c0b8a599acb472937f92115463341f349dcd5d70f51c2209",
+      "origin": {
+        "atlas": "full-suit-atlas.png",
+        "cell": [
+          362,
+          724,
+          724,
+          1086
+        ],
+        "crop": [
+          106,
+          48,
+          264,
+          280
+        ]
+      }
+    },
+    "armor_heavy_thigh": {
+      "file": "assets/armor_heavy_thigh.png",
+      "width": 22,
+      "height": 28,
+      "pivot": [
+        0.5,
+        0.1
+      ],
+      "flip_x": false,
+      "sha256": "665bb6321e7aa7d779fee5c043f9421fe9876671fcc9bb4982a522c2d31c9def",
+      "origin": {
+        "atlas": "full-suit-atlas.png",
+        "cell": [
+          724,
+          724,
+          1086,
+          1086
+        ],
+        "crop": [
+          82,
+          14,
+          284,
+          282
+        ]
+      }
+    },
+    "armor_heavy_shin": {
+      "file": "assets/armor_heavy_shin.png",
+      "width": 17,
+      "height": 29,
+      "pivot": [
+        0.5,
+        0.1
+      ],
+      "flip_x": false,
+      "sha256": "d8e9591f1c9706be20d8a7dee9c79c300f4d47a805a338f50e21d0f5fb3df532",
+      "origin": {
+        "atlas": "full-suit-atlas.png",
+        "cell": [
+          1086,
+          724,
+          1448,
+          1086
+        ],
+        "crop": [
+          93,
+          14,
+          256,
+          280
+        ]
+      }
+    }
+  },
+  "equipment_slots": [
+    "weapon",
+    "armor",
+    "helmet"
+  ],
+  "armor_sets": {
+    "light": [
+      "armor_light_torso",
+      "armor_light_pelvis",
+      "armor_light_upper_arm",
+      "armor_light_forearm",
+      "armor_light_thigh",
+      "armor_light_shin"
+    ],
+    "heavy": [
+      "armor_heavy_torso",
+      "armor_heavy_pelvis",
+      "armor_heavy_upper_arm",
+      "armor_heavy_forearm",
+      "armor_heavy_thigh",
+      "armor_heavy_shin"
+    ]
+  },
+  "provenance": {
+    "static_new": "built-in image_gen",
+    "motion": "shared local projected2D rig",
+    "atlas_sha256": {
+      "joints-helmet-atlas.png": "e83e1a838de3bebb1dd6ef71634092bbcecd3aa0a5d9d36f5096c6b29191f623",
+      "full-suit-atlas.png": "714bece2c9aedc7d91722f9f2eb53ed2fd7327c65427309c28b32beb552695e6"
+    }
+  }
+}

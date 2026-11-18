@@ -1,0 +1,457 @@
+{
+  "base": "634a957077a25ce2dd5c403b84ca2bbd093ccc4c",
+  "scope": "offline shared layered rig only; no Godot/runtime changes",
+  "sources_sha256": {
+    "prepare_assets.py": "02211ae55fadfd64d7a7a49a5b7a2bd2f7867256fd36ab5d009e8c00d6e6b38f",
+    "motion.js": "86bfe76179058755ddc3b65839ce543bf9a2d3c1d6d035a1cd7443f823149901",
+    "build_preview.py": "8dfc0403a0b64a91f829cff8362afceebe4df2a88dcc24b9212c9a174f551996",
+    "check_preview.py": "29cdc5299ae4505d8731ad11b33b75ade8a090f18060b21d4722b1e6cb4863d5",
+    "assets/manifest.json": "e38a30a8351b9f4c624546f984b34fb85dcd731bcb2fa3f5f8940435f4eba2d6",
+    "gallery.html": "341f6adfaa893449ad2d0874d87b1ff341c5d8514a53cf8429e7289634fbf3bd"
+  },
+  "assets": [
+    {
+      "key": "head",
+      "size": [
+        38,
+        40
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sha256": "a34361b2761b8aeeb5ff7a25d1347a3e03a01b65cadc4fded583952977f00b69"
+    },
+    {
+      "key": "torso",
+      "size": [
+        50,
+        48
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sha256": "e43ae89242399c4cba05288681335a24f6464d6f731d9f251fe27d7d9b0e949a"
+    },
+    {
+      "key": "pelvis",
+      "size": [
+        40,
+        22
+      ],
+      "alpha_range": [
+        0,
+        253
+      ],
+      "sha256": "02ba0c5be6455eeb0e7d1d2fdd9f6308d8edc7d55aefc9cfa925f571353bdd23"
+    },
+    {
+      "key": "upper_arm",
+      "size": [
+        18,
+        28
+      ],
+      "alpha_range": [
+        0,
+        253
+      ],
+      "sha256": "d6e128a0d89b3ec5c1d486456a9159121ba58f1bf2884f1451573a46e7dccbd5"
+    },
+    {
+      "key": "forearm",
+      "size": [
+        16,
+        27
+      ],
+      "alpha_range": [
+        0,
+        253
+      ],
+      "sha256": "d17a57f19ba54326c8d094b0f5580bd42a58652b4d9435e1c1593000f55ee0c4"
+    },
+    {
+      "key": "hand",
+      "size": [
+        13,
+        14
+      ],
+      "alpha_range": [
+        0,
+        253
+      ],
+      "sha256": "81abbdb547e4737ddb1373d79e06d8e6417e6259980e26e9ea7d567fb597828e"
+    },
+    {
+      "key": "sword",
+      "size": [
+        20,
+        50
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sha256": "c70e66c541f06707f1d1864b951a8d55bef9f879ddecbe1264c67ad357dd6315"
+    },
+    {
+      "key": "axe",
+      "size": [
+        28,
+        50
+      ],
+      "alpha_range": [
+        0,
+        253
+      ],
+      "sha256": "46dbfb7bf27dfe109a861d76a46ff112ca223500db0d3e7b255fd82b31e5c452"
+    },
+    {
+      "key": "thigh_far",
+      "size": [
+        20,
+        28
+      ],
+      "alpha_range": [
+        0,
+        254
+      ],
+      "sha256": "fb127b6692ce4ad8341dd09582231eefd4447af6a61590835b78a8a7c3e67dad"
+    },
+    {
+      "key": "thigh_near",
+      "size": [
+        20,
+        28
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sha256": "02c4f2fe204ae47961a51a498c101628ef0cc31932d42c1388b6e695317e4b10"
+    },
+    {
+      "key": "shin_far",
+      "size": [
+        15,
+        29
+      ],
+      "alpha_range": [
+        0,
+        254
+      ],
+      "sha256": "ed443f75c024dbc6564d1d83c4c3cf25618740144d1baa5e0395de9e8c2479ab"
+    },
+    {
+      "key": "shin_near",
+      "size": [
+        15,
+        29
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sha256": "088a94841edb9b3499e09f4fcc8afceb675587d24ba02a1f8eae336cc32723cc"
+    },
+    {
+      "key": "boot_far",
+      "size": [
+        23,
+        18
+      ],
+      "alpha_range": [
+        0,
+        253
+      ],
+      "sha256": "e6caaaab25ddf45b4ed2c1630f8f18d280c577d45f45975c1245bf1a5067d963"
+    },
+    {
+      "key": "boot_near",
+      "size": [
+        23,
+        18
+      ],
+      "alpha_range": [
+        0,
+        254
+      ],
+      "sha256": "c2857e8f2573ac2c65db2cbd7f864dc85722aa912b5bd22ea2006a3042227552"
+    },
+    {
+      "key": "helmet",
+      "size": [
+        44,
+        44
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sha256": "0fd2974dbe45c0a5070f34dc709d84886293215eafef693fd593ec46e4e6a18e"
+    },
+    {
+      "key": "helmet_profile",
+      "size": [
+        42,
+        44
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sha256": "229c51cfdd36db68cb0cd2290db44468792bab74c18e1c3083e9960249bea05c"
+    },
+    {
+      "key": "armor_light_torso",
+      "size": [
+        50,
+        48
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sha256": "93c8a368e105f8a32537f1f20fd46ced1348711f6da7d4f78a21146253027dbe"
+    },
+    {
+      "key": "armor_light_pelvis",
+      "size": [
+        42,
+        23
+      ],
+      "alpha_range": [
+        0,
+        254
+      ],
+      "sha256": "3882fa83c1976f89c92502043a763bd50f5422573dbc1c597d1e347544896f97"
+    },
+    {
+      "key": "armor_light_upper_arm",
+      "size": [
+        22,
+        28
+      ],
+      "alpha_range": [
+        0,
+        253
+      ],
+      "sha256": "0daf809389acdfdb099017d1931cf1d4239cd480c6c16bf2c5960ef86b3ef17f"
+    },
+    {
+      "key": "armor_light_forearm",
+      "size": [
+        18,
+        27
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sha256": "ed11954d4255f09c1ab29d1809a87120ccec1ea616e074a8b4fcc18ad644525b"
+    },
+    {
+      "key": "armor_light_thigh",
+      "size": [
+        22,
+        28
+      ],
+      "alpha_range": [
+        0,
+        253
+      ],
+      "sha256": "75f25c8a97879cd196613c344b8dbc2c4d045b8a01ff3290c1f4c22c837ac9a7"
+    },
+    {
+      "key": "armor_light_shin",
+      "size": [
+        17,
+        29
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sha256": "8e2e70eb3b69ada918c942ed8896ec4b621b060ec9ff2e106093402919c2a552"
+    },
+    {
+      "key": "armor_heavy_torso",
+      "size": [
+        50,
+        48
+      ],
+      "alpha_range": [
+        0,
+        254
+      ],
+      "sha256": "51ea4d57b15a620b83d7fa1389b4e7de428f06c2caaa213ef54bce7fcad19196"
+    },
+    {
+      "key": "armor_heavy_pelvis",
+      "size": [
+        42,
+        23
+      ],
+      "alpha_range": [
+        0,
+        253
+      ],
+      "sha256": "482962b153a95f2d1f4b0f449e5a6671fdef8ea582901eee5717d8ee74489788"
+    },
+    {
+      "key": "armor_heavy_upper_arm",
+      "size": [
+        22,
+        28
+      ],
+      "alpha_range": [
+        0,
+        254
+      ],
+      "sha256": "88845e385e8144b2a8c2c02944f7d8dc731a58d16eb1f5958d44ea12bcc9e8bb"
+    },
+    {
+      "key": "armor_heavy_forearm",
+      "size": [
+        18,
+        27
+      ],
+      "alpha_range": [
+        0,
+        253
+      ],
+      "sha256": "43cc509fe0ff9fe7c0b8a599acb472937f92115463341f349dcd5d70f51c2209"
+    },
+    {
+      "key": "armor_heavy_thigh",
+      "size": [
+        22,
+        28
+      ],
+      "alpha_range": [
+        0,
+        255
+      ],
+      "sha256": "665bb6321e7aa7d779fee5c043f9421fe9876671fcc9bb4982a522c2d31c9def"
+    },
+    {
+      "key": "armor_heavy_shin",
+      "size": [
+        17,
+        29
+      ],
+      "alpha_range": [
+        0,
+        254
+      ],
+      "sha256": "d8e9591f1c9706be20d8a7dee9c79c300f4d47a805a338f50e21d0f5fb3df532"
+    }
+  ],
+  "exports": {
+    "overview.gif": {
+      "size": [
+        512,
+        512
+      ],
+      "actual_frames": 49,
+      "total_ms": 4000,
+      "sha256": "d14126c645bd887e5f38db73b90407be16eef258175570326048c743f32556cd"
+    },
+    "comparison.gif": {
+      "size": [
+        512,
+        288
+      ],
+      "actual_frames": 49,
+      "total_ms": 4000,
+      "sha256": "c6b3565657f4e7476cc336b7663cd63c5c1647e959b405039cd9c774ec599f6e"
+    },
+    "swap.gif": {
+      "size": [
+        512,
+        512
+      ],
+      "actual_frames": 4,
+      "total_ms": 2800,
+      "sha256": "1922524946725ba2f2a20128f89ed655a75f6fbb6072f5665772cf2955df7f6a"
+    }
+  },
+  "browser": {
+    "checks_passed": 27,
+    "sampled_renders": 500,
+    "report_sha256": "33df3aeaa5adc2eaf30012addf32d984ca3e4b10f29a090cc62c02923baee172"
+  },
+  "syntax": {
+    "python_compile": "PASS",
+    "node_check": "PASS"
+  },
+  "handoff_archive": {
+    "path": "docs/CODEX_HANDOFF.history-20261118-3.md",
+    "sha256": "4b7335f5296cb34c7007848d6fa13d7f3a15cbfbd321c102cffe77ec98ffb556",
+    "matches_base_handoff_bytes": true
+  },
+  "foreign_files": {
+    "count": 33,
+    "all_sha256_unchanged": true
+  },
+  "input_document_sizes": {
+    "AGENTS.md": {
+      "before_chars": 4565,
+      "after_chars": 4565,
+      "changed": false
+    },
+    "docs/CODEX_HANDOFF.md": {
+      "before_chars": 2442,
+      "after_chars": 2457,
+      "changed": true
+    },
+    "docs/PROJECT_CONTEXT.md": {
+      "before_chars": 3734,
+      "after_chars": 3734,
+      "changed": false
+    },
+    "docs/CODEX_WORKFLOW.md": {
+      "before_chars": 4482,
+      "after_chars": 4482,
+      "changed": false
+    }
+  },
+  "review": {
+    "result": "APPROVE",
+    "agent": "natural_full_suit_review / game_reviewer",
+    "mode": "independent read-only review by instruction",
+    "sources_sha256": {
+      "prepare_assets.py": "02211ae55fadfd64d7a7a49a5b7a2bd2f7867256fd36ab5d009e8c00d6e6b38f",
+      "motion.js": "86bfe76179058755ddc3b65839ce543bf9a2d3c1d6d035a1cd7443f823149901",
+      "build_preview.py": "8dfc0403a0b64a91f829cff8362afceebe4df2a88dcc24b9212c9a174f551996",
+      "check_preview.py": "29cdc5299ae4505d8731ad11b33b75ade8a090f18060b21d4722b1e6cb4863d5"
+    },
+    "fixed_finding": "P3 stale success-looking exports after Edge nonzero exit; corrected and delta approved",
+    "acceptance": "technical only; user art acceptance open"
+  },
+  "not_run": [
+    "Godot import/startup",
+    "full/core",
+    "manual F5/Editor/DPI",
+    "game performance"
+  ],
+  "user_acceptance": "open: naturalness vs PixelLab, suit fit, joints/occlusion, impact feel",
+  "dense_geometry_check": {
+    "samples": 1000,
+    "step_ms": 4,
+    "max_arm_reach_clamp_px": 0,
+    "max_foot_reach_clamp_px": 0,
+    "knee_angle_range_degrees": [
+      93.34900163253909,
+      150.53926256395945
+    ]
+  },
+  "failure_injection": {
+    "case": "successful QA DOM + Edge process exit 9",
+    "pass": true,
+    "observed": "script exit 1, failure report retained, all five stale visual exports removed",
+    "isolated_from_package": true
+  },
+  "export_note": "50 input frames become 49 encoded GIF frames after lossless merging of identical adjacent frames; durations remain 4000 ms.",
+  "input_size_note": "Changed HANDOFF is 2457 chars, below 2500 and smaller than baseline. PROJECT_CONTEXT baseline3734 exceeds guide3500 but is unchanged; no rules removed there."
+}
