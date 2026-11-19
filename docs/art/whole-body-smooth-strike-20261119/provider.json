@@ -1,0 +1,1853 @@
+{
+  "provider": "PixelLab",
+  "official_api": "https://api.pixellab.ai/v2",
+  "schema_sha256": "e8d9d4b5e10e50893aa65b4595c3263dbe03c82ca0b1785cd92a957ae18b8f84",
+  "raw_cache": "D:/Codex/home/generated_images/whole-body-smooth-strike-20261119",
+  "raw_cache_contains_rejected_outputs": true,
+  "generation_total": 42.2,
+  "jobs": [
+    {
+      "id": 1,
+      "key": "windup-to-impact",
+      "endpoint": "/animate-pixminimax",
+      "first_source": "docs/art/whole-body-weighted-strike-20261118/assets/body/light/attack/013.png",
+      "first_sha256": "245cd141f2774b6df062e520f75358471c83fc04fa32304e6e04ab3724230013",
+      "last_source": "docs/art/whole-body-weighted-strike-20261118/assets/body/light/attack/016.png",
+      "last_sha256": "725a07859093453f34ad9c73b07c64069654e0b4e0cabb6f2af45d65eebb9ac6",
+      "parameters_without_images": {
+        "description": "A single CONTINUOUS transition from the wound-up pose to the supplied follow-through pose. Move slowly and evenly through the ENTIRE swing with distinct intermediate body poses, no held windup and no sudden jump to the end. Uncoil pelvis then shoulders; near elbow leads forward, closed fist travels in a smooth arc across the front and down toward screen right. Transfer weight gradually onto the front leg, rear heel pivots; scarf lags softly. Reach the supplied end pose exactly and STOP there; do not return or swing again. Keep both hands closed and EMPTY, all clothing intact. No motion trails, streaks, effects, props, extra limbs or camera movement.",
+        "frame_count": 12,
+        "seed": 191911,
+        "no_background": true,
+        "enhance_prompt": false,
+        "subject_description": "Same compact auburn-haired armored adventurer, steel shoulder plates and bracers, brown leather cuirass, cream tabard, red scarf, empty closed gloved fists, no weapon or helmet",
+        "initial_pose": "Near closed fist pulled back at screen left, knees bent, torso wound up, looking right",
+        "direction": "south-east",
+        "view": "low top-down"
+      },
+      "job_id": "2353103d-2f18-4e3e-821b-e0c0aaafa92e",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 2
+      },
+      "request_sha256": "aa47155ecd02a149661c999e82a707b9a96fea0ce7454eddb2e0259ebbe1db84",
+      "result_sha256": "77bfa5a9669086c47cda3ef622ce7cc7b6f747ccbe893d79ff78fed1a41d1799",
+      "output_count": 13,
+      "selected_provider_frames": [],
+      "selection_note": "Отклонён: длительное удержание и затем скачок руки.",
+      "outputs": [
+        {
+          "sha256": "245cd141f2774b6df062e520f75358471c83fc04fa32304e6e04ab3724230013",
+          "width": 256,
+          "height": 256,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "sha256": "b8a13658300fdecd98bc7991adff918a5b5f87492890498598f43ba21cffc900",
+          "width": 256,
+          "height": 256,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "sha256": "24298e604191d20d38acba12b554c20e49b486e02112eb1f2884a5e5ed2f4cd2",
+          "width": 256,
+          "height": 256,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "sha256": "1fdc944e2a8cff541c26363b0de319c1231f39310f2cb208887a30e158f5ee0c",
+          "width": 256,
+          "height": 256,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "sha256": "9cb14dfa18a518074795df8646974b1ed3bbc8089a4cf3bde2b1b5ea6bd9dde6",
+          "width": 256,
+          "height": 256,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "sha256": "0fdbab063491ac903f2f3ec4d6c8f1cae9aa2e4ce679809820cfaf0fbd81522d",
+          "width": 256,
+          "height": 256,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "sha256": "b9c4897e3db794630157c1ddafded7a420a32fa3dc71c9a460a95cd81d969839",
+          "width": 256,
+          "height": 256,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "sha256": "01c51950449260783109782d8fc0f9529d3c724c8a0f25451a11c03ebb52a5f4",
+          "width": 256,
+          "height": 256,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "sha256": "dbca0567835c054434de79a9d346a348b235c19573d7edc5b8af8193958b26af",
+          "width": 256,
+          "height": 256,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "sha256": "8baf3de5c81aff4b8161e539be2382373a827587469998ef746dcc52626d4cfb",
+          "width": 256,
+          "height": 256,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "sha256": "6042dfb3a073c48807d4da14bdbfb9b90304a975e920b734b19702b16febaeae",
+          "width": 256,
+          "height": 256,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "sha256": "9f5e7407239e85ae59cd6bc7f640ede76de1f800869e1e87a940224e3d89c772",
+          "width": 256,
+          "height": 256,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "sha256": "0813aaf87772a0adeb22374032ac4f54440be57edf79db52cfc2e68fc4f6eec2",
+          "width": 256,
+          "height": 256,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "key": "return-to-ready",
+      "endpoint": "/animate-pixminimax",
+      "first_source": "docs/art/whole-body-weighted-strike-20261118/assets/body/light/attack/024.png",
+      "first_sha256": "57519c63153bf53184397fbac13ef7ead0dbf6cc0b94516b01447f65710ab5df",
+      "last_source": "docs/art/whole-body-weighted-strike-20261118/assets/body/light/idle/000.png",
+      "last_sha256": "4b95d14342e0b58186754b137169114e07ddddc2a1826662042deca86c56953c",
+      "parameters_without_images": {
+        "description": "One smooth recovery from the supplied low forward follow-through to the supplied ready stance. Ease out of the follow-through, bend the elbow to draw the closed fist back naturally while shoulders and pelvis unwind together. Shift weight gradually back between both feet, straighten knees only slightly, bring the rear foot back to its original resting position. Settle torso, head and scarf gently into the exact end pose. Evenly spaced distinct intermediate poses throughout; no holds, sudden pose switches, extra attack, spinning, bouncing or teleporting. Hands remain EMPTY, all clothing intact. No effects, motion trails, weapons or props. Fixed camera.",
+        "frame_count": 16,
+        "seed": 191912,
+        "no_background": true,
+        "enhance_prompt": false,
+        "subject_description": "Same compact auburn-haired armored adventurer, steel shoulder plates and bracers, brown leather cuirass, cream tabard, red scarf, empty closed gloved fists, no weapon or helmet",
+        "initial_pose": "Forward follow-through stance facing right, near empty fist low in front, bent front leg bears weight, rear leg extended",
+        "direction": "south-east",
+        "view": "low top-down"
+      },
+      "job_id": "65087dc8-d097-4604-8752-1e3382bd8cb3",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 2
+      },
+      "request_sha256": "af39683a87b3b428d7169fc65e72fd07a786c63a426aee8ee3180d3ddc9c3cde",
+      "result_sha256": "85ed483d626f8f8fca98dee62ac8d14396c80fed825c496829635046c0f9a719",
+      "output_count": 17,
+      "selected_provider_frames": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "selection_note": "Выбраны12 цельных кадров возврата.",
+      "outputs": [
+        {
+          "sha256": "57519c63153bf53184397fbac13ef7ead0dbf6cc0b94516b01447f65710ab5df",
+          "width": 256,
+          "height": 256,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "sha256": "b2f8b2415cdc01b583418bf8a815f4a105f443e58413858fdb6b24ed93400127",
+          "width": 256,
+          "height": 256,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "sha256": "cac4f3b36e0fdaeccacae0e6b5a273f67fdb711fc5d04db01d094d55c1185105",
+          "width": 256,
+          "height": 256,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "sha256": "7ec53a0b6450bd63b95e38407dd1be9c42c921accfdd8700ca05c615428e4402",
+          "width": 256,
+          "height": 256,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "sha256": "64ed01b195471b78199f396232192960ee07385420775a301adcebb9f225e16a",
+          "width": 256,
+          "height": 256,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "sha256": "f67910fcf0ac8f5f4a4416c4ae2d8ab70a540ee7fd96d54e373964d48ab9ee63",
+          "width": 256,
+          "height": 256,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "sha256": "931bdcf8dfadc009268390de91e0cc39c31d47adc62aad9cfee470129f21f882",
+          "width": 256,
+          "height": 256,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "sha256": "e052124c717f50801e027eac69903110fc296d3cd214c4b11255e611048f88b3",
+          "width": 256,
+          "height": 256,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "sha256": "dce8f87734046465f8752bcb0e1e831398ce214ec3fd6d4ef1c84777ce5f48a3",
+          "width": 256,
+          "height": 256,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "sha256": "35495aef23ece3e9d1cb354fe76f75836fa1acd674bed73779292af1061f982b",
+          "width": 256,
+          "height": 256,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "sha256": "bbaaca8c2f87f8cdcda8b16f2650d807a4b4df80d989a893f98d382110ed6a25",
+          "width": 256,
+          "height": 256,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "sha256": "d79b1db0662128cd128eada544475ef6ebc302a2156dbbebc1574258344245bf",
+          "width": 256,
+          "height": 256,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "sha256": "67476583d963c4d1dc2469bcee91f3fdffc9e84c82f6b84301304a420f5471bf",
+          "width": 256,
+          "height": 256,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "sha256": "762d48094a2097fd62029330d07c8372683f065f2ebdf936850e42a802990af5",
+          "width": 256,
+          "height": 256,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "sha256": "42346c4c93c83b0fa924300eb8da067695091edc6e1e893c28e9fc3c8ebdac6b",
+          "width": 256,
+          "height": 256,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "sha256": "dd97080e59bf8235b645298790f8771c5d21daa8de1d395309ae8ef5f426928c",
+          "width": 256,
+          "height": 256,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "sha256": "dad3c537a25504252dc6500e6a2af735d6d7f303e8a533716e8543c2c83af9ee",
+          "width": 256,
+          "height": 256,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "key": "load-to-windup",
+      "endpoint": "/animate-pixminimax",
+      "first_source": "docs/art/whole-body-weighted-strike-20261118/assets/body/light/attack/002.png",
+      "first_sha256": "c9b09c655f521d5aeaa507c5c9a24799bf0e3ae328d27e42c0af1037a4fcf082",
+      "last_source": "docs/art/whole-body-weighted-strike-20261118/assets/body/light/attack/005.png",
+      "last_sha256": "6fb23d2ad8c0c4906ce1ee26e62b98da3e7e71c37e18a92ce6004ee131d61804",
+      "parameters_without_images": {
+        "no_background": true,
+        "enhance_prompt": false,
+        "subject_description": "Same compact auburn-haired armored adventurer, steel shoulder plates and bracers, brown leather cuirass, cream tabard, red scarf, empty closed gloved fists, no weapon or helmet",
+        "direction": "south-east",
+        "view": "low top-down",
+        "description": "Smoothly load into the supplied wound-up pose. Gradually bend knees and settle weight on the rear leg while pelvis and ribcage turn back. Near closed empty fist and elbow travel back in one continuous arc, other hand rises to guard the chest. Use distinct evenly spaced intermediate poses, no held pose or sudden switch. End at the exact supplied second pose; do NOT perform the forward strike yet. Preserve clothing, body scale, closed empty fists and grounded feet. No weapon, trails, effects, spinning or camera motion.",
+        "initial_pose": "Beginning to bend knees from ready stance, near empty fist low beside waist, facing right with visible face",
+        "frame_count": 8,
+        "seed": 191913
+      },
+      "job_id": "d534ac4b-a48a-4ca7-83b2-8a32ba099e78",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 1
+      },
+      "request_sha256": "2b18d2b1649c21ffdf40a730066ed02cb4c4f74463065c48f8571f978c7969de",
+      "result_sha256": "3ee25d6d3087f0994dadacc50728c8af270be816373b888011bf3eb6fe925576",
+      "output_count": 9,
+      "selected_provider_frames": [
+        1,
+        2,
+        3
+      ],
+      "selection_note": "Выбраны3 цельных кадра начала замаха.",
+      "outputs": [
+        {
+          "sha256": "c9b09c655f521d5aeaa507c5c9a24799bf0e3ae328d27e42c0af1037a4fcf082",
+          "width": 256,
+          "height": 256,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "sha256": "8943a124ea204320ebb90e9898ca9f30f3755dc1aa948fc355c3f24b0048d1a8",
+          "width": 256,
+          "height": 256,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "sha256": "9c35ccb16173df88cfd8bff29c356195149e4e815fe080abd3613aed5f965440",
+          "width": 256,
+          "height": 256,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "sha256": "f488beff327b935cd1a9ddad87892a17527bd72d2058de09cff9565b5d46a64b",
+          "width": 256,
+          "height": 256,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "sha256": "00bd122d10af4f1ac6172eaa886b9592a9ac905723ecd870fe15d95eaedea6f3",
+          "width": 256,
+          "height": 256,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "sha256": "793f6712c8f73aeef0d6a6bce5a93df2ca2c33f3783706bb71489c21df0bf9c0",
+          "width": 256,
+          "height": 256,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "sha256": "3c0032d6fe899714b4bfd606ffe65a5fe40b04798eef640456cde57eeb32bf48",
+          "width": 256,
+          "height": 256,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "sha256": "4b061f7d5169c45a391344bb4b53063ae0a4cffbb6ae8410108384838fb23dfa",
+          "width": 256,
+          "height": 256,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "sha256": "9d0656aa557f0fac30460e3180606059eb979ca547efefd333b4b0652fd52928",
+          "width": 256,
+          "height": 256,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "key": "swing-intermediates-v3",
+      "endpoint": "/animate-with-text-v3",
+      "first_source": "docs/art/whole-body-weighted-strike-20261118/assets/body/light/attack/014.png",
+      "first_sha256": "db4c0c943b8657e3f6dc54b7b1dbeb4d4d5df41073a4f9690943970a9e7ed7f7",
+      "last_source": "docs/art/whole-body-weighted-strike-20261118/assets/body/light/attack/016.png",
+      "last_sha256": "725a07859093453f34ad9c73b07c64069654e0b4e0cabb6f2af45d65eebb9ac6",
+      "parameters_without_images": {
+        "action": "Draw the missing IN-BETWEEN poses from the first pose to the last pose. The near empty closed fist moves from beside the rear shoulder FORWARD ACROSS THE CHEST and then diagonally DOWN into the end pose. Each frame advances a small equal part of the movement: torso gradually turns, near elbow extends gradually, knees transfer weight gradually. Slow-motion single partial swing, no pause at the start or finish, no recovery. Keep the same exact character, armor and scale. Hands empty. No weapon, trails, arc effects or extra limbs. Fixed camera. Continuous motion only, no pose jump.",
+        "frame_count": 8,
+        "seed": 191914,
+        "no_background": true,
+        "enhance_prompt": false
+      },
+      "job_id": "2dbfbcb8-e2ef-4210-bc38-a201901700a9",
+      "usage": {
+        "type": "generations",
+        "generations": 8.0
+      },
+      "request_sha256": "6d6320f0b7cca5e31e2aed812c8581f3eb7ed8ba59c8b2fbec2b74fd7a007bcf",
+      "result_sha256": "821ce0f6377109d1a7e5959f318166587b6af87397ab00a04755d66bf43477c7",
+      "output_count": 9,
+      "selected_provider_frames": [],
+      "selection_note": "Отклонён: походка/изменение масштаба вместо нужного удара.",
+      "outputs": [
+        {
+          "sha256": "db4c0c943b8657e3f6dc54b7b1dbeb4d4d5df41073a4f9690943970a9e7ed7f7",
+          "width": 256,
+          "height": 256,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "sha256": "1e98652a65309d833a5cac5a0ab55fc82bba273155fd3182c1bae11acd45b3d1",
+          "width": 256,
+          "height": 256,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "sha256": "89d965ce96516c5359c9d7f444c315957885dd56f6e3ffd4058dc280ed0f85fd",
+          "width": 256,
+          "height": 256,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "sha256": "6fa61c2437dc125d5479677c66af53d742976e6d7d585c42bfd8df66026f3cad",
+          "width": 256,
+          "height": 256,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "sha256": "64a2d7f4deb94c47917827c0333eb13e77aaaa8fae698d4f7b984f1886040e26",
+          "width": 256,
+          "height": 256,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "sha256": "3cb339d223286fb6f3c485761f3e60805ad0330942c09f9035478c9cfffe9650",
+          "width": 256,
+          "height": 256,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "sha256": "c03131573fa0ec0a06bee7047e7ceb604548c8d209841ebfb65c601f0a78aeb0",
+          "width": 256,
+          "height": 256,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "sha256": "620771e725dcb9bb3dfc5a3d648054b8ced82eb290dc63b536e7476085824355",
+          "width": 256,
+          "height": 256,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "sha256": "e15c82f3322286489bf7cc5789bd1d75cc47f9726e5d4896d3c3f87c84a78de1",
+          "width": 256,
+          "height": 256,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "key": "precise-swing-inbetweens",
+      "endpoint": "/interpolation-v2",
+      "first_source": "docs/art/whole-body-weighted-strike-20261118/assets/body/light/attack/014.png",
+      "first_sha256": "db4c0c943b8657e3f6dc54b7b1dbeb4d4d5df41073a4f9690943970a9e7ed7f7",
+      "last_source": "docs/art/whole-body-weighted-strike-20261118/assets/body/light/attack/016.png",
+      "last_sha256": "725a07859093453f34ad9c73b07c64069654e0b4e0cabb6f2af45d65eebb9ac6",
+      "parameters_without_images": {
+        "action": "Two in-between poses of ONE diagonal rightward swing. Advance the near closed EMPTY gloved fist progressively from screen-left shoulder ACROSS THE CHEST then forward-down to the end pose; rotate ribcage and pelvis smoothly, shift weight to the front foot. Preserve scale, anatomy, exact armor, face and grounded foot placement. No walking, shrinking, extra attacks, weapon, effects or trails. Full coherent body in every frame.",
+        "image_size": {
+          "width": 128,
+          "height": 128
+        },
+        "seed": 191915,
+        "no_background": true
+      },
+      "job_id": "c1c19206-6a8f-469a-933e-357f721c0615",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 25
+      },
+      "request_sha256": "7e71aed33d6b013490c46f44371cd466643b85aa6a3b2cb8b177541a23a0c2f2",
+      "result_sha256": "17d99ac5e02b5e831a846c882859df8080e8d73fed50760a51858ba13064474c",
+      "output_count": 2,
+      "selected_provider_frames": [],
+      "selection_note": "Отклонён: две позы сохраняют большой разрыв траектории кисти.",
+      "outputs": [
+        {
+          "sha256": "d606de5b41c9f4adbac8b8aabe4dedf1ec5ced1eae4da41610e3a20326cad78d",
+          "width": 256,
+          "height": 256,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "sha256": "096e521045ba321c3949595a85e4dc64cc62249829b379e561aa5747215a50c0",
+          "width": 256,
+          "height": 256,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "key": "chest-crossing-keypose",
+      "endpoint": "/edit-image-pixen",
+      "first_source": "docs/art/whole-body-weighted-strike-20261118/assets/body/light/attack/014.png",
+      "first_sha256": "db4c0c943b8657e3f6dc54b7b1dbeb4d4d5df41073a4f9690943970a9e7ed7f7",
+      "parameters_without_images": {
+        "description": "Keep this exact hero, armor, size, face, feet and pixel style. Draw ONE complete intermediate swing pose. Move the NEAR brown gloved fist from the left side to directly IN FRONT OF THE CHEST, centered at pixel (130,125). Near elbow at (108,132), upper arm attached to its shoulder. Fist closed and EMPTY, below the chin, clearly visible over the cuirass. Torso starts turning right, knees remain bent. Do not raise the fist above the head. No weapon, effects or extra limbs. Transparent background.",
+        "width": 256,
+        "height": 256,
+        "seed": 191916,
+        "no_background": true
+      },
+      "job_id": "84fa7e64-d3f1-47a7-9235-8c890017ff0c",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 1
+      },
+      "request_sha256": "eaee419d95827783cfc62dc7f55a31f8d25a475ebb0606e1f18b02d8ada10b3d",
+      "result_sha256": "8aa7566bb89681a6336b25d96397bb8832d5ae4592ff68214f1c062314a7cdc4",
+      "output_count": 1,
+      "selected_provider_frames": [],
+      "selection_note": "Отклонён: ненужное поднятие дальней руки.",
+      "outputs": [
+        {
+          "sha256": "0ca34dbce80ddbf386622e31ba33ab0180ab88922d3bf9946218f5fef7d752f8",
+          "width": 256,
+          "height": 256,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "key": "guided-swing-poses",
+      "endpoint": "/animate-with-skeleton-v3",
+      "first_source": "docs/art/whole-body-weighted-strike-20261118/assets/body/light/attack/014.png",
+      "first_sha256": "db4c0c943b8657e3f6dc54b7b1dbeb4d4d5df41073a4f9690943970a9e7ed7f7",
+      "parameters_without_images": {
+        "description": "compact auburn-haired adventurer with a red scarf, brown leather cuirass, steel shoulder plates and bracers, cream tabard, brown boots and empty closed brown gloved fists; no weapon or helmet",
+        "action": "diagonal swing, empty fist crosses chest and extends forward down; preserve armor and proportions, no effects",
+        "direction": "south-east",
+        "view": "low top-down",
+        "first_frame_keypoints": [
+          {
+            "label": "NOSE",
+            "x": 0.5398079951604207,
+            "y": 0.38269082705179847,
+            "z_index": 0
+          },
+          {
+            "label": "LEFT EYE",
+            "x": 0.5516393988703687,
+            "y": 0.36346482260463137,
+            "z_index": -1
+          },
+          {
+            "label": "RIGHT EYE",
+            "x": 0.5087505976359049,
+            "y": 0.36642266289951897,
+            "z_index": -1
+          },
+          {
+            "label": "LEFT EAR",
+            "x": 0.5309344530105591,
+            "y": 0.34719665845235187,
+            "z_index": -2
+          },
+          {
+            "label": "RIGHT EAR",
+            "x": 0.4407201007318993,
+            "y": 0.35754912074965733,
+            "z_index": -2
+          },
+          {
+            "label": "LEFT SHOULDER",
+            "x": 0.5900913864995042,
+            "y": 0.4181849956512451,
+            "z_index": -1
+          },
+          {
+            "label": "RIGHT SHOULDER",
+            "x": 0.3756474653879801,
+            "y": 0.39452222012914717,
+            "z_index": -1
+          },
+          {
+            "label": "LEFT ELBOW",
+            "x": 0.632980187733968,
+            "y": 0.4832576309951643,
+            "z_index": 0
+          },
+          {
+            "label": "RIGHT ELBOW",
+            "x": 0.2854331237419198,
+            "y": 0.4314953088760376,
+            "z_index": 0
+          },
+          {
+            "label": "LEFT ARM",
+            "x": 0.67578125,
+            "y": 0.52734375,
+            "z_index": 0
+          },
+          {
+            "label": "RIGHT ARM",
+            "x": 0.3203125,
+            "y": 0.4609375,
+            "z_index": 0
+          },
+          {
+            "label": "LEFT HIP",
+            "x": 0.5309344530105591,
+            "y": 0.56755628141885,
+            "z_index": -1
+          },
+          {
+            "label": "RIGHT HIP",
+            "x": 0.422973016432176,
+            "y": 0.5601616700490315,
+            "z_index": -1
+          },
+          {
+            "label": "LEFT KNEE",
+            "x": 0.6048806517695386,
+            "y": 0.6370656878377,
+            "z_index": 0
+          },
+          {
+            "label": "RIGHT KNEE",
+            "x": 0.3519846792332828,
+            "y": 0.6370656878377,
+            "z_index": 0
+          },
+          {
+            "label": "LEFT LEG",
+            "x": 0.6167120129490892,
+            "y": 0.7095329770818353,
+            "z_index": -1
+          },
+          {
+            "label": "RIGHT LEG",
+            "x": 0.3224062124888102,
+            "y": 0.6829123506322503,
+            "z_index": -1
+          },
+          {
+            "label": "NECK",
+            "x": 0.48286942594374216,
+            "y": 0.40635360789019614,
+            "z_index": -1
+          }
+        ],
+        "keypoints": [
+          [
+            {
+              "label": "NOSE",
+              "x": 0.5518043028121744,
+              "y": 0.38484909545837176,
+              "z_index": 0
+            },
+            {
+              "label": "LEFT EYE",
+              "x": 0.5635645587549165,
+              "y": 0.3640289459963915,
+              "z_index": -1
+            },
+            {
+              "label": "RIGHT EYE",
+              "x": 0.5204673595036621,
+              "y": 0.3677239567213864,
+              "z_index": -1
+            },
+            {
+              "label": "LEFT EAR",
+              "x": 0.5439167097900752,
+              "y": 0.34637089758352546,
+              "z_index": -2
+            },
+            {
+              "label": "RIGHT EAR",
+              "x": 0.4530679809136523,
+              "y": 0.35805999770484587,
+              "z_index": -2
+            },
+            {
+              "label": "LEFT SHOULDER",
+              "x": 0.5824673609049231,
+              "y": 0.41639946754676876,
+              "z_index": -1
+            },
+            {
+              "label": "RIGHT SHOULDER",
+              "x": 0.39727691367820456,
+              "y": 0.4049398901147975,
+              "z_index": -1
+            },
+            {
+              "label": "LEFT ELBOW",
+              "x": 0.6151664168746382,
+              "y": 0.4755692831068127,
+              "z_index": 0
+            },
+            {
+              "label": "RIGHT ELBOW",
+              "x": 0.3275030544372621,
+              "y": 0.4602456702202709,
+              "z_index": 0
+            },
+            {
+              "label": "LEFT ARM",
+              "x": 0.6549479166666666,
+              "y": 0.5073784722222222,
+              "z_index": 0
+            },
+            {
+              "label": "RIGHT ARM",
+              "x": 0.3680555555555556,
+              "y": 0.4568544864501917,
+              "z_index": 0
+            },
+            {
+              "label": "LEFT HIP",
+              "x": 0.5364559743277453,
+              "y": 0.5696021484349061,
+              "z_index": -1
+            },
+            {
+              "label": "RIGHT HIP",
+              "x": 0.43125315024345007,
+              "y": 0.5642726156446668,
+              "z_index": -1
+            },
+            {
+              "label": "LEFT KNEE",
+              "x": 0.6105348454029471,
+              "y": 0.6383161108112997,
+              "z_index": 0
+            },
+            {
+              "label": "RIGHT KNEE",
+              "x": 0.36211276388968583,
+              "y": 0.6418688452492157,
+              "z_index": 0
+            },
+            {
+              "label": "LEFT LEG",
+              "x": 0.6187423340010422,
+              "y": 0.7112580338424003,
+              "z_index": -1
+            },
+            {
+              "label": "RIGHT LEG",
+              "x": 0.3256955083839043,
+              "y": 0.6852859827793307,
+              "z_index": -1
+            },
+            {
+              "label": "NECK",
+              "x": 0.491066954995471,
+              "y": 0.41094531973444476,
+              "z_index": -1
+            }
+          ],
+          [
+            {
+              "label": "NOSE",
+              "x": 0.5638006104639283,
+              "y": 0.387007363864945,
+              "z_index": 0
+            },
+            {
+              "label": "LEFT EYE",
+              "x": 0.5754897186394643,
+              "y": 0.3645930693881517,
+              "z_index": -1
+            },
+            {
+              "label": "RIGHT EYE",
+              "x": 0.5321841213714193,
+              "y": 0.3690252505432538,
+              "z_index": -1
+            },
+            {
+              "label": "LEFT EAR",
+              "x": 0.5568989665695915,
+              "y": 0.34554513671469905,
+              "z_index": -2
+            },
+            {
+              "label": "RIGHT EAR",
+              "x": 0.4654158610954053,
+              "y": 0.3585708746600344,
+              "z_index": -2
+            },
+            {
+              "label": "LEFT SHOULDER",
+              "x": 0.5748433353103422,
+              "y": 0.4146139394422924,
+              "z_index": -2
+            },
+            {
+              "label": "RIGHT SHOULDER",
+              "x": 0.41890636196842895,
+              "y": 0.4153575601004478,
+              "z_index": -1
+            },
+            {
+              "label": "LEFT ELBOW",
+              "x": 0.5973526460153085,
+              "y": 0.4678809352184611,
+              "z_index": -1
+            },
+            {
+              "label": "RIGHT ELBOW",
+              "x": 0.3695729851326043,
+              "y": 0.48754574213996055,
+              "z_index": 0
+            },
+            {
+              "label": "LEFT ARM",
+              "x": 0.6341145833333334,
+              "y": 0.4874131944444444,
+              "z_index": -1
+            },
+            {
+              "label": "RIGHT ARM",
+              "x": 0.4157986111111111,
+              "y": 0.4556720517494708,
+              "z_index": 0
+            },
+            {
+              "label": "LEFT HIP",
+              "x": 0.5419774956449315,
+              "y": 0.5716480154509621,
+              "z_index": -1
+            },
+            {
+              "label": "RIGHT HIP",
+              "x": 0.43953328405472414,
+              "y": 0.5683835612403021,
+              "z_index": -1
+            },
+            {
+              "label": "LEFT KNEE",
+              "x": 0.6161890390363556,
+              "y": 0.6395665337848995,
+              "z_index": -1
+            },
+            {
+              "label": "RIGHT KNEE",
+              "x": 0.37224084854608885,
+              "y": 0.6466720026607314,
+              "z_index": 0
+            },
+            {
+              "label": "LEFT LEG",
+              "x": 0.6207726550529952,
+              "y": 0.7129830906029653,
+              "z_index": -1
+            },
+            {
+              "label": "RIGHT LEG",
+              "x": 0.32898480427899846,
+              "y": 0.687659614926411,
+              "z_index": -1
+            },
+            {
+              "label": "NECK",
+              "x": 0.4992644840471998,
+              "y": 0.41553703157869337,
+              "z_index": -1
+            }
+          ],
+          [
+            {
+              "label": "NOSE",
+              "x": 0.575796918115682,
+              "y": 0.3891656322715183,
+              "z_index": -1
+            },
+            {
+              "label": "LEFT EYE",
+              "x": 0.587414878524012,
+              "y": 0.3651571927799119,
+              "z_index": -2
+            },
+            {
+              "label": "RIGHT EYE",
+              "x": 0.5439008832391765,
+              "y": 0.37032654436512125,
+              "z_index": -1
+            },
+            {
+              "label": "LEFT EAR",
+              "x": 0.5698812233491076,
+              "y": 0.3447193758458727,
+              "z_index": -2
+            },
+            {
+              "label": "RIGHT EAR",
+              "x": 0.47776374127715826,
+              "y": 0.35908175161522293,
+              "z_index": -2
+            },
+            {
+              "label": "LEFT SHOULDER",
+              "x": 0.5672193097157611,
+              "y": 0.41282841133781606,
+              "z_index": -2
+            },
+            {
+              "label": "RIGHT SHOULDER",
+              "x": 0.4405358102586534,
+              "y": 0.42577523008609813,
+              "z_index": -1
+            },
+            {
+              "label": "LEFT ELBOW",
+              "x": 0.5795388751559787,
+              "y": 0.46019258733010954,
+              "z_index": -1
+            },
+            {
+              "label": "RIGHT ELBOW",
+              "x": 0.41164291582794654,
+              "y": 0.5121201615191551,
+              "z_index": 0
+            },
+            {
+              "label": "LEFT ARM",
+              "x": 0.61328125,
+              "y": 0.4674479166666667,
+              "z_index": -1
+            },
+            {
+              "label": "RIGHT ARM",
+              "x": 0.46354166666666663,
+              "y": 0.45994092212974,
+              "z_index": 0
+            },
+            {
+              "label": "LEFT HIP",
+              "x": 0.5474990169621176,
+              "y": 0.5736938824670182,
+              "z_index": -2
+            },
+            {
+              "label": "RIGHT HIP",
+              "x": 0.4478134178659982,
+              "y": 0.5724945068359374,
+              "z_index": -1
+            },
+            {
+              "label": "LEFT KNEE",
+              "x": 0.621843232669764,
+              "y": 0.6408169567584991,
+              "z_index": -1
+            },
+            {
+              "label": "RIGHT KNEE",
+              "x": 0.3823689332024919,
+              "y": 0.6514751600722472,
+              "z_index": 0
+            },
+            {
+              "label": "LEFT LEG",
+              "x": 0.6228029761049482,
+              "y": 0.7147081473635303,
+              "z_index": -2
+            },
+            {
+              "label": "RIGHT LEG",
+              "x": 0.33227410017409253,
+              "y": 0.6900332470734915,
+              "z_index": -1
+            },
+            {
+              "label": "NECK",
+              "x": 0.5074620130989286,
+              "y": 0.42012874342294204,
+              "z_index": -1
+            }
+          ],
+          [
+            {
+              "label": "NOSE",
+              "x": 0.5877932257674359,
+              "y": 0.39132390067809153,
+              "z_index": -1
+            },
+            {
+              "label": "LEFT EYE",
+              "x": 0.5993400384085598,
+              "y": 0.36572131617167203,
+              "z_index": -2
+            },
+            {
+              "label": "RIGHT EYE",
+              "x": 0.5556176451069337,
+              "y": 0.3716278381869887,
+              "z_index": -1
+            },
+            {
+              "label": "LEFT EAR",
+              "x": 0.5828634801286239,
+              "y": 0.3438936149770463,
+              "z_index": -3
+            },
+            {
+              "label": "RIGHT EAR",
+              "x": 0.49011162145891124,
+              "y": 0.35959262857041147,
+              "z_index": -1
+            },
+            {
+              "label": "LEFT SHOULDER",
+              "x": 0.55959528412118,
+              "y": 0.4110428832333397,
+              "z_index": -2
+            },
+            {
+              "label": "RIGHT SHOULDER",
+              "x": 0.4621652585488778,
+              "y": 0.43619290007174844,
+              "z_index": -1
+            },
+            {
+              "label": "LEFT ELBOW",
+              "x": 0.5617251042966489,
+              "y": 0.45250423944175794,
+              "z_index": -2
+            },
+            {
+              "label": "RIGHT ELBOW",
+              "x": 0.4537128465232888,
+              "y": 0.533022319164634,
+              "z_index": 0
+            },
+            {
+              "label": "LEFT ARM",
+              "x": 0.5924479166666666,
+              "y": 0.4474826388888889,
+              "z_index": -2
+            },
+            {
+              "label": "RIGHT ARM",
+              "x": 0.5112847222222222,
+              "y": 0.4715543159774403,
+              "z_index": 0
+            },
+            {
+              "label": "LEFT HIP",
+              "x": 0.5530205382793038,
+              "y": 0.5757397494830743,
+              "z_index": -2
+            },
+            {
+              "label": "RIGHT HIP",
+              "x": 0.4560935516772723,
+              "y": 0.5766054524315727,
+              "z_index": -1
+            },
+            {
+              "label": "LEFT KNEE",
+              "x": 0.6274974263031725,
+              "y": 0.6420673797320988,
+              "z_index": -1
+            },
+            {
+              "label": "RIGHT KNEE",
+              "x": 0.3924970178588949,
+              "y": 0.6562783174837629,
+              "z_index": 0
+            },
+            {
+              "label": "LEFT LEG",
+              "x": 0.6248332971569012,
+              "y": 0.7164332041240953,
+              "z_index": -2
+            },
+            {
+              "label": "RIGHT LEG",
+              "x": 0.33556339606918667,
+              "y": 0.6924068792205718,
+              "z_index": -1
+            },
+            {
+              "label": "NECK",
+              "x": 0.5156595421506575,
+              "y": 0.42472045526719066,
+              "z_index": -1
+            }
+          ],
+          [
+            {
+              "label": "NOSE",
+              "x": 0.5997895334191896,
+              "y": 0.3934821690846648,
+              "z_index": -1
+            },
+            {
+              "label": "LEFT EYE",
+              "x": 0.6112651982931075,
+              "y": 0.36628543956343224,
+              "z_index": -2
+            },
+            {
+              "label": "RIGHT EYE",
+              "x": 0.567334406974691,
+              "y": 0.3729291320088561,
+              "z_index": -1
+            },
+            {
+              "label": "LEFT EAR",
+              "x": 0.59584573690814,
+              "y": 0.3430678541082199,
+              "z_index": -3
+            },
+            {
+              "label": "RIGHT EAR",
+              "x": 0.5024595016406642,
+              "y": 0.36010350552560005,
+              "z_index": -1
+            },
+            {
+              "label": "LEFT SHOULDER",
+              "x": 0.551971258526599,
+              "y": 0.4092573551288633,
+              "z_index": -3
+            },
+            {
+              "label": "RIGHT SHOULDER",
+              "x": 0.4837947068391023,
+              "y": 0.44661057005739874,
+              "z_index": 0
+            },
+            {
+              "label": "LEFT ELBOW",
+              "x": 0.5439113334373191,
+              "y": 0.44481589155340634,
+              "z_index": -2
+            },
+            {
+              "label": "RIGHT ELBOW",
+              "x": 0.49578277721863107,
+              "y": 0.5497485348450744,
+              "z_index": 0
+            },
+            {
+              "label": "LEFT ARM",
+              "x": 0.5716145833333334,
+              "y": 0.4275173611111111,
+              "z_index": -2
+            },
+            {
+              "label": "RIGHT ARM",
+              "x": 0.5590277777777778,
+              "y": 0.491519593755218,
+              "z_index": 0
+            },
+            {
+              "label": "LEFT HIP",
+              "x": 0.55854205959649,
+              "y": 0.5777856164991304,
+              "z_index": -2
+            },
+            {
+              "label": "RIGHT HIP",
+              "x": 0.4643736854885463,
+              "y": 0.5807163980272081,
+              "z_index": -1
+            },
+            {
+              "label": "LEFT KNEE",
+              "x": 0.633151619936581,
+              "y": 0.6433178027056986,
+              "z_index": -2
+            },
+            {
+              "label": "RIGHT KNEE",
+              "x": 0.40262510251529793,
+              "y": 0.6610814748952787,
+              "z_index": -1
+            },
+            {
+              "label": "LEFT LEG",
+              "x": 0.6268636182088543,
+              "y": 0.7181582608846602,
+              "z_index": -2
+            },
+            {
+              "label": "RIGHT LEG",
+              "x": 0.3388526919642808,
+              "y": 0.6947805113676522,
+              "z_index": -1
+            },
+            {
+              "label": "NECK",
+              "x": 0.5238570712023862,
+              "y": 0.42931216711143927,
+              "z_index": -2
+            }
+          ],
+          [
+            {
+              "label": "NOSE",
+              "x": 0.6117858410709435,
+              "y": 0.39564043749123806,
+              "z_index": -1
+            },
+            {
+              "label": "LEFT EYE",
+              "x": 0.6231903581776553,
+              "y": 0.3668495629551924,
+              "z_index": -2
+            },
+            {
+              "label": "RIGHT EYE",
+              "x": 0.5790511688424481,
+              "y": 0.3742304258307235,
+              "z_index": -1
+            },
+            {
+              "label": "LEFT EAR",
+              "x": 0.6088279936876563,
+              "y": 0.3422420932393935,
+              "z_index": -3
+            },
+            {
+              "label": "RIGHT EAR",
+              "x": 0.5148073818224173,
+              "y": 0.3606143824807886,
+              "z_index": -1
+            },
+            {
+              "label": "LEFT SHOULDER",
+              "x": 0.5443472329320179,
+              "y": 0.40747182702438695,
+              "z_index": -3
+            },
+            {
+              "label": "RIGHT SHOULDER",
+              "x": 0.5054241551293267,
+              "y": 0.45702824004304904,
+              "z_index": 0
+            },
+            {
+              "label": "LEFT ELBOW",
+              "x": 0.5260975625779893,
+              "y": 0.43712754366505474,
+              "z_index": -3
+            },
+            {
+              "label": "RIGHT ELBOW",
+              "x": 0.5378527079139732,
+              "y": 0.5622988085604759,
+              "z_index": 0
+            },
+            {
+              "label": "LEFT ARM",
+              "x": 0.55078125,
+              "y": 0.40755208333333337,
+              "z_index": -3
+            },
+            {
+              "label": "RIGHT ARM",
+              "x": 0.6067708333333333,
+              "y": 0.5198367554630733,
+              "z_index": 0
+            },
+            {
+              "label": "LEFT HIP",
+              "x": 0.5640635809136761,
+              "y": 0.5798314835151864,
+              "z_index": -2
+            },
+            {
+              "label": "RIGHT HIP",
+              "x": 0.47265381929982037,
+              "y": 0.5848273436228434,
+              "z_index": -1
+            },
+            {
+              "label": "LEFT KNEE",
+              "x": 0.6388058135699894,
+              "y": 0.6445682256792983,
+              "z_index": -2
+            },
+            {
+              "label": "RIGHT KNEE",
+              "x": 0.41275318717170095,
+              "y": 0.6658846323067944,
+              "z_index": -1
+            },
+            {
+              "label": "LEFT LEG",
+              "x": 0.6288939392608073,
+              "y": 0.7198833176452252,
+              "z_index": -2
+            },
+            {
+              "label": "RIGHT LEG",
+              "x": 0.34214198785937494,
+              "y": 0.6971541435147325,
+              "z_index": -1
+            },
+            {
+              "label": "NECK",
+              "x": 0.5320546002541151,
+              "y": 0.4339038789556879,
+              "z_index": -2
+            }
+          ],
+          [
+            {
+              "label": "NOSE",
+              "x": 0.6237821487226972,
+              "y": 0.39779870589781136,
+              "z_index": -2
+            },
+            {
+              "label": "LEFT EYE",
+              "x": 0.635115518062203,
+              "y": 0.36741368634695254,
+              "z_index": -3
+            },
+            {
+              "label": "RIGHT EYE",
+              "x": 0.5907679307102053,
+              "y": 0.37553171965259097,
+              "z_index": -1
+            },
+            {
+              "label": "LEFT EAR",
+              "x": 0.6218102504671724,
+              "y": 0.3414163323705671,
+              "z_index": -3
+            },
+            {
+              "label": "RIGHT EAR",
+              "x": 0.5271552620041702,
+              "y": 0.3611252594359771,
+              "z_index": -1
+            },
+            {
+              "label": "LEFT SHOULDER",
+              "x": 0.5367232073374368,
+              "y": 0.4056862989199106,
+              "z_index": -3
+            },
+            {
+              "label": "RIGHT SHOULDER",
+              "x": 0.5270536034195511,
+              "y": 0.4674459100286994,
+              "z_index": 0
+            },
+            {
+              "label": "LEFT ELBOW",
+              "x": 0.5082837917186596,
+              "y": 0.4294391957767032,
+              "z_index": -3
+            },
+            {
+              "label": "RIGHT ELBOW",
+              "x": 0.5799226386093155,
+              "y": 0.5711768205421619,
+              "z_index": 0
+            },
+            {
+              "label": "LEFT ARM",
+              "x": 0.5299479166666666,
+              "y": 0.3875868055555556,
+              "z_index": -3
+            },
+            {
+              "label": "RIGHT ARM",
+              "x": 0.6545138888888888,
+              "y": 0.5554984406383596,
+              "z_index": 0
+            },
+            {
+              "label": "LEFT HIP",
+              "x": 0.5695851022308622,
+              "y": 0.5818773505312426,
+              "z_index": -3
+            },
+            {
+              "label": "RIGHT HIP",
+              "x": 0.48093395311109444,
+              "y": 0.5889382892184787,
+              "z_index": -1
+            },
+            {
+              "label": "LEFT KNEE",
+              "x": 0.6444600072033979,
+              "y": 0.645818648652898,
+              "z_index": -2
+            },
+            {
+              "label": "RIGHT KNEE",
+              "x": 0.422881271828104,
+              "y": 0.6706877897183101,
+              "z_index": -1
+            },
+            {
+              "label": "LEFT LEG",
+              "x": 0.6309242603127603,
+              "y": 0.7216083744057902,
+              "z_index": -3
+            },
+            {
+              "label": "RIGHT LEG",
+              "x": 0.345431283754469,
+              "y": 0.6995277756618129,
+              "z_index": -1
+            },
+            {
+              "label": "NECK",
+              "x": 0.5402521293058439,
+              "y": 0.43849559079993655,
+              "z_index": -2
+            }
+          ],
+          [
+            {
+              "label": "NOSE",
+              "x": 0.6357784563744511,
+              "y": 0.3999569743043846,
+              "z_index": -2
+            },
+            {
+              "label": "LEFT EYE",
+              "x": 0.6470406779467508,
+              "y": 0.36797780973871275,
+              "z_index": -3
+            },
+            {
+              "label": "RIGHT EYE",
+              "x": 0.6024846925779626,
+              "y": 0.37683301347445836,
+              "z_index": -1
+            },
+            {
+              "label": "LEFT EAR",
+              "x": 0.6347925072466887,
+              "y": 0.3405905715017407,
+              "z_index": -3
+            },
+            {
+              "label": "RIGHT EAR",
+              "x": 0.5395031421859231,
+              "y": 0.36163613639116565,
+              "z_index": -1
+            },
+            {
+              "label": "LEFT SHOULDER",
+              "x": 0.5290991817428559,
+              "y": 0.40390077081543424,
+              "z_index": -4
+            },
+            {
+              "label": "RIGHT SHOULDER",
+              "x": 0.5486830517097756,
+              "y": 0.4778635800143497,
+              "z_index": 0
+            },
+            {
+              "label": "LEFT ELBOW",
+              "x": 0.4904700208593298,
+              "y": 0.4217508478883516,
+              "z_index": -4
+            },
+            {
+              "label": "RIGHT ELBOW",
+              "x": 0.6219925693046577,
+              "y": 0.5773291799833528,
+              "z_index": 0
+            },
+            {
+              "label": "LEFT ARM",
+              "x": 0.5091145833333334,
+              "y": 0.3676215277777778,
+              "z_index": -4
+            },
+            {
+              "label": "RIGHT ARM",
+              "x": 0.7022569444444444,
+              "y": 0.5966114308946361,
+              "z_index": 0
+            },
+            {
+              "label": "LEFT HIP",
+              "x": 0.5751066235480484,
+              "y": 0.5839232175472986,
+              "z_index": -3
+            },
+            {
+              "label": "RIGHT HIP",
+              "x": 0.4892140869223685,
+              "y": 0.593049234814114,
+              "z_index": -1
+            },
+            {
+              "label": "LEFT KNEE",
+              "x": 0.6501142008368064,
+              "y": 0.6470690716264977,
+              "z_index": -3
+            },
+            {
+              "label": "RIGHT KNEE",
+              "x": 0.433009356484507,
+              "y": 0.6754909471298258,
+              "z_index": -1
+            },
+            {
+              "label": "LEFT LEG",
+              "x": 0.6329545813647133,
+              "y": 0.7233334311663552,
+              "z_index": -3
+            },
+            {
+              "label": "RIGHT LEG",
+              "x": 0.34872057964956316,
+              "y": 0.7019014078088932,
+              "z_index": -1
+            },
+            {
+              "label": "NECK",
+              "x": 0.5484496583575726,
+              "y": 0.44308730264418517,
+              "z_index": -2
+            }
+          ]
+        ],
+        "template_id": "mannequin",
+        "seed": 191917,
+        "no_background": true
+      },
+      "job_id": "7f073722-2568-4170-9685-34d51b58ed8e",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 3
+      },
+      "request_sha256": "e3bebe54c3411a4012b7c61b4f6d993fd3c9cd37a8647dc24db8e50d9bf32a94",
+      "result_sha256": "8912b2dfdb5f2a8b75c17831b57282494c2ea04df0827f842faa2277ee8f3536",
+      "output_count": 8,
+      "selected_provider_frames": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "selection_note": "Выбраны8 цельных поз удара; контрольные точки заданы только на входе генератора.",
+      "outputs": [
+        {
+          "sha256": "5f2bc0badd0370630444e9894209c281a86462a2097b3290d7f375942e86fd2f",
+          "width": 256,
+          "height": 256,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "sha256": "1a36e27d31019b400b33b46b1b71fe08bace1a6fa940a2d101eaaa73a88c724b",
+          "width": 256,
+          "height": 256,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "sha256": "89f7405a15da9075502bd70a019f4a53aa8e8e36d4b61138fc321d4ea27f9834",
+          "width": 256,
+          "height": 256,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "sha256": "5d5ef69455bc20aa1c9c0394f608f4568683049e5baae14b470ac58a2dc917e4",
+          "width": 256,
+          "height": 256,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "sha256": "b5d7be77712615fc6936e498c527935eab1335a811e401fe365e6aa15fb7904e",
+          "width": 256,
+          "height": 256,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "sha256": "7767071bda48fa94fbaf550110aa7f3249ec65822b222463c53d41195b9b3e86",
+          "width": 256,
+          "height": 256,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "sha256": "6a182f68e9fac57092b1ff4a9dee4d99c614447ce5206ded91e535b07ef2ebcb",
+          "width": 256,
+          "height": 256,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        },
+        {
+          "sha256": "a9d21d561616ab233da68c17df3710f6bd6faf569f801398767f38d87cb9210e",
+          "width": 256,
+          "height": 256,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        }
+      ]
+    }
+  ],
+  "pose_estimation": [
+    {
+      "endpoint": "/estimate-skeleton",
+      "name": "skeleton-start",
+      "usage": {
+        "type": "generations",
+        "generations": 0.1
+      },
+      "response_sha256": "8914e70eb689ba50638e50ca1f1ea9606bb0838042ab9e8f77d9e5ccc8697c4f"
+    },
+    {
+      "endpoint": "/estimate-skeleton",
+      "name": "skeleton-end",
+      "usage": {
+        "type": "generations",
+        "generations": 0.1
+      },
+      "response_sha256": "146b4c82568a358608cd5a1f857b0130bb6ab559b462cd4017fad70c42d61d58"
+    }
+  ],
+  "contract": "Каждый выход — полный PNG тела. Контрольные точки служат только заданием PixelLab, не используются для разрезания, деформации или сборки частей тела в браузере."
+}

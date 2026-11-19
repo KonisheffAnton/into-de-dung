@@ -1,0 +1,120 @@
+{
+  "base_head": "4bb06aa8a53869e362777e7ec520cd9a2d829583",
+  "scope": "standalone whole-body art prototype; no runtime integration",
+  "python_compile": {
+    "status": "PASS",
+    "files": [
+      "prepare_assets.py",
+      "measure_motion.py",
+      "build_preview.py",
+      "check_preview.py"
+    ]
+  },
+  "node_syntax": {
+    "status": "PASS",
+    "files": [
+      "renderer.js",
+      "capture_browser.mjs"
+    ]
+  },
+  "browser": {
+    "pass": true,
+    "checks": 2515,
+    "frame_positions": 53,
+    "gear_combinations": 6,
+    "pose_gear_cases": 318,
+    "grip_qa_images": 68,
+    "report": "browser-validation.json"
+  },
+  "provenance": {
+    "manifest_hashes": 57,
+    "whole_body_pngs": 53,
+    "origins": {
+      "previous": 30,
+      "provider_new": 23
+    },
+    "protected_files": 33,
+    "previous_package_unchanged": true,
+    "renderer_unchanged": true,
+    "constant_root": [
+      -8,
+      0
+    ]
+  },
+  "motion_report": "motion-report.json",
+  "provider_generations": 42.2,
+  "source_hashes": {
+    "prepare_assets.py": "e23e25a58afb12f074861d3a1f7a924573e73a40895f55fc96786d80c2d4dfeb",
+    "measure_motion.py": "e21a4ba29b5c86e1ae681ec315801ab4bb7ddefdf46aa4f7775a2bc75706055c",
+    "build_preview.py": "37df5bfba6c6fa79a69ff1f6ac6986f587e68b8aa6c9ac08780d7d2836904e48",
+    "check_preview.py": "8994c0e1c1a249ef96128de5f73ee4fea15f5174dff3be1633a02933a1617f07",
+    "capture_browser.mjs": "505b79affcd6706e5cc9077110eec0e075d6cdd4f8c09161b7efbade8168a2f4",
+    "renderer.js": "2d84c25a8b620bd421395e533c6aa03e48e3562f621dde9c9d065802f62250ab",
+    "selected_frames.json": "6088e77c0209fae7cb9710750560620fa1e839fe1266972dc2270141026d8a96",
+    "assets/manifest.json": "088cecfe7c56a1afd9faf8549878481574e82065252778636284816ff12cf5d6",
+    "provider.json": "188fcc80bd3c4456ab57b215c32f800f6621055958aa922686cbe034414d95c9",
+    "gallery.html": "10b464f8745235cc310e9408d75bd6e19f6c9aa5f5cb54f31a1157d2b72df0f7"
+  },
+  "artifact_hashes": {
+    "body-only.gif": "cd21369ef5dce090cc1640c65954b50a77feecba10b7a6d1219b0288ebb5f263",
+    "sword.gif": "3171c711901d433c77413159523707cc2de019f11c677bbb95eaaf25ea1bb0ea",
+    "axe.gif": "007f208a4e595f189fa50183c772040875f1f83b65fdebb394f165f5d772131e",
+    "sequence.gif": "67419309881fa4b4474a6a1b545bb783f900246266dd759c8be83a09cfd0fe62",
+    "comparison.gif": "140ae90716fc64abb1941d5b9ee18e36e5280f9855e5ba78ad2dd97279fc3833"
+  },
+  "visual_inspection": [
+    "lead: guided whole-body pose contact sheet",
+    "lead: sword+steel and axe+none frames13,15,17,19,21,23,27,28,29,30,31,32",
+    "reviewer: sword/axe+steel frames13,20,32"
+  ],
+  "review": {
+    "status": "APPROVE",
+    "reviewer": "/root/smooth_strike_review",
+    "report": "review.md",
+    "fixed_source_hashes_match": true,
+    "timeout_bounds_followup": "APPROVE"
+  },
+  "protected_files_unchanged": 33,
+  "archive": {
+    "path": "docs/CODEX_HANDOFF.history-20261119-2.md",
+    "sha256": "ce5250e86cabd8ecdc5ed1c3d440fe74bb762500d546a85f1a78b8e306929c21",
+    "byte_identical_to_previous_handoff": true
+  },
+  "capture_validation": {
+    "initial_dump_dom_timeouts": 2,
+    "replacement": "Node24 CDP capture from isolated headless Edge",
+    "successful_cdp_exports": 2,
+    "final_export_checks": 2515
+  },
+  "not_run": [
+    "Godot import/startup",
+    "full/core",
+    "manual F5/Editor/DPI",
+    "game performance",
+    "CDP timeout fault injection"
+  ],
+  "limitations": [
+    "Artistic acceptance remains open.",
+    "Comparison GIF has10ms intervals and resets the old clip at3330ms loop; use HTML for continuous comparison. Main GIF intervals are at least30ms.",
+    "No second outfit or runtime integration."
+  ],
+  "input_documents": {
+    "AGENTS.md": {
+      "before_chars": 4565,
+      "after_chars": 4565
+    },
+    "docs/CODEX_HANDOFF.md": {
+      "before_chars": 2492,
+      "after_chars": 2487
+    },
+    "docs/PROJECT_CONTEXT.md": {
+      "before_chars": 3734,
+      "after_chars": 3734
+    },
+    "docs/CODEX_WORKFLOW.md": {
+      "before_chars": 4482,
+      "after_chars": 4482
+    }
+  },
+  "input_document_note": "HANDOFF stays within2500 characters and preserves restrictions/open acceptance. PROJECT_CONTEXT exceeds3500 at baseline and is unchanged. Archive is excluded from active-document size comparison."
+}

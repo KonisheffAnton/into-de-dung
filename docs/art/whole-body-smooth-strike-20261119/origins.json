@@ -1,0 +1,577 @@
+{
+  "assets/body/light/idle/000.png": {
+    "source_package": "whole-body-weighted-strike-20261118",
+    "source_path": "assets/body/light/idle/000.png",
+    "source_origin": {
+      "job_id": "5b162165-6ebc-407c-894c-5297212187c2",
+      "request_id": 3,
+      "provider_frame": 0,
+      "sha256": "4b95d14342e0b58186754b137169114e07ddddc2a1826662042deca86c56953c",
+      "whole_provider_png_unchanged": true
+    },
+    "sha256": "4b95d14342e0b58186754b137169114e07ddddc2a1826662042deca86c56953c",
+    "whole_provider_png_unchanged": true
+  },
+  "assets/body/light/idle/001.png": {
+    "source_package": "whole-body-weighted-strike-20261118",
+    "source_path": "assets/body/light/idle/001.png",
+    "source_origin": {
+      "job_id": "5b162165-6ebc-407c-894c-5297212187c2",
+      "request_id": 3,
+      "provider_frame": 1,
+      "sha256": "0babc3749f3d94d664519e72fce63924d547051a4a8da825611f30c5e418cf1c",
+      "whole_provider_png_unchanged": true
+    },
+    "sha256": "0babc3749f3d94d664519e72fce63924d547051a4a8da825611f30c5e418cf1c",
+    "whole_provider_png_unchanged": true
+  },
+  "assets/body/light/idle/002.png": {
+    "source_package": "whole-body-weighted-strike-20261118",
+    "source_path": "assets/body/light/idle/002.png",
+    "source_origin": {
+      "job_id": "5b162165-6ebc-407c-894c-5297212187c2",
+      "request_id": 3,
+      "provider_frame": 2,
+      "sha256": "0f219672dd6889f275a313a33e3be31ddcbacaa333efef1e8910e8405ac964fd",
+      "whole_provider_png_unchanged": true
+    },
+    "sha256": "0f219672dd6889f275a313a33e3be31ddcbacaa333efef1e8910e8405ac964fd",
+    "whole_provider_png_unchanged": true
+  },
+  "assets/body/light/idle/003.png": {
+    "source_package": "whole-body-weighted-strike-20261118",
+    "source_path": "assets/body/light/idle/003.png",
+    "source_origin": {
+      "job_id": "5b162165-6ebc-407c-894c-5297212187c2",
+      "request_id": 3,
+      "provider_frame": 3,
+      "sha256": "0e7169a6f6ed509181ca77105bb988703815fbf08420aac52b9b5cdde3f945be",
+      "whole_provider_png_unchanged": true
+    },
+    "sha256": "0e7169a6f6ed509181ca77105bb988703815fbf08420aac52b9b5cdde3f945be",
+    "whole_provider_png_unchanged": true
+  },
+  "assets/body/light/idle/004.png": {
+    "source_package": "whole-body-weighted-strike-20261118",
+    "source_path": "assets/body/light/idle/004.png",
+    "source_origin": {
+      "job_id": "5b162165-6ebc-407c-894c-5297212187c2",
+      "request_id": 3,
+      "provider_frame": 4,
+      "sha256": "2d1531307b7f6f74eb1df325edc39580cf2269bbf14716d225c27a2f00d83d77",
+      "whole_provider_png_unchanged": true
+    },
+    "sha256": "2d1531307b7f6f74eb1df325edc39580cf2269bbf14716d225c27a2f00d83d77",
+    "whole_provider_png_unchanged": true
+  },
+  "assets/body/light/idle/005.png": {
+    "source_package": "whole-body-weighted-strike-20261118",
+    "source_path": "assets/body/light/idle/005.png",
+    "source_origin": {
+      "job_id": "5b162165-6ebc-407c-894c-5297212187c2",
+      "request_id": 3,
+      "provider_frame": 5,
+      "sha256": "a4d5c50f11cde2a0563213e3c122653472363a26ee1836d9a4c31bc37896f9d2",
+      "whole_provider_png_unchanged": true
+    },
+    "sha256": "a4d5c50f11cde2a0563213e3c122653472363a26ee1836d9a4c31bc37896f9d2",
+    "whole_provider_png_unchanged": true
+  },
+  "assets/body/light/idle/006.png": {
+    "source_package": "whole-body-weighted-strike-20261118",
+    "source_path": "assets/body/light/idle/006.png",
+    "source_origin": {
+      "job_id": "5b162165-6ebc-407c-894c-5297212187c2",
+      "request_id": 3,
+      "provider_frame": 6,
+      "sha256": "cfa6fcd17ae93eefe3ba77b4671aa801f36545bf84f5f5c3f6440760a884a2b7",
+      "whole_provider_png_unchanged": true
+    },
+    "sha256": "cfa6fcd17ae93eefe3ba77b4671aa801f36545bf84f5f5c3f6440760a884a2b7",
+    "whole_provider_png_unchanged": true
+  },
+  "assets/body/light/idle/007.png": {
+    "source_package": "whole-body-weighted-strike-20261118",
+    "source_path": "assets/body/light/idle/007.png",
+    "source_origin": {
+      "job_id": "5b162165-6ebc-407c-894c-5297212187c2",
+      "request_id": 3,
+      "provider_frame": 7,
+      "sha256": "a89a7b87f8cfd754aa457331a0e00fe40257c462fedce8205e2cc80327cda59e",
+      "whole_provider_png_unchanged": true
+    },
+    "sha256": "a89a7b87f8cfd754aa457331a0e00fe40257c462fedce8205e2cc80327cda59e",
+    "whole_provider_png_unchanged": true
+  },
+  "assets/body/light/idle/008.png": {
+    "source_package": "whole-body-weighted-strike-20261118",
+    "source_path": "assets/body/light/idle/008.png",
+    "source_origin": {
+      "job_id": "5b162165-6ebc-407c-894c-5297212187c2",
+      "request_id": 3,
+      "provider_frame": 8,
+      "sha256": "ed1ca520ceedb734beb9395e93a1e2aa7367aa869c8e3b06879de1d5757d28ff",
+      "whole_provider_png_unchanged": true
+    },
+    "sha256": "ed1ca520ceedb734beb9395e93a1e2aa7367aa869c8e3b06879de1d5757d28ff",
+    "whole_provider_png_unchanged": true
+  },
+  "assets/body/light/idle/009.png": {
+    "source_package": "whole-body-weighted-strike-20261118",
+    "source_path": "assets/body/light/idle/009.png",
+    "source_origin": {
+      "job_id": "5b162165-6ebc-407c-894c-5297212187c2",
+      "request_id": 3,
+      "provider_frame": 9,
+      "sha256": "6e6a3dfad2578ebc1671c3658b8225e97aa4def24ca928cc848869975ad139df",
+      "whole_provider_png_unchanged": true
+    },
+    "sha256": "6e6a3dfad2578ebc1671c3658b8225e97aa4def24ca928cc848869975ad139df",
+    "whole_provider_png_unchanged": true
+  },
+  "assets/body/light/idle/010.png": {
+    "source_package": "whole-body-weighted-strike-20261118",
+    "source_path": "assets/body/light/idle/010.png",
+    "source_origin": {
+      "job_id": "5b162165-6ebc-407c-894c-5297212187c2",
+      "request_id": 3,
+      "provider_frame": 10,
+      "sha256": "ea2ceae1512187fd101228b98a536a660ba1acf00436b7824390b38045128091",
+      "whole_provider_png_unchanged": true
+    },
+    "sha256": "ea2ceae1512187fd101228b98a536a660ba1acf00436b7824390b38045128091",
+    "whole_provider_png_unchanged": true
+  },
+  "assets/body/light/idle/011.png": {
+    "source_package": "whole-body-weighted-strike-20261118",
+    "source_path": "assets/body/light/idle/011.png",
+    "source_origin": {
+      "job_id": "5b162165-6ebc-407c-894c-5297212187c2",
+      "request_id": 3,
+      "provider_frame": 11,
+      "sha256": "6d5e82159be4a41d4a13dc25f028f6c65bfdcd168948522bd546d46ac2af88a3",
+      "whole_provider_png_unchanged": true
+    },
+    "sha256": "6d5e82159be4a41d4a13dc25f028f6c65bfdcd168948522bd546d46ac2af88a3",
+    "whole_provider_png_unchanged": true
+  },
+  "assets/body/light/idle/012.png": {
+    "source_package": "whole-body-weighted-strike-20261118",
+    "source_path": "assets/body/light/idle/000.png",
+    "source_origin": {
+      "job_id": "5b162165-6ebc-407c-894c-5297212187c2",
+      "request_id": 3,
+      "provider_frame": 0,
+      "sha256": "4b95d14342e0b58186754b137169114e07ddddc2a1826662042deca86c56953c",
+      "whole_provider_png_unchanged": true
+    },
+    "sha256": "4b95d14342e0b58186754b137169114e07ddddc2a1826662042deca86c56953c",
+    "whole_provider_png_unchanged": true
+  },
+  "assets/body/light/attack/000.png": {
+    "source_package": "whole-body-weighted-strike-20261118",
+    "source_path": "assets/body/light/attack/000.png",
+    "source_origin": {
+      "job_id": "0b3e85a5-10ea-4ecf-83c1-4245a957b3d2",
+      "request_id": 2,
+      "provider_frame": 0,
+      "sha256": "4b95d14342e0b58186754b137169114e07ddddc2a1826662042deca86c56953c",
+      "whole_provider_png_unchanged": true
+    },
+    "sha256": "4b95d14342e0b58186754b137169114e07ddddc2a1826662042deca86c56953c",
+    "whole_provider_png_unchanged": true
+  },
+  "assets/body/light/attack/001.png": {
+    "source_package": "whole-body-weighted-strike-20261118",
+    "source_path": "assets/body/light/attack/001.png",
+    "source_origin": {
+      "job_id": "0b3e85a5-10ea-4ecf-83c1-4245a957b3d2",
+      "request_id": 2,
+      "provider_frame": 1,
+      "sha256": "42a7b6086e8e311b21cebb1a30bb0258ed9f1c202e1b87af5b7bd91e63642cdf",
+      "whole_provider_png_unchanged": true
+    },
+    "sha256": "42a7b6086e8e311b21cebb1a30bb0258ed9f1c202e1b87af5b7bd91e63642cdf",
+    "whole_provider_png_unchanged": true
+  },
+  "assets/body/light/attack/002.png": {
+    "source_package": "whole-body-weighted-strike-20261118",
+    "source_path": "assets/body/light/attack/002.png",
+    "source_origin": {
+      "job_id": "0b3e85a5-10ea-4ecf-83c1-4245a957b3d2",
+      "request_id": 2,
+      "provider_frame": 2,
+      "sha256": "c9b09c655f521d5aeaa507c5c9a24799bf0e3ae328d27e42c0af1037a4fcf082",
+      "whole_provider_png_unchanged": true
+    },
+    "sha256": "c9b09c655f521d5aeaa507c5c9a24799bf0e3ae328d27e42c0af1037a4fcf082",
+    "whole_provider_png_unchanged": true
+  },
+  "assets/body/light/attack/003.png": {
+    "source_package": "whole-body-weighted-strike-20261118",
+    "source_path": "assets/body/light/attack/003.png",
+    "source_origin": {
+      "job_id": "0b3e85a5-10ea-4ecf-83c1-4245a957b3d2",
+      "request_id": 2,
+      "provider_frame": 3,
+      "sha256": "48ffa090684520b6d5d097b1ecd803492053dfa1a4791fc036c1418cd2100082",
+      "whole_provider_png_unchanged": true
+    },
+    "sha256": "48ffa090684520b6d5d097b1ecd803492053dfa1a4791fc036c1418cd2100082",
+    "whole_provider_png_unchanged": true
+  },
+  "assets/body/light/attack/004.png": {
+    "job_id": "d534ac4b-a48a-4ca7-83b2-8a32ba099e78",
+    "request_id": 3,
+    "provider_frame": 1,
+    "sha256": "8943a124ea204320ebb90e9898ca9f30f3755dc1aa948fc355c3f24b0048d1a8",
+    "whole_provider_png_unchanged": true
+  },
+  "assets/body/light/attack/005.png": {
+    "source_package": "whole-body-weighted-strike-20261118",
+    "source_path": "assets/body/light/attack/004.png",
+    "source_origin": {
+      "job_id": "0b3e85a5-10ea-4ecf-83c1-4245a957b3d2",
+      "request_id": 2,
+      "provider_frame": 4,
+      "sha256": "904b7f6af9fac7116ec21f079274589b1892a5f88722cccebb59e972420ae800",
+      "whole_provider_png_unchanged": true
+    },
+    "sha256": "904b7f6af9fac7116ec21f079274589b1892a5f88722cccebb59e972420ae800",
+    "whole_provider_png_unchanged": true
+  },
+  "assets/body/light/attack/006.png": {
+    "job_id": "d534ac4b-a48a-4ca7-83b2-8a32ba099e78",
+    "request_id": 3,
+    "provider_frame": 2,
+    "sha256": "9c35ccb16173df88cfd8bff29c356195149e4e815fe080abd3613aed5f965440",
+    "whole_provider_png_unchanged": true
+  },
+  "assets/body/light/attack/007.png": {
+    "job_id": "d534ac4b-a48a-4ca7-83b2-8a32ba099e78",
+    "request_id": 3,
+    "provider_frame": 3,
+    "sha256": "f488beff327b935cd1a9ddad87892a17527bd72d2058de09cff9565b5d46a64b",
+    "whole_provider_png_unchanged": true
+  },
+  "assets/body/light/attack/008.png": {
+    "source_package": "whole-body-weighted-strike-20261118",
+    "source_path": "assets/body/light/attack/005.png",
+    "source_origin": {
+      "job_id": "0b3e85a5-10ea-4ecf-83c1-4245a957b3d2",
+      "request_id": 2,
+      "provider_frame": 5,
+      "sha256": "6fb23d2ad8c0c4906ce1ee26e62b98da3e7e71c37e18a92ce6004ee131d61804",
+      "whole_provider_png_unchanged": true
+    },
+    "sha256": "6fb23d2ad8c0c4906ce1ee26e62b98da3e7e71c37e18a92ce6004ee131d61804",
+    "whole_provider_png_unchanged": true
+  },
+  "assets/body/light/attack/009.png": {
+    "source_package": "whole-body-weighted-strike-20261118",
+    "source_path": "assets/body/light/attack/006.png",
+    "source_origin": {
+      "job_id": "0b3e85a5-10ea-4ecf-83c1-4245a957b3d2",
+      "request_id": 2,
+      "provider_frame": 6,
+      "sha256": "8e6157560bbad1752a65d39359c887115bd9c27dc3a281ab19860f6dd88c268a",
+      "whole_provider_png_unchanged": true
+    },
+    "sha256": "8e6157560bbad1752a65d39359c887115bd9c27dc3a281ab19860f6dd88c268a",
+    "whole_provider_png_unchanged": true
+  },
+  "assets/body/light/attack/010.png": {
+    "source_package": "whole-body-weighted-strike-20261118",
+    "source_path": "assets/body/light/attack/007.png",
+    "source_origin": {
+      "job_id": "0b3e85a5-10ea-4ecf-83c1-4245a957b3d2",
+      "request_id": 2,
+      "provider_frame": 7,
+      "sha256": "5367ac204ed4d1c7d3884ddfe84b0dcd0b5194797a501968e272b755a7d3a618",
+      "whole_provider_png_unchanged": true
+    },
+    "sha256": "5367ac204ed4d1c7d3884ddfe84b0dcd0b5194797a501968e272b755a7d3a618",
+    "whole_provider_png_unchanged": true
+  },
+  "assets/body/light/attack/011.png": {
+    "source_package": "whole-body-weighted-strike-20261118",
+    "source_path": "assets/body/light/attack/012.png",
+    "source_origin": {
+      "job_id": "0b3e85a5-10ea-4ecf-83c1-4245a957b3d2",
+      "request_id": 2,
+      "provider_frame": 12,
+      "sha256": "9ac89bb4173edae03b79c0d0e6a57e71256beb1f14f2687287502dc246831b4a",
+      "whole_provider_png_unchanged": true
+    },
+    "sha256": "9ac89bb4173edae03b79c0d0e6a57e71256beb1f14f2687287502dc246831b4a",
+    "whole_provider_png_unchanged": true
+  },
+  "assets/body/light/attack/012.png": {
+    "source_package": "whole-body-weighted-strike-20261118",
+    "source_path": "assets/body/light/attack/013.png",
+    "source_origin": {
+      "job_id": "0b3e85a5-10ea-4ecf-83c1-4245a957b3d2",
+      "request_id": 2,
+      "provider_frame": 13,
+      "sha256": "245cd141f2774b6df062e520f75358471c83fc04fa32304e6e04ab3724230013",
+      "whole_provider_png_unchanged": true
+    },
+    "sha256": "245cd141f2774b6df062e520f75358471c83fc04fa32304e6e04ab3724230013",
+    "whole_provider_png_unchanged": true
+  },
+  "assets/body/light/attack/013.png": {
+    "source_package": "whole-body-weighted-strike-20261118",
+    "source_path": "assets/body/light/attack/014.png",
+    "source_origin": {
+      "job_id": "0b3e85a5-10ea-4ecf-83c1-4245a957b3d2",
+      "request_id": 2,
+      "provider_frame": 14,
+      "sha256": "db4c0c943b8657e3f6dc54b7b1dbeb4d4d5df41073a4f9690943970a9e7ed7f7",
+      "whole_provider_png_unchanged": true
+    },
+    "sha256": "db4c0c943b8657e3f6dc54b7b1dbeb4d4d5df41073a4f9690943970a9e7ed7f7",
+    "whole_provider_png_unchanged": true
+  },
+  "assets/body/light/attack/014.png": {
+    "job_id": "7f073722-2568-4170-9685-34d51b58ed8e",
+    "request_id": 7,
+    "provider_frame": 0,
+    "sha256": "5f2bc0badd0370630444e9894209c281a86462a2097b3290d7f375942e86fd2f",
+    "whole_provider_png_unchanged": true
+  },
+  "assets/body/light/attack/015.png": {
+    "job_id": "7f073722-2568-4170-9685-34d51b58ed8e",
+    "request_id": 7,
+    "provider_frame": 1,
+    "sha256": "1a36e27d31019b400b33b46b1b71fe08bace1a6fa940a2d101eaaa73a88c724b",
+    "whole_provider_png_unchanged": true
+  },
+  "assets/body/light/attack/016.png": {
+    "job_id": "7f073722-2568-4170-9685-34d51b58ed8e",
+    "request_id": 7,
+    "provider_frame": 2,
+    "sha256": "89f7405a15da9075502bd70a019f4a53aa8e8e36d4b61138fc321d4ea27f9834",
+    "whole_provider_png_unchanged": true
+  },
+  "assets/body/light/attack/017.png": {
+    "job_id": "7f073722-2568-4170-9685-34d51b58ed8e",
+    "request_id": 7,
+    "provider_frame": 3,
+    "sha256": "5d5ef69455bc20aa1c9c0394f608f4568683049e5baae14b470ac58a2dc917e4",
+    "whole_provider_png_unchanged": true
+  },
+  "assets/body/light/attack/018.png": {
+    "job_id": "7f073722-2568-4170-9685-34d51b58ed8e",
+    "request_id": 7,
+    "provider_frame": 4,
+    "sha256": "b5d7be77712615fc6936e498c527935eab1335a811e401fe365e6aa15fb7904e",
+    "whole_provider_png_unchanged": true
+  },
+  "assets/body/light/attack/019.png": {
+    "job_id": "7f073722-2568-4170-9685-34d51b58ed8e",
+    "request_id": 7,
+    "provider_frame": 5,
+    "sha256": "7767071bda48fa94fbaf550110aa7f3249ec65822b222463c53d41195b9b3e86",
+    "whole_provider_png_unchanged": true
+  },
+  "assets/body/light/attack/020.png": {
+    "job_id": "7f073722-2568-4170-9685-34d51b58ed8e",
+    "request_id": 7,
+    "provider_frame": 6,
+    "sha256": "6a182f68e9fac57092b1ff4a9dee4d99c614447ce5206ded91e535b07ef2ebcb",
+    "whole_provider_png_unchanged": true
+  },
+  "assets/body/light/attack/021.png": {
+    "job_id": "7f073722-2568-4170-9685-34d51b58ed8e",
+    "request_id": 7,
+    "provider_frame": 7,
+    "sha256": "a9d21d561616ab233da68c17df3710f6bd6faf569f801398767f38d87cb9210e",
+    "whole_provider_png_unchanged": true
+  },
+  "assets/body/light/attack/022.png": {
+    "source_package": "whole-body-weighted-strike-20261118",
+    "source_path": "assets/body/light/attack/016.png",
+    "source_origin": {
+      "job_id": "0b3e85a5-10ea-4ecf-83c1-4245a957b3d2",
+      "request_id": 2,
+      "provider_frame": 16,
+      "sha256": "725a07859093453f34ad9c73b07c64069654e0b4e0cabb6f2af45d65eebb9ac6",
+      "whole_provider_png_unchanged": true
+    },
+    "sha256": "725a07859093453f34ad9c73b07c64069654e0b4e0cabb6f2af45d65eebb9ac6",
+    "whole_provider_png_unchanged": true
+  },
+  "assets/body/light/attack/023.png": {
+    "source_package": "whole-body-weighted-strike-20261118",
+    "source_path": "assets/body/light/attack/017.png",
+    "source_origin": {
+      "job_id": "0b3e85a5-10ea-4ecf-83c1-4245a957b3d2",
+      "request_id": 2,
+      "provider_frame": 17,
+      "sha256": "501affd5bc7efb92f262a189624baa0e6dd51563224dabab7c46a5abc95c3ff0",
+      "whole_provider_png_unchanged": true
+    },
+    "sha256": "501affd5bc7efb92f262a189624baa0e6dd51563224dabab7c46a5abc95c3ff0",
+    "whole_provider_png_unchanged": true
+  },
+  "assets/body/light/attack/024.png": {
+    "source_package": "whole-body-weighted-strike-20261118",
+    "source_path": "assets/body/light/attack/019.png",
+    "source_origin": {
+      "job_id": "0b3e85a5-10ea-4ecf-83c1-4245a957b3d2",
+      "request_id": 2,
+      "provider_frame": 19,
+      "sha256": "a9df1c3fad029d56c500e31e7dd8ce27ce09bc78529adabd3b498fc26c0a91cb",
+      "whole_provider_png_unchanged": true
+    },
+    "sha256": "a9df1c3fad029d56c500e31e7dd8ce27ce09bc78529adabd3b498fc26c0a91cb",
+    "whole_provider_png_unchanged": true
+  },
+  "assets/body/light/attack/025.png": {
+    "source_package": "whole-body-weighted-strike-20261118",
+    "source_path": "assets/body/light/attack/021.png",
+    "source_origin": {
+      "job_id": "0b3e85a5-10ea-4ecf-83c1-4245a957b3d2",
+      "request_id": 2,
+      "provider_frame": 21,
+      "sha256": "aa29539bf69ec06fec4d364f785da77077831d3861b00fb0ac87a15dd5490c48",
+      "whole_provider_png_unchanged": true
+    },
+    "sha256": "aa29539bf69ec06fec4d364f785da77077831d3861b00fb0ac87a15dd5490c48",
+    "whole_provider_png_unchanged": true
+  },
+  "assets/body/light/attack/026.png": {
+    "source_package": "whole-body-weighted-strike-20261118",
+    "source_path": "assets/body/light/attack/024.png",
+    "source_origin": {
+      "job_id": "0b3e85a5-10ea-4ecf-83c1-4245a957b3d2",
+      "request_id": 2,
+      "provider_frame": 24,
+      "sha256": "57519c63153bf53184397fbac13ef7ead0dbf6cc0b94516b01447f65710ab5df",
+      "whole_provider_png_unchanged": true
+    },
+    "sha256": "57519c63153bf53184397fbac13ef7ead0dbf6cc0b94516b01447f65710ab5df",
+    "whole_provider_png_unchanged": true
+  },
+  "assets/body/light/attack/027.png": {
+    "job_id": "65087dc8-d097-4604-8752-1e3382bd8cb3",
+    "request_id": 2,
+    "provider_frame": 1,
+    "sha256": "b2f8b2415cdc01b583418bf8a815f4a105f443e58413858fdb6b24ed93400127",
+    "whole_provider_png_unchanged": true
+  },
+  "assets/body/light/attack/028.png": {
+    "job_id": "65087dc8-d097-4604-8752-1e3382bd8cb3",
+    "request_id": 2,
+    "provider_frame": 2,
+    "sha256": "cac4f3b36e0fdaeccacae0e6b5a273f67fdb711fc5d04db01d094d55c1185105",
+    "whole_provider_png_unchanged": true
+  },
+  "assets/body/light/attack/029.png": {
+    "job_id": "65087dc8-d097-4604-8752-1e3382bd8cb3",
+    "request_id": 2,
+    "provider_frame": 3,
+    "sha256": "7ec53a0b6450bd63b95e38407dd1be9c42c921accfdd8700ca05c615428e4402",
+    "whole_provider_png_unchanged": true
+  },
+  "assets/body/light/attack/030.png": {
+    "job_id": "65087dc8-d097-4604-8752-1e3382bd8cb3",
+    "request_id": 2,
+    "provider_frame": 4,
+    "sha256": "64ed01b195471b78199f396232192960ee07385420775a301adcebb9f225e16a",
+    "whole_provider_png_unchanged": true
+  },
+  "assets/body/light/attack/031.png": {
+    "job_id": "65087dc8-d097-4604-8752-1e3382bd8cb3",
+    "request_id": 2,
+    "provider_frame": 5,
+    "sha256": "f67910fcf0ac8f5f4a4416c4ae2d8ab70a540ee7fd96d54e373964d48ab9ee63",
+    "whole_provider_png_unchanged": true
+  },
+  "assets/body/light/attack/032.png": {
+    "job_id": "65087dc8-d097-4604-8752-1e3382bd8cb3",
+    "request_id": 2,
+    "provider_frame": 6,
+    "sha256": "931bdcf8dfadc009268390de91e0cc39c31d47adc62aad9cfee470129f21f882",
+    "whole_provider_png_unchanged": true
+  },
+  "assets/body/light/attack/033.png": {
+    "job_id": "65087dc8-d097-4604-8752-1e3382bd8cb3",
+    "request_id": 2,
+    "provider_frame": 7,
+    "sha256": "e052124c717f50801e027eac69903110fc296d3cd214c4b11255e611048f88b3",
+    "whole_provider_png_unchanged": true
+  },
+  "assets/body/light/attack/034.png": {
+    "job_id": "65087dc8-d097-4604-8752-1e3382bd8cb3",
+    "request_id": 2,
+    "provider_frame": 8,
+    "sha256": "dce8f87734046465f8752bcb0e1e831398ce214ec3fd6d4ef1c84777ce5f48a3",
+    "whole_provider_png_unchanged": true
+  },
+  "assets/body/light/attack/035.png": {
+    "job_id": "65087dc8-d097-4604-8752-1e3382bd8cb3",
+    "request_id": 2,
+    "provider_frame": 9,
+    "sha256": "35495aef23ece3e9d1cb354fe76f75836fa1acd674bed73779292af1061f982b",
+    "whole_provider_png_unchanged": true
+  },
+  "assets/body/light/attack/036.png": {
+    "job_id": "65087dc8-d097-4604-8752-1e3382bd8cb3",
+    "request_id": 2,
+    "provider_frame": 10,
+    "sha256": "bbaaca8c2f87f8cdcda8b16f2650d807a4b4df80d989a893f98d382110ed6a25",
+    "whole_provider_png_unchanged": true
+  },
+  "assets/body/light/attack/037.png": {
+    "job_id": "65087dc8-d097-4604-8752-1e3382bd8cb3",
+    "request_id": 2,
+    "provider_frame": 11,
+    "sha256": "d79b1db0662128cd128eada544475ef6ebc302a2156dbbebc1574258344245bf",
+    "whole_provider_png_unchanged": true
+  },
+  "assets/body/light/attack/038.png": {
+    "job_id": "65087dc8-d097-4604-8752-1e3382bd8cb3",
+    "request_id": 2,
+    "provider_frame": 12,
+    "sha256": "67476583d963c4d1dc2469bcee91f3fdffc9e84c82f6b84301304a420f5471bf",
+    "whole_provider_png_unchanged": true
+  },
+  "assets/body/light/attack/039.png": {
+    "source_package": "whole-body-weighted-strike-20261118",
+    "source_path": "assets/body/light/idle/000.png",
+    "source_origin": {
+      "job_id": "5b162165-6ebc-407c-894c-5297212187c2",
+      "request_id": 3,
+      "provider_frame": 0,
+      "sha256": "4b95d14342e0b58186754b137169114e07ddddc2a1826662042deca86c56953c",
+      "whole_provider_png_unchanged": true
+    },
+    "sha256": "4b95d14342e0b58186754b137169114e07ddddc2a1826662042deca86c56953c",
+    "whole_provider_png_unchanged": true
+  },
+  "assets/sword.png": {
+    "source_package": "whole-body-weighted-strike-20261118",
+    "source_path": "assets/sword.png",
+    "sha256": "ff2a96068b37fb89af48184fd8b13c3861e2ab7b66d628c31ae41adb20459063",
+    "unchanged": true
+  },
+  "assets/axe.png": {
+    "source_package": "whole-body-weighted-strike-20261118",
+    "source_path": "assets/axe.png",
+    "sha256": "ef89e45775c1745f4dda71bb69943493071d7de53a83fedaec35bda18950d2ab",
+    "unchanged": true
+  },
+  "assets/helmet_front.png": {
+    "source_package": "whole-body-weighted-strike-20261118",
+    "source_path": "assets/helmet_front.png",
+    "sha256": "5a8ec7152265e6d155557c4623b8aa8e4e2ad73e024ff08b79348b3bf4802825",
+    "unchanged": true
+  },
+  "assets/helmet_profile.png": {
+    "source_package": "whole-body-weighted-strike-20261118",
+    "source_path": "assets/helmet_profile.png",
+    "sha256": "30a41010d8ec4be99db8a203ef130f095a02e08fafca536f7e0c4a26a8040af2",
+    "unchanged": true
+  }
+}
