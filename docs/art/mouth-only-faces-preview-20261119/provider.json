@@ -1,0 +1,551 @@
+{
+  "provider": "PixelLab",
+  "api": "https://api.pixellab.ai/v2",
+  "raw_cache": "D:/Codex/home/generated_images/mouth-only-faces-preview-20261119",
+  "openapi_sha256": "16b8c6ed406266caac0727cdf1bb009ef708bf380e3215b2008ba4fdd235cd97",
+  "capabilities_sha256": "1f6fbf714aa659a33cc4d8fe9feaa364bc81df5ee3dac7b4a4939175c5426e9b",
+  "generation_total": 41,
+  "monster_scope": "Excluded by latest user clarification; runtime monsters never edited.",
+  "selected_jobs": [
+    8,
+    9,
+    10,
+    11,
+    13
+  ],
+  "jobs": [
+    {
+      "id": 1,
+      "key": "red_bastion",
+      "label": "Воин",
+      "source": "assets/art_presets/approved/character_skins_v1/red_bastion/still.png",
+      "source_sha256": "d8117c67d3b59c5943ea850b8802ff1ce895ef919ad65c06d730d0716b6146a8",
+      "endpoint": "/edit-image-pixen",
+      "parameters_without_images": {
+        "description": "Edit ONLY the face: erase ALL eyes, eyebrows, eyelids, eye sockets and nose. Fill their area with uninterrupted matching skin color. The face has ONLY a small dark mouth. No mask, no visor, no blindfold. Preserve orange hair and beard outline, ears, red scarf, sword and armor. Keep the same pose, proportions, palette, pixel art and all non-face details. Transparent background.",
+        "width": 256,
+        "height": 256,
+        "seed": 19111901,
+        "no_background": true
+      },
+      "status": "completed",
+      "job_id": "bc383965-1e92-4a40-ac1c-e2253deee6c3",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 1
+      },
+      "selection": "not_selected",
+      "note": "Mouth disappeared; non-face pixels also changed. Not used.",
+      "request_sha256": "16759135d6960f6660668a9576ffe0f19b87b78c820b10d5de742a36e247dda4",
+      "outputs": [
+        {
+          "sha256": "1d8ca89eb1d704de4bdb7c53d6bbcd3d24be152151736bc40d82afda099b7640",
+          "width": 256,
+          "height": 256,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "key": "watch_shield",
+      "label": "Щитоносец",
+      "source": "assets/art_presets/approved/character_skins_v1/watch_shield/still.png",
+      "source_sha256": "3b9c5fd3106551659bc699f7f5c0489f7d2f40490d51f608bcbb97631f1529bc",
+      "endpoint": "/edit-image-pixen",
+      "parameters_without_images": {
+        "description": "KEEP or ADD a clearly visible dark horizontal MOUTH, about 5 pixels wide, on the lower face. This mouth is the ONLY facial feature. Remove both eyes, eyebrows, eyelids, sockets and nose, filling them with plain matching skin. No mask or visor. Preserve brown hair, ears, red scarf, shield, sword and armor. Keep the same pose, proportions, palette, pixel art and all non-face details. Transparent background.",
+        "width": 256,
+        "height": 256,
+        "seed": 19111902,
+        "no_background": true
+      },
+      "status": "completed",
+      "job_id": "0ec45a40-ea57-4d97-9be5-4d8915b0e492",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 1
+      },
+      "selection": "not_selected",
+      "note": "Whole-image edit also changed non-face pixels; not used.",
+      "request_sha256": "3da13dfd0f727889fcebae4bcae01fbc34ac6eb107632eb33370b257702ebc2a",
+      "outputs": [
+        {
+          "sha256": "f97db8af804310ef6f7d95e055944956e5b51e4b5dd0f229e159b145500454a6",
+          "width": 256,
+          "height": 256,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "key": "silver_ranger",
+      "label": "Лучница",
+      "source": "assets/art_presets/approved/character_skins_v1/silver_ranger/still.png",
+      "source_sha256": "bb6e48ce147391d03545fbabf3dafff03993e9c9bb4cea5ce2686a03a2d4fe15",
+      "endpoint": "/edit-image-pixen",
+      "parameters_without_images": {
+        "description": "KEEP or ADD a clearly visible dark horizontal MOUTH, about 5 pixels wide, on the lower face. This mouth is the ONLY facial feature. Remove both eyes, eyebrows, eyelids, sockets and nose, filling them with plain matching skin. No mask or visor. Preserve silver hair, ears, green cloak, bow, quiver and armor. Keep the same pose, proportions, palette, pixel art and all non-face details. Transparent background.",
+        "width": 256,
+        "height": 256,
+        "seed": 19111903,
+        "no_background": true
+      },
+      "status": "completed",
+      "job_id": "eca19ad7-57cf-4464-9858-c72f6899913d",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 1
+      },
+      "selection": "not_selected",
+      "note": "Whole-image edit also changed non-face pixels; not used.",
+      "request_sha256": "9c4d86c60ca6989ce9add4738eebf927fe95cdc95e188b35d1dcda3a00b1828a",
+      "outputs": [
+        {
+          "sha256": "6d3412b4eed367987f0ec7150cb632fbe525c008c7c27111b4471cd04be5b17b",
+          "width": 256,
+          "height": 256,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "key": "short_cape",
+      "label": "Разбойник",
+      "source": "assets/art_presets/approved/character_skins_v1/short_cape/still.png",
+      "source_sha256": "35764f92ca2d09bd4d37a91e9c6d5c3682fa156b1d593ebaceba8a9c36ba0c0e",
+      "endpoint": "/edit-image-pixen",
+      "parameters_without_images": {
+        "description": "KEEP or ADD a clearly visible dark horizontal MOUTH, about 5 pixels wide, on the lower face. This mouth is the ONLY facial feature. Remove both eyes, eyebrows, eyelids, sockets and nose, filling them with plain matching skin. No mask or visor. Preserve hood shadow and opening, scarf, knives and leather armor. Do not replace the exposed skin with darkness. Keep the same pose, proportions, palette, pixel art and all non-face details. Transparent background.",
+        "width": 256,
+        "height": 256,
+        "seed": 19111904,
+        "no_background": true
+      },
+      "status": "completed",
+      "job_id": "784467c7-1d5a-4b20-b92f-be93da460a38",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 1
+      },
+      "selection": "not_selected",
+      "note": "Whole-image edit also changed non-face pixels; not used.",
+      "request_sha256": "11c97bb657679341c775196cfe22fb4c8ef26bfe1f8d877c8556cf16767843ed",
+      "outputs": [
+        {
+          "sha256": "fd882ee1a3cf751f3d0ef5107034ab7419a7a06bf6bdc18b247008eaa18d632b",
+          "width": 256,
+          "height": 256,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "key": "star_hood",
+      "label": "Маг",
+      "source": "assets/art_presets/approved/character_skins_v1/star_hood/still.png",
+      "source_sha256": "289b1465aac378c4d5a7093b5a11d842e04d1be66ad2b6562e4b65df5f076b50",
+      "endpoint": "/edit-image-pixen",
+      "parameters_without_images": {
+        "description": "KEEP or ADD a clearly visible dark horizontal MOUTH, about 5 pixels wide, on the lower face. This mouth is the ONLY facial feature. Remove both eyes, eyebrows, eyelids, sockets and nose, filling them with plain matching skin. No mask or visor. Preserve the blue hood and grey beard silhouette. The tiny mouth must remain visible at the top of the beard. No nose. Keep the same pose, proportions, palette, pixel art and all non-face details. Transparent background.",
+        "width": 256,
+        "height": 256,
+        "seed": 19111905,
+        "no_background": true
+      },
+      "status": "completed",
+      "job_id": "d9af7d5a-6416-4170-80f2-ac420d7518f0",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 1
+      },
+      "selection": "not_selected",
+      "note": "Whole-image edit also changed non-face pixels; not used.",
+      "request_sha256": "f861925d1455b27d4c4c6a321e224c6451bd22103c884b80c99fcca70bc89cd3",
+      "outputs": [
+        {
+          "sha256": "97f9cdeccdeceee4a934750fff98989695719b7b434222d9b406c778f0e728e7",
+          "width": 256,
+          "height": 256,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "key": "sick_hobgoblin",
+      "label": "Хоб-гоблин",
+      "source": "assets/art_presets/approved/character_skins_v1/sick_hobgoblin/still.png",
+      "source_sha256": "6e51f2ff63ad012c87176adf4fe7aea93f7d3ee00074bb26c7eda3741bd0a85e",
+      "endpoint": "/edit-image-pixen",
+      "parameters_without_images": {
+        "description": "KEEP or ADD a clearly visible dark horizontal MOUTH, about 5 pixels wide, on the lower face. This mouth is the ONLY facial feature. Remove both eyes, eyebrows, eyelids, sockets and nose, filling them with plain matching skin. No mask or visor. Keep the grey skin, ears, head and body shapes, bumps and club. Keep the existing mouth and its two tusks. Remove eye creases and brow ridge shading. Keep the same pose, proportions, palette, pixel art and all non-face details. Transparent background.",
+        "width": 256,
+        "height": 256,
+        "seed": 19111906,
+        "no_background": true
+      },
+      "status": "completed",
+      "job_id": "d81f8a05-9208-4e8f-b9ca-86dae8ad355c",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 1
+      },
+      "selection": "not_selected",
+      "note": "Generated before explicit clarification to leave monsters unchanged; excluded from deliverables. No later monster requests.",
+      "request_sha256": "5caf113f044c6d65c53d8292dddfb1cbd3071c6b963696426dfda44d4b7f0b6a",
+      "outputs": [
+        {
+          "sha256": "3e08b44e520be145fca5318af7c846e134c2daaf9517ad86f9a451650080a00b",
+          "width": 256,
+          "height": 256,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "key": "red_bastion_mouth_fix",
+      "label": "Воин: исправление рта",
+      "source": "D:/Codex/home/generated_images/mouth-only-faces-preview-20261119/items/001/original.png",
+      "source_sha256": "1d8ca89eb1d704de4bdb7c53d6bbcd3d24be152151736bc40d82afda099b7640",
+      "endpoint": "/edit-image-pixen",
+      "parameters_without_images": {
+        "description": "Add ONE clearly visible small dark brown horizontal MOUTH on the blank peach face, just ABOVE the beard, near pixel x=125 y=94. A simple 5-pixel-wide, 2-pixel-high line. The mouth must be plainly visible. KEEP the upper face completely blank: NO eyes, eyebrows, nose, eyelids, sockets or nostrils. Preserve absolutely everything else: skin color, hair, beard, head, body, pose, equipment, palette and pixel art. Transparent background.",
+        "width": 256,
+        "height": 256,
+        "seed": 19111917,
+        "no_background": true
+      },
+      "status": "completed",
+      "job_id": "a65776c7-61d4-4733-8c67-2789c8c7ab22",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 1
+      },
+      "selection": "not_selected",
+      "note": "Whole-image edit also changed non-face pixels; not used.",
+      "request_sha256": "495387277d04e4a0a9060fe0c829583e87d45b0bf77695fcb4235e95a7566aae",
+      "outputs": [
+        {
+          "sha256": "8131965e5b88a41f7728589d82ca408168ed300d4674655c92289e059c2af3ea",
+          "width": 256,
+          "height": 256,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "key": "red_bastion_masked",
+      "label": "Воин: маска лица",
+      "source": "assets/art_presets/approved/character_skins_v1/red_bastion/still.png",
+      "source_sha256": "d8117c67d3b59c5943ea850b8802ff1ce895ef919ad65c06d730d0716b6146a8",
+      "mask": "D:/Codex/home/generated_images/mouth-only-faces-preview-20261119/red-bastion-face-mask.png",
+      "mask_sha256": "d43bbd1c837e8aa7fcd975003237c108982961602816758c1e68a17654af7cfe",
+      "endpoint": "/inpaint-image-pro-flash",
+      "parameters_without_images": {
+        "description": "Edit only the masked facial area of this pixel-art warrior. Make the upper face plain peach skin with NO eyes, eyebrows, eyelids, eye sockets, nose, nostrils or nose shading. Retain the original head shape and orange hair/beard edges. The ONLY facial feature is ONE clearly visible short dark horizontal mouth on the lower peach face, just above the beard: about 4 to 5 native pixels wide. Do not leave the face completely blank: the mouth must be visible. Match the original skin palette and pixel density. No mask, blindfold or visor. All unmasked pixels remain unchanged.",
+        "no_background": false,
+        "output_method": "Modify current layer",
+        "crop_to_mask": true,
+        "seed": 19111928
+      },
+      "status": "completed",
+      "job_id": "f7f332d0-5b4a-45b5-971d-f8fb8b4fc9df",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 9
+      },
+      "selection": "selected",
+      "note": "Final localized face edit.",
+      "request_sha256": "6ba66192a96c2f64ec8e8270cfef9c8d0ae078d5d31d69378ab5816e12ab9349",
+      "outputs": [
+        {
+          "sha256": "019edf0ee283d571ddfc9f3297703ccb104311129590cb3378ecd94695b83bdc",
+          "width": 256,
+          "height": 256,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "key": "watch_shield_masked",
+      "label": "Щитоносец",
+      "source": "assets/art_presets/approved/character_skins_v1/watch_shield/still.png",
+      "source_sha256": "3b9c5fd3106551659bc699f7f5c0489f7d2f40490d51f608bcbb97631f1529bc",
+      "crop_box": [
+        96,
+        48,
+        160,
+        112
+      ],
+      "input_crop": "D:/Codex/home/generated_images/mouth-only-faces-preview-20261119/face-crops/watch_shield-source.png",
+      "input_crop_sha256": "19c8d39150dce218ba46cb3213ea6c7e45923557734581c5203ce02dcc497e5f",
+      "mask": "D:/Codex/home/generated_images/mouth-only-faces-preview-20261119/face-crops/watch_shield-mask.png",
+      "mask_sha256": "83024fb1cbff3ec84f57fccd2d94f784157c711609408e0a56cc8694793ed961",
+      "endpoint": "/inpaint-image-pro-flash",
+      "parameters_without_images": {
+        "description": "Edit only the masked facial area. Keep ONE clearly visible small dark horizontal mouth on the lower face, about 4 native pixels wide. The mouth is the ONLY facial feature. Remove both eyes, eyebrows, eyelids, eye sockets and nose; replace them with uninterrupted matching peach skin. No nose bump, nostrils or nose shading. Do NOT leave the face completely blank: the short mouth must be visible. Preserve brown hair and beard edge. Keep all other details and original pixel density, head shape and colors. No mask, no visor, no blindfold. Preserve transparency.",
+        "no_background": false,
+        "output_method": "Modify current layer",
+        "crop_to_mask": true,
+        "seed": 19111939
+      },
+      "status": "completed",
+      "job_id": "8f6abaa1-cd12-44dd-a797-a4ac0b2105b5",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 5
+      },
+      "selection": "selected",
+      "note": "Final localized face edit.",
+      "request_sha256": "70c0d219b602232f57904a333eb7d296c261183560a0cf821a98a80c578cac99",
+      "outputs": [
+        {
+          "sha256": "070181f97e9e0ffc74254ef0914264dd45b30c84149c46ea1fe7ad0c5b20c9ac",
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "key": "silver_ranger_masked",
+      "label": "Лучница",
+      "source": "assets/art_presets/approved/character_skins_v1/silver_ranger/still.png",
+      "source_sha256": "bb6e48ce147391d03545fbabf3dafff03993e9c9bb4cea5ce2686a03a2d4fe15",
+      "crop_box": [
+        104,
+        40,
+        168,
+        104
+      ],
+      "input_crop": "D:/Codex/home/generated_images/mouth-only-faces-preview-20261119/face-crops/silver_ranger-source.png",
+      "input_crop_sha256": "60ab6c40d2cb286f601bb6bcc8d44d38b051d36b18eb9e4167e5f6488d51fc7d",
+      "mask": "D:/Codex/home/generated_images/mouth-only-faces-preview-20261119/face-crops/silver_ranger-mask.png",
+      "mask_sha256": "52c385d94e4ac2fee015fc7a85397c9e386f43f4054d83429845d9ea32a9c914",
+      "endpoint": "/inpaint-image-pro-flash",
+      "parameters_without_images": {
+        "description": "Edit only the masked facial area. Keep ONE clearly visible small dark horizontal mouth on the lower face, about 4 native pixels wide. The mouth is the ONLY facial feature. Remove both eyes, eyebrows, eyelids, eye sockets and nose; replace them with uninterrupted matching peach skin. No nose bump, nostrils or nose shading. Do NOT leave the face completely blank: the short mouth must be visible. Preserve silver hair and the original face outline. Keep all other details and original pixel density, head shape and colors. No mask, no visor, no blindfold. Preserve transparency.",
+        "no_background": false,
+        "output_method": "Modify current layer",
+        "crop_to_mask": true,
+        "seed": 19111940
+      },
+      "status": "completed",
+      "job_id": "56b4b20e-d2a1-4832-a5c0-e60150c92935",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 5
+      },
+      "selection": "selected",
+      "note": "Final localized face edit.",
+      "request_sha256": "278607b172c90eb5937d7ed7d828099a273747ef4ba304b8e8e3a718c69d6913",
+      "outputs": [
+        {
+          "sha256": "53af846c8005d3316e2b3a8b2258a5973ff5e5ef08a7937486cbde1d68bdacb8",
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "key": "short_cape_masked",
+      "label": "Разбойник",
+      "source": "assets/art_presets/approved/character_skins_v1/short_cape/still.png",
+      "source_sha256": "35764f92ca2d09bd4d37a91e9c6d5c3682fa156b1d593ebaceba8a9c36ba0c0e",
+      "crop_box": [
+        112,
+        56,
+        176,
+        120
+      ],
+      "input_crop": "D:/Codex/home/generated_images/mouth-only-faces-preview-20261119/face-crops/short_cape-source.png",
+      "input_crop_sha256": "8690329af18971baf83a5d8405c6dd22a2304785d1e3749ab5226e9a6c0f1ced",
+      "mask": "D:/Codex/home/generated_images/mouth-only-faces-preview-20261119/face-crops/short_cape-mask.png",
+      "mask_sha256": "0068e9719de8822a1a31df56b1787990b367981403e0b3ae17f1a4aedf623c38",
+      "endpoint": "/inpaint-image-pro-flash",
+      "parameters_without_images": {
+        "description": "Edit only the masked facial area. Keep ONE clearly visible small dark horizontal mouth on the lower face, about 4 native pixels wide. The mouth is the ONLY facial feature. Remove both eyes, eyebrows, eyelids, eye sockets and nose; replace them with uninterrupted matching peach skin. No nose bump, nostrils or nose shading. Do NOT leave the face completely blank: the short mouth must be visible. Preserve hood edge, its shadow and exposed peach skin. Keep all other details and original pixel density, head shape and colors. No mask, no visor, no blindfold. Preserve transparency.",
+        "no_background": false,
+        "output_method": "Modify current layer",
+        "crop_to_mask": true,
+        "seed": 19111941
+      },
+      "status": "completed",
+      "job_id": "d85070ef-31ea-4816-9547-35089cc11aaf",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 5
+      },
+      "selection": "selected",
+      "note": "Final localized face edit.",
+      "request_sha256": "2b9648cb08c80239ac5c848f7681d02fdf72fee6358b702c1a40874c24959f8b",
+      "outputs": [
+        {
+          "sha256": "854b910cfbc2cfbd0616043575d5441628ec020e8bcc52febdfbb24ed901691b",
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "key": "star_hood_masked",
+      "label": "Маг",
+      "source": "assets/art_presets/approved/character_skins_v1/star_hood/still.png",
+      "source_sha256": "289b1465aac378c4d5a7093b5a11d842e04d1be66ad2b6562e4b65df5f076b50",
+      "crop_box": [
+        112,
+        56,
+        176,
+        120
+      ],
+      "input_crop": "D:/Codex/home/generated_images/mouth-only-faces-preview-20261119/face-crops/star_hood-source.png",
+      "input_crop_sha256": "ff5e30fb2076722ef67577d2a3857f196d0e9171c010832d4894bbb9a92dfd48",
+      "mask": "D:/Codex/home/generated_images/mouth-only-faces-preview-20261119/face-crops/star_hood-mask.png",
+      "mask_sha256": "cf2af0e57709570ec05131b3afba880660d000cf8c77af0b33faac113e518fe5",
+      "endpoint": "/inpaint-image-pro-flash",
+      "parameters_without_images": {
+        "description": "Edit only the masked facial area. Keep ONE clearly visible small dark horizontal mouth on the lower face, about 4 native pixels wide. The mouth is the ONLY facial feature. Remove both eyes, eyebrows, eyelids, eye sockets and nose; replace them with uninterrupted matching peach skin. No nose bump, nostrils or nose shading. Do NOT leave the face completely blank: the short mouth must be visible. Preserve blue hood and grey beard outline; put the mouth clearly at the top of the beard. Keep all other details and original pixel density, head shape and colors. No mask, no visor, no blindfold. Preserve transparency.",
+        "no_background": false,
+        "output_method": "Modify current layer",
+        "crop_to_mask": true,
+        "seed": 19111942
+      },
+      "status": "completed",
+      "job_id": "0e98fbf2-2b43-4b93-931c-144d71aec452",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 5
+      },
+      "selection": "not_selected",
+      "note": "New bar above beard plus original mouth read as two mouths; replaced by13.",
+      "request_sha256": "affe63ca2852606aac547744ab528a913b7b880798c3194b0995d02eb25c9e59",
+      "outputs": [
+        {
+          "sha256": "2773a4150202992e312218f1fd01920a1ec179ea6d116e61fba9acc634f063a2",
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "key": "star_hood_single_mouth",
+      "label": "Маг: один исходный рот",
+      "source": "assets/art_presets/approved/character_skins_v1/star_hood/still.png",
+      "source_sha256": "289b1465aac378c4d5a7093b5a11d842e04d1be66ad2b6562e4b65df5f076b50",
+      "crop_box": [
+        112,
+        56,
+        176,
+        120
+      ],
+      "input_crop": "D:/Codex/home/generated_images/mouth-only-faces-preview-20261119/face-crops/star_hood-source.png",
+      "input_crop_sha256": "ff5e30fb2076722ef67577d2a3857f196d0e9171c010832d4894bbb9a92dfd48",
+      "mask": "D:/Codex/home/generated_images/mouth-only-faces-preview-20261119/face-crops/star_hood-upper-face-mask.png",
+      "mask_sha256": "d5bee2161acf2bd73ef337d81639e44a4342ed2d25da0138b17ccf126a0a1871",
+      "endpoint": "/inpaint-image-pro-flash",
+      "parameters_without_images": {
+        "description": "Remove ONLY the eyes, eyebrows, nose and nostrils from the exposed upper face. Fill their former positions with plain matching peach skin, with absolutely NO dark lines or marks in the skin above the grey beard. The character ALREADY HAS ONE MOUTH: the small warm-colored opening IN the grey beard below this edit area. Preserve that original mouth and the entire beard. DO NOT add a second mouth, DO NOT draw a horizontal bar above the beard. Keep the blue hood, the head outline and all other pixels. Only the existing mouth in the beard remains as a facial feature.",
+        "no_background": false,
+        "output_method": "Modify current layer",
+        "crop_to_mask": true,
+        "seed": 19111963
+      },
+      "status": "completed",
+      "job_id": "f970858a-f6cf-4079-8247-f637ee211022",
+      "usage": {
+        "usd": 0.0,
+        "type": "generations",
+        "generations": 5
+      },
+      "selection": "selected",
+      "note": "Final localized face edit.",
+      "request_sha256": "a8e72d908a1850622c02d11cb11c213ad1f018a55bfb39872d302f1b881c12ce",
+      "outputs": [
+        {
+          "sha256": "24aacd9ce4dea3cd64862f5edd793f292d4a45838442fd090f42ffa64f3ea172",
+          "width": 64,
+          "height": 64,
+          "mode": "RGBA",
+          "alpha_extrema": [
+            0,
+            255
+          ]
+        }
+      ]
+    }
+  ]
+}

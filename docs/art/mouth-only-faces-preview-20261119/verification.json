@@ -1,0 +1,76 @@
+{
+  "base_head": "cdcf0cd341ce56d4c01453712e9855354904af9d",
+  "scope": "Five static human-class mouth-only previews. Monsters excluded; runtime and animations unchanged.",
+  "python_compile": "PASS",
+  "actual_build": "PASS",
+  "pixel_validation": "art-validation.json",
+  "examples": 5,
+  "changed_pixels": {
+    "red_bastion": 906,
+    "watch_shield": 735,
+    "silver_ranger": 763,
+    "short_cape": 689,
+    "star_hood": 688
+  },
+  "outside_final_masks_changed": 0,
+  "alpha_identical_all_five": true,
+  "runtime_assets_code_resources_unchanged": true,
+  "monster_assets_unchanged": true,
+  "previous_animation_prototypes_unchanged": true,
+  "protected_files_unchanged": 33,
+  "provider_generations": 41,
+  "fixed_review_snapshot_sha256": {
+    "build_preview.py": "bda7828c9295cf99123931c0ca50a6111908be7617067c0d51d1b56d49da1beb",
+    "selection.json": "c7a9c2dd48531ef52282ecd12fd478d7c88268b1f9f88ebc200c93bc506ee030",
+    "references.json": "56b64d894f0022ad1b452c99e321f17db379c70e5bda9ec7ef1644b9ab441c8f",
+    "art-validation.json": "64c477dec22192fc767b3843d792d244b6b57c878b4399a554743882571db527",
+    "faces-comparison.png": "724266717ebb938fdbb6054511b4f1f731c5a0d29ccd2ab5ea1e63313c0ae803",
+    "characters-preview.png": "8b8bb69b25aa89e4b6fdb59c3736154711eff6400c03cf6abbfeaf7ed9db26b8",
+    "provider.json": "3c09d5e9a3975f0431167603309cbd2975f36e7f2e0d1f88f681513ebb4ad214"
+  },
+  "review": {
+    "status": "APPROVE",
+    "reviewer": "/root/mouth_only_preview_review",
+    "report": "review.md"
+  },
+  "visual_inspection": [
+    "Lead: both sheets, all five faces and final Mage correction",
+    "Reviewer: both sheets and enlarged final Mage; no extra mouth or new white fringe"
+  ],
+  "archive": {
+    "path": "docs/CODEX_HANDOFF.history-20261119-4.md",
+    "sha256": "b5a64fe38fd1225c2766450c683e48154525134c49a4e9ecf832040a040adaf0",
+    "byte_identical_to_previous_handoff": true
+  },
+  "input_documents": {
+    "AGENTS.md": {
+      "before_chars": 4565,
+      "after_chars": 4565
+    },
+    "docs/CODEX_HANDOFF.md": {
+      "before_chars": 2432,
+      "after_chars": 2478
+    },
+    "docs/PROJECT_CONTEXT.md": {
+      "before_chars": 3734,
+      "after_chars": 3734
+    },
+    "docs/CODEX_WORKFLOW.md": {
+      "before_chars": 4482,
+      "after_chars": 4482
+    }
+  },
+  "input_document_note": "HANDOFF<=2500; PROJECT_CONTEXT exceeds3500 at baseline and is unchanged. Unique constraints/open acceptance preserved; prior reports remain with their owners.",
+  "not_run": [
+    "Godot import/startup",
+    "full/core",
+    "F5/Editor/DPI",
+    "game performance",
+    "animation adaptation"
+  ],
+  "limitations": [
+    "Static style samples, no user artistic acceptance yet.",
+    "One skin per human class; alternate grey_bastion and animation frames are outside this stage.",
+    "Pillow currently emits non-failing getdata deprecation warnings."
+  ]
+}
