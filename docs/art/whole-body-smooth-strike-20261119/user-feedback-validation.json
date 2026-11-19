@@ -1,0 +1,47 @@
+{
+  "base_head": "5e39d8bbc67f40a8630c4bef732395519b82ca5c",
+  "scope": "documentation-only user preference; no image/code/runtime edits",
+  "preferred_package": "docs/art/whole-body-weighted-strike-20261118/",
+  "not_selected_package": "docs/art/whole-body-smooth-strike-20261119/",
+  "decision_owner": "docs/ART_DIRECTION.md#whole-body-preference-20261119",
+  "interpretation": "Relative preference only; reasons not specified, no full artistic acceptance or implementation authorization.",
+  "checks": {
+    "tracked_package_files_except_readmes_unchanged": 148,
+    "protected_files_unchanged": 33,
+    "local_links": "PASS",
+    "diff_check": "PASS"
+  },
+  "archive": {
+    "path": "docs/CODEX_HANDOFF.history-20261119-3.md",
+    "sha256": "b90b7a7c1ebe4af82d00614a333f7eed4abc6bdcfb5d1ba6ec97f4b19386739f",
+    "byte_identical_to_previous_handoff": true
+  },
+  "input_documents": {
+    "AGENTS.md": {
+      "before_chars": 4565,
+      "after_chars": 4565
+    },
+    "docs/CODEX_HANDOFF.md": {
+      "before_chars": 2487,
+      "after_chars": 2432
+    },
+    "docs/PROJECT_CONTEXT.md": {
+      "before_chars": 3734,
+      "after_chars": 3734
+    },
+    "docs/CODEX_WORKFLOW.md": {
+      "before_chars": 4482,
+      "after_chars": 4482
+    }
+  },
+  "input_document_note": "HANDOFF remains below2500; PROJECT_CONTEXT baseline over3500 is unchanged. Unique restrictions and open questions retained; prior result evidence remains in packages/archive.",
+  "new_generations": 0,
+  "not_run": [
+    "Godot",
+    "browser export",
+    "full/core",
+    "manual F5/Editor/DPI",
+    "performance",
+    "independent code review: no code changes"
+  ]
+}
