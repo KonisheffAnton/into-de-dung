@@ -1,0 +1,167 @@
+{
+  "date": "2026-11-21",
+  "base_commit": "2cc35d27fc2b724809b7bbef0afc7da9a4992a9b",
+  "technical_status": "PASS",
+  "scope": "Five static scenes with six designs taken from user-supplied enemy sheet",
+  "provider": "built-in image_gen",
+  "requests": 5,
+  "successful_outputs": 5,
+  "outputs": [
+    {
+      "id": "01",
+      "file": "01-sheet-faithful.png",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "mode": "RGB",
+      "bytes": 1566306,
+      "sha256": "681e8e26c61bbf152380982a0d2a3efbcea159b65f78b7c202f2c325328ae800",
+      "raw_output_copy_matches": true
+    },
+    {
+      "id": "02",
+      "file": "02-light-pixel-accent.png",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "mode": "RGB",
+      "bytes": 1442734,
+      "sha256": "0fa79a6371dadc9adc07b6cbe53de56fcf47b9c199fac6aaa14e42ec4d2b31e8",
+      "raw_output_copy_matches": true
+    },
+    {
+      "id": "03",
+      "file": "03-terrain-palette.png",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "mode": "RGB",
+      "bytes": 1559313,
+      "sha256": "cae309a45283dfe1f74528d961d188b5583e310aa034b430ccd9e50ea931823f",
+      "raw_output_copy_matches": true
+    },
+    {
+      "id": "04",
+      "file": "04-bold-silhouettes.png",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "mode": "RGB",
+      "bytes": 1549658,
+      "sha256": "c1ff20b68f2e735cbbe82b83810b80e46fb048a3037f90adb125ab32508acd2c",
+      "raw_output_copy_matches": true
+    },
+    {
+      "id": "05",
+      "file": "05-soft-volume.png",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "mode": "RGB",
+      "bytes": 1661675,
+      "sha256": "fd3be7bd36e2fe570b468bb9b688b581df50e4abd6e26f0a84b9a09d201237ec",
+      "raw_output_copy_matches": true
+    }
+  ],
+  "inputs": [
+    {
+      "file": "inputs/user-enemy-sheet.png",
+      "role": "Primary character appearance and proportions; user-provided sheet; tier labels are not instructions",
+      "dimensions": [
+        1064,
+        739
+      ],
+      "sha256": "334309c9c6234558bdf75a8e19aa8a61839c7bb3c2233f8594d2b6fc3a9d4eb8"
+    },
+    {
+      "file": "../kingdom-rush-tile-refinement-20261121/inputs/user-selected.png",
+      "role": "Board composition, scale, palette; all existing units replaced",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "sha256": "b3ec8965d1608371700bbca20c8192e69d25639425b58df9ceb6de398f9dbd1e"
+    }
+  ],
+  "roster_validation": {
+    "by": "game_scout",
+    "scope": "Six specified cells of user sheet; descriptive appearance only",
+    "canonical_names_verified": false,
+    "horned_warrior_is_skeleton": "Not confirmed; skeleton claim excluded from prompt"
+  },
+  "direct_reference_usage": "The user enemy sheet and battlefield source were passed as two direct inputs to every generation; hero portraits were not used.",
+  "independent_visual_review": {
+    "verdict": "APPROVE",
+    "report": "review.md",
+    "scope": "Five fixed PNGs compared with source sheet and roster; not user acceptance",
+    "best_terrain_balance": "03-terrain-palette.png",
+    "closest_to_source_sheet": "01-sheet-faithful.png"
+  },
+  "archive_sha256": "824a2ae21c91c595f8fb162d4c239eaa99a3231684803b050d1c9db9980c39bb",
+  "protected_main_menu_sha256": "a64c270256ebf2ea073081200be23028f792f42c3ca98f83a6499c1300a68668",
+  "previous_packages_unchanged": true,
+  "document_sizes": [
+    {
+      "path": "AGENTS.md",
+      "before_chars_lf": 4565,
+      "after_chars_lf": 4565,
+      "changed": false,
+      "guideline": 5000
+    },
+    {
+      "path": "docs/CODEX_HANDOFF.md",
+      "before_chars_lf": 2449,
+      "after_chars_lf": 2473,
+      "changed": true,
+      "guideline": 2500
+    },
+    {
+      "path": "docs/PROJECT_CONTEXT.md",
+      "before_chars_lf": 3734,
+      "after_chars_lf": 3734,
+      "changed": false,
+      "guideline": 3500
+    },
+    {
+      "path": "docs/CODEX_WORKFLOW.md",
+      "before_chars_lf": 4482,
+      "after_chars_lf": 4482,
+      "changed": false,
+      "guideline": 4500
+    }
+  ],
+  "document_note": "PROJECT_CONTEXT was already above its guideline and remains unchanged. HANDOFF stays under 2500 chars, preserves restrictions/open acceptance, and links to a byte-identical archive. ART_DIRECTION owns the new source choice; package owns the roster, prompts and verification.",
+  "checks": [
+    "Five distinct PNGs fully decoded at 1536x1024",
+    "Output SHA-256 exact copies of original image_gen results",
+    "Enemy sheet copied byte-for-byte from user attachment",
+    "Both reference images decode and retain baseline hashes",
+    "Six source cells independently visually identified",
+    "Previous handoff archived byte-for-byte",
+    "Protected main_menu and earlier image packages unchanged",
+    "Changed startup-document size/growth limits respected",
+    "Package and current handoff local links resolve",
+    "Independent visual review: all six selected sheet figures recognizable, no old heroes/UI/text"
+  ],
+  "not_run": [
+    "Godot import/parse",
+    "full/core suites",
+    "F5/Editor/DPI",
+    "runtime/performance"
+  ],
+  "limitations": [
+    "User style choice and art acceptance remain open",
+    "Canonical names and creature types have not been established",
+    "Exact source pose/face pixels and exact terrain pixel preservation are not claimed",
+    "Native pixel-grid compliance is not guaranteed",
+    "These are scene concepts, not extracted or integrated game sprites",
+    "Some source details disappear at small unit scale",
+    "Variant05 soft volume differs more visibly from tile shading"
+  ],
+  "status": "PASS"
+}

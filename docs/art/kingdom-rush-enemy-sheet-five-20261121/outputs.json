@@ -1,0 +1,37 @@
+{
+  "provider": "built-in image_gen",
+  "requests": 5,
+  "successful_outputs": 5,
+  "outputs": [
+    {
+      "id": "01",
+      "name": "Максимально близко к листу",
+      "file": "01-sheet-faithful.png",
+      "source": "D:\\Codex\\home\\generated_images\\01a1fe1c-71b4-71f3-9de7-406dd22e27cc\\exec-517de529-3cf9-448f-b620-e6f19389c5a9.png"
+    },
+    {
+      "id": "02",
+      "name": "Лёгкий пиксельный акцент",
+      "file": "02-light-pixel-accent.png",
+      "source": "D:\\Codex\\home\\generated_images\\01a1fe1c-71b4-71f3-9de7-406dd22e27cc\\exec-bffb818c-fee6-42d9-bba5-12fcaf46681f.png"
+    },
+    {
+      "id": "03",
+      "name": "Палитра поля",
+      "file": "03-terrain-palette.png",
+      "source": "D:\\Codex\\home\\generated_images\\01a1fe1c-71b4-71f3-9de7-406dd22e27cc\\exec-921ff582-d83e-4f21-a09a-f40ffb1540d1.png"
+    },
+    {
+      "id": "04",
+      "name": "Сильные силуэты",
+      "file": "04-bold-silhouettes.png",
+      "source": "D:\\Codex\\home\\generated_images\\01a1fe1c-71b4-71f3-9de7-406dd22e27cc\\exec-e39adace-9a9e-4d93-be40-81ab03b0ae18.png"
+    },
+    {
+      "id": "05",
+      "name": "Более объёмная светотень",
+      "file": "05-soft-volume.png",
+      "source": "D:\\Codex\\home\\generated_images\\01a1fe1c-71b4-71f3-9de7-406dd22e27cc\\exec-6bbe1168-4fd2-48ca-a190-89bea5d0b2e0.png"
+    }
+  ]
+}
