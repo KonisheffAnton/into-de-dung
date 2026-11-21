@@ -1,0 +1,44 @@
+{
+  "provider": "built-in image_gen",
+  "total_requests": 10,
+  "initial_requests": 5,
+  "correction_requests": 5,
+  "final_outputs": 5,
+  "outputs": [
+    {
+      "id": "01",
+      "name": "Классический мультяшный",
+      "file": "01-classic-heroic.png",
+      "source": "D:\\Codex\\home\\generated_images\\01a1fe1c-71b4-71f3-9de7-406dd22e27cc\\exec-d47274f4-a324-4c6b-b2d6-a8f3c24ab446.png",
+      "attempt": "correction-1"
+    },
+    {
+      "id": "02",
+      "name": "Угловатый и строгий",
+      "file": "02-angular-veterans.png",
+      "source": "D:\\Codex\\home\\generated_images\\01a1fe1c-71b4-71f3-9de7-406dd22e27cc\\exec-78d4835b-72e9-4707-a4ec-47d96109ab36.png",
+      "attempt": "correction-1"
+    },
+    {
+      "id": "03",
+      "name": "Крепкие фигурки",
+      "file": "03-stout-figures.png",
+      "source": "D:\\Codex\\home\\generated_images\\01a1fe1c-71b4-71f3-9de7-406dd22e27cc\\exec-fa7875ab-3d11-4f87-820b-ca8463eae029.png",
+      "attempt": "correction-1"
+    },
+    {
+      "id": "04",
+      "name": "Подвижные силуэты",
+      "file": "04-agile-stances.png",
+      "source": "D:\\Codex\\home\\generated_images\\01a1fe1c-71b4-71f3-9de7-406dd22e27cc\\exec-2626ffa0-8b60-492d-8a64-c76103b8bd6d.png",
+      "attempt": "correction-1"
+    },
+    {
+      "id": "05",
+      "name": "Мягкий цветной контур",
+      "file": "05-harmonized-contours.png",
+      "source": "D:\\Codex\\home\\generated_images\\01a1fe1c-71b4-71f3-9de7-406dd22e27cc\\exec-86aab4d7-cae2-4fe8-8073-9042a3d33373.png",
+      "attempt": "correction-1"
+    }
+  ]
+}

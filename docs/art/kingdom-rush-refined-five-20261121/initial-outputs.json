@@ -1,0 +1,32 @@
+{
+  "provider": "built-in image_gen",
+  "requests": 5,
+  "successful_outputs": 5,
+  "outputs": [
+    {
+      "id": "01",
+      "file": "01-classic-heroic.png",
+      "source": "D:\\Codex\\home\\generated_images\\01a1fe1c-71b4-71f3-9de7-406dd22e27cc\\exec-85b935a8-215b-46c4-a8ee-15c810a48c95.png"
+    },
+    {
+      "id": "02",
+      "file": "02-angular-veterans.png",
+      "source": "D:\\Codex\\home\\generated_images\\01a1fe1c-71b4-71f3-9de7-406dd22e27cc\\exec-cd9d0706-7d61-44e2-8ab2-8c9f596355b8.png"
+    },
+    {
+      "id": "03",
+      "file": "03-stout-figures.png",
+      "source": "D:\\Codex\\home\\generated_images\\01a1fe1c-71b4-71f3-9de7-406dd22e27cc\\exec-08e9591f-0fba-4bf7-ad54-4b8f6460ae95.png"
+    },
+    {
+      "id": "04",
+      "file": "04-agile-stances.png",
+      "source": "D:\\Codex\\home\\generated_images\\01a1fe1c-71b4-71f3-9de7-406dd22e27cc\\exec-45e3781a-904b-4217-9e5e-e0f636aed0fb.png"
+    },
+    {
+      "id": "05",
+      "file": "05-harmonized-contours.png",
+      "source": "D:\\Codex\\home\\generated_images\\01a1fe1c-71b4-71f3-9de7-406dd22e27cc\\exec-08709912-f913-47df-b129-beb6fffcd2b0.png"
+    }
+  ]
+}

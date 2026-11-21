@@ -1,0 +1,210 @@
+{
+  "date": "2026-11-21",
+  "base_commit": "2a23d615e7e7f7c8fe6513f276f2997a51c3389d",
+  "technical_status": "PASS",
+  "scope": "Five final static scene variants plus five retained rejected initial attempts",
+  "provider": "built-in image_gen",
+  "requests": 10,
+  "initial_requests": 5,
+  "correction_requests": 5,
+  "final_outputs": [
+    {
+      "id": "01",
+      "file": "01-classic-heroic.png",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "mode": "RGB",
+      "bytes": 1560842,
+      "sha256": "0531277536c9370d96836119a36feb9f52527cdcf5c9b1cbd6996b7b9ea9f3e7",
+      "raw_output_copy_matches": true
+    },
+    {
+      "id": "02",
+      "file": "02-angular-veterans.png",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "mode": "RGB",
+      "bytes": 1529120,
+      "sha256": "8dc46fefe04b10e8180a42a7cd712bc916c7ecaeaa165b60506c82ef5e5ab507",
+      "raw_output_copy_matches": true
+    },
+    {
+      "id": "03",
+      "file": "03-stout-figures.png",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "mode": "RGB",
+      "bytes": 1579862,
+      "sha256": "d0c2b12adef8b06faaebf94e93d705a4bce1ef274f53750716e5f49cd6befe42",
+      "raw_output_copy_matches": true
+    },
+    {
+      "id": "04",
+      "file": "04-agile-stances.png",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "mode": "RGB",
+      "bytes": 1586321,
+      "sha256": "f0a5303693a05cf9c55ad147dc7ae49c1eb1eec0904cb5a6e1e2771ab6e51ed8",
+      "raw_output_copy_matches": true
+    },
+    {
+      "id": "05",
+      "file": "05-harmonized-contours.png",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "mode": "RGB",
+      "bytes": 1554234,
+      "sha256": "899c1a306a8ae98830cf27f610257556880dca7fb0e07aee02dd542f3c333899",
+      "raw_output_copy_matches": true
+    }
+  ],
+  "initial_attempts": [
+    {
+      "id": "01",
+      "file": "attempts/initial-01-classic-heroic.png",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "mode": "RGB",
+      "bytes": 1430816,
+      "sha256": "f4ac198b0a340a2931e63d6d824a106a45d4e245be6b194e5a337589a2fed9b7",
+      "raw_output_copy_matches": true
+    },
+    {
+      "id": "02",
+      "file": "attempts/initial-02-angular-veterans.png",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "mode": "RGB",
+      "bytes": 1622775,
+      "sha256": "67c4ebd819de695cf87bac1ec64987dcad61d3a2f86391a8a0748b4189ab6dc4",
+      "raw_output_copy_matches": true
+    },
+    {
+      "id": "03",
+      "file": "attempts/initial-03-stout-figures.png",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "mode": "RGB",
+      "bytes": 1427793,
+      "sha256": "1465d6044a23b6b813f5208e23a93d551480cad17f95804c93a07506a3bc8f1b",
+      "raw_output_copy_matches": true
+    },
+    {
+      "id": "04",
+      "file": "attempts/initial-04-agile-stances.png",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "mode": "RGB",
+      "bytes": 1434356,
+      "sha256": "9ecb7fac3e44e0215cbb7d25c016c80b7e697a7259d62ac5cd2b1b45dc31b23c",
+      "raw_output_copy_matches": true
+    },
+    {
+      "id": "05",
+      "file": "attempts/initial-05-harmonized-contours.png",
+      "dimensions": [
+        1536,
+        1024
+      ],
+      "mode": "RGB",
+      "bytes": 1582262,
+      "sha256": "66c244e21c5dcf31b4855f79b754a5ae90ff6184c2180a79a321544f2c604577",
+      "raw_output_copy_matches": true
+    }
+  ],
+  "inputs": [
+    {
+      "file": "../kingdom-rush-tile-refinement-20261121/inputs/user-selected.png",
+      "sha256": "b3ec8965d1608371700bbca20c8192e69d25639425b58df9ceb6de398f9dbd1e"
+    },
+    {
+      "file": "../kingdom-rush-tile-refinement-20261121/kingdom-rush-refined.png",
+      "sha256": "65de1c4831ed2133c12e1790ceb14b45b5f16ff04e24c5aa3dfdf95991760c00"
+    }
+  ],
+  "independent_visual_review": {
+    "verdict": "APPROVE",
+    "report": "review.md",
+    "scope": "Five fixed corrected PNGs only; no user acceptance",
+    "best_balance": "01-classic-heroic.png",
+    "initial_smoothness_corrected": true
+  },
+  "archive_sha256": "942387cc2512791910f253540e1b70e5e149bae3ade97ba8819277a6d16094f6",
+  "protected_main_menu_sha256": "a64c270256ebf2ea073081200be23028f792f42c3ca98f83a6499c1300a68668",
+  "previous_packages_unchanged": true,
+  "document_sizes": [
+    {
+      "path": "AGENTS.md",
+      "before_chars_lf": 4565,
+      "after_chars_lf": 4565,
+      "changed": false,
+      "guideline": 5000
+    },
+    {
+      "path": "docs/CODEX_HANDOFF.md",
+      "before_chars_lf": 2480,
+      "after_chars_lf": 2449,
+      "changed": true,
+      "guideline": 2500
+    },
+    {
+      "path": "docs/PROJECT_CONTEXT.md",
+      "before_chars_lf": 3734,
+      "after_chars_lf": 3734,
+      "changed": false,
+      "guideline": 3500
+    },
+    {
+      "path": "docs/CODEX_WORKFLOW.md",
+      "before_chars_lf": 4482,
+      "after_chars_lf": 4482,
+      "changed": false,
+      "guideline": 4500
+    }
+  ],
+  "document_note": "PROJECT_CONTEXT was above its guideline before this task and remains unchanged. HANDOFF stays under 2500 chars, preserves restrictions/open acceptance and links to a byte-identical archive. ART_DIRECTION owns current direction; package owns prompts, attempts and verification.",
+  "checks": [
+    "Full PNG decode of five final and five initial 1536x1024 images",
+    "Ten distinct raw PNGs copied byte-for-byte from image_gen outputs",
+    "Both correction reference inputs retain baseline hashes",
+    "Previous handoff archived byte-for-byte",
+    "Protected main_menu and previous image packages unchanged",
+    "Changed startup-document size/growth limits respected",
+    "Package and current handoff local links resolve",
+    "Independent visual review: coarse pixels match tiles, six figures, no text/UI"
+  ],
+  "not_run": [
+    "Godot import/parse",
+    "full/core suites",
+    "F5/Editor/DPI",
+    "runtime/performance"
+  ],
+  "limitations": [
+    "User variant selection and art acceptance are open",
+    "Native pixel-grid compliance is not guaranteed",
+    "Terrain pixels are not claimed to remain byte-identical",
+    "These are scene concepts, not extracted or integrated game sprites",
+    "Variants 02/05 remain compositionally close",
+    "Variants 03/05 have less expressive faces than 01"
+  ],
+  "status": "PASS"
+}
