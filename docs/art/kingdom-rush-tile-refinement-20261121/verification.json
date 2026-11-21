@@ -1,0 +1,100 @@
+{
+  "date": "2026-11-21",
+  "base_commit": "85e210cb58a98ac525c188b8d0f62a519291bbd0",
+  "status": "PASS",
+  "scope": "One static scene refinement only",
+  "provider": "built-in image_gen",
+  "requests": 1,
+  "successful_outputs": 1,
+  "output": {
+    "file": "kingdom-rush-refined.png",
+    "dimensions": [
+      1536,
+      1024
+    ],
+    "mode": "RGB",
+    "bytes": 1384997,
+    "sha256": "65de1c4831ed2133c12e1790ceb14b45b5f16ff04e24c5aa3dfdf95991760c00",
+    "raw_output_copy_matches": true
+  },
+  "input": {
+    "file": "inputs/user-selected.png",
+    "sha256": "b3ec8965d1608371700bbca20c8192e69d25639425b58df9ceb6de398f9dbd1e",
+    "matches_attachment_bytes": true
+  },
+  "selected_base": {
+    "previous_file": "../kingdom-rush-tile-style-five-20261121/03-lean-silhouettes.png",
+    "comparison_by": "game_scout, read-only Pillow RGBA comparison",
+    "dimensions": [
+      1536,
+      1024
+    ],
+    "decoded_rgba_equal": true,
+    "differing_pixels": 0,
+    "max_channel_difference": 0,
+    "note": "File hashes differ; decoded pixels are identical"
+  },
+  "independent_visual_review": {
+    "verdict": "APPROVE",
+    "report": "review.md",
+    "scope": "Fixed output visually compared with supplied base; not user acceptance"
+  },
+  "archive_sha256": "fb0f18f66f0ce7c6d352ef68cf8058be19bda8eddfb957546411d597ac7ed134",
+  "protected_main_menu_sha256": "a64c270256ebf2ea073081200be23028f792f42c3ca98f83a6499c1300a68668",
+  "previous_packages_unchanged": true,
+  "document_sizes": [
+    {
+      "path": "AGENTS.md",
+      "before_chars_lf": 4565,
+      "after_chars_lf": 4565,
+      "changed": false,
+      "guideline": 5000
+    },
+    {
+      "path": "docs/CODEX_HANDOFF.md",
+      "before_chars_lf": 2453,
+      "after_chars_lf": 2480,
+      "changed": true,
+      "guideline": 2500
+    },
+    {
+      "path": "docs/PROJECT_CONTEXT.md",
+      "before_chars_lf": 3734,
+      "after_chars_lf": 3734,
+      "changed": false,
+      "guideline": 3500
+    },
+    {
+      "path": "docs/CODEX_WORKFLOW.md",
+      "before_chars_lf": 4482,
+      "after_chars_lf": 4482,
+      "changed": false,
+      "guideline": 4500
+    }
+  ],
+  "document_note": "PROJECT_CONTEXT was already above its guideline and remains unchanged. HANDOFF preserves prior restrictions and open acceptance, and links to a byte-identical archive. ART_DIRECTION owns the selected base and user request; package owns provenance and verification.",
+  "checks": [
+    "PNG fully decoded at 1536x1024",
+    "Output SHA-256 matches original image_gen result",
+    "Input attachment copied byte-for-byte",
+    "Supplied base matches previous variant 03 in decoded RGBA (independent scout)",
+    "Previous handoff archived byte-for-byte",
+    "Protected main_menu and prior image packages unchanged",
+    "Changed startup-document size/growth limits respected",
+    "Package and current handoff local links resolve",
+    "Independent visual review: stronger Kingdom Rush cues, six figures, pixel tile style and board composition, no text/UI"
+  ],
+  "not_run": [
+    "Godot import/parse",
+    "full/core suites",
+    "F5/Editor/DPI",
+    "runtime/performance"
+  ],
+  "limitations": [
+    "Figures are slightly larger and more detailed than the selected base",
+    "Native pixel-grid compliance is not guaranteed",
+    "Terrain pixels are not claimed to remain byte-identical",
+    "Result is a concept scene, not extracted/integrated sprites",
+    "User acceptance of the refinement is open"
+  ]
+}
