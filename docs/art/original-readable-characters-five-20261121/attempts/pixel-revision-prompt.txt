@@ -1,0 +1,9 @@
+Edit the supplied image into a coherent LOW RESOLUTION PIXEL ART game scene, 1536x1024. Preserve the island, tile shapes and colors, streams and purple background exactly as the visual reference. Replace only the six characters with six original tiny pixel sprites.
+The six new sprites MUST use visibly chunky SQUARE PIXEL CLUSTERS, as if drawn at 24x28 pixels per character and enlarged exactly 4x with nearest-neighbor. Hard staircase diagonals, 4px-wide outline segments, no antialiasing, NO smooth cartoon curves, NO painted shading, NO fine facial lines. 2 flat colors per material. Simple expressive silhouettes; 90–110px tall on this canvas. Their art must match the blocky tile edges. Use restrained colors from the tile palette, with light faces and gear for contrast.
+Left middle: squat wide SHIELD VETERAN, steel bowl helmet, blue coat, big plain tan shield with one large notch.
+Upper left: lean ARCHER, ochre backward-pointed hood, teal tunic, single large clearly readable bow held outside body, leaning forward.
+Lower left: low sideways crouching ROGUE, plum triangular hood, cream scarf sweeping to one side, one short white knife.
+Upper right: confident stocky HUMAN WARRIOR, copper hair tuft, brick tunic, one very broad pale sword resting on shoulder, free hand on hip.
+Middle right: thin crooked MAGE, bent slate hat, cream robe, brown staff with one amber lantern.
+Lower right: grumpy tiny MUSHROOM IMP, a broad simple rust-red cap with a big notch, pale body, two stubby feet.
+Each has one iconic silhouette feature and a different posture. Keep facial features to 2-3 square marks. Keep weapons separate from torso. No microdetails. No inscriptions/UI/extra figures. The pixel rendering is the highest priority: NOT smooth drawn cartoon characters. Retain same map size and framing.

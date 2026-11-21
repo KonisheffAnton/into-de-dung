@@ -1,0 +1,154 @@
+{
+  "date": "2026-11-21",
+  "base_commit": "3ac919142c224499d7cf12259123b0ca185d0f7a",
+  "technical_result": "PASS",
+  "outputs": [
+    {
+      "file": "01-travelers.png",
+      "status": "final",
+      "sha256": "67DABFC7C2C4D1A985D918EB2881B9628D24938811F93D6C963BB8B7C66B91FC",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGB",
+      "raw_copy": true
+    },
+    {
+      "file": "02-angular-shapes.png",
+      "status": "final",
+      "sha256": "162FA9839366B4B1000F4F81D54BA5DFAFCD7D757B4D3964D7D514DB0BEA50FA",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGB",
+      "raw_copy": true
+    },
+    {
+      "file": "03-coarse-pixel.png",
+      "status": "final",
+      "sha256": "64E6F02E16FA30529DAC6950506A547407026803928485B659F6B02398F8C29C",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGB",
+      "raw_copy": true
+    },
+    {
+      "file": "04-personalities.png",
+      "status": "final",
+      "sha256": "515796A34F8EE258B059E7A9E64AC6159E9B7E86CBEF8B2CF32D882554C5BB55",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGB",
+      "raw_copy": true
+    },
+    {
+      "file": "05-chunky-folk.png",
+      "status": "final",
+      "sha256": "A3FA8DD39EE0EA00CED10EA63050A3E00904E93C2B66C0272466138DBEDB2E53",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGB",
+      "raw_copy": true
+    },
+    {
+      "file": "attempts/01-travelers.png",
+      "status": "superseded",
+      "sha256": "6BEB51AE52C8C5646E0F564D454944289056896E1F22A4B68FDFE4E56C80FCB4",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGB",
+      "raw_copy": true
+    },
+    {
+      "file": "attempts/02-angular-shapes.png",
+      "status": "superseded",
+      "sha256": "9C52C6D93C959566346D91907F3BD41C9E2B125921D028AC941B27DF44B4272F",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGB",
+      "raw_copy": true
+    },
+    {
+      "file": "attempts/03-quiet-palette.png",
+      "status": "superseded",
+      "sha256": "E79B794DF08945218553F9DE1CC22891FF466E85697E5CFB781A5EF48C5C3E47",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGB",
+      "raw_copy": true
+    },
+    {
+      "file": "attempts/05-chunky-folk.png",
+      "status": "superseded",
+      "sha256": "3470D6A6C9420D3AEB5560663F49F9B395253B271932011DC6E774090F4E6A37",
+      "size": [
+        1536,
+        1024
+      ],
+      "mode": "RGB",
+      "raw_copy": true
+    }
+  ],
+  "input_hash_unchanged": true,
+  "archive_byte_exact": true,
+  "prior_acceptance_and_constraints_tail_preserved": true,
+  "user_main_menu_unchanged": true,
+  "prior_art_packages_unchanged": true,
+  "startup_doc_chars": {
+    "AGENTS.md": {
+      "before": 4565,
+      "after": 4565,
+      "changed": false,
+      "limit": 5000
+    },
+    "docs/CODEX_HANDOFF.md": {
+      "before": 2473,
+      "after": 2275,
+      "changed": true,
+      "limit": 2500
+    },
+    "docs/PROJECT_CONTEXT.md": {
+      "before": 3734,
+      "after": 3734,
+      "changed": false,
+      "limit": 3500
+    },
+    "docs/CODEX_WORKFLOW.md": {
+      "before": 4482,
+      "after": 4482,
+      "changed": false,
+      "limit": 4500
+    }
+  },
+  "preexisting_oversize_note": "PROJECT_CONTEXT is unchanged at3734 chars; no new growth.",
+  "visual_review": "APPROVE for five static concept proposals; initial REQUEST_CHANGES and remaining limitations in review.md",
+  "not_run": [
+    "Godot",
+    "full/core tests",
+    "F5/Editor",
+    "DPI",
+    "performance",
+    "runtime integration"
+  ],
+  "limitations": [
+    "No pixel-exact terrain preservation guarantee",
+    "No verified native sprite grid or runtime-size readability",
+    "User artistic acceptance open"
+  ],
+  "local_markdown_links_checked": 17,
+  "visual_review_agent": "game_reviewer / gpt-6-sol / high; read-only by task instruction"
+}

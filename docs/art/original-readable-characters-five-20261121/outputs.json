@@ -1,0 +1,79 @@
+{
+  "provider": "Built-in image_gen",
+  "generation_count": 9,
+  "outputs": [
+    {
+      "id": 1,
+      "file": "01-travelers.png",
+      "title": "Походный отряд",
+      "source_path": "D:\\Codex\\home\\generated_images\\01a1fe1c-71b4-71f3-9de7-406dd22e27cc\\exec-9b4b3ce4-f885-421f-b1da-e799d2d64e40.png",
+      "output_hint": "Generated images are saved to D:\\Codex\\home\\generated_images\\01a1fe1c-71b4-71f3-9de7-406dd22e27cc as D:\\Codex\\home\\generated_images\\01a1fe1c-71b4-71f3-9de7-406dd22e27cc\\exec-9b4b3ce4-f885-421f-b1da-e799d2d64e40.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+      "prompt_file": "attempts/additional-revision-prompts.json"
+    },
+    {
+      "id": 2,
+      "file": "02-angular-shapes.png",
+      "title": "Угловатые формы",
+      "source_path": "D:\\Codex\\home\\generated_images\\01a1fe1c-71b4-71f3-9de7-406dd22e27cc\\exec-bcedec3a-2ce5-4676-9c21-79f982ee0199.png",
+      "output_hint": "Generated images are saved to D:\\Codex\\home\\generated_images\\01a1fe1c-71b4-71f3-9de7-406dd22e27cc as D:\\Codex\\home\\generated_images\\01a1fe1c-71b4-71f3-9de7-406dd22e27cc\\exec-bcedec3a-2ce5-4676-9c21-79f982ee0199.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+      "prompt_file": "attempts/additional-revision-prompts.json"
+    },
+    {
+      "id": 3,
+      "file": "03-coarse-pixel.png",
+      "title": "Крупный пиксель",
+      "source_path": "D:\\Codex\\home\\generated_images\\01a1fe1c-71b4-71f3-9de7-406dd22e27cc\\exec-935b3686-cf1c-4875-b98a-59e8cf2ba003.png",
+      "output_hint": "Generated images are saved to D:\\Codex\\home\\generated_images\\01a1fe1c-71b4-71f3-9de7-406dd22e27cc as D:\\Codex\\home\\generated_images\\01a1fe1c-71b4-71f3-9de7-406dd22e27cc\\exec-935b3686-cf1c-4875-b98a-59e8cf2ba003.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+      "prompt_file": "attempts/pixel-revision-prompt.txt"
+    },
+    {
+      "id": 4,
+      "file": "04-personalities.png",
+      "title": "Характер через позу",
+      "source_path": "D:\\Codex\\home\\generated_images\\01a1fe1c-71b4-71f3-9de7-406dd22e27cc\\exec-a0b39b80-6b2c-4b51-b5c6-6d09ffa8954c.png",
+      "output_hint": "Generated images are saved to D:\\Codex\\home\\generated_images\\01a1fe1c-71b4-71f3-9de7-406dd22e27cc as D:\\Codex\\home\\generated_images\\01a1fe1c-71b4-71f3-9de7-406dd22e27cc\\exec-a0b39b80-6b2c-4b51-b5c6-6d09ffa8954c.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link."
+    },
+    {
+      "id": 5,
+      "file": "05-chunky-folk.png",
+      "title": "Приземистая сказка",
+      "source_path": "D:\\Codex\\home\\generated_images\\01a1fe1c-71b4-71f3-9de7-406dd22e27cc\\exec-d3c7e455-03b6-4933-8046-1303433278f3.png",
+      "output_hint": "Generated images are saved to D:\\Codex\\home\\generated_images\\01a1fe1c-71b4-71f3-9de7-406dd22e27cc as D:\\Codex\\home\\generated_images\\01a1fe1c-71b4-71f3-9de7-406dd22e27cc\\exec-d3c7e455-03b6-4933-8046-1303433278f3.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+      "prompt_file": "attempts/additional-revision-prompts.json"
+    }
+  ],
+  "attempts": [
+    {
+      "id": 1,
+      "file": "attempts/01-travelers.png",
+      "title": "Походный отряд",
+      "source_path": "D:\\Codex\\home\\generated_images\\01a1fe1c-71b4-71f3-9de7-406dd22e27cc\\exec-58b5c1b1-f4a9-4181-998b-4297af185ab8.png",
+      "output_hint": "Generated images are saved to D:\\Codex\\home\\generated_images\\01a1fe1c-71b4-71f3-9de7-406dd22e27cc as D:\\Codex\\home\\generated_images\\01a1fe1c-71b4-71f3-9de7-406dd22e27cc\\exec-58b5c1b1-f4a9-4181-998b-4297af185ab8.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+      "status": "superseded; contours too smooth for tile reference"
+    },
+    {
+      "id": 2,
+      "file": "attempts/02-angular-shapes.png",
+      "title": "Угловатые формы",
+      "source_path": "D:\\Codex\\home\\generated_images\\01a1fe1c-71b4-71f3-9de7-406dd22e27cc\\exec-d00c4aa9-46d0-4547-8df9-13e49889b72e.png",
+      "output_hint": "Generated images are saved to D:\\Codex\\home\\generated_images\\01a1fe1c-71b4-71f3-9de7-406dd22e27cc as D:\\Codex\\home\\generated_images\\01a1fe1c-71b4-71f3-9de7-406dd22e27cc\\exec-d00c4aa9-46d0-4547-8df9-13e49889b72e.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+      "status": "superseded; contours too smooth for tile reference"
+    },
+    {
+      "id": 3,
+      "file": "attempts/03-quiet-palette.png",
+      "title": "Спокойная палитра",
+      "source_path": "D:\\Codex\\home\\generated_images\\01a1fe1c-71b4-71f3-9de7-406dd22e27cc\\exec-e210bee5-8bcc-4743-8b66-078bd27ec1b0.png",
+      "output_hint": "Generated images are saved to D:\\Codex\\home\\generated_images\\01a1fe1c-71b4-71f3-9de7-406dd22e27cc as D:\\Codex\\home\\generated_images\\01a1fe1c-71b4-71f3-9de7-406dd22e27cc\\exec-e210bee5-8bcc-4743-8b66-078bd27ec1b0.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+      "status": "superseded; contours too smooth for tile reference"
+    },
+    {
+      "id": 5,
+      "file": "attempts/05-chunky-folk.png",
+      "title": "Приземистая сказка",
+      "source_path": "D:\\Codex\\home\\generated_images\\01a1fe1c-71b4-71f3-9de7-406dd22e27cc\\exec-d9f4c38e-ccba-4528-b204-8baac3595205.png",
+      "output_hint": "Generated images are saved to D:\\Codex\\home\\generated_images\\01a1fe1c-71b4-71f3-9de7-406dd22e27cc as D:\\Codex\\home\\generated_images\\01a1fe1c-71b4-71f3-9de7-406dd22e27cc\\exec-d9f4c38e-ccba-4528-b204-8baac3595205.png by default.\nIf you need to use a generated image at another path, copy it and leave the original in place unless the user explicitly asks you to delete it.\nThe generated image is already displayed to the user. There is no need to render it in the final response as a Markdown image or file link.",
+      "status": "superseded; contours too smooth for tile reference"
+    }
+  ]
+}
