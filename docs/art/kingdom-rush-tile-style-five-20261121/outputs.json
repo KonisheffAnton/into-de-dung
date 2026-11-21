@@ -1,0 +1,37 @@
+{
+  "provider": "built-in image_gen",
+  "requests": 5,
+  "successful_outputs": 5,
+  "outputs": [
+    {
+      "id": "01",
+      "file": "01-reference-scale.png",
+      "name": "Как исходные тайлы",
+      "source": "D:\\Codex\\home\\generated_images\\01a1fe1c-71b4-71f3-9de7-406dd22e27cc\\exec-9cb23b41-235d-47a3-b464-709c7777b488.png"
+    },
+    {
+      "id": "02",
+      "file": "02-sturdy-silhouettes.png",
+      "name": "Крепкие силуэты",
+      "source": "D:\\Codex\\home\\generated_images\\01a1fe1c-71b4-71f3-9de7-406dd22e27cc\\exec-132a0ac0-6cf2-414c-9a40-c342d4c3757f.png"
+    },
+    {
+      "id": "03",
+      "file": "03-lean-silhouettes.png",
+      "name": "Стройные силуэты",
+      "source": "D:\\Codex\\home\\generated_images\\01a1fe1c-71b4-71f3-9de7-406dd22e27cc\\exec-accc6466-8800-4ae5-94fb-be817edcef7e.png"
+    },
+    {
+      "id": "04",
+      "file": "04-colored-contours.png",
+      "name": "Цветной контур",
+      "source": "D:\\Codex\\home\\generated_images\\01a1fe1c-71b4-71f3-9de7-406dd22e27cc\\exec-fbbd53a8-f523-4453-b31c-4828ea1f0167.png"
+    },
+    {
+      "id": "05",
+      "file": "05-desert-palette.png",
+      "name": "Тёплая палитра",
+      "source": "D:\\Codex\\home\\generated_images\\01a1fe1c-71b4-71f3-9de7-406dd22e27cc\\exec-018d39e6-2e1a-4336-8dd8-569c148b01eb.png"
+    }
+  ]
+}
