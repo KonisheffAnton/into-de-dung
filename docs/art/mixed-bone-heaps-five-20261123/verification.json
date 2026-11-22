@@ -1,0 +1,208 @@
+{
+  "scope": "art concepts only; no runtime integration",
+  "base_at_verification": "81c968ba52d9868f87b85cd242611713425c7b93",
+  "final_images": [
+    {
+      "label": "G1",
+      "file": "imagegen/G1.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "visible_bbox_alpha128": [
+        231,
+        312,
+        1294,
+        789
+      ],
+      "sha256": "84e7e791e9f79a0ead04a395f36b1dcb7e6155c1e1451aa9ec3c584198396829"
+    },
+    {
+      "label": "G2",
+      "file": "imagegen/G2.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "visible_bbox_alpha128": [
+        334,
+        335,
+        1199,
+        725
+      ],
+      "sha256": "893d584891017c2d72f8fff1eb77541d136d00c618fce88f5a63aec51edcfe70"
+    },
+    {
+      "label": "G3",
+      "file": "imagegen/G3.png",
+      "size": [
+        1774,
+        887
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "visible_bbox_alpha128": [
+        215,
+        226,
+        1553,
+        757
+      ],
+      "sha256": "5b76056d281bfe38f5f6f0b728e53fedf2ba556ccafe270a3abaf17b96d089c1"
+    },
+    {
+      "label": "G4",
+      "file": "imagegen/G4.png",
+      "size": [
+        1774,
+        887
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "visible_bbox_alpha128": [
+        350,
+        203,
+        1399,
+        696
+      ],
+      "sha256": "f5f477efbaaf750a7e76fe4c47953fdfd5436ec5337dcc20faec516f0afcfb6b"
+    },
+    {
+      "label": "G5",
+      "file": "imagegen/G5.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "alpha": [
+        0,
+        254
+      ],
+      "visible_bbox_alpha128": [
+        263,
+        283,
+        1242,
+        829
+      ],
+      "sha256": "5bce6c9c1dfcd15c6acb0b90f1d5557a8899f078f5cb760bc2535d3a0e23fc3d"
+    },
+    {
+      "label": "PL9",
+      "file": "pixellab/PL9/image.png",
+      "size": [
+        64,
+        64
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "visible_bbox_alpha128": [
+        0,
+        7,
+        63,
+        54
+      ],
+      "sha256": "c348f913d6f382f969b7cd5702b6fa6347a9afb968b4c2768f46c16f99cee9cb"
+    },
+    {
+      "label": "PL10",
+      "file": "pixellab/PL10/image.png",
+      "size": [
+        64,
+        64
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "visible_bbox_alpha128": [
+        5,
+        12,
+        60,
+        53
+      ],
+      "sha256": "5a561cb3c6c7e614f4d943c49c81152b59bce2d4605005c6814749cd848b4e9a"
+    },
+    {
+      "label": "PL11",
+      "file": "pixellab/PL11-clean/image.png",
+      "size": [
+        64,
+        64
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "visible_bbox_alpha128": [
+        7,
+        11,
+        56,
+        51
+      ],
+      "sha256": "8d48ddc03ab3b5e66a66bfba16b3330ee5e07ad66849856534a6d20a2e87f721"
+    },
+    {
+      "label": "PL12",
+      "file": "pixellab/PL12/image.png",
+      "size": [
+        64,
+        64
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "visible_bbox_alpha128": [
+        5,
+        12,
+        58,
+        51
+      ],
+      "sha256": "de8f768eb9ca1a764fb6c548e269328c144700c95ac1c4af7107b6b7cedc8d6d"
+    },
+    {
+      "label": "PL13",
+      "file": "pixellab/PL13/image.png",
+      "size": [
+        64,
+        64
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "visible_bbox_alpha128": [
+        4,
+        11,
+        58,
+        54
+      ],
+      "sha256": "02af75fedafff2f7a0ee4c05e187e713735b419d9d107ee96aa3a032a21dec7f"
+    }
+  ],
+  "prior_png_unchanged": 35,
+  "imagegen_original_copies_identical": true,
+  "pixellab_post_count": 9,
+  "pixellab_generations": 13.0,
+  "imagegen_calls": 5,
+  "preview_scaling": "nearest only; G framing/thumbnail, native PL x4",
+  "limitations": [
+    "G originals are large raster concepts, not native64",
+    "G1/G2/G5 faint alpha halo; provider cleanup needed if selected",
+    "No gameplay, field placement or user acceptance tested"
+  ],
+  "PL11_masked_cleanup_preserved_pixels": 1653
+}

@@ -1,0 +1,54 @@
+{
+  "usage": {
+    "type": "generations",
+    "generations": 5.0
+  },
+  "id": "f9fda123-4803-492c-a200-47487537821d",
+  "status": "completed",
+  "created_at": "2026-11-22T21:43:21.620639+00:00",
+  "last_response": {
+    "seed": 202611342,
+    "type": "message_done",
+    "model": "inpaint_pro_flash",
+    "width": 64,
+    "action": "Removing background",
+    "height": 64,
+    "images": [
+      {
+        "type": "base64",
+        "width": 64,
+        "base64": "iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAJ+UlEQVR4nO1aeVBV1xn/7ltMeFZiNKKIhEWcNJK2pEpijDHFrZq4NDY2jTqJdWyi7ThtpzXpWFtqNhtNZ0xtm9FhFFNxqUuCGjeQl+CO2KIpEgKyJBUUVHAByXvA7fy+yznv3veecJUH+aP3NwN3O/fc8/2+9ZzziCxYsGDBggULFixY+L+EEopOnBSmeummqb4cdrvqf6+5pSUk47gTKJ3toObsFhYoaugcao8EkIRjoXu54X7/+MF0X8wPDe+KtoBZYu8Ujs68fLVyj/pVw3V6df42+iRjET05a0WAJUCYJbMm0PPzxhne7RF2Nx/LCgoMbXG8VLmdr1cuXk1Op11NTd/bZUQ47vTFpbOmqRighh78/1YkvLhwMh8XzN4h7723YTof/74yz9Dvjx97Sp7/8q2X+ej1ttAbGQdMu1m3EPBGxgGCZoHYaA8fE0eNCNp2/ardfNx8cCHVVZ9nIsQ9eKFTcRKpxNpPiG+mi2Xn2DUEkkfEEWVQl8B2py9CGyDhbLFNahgDh/nqfVgPPD97spDqGq5RaZmDvJ5WGjRQpSnDxvLzV2eMY63rhT+y8wCtereYugq2zrwMEnbk76O0P+8M0H4wEjalZQf24Wkll0szxKHfHmB4hvhw8ng5FVUXU3zfBO7zVuR+LQQIEpZtzeKAJTQngti4YZOCDrbOc40u1TbKa/epU7R0ziR6+oVnpNaBnf88Qes+/JQGhEfSjDGxbCGhhi00nShs0vqIDqiNLQFtodGvmhr4vMmj0ttbs+mlGUn086XzZJvHp05gEtj3g0BYQiisQaEQAYOZPXoyrfzHT6S/J6a8wqYbf+8gGvGolimOn/BQdunHfA6tA/NeeY6Pd/XsZbAAgU0bv+TgqM8MgH/90OVZoI+jn3q9+Ya8DvZx/whedrmUpoyKob05l/j6zIVPOXtAu0OTEwPeLf3POaqvb6BDuVV8b8rUIfT8zGi2nK6AYrahKGiEBv6Wmkb+BQrazBs/hn61eKJ8D1YggPfHP/UdGjg42tB33cVaKjpTTr1796QPdlSQw+EN+D6IAGH3RkYZLKxbLMDpJzwAn/UvUHBck3WQ/VKQgMAFP8f7Il0KICVC24A7p5aI8Bccu3aWtJ0V8v+tW89TL8c36ErzTeoWF0j2C0jQgChvQYJ/e+EGI0cPJtqaLQUGCk59wceSMrtvIG2n2w8dIb2bwaICSQBc1O+eAXTlso+0O5lDOMgk4IMJD53j8xWvHaRFf9CKFwDaRRbgDp02SsvaTX1/Y6NF7yyQwQ7usoS0ylG0JWrl9gfyT/BVTWOgBaRl5VCEqx9NffxbhvtbDu03CI5qcttf5nIGAVYuXq2mZmQqIQ2Cm9oKmUEDjZaBj8Ii8g+foZLPauQz/2iOqrGH05d58z7/nGqvXqCrzdc5ld4KIAZE+AMZpuxyKWsdwuvhdNpNTdOV9h7KzihMhRZeeuZhea/iSy2tibQHFB4+Tll7TrOGNx/bQ5mrXjaYL4TAZCfn9MkAbWMilfBwokyFIsgBSK8CYt4BoBQXFjZz/iSDm61fX0moUjsiwEEmEX1PtEH4zKMfs6/O2BlFkfdH8H0I7+82sJCaL1QaEKF9CsTogfWB3v0jpOD6GIKKErl+Q+5uOfHyF37967Np5PhH+Nxzs0nWDWaEN0UAtA+tiUIEtfuFqhsUflcvJgDRODa63GDm8G0AlpA8gijifoUqtbTOaCXVYPL1F2uof7yRgLa1AEkCBB4W+V06Vf0vqXVkIliKwKWqWurdJ5zHuiR+gqkptGKGAME+NA/hAczoJo25T6ZGDBgCe7ya8AC0IIoeUchAEASs6orNfN0nZjoVuVfQtvVuvoZQH73/gZwXCIAEQJ+ORYwRqVRfPAHTFq4OnQsI/2v2ugwTGTEQX2QnOlF0ms43VEvSYAUxA2OpsqqC7xXkvCkHf6VSWyRJTdf8PSzMQXN/O8fQv9CyIFNUjMLcAWSTC1WtFBtnY6vssgURj7eV6/q9bUEZgmjadUitA3pzBfRuAP/Wl8tCOEAIr7eCNSu1lAeXYKHTsmUQhuCIEQLz4nx1Q8gJOMv+rQHmD60f+qyY+ipY32uVwuvR2Ngsg+H1G77ZIQQEhJAwa98Sm3YfWWXPh/+mdzMPysKppAza1YQH3s/dRS3UJM08LSvntoohR0cN0MlrGfvVuSkTA5bDwH5fr7a4qc/NSXEJVHm+hq0ApLhck9kNBCCYv48Hw5OzVsg06LB7Kd2taXpOyvcp3a1ZhV54s0LftgW0UJOS7t4fUO6KnAxzhKb1GDeqD2UfvsLnzd5WLn8bGlUal/A9Fgw1gqjagvm7KLo01/DwJCouxkblla1S+FAskjo6atDT5VKbGlvlx5AVonpGBrQrKC9tt5+iYoU83h5UVlfKkxhE6CVtriEAIpel5kqfnj58IpWW2TitocYQ0T8u1UbvbDjU6YkQ0C6DUVFR6pHtfyRXeLjc+AABox98gn79s6HcBv6N2LAtfy/ndpi9HgiEv5g2lgoLW+iTc0fIq3pZq/+tUqQm/YG6A+5VVFJFQ2J964QPPqDSsy+mcACFpSB1Yo7RGWtQzFhAef46w86Pne5Wd62aH0BAcuSwgPf1mQCCD/lmBMXGR1JFWTVPga9dNw5BzBX8K0b9fgEWSIaPfUxev/fmRnp7o5vJFTBLiGKmEUhoaGyUbV1KuKr/GAqbRvUaW0ew9yE4Uph+3Q+BECRg8qQvoEQmCbbDJAIiYgqsQb+cBhIW/G6mbN/RVt1tEWAGGCAmNGJ5HAuk2zcc4/UA/2CH2gHVmxBer/GOBg3re3b4JLmULoIx4gO26dKWb5GBMiRp0KzweZm/p/ikJHkP54t013rhkREQFPF5aB7u45/ObgW025G/T8V84oXRUwzPsEcJihx2Xzne5RbgpDAVQW7W3JF8rSdBYO2f0unpHz3BQQvLaLer9fasYUJCClemsjK0e2mte59pQh0UAlyuC5PnYm8Amxrw+9jBfVl4ASH8xmMfBQxS+Dm0G0wA8VwQhjYHSt0qUQrFxml1yJqsg6aFD5kFoLhJTLSzFWSsPUqH8+q4VEaOT3hoMG+FH83Ko6yseg5gtxIeawNIcSDxkWmvB6w4ix2nUP6ewNFZAvBBoQVsdeeeqeRlrufCo1h4ASx5E9Wz2benIewew43a1gEM83n9XMF/DF/r1lgLNSlitwcYnzSKHhjqWzgUy1QdAYutKLqw5wDod5rFbjT+Qvk7AUeoOsKg1uXuUpWWHrz3F75DpZT6hjbNawWTfhYX7P217n1q3HIbr+/BEv66LDOgDYUYCnURfpryA9ZcU5Ody1oB1PlmfkvUXb8RUrqyc1SQMx/1FUG3k566C0pXfwA/i4NbdIc2LViwYMGCBQsWLFiwYMECmcP/AK9G/fmQklBbAAAAAElFTkSuQmCC",
+        "height": 64
+      }
+    ],
+    "prompt": "Erase ALL background rocks and stone fragments in every white masked area. Make all masked background fully transparent. Preserve the central unmasked bone heap exactly. Do not add bones, rocks, floor, shadows, debris, glow or any new objects. This is background removal only.",
+    "status": "completed",
+    "paste_x": 0,
+    "paste_y": 0,
+    "asset_id": "49af9168-862e-5fbb-baa8-8943a2ac5029",
+    "image_id": "49af9168-862e-5fbb-baa8-8943a2ac5029",
+    "job_kind": "creator-image",
+    "progress": 1.0,
+    "image_url": "https://s3.eu-central-003.backblazeb2.com/pixellab-generations/production/creator/fde61ad5-94d0-4740-b19d-41b66e0c3d38/49af9168-862e-5fbb-baa8-8943a2ac5029/image.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0037e6521c1d7c20000000001%2F20261122%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20261122T214335Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=2f44db71142dee05a30465c79f967af39894c6491da18a876027a9b07a8a6445",
+    "billing_usage": {
+      "usd": 0.0,
+      "type": "generations",
+      "generations": 5
+    },
+    "canvas_growth": false,
+    "generation_id": "39397062-faaf-4f39-a6e9-5c5c6166b7ba",
+    "output_method": "Modify current layer",
+    "billing_charged": true,
+    "original_images": [
+      {
+        "type": "base64",
+        "width": 64,
+        "base64": "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",
+        "height": 64
+      }
+    ],
+    "source_image_id": "49af9168-862e-5fbb-baa8-8943a2ac5029",
+    "creator_image_saved": true,
+    "generation_started_at": "2026-11-22T21:43:21.652147+00:00"
+  }
+}

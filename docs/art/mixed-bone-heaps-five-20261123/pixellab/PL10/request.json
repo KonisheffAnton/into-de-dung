@@ -1,0 +1,16 @@
+{
+  "endpoint": "/create-image-pixen",
+  "payload": {
+    "description": "ONE compact low heap of MIXED TYPES OF BONE FRAGMENTS for a pixel-art dungeon tactics game. Inside this ONE heap every bone has a DIFFERENT silhouette: one long thick broken shaft, two short thin splinters, one curved arc fragment, one flat irregular chipped shard, one knobbly joint stump and one short angular chunk. Seven to nine overlapping pieces total. Mix long and short, thick and thin, curved and flat pieces TOGETHER in one connected mound. Do NOT repeat identical cartoon dog bones. No separate clusters, ring or neat arrangement. Bare anonymous bones, impossible to tell human or monster. NO skull, face, eye holes, jaw, teeth, pelvis, complete rib cage, hands, feet, claws, horns, upright plate, flesh or blood. Simple crisp chunky native 64x64 pixel sprite; visible heap about 48x28 pixels. Only 8-10 muted dirty ivory, taupe and purple-gray flat colors; selective dark outline. Shallow three-quarter overhead camera, light top left. Very low wide silhouette. Transparent background. No floor, pedestal, debris outside the heap, soft shadows, glow, antialiasing, gradients, detailed surface texture, lettering or watermark. A compact rounded low mound with a flat angular shard lying nearly horizontal at the center, a thin bent bone and thick short stump crossing behind, a knobbly joint and two splinters in front. Every piece has a different shape.",
+    "image_size": {
+      "width": 64,
+      "height": 64
+    },
+    "outline": "selective outline",
+    "detail": "low detail",
+    "view": "high top-down",
+    "no_background": true,
+    "enhance_prompt": false,
+    "seed": 202611331
+  }
+}

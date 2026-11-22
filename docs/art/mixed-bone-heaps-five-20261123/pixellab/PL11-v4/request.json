@@ -1,0 +1,16 @@
+{
+  "endpoint": "/create-image-pixen",
+  "payload": {
+    "description": "One LOW WIDE compact heap of DIFFERENT anonymous bare bone fragments. A chunky joint stump, one thin crooked splinter, a flat chipped shard lying horizontally, one short thick broken shaft and two tiny irregular chips, all overlapping. No skull, face, ribcage, ring, recognizable skeleton or tall upright plate. Simple dark fantasy pixel art, large crisp clusters, dirty ivory and taupe with dark purple-gray shadows, selective dark outline. Low three-quarter overhead view, low mound resting on the ground. Sprite centered with transparent margins, wide footprint, no floor, background, meat, shadow halo or smoothing.",
+    "image_size": {
+      "width": 64,
+      "height": 64
+    },
+    "outline": "selective outline",
+    "detail": "low detail",
+    "view": "low top-down",
+    "no_background": true,
+    "enhance_prompt": false,
+    "seed": 202611341
+  }
+}
