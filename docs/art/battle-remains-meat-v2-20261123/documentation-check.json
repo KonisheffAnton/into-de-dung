@@ -1,0 +1,9 @@
+{
+  "base": "4ea5f0955c89cf0344625f1d264d0bd983888da0",
+  "handoff_chars_before": 2427,
+  "handoff_chars_after": 2349,
+  "archive_exact": true,
+  "archive_sha256": "331152f9a66f8c84ac6c9a305c5e98c97c8196155be9fbc551c9342bc6439967",
+  "boundaries_preserved": true,
+  "foreign_changes_preserved": true
+}

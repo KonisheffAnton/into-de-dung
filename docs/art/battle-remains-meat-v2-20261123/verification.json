@@ -1,0 +1,55 @@
+{
+  "base": "4ea5f0955c89cf0344625f1d264d0bd983888da0",
+  "date": "2026-11-23",
+  "variants": [
+    {
+      "id": "PL-F1",
+      "size": [
+        64,
+        64
+      ],
+      "rgba": true,
+      "sha256": "6f9d9d175c99a23f830030bcb467fdc004bd99a801317762a195f008367426e7",
+      "source": "../battle-remains-variants-20261122/pixellab/PL-F1/image.png"
+    },
+    {
+      "id": "PL-F2",
+      "size": [
+        64,
+        64
+      ],
+      "rgba": true,
+      "sha256": "d502721861c6b1236ceb3ce62a412a57a0a6fe43819233597a4d75dc90cf5069",
+      "source": "../battle-remains-variants-20261122/pixellab/PL-F2/image.png"
+    },
+    {
+      "id": "PL-F3",
+      "size": [
+        64,
+        64
+      ],
+      "rgba": true,
+      "sha256": "b28188b51ab6856c53e4b8c1bf59d2638bcdd7832cfb520b733c31797f699b40",
+      "source": "../battle-remains-variants-20261122/pixellab/PL-F3/image.png"
+    }
+  ],
+  "previous_images_unchanged": [
+    "G-F1",
+    "G-F2",
+    "G-F3",
+    "G-B1",
+    "G-B2",
+    "G-B3",
+    "PL-F1",
+    "PL-F2",
+    "PL-F3",
+    "PL-B1",
+    "PL-B2",
+    "PL-B3"
+  ],
+  "pixellab_usage_generations": 3.0,
+  "post_requests": 3,
+  "review": "APPROVE for preview; PL1 closest to slight increase; PL3 clearly meatier",
+  "runtime_changed": false,
+  "checks": "PNG64x64/RGBA/alpha, prior12SHA unchanged, usage3, native x4 nearest preview; Godot not run"
+}
