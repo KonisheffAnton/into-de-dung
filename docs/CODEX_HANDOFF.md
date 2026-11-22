@@ -1,35 +1,34 @@
-# Передача — 2026-11-22: запись С2 на поле
+# Передача — 2026-11-22: носитель в бою и метки карт
 
-D:/Games/into-de-dung; main, база3dde79de646d5aa45c6f71609e3577a3d174bf61.
-По U записана настоящая смерть троглодита на тестовой доске:
-DeathCommand → receipt → BattlePresentationPlayer → fresh corpse.
-[GIF/WebP/кадры/проверки](art/troglodyte-c2-live-20261122/README.md),
-скрипт tools/demo/capture_troglodyte_death.gd. Gameplay/арт не менялись.
-Все33 кадра С2 проверены по texture identity,0–32. Тень остаётся на опоре
-во время падения; после clip фигура/полосы/тень скрываются, остаётся
-штатная отметка свежего трупа. HP24 во время transient clip — before-state;
-в окончательном состоянии HP0. Постоянного лежащего спрайта пока нет.
+D:/Games/into-de-dung; main; база8182f7a85537260d87e448bc715fbbcdd05efda4.
+По U записан [боевой интерфейс носителя](DESIGN_DIRECTION.md#mage-possession-battle-ui-20261122)
+в DESIGN_DIRECTION§3.2.1: постоянный знак/портрет, «Носителю»/«От носителя»,
+подсветка целей/нить/урон и предупреждение о гибели по актуальному прогнозу.
+Только концепт; карты, правила и runtime этим этапом не менялись.
+Прежняя фраза о непринятой кнопке камеры уточнена по принятому варианту.
+[Отчёт/проверки](../test_reports/mage-host-battle-ui-concept-20261122/validation.json):
+diff, ссылки, точный архив и защищённые файлы. Godot/игровые тесты не запускались.
+Следующий шаг — отдельное U. Размеры/компоновка/читаемость/приёмка в игре открыты;
+баланс карт этим этапом не проверен. Согласование не запускает реализацию.
 
-Чистый committed runtime из git archive + capture script, отдельный APPDATA:
-Godot import/GPU capture PASS,38PNG/33death/0 ошибок. State/RNG/counters/
-revision неизменны при playback. GIF/WebP960×640,5.36с; WebP lossless.
-Технические transition-публикации исключены из экспорта, клип С2 целиком.
-Независимое ревью скрипта/GPU APPROVE,35 lossless-кадров WebP сверены с PNG.
-Full/core, ручной бой и DPI/performance не повторены. Приёмка U открыта.
-[Контракт](TAMED_TROGLODYTE_V1.md), [исправление посадки/С2](art/troglodyte-grounding-c2-20261122/README.md).
-Следующий шаг — оценить падение/контакт и при необходимости уточнить финальный труп.
+Прежний8182f7a8 — [запись С2 троглодита](art/troglodyte-c2-live-20261122/README.md).
+Его import/GPU capture,38PNG/33death/0 ошибок и APPROVE не повторялись.
+Приёмка падения/контакта U и вопрос постоянного лежащего трупа открыты.
+Full/core, ручной F5/Editor/DPI/performance не запускались;60FPS не заявлены.
+Прочие игровые пакеты/проверки — HISTORY и архив, прежние gates не повторены.
 
-Сохранять отсутствие инициативы, core/queue/preview/RNG/save/frozen,
-бронирование у фигуры,5 классов, PLAYER вправо/ENEMY влево, пробу2:1/4:3.
-Параллельный host/possession пакет, main_menu и battlefield-reference03
-не включены: полный status перед работой, чужое не reset/stage/commit.
-Владельцы параллельной работы — DESIGN_DIRECTION§3.2.1/HOST_POSSESSION_V1.
-Без push/sidebar/расписаний. Один isolated runner, без root import.
-Остатки D:/Games/trog-grounding-check-20261122 не удалять повторно:
-предыдущий cleanup отклонён автопроверкой; отчёты сохранены.
-
-[Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261122-8.md) + HISTORY.
-После этапа/при блокере предложить новый чат и полный промпт: HEAD, результат,
-docs/artifacts, остаток, ограничения, проверки и это же правило передачи.
-Прежний HANDOFF архивировать побайтно отдельно со ссылкой из HISTORY;
-чат автоматически не создавать.
+Параллельный dirty host/possession/runtime/UI/тесты и документы — чужая работа;
+полный status обязателен. В DESIGN_DIRECTION чужие правки сохранены отдельно
+от нашего коммита. Чужое не reset/stage/commit и не считать проверенным здесь.
+Особо scenes/demo/main_menu.tscn и docs/art/battlefield-reference-03-20261017/.
+Сохранить core/preview/queue/RNG/save/frozen, правило брони,5 классов F5,
+PLAYER вправо/ENEMY влево, возврат после атаки, пробу2:1↔4:3.
+Инициативы нет; команда3, будущий лимит Q; каталоги1–3 не мигрировать.
+H2–H5 автоматически не начинать. Один isolated runner, без root import,
+служб/драйверов/фокуса ОС/push/sidebar tasks/расписаний.
+D:/Games/trog-grounding-check-20261122 не удалять повторно: cleanup ранее отклонён.
+[Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261122-9.md), [HISTORY](HISTORY.md).
+Завершение: проверки, локальный Conventional Commit только своего, короткий HANDOFF;
+прежний побайтно отдельно+HISTORY. В финале/при блокере предложить новый чат
+и полный промпт: HEAD,результат,docs/artifacts,остаток,ограничения,проверки
+и это же правило. Чат автоматически не создавать.
