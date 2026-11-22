@@ -1,0 +1,8 @@
+{
+  "handoff_chars_before": 2244,
+  "handoff_chars_after": 2210,
+  "archive_sha256": "980f7b15a40d7da1c9387d2785189ce0b378993655041d3971f51c01f009fbcf",
+  "archive_exact": true,
+  "protected_rules": "Preserved no initiative, core/queue/preview/RNG/save/frozen, armor visibility, 5 classes/facing, 2:1/4:3, foreign WIP, no push/sidebar/schedules, isolated single runner, prior cleanup rejection, full prompt/archive rule",
+  "scope": "capture tool and evidence only"
+}

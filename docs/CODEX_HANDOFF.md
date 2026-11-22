@@ -1,32 +1,34 @@
-# Передача — 2026-11-22: С2 и посадка троглодита
+# Передача — 2026-11-22: запись С2 на поле
 
-D:/Games/into-de-dung; main. Код проверен на7b98b01c + только этот срез;
-параллельный docs-коммит80cf5c42 сохранён, его runtime-работа не включена.
-U заменил смерть наС2 и указал на парение/тень. Подключён точный PixelLab death-2;
-якорь128/184 опускает фигуру на6.4px при100%, тень расширена×1.25 под лапами.
-Размер~⅔ воина, О3/О2/Р2, пиксели и палитра прежние. Другие скины имеют×1.
-[Владелец](TAMED_TROGLODYTE_V1.md), [С2/кадры/проверки](art/troglodyte-grounding-c2-20261122/README.md).
-33 кадра С2 точно совпадают с исходниками; сборка --check PASS.
+D:/Games/into-de-dung; main, база3dde79de646d5aa45c6f71609e3577a3d174bf61.
+По U записана настоящая смерть троглодита на тестовой доске:
+DeathCommand → receipt → BattlePresentationPlayer → fresh corpse.
+[GIF/WebP/кадры/проверки](art/troglodyte-c2-live-20261122/README.md),
+скрипт tools/demo/capture_troglodyte_death.gd. Gameplay/арт не менялись.
+Все33 кадра С2 проверены по texture identity,0–32. Тень остаётся на опоре
+во время падения; после clip фигура/полосы/тень скрываются, остаётся
+штатная отметка свежего трупа. HP24 во время transient clip — before-state;
+в окончательном состоянии HP0. Постоянного лежащего спрайта пока нет.
 
-Чистый detached worktree+isolated runner: import/startup и4 visual suites PASS,
-1622/0 (unit_visual_contract45, class_showcase_ui60, character_skins1475,
-tamed_troglodyte_visual42). Независимые code/GPU reviews APPROVE.
-Кадры проверяют тень/лапы/плитку, обе стороны,2:1/4:3 и позу С2.
-Снимок С2 использует живой test unit и сохраняет его HP-полоску; это проверка
-геометрии, а не финального HUD после смерти. Full/core, ручной F5-бой,
-DPI/performance не повторены. Следующий шаг — художественная приёмка U.
+Чистый committed runtime из git archive + capture script, отдельный APPDATA:
+Godot import/GPU capture PASS,38PNG/33death/0 ошибок. State/RNG/counters/
+revision неизменны при playback. GIF/WebP960×640,5.36с; WebP lossless.
+Технические transition-публикации исключены из экспорта, клип С2 целиком.
+Независимое ревью скрипта/GPU APPROVE,35 lossless-кадров WebP сверены с PNG.
+Full/core, ручной бой и DPI/performance не повторены. Приёмка U открыта.
+[Контракт](TAMED_TROGLODYTE_V1.md), [исправление посадки/С2](art/troglodyte-grounding-c2-20261122/README.md).
+Следующий шаг — оценить падение/контакт и при необходимости уточнить финальный труп.
 
-Боевые правила троглодита/останков прежние; владелец TAMED_TROGLODYTE/ENVIRONMENT_D5.
-Сохранять правило брони у фигуры,5 классов F5, PLAYER вправо/ENEMY влево,
-пробу2:1 с возвратом4:3. Инициативы нет; core/queue/preview/RNG/save/frozen сохранять.
-Выбор носителя/огонёк и две карты — по DESIGN_DIRECTION§3.2.1; отдельный
-параллельный runtime-пакет ещё dirty, не включать и не считать проверенным этим срезом.
-Чужие main_menu.tscn, battlefield-reference-03-20261017/ и host-card правки
-не reset/stage/commit. Полный git status обязателен. Без push/sidebar/расписаний.
-Один isolated runner, без root import. Остатки D:/Games/trog-grounding-check-20261122
-оставлены: git cleanup встретил long path, следующий delete отклонён автопроверкой.
-Отчёты сохранены в test_reports/troglodyte-grounding-c2-20261122/.
-[Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261122-7.md) + HISTORY.
+Сохранять отсутствие инициативы, core/queue/preview/RNG/save/frozen,
+бронирование у фигуры,5 классов, PLAYER вправо/ENEMY влево, пробу2:1/4:3.
+Параллельный host/possession пакет, main_menu и battlefield-reference03
+не включены: полный status перед работой, чужое не reset/stage/commit.
+Владельцы параллельной работы — DESIGN_DIRECTION§3.2.1/HOST_POSSESSION_V1.
+Без push/sidebar/расписаний. Один isolated runner, без root import.
+Остатки D:/Games/trog-grounding-check-20261122 не удалять повторно:
+предыдущий cleanup отклонён автопроверкой; отчёты сохранены.
+
+[Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261122-8.md) + HISTORY.
 После этапа/при блокере предложить новый чат и полный промпт: HEAD, результат,
 docs/artifacts, остаток, ограничения, проверки и это же правило передачи.
 Прежний HANDOFF архивировать побайтно отдельно со ссылкой из HISTORY;

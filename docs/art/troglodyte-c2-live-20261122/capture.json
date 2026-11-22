@@ -1,0 +1,550 @@
+{
+	"animation": "C2 / death-2",
+	"camera_zoom": 2.0,
+	"death_frames": 33,
+	"failed_checks": 0,
+	"frames": [
+		{
+			"corpse_count": 0,
+			"death_progress": -1.0,
+			"duration_ms": 720,
+			"figure_visible": true,
+			"file": "frame-000.png",
+			"shadow_center": [
+				540.0,
+				350.0
+			],
+			"shadow_visible": true,
+			"source_frame": -1,
+			"stage": "before"
+		},
+		{
+			"corpse_count": 0,
+			"death_progress": 0.0151515146717429,
+			"duration_ms": 80,
+			"figure_visible": true,
+			"file": "frame-001.png",
+			"shadow_center": [
+				540.0,
+				350.0
+			],
+			"shadow_visible": true,
+			"source_frame": 0,
+			"stage": "death"
+		},
+		{
+			"corpse_count": 0,
+			"death_progress": 0.0454545430839062,
+			"duration_ms": 80,
+			"figure_visible": true,
+			"file": "frame-002.png",
+			"shadow_center": [
+				540.0,
+				350.0
+			],
+			"shadow_visible": true,
+			"source_frame": 1,
+			"stage": "death"
+		},
+		{
+			"corpse_count": 0,
+			"death_progress": 0.0757575705647469,
+			"duration_ms": 80,
+			"figure_visible": true,
+			"file": "frame-003.png",
+			"shadow_center": [
+				540.0,
+				350.0
+			],
+			"shadow_visible": true,
+			"source_frame": 2,
+			"stage": "death"
+		},
+		{
+			"corpse_count": 0,
+			"death_progress": 0.106060601770878,
+			"duration_ms": 80,
+			"figure_visible": true,
+			"file": "frame-004.png",
+			"shadow_center": [
+				540.0,
+				350.0
+			],
+			"shadow_visible": true,
+			"source_frame": 3,
+			"stage": "death"
+		},
+		{
+			"corpse_count": 0,
+			"death_progress": 0.136363640427589,
+			"duration_ms": 80,
+			"figure_visible": true,
+			"file": "frame-005.png",
+			"shadow_center": [
+				540.0,
+				350.0
+			],
+			"shadow_visible": true,
+			"source_frame": 4,
+			"stage": "death"
+		},
+		{
+			"corpse_count": 0,
+			"death_progress": 0.166666656732559,
+			"duration_ms": 80,
+			"figure_visible": true,
+			"file": "frame-006.png",
+			"shadow_center": [
+				540.0,
+				350.0
+			],
+			"shadow_visible": true,
+			"source_frame": 5,
+			"stage": "death"
+		},
+		{
+			"corpse_count": 0,
+			"death_progress": 0.19696968793869,
+			"duration_ms": 80,
+			"figure_visible": true,
+			"file": "frame-007.png",
+			"shadow_center": [
+				540.0,
+				350.0
+			],
+			"shadow_visible": true,
+			"source_frame": 6,
+			"stage": "death"
+		},
+		{
+			"corpse_count": 0,
+			"death_progress": 0.227272734045982,
+			"duration_ms": 80,
+			"figure_visible": true,
+			"file": "frame-008.png",
+			"shadow_center": [
+				540.0,
+				350.0
+			],
+			"shadow_visible": true,
+			"source_frame": 7,
+			"stage": "death"
+		},
+		{
+			"corpse_count": 0,
+			"death_progress": 0.257575750350952,
+			"duration_ms": 80,
+			"figure_visible": true,
+			"file": "frame-009.png",
+			"shadow_center": [
+				540.0,
+				350.0
+			],
+			"shadow_visible": true,
+			"source_frame": 8,
+			"stage": "death"
+		},
+		{
+			"corpse_count": 0,
+			"death_progress": 0.287878781557083,
+			"duration_ms": 80,
+			"figure_visible": true,
+			"file": "frame-010.png",
+			"shadow_center": [
+				540.0,
+				350.0
+			],
+			"shadow_visible": true,
+			"source_frame": 9,
+			"stage": "death"
+		},
+		{
+			"corpse_count": 0,
+			"death_progress": 0.318181782960892,
+			"duration_ms": 80,
+			"figure_visible": true,
+			"file": "frame-011.png",
+			"shadow_center": [
+				540.0,
+				350.0
+			],
+			"shadow_visible": true,
+			"source_frame": 10,
+			"stage": "death"
+		},
+		{
+			"corpse_count": 0,
+			"death_progress": 0.348484843969345,
+			"duration_ms": 80,
+			"figure_visible": true,
+			"file": "frame-012.png",
+			"shadow_center": [
+				540.0,
+				350.0
+			],
+			"shadow_visible": true,
+			"source_frame": 11,
+			"stage": "death"
+		},
+		{
+			"corpse_count": 0,
+			"death_progress": 0.378787875175476,
+			"duration_ms": 80,
+			"figure_visible": true,
+			"file": "frame-013.png",
+			"shadow_center": [
+				540.0,
+				350.0
+			],
+			"shadow_visible": true,
+			"source_frame": 12,
+			"stage": "death"
+		},
+		{
+			"corpse_count": 0,
+			"death_progress": 0.409090906381607,
+			"duration_ms": 80,
+			"figure_visible": true,
+			"file": "frame-014.png",
+			"shadow_center": [
+				540.0,
+				350.0
+			],
+			"shadow_visible": true,
+			"source_frame": 13,
+			"stage": "death"
+		},
+		{
+			"corpse_count": 0,
+			"death_progress": 0.439393907785416,
+			"duration_ms": 80,
+			"figure_visible": true,
+			"file": "frame-015.png",
+			"shadow_center": [
+				540.0,
+				350.0
+			],
+			"shadow_visible": true,
+			"source_frame": 14,
+			"stage": "death"
+		},
+		{
+			"corpse_count": 0,
+			"death_progress": 0.469696968793869,
+			"duration_ms": 80,
+			"figure_visible": true,
+			"file": "frame-016.png",
+			"shadow_center": [
+				540.0,
+				350.0
+			],
+			"shadow_visible": true,
+			"source_frame": 15,
+			"stage": "death"
+		},
+		{
+			"corpse_count": 0,
+			"death_progress": 0.5,
+			"duration_ms": 80,
+			"figure_visible": true,
+			"file": "frame-017.png",
+			"shadow_center": [
+				540.0,
+				350.0
+			],
+			"shadow_visible": true,
+			"source_frame": 16,
+			"stage": "death"
+		},
+		{
+			"corpse_count": 0,
+			"death_progress": 0.530303001403809,
+			"duration_ms": 80,
+			"figure_visible": true,
+			"file": "frame-018.png",
+			"shadow_center": [
+				540.0,
+				350.0
+			],
+			"shadow_visible": true,
+			"source_frame": 17,
+			"stage": "death"
+		},
+		{
+			"corpse_count": 0,
+			"death_progress": 0.560606062412262,
+			"duration_ms": 80,
+			"figure_visible": true,
+			"file": "frame-019.png",
+			"shadow_center": [
+				540.0,
+				350.0
+			],
+			"shadow_visible": true,
+			"source_frame": 18,
+			"stage": "death"
+		},
+		{
+			"corpse_count": 0,
+			"death_progress": 0.590909063816071,
+			"duration_ms": 80,
+			"figure_visible": true,
+			"file": "frame-020.png",
+			"shadow_center": [
+				540.0,
+				350.0
+			],
+			"shadow_visible": true,
+			"source_frame": 19,
+			"stage": "death"
+		},
+		{
+			"corpse_count": 0,
+			"death_progress": 0.621212065219879,
+			"duration_ms": 80,
+			"figure_visible": true,
+			"file": "frame-021.png",
+			"shadow_center": [
+				540.0,
+				350.0
+			],
+			"shadow_visible": true,
+			"source_frame": 20,
+			"stage": "death"
+		},
+		{
+			"corpse_count": 0,
+			"death_progress": 0.651515126228333,
+			"duration_ms": 80,
+			"figure_visible": true,
+			"file": "frame-022.png",
+			"shadow_center": [
+				540.0,
+				350.0
+			],
+			"shadow_visible": true,
+			"source_frame": 21,
+			"stage": "death"
+		},
+		{
+			"corpse_count": 0,
+			"death_progress": 0.681818127632141,
+			"duration_ms": 80,
+			"figure_visible": true,
+			"file": "frame-023.png",
+			"shadow_center": [
+				540.0,
+				350.0
+			],
+			"shadow_visible": true,
+			"source_frame": 22,
+			"stage": "death"
+		},
+		{
+			"corpse_count": 0,
+			"death_progress": 0.712121188640594,
+			"duration_ms": 80,
+			"figure_visible": true,
+			"file": "frame-024.png",
+			"shadow_center": [
+				540.0,
+				350.0
+			],
+			"shadow_visible": true,
+			"source_frame": 23,
+			"stage": "death"
+		},
+		{
+			"corpse_count": 0,
+			"death_progress": 0.742424249649048,
+			"duration_ms": 80,
+			"figure_visible": true,
+			"file": "frame-025.png",
+			"shadow_center": [
+				540.0,
+				350.0
+			],
+			"shadow_visible": true,
+			"source_frame": 24,
+			"stage": "death"
+		},
+		{
+			"corpse_count": 0,
+			"death_progress": 0.772727251052856,
+			"duration_ms": 80,
+			"figure_visible": true,
+			"file": "frame-026.png",
+			"shadow_center": [
+				540.0,
+				350.0
+			],
+			"shadow_visible": true,
+			"source_frame": 25,
+			"stage": "death"
+		},
+		{
+			"corpse_count": 0,
+			"death_progress": 0.803030252456665,
+			"duration_ms": 80,
+			"figure_visible": true,
+			"file": "frame-027.png",
+			"shadow_center": [
+				540.0,
+				350.0
+			],
+			"shadow_visible": true,
+			"source_frame": 26,
+			"stage": "death"
+		},
+		{
+			"corpse_count": 0,
+			"death_progress": 0.833333313465118,
+			"duration_ms": 80,
+			"figure_visible": true,
+			"file": "frame-028.png",
+			"shadow_center": [
+				540.0,
+				350.0
+			],
+			"shadow_visible": true,
+			"source_frame": 27,
+			"stage": "death"
+		},
+		{
+			"corpse_count": 0,
+			"death_progress": 0.863636314868927,
+			"duration_ms": 80,
+			"figure_visible": true,
+			"file": "frame-029.png",
+			"shadow_center": [
+				540.0,
+				350.0
+			],
+			"shadow_visible": true,
+			"source_frame": 28,
+			"stage": "death"
+		},
+		{
+			"corpse_count": 0,
+			"death_progress": 0.893939316272736,
+			"duration_ms": 80,
+			"figure_visible": true,
+			"file": "frame-030.png",
+			"shadow_center": [
+				540.0,
+				350.0
+			],
+			"shadow_visible": true,
+			"source_frame": 29,
+			"stage": "death"
+		},
+		{
+			"corpse_count": 0,
+			"death_progress": 0.924242436885834,
+			"duration_ms": 80,
+			"figure_visible": true,
+			"file": "frame-031.png",
+			"shadow_center": [
+				540.0,
+				350.0
+			],
+			"shadow_visible": true,
+			"source_frame": 30,
+			"stage": "death"
+		},
+		{
+			"corpse_count": 0,
+			"death_progress": 0.954545438289642,
+			"duration_ms": 80,
+			"figure_visible": true,
+			"file": "frame-032.png",
+			"shadow_center": [
+				540.0,
+				350.0
+			],
+			"shadow_visible": true,
+			"source_frame": 31,
+			"stage": "death"
+		},
+		{
+			"corpse_count": 0,
+			"death_progress": 0.984848380088806,
+			"duration_ms": 80,
+			"figure_visible": true,
+			"file": "frame-033.png",
+			"shadow_center": [
+				540.0,
+				350.0
+			],
+			"shadow_visible": true,
+			"source_frame": 32,
+			"stage": "death"
+		},
+		{
+			"corpse_count": 0,
+			"death_progress": -1.0,
+			"duration_ms": 80,
+			"figure_visible": false,
+			"file": "frame-034.png",
+			"shadow_center": [
+				540.0,
+				350.0
+			],
+			"shadow_visible": false,
+			"source_frame": -1,
+			"stage": "transition"
+		},
+		{
+			"corpse_count": 1,
+			"death_progress": -1.0,
+			"duration_ms": 80,
+			"figure_visible": false,
+			"file": "frame-035.png",
+			"shadow_center": [
+				540.0,
+				350.0
+			],
+			"shadow_visible": false,
+			"source_frame": -1,
+			"stage": "transition"
+		},
+		{
+			"corpse_count": 1,
+			"death_progress": -1.0,
+			"duration_ms": 80,
+			"figure_visible": false,
+			"file": "frame-036.png",
+			"shadow_center": [
+				540.0,
+				350.0
+			],
+			"shadow_visible": false,
+			"source_frame": -1,
+			"stage": "transition"
+		},
+		{
+			"corpse_count": 1,
+			"death_progress": -1.0,
+			"duration_ms": 2000,
+			"figure_visible": false,
+			"file": "frame-037.png",
+			"shadow_center": [
+				540.0,
+				350.0
+			],
+			"shadow_visible": false,
+			"source_frame": -1,
+			"stage": "after"
+		}
+	],
+	"source": "production DeathCommand and BattlePresentationPlayer",
+	"target_cell": [
+		6,
+		2
+	],
+	"target_id": 7,
+	"viewport": [
+		960,
+		640
+	]
+}

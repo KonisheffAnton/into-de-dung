@@ -1,0 +1,53 @@
+{
+  "checks": [
+    "All35 decoded WebP frames exactly equal GPU PNG RGB;35 GIF frames/durations match;no scaling"
+  ],
+  "capture_failed_checks": 0,
+  "source_frames": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32
+  ],
+  "duration_ms": 5360,
+  "code_gpu_review": "APPROVE by monster_visual_review; source frame check fixed before final capture",
+  "review_scope": "capture tool, metadata, GPU stills; codec validation by lead",
+  "production_changes": false,
+  "sha256": {
+    "before.png": "d35a5aa2370822e81abf5f9ce947496fa910848f8a19b516dbb82d8b65a87e8e",
+    "c2-on-field.gif": "b802e74c5f402bc588afe3fc3cc02d363daec684afeff193c4a6339d4a666e15",
+    "c2-on-field.webp": "336562e2d4469bf4357708e8fdd217844a7138f91d37295a9586f566daf60a5d",
+    "fall.png": "2f5dfce6801d10f9dbaa6043a98921f8ca512ab92d16098477f131ddf9870791",
+    "fresh-corpse.png": "7139749343abb5a0b18e69542c1f32aabca0bd8d531ddb59b85101f471912fbb",
+    "landed.png": "5939053773a518de92c7bbe4346fb70d9b1470a012008e22a8353c09420f26d5"
+  }
+}
