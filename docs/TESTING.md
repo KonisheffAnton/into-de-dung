@@ -19,6 +19,18 @@
 
 ## Изменение игрового кода
 
+Переключаемая проекция2:1/4:3 (2026-11-22):
+`python tools/demo/isolate.py --render-check --only battle_camera_ui
+dungeon_room_comparison visual_scene_contract environment_visual_contract
+acid_tile_animation fire29_animation fire29_overlap current_art_zoom
+battle_view_reuse battle_hud_input presentation_environment presentation_contact
+presentation_ranged unit_visual_contract --screen 0` (одна команда).
+Camera suite проверяет реальный клик2:1→4:3→2:1, запрет во время исполнения,
+picking/resize и неизменность snapshot/RNG/ресурсов фигур. Dungeon suite
+проверяет совпадение рисуемого верха с picking, UV/текстуры, глубину боковин,
+стеновые шипы, кислоту и кадр огня; сохраняет `projection-4x3.png` и
+`projection-2x1.png` с настоящей первой комнатой. Ручная приёмка отдельно.
+
 Целые очки равновесия и Guard−2 (2026-11-15):
 `python tools/demo/isolate.py --render-check --only core integer_balance
 balance_recovery push_chain guard warrior_class unit_vital_bars current_schema_boundary

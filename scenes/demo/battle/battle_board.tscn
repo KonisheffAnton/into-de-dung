@@ -17,6 +17,7 @@ clip_contents = false
 script = ExtResource("board")
 authored_layout = true
 camera_controls_enabled = true
+shallow_projection = true
 
 [node name="CompactForecast" parent="." instance=ExtResource("forecast")]
 script = ExtResource("forecast_script")

@@ -18,6 +18,7 @@ var _view_initialized: bool = false
 var _view_tile_size: Vector2
 var _view_height_step: float
 var _view_origin: Vector2
+var _ground_authored_scales: Dictionary[NodePath, Vector2] = {}
 @onready var _rest_modulate: Color = modulate
 
 func _ready() -> void:
@@ -89,6 +90,7 @@ func retire_view() -> void:
 func sync_scene_art() -> void:
 	super.sync_scene_art()
 	if not is_inside_tree() or grid_config == null: return
+	_sync_ground_projection()
 	_sync_selected_fire()
 	if deep_acid and _deep_acid_view == null:
 		_deep_acid_view = DEEP_ACID_SCENE.instantiate() as Node2D
@@ -99,6 +101,8 @@ func sync_scene_art() -> void:
 		_deep_acid_view.position = _top_offset()
 		_deep_acid_view.scale = Vector2.ONE * (grid_config.tile_size.x / 128.0)
 		var liquid := _deep_acid_view.get_node(^"Liquid") as BattleAnimatedAcidPool
+		# Утопление8px — вертикальная глубина; сжимаем только саму плоскость жидкости.
+		liquid.scale = Vector2(1.0, _ground_flattening())
 		liquid.set_active(active)
 		if active:
 			# Полный ромб жидкости ниже пола; верх кладки следует за ним без отдельного бортика.
@@ -115,6 +119,19 @@ func sync_view_transform() -> void:
 	pass
 
 
+func _ground_flattening() -> float:
+	return grid_config.tile_size.y / grid_config.tile_size.x / (96.0 / 128.0)
+
+
+func _sync_ground_projection() -> void:
+	# Исходные рисунки остаются4:3. Меняем плоскости, а не ArtRoot с вертикальными деталями.
+	for path: NodePath in [^"ArtRoot/GroundBase", ^"ArtRoot/SurfaceSprite", ^"ArtRoot/GroundSurface", ^"ArtRoot/DungeonWallTop"]:
+		var surface := get_node_or_null(path) as Node2D
+		if surface == null: continue
+		if not _ground_authored_scales.has(path): _ground_authored_scales[path] = surface.scale
+		surface.scale = _ground_authored_scales[path] * Vector2(1.0, _ground_flattening())
+
+
 func _sync_selected_fire() -> void:
 	var active := selected_fire and burning and not is_void and not deep_acid and role != Role.UNIT
 	if active and _fire_view == null:
@@ -123,7 +140,7 @@ func _sync_selected_fire() -> void:
 	if _fire_view != null:
 		# Накладка следует поверхности вместе с высотой/падением; ArtRoot второй раз её не масштабирует.
 		_fire_view.position = _top_offset()
-		_fire_view.scale = Vector2.ONE * (grid_config.tile_size.x / 128.0)
+		_fire_view.scale = grid_config.tile_size / Vector2(128.0, 96.0)
 		_fire_view.set_active(active)
 	if selected_fire:
 		var legacy := get_node_or_null(^"ArtRoot/EffectRoot/BurningSprite") as CanvasItem

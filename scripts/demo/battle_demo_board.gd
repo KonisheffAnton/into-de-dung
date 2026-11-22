@@ -6,6 +6,7 @@ class DisplayedPick extends RefCounted:
 	var unit_id: int = UnitId.NONE
 
 @export var authored_layout: bool = false
+@export var shallow_projection: bool = false
 
 signal cell_clicked(cell: Vector2i)
 signal cell_hovered(cell: Vector2i)
@@ -17,7 +18,11 @@ const CYAN := Color("65dfcc")
 const GOLD := Color("f7c97d")
 const MUTED := Color("a5b3c5")
 var session: BattleDemoSession
-var execution_pending: bool = false
+var execution_pending: bool = false:
+	set(value):
+		execution_pending = value
+		var projection_button := get_node_or_null("CameraControls/Projection") as Button
+		if projection_button != null: projection_button.disabled = value
 var _presentation_animation_unit_ids: Dictionary[int, bool] = {}
 @export var camera_controls_enabled: bool = false
 @export var character_card_input_enabled: bool = false
@@ -31,6 +36,7 @@ var _camera_max_displacement: float = 0.0
 var _character_card_gesture: bool = false
 var _captured_character_card_id: int = UnitId.NONE
 var _camera_reset: Button
+var _projection_button: Button
 var _camera_layout_size := Vector2.ZERO
 var _layout_dimensions := Vector2i.ZERO
 var _overview_zoom: float = 1.0
@@ -1359,9 +1365,28 @@ func _build_camera_controls() -> void:
 		add_child(controls)
 	controls.z_index = RenderLayers.z_index_for(RenderLayers.Layer.UI_PREVIEW) + 1
 	_camera_reset = controls.get_node("ResetCamera") as Button
+	_projection_button = controls.get_node("Projection") as Button
+	_sync_projection_button()
 	_camera_reset.pressed.connect(reset_camera)
+	_projection_button.pressed.connect(func() -> void: set_shallow_projection(not shallow_projection))
 	(controls.get_node("ZoomOut") as Button).pressed.connect(func() -> void: zoom_camera(camera_view.zoom / 1.1, size * 0.5))
 	(controls.get_node("ZoomIn") as Button).pressed.connect(func() -> void: zoom_camera(camera_view.zoom * 1.1, size * 0.5))
+
+func set_shallow_projection(value: bool) -> bool:
+	if execution_pending: return false
+	if shallow_projection == value: return true
+	_cancel_camera_gesture()
+	shallow_projection = value
+	_clear_hover()
+	_sync_projection_button()
+	_rescale_layout()
+	return true
+
+func _sync_projection_button() -> void:
+	if _projection_button != null:
+		_projection_button.text = "Ракурс 2:1" if shallow_projection else "Ракурс 4:3"
+		_projection_button.tooltip_text = "Нажмите, чтобы вернуть прежний ракурс4:3" if shallow_projection else "Нажмите, чтобы попробовать ракурс2:1"
+		_projection_button.disabled = execution_pending
 
 func world_to_view(point: Vector2) -> Vector2:
 	return camera_view.world_to_view(point)
@@ -1753,7 +1778,7 @@ func _sync_layout_geometry() -> void:
 	var changed := dimensions != _layout_dimensions
 	var was_overview := is_equal_approx(camera_view.zoom, _overview_zoom) and camera_view.world_to_view(size * 0.5).is_equal_approx(size * 0.5)
 	_layout_dimensions = dimensions
-	var base_size := IsoGridConfig.DEFAULT_TILE_SIZE
+	var base_size := Vector2(128.0, 64.0) if shallow_projection else IsoGridConfig.DEFAULT_TILE_SIZE
 	var span := float(dimensions.x + dimensions.y) * 0.5
 	var extent := Vector2(base_size.x * span, base_size.y * span + (128.0 if dimensions.x > 8 or dimensions.y > 8 else 32.0))
 	var factor := 1.0 if camera_controls_enabled else maxf(0.1, minf((size.x - 64.0) / extent.x, (size.y - 108.0) / extent.y))
@@ -1821,6 +1846,7 @@ func _rebuild_visuals(allow_terrain_reuse: bool = false) -> void:
 				(overlay as BattleManagedEnvironmentVisual).apply_view(_environment_draw_values[cell])
 				overlay.position = (overlay.get_parent() as BattleDemoIsoVisual).get_visual_offset() + Vector2(0, 0.5)
 				overlay.scale = Vector2.ONE * grid_config.tile_size.x / 128.0
+				overlay.sync_ground_projection(grid_config.tile_size)
 	else:
 		_rebuild_terrain()
 		_terrain_draw_order.assign(_entity_visuals)
@@ -2108,6 +2134,7 @@ func _add_environment_visual(floor_visual: BattleDemoIsoVisual, cell: Vector2i, 
 	var overlay_scale := Vector2.ONE * grid_config.tile_size.x / 128.0
 	if overlay.position != overlay_position: overlay.position = overlay_position
 	if overlay.scale != overlay_scale: overlay.scale = overlay_scale
+	overlay.sync_ground_projection(grid_config.tile_size)
 	var burning_fallback := floor_visual.burning and tile_visual_scene == null
 	var floor_trap := String(trap.get("kind", "")) == "floor"
 	var direction: Vector2i = trap.get("direction", Vector2i.ZERO)

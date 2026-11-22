@@ -322,6 +322,7 @@ func run() -> void:
 		"comparison preset passes managed terrain lifecycle validation")
 	_check_tile_contract()
 	_check_environment_contract()
+	_check_projection_modes()
 	await _check_hole_pixels()
 	_check_all_biome_materials()
 	viewport = SubViewport.new()
@@ -359,6 +360,7 @@ func run() -> void:
 	check(ledge_overlay != null and ledge_overlay.wall_trap_direction == Vector2i.LEFT
 		and (ledge_overlay.get_node("WallTrapLeft") as Node2D).visible, "live trap panel belongs to raised E4 side")
 	var baseline := snapshot(live_session)
+	await _capture_projection_modes(baseline)
 	var terrain_ids := _terrain_ids(battle.board_view)
 	battle.board_view.refresh()
 	check(_terrain_ids(battle.board_view) == terrain_ids, "live refresh preserves terrain identities")
@@ -397,6 +399,111 @@ func run() -> void:
 		if FileAccess.file_exists(save_path + ".bak"): DirAccess.remove_absolute(absolute + ".bak")
 	print("DUNGEON ROOM COMPARISON RESULTS: %d passed, %d failed" % [passed, failed])
 	quit(1 if failed else 0)
+
+
+func _check_projection_modes() -> void:
+	var tile := COMPARISON_TILE.instantiate() as BattleTerrainVisual
+	var overlay := DUNGEON_ENVIRONMENT.instantiate() as BattleManagedEnvironmentVisual
+	root.add_child(tile)
+	root.add_child(overlay)
+	var config := IsoGridConfig.new()
+	var values := _tile_values(Vector2i(2, 2), BattleDemoIsoVisual.Role.FLOOR, 2)
+	values.burning = true
+	tile.apply_view(values, config)
+	var piece := _visible_floor_piece(tile)
+	var saved_texture := piece.texture
+	var saved_uv := piece.uv.duplicate()
+	var fire := tile._fire_view
+	var animation := fire.get_node(^"Animation") as AnimatedSprite2D
+	animation.set_frame_and_progress(5, 0.25)
+	var frames := animation.sprite_frames
+	var wall_paths := {Vector2i.UP: ^"WallTrapUp", Vector2i.RIGHT: ^"WallTrapRight",
+		Vector2i.DOWN: ^"WallTrapDown", Vector2i.LEFT: ^"WallTrapLeft"}
+	var wall_originals: Dictionary = {}
+	for direction: Vector2i in wall_paths:
+		var wall := overlay.get_node(wall_paths[direction]) as Node2D
+		wall_originals[direction] = (wall.get_node(^"Panel") as Polygon2D).polygon.duplicate()
+	for tile_size: Vector2 in [Vector2(128, 64), Vector2(128, 96), Vector2(128, 64), Vector2(128, 96)]:
+		config.tile_size = tile_size
+		tile.apply_view(values, config)
+		overlay.sync_ground_projection(tile_size)
+		var art := tile.get_node(^"ArtRoot") as Node2D
+		var surface := tile.get_node(^"ArtRoot/GroundSurface") as Node2D
+		var expected := tile.top_polygon()
+		check(art.scale.is_equal_approx(Vector2.ONE), "projection preserves uniform ArtRoot scale")
+		check(piece.texture == saved_texture and piece.uv == saved_uv, "projection preserves exact source texture and UV")
+		for index: int in 4:
+			var rendered := art.transform * surface.transform * piece.transform * piece.polygon[index]
+			check(rendered.is_equal_approx(expected[index]), "rendered floor corners match selectable top in both projections")
+			var base := fire.get_node(^"Base") as Polygon2D
+			check((fire.transform * base.transform * base.polygon[index]).is_equal_approx(expected[index]), "fire base remains attached to full ground plane")
+		check(animation.sprite_frames == frames and animation.frame == 5 and is_equal_approx(animation.frame_progress, 0.25),
+			"projection switch preserves fire source, frame and phase")
+		var side := tile.get_node(^"ArtRoot/SideLeft") as Polygon2D
+		check(side.polygon[2].y - side.polygon[1].y >= 64.0, "shallower top retains native masonry depth")
+		var rim := overlay.get_node(^"FloorTrap/ArmedRim") as Line2D
+		for index: int in 4:
+			check(((rim.get_parent() as Node2D).transform * rim.points[index]).is_equal_approx(expected[index] - tile._top_offset()),
+				"floor trap rim follows projected tile corners")
+		for direction: Vector2i in wall_paths:
+			var wall := overlay.get_node(wall_paths[direction]) as Node2D
+			var panel := wall.get_node(^"Panel") as Polygon2D
+			var top := wall.transform * panel.polygon[0]
+			var bottom := wall.transform * panel.polygon[3]
+			check((top - bottom).is_equal_approx(Vector2(0, 32)), "wall trap preserves vertical height")
+			var original: PackedVector2Array = wall_originals[direction]
+			check(top.is_equal_approx(original[0] * Vector2(1, tile_size.y / 96.0)), "wall trap edge follows ground projection")
+			var spike := wall.get_node(^"Spikes/Spike01") as Node2D
+			var rendered_tip := (wall.transform * spike.transform).basis_xform(Vector2.UP)
+			var rendered_direction := rendered_tip.normalized()
+			check(rendered_direction.is_equal_approx(-IsoGridUtils.grid_direction_to_screen(direction, tile_size)), "wall spike follows contact direction without flattening its length")
+			check(is_equal_approx(rendered_tip.length(), 1.0), "wall projection retains original spike length")
+			check(panel.polygon == original, "wall projection does not mutate authored panel points")
+		if tile_size.y == 96.0:
+			check(surface.scale == Vector2.ONE, "rollback exactly restores original stone surface scale")
+	values.burning = false
+	values.deep_acid = true
+	config.tile_size = Vector2(128, 64)
+	tile.apply_view(values, config)
+	var liquid := tile._deep_acid_view.get_node(^"Liquid") as Node2D
+	check(liquid.position == Vector2(0, 8) and liquid.scale.is_equal_approx(Vector2(1, 2.0 / 3.0)), "deep acid keeps vertical8px sink and reprojects only liquid")
+	var acid_side := tile.get_node(^"ArtRoot/SideLeft") as Polygon2D
+	var side_before := acid_side.polygon.duplicate()
+	tile.sync_scene_art()
+	check(acid_side.polygon == side_before, "deep acid projection never accumulates rim displacement")
+	values.deep_acid = false
+	values.role = BattleDemoIsoVisual.Role.WALL
+	tile.apply_view(values, config)
+	var cap := tile.get_node(^"ArtRoot/DungeonWallTop") as Polygon2D
+	var art := tile.get_node(^"ArtRoot") as Node2D
+	for index: int in 4:
+		check((art.transform * cap.transform * cap.polygon[index]).is_equal_approx(tile.top_polygon()[index]), "raised wall cap follows2:1 while height stays vertical")
+	values.cell = Vector2i(3, 0)
+	tile.apply_view(values, config)
+	var column := tile.get_node(^"ArtRoot/BrokenColumn") as Sprite2D
+	check(column.visible and is_equal_approx(column.scale.x, column.scale.y), "shallower projection does not flatten column")
+	tile.free()
+	overlay.free()
+
+
+func _capture_projection_modes(baseline: Dictionary) -> void:
+	var board := screen.battle_view.board_view
+	check(board.shallow_projection and board.grid_config.tile_size == Vector2(128, 64), "real expedition starts in2:1")
+	var ids := _terrain_ids(board)
+	for shallow: bool in [false, true]:
+		check(board.set_shallow_projection(shallow), "live projection change accepted between actions")
+		board.zoom_camera(0.85, board.size * 0.5)
+		board.pan_camera(board.size * Vector2(0.5, 0.52) - board.cell_center(Vector2i(4, 4)))
+		check(snapshot(screen.battle_view.session as BattleCoreReactionsSession) == baseline, "projection and framing preserve all battle state/RNG")
+		check(_terrain_ids(board) == ids, "projection rollback reuses existing terrain nodes")
+		await process_frame
+		await process_frame
+		if not captures.is_empty() and DisplayServer.get_name() != "headless":
+			await RenderingServer.frame_post_draw
+			var image := viewport.get_texture().get_image()
+			var label := "projection-2x1" if shallow else "projection-4x3"
+			check(image.save_png(captures.path_join(label + ".png")) == OK, "capture " + label)
+	board.reset_camera()
 
 func _check_all_biome_materials() -> void:
 	var tile := COMPARISON_TILE.instantiate() as BattleTerrainVisual

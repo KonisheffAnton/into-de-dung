@@ -1,0 +1,334 @@
+{
+  "date": "2026-11-22",
+  "base_commit": "9f4c279eeb907a8fb2a3744b8a33fd561e0605f7",
+  "branch": "main",
+  "result": "2:1 game trial with live4:3 rollback",
+  "source_signatures": [
+    {
+      "path": "scripts/demo/battle_demo_board.gd",
+      "sha256": "a74ca1bec5a50150c5126c44ed7a3723c5b4bd63b9a6f54585e9168b7894b9d5",
+      "matches_test_copy": true
+    },
+    {
+      "path": "scripts/demo/battle_demo_iso_visual.gd",
+      "sha256": "a90543ac0490dcc5925f63072f5f1883382905219796026a019052cb64ad57ba",
+      "matches_test_copy": true
+    },
+    {
+      "path": "scripts/demo/battle_terrain_visual.gd",
+      "sha256": "d52669553e111642cd25ff16fd559bcb45424dadc2f8b294bd8a2dd5143d5a69",
+      "matches_test_copy": true
+    },
+    {
+      "path": "scripts/demo/battle_environment_visual.gd",
+      "sha256": "fad09b5319d435b01f6a994f5a8debeb01a8bee74780bb0bb11f4e659f03c681",
+      "matches_test_copy": true
+    },
+    {
+      "path": "scenes/demo/battle/battle_board.tscn",
+      "sha256": "02892024cd9bcb519a0f35dc4271eaaee7911fce630fe1b1bfbd115423df9d0e",
+      "matches_test_copy": true
+    },
+    {
+      "path": "scenes/demo/battle/camera_controls.tscn",
+      "sha256": "51f27cdf7d15e406a51e8e9936d2eba7416eb0aeb08b332d10afee8f0ce38e6b",
+      "matches_test_copy": true
+    },
+    {
+      "path": "tests/test_battle_camera_ui.gd",
+      "sha256": "5e07b01e9e495f32872ed69c5183935f3749104643d6e87372e9dbb486b4ee72",
+      "matches_test_copy": true
+    },
+    {
+      "path": "tests/test_dungeon_room_comparison.gd",
+      "sha256": "f23f934cedc21938dde055eea8d1141e1e8df7f688c727c8143c040031ade19d",
+      "matches_test_copy": true
+    }
+  ],
+  "screenshots": [
+    {
+      "name": "projection-2x1.png",
+      "sha256": "388361d363e5ad42a59f077cba0bf7c6707add31960d6737649fc5180962ebb8",
+      "width": 1280,
+      "height": 850,
+      "raw_gpu_copy": true
+    },
+    {
+      "name": "projection-4x3.png",
+      "sha256": "f0d3126bd0849757577fbc83f583e6608bd31ffc497315078d79d70a884d6df2",
+      "width": 1280,
+      "height": 850,
+      "raw_gpu_copy": true
+    }
+  ],
+  "checks": [
+    {
+      "label": "import",
+      "status": "PASS",
+      "report": "test_reports/demo-663076dcf3cc466ebe644376e783b16f"
+    },
+    {
+      "label": "startup",
+      "status": "PASS",
+      "report": "test_reports/demo-663076dcf3cc466ebe644376e783b16f"
+    },
+    {
+      "label": "battle_view_reuse",
+      "status": "PASS",
+      "report": "test_reports/demo-ca63257100ae4fc0bf338beaa71f98f9",
+      "passed": 100,
+      "failed": 0
+    },
+    {
+      "label": "environment_visual_contract",
+      "status": "PASS",
+      "report": "test_reports/demo-663076dcf3cc466ebe644376e783b16f",
+      "passed": 56,
+      "failed": 0
+    },
+    {
+      "label": "unit_visual_contract",
+      "status": "PASS",
+      "report": "test_reports/demo-ca63257100ae4fc0bf338beaa71f98f9",
+      "passed": 45,
+      "failed": 0
+    },
+    {
+      "label": "defender_idle_clock",
+      "status": "PASS",
+      "report": "test_reports/demo-ca63257100ae4fc0bf338beaa71f98f9",
+      "passed": 24,
+      "failed": 0
+    },
+    {
+      "label": "defender_idle",
+      "status": "PASS",
+      "report": "test_reports/demo-ca63257100ae4fc0bf338beaa71f98f9",
+      "passed": 140,
+      "failed": 0
+    },
+    {
+      "label": "defender_buff",
+      "status": "PASS",
+      "report": "test_reports/demo-ca63257100ae4fc0bf338beaa71f98f9",
+      "passed": 299,
+      "failed": 0
+    },
+    {
+      "label": "defender_death",
+      "status": "PASS",
+      "report": "test_reports/demo-ca63257100ae4fc0bf338beaa71f98f9",
+      "passed": 115,
+      "failed": 0
+    },
+    {
+      "label": "defender_death_routes",
+      "status": "PASS",
+      "report": "test_reports/demo-ca63257100ae4fc0bf338beaa71f98f9",
+      "passed": 889,
+      "failed": 0
+    },
+    {
+      "label": "defender_cloth_palette",
+      "status": "PASS",
+      "report": "test_reports/demo-ca63257100ae4fc0bf338beaa71f98f9",
+      "passed": 321,
+      "failed": 0
+    },
+    {
+      "label": "rogue_cloth_palette",
+      "status": "PASS",
+      "report": "test_reports/demo-ca63257100ae4fc0bf338beaa71f98f9",
+      "passed": 148,
+      "failed": 0
+    },
+    {
+      "label": "rogue_animations",
+      "status": "PASS",
+      "report": "test_reports/demo-ca63257100ae4fc0bf338beaa71f98f9",
+      "passed": 98,
+      "failed": 0
+    },
+    {
+      "label": "rogue_buff",
+      "status": "PASS",
+      "report": "test_reports/demo-ca63257100ae4fc0bf338beaa71f98f9",
+      "passed": 31,
+      "failed": 0
+    },
+    {
+      "label": "rogue_death_routes",
+      "status": "PASS",
+      "report": "test_reports/demo-ca63257100ae4fc0bf338beaa71f98f9",
+      "passed": 832,
+      "failed": 0
+    },
+    {
+      "label": "archer_idle",
+      "status": "PASS",
+      "report": "test_reports/demo-ca63257100ae4fc0bf338beaa71f98f9",
+      "passed": 68,
+      "failed": 0
+    },
+    {
+      "label": "archer_cloth_palette",
+      "status": "PASS",
+      "report": "test_reports/demo-ca63257100ae4fc0bf338beaa71f98f9",
+      "passed": 206,
+      "failed": 0
+    },
+    {
+      "label": "visual_scene_contract",
+      "status": "PASS",
+      "report": "test_reports/demo-ca63257100ae4fc0bf338beaa71f98f9",
+      "passed": 106,
+      "failed": 0
+    },
+    {
+      "label": "dungeon_room_comparison",
+      "status": "PASS",
+      "report": "test_reports/demo-663076dcf3cc466ebe644376e783b16f",
+      "passed": 2145,
+      "failed": 0
+    },
+    {
+      "label": "acid_tile_animation",
+      "status": "PASS",
+      "report": "test_reports/demo-ca63257100ae4fc0bf338beaa71f98f9",
+      "passed": 247,
+      "failed": 0
+    },
+    {
+      "label": "fire29_animation",
+      "status": "PASS",
+      "report": "test_reports/demo-ca63257100ae4fc0bf338beaa71f98f9",
+      "passed": 117,
+      "failed": 0
+    },
+    {
+      "label": "fire29_overlap",
+      "status": "PASS",
+      "report": "test_reports/demo-ca63257100ae4fc0bf338beaa71f98f9",
+      "passed": 31,
+      "failed": 0
+    },
+    {
+      "label": "current_art_zoom",
+      "status": "PASS",
+      "report": "test_reports/demo-ca63257100ae4fc0bf338beaa71f98f9",
+      "passed": 520,
+      "failed": 0
+    },
+    {
+      "label": "presentation_contact",
+      "status": "PASS",
+      "report": "test_reports/demo-ca63257100ae4fc0bf338beaa71f98f9",
+      "passed": 414,
+      "failed": 0
+    },
+    {
+      "label": "presentation_consequences",
+      "status": "PASS",
+      "report": "test_reports/demo-ca63257100ae4fc0bf338beaa71f98f9",
+      "passed": 2217,
+      "failed": 0
+    },
+    {
+      "label": "presentation_environment",
+      "status": "PASS",
+      "report": "test_reports/demo-663076dcf3cc466ebe644376e783b16f",
+      "passed": 364,
+      "failed": 0
+    },
+    {
+      "label": "presentation_ranged",
+      "status": "PASS",
+      "report": "test_reports/demo-ca63257100ae4fc0bf338beaa71f98f9",
+      "passed": 238,
+      "failed": 0
+    },
+    {
+      "label": "battle_camera_ui",
+      "status": "PASS",
+      "report": "test_reports/demo-ca63257100ae4fc0bf338beaa71f98f9",
+      "passed": 127,
+      "failed": 0
+    },
+    {
+      "label": "battle_hud_input",
+      "status": "PASS",
+      "report": "test_reports/demo-ca63257100ae4fc0bf338beaa71f98f9",
+      "passed": 163,
+      "failed": 0
+    },
+    {
+      "label": "battle_execution_ui",
+      "status": "PASS",
+      "report": "test_reports/demo-ca63257100ae4fc0bf338beaa71f98f9",
+      "passed": 61,
+      "failed": 0
+    },
+    {
+      "label": "hazards_ui",
+      "status": "PASS",
+      "report": "test_reports/demo-663076dcf3cc466ebe644376e783b16f",
+      "passed": 118,
+      "failed": 0
+    }
+  ],
+  "run_notes": [
+    {
+      "report": "test_reports/demo-ca63257100ae4fc0bf338beaa71f98f9",
+      "result": "29PASS /1FAIL:8 assertions exposed wrong inverse for wall shear; fixed via affine_inverse().basis_xform and added length check."
+    },
+    {
+      "report": "test_reports/demo-663076dcf3cc466ebe644376e783b16f",
+      "result": "Fresh import exited unexpectedly without diagnostic error. Retried same isolated snapshot: import/startup and4 relevant GPU suites PASS.",
+      "results": "retry-results.json",
+      "runner": "retry_checks.py"
+    }
+  ],
+  "independent_review": "APPROVE including final shear correction",
+  "entry_documents": [
+    {
+      "path": "AGENTS.md",
+      "before_chars": 4565,
+      "after_chars": 4565,
+      "changed": false
+    },
+    {
+      "path": "docs/CODEX_HANDOFF.md",
+      "before_chars": 2301,
+      "after_chars": 2408,
+      "changed": true
+    },
+    {
+      "path": "docs/PROJECT_CONTEXT.md",
+      "before_chars": 3734,
+      "after_chars": 3734,
+      "changed": false
+    },
+    {
+      "path": "docs/CODEX_WORKFLOW.md",
+      "before_chars": 4482,
+      "after_chars": 4482,
+      "changed": false
+    }
+  ],
+  "archive": {
+    "path": "docs/CODEX_HANDOFF.history-20261122-2.md",
+    "sha256": "867937d21a3a8f65fbf4dff35cef8ae0b7691b5b47b012b0d553169de2145e31",
+    "byte_exact": true
+  },
+  "assets_changed": false,
+  "missing_links": [],
+  "limitations": [
+    "Whole2D ground overlays compress painted relief of fire/floor spikes; source frames unchanged.",
+    "Toggle applies to current Board; new scenes read shallow_projection export.",
+    "Full/core, manualF5/Editor/DPI, sustained play and performance not run; no60FPS claim."
+  ],
+  "foreign_changes_preserved": [
+    "scenes/demo/main_menu.tscn",
+    "docs/art/battlefield-reference-03-20261017/"
+  ]
+}

@@ -68,17 +68,17 @@ func _test_initial_state() -> void:
 	check(board._camera_reset.tooltip_text.contains("перетаскивание ПКМ") and board._camera_reset.tooltip_text.contains("клик ПКМ — отмена"), "camera tooltip distinguishes right-button drag and cancel")
 	check(board._camera_reset.tooltip_text.contains("100%") and not board._camera_reset.tooltip_text.contains("Общий вид"), "camera tooltip describes base size")
 	check(is_equal_approx(board.camera_view.zoom, 1.0) and board.camera_view.offset == Vector2.ZERO, "initial camera is centered at 100 percent")
-	check(board.grid_config.tile_size == Vector2(128, 96) and board.grid_config.height_step == 32.0, "main H1 uses 128x96 tiles and 32 height step at 100 percent")
+	check(board.shallow_projection and board.grid_config.tile_size == Vector2(128, 64) and board.grid_config.height_step == 32.0, "main H1 uses 128x64 tiles and 32 height step at 100 percent")
 	for direction: Vector2i in [Vector2i.UP, Vector2i.RIGHT, Vector2i.DOWN, Vector2i.LEFT]:
 		var projected := IsoGridUtils.grid_to_screen(direction, board.grid_config) - IsoGridUtils.grid_to_screen(Vector2i.ZERO, board.grid_config)
-		check(projected.abs() == Vector2(64, 48), "4:3 adjacent cell step " + str(direction))
+		check(projected.abs() == Vector2(64, 32), "2:1 adjacent cell step " + str(direction))
 		var strike := board._strike_direction({"actor_cell": Vector2i.ZERO, "target_cell": direction})
 		var obstacle := board._obstacle_direction({"from_cell": Vector2i.ZERO, "attempted_cell": direction})
 		check(strike.is_equal_approx(projected.normalized()) and obstacle.is_equal_approx(strike), "strike and collision follow projected grid " + str(direction))
-		check(BattleEnvironmentVisual.wall_spike_direction(direction).is_equal_approx(-strike), "wall trap points into same contact plane " + str(direction))
+		check(BattleEnvironmentVisual.wall_spike_direction(direction, board.grid_config.tile_size).is_equal_approx(-strike), "wall trap points into same contact plane " + str(direction))
 		for height: int in [-1, 0, 2]:
 			var point := IsoGridUtils.grid_to_screen(direction, board.grid_config, height)
-			check(IsoGridUtils.screen_to_grid_flat(point, board.grid_config, height) == direction, "4:3 grid conversion preserves height " + str(height))
+			check(IsoGridUtils.screen_to_grid_flat(point, board.grid_config, height) == direction, "2:1 grid conversion preserves height " + str(height))
 	await capture("main-100")
 	demo._hover(Vector2i(-1, -1))
 	check(demo._hint.text.contains("Клик ПКМ — отмена") and demo._hint.text.contains("перетаскивание ПКМ — камера") and demo._hint.text.contains("Esc/M"), "main hint describes right-button click/drag and keyboard cancel")
@@ -86,11 +86,56 @@ func _test_initial_state() -> void:
 	check(board.cell_at(center) == demo.session.selected_unit().cell, "initial screen cell center picks same cell")
 	check(board.displayed_unit_at(center + Vector2(0, -12)) == demo.session.selected_id, "initial unit picking uses view coordinates")
 	var head := board.world_to_view(board._world_cell_center(demo.session.selected_unit().cell) + Vector2(0, -55))
-	check(Rect2(Vector2.ZERO, board.size).has_point(head), "initial 4:3 framing keeps selected warrior head inside input area")
+	check(Rect2(Vector2.ZERO, board.size).has_point(head), "initial 2:1 framing keeps selected warrior head inside input area")
 	check(board.displayed_unit_at(head) == demo.session.selected_id, "100 percent picking covers placeholder head")
+	await _test_projection_toggle()
 	var saved_size := board.size
 	board.size = Vector2(540, board.size.y)
-	check(board.grid_config.tile_size == Vector2(128, 96) and board.grid_config.height_step == 32.0, "narrow camera field keeps base tile geometry")
+	check(board.grid_config.tile_size == Vector2(128, 64) and board.grid_config.height_step == 32.0, "narrow camera field keeps shallow base tile geometry")
+	check(board.get_node("CameraControls").get_global_rect().position.x >= board.global_position.x, "projection button row stays inside narrow field")
+	board.size = saved_size
+	await process_frame
+
+func _test_projection_toggle() -> void:
+	var board := demo.board_view
+	var session := demo.session as BattleCoreReactionsSession
+	var actor := session.selected_unit()
+	var actor_id := actor.id
+	var visual := board._presentation_visual(actor_id)
+	var art_root := visual.get_node_or_null("ArtRoot") as Node2D if visual != null else null
+	var art_scale := art_root.scale if art_root != null else Vector2.ONE
+	var frames_snapshot: Array[SpriteFrames] = []
+	if visual != null:
+		for sprite: Node in visual.find_children("*", "AnimatedSprite2D", true, false):
+			frames_snapshot.append((sprite as AnimatedSprite2D).sprite_frames)
+	var before := snapshot(session)
+	var controls := board.get_node("CameraControls") as HBoxContainer
+	var projection := controls.get_node("Projection") as Button
+	check(projection.text == "Ракурс 2:1", "projection control names active shallow view")
+	await _click_control(projection)
+	check(not board.shallow_projection and board.grid_config.tile_size == Vector2(128, 96) and board.grid_config.height_step == 32.0, "projection button switches to 4:3 geometry")
+	check(projection.text == "Ракурс 4:3", "projection control names restored classic view")
+	check(board.cell_at(board.cell_center(actor.cell)) == actor.cell and board.displayed_unit_at(board.cell_center(actor.cell) + Vector2(0, -12)) == actor_id, "4:3 centers and figure remain pickable")
+	check(board.displayed_unit_at(board.world_to_view(board._world_cell_center(actor.cell) + Vector2(0, -55))) == actor_id, "4:3 picking includes head")
+	check(snapshot(session) == before, "projection switch leaves state RNG and counters unchanged")
+	check(board._presentation_visual(actor_id) == visual and art_root != null and art_root.scale == art_scale, "projection switch preserves character ArtRoot scale")
+	if visual != null:
+		var sprites := visual.find_children("*", "AnimatedSprite2D", true, false)
+		check(sprites.size() == frames_snapshot.size(), "projection switch preserves character SpriteFrames count")
+		for index: int in mini(sprites.size(), frames_snapshot.size()):
+			check((sprites[index] as AnimatedSprite2D).sprite_frames == frames_snapshot[index], "projection switch preserves authored SpriteFrames")
+	await _click_control(projection)
+	check(board.shallow_projection and board.grid_config.tile_size == Vector2(128, 64) and board.grid_config.height_step == 32.0, "projection button returns to 2:1 geometry")
+	check(board.cell_at(board.cell_center(actor.cell)) == actor.cell and board.displayed_unit_at(board.cell_center(actor.cell) + Vector2(0, -12)) == actor_id, "2:1 centers and figure remain pickable")
+	check(snapshot(session) == before, "returning projection leaves state RNG and counters unchanged")
+	board.execution_pending = true
+	check(projection.disabled and not board.set_shallow_projection(false), "projection switch is rejected during execution")
+	board.execution_pending = false
+	check(not projection.disabled and board.shallow_projection, "projection control unlocks after execution")
+	var saved_size := board.size
+	board.size = Vector2(620, saved_size.y)
+	await process_frame
+	check(board.grid_config.tile_size == Vector2(128, 64) and board.cell_at(board.cell_center(actor.cell)) == actor.cell, "2:1 projection remains coherent after resize")
 	board.size = saved_size
 	await process_frame
 
@@ -450,7 +495,7 @@ func _test_board_reset() -> void:
 	demo.reset_demo()
 	await process_frame
 	check(is_equal_approx(board.camera_view.zoom, 1.0) and board.camera_view.offset == Vector2.ZERO, "new battle resets camera")
-	check(board.grid_config.tile_size == Vector2(128, 96) and board.grid_config.height_step == 32.0, "new battle reset retains camera base geometry")
+	check(board.grid_config.tile_size == Vector2(128, 64) and board.grid_config.height_step == 32.0, "new battle reset retains shallow camera geometry")
 
 func _test_hub_view() -> void:
 	demo.queue_free()
@@ -463,7 +508,7 @@ func _test_hub_view() -> void:
 	hub.set_process(false)
 	await process_frame
 	check(hub.board_view.camera_controls_enabled and hub.board_view.get_node_or_null("CameraControls") != null, "hero hub battle enables camera")
-	check(hub.board_view.grid_config.tile_size == Vector2(128, 96) and hub.board_view.grid_config.height_step == 32.0, "hero hub H1 uses base tile geometry at 100 percent")
+	check(hub.board_view.grid_config.tile_size == Vector2(128, 64) and hub.board_view.grid_config.height_step == 32.0, "hero hub H1 uses shallow tile geometry at 100 percent")
 	viewport.size = Vector2i(1280, 850)
 	await process_frame
 	await process_frame

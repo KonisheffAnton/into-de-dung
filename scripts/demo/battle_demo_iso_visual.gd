@@ -315,6 +315,8 @@ func _sync_ground_shadow() -> void:
 	_ground_shadow.position = get_visual_offset()
 	_ground_shadow.scale = Vector2(1.0, ground_shadow_flattening) \
 		* (grid_config.tile_size.x / 128.0) * get_unit_art_scale()
+	# Тень лежит на земле; ракурс не должен сжимать вертикальный рисунок бойца.
+	_ground_shadow.scale.y *= grid_config.tile_size.y / grid_config.tile_size.x / (96.0 / 128.0)
 	_ground_shadow.rotation = 0.0
 	_ground_shadow.queue_redraw()
 

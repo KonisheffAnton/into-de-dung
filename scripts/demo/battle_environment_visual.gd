@@ -2,6 +2,11 @@ class_name BattleEnvironmentVisual
 extends Node2D
 
 @export var phase_updates_only_standard_effects: bool = false
+var _ground_flattening: float = 1.0
+var _projection_tile_size := Vector2(128.0, 96.0)
+var _projection_initialized: bool = false
+var _authored_ground_transforms: Dictionary[NodePath, Transform2D] = {}
+var _authored_spike_transforms: Dictionary[Node2D, Transform2D] = {}
 
 var has_spikes: bool = false
 var has_burning_fallback: bool = false
@@ -70,6 +75,49 @@ func configure(spikes: bool, burning_fallback: bool, collapse_warning: bool, cor
 func _preset(path: NodePath) -> Node2D:
 	return get_node_or_null(path) as Node2D
 
+
+func sync_ground_projection(tile_size: Vector2) -> void:
+	if _projection_initialized and _projection_tile_size == tile_size: return
+	_projection_initialized = true
+	_projection_tile_size = tile_size
+	_ground_flattening = tile_size.y / tile_size.x / (96.0 / 128.0)
+	for path: NodePath in [^"FloorTrap", ^"AcidPool", ^"Caltrops"]:
+		var surface := _preset(path)
+		if surface == null: continue
+		if not _authored_ground_transforms.has(path): _authored_ground_transforms[path] = surface.transform
+		var flatten := Transform2D(Vector2.RIGHT, Vector2(0, _ground_flattening), Vector2.ZERO)
+		surface.transform = flatten * _authored_ground_transforms[path]
+	# Стеновые панели меняют наклон рёбер, но сохраняют вертикальную высоту32px.
+	_project_wall(^"WallTrapUp", Vector2i.UP, 0.75, -48.0)
+	_project_wall(^"WallTrapRight", Vector2i.RIGHT, -0.75, 48.0)
+	_project_wall(^"WallTrapDown", Vector2i.DOWN, 0.75, 48.0)
+	_project_wall(^"WallTrapLeft", Vector2i.LEFT, -0.75, -48.0)
+	queue_redraw()
+
+
+func _project_wall(path: NodePath, direction: Vector2i, slope: float, intercept: float) -> void:
+	var wall := _preset(path)
+	if wall == null: return
+	if not _authored_ground_transforms.has(path): _authored_ground_transforms[path] = wall.transform
+	var change := _ground_flattening - 1.0
+	var shear := Transform2D(Vector2(1.0, change * slope), Vector2.DOWN, Vector2(0, change * intercept))
+	wall.transform = shear * _authored_ground_transforms[path]
+	var spikes := wall.get_node_or_null(^"Spikes")
+	if spikes == null: return
+	var tip_direction := wall_spike_direction(direction, _projection_tile_size)
+	var inverse := wall.transform.affine_inverse()
+	for child: Node in spikes.get_children():
+		var spike := child as Node2D
+		if spike == null: continue
+		if not _authored_spike_transforms.has(spike): _authored_spike_transforms[spike] = spike.transform
+		var authored := _authored_spike_transforms[spike]
+		if is_equal_approx(_ground_flattening, 1.0):
+			spike.transform = authored
+		else:
+			# Вылет направлен в соседнюю клетку; обратная матрица исключает деформацию самого шипа.
+			spike.transform = Transform2D(inverse.basis_xform(Vector2(-tip_direction.y, tip_direction.x)),
+				inverse.basis_xform(-tip_direction), authored.origin)
+
 func _sync_presets() -> void:
 	# Геометрия хранится в сценах: выбранная плита меняет готовую позу, стены сохраняют прежний вылет.
 	var floor_node := _preset(^"FloorTrap")
@@ -135,6 +183,7 @@ func _remains_alpha() -> float:
 
 
 func _draw() -> void:
+	draw_set_transform(Vector2.ZERO, 0.0, Vector2(1.0, _ground_flattening))
 	var collapse: float = clampf(collapse_progress, 0.0, 1.0) if collapse_progress >= 0.0 else -1.0
 	var remains_alpha: float = 1.0 - collapse if collapse >= 0.0 else 1.0
 	if collapse >= 1.0:
@@ -164,8 +213,8 @@ func _draw_spikes(alpha: float) -> void:
 		draw_colored_polygon(PackedVector2Array([tip, Vector2(x - 5.0, y + 2.0), Vector2(x + 5.0, y + 2.0)]), tint)
 		draw_polyline(PackedVector2Array([tip, Vector2(x, y + 1.0)]), dark, 1.1, true)
 
-static func wall_spike_direction(grid_direction: Vector2i) -> Vector2:
-	return -IsoGridUtils.grid_direction_to_screen(grid_direction)
+static func wall_spike_direction(grid_direction: Vector2i, tile_size: Vector2 = Vector2(128, 96)) -> Vector2:
+	return -IsoGridUtils.grid_direction_to_screen(grid_direction, tile_size)
 
 func _draw_fire(alpha: float) -> void:
 	var pulse: float = 0.5 + 0.5 * sin(warning_phase)
