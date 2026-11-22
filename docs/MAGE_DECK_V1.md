@@ -330,6 +330,9 @@ fire_imbue при capture/restore обязан быть живым PLAYER без
 Внебоевое представление перенесено в редактируемые сцены:
 [HUB_SCENES_V1](HUB_SCENES_V1.md). Таблица ниже по-прежнему задаёт поведение;
 боевые панель/рука этим переносом не изменены.
+[Целевой раздел «Маг» — U 2026-11-23](DESIGN_DIRECTION.md#mage-section-progression-flame-20261123)
+меняет концепт доступа к редактору, без реализации и без изменения правил
+колоды, общего черновика, текущих данных или сохранений.
 
 Добавить deck/card_effects к ItemSimulationState, capture/restore/clone,
 SpatialRules guard и ожидаемым phase-after, snapshot bytes, admission и всем
