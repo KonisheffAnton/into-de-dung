@@ -1,0 +1,15 @@
+{
+  "endpoint": "/edit-image-pixen",
+  "payload": {
+    "image": {
+      "type": "base64",
+      "base64": "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",
+      "format": "png"
+    },
+    "description": "Keep exactly this arrangement of anonymous bones and the same pixel style, scale and camera. Add small chunky patches of muted dark burgundy and brown-red meat clinging to the bones; leave bone ends visible. Universal fresh remains, not a creature body. No skull, face, organs, recognizable anatomy, clothing, equipment, big blood pool, floor, glow or background. Very simple crisp pixel clusters, no smoothing. Transparent background.",
+    "width": 64,
+    "height": 64,
+    "no_background": true,
+    "seed": 202611230
+  }
+}

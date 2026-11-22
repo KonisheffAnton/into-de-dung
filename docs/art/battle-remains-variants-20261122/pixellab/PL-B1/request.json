@@ -1,0 +1,16 @@
+{
+  "endpoint": "/create-image-pixen",
+  "payload": {
+    "description": "One small universal battlefield remains marker for a pixel art dungeon tactics game. A low flat pile of anonymous bone fragments, impossible to tell human or monster. NO skull, face, teeth, hands, feet, claws, horns, complete skeleton, clothing or equipment. Shallow three-quarter overhead view, 2:1 isometric floor perspective. Simple thick crisp pixel clusters, sparse detail, only 8-10 flat colors: muted dirty ivory, warm taupe shadow, gray-purple deep shadow, selective dark outlines. Light top left. Dry bare bones only. Compact footprint occupying about 44x28 pixels in 64x64. Transparent background, no tile, no floor, no ground debris, no soft shadow, no glow. Three short thick broken bones crossed loosely, with a small flat irregular fragment at their intersection. Sparse asymmetric criss-cross.",
+    "image_size": {
+      "width": 64,
+      "height": 64
+    },
+    "outline": "selective outline",
+    "detail": "low detail",
+    "view": "high top-down",
+    "no_background": true,
+    "enhance_prompt": false,
+    "seed": 202611220
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "base": "017bbf935c2a10d7d352891ced76e023f4b743dc",
+  "handoff_archive_exact": true,
+  "archive_sha256": "8e6001bc8efa87907c98d455bcf127c417d889fbfef94a66586cc930e16e3980",
+  "input_sizes": {
+    "AGENTS.md": {
+      "before_chars": 4565,
+      "after_chars": 4565,
+      "changed_by_this_task": false
+    },
+    "docs/CODEX_HANDOFF.md": {
+      "before_chars": 2430,
+      "after_chars": 2349,
+      "changed_by_this_task": true
+    },
+    "docs/PROJECT_CONTEXT.md": {
+      "before_chars": 3734,
+      "after_chars": 3761,
+      "changed_by_this_task": false
+    },
+    "docs/CODEX_WORKFLOW.md": {
+      "before_chars": 4482,
+      "after_chars": 4482,
+      "changed_by_this_task": false
+    }
+  },
+  "notes": "PROJECT_CONTEXT contains foreign changes, preserved. Handoff retains boundaries, next-step acceptance, pending runtime isolation, and complete prompt/archive rule."
+}

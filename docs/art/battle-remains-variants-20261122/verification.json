@@ -1,0 +1,130 @@
+{
+  "date": "2026-11-23",
+  "deliverables": 12,
+  "groups": "G3fresh+3bones, PL3fresh+3bones",
+  "png_alpha": "All12 valid RGBA with transparent and opaque pixels",
+  "pixellab_generations": 6.0,
+  "imagegen": "built-in;3bare originals plus3fresh edits",
+  "pixel_lab": "3create-image-pixen +3edit-image-pixen, no retries",
+  "review": "APPROVE for concepts by monster_visual_review",
+  "recommendations": [
+    "G1",
+    "PL1"
+  ],
+  "limits": [
+    "Preview-only, no runtime integration",
+    "Imagegen large raster concepts; PixelLab native64x64",
+    "nearest-neighbour display thumbnails only, no manual repaint",
+    "G2/PL2 meat less visible at small scale; G3/PL3 protrusions more creature-like"
+  ],
+  "images": [
+    {
+      "id": "G-F1",
+      "path": "imagegen/G-F1.png",
+      "size": [
+        1774,
+        887
+      ],
+      "sha256": "f4d8e2e6ae72ff7ed8b43fb36ea4b1ace7761c90575ddec32d1bfbf9171df839"
+    },
+    {
+      "id": "G-F2",
+      "path": "imagegen/G-F2.png",
+      "size": [
+        1620,
+        971
+      ],
+      "sha256": "5b688df7e6ece1c3bcb565eab9242477ad813387858df436cd23f13fad891bd0"
+    },
+    {
+      "id": "G-F3",
+      "path": "imagegen/G-F3.png",
+      "size": [
+        1645,
+        956
+      ],
+      "sha256": "5a22e35a035adf38ce8c8ef5360c6f0cca4b1e9602dd7c495eaaafe02a6fed02"
+    },
+    {
+      "id": "G-B1",
+      "path": "imagegen/G-B1.png",
+      "size": [
+        1774,
+        887
+      ],
+      "sha256": "6d3419000e4395bee35c6463b79cc6b00cfc084cdadd819580585c035bb5bfe8"
+    },
+    {
+      "id": "G-B2",
+      "path": "imagegen/G-B2.png",
+      "size": [
+        1619,
+        971
+      ],
+      "sha256": "84c47d5e6358c419600742507c39c57ef6beb79cbb3c97b301f9175e4e3c671f"
+    },
+    {
+      "id": "G-B3",
+      "path": "imagegen/G-B3.png",
+      "size": [
+        1644,
+        957
+      ],
+      "sha256": "9a255ff95299e9a23825c516cabfd5151530ea1d1c63349bb50083ee95f0d5c9"
+    },
+    {
+      "id": "PL-F1",
+      "path": "pixellab/PL-F1/image.png",
+      "size": [
+        64,
+        64
+      ],
+      "sha256": "909f78b76413aeb31e01da322e329e3497d77b833ee7624bd1a350bd8373984e"
+    },
+    {
+      "id": "PL-F2",
+      "path": "pixellab/PL-F2/image.png",
+      "size": [
+        64,
+        64
+      ],
+      "sha256": "03d919559d3de236f629f4d27fa8bd5e0ca9612d277971631c54aa349d7d70bb"
+    },
+    {
+      "id": "PL-F3",
+      "path": "pixellab/PL-F3/image.png",
+      "size": [
+        64,
+        64
+      ],
+      "sha256": "b4dbbcddcd8a798a29c2922b0187e5197105dc50cfa96200594ec302596665d2"
+    },
+    {
+      "id": "PL-B1",
+      "path": "pixellab/PL-B1/image.png",
+      "size": [
+        64,
+        64
+      ],
+      "sha256": "c8d4b12baa792f13482aeec934ebe5d4114860799d09071591ba80ea86244e69"
+    },
+    {
+      "id": "PL-B2",
+      "path": "pixellab/PL-B2/image.png",
+      "size": [
+        64,
+        64
+      ],
+      "sha256": "a4799276ebe79677d024a315fccf7725f2cb309ef17bcee0ca30580fe7336dfe"
+    },
+    {
+      "id": "PL-B3",
+      "path": "pixellab/PL-B3/image.png",
+      "size": [
+        64,
+        64
+      ],
+      "sha256": "50bc8c2ac0b2ffd2a7eb976cc0fd256dcb07da6a0ea0ff070a6eb9a28e48f7d8"
+    }
+  ]
+}

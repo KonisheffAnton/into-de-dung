@@ -1,0 +1,335 @@
+{
+  "source": "https://api.pixellab.ai/v2/openapi.json",
+  "schemas": {
+    "CreateImagePixenRequest": {
+      "properties": {
+        "description": {
+          "type": "string",
+          "title": "Description",
+          "description": "Text description of the image to generate"
+        },
+        "image_size": {
+          "$ref": "#/components/schemas/app__endpoints__external__v2__create_image_pixen__ImageSize"
+        },
+        "outline": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/Outline"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Outline style"
+        },
+        "detail": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/Detail"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Detail level (default: highly detailed)",
+          "default": "highly detailed"
+        },
+        "view": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/CameraView"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Camera view angle"
+        },
+        "direction": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/Direction"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Subject direction"
+        },
+        "no_background": {
+          "type": "boolean",
+          "title": "No Background",
+          "description": "Generate with transparent background. Up to 65,536 px of area (e.g. 256x256 or 512x128); larger canvases are refused with it on.",
+          "default": false
+        },
+        "background_removal_task": {
+          "type": "string",
+          "enum": [
+            "remove_simple_background",
+            "remove_complex_background"
+          ],
+          "title": "Background Removal Task",
+          "description": "Background removal complexity. 'remove_simple_background' is faster, 'remove_complex_background' handles complex edges better",
+          "default": "remove_simple_background"
+        },
+        "seed": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Seed",
+          "description": "Seed decides the starting noise"
+        },
+        "enhance_prompt": {
+          "type": "boolean",
+          "title": "Enhance Prompt",
+          "description": "If true, automatically expand your description into a richer, more detailed prompt before generating вЂ” equivalent to calling /v2/enhance-pixen-prompt first and passing the result here. Costs an additional 0.05 generations (or equivalent credits). The expanded text is returned in `enhanced_prompt`.",
+          "default": false
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "description",
+        "image_size"
+      ],
+      "title": "CreateImagePixenRequest",
+      "description": "Request model for Pixen image generation endpoint",
+      "example": {
+        "description": "cute wizard",
+        "detail": "highly detailed",
+        "image_size": {
+          "height": 64,
+          "width": 64
+        },
+        "no_background": true
+      }
+    },
+    "CreateImagePixenResponse": {
+      "properties": {
+        "usage": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/Usage"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "example": {
+            "type": "usd",
+            "usd": 0.02
+          }
+        },
+        "image": {
+          "$ref": "#/components/schemas/Base64Image"
+        },
+        "enhanced_prompt": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Enhanced Prompt",
+          "description": "The expanded prompt used for generation. Populated only when enhance_prompt=true."
+        },
+        "enhance_usage": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/Usage"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Cost of the prompt enhancement, separate from generation usage. Populated only when enhance_prompt=true."
+        }
+      },
+      "type": "object",
+      "required": [
+        "image"
+      ],
+      "title": "CreateImagePixenResponse"
+    },
+    "EditImagePixenRequest": {
+      "properties": {
+        "image": {
+          "$ref": "#/components/schemas/Base64Image",
+          "description": "The image to edit, as base64 PNG. Each side must be 256px or smaller and a multiple of 4, and the area at least 16x16. Pad with transparent pixels to align вЂ” never rescale pixel art."
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 500,
+          "minLength": 1,
+          "title": "Description",
+          "description": "What to change (e.g. 'give him a red cape', 'make the armor gold')"
+        },
+        "width": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 1.0
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Width",
+          "description": "Target canvas width, a multiple of 4. Area must be at most 256x256. Defaults to the source image's width. The model re-renders at this size вЂ” it does not rescale."
+        },
+        "height": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 1.0
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Height",
+          "description": "Target canvas height, a multiple of 4. Defaults to the source image's height."
+        },
+        "seed": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0.0
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Seed",
+          "description": "Seed for reproducible generation"
+        },
+        "no_background": {
+          "type": "boolean",
+          "title": "No Background",
+          "description": "Return the result on a transparent background",
+          "default": true
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "image",
+        "description"
+      ],
+      "title": "EditImagePixenRequest",
+      "description": "Request model for the Pixen image edit endpoint",
+      "example": {
+        "description": "give him a red cape",
+        "height": 64,
+        "image": {
+          "base64": "data:image/png;base64,..."
+        },
+        "no_background": true,
+        "width": 64
+      }
+    },
+    "EditImagePixenResponse": {
+      "properties": {
+        "usage": {
+          "anyOf": [
+            {
+              "$ref": "#/components/schemas/Usage"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "example": {
+            "type": "usd",
+            "usd": 0.02
+          }
+        },
+        "background_job_id": {
+          "type": "string",
+          "title": "Background Job Id",
+          "description": "Background job ID for polling status"
+        },
+        "status": {
+          "type": "string",
+          "title": "Status",
+          "description": "Job status",
+          "default": "processing"
+        }
+      },
+      "type": "object",
+      "required": [
+        "background_job_id"
+      ],
+      "title": "EditImagePixenResponse",
+      "description": "Response model for the Pixen image edit endpoint (background job)",
+      "example": {
+        "background_job_id": "123e4567-e89b-12d3-a456-426614174000",
+        "status": "processing"
+      }
+    },
+    "Outline": {
+      "type": "string",
+      "enum": [
+        "single color black outline",
+        "single color outline",
+        "selective outline",
+        "lineless"
+      ],
+      "title": "Outline"
+    },
+    "Detail": {
+      "type": "string",
+      "enum": [
+        "low detail",
+        "medium detail",
+        "highly detailed"
+      ],
+      "title": "Detail"
+    },
+    "CameraView": {
+      "type": "string",
+      "enum": [
+        "side",
+        "low top-down",
+        "high top-down"
+      ],
+      "title": "CameraView"
+    },
+    "Base64Image": {
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "base64",
+          "title": "Type",
+          "description": "Image data type",
+          "default": "base64"
+        },
+        "base64": {
+          "type": "string",
+          "title": "Base64",
+          "description": "Base64 encoded image data"
+        },
+        "format": {
+          "type": "string",
+          "title": "Format",
+          "description": "Image format",
+          "default": "png"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object",
+      "required": [
+        "base64"
+      ],
+      "title": "Base64Image",
+      "description": "A base64 encoded image.\n\nAttributes:\n    type (Literal[\"base64\"]): Always \"base64\" to indicate the image encoding type\n    base64 (str): The base64 encoded image data\n    format (str): The image format (e.g., \"png\", \"jpeg\")"
+    }
+  }
+}

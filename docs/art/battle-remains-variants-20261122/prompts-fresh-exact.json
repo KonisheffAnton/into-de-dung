@@ -1,0 +1,6 @@
+{
+  "tool": "built-in image_gen",
+  "prompt": "Edit only this universal pile of bones into its FRESH REMAINS version. Preserve the exact arrangement of all bones, their camera angle, canvas and transparent background, and simple chunky pixel style. Add visible small attached patches of muted dark burgundy and brown-red meat around and between the bones; leave the ends and about half of the bone surfaces exposed. Fresh state means BONES WITH MEAT, not a complete corpse. The pile must remain impossible to identify as human or monster. No skull, face, recognizable body, hands, feet, organs, clothing, equipment, scattered blood drops or large blood pool. Keep a low compact shape on the floor. Hard square pixel clusters, sparse flat colors, no soft edges, no antialiasing, no gradient/halo, no smoothing. One isolated sprite, true transparent RGBA.",
+  "input": "matching G-B1/G-B2/G-B3 raw PNG",
+  "output": "G-F1/G-F2/G-F3"
+}
