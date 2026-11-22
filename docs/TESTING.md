@@ -12,6 +12,11 @@ hazards, raise_forecast, summon_snapshot/summon_checkpoint, status_effects,
 presentation_environment. [Правила](TAMED_TROGLODYTE_V1.md),
 [итоги](art/tamed-troglodyte-integration-20261122/README.md).
 
+Только замена С2/посадка троглодита: `python tools/art/build_troglodyte_skin.py --check`
+и `--render-check --only tamed_troglodyte_visual unit_visual_contract character_skins class_showcase_ui`.
+Проверяются исходные кадры, тень/лапки на плитке, обе стороны, ракурсы и общий visual lifecycle;
+core повторно нужен при изменении боевой логики, а не этих параметров изображения.
+
 ## Среда
 
 Нужны Python 3 и Godot; путь к Godot передаётся в GODOT_BIN либо `--godot`.

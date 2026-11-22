@@ -8,6 +8,8 @@ extends Resource
 @export var animations: SpriteFrames
 @export var anchor := Vector2(128.0, 200.0)
 @export var texture_scale: float = 0.5
+## Широкая опора четвероногого требует собственной тени, без изменения масштаба тела.
+@export_range(0.5, 2.0, 0.05) var ground_shadow_scale: float = 1.0
 @export_enum("Left:-1", "Right:1") var source_facing_x: int = 1
 @export_range(0.0, 1.0) var shieldbearer_palette_strength: float = 0.0
 ## Периодический жест вне действий не имеет боевого эффекта; ноль сохраняет прежнее поведение.

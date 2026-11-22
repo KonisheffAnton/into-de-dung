@@ -1,0 +1,81 @@
+{
+  "base": "7b98b01c34259392e008369eccd62c6ff6505440",
+  "isolated_source": "clean detached base + only owned changes; concurrent host-card WIP excluded",
+  "runner_report": "D:\\Games\\trog-grounding-check-20261122\\test_reports\\demo-f5f8f831a2ad4ab4bc8537fedeb63365",
+  "preserved_logs": "D:\\Games\\into-de-dung\\test_reports\\troglodyte-grounding-c2-20261122",
+  "checks": {
+    "import": {
+      "status": "PASS",
+      "counts": null,
+      "seconds": 29.81831100001
+    },
+    "startup": {
+      "status": "PASS",
+      "counts": null,
+      "seconds": 4.355014299988397
+    },
+    "unit_visual_contract": {
+      "status": "PASS",
+      "counts": [
+        45,
+        0
+      ],
+      "seconds": 4.504361800005427
+    },
+    "class_showcase_ui": {
+      "status": "PASS",
+      "counts": [
+        60,
+        0
+      ],
+      "seconds": 8.419559100002516
+    },
+    "character_skins": {
+      "status": "PASS",
+      "counts": [
+        1475,
+        0
+      ],
+      "seconds": 26.267132299995865
+    },
+    "tamed_troglodyte_visual": {
+      "status": "PASS",
+      "counts": [
+        42,
+        0
+      ],
+      "seconds": 3.8640504000068177
+    }
+  },
+  "source_sha256": {
+    "scripts/demo/character_skin_definition.gd": "bbaa9a0a6a6b58c597f2d1113f254476056c07f99d617ce88ee42b8d1a6618c0",
+    "scripts/demo/battle_character_skin_visual.gd": "bd785dafe5ab91267ec5f29e009cfdf7cb41f98301a7f5f07cd8455c1d581b8e",
+    "tests/test_tamed_troglodyte_visual.gd": "60877cbac8071e64375b2aa7cb6d8bc13f3210ddd3950bc89abcc0c27e6874bb",
+    "tools/art/build_troglodyte_skin.py": "d0a15a23e6941ce1fee839f91b719c37604907d5b3a46523b645499ebee9c995",
+    "assets/art_presets/approved/character_skins_v1/tamed_troglodyte/buff.png": "c965babc0dafaa52352cb0a24f2357ae3f8fca1a74a3207c2ed9a9ba3fa8030c",
+    "assets/art_presets/approved/character_skins_v1/tamed_troglodyte/death.png": "87a56e1f069e1c89d27d8958cd2db569483ba26be52085f1d72497ea380bf892",
+    "assets/art_presets/approved/character_skins_v1/tamed_troglodyte/frames.tres": "b482c89abd5324f5a9faa0a96d854278bbe5cd65be18b1c5049e910cc194fc12",
+    "assets/art_presets/approved/character_skins_v1/tamed_troglodyte/idle.png": "0a0f0d315a820a4bbe1e29944346f3104373feaee4888a83eb07e619c1b29af1",
+    "assets/art_presets/approved/character_skins_v1/tamed_troglodyte/idle_secondary.png": "5d23737b399f82f3b8ce11a947ef094332049cb0a3b555caef105158c16dfffe",
+    "assets/art_presets/approved/character_skins_v1/tamed_troglodyte/manifest.json": "71b47bb8b55b19af6fb938a48d106d15f2dd2a67d38a111f8a689413bb3e4679",
+    "assets/art_presets/approved/character_skins_v1/tamed_troglodyte/README.md": "a556e3095f4030d53414e6f7e95e4a32b272feb9f0d82605180ff0a7f8fde53b",
+    "assets/art_presets/approved/character_skins_v1/tamed_troglodyte/skin.tres": "559f3cfc5b902dc9a978771b63b8be56674752636958d47afe4866d977d87e99",
+    "assets/art_presets/approved/character_skins_v1/tamed_troglodyte/still.png": "43565f959861c8b8068172ef04f483a4f6709633f6a9e97e89353649cf070486",
+    "docs/art/troglodyte-grounding-c2-20261122/sources/death/clip.json": "0ff4ecaf20aad25a2752163aaeb03003e417de79c9c11d98ad7f82068ba027af",
+    "docs/art/troglodyte-grounding-c2-20261122/sources/death/preview.gif": "bc61234716319353bc7e7a407783da5a5f720a0d734b112919844ad0826b8e8d",
+    "docs/art/troglodyte-grounding-c2-20261122/sources/death/spritesheet.png": "87a56e1f069e1c89d27d8958cd2db569483ba26be52085f1d72497ea380bf892"
+  },
+  "review": "APPROVE: independent production and GPU review",
+  "visual_findings": [
+    "paws and contact shadow on stone tiles, both facings",
+    "2:1 and 4:3 support checks including raised tile",
+    "same body scale and pixel art",
+    "C2 final pose lies on tile",
+    "monster visible in actual opening field"
+  ],
+  "limitations": [
+    "death-pose capture samples C2 on a live fixture; HP24 in that image is not final death UI",
+    "manual playthrough, DPI/performance and full/core not rerun for this presentation change",
+    "concurrent host-card work is outside this verified source snapshot"
+  ]
+}

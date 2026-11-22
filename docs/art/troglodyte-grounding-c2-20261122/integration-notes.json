@@ -1,0 +1,8 @@
+{
+  "HANDOFF_HEAD_chars": 2453,
+  "HANDOFF_owned_index_chars": 2244,
+  "HANDOFF_parallel_worktree_chars": 2244,
+  "note": "Parallel concept documentation committed as80cf5c42 during work; preserved. HANDOFF archive7 equals that complete previous handoff. Only own ARCHITECTURE hunk staged; unrelated host runtime hunk left untouched. AGENTS/PROJECT_CONTEXT/WORKFLOW unchanged.",
+  "cleanup": "git worktree removal hit long filename; subsequent recursive removal rejected by automatic approval policy; unregistered scratch remnants retained at D:/Games/trog-grounding-check-20261122",
+  "integration_parent": "80cf5c42e700ed223a2699b6174120abd093c317"
+}

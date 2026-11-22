@@ -118,7 +118,10 @@ resize/speed/skip/cancel/retire принадлежат общему Tween и о�
 
 ### Прирученный троглодит — 2026-11-22
 
-Enemy-only `tamed_troglodyte`: выбранные О3/О2/С1 и Р2-способность,33 кадра,
-256², якорь128/200,texture_scale0.5,source_facing_x=-1; ambient-buff выключен.
+Enemy-only `tamed_troglodyte`: выбранные О3/О2/С2 и Р2-способность,33 кадра,
+256², опорный якорь128/184,texture_scale0.5,source_facing_x=-1; ambient-buff выключен.
+С2 заменила С1 по уточнению U. Тело опущено на6.4px при100%, а контактная тень
+расширена через `ground_shadow_scale=1.25` (по умолчанию1, остальные скины прежние).
 [Контракт и размер](TAMED_TROGLODYTE_V1.md), [пакет и проверка пикселей](art/tamed-troglodyte-integration-20261122/README.md).
+[Проверка посадки и С2](art/troglodyte-grounding-c2-20261122/README.md).
 Пять классов и сохранённые настройки косметики не расширены.

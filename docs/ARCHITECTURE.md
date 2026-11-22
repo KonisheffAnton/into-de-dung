@@ -1013,3 +1013,5 @@ UnitState identity, общий ArmorHitExecutor и CannibalizeCommand. BT выб
 намерение, очередь оплачивает/лечит/поглощает, ForecastSimulation исполняет копию.
 [Свежесть и кости](ENVIRONMENT_D5.md#свежие-трупы-и-кости--2026-11-22) принадлежат
 CombatEnvironmentState и границе полного раунда BattleTurnRefill; UI не меняет срок.
+Опорный якорь и множитель контактной тени принадлежат CharacterSkinDefinition;
+BattleCharacterSkinVisual применяет их после штатной геометрии, не сдвигая клетку.

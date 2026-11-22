@@ -57,9 +57,15 @@ func get_unit_art_scale() -> float:
 
 func get_unit_pick_rect() -> Rect2:
 	if _has_skin() and visual_class_id == &"sick_hobgoblin": return Rect2(-31, -55, 62, 58)
-	if _has_skin() and visual_class_id == &"tamed_troglodyte": return Rect2(-37, -46, 74, 48)
+	if _has_skin() and visual_class_id == &"tamed_troglodyte": return Rect2(-37, -40, 74, 50)
 	if _has_skin() and visual_class_id in [&"mage", &"archer"]: return Rect2(-40, -78, 80, 82)
 	return super.get_unit_pick_rect()
+
+func _sync_ground_shadow() -> void:
+	super._sync_ground_shadow()
+	# Опора остаётся на клетке; размер пятна задаётся силуэтом выбранного скина.
+	if _has_skin() and _ground_shadow != null and _ground_shadow.visible:
+		_ground_shadow.scale *= skin_definition.ground_shadow_scale
 
 func _skin_clip_available(animation: StringName) -> bool:
 	if not _has_skin() or float(_skin_durations.get(animation, 0.0)) <= 0.0: return false
