@@ -1,0 +1,148 @@
+{
+  "base": "4d3737c38911ea4a7df3297500f4b8251a8d8a27",
+  "scope": "art proposals only, smaller individual bones; no runtime edits",
+  "final_images": [
+    {
+      "label": "G6",
+      "file": "imagegen/G6.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "alpha": [
+        0,
+        254
+      ],
+      "sha256": "3104034ffa775a9b904fc028ca652dbaf40c0a98b1bf8fa098be85173c4378f5"
+    },
+    {
+      "label": "PL14",
+      "file": "pixellab/PL14-adapt/image.png",
+      "size": [
+        64,
+        64
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "sha256": "61029642e49dd8dcc38f6951f19fc2f6df7af4f9dcc84a030d09898c8c9d335a"
+    },
+    {
+      "label": "G7",
+      "file": "imagegen/G7.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "alpha": [
+        0,
+        254
+      ],
+      "sha256": "bf1f510829edaf0fb0a6b4e83669e2d993cedc44380c3da1f00d02cb40faaa9a"
+    },
+    {
+      "label": "PL15",
+      "file": "pixellab/PL15-adapt/image.png",
+      "size": [
+        64,
+        64
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "sha256": "88985142665056293e17c0ba05a5e57682537bc8585a313f320837236c7cee2d"
+    },
+    {
+      "label": "G8",
+      "file": "imagegen/G8.png",
+      "size": [
+        1774,
+        887
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "sha256": "eaafa14bf74316c45eb50a490f04b6ad55fc549cd71ad48a19670a2c3fa6285b"
+    },
+    {
+      "label": "PL16",
+      "file": "pixellab/PL16-adapt/image.png",
+      "size": [
+        64,
+        64
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "sha256": "1dd94262bb11380eadb438a06941245e1f104f67dffd36f45b7f266efd754957"
+    },
+    {
+      "label": "G9",
+      "file": "imagegen/G9.png",
+      "size": [
+        1774,
+        887
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "sha256": "3f7f66336348176aa171b15848792036c104e720e31291f3cc16afe71969ac03"
+    },
+    {
+      "label": "PL17",
+      "file": "pixellab/PL17-adapt/image.png",
+      "size": [
+        64,
+        64
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "sha256": "0816bccbeb78a3d43aaac6d46ce9006bfe2c98431fe823006b0dcab708b23352"
+    },
+    {
+      "label": "G10",
+      "file": "imagegen/G10.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "alpha": [
+        0,
+        254
+      ],
+      "sha256": "478f4ebddf5a6bae28b955b41004b777c8bffeeffebddb63757fa9c022ecaca5"
+    },
+    {
+      "label": "PL18",
+      "file": "pixellab/PL18-adapt/image.png",
+      "size": [
+        64,
+        64
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "sha256": "3ab65a902ee492bbb7e8fb654ec99f2e229b7c434ff338e08af56d49490d6124"
+    }
+  ],
+  "prior_png_unchanged": 17,
+  "original_imagegen_copies_identical": true,
+  "imagegen_calls": 5,
+  "pixellab_posts": 15,
+  "pixellab_generations": 15.0,
+  "presentation": "G same 54x39 max thumbnail on64 canvas as prior, nearest; PL native64 x4",
+  "limits": [
+    "G remains high-resolution concept with partial alpha/soft edging",
+    "PL final adapts new G concepts; not an independent composition family",
+    "Requested half-size/piece count not an exact measured guarantee",
+    "No game field placement or Godot checks; selection pending"
+  ]
+}

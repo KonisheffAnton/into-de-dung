@@ -1,0 +1,16 @@
+{
+  "endpoint": "/create-image-pixen",
+  "payload": {
+    "description": "A small LOW compact pile of MANY TINY broken BONE CHIPS and SHORT BONE SPLINTERS. About 14 small fragments packed together: short uneven stubs, flat chipped shards, little crooked splinters, tiny knobbly ends. Every piece is different. Individual fragments only 4 to 9 pixels long. NO full long bones, no large curved bones, no loops, no large slab, no repeated dog-bone shapes, no skull, head, face, jaw or recognizable skeleton. One low wide irregular oval. The entire heap occupies about 48x30 pixels, centered with clear transparent margins in 64x64. Simple crisp chunky dark fantasy pixel art, limited dirty ivory/taupe palette with purple-gray deep shadows, selective dark outline, overhead three-quarter camera. Bare dry bone, no flesh. Transparent background. No floor, stones, rocks, dirt, pedestal, shadow halo, smoothing or text.",
+    "image_size": {
+      "width": 64,
+      "height": 64
+    },
+    "outline": "selective outline",
+    "detail": "low detail",
+    "view": "high top-down",
+    "no_background": true,
+    "enhance_prompt": false,
+    "seed": 202611420
+  }
+}
