@@ -45,4 +45,10 @@ static func paint(canvas: CanvasItem, points: Array[Vector2], style: Dictionary,
 			# Только готовые позы PixelLab; первый кадр — спокойный вариант без анимации.
 			var frame: int = int(elapsed / 0.08) % 17 if style.get("flicker","soft") == "soft" else 0
 			var factor: float = 0.25 * scale_value
-			canvas.draw_texture_rect_region(texture,Rect2(center-Vector2(31,40)*factor,Vector2(64,64)*factor),Rect2(frame*64,0,64,64))
+			var destination := Rect2(center-Vector2(31,40)*factor,Vector2(64,64)*factor)
+			var source := Rect2(frame*64,0,64,64)
+			# Обводка отдельным слоем сохраняет исходные кадры и точно повторяет их альфу.
+			var outline_color := Color("241b25")
+			for offset: Vector2 in [Vector2(-1,-1),Vector2(0,-1),Vector2(1,-1),Vector2(-1,0),Vector2(1,0),Vector2(-1,1),Vector2(0,1),Vector2(1,1)]:
+				canvas.draw_texture_rect_region(texture,Rect2(destination.position + offset * scale_value,destination.size),source,outline_color)
+			canvas.draw_texture_rect_region(texture,destination,source)

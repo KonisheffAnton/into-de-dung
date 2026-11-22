@@ -1,0 +1,46 @@
+{
+  "base_head": "4d3737c38911ea4a7df3297500f4b8251a8d8a27",
+  "source_sha256": "c76f192a3bcee532eab9f9c753a565c91963304f443bb7ae411c80948d33dbb5",
+  "captures": [
+    {
+      "file": "possession-outlined.png",
+      "source": "test_reports/host-flame-outline-20261123/recheck/host_ui/possession-with-cards.png",
+      "sha256": "62664310761234bc2d977576f6996752254009413d8c55aae9fdb121005ff07b"
+    },
+    {
+      "file": "poses-outlined.png",
+      "source": "test_reports/host-flame-outline-20261123/recheck/host_glow/host-glow-poses.png",
+      "sha256": "03f9801d2d5e915537e93aa20188d6ff42beb39f98b154bbad2c620c5a37bf06"
+    }
+  ],
+  "checks": {
+    "import": {
+      "status": "PASS",
+      "returncode": 0,
+      "elapsed_seconds": 6.59
+    },
+    "startup": {
+      "status": "PASS",
+      "returncode": 0,
+      "elapsed_seconds": 4.38
+    },
+    "host_ui": {
+      "status": "PASS",
+      "returncode": 0,
+      "elapsed_seconds": 9.15
+    },
+    "host_glow": {
+      "status": "PASS",
+      "returncode": 0,
+      "elapsed_seconds": 3.58
+    }
+  },
+  "host_ui_checks": 44,
+  "host_glow_checks": 1036,
+  "review": "APPROVE",
+  "foreign33_unchanged": true,
+  "source_assets24_unchanged": true,
+  "initial_import": "FAILED: nonexistent Rect2.translated; corrected constructor and rechecked",
+  "full_core_repeated": false,
+  "manual_acceptance": "open"
+}

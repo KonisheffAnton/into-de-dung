@@ -1,0 +1,40 @@
+{
+  "input_sizes": [
+    {
+      "path": "AGENTS.md",
+      "head_chars_lf": 4565,
+      "chars_lf": 4565,
+      "guide": 5000
+    },
+    {
+      "path": "docs/CODEX_HANDOFF.md",
+      "head_chars_lf": 2189,
+      "chars_lf": 2093,
+      "guide": 2500
+    },
+    {
+      "path": "docs/PROJECT_CONTEXT.md",
+      "head_chars_lf": 3761,
+      "chars_lf": 3761,
+      "guide": 3500
+    },
+    {
+      "path": "docs/CODEX_WORKFLOW.md",
+      "head_chars_lf": 4482,
+      "chars_lf": 4482,
+      "guide": 4500
+    }
+  ],
+  "unchanged_size_exception": "PROJECT_CONTEXT3761 уже превышал3500; в этом этапе не изменён.",
+  "archive": {
+    "base_head": "c188241e8f15c6105279bafda03d39adabee675b",
+    "archive": "docs/CODEX_HANDOFF.history-20261123-8.md",
+    "previous_sha256": "3ccb90224afb0131b5e9ba08e6b9057e42ffb3b1a69e02112b643f24793ccb85",
+    "archive_sha256": "3ccb90224afb0131b5e9ba08e6b9057e42ffb3b1a69e02112b643f24793ccb85",
+    "byte_exact": true,
+    "handoff_chars_lf": 2093
+  },
+  "local_links": "PASS",
+  "foreign33_and_source_assets24": "SHA256 unchanged",
+  "fixed_source_sha256": "c76f192a3bcee532eab9f9c753a565c91963304f443bb7ae411c80948d33dbb5"
+}
