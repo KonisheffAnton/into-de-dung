@@ -82,6 +82,7 @@ func _run() -> void:
 	if not captures.is_empty():
 		await _check_crisp_number_pixels()
 		await _check_balance_sections()
+		await _check_armor_visibility_lifecycle()
 	_check_action_pose_invariants()
 	await _check_death_hides_bars()
 	viewport.queue_free()
@@ -334,6 +335,63 @@ func _check_balance_sections() -> void:
 	visual.unit.balance = old_balance
 	visual.unit.balance_max = old_maximum
 	visual.queue_redraw()
+
+
+func _check_armor_visibility_lifecycle() -> void:
+	stage.scale = Vector2.ONE
+	check(BattleUnitVitalsPainter.armor_amount_text(0.00001) == "<0.1"
+		and BattleUnitVitalsPainter.armor_amount_text(0.099) == "<0.1",
+		"positive armor below display precision is not labeled zero")
+	check(BattleUnitVitalsPainter.armor_amount_text(0.0) == "0"
+		and BattleUnitVitalsPainter.armor_amount_text(0.1) == "0.1",
+		"zero and the first displayable tenth retain their normal armor amounts")
+	# Повторная публикация проверяет живую фигуру: временная броня появляется и исчезает без пересоздания HUD.
+	for faction_row: int in 2:
+		var visual := visuals[faction_row * 7]
+		var faction := Faction.Type.PLAYER if faction_row == 0 else Faction.Type.ENEMY
+		var values := _view_values(_vital_cases()[0], &"warrior", faction, 8100 + faction_row * 7,
+			Vector2i(faction_row * 3, faction_row * 3))
+		var original_armor: Dictionary = values.armor_values.duplicate(true)
+		values.armor_values = {}
+		check(visual.apply_view(values, config), "no-armor publication updates the existing figure")
+		await process_frame
+		await RenderingServer.frame_post_draw
+		var without_armor := viewport.get_texture().get_image()
+		var anchor := _bar_screen_anchor(visual)
+		var cases: Array[Dictionary] = [
+			{"label": "zero native capacity", "armor": {"maximum": 0.0, "current": 0.0, "extra": 0.0}, "visible": false},
+			{"label": "magical grant", "armor": {"maximum": 0.0, "current": 7.5, "extra": 7.5}, "visible": true},
+			{"label": "positive fractional grant", "armor": {"maximum": 0.0, "current": 0.00001, "extra": 0.00001}, "visible": true},
+			{"label": "spent magical grant", "armor": {"maximum": 0.0, "current": 0.0, "extra": 0.0}, "visible": false},
+			{"label": "grant restored again", "armor": {"maximum": 0.0, "current": 3.0, "extra": 3.0}, "visible": true},
+			{"label": "depleted equipped armor", "armor": {"maximum": 100.0, "current": 0.0, "extra": 0.0}, "visible": true},
+			{"label": "armor absent again", "armor": {}, "visible": false},
+		]
+		for sample: Dictionary in cases:
+			values.armor_values = sample.armor
+			# Прогноз нуля не скрывает ещё имеющуюся броню; прогноз получения не создаёт её заранее.
+			values.forecast_entry = {"after": {"armor_current": 0.0 if sample.visible else 12.0}}
+			check(visual.apply_view(values, config), "%s republishes armor values" % sample.label)
+			await process_frame
+			await RenderingServer.frame_post_draw
+			var image := viewport.get_texture().get_image()
+			if sample.visible:
+				var color := Color("747d80") if float(sample.armor.current) == 0.0 else Color("c0cacb")
+				check(_has_color_near(image, anchor + Vector2(-18.0, 6.5), color, 1.0, 0.01),
+					"%s shows the appropriate armor track for faction %d" % [sample.label, faction_row])
+				check(_has_centered_dark_ink(image, anchor + Vector2(0.0, 6.5), 1.0),
+					"%s shows its armor amount for faction %d" % [sample.label, faction_row])
+			else:
+				check(_regions_equal(without_armor, anchor, image, anchor, Rect2i(-24, 0, 48, 13)),
+					"%s leaves no armor frame, amount or forecast for faction %d" % [sample.label, faction_row])
+			for region: Rect2i in [Rect2i(-24, 14, 48, 11), Rect2i(-24, 27, 48, 4)]:
+				check(_regions_equal(without_armor, anchor, image, anchor, region),
+					"%s preserves HP and balance for faction %d" % [sample.label, faction_row])
+			if faction_row == 0 and String(sample.label) in ["zero native capacity", "magical grant", "spent magical grant"]:
+				await _capture(image, "unit-vitals-" + String(sample.label).replace(" ", "-"))
+		values.armor_values = original_armor
+		values.forecast_entry = {}
+		visual.apply_view(values, config)
 
 
 func _bar_origin(visual: BattleDemoIsoVisual) -> Vector2:

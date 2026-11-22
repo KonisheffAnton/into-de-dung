@@ -1,0 +1,49 @@
+{
+  "base": "435f11a3d6f67c7cbd4b3ddc51dce8071536a0b0",
+  "status": "PASS",
+  "report": "D:\\Games\\into-de-dung\\test_reports\\demo-025837fc8f5d423896a864f0d40207c1",
+  "checks": {
+    "import": {
+      "elapsed_seconds": 36.78171180000936,
+      "status": "PASS"
+    },
+    "startup": {
+      "elapsed_seconds": 3.8938955000048736,
+      "status": "PASS"
+    },
+    "unit_visual_contract": {
+      "elapsed_seconds": 3.7440142999985255,
+      "status": "PASS"
+    },
+    "visual_scene_contract": {
+      "elapsed_seconds": 6.66184470000735,
+      "status": "PASS"
+    },
+    "presentation_status": {
+      "elapsed_seconds": 5.965079300003708,
+      "status": "PASS"
+    },
+    "unit_vital_bars": {
+      "elapsed_seconds": 5.1936662000080105,
+      "status": "PASS"
+    }
+  },
+  "suite_assertions": {
+    "unit_vital_bars": 1575,
+    "presentation_status": 158,
+    "unit_visual_contract": 45,
+    "visual_scene_contract": 106
+  },
+  "failed": 0,
+  "review": "APPROVE after <0.1 positive-minimum armor label",
+  "source_sha256": {
+    "scripts/ui/battle/battle_unit_vitals_painter.gd": "3e658f28c7b84bc06cc31b1b623e1948d48febcb9412c839a540eb16b014a48c",
+    "tests/test_unit_vital_bars.gd": "4e242554c85f7a159c72c677c80e2a269af81beb0bd70f9a4ba94931609912c0"
+  },
+  "initial_attempt": "demo-20e0b3fcacbd4ce487e7c95e26eee4ae: editor teardown Button disconnect diagnostic; subsequent fresh run PASS",
+  "limits": [
+    "No full/core rerun",
+    "No manual F5/DPI/performance acceptance",
+    "K1 art remains external preview"
+  ]
+}

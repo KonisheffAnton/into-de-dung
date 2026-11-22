@@ -17,8 +17,12 @@ static func draw_vitals(canvas: Node2D, unit: BattleUnitView, armor: Dictionary,
 	if is_zero_approx(screen.determinant()): return
 	var origin := (screen * local_anchor).round()
 	var hp_text := BattleEventText.amount_text(unit.hp)
-	var armor_text := BattleEventText.amount_text(float(armor.get("current", 0.0)))
-	var width := _track_width(hp_text, armor_text if not armor.is_empty() else "")
+	var armor_current := float(armor.get("current", 0.0))
+	var armor_maximum := float(armor.get("maximum", 0.0))
+	# Нулевой штатный максимум не должен оставлять пустую полосу после исчезновения временной брони.
+	var show_armor := armor_maximum > 0.0 or armor_current > 0.0
+	var armor_text := armor_amount_text(armor_current)
+	var width := _track_width(hp_text, armor_text if show_armor else "")
 	var hp_rect := Rect2(origin + Vector2(-width * 0.5, 14), Vector2(width, BAR_HEIGHT))
 	var armor_rect := Rect2(origin + Vector2(-width * 0.5, 1), Vector2(width, BAR_HEIGHT))
 	var after: Dictionary = forecast.get("after", {}) as Dictionary
@@ -39,9 +43,10 @@ static func draw_vitals(canvas: Node2D, unit: BattleUnitView, armor: Dictionary,
 	if not bool(after.get("alive", unit.alive)):
 		canvas.draw_string(ThemeDB.fallback_font, origin + Vector2(-18, 67), "ПОГИБ", HORIZONTAL_ALIGNMENT_CENTER, 36, 8, Color("f29b9b"))
 	_draw_balance(canvas, Rect2(origin + Vector2(-width * 0.5, 27), Vector2(width, 4)), unit.balance, unit.balance_max)
-	if not armor.is_empty():
-		var maximum := float(armor.get("maximum", 0.0))
-		var current := float(armor.get("current", 0.0))
+	if show_armor:
+		# У чисто временного запаса нет штатной ёмкости: положительная броня не выглядит пустой.
+		var maximum := armor_maximum if armor_maximum > 0.0 else armor_current
+		var current := armor_current
 		var expected := float(after.get("armor_current", current))
 		_draw_track(canvas, armor_rect, current / maximum if maximum > 0.0 else 0.0, Color("c0cacb"), Color("dce4e2"), Color("a4b1b4"), Color("747d80"))
 		if expected != current:
@@ -50,6 +55,12 @@ static func draw_vitals(canvas: Node2D, unit: BattleUnitView, armor: Dictionary,
 			canvas.draw_line(Vector2(mark, armor_rect.position.y - 1), Vector2(mark, armor_rect.end.y + 1), Color.WHITE, 1)
 		_draw_amount(canvas, armor_rect, armor_text)
 	canvas.draw_set_transform_matrix(Transform2D.IDENTITY)
+
+
+static func armor_amount_text(current: float) -> String:
+	# Положительная броня меньше точности UI не должна выглядеть исчерпанной.
+	if current > 0.0 and current < 0.1: return "<0.1"
+	return BattleEventText.amount_text(current)
 
 
 static func _font() -> FontFile:

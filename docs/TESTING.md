@@ -19,6 +19,12 @@
 
 ## Изменение игрового кода
 
+Видимость брони без штатной ёмкости (2026-11-22):
+`python tools/demo/isolate.py --render-check --only unit_vital_bars presentation_status unit_visual_contract visual_scene_contract --screen 0`.
+GPU lifecycle проверяет отсутствие/выдачу/дробный остаток/исчерпание/повторную выдачу,
+пустую штатную броню, обе стороны и неизменность HP/равновесия; прогноз видимость не меняет.
+Новый сценарий требует capture-mode. [Свидетельства](art/armor-bar-visibility-20261122/README.md).
+
 Переключаемая проекция2:1/4:3 (2026-11-22):
 `python tools/demo/isolate.py --render-check --only battle_camera_ui
 dungeon_room_comparison visual_scene_contract environment_visual_contract
