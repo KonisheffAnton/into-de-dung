@@ -1,0 +1,18 @@
+Use case: precise-object-edit
+Asset type: a two-panel comparison concept for the SAME existing tactical game battlefield with a changed ground projection.
+Input image 1 is the edit target and the ONLY source of character identities, materials, environmental objects and art style: an actual game capture of the gray cracked-stone dungeon with five detailed small fantasy fighters, moss stone, dark volcanic stone, acid, lava, metal trap plates, caltrops, and a stone column.
+Input image 2 is supporting material and geometry reference: the CURRENT real gray stone tile block, detailed pixel texture, cracked slab top, dark masonry sides.
+Do NOT use any previous conversation image with simple cartoon characters, flat grass tiles, blue river or a purple background. Those designs were explicitly rejected as context for this request.
+
+Primary request: show the existing game's field with a gentler ground tilt. Produce ONE high-resolution landscape comparison with two equally wide panels separated by a clean narrow dark divider. Use a neutral dark gray backdrop from the game. Small clear Russian titles exactly:
+left "Текущий ракурс · 4:3"
+right "Пологий ракурс · 2:1"
+
+BOTH panels show the same 8 by 8 dungeon section reconstructed from the edit target, same arrangement of cracked gray slabs, central raised stone blocks, the two acid tiles at front-left, orange lava below the raised stone, metal round-hole trap plates, caltrops behind the raised block, a stone column at rear-right, and narrow borders of dark volcanic stone on the left and mossy stone on the right. Frame the whole section with comfortable margins; no clipping. The five existing fighters from the target must retain their EXACT recognizable clothing, equipment, hair, silhouette and detailed pixel rendering: red-armored orange-haired swordsman on the left, blue robed wizard above him, dark hooded rogue higher, red-and-white shield bearer at right, light-haired archer with brown-green clothing in front-right. Same relative tile positions on both fields. Keep the figures compact at the original ratio to tile width. Avoid all cartoon redesign, generic replacements, added enemies, mushrooms, bushes or rivers.
+Remove the surrounding menus, UI buttons, bottom cards, coordinate numbers and floating vitals from both panels only to clearly inspect the ground. This does not redesign the gameplay HUD.
+
+Geometry is the ONE comparison:
+LEFT: top rhombus width to height 4:3 (128x96), edge slope about 37 degrees.
+RIGHT: top rhombus width to height 2:1 (128x64), edge slope about 27 degrees. SAME field width in pixels as left. Ground footprint is visibly about one third shorter in height. Reproject EVERY ground material and ground-bound effect consistently: stone texture, cracks, moss, acid liquid, lava, trap plates, shadows. Do not just change the outer silhouette; actual grid cell edge slopes must be distinctly shallower in the right panel.
+Figures, column and upright masonry edges stay upright, with approximately equal screen heights in both panels. Do NOT squash the whole image or the characters. Tiles retain substantial visible brick sides and the original detailed, muted blue-gray pixel-art texture.
+This is the actual game's existing visual style, NOT a new style proposal. No gradient cartoon grass, no low-detail chibi replacements, no purple mood, no extra text, no watermark.

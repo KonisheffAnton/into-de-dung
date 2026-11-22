@@ -1,0 +1,97 @@
+{
+  "date": "2026-11-22",
+  "base_commit": "0f585dcbe68bd1a30e800965e089ebec26f6f946",
+  "branch": "main",
+  "status": "static proposal; not accepted or integrated",
+  "tool": "built-in image_gen",
+  "requests": 2,
+  "final_artifact": {
+    "path": "docs/art/shallower-perspective-20261122/comparison.png",
+    "bytes": 2107167,
+    "sha256": "84fbb5ee1ba3e5b52c20f5fbcb262333b6d90fb239de2082068e41c447a9b403",
+    "width": 1774,
+    "height": 887
+  },
+  "final_original": {
+    "path": "D:/Codex/home/generated_images/01a202cb-44d1-7fb2-a033-186a23e7e5f9/exec-c0e36e8a-7bc5-4a98-8a16-408307a1fdba.png",
+    "bytes": 2107167,
+    "sha256": "84fbb5ee1ba3e5b52c20f5fbcb262333b6d90fb239de2082068e41c447a9b403",
+    "width": 1774,
+    "height": 887
+  },
+  "inputs": [
+    {
+      "path": "docs/art/balance-vitals-20261115/battle-five-classes.png",
+      "bytes": 1227864,
+      "sha256": "58a24aa704e292ce50bb8b673cf8558c43cb8071a9f72fbcb1194e9b26cba802",
+      "width": 1280,
+      "height": 850
+    },
+    {
+      "path": "docs/art/current-tile-reference-20261103/tile.png",
+      "bytes": 418008,
+      "sha256": "0a2f27b13bd54aec9c6badcd0440082eb29bc3d4a9e1b601dc726a87ea1c08d5",
+      "width": 1024,
+      "height": 1024
+    }
+  ],
+  "unmodified_generator_copy": true,
+  "handoff_archive": {
+    "path": "docs/CODEX_HANDOFF.history-20261122.md",
+    "bytes": 3554,
+    "sha256": "4686b800c4844a0a569ca4ab02e8ce95723fbafa9d3e084feed75bf6a5e24b05"
+  },
+  "handoff_matches_pre_task_bytes": true,
+  "entry_document_sizes": [
+    {
+      "path": "AGENTS.md",
+      "base_chars": 4565,
+      "current_chars": 4565,
+      "changed": false,
+      "growth_chars": 0
+    },
+    {
+      "path": "docs/CODEX_HANDOFF.md",
+      "base_chars": 2275,
+      "current_chars": 2301,
+      "changed": true,
+      "growth_chars": 26
+    },
+    {
+      "path": "docs/PROJECT_CONTEXT.md",
+      "base_chars": 3734,
+      "current_chars": 3734,
+      "changed": false,
+      "growth_chars": 0
+    },
+    {
+      "path": "docs/CODEX_WORKFLOW.md",
+      "base_chars": 4482,
+      "current_chars": 4482,
+      "changed": false,
+      "growth_chars": 0
+    }
+  ],
+  "entry_document_review": "Only HANDOFF changed; unique constraints and unresolved acceptance retained; outdated 20261121 art is explicitly excluded by current user correction. Prior handoff preserved byte-for-byte.",
+  "missing_links": [],
+  "git_diff_check": "PASS",
+  "visual_review": "Two distinct slopes and recognizable current materials/characters. Generated panels are approximate reconstructions: geometry, sprite size and small details are not exact.",
+  "runtime_changed": false,
+  "not_run": [
+    "Godot import",
+    "full/core",
+    "F5/Editor",
+    "DPI",
+    "performance"
+  ],
+  "superseded": {
+    "artifact": {
+      "path": "docs/art/shallower-perspective-20261122/attempts/superseded-style-comparison.png",
+      "bytes": 1557627,
+      "sha256": "032e503d5ce6105a1a74dcf8e4480b3dd7481317685c5f072c29df192ba3a9f0",
+      "width": 1642,
+      "height": 958
+    },
+    "reason": "User excluded previous-chat style exploration; this is not the continuation reference."
+  }
+}

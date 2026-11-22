@@ -1,0 +1,21 @@
+Use case: stylized-concept
+Asset type: one landscape comparison sheet for a tactical game's ground perspective, three equally wide panels.
+Input image 1: visual reference for the battlefield composition, green grass, blue water, brown dirt, peach sand, gray stone, dark purple background, and the exact six simple pixel-style characters. This is the style reference, not the required camera angle.
+Input image 2: geometry reference for the game's CURRENT 4:3 diamond tile top. Do not copy its detailed stone texture into the colorful battlefield.
+Primary request: show how the SAME battlefield and ground coverings would look with a shallower diamond projection. All panels must be genuinely different reprojections; do NOT simply redraw the same ground angle three times. Preserve upright character proportions; do NOT vertically squash characters or their weapons.
+
+Composition: high-resolution wide comparison sheet, approximately 3072 x 1792. Three panels side by side with a clear dark purple gutter. Top of each panel a small clean cream Russian heading exactly:
+left: "Сейчас · 4:3"
+middle: "Пологий · 2:1"
+right: "Ещё положе · 2,5:1"
+Each panel has an identical small battlefield, same grid dimensions and same terrain layout, same six character identities and tile positions, same board width in screen pixels, same upright sprite height. Use the original reference's arrangement of grass, a crossing blue river, dirt at the left front edge, sand at right and gray rock at front. Do not add buildings, vegetation, effects or new characters.
+The entire board is visible with margins in each panel.
+
+CRITICAL GEOMETRY:
+LEFT panel, reconstruct true 4:3 diamond ground: each top rhombus width:height = 128:96, edges slope at about 37 degrees to horizontal. The board footprint must be visibly TALLER than the other panels.
+MIDDLE panel: each top rhombus = 128:64, edge slopes about 27 degrees to horizontal. Same width, ground footprint height 2/3 of left panel. This is the moderate proposal.
+RIGHT panel: each top rhombus = 128:51 approximately, edge slopes about 22 degrees to horizontal. Same width, ground footprint height about 0.53 of left panel. This is the more flattened proposal.
+Change the projection of all ground coverings consistently with tiles: grass, water, sand, dirt, rock. Upright characters remain upright at the SAME sprite proportions and sizes in every panel. Block sides remain vertical with approximately equal visible pixel thickness in all panels. No perspective vanishing point.
+
+Below each battlefield, add one large isolated grass-topped tile block of identical screen width in all three panels, making the different diamond ratios unmistakably visible. Give the three isolated blocks equal upright side thickness. Their diamond top ratios must match their corresponding panel: 4:3, 2:1, 2.5:1.
+Same limited muted palette, visible pixel stairs, simple connected color planes, restrained dark outline, soft ambient dark-purple backdrop as the source. Keep source character designs recognizable. This is a comparison of perspective ONLY, no art style redesign. No extra text, no watermark.
