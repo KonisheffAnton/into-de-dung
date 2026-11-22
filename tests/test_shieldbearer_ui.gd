@@ -48,6 +48,7 @@ func run() -> void:
 	check(hero_detail.contains("только меч своего класса") and not hero_detail.contains("общий отход"),"hub describes class weapon and actual abilities")
 	hub_view.free()
 	hub.enable_mage_deck()
+	hub.select_mage_host(hub.party[0])
 	hub=ExpeditionTransitions.apply(hub,"start").profile
 	check(hub!=null and hub.phase=="expedition","new deck profile starts expedition")
 	var bundle := HeroHubBattleFactory.create(hub)

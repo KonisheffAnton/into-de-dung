@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3]
+[gd_scene load_steps=21 format=3]
 
 [ext_resource type="Texture2D" path="res://assets/ui/hub/fortress_plain.png" id="2_background"]
 
@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" path="res://scenes/demo/hub/squad_list.tscn" id="squad_list"]
 [ext_resource type="PackedScene" path="res://scenes/demo/hub/diorama.tscn" id="diorama"]
 [ext_resource type="PackedScene" path="res://scenes/demo/hub/party_picker.tscn" id="party_picker"]
+[ext_resource type="PackedScene" path="res://scenes/demo/hub/host_possession_dialog.tscn" id="host_dialog"]
 
 [sub_resource type="ButtonGroup" id="HubTabGroup"]
 resource_local_to_scene = true
@@ -411,52 +412,100 @@ size_flags_horizontal = 0
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="PreparationTitle" type="Label" parent="Layout/Content/PreparationPanel/PreparationContent"]
+[node name="PreparationScroll" type="ScrollContainer" parent="Layout/Content/PreparationPanel/PreparationContent"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="PreparationDetails" type="VBoxContainer" parent="Layout/Content/PreparationPanel/PreparationContent/PreparationScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="PreparationTitle" type="Label" parent="Layout/Content/PreparationPanel/PreparationContent/PreparationScroll/PreparationDetails"]
 autowrap_mode = 3
 theme_override_colors/font_color = Color(0.2, 0.15, 0.11, 1)
 layout_mode = 2
 text = "Подготовка к походу"
 theme_override_font_sizes/font_size = 20
 
-[node name="Route" type="Label" parent="Layout/Content/PreparationPanel/PreparationContent"]
+[node name="Route" type="Label" parent="Layout/Content/PreparationPanel/PreparationContent/PreparationScroll/PreparationDetails"]
 theme_override_colors/font_color = Color(0.2, 0.15, 0.11, 1)
 layout_mode = 2
 autowrap_mode = 2
 text = "7 комнат"
 theme_override_font_sizes/font_size = 28
 
-[node name="PartySummary" type="Label" parent="Layout/Content/PreparationPanel/PreparationContent"]
+[node name="PartySummary" type="Label" parent="Layout/Content/PreparationPanel/PreparationContent/PreparationScroll/PreparationDetails"]
 theme_override_colors/font_color = Color(0.2, 0.15, 0.11, 1)
 layout_mode = 2
 autowrap_mode = 2
 text = "Отряд: 0/3"
 theme_override_font_sizes/font_size = 16
 
-[node name="DeckSummary" type="Label" parent="Layout/Content/PreparationPanel/PreparationContent"]
+[node name="DeckSummary" type="Label" parent="Layout/Content/PreparationPanel/PreparationContent/PreparationScroll/PreparationDetails"]
 theme_override_colors/font_color = Color(0.2, 0.15, 0.11, 1)
 layout_mode = 2
 autowrap_mode = 2
 text = "Колода: Не используется"
 theme_override_font_sizes/font_size = 16
 
-[node name="RecoveryNote" type="Label" parent="Layout/Content/PreparationPanel/PreparationContent"]
+[node name="HostBlock" type="VBoxContainer" parent="Layout/Content/PreparationPanel/PreparationContent/PreparationScroll/PreparationDetails"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="Title" type="Label" parent="Layout/Content/PreparationPanel/PreparationContent/PreparationScroll/PreparationDetails/HostBlock"]
+layout_mode = 2
+text = "Вселение"
+theme_override_colors/font_color = Color(0.2, 0.15, 0.11, 1)
+theme_override_font_sizes/font_size = 18
+
+[node name="HostName" type="Label" parent="Layout/Content/PreparationPanel/PreparationContent/PreparationScroll/PreparationDetails/HostBlock"]
+layout_mode = 2
+autowrap_mode = 2
+text = "Носитель не выбран"
+theme_override_colors/font_color = Color(0.2, 0.15, 0.11, 1)
+theme_override_font_sizes/font_size = 14
+
+[node name="Actions" type="HBoxContainer" parent="Layout/Content/PreparationPanel/PreparationContent/PreparationScroll/PreparationDetails/HostBlock"]
+layout_mode = 2
+
+[node name="Choose" type="Button" parent="Layout/Content/PreparationPanel/PreparationContent/PreparationScroll/PreparationDetails/HostBlock/Actions"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 14
+text = "Выбрать носителя"
+
+[node name="Glow" type="Button" parent="Layout/Content/PreparationPanel/PreparationContent/PreparationScroll/PreparationDetails/HostBlock/Actions"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "Огонёк"
+
+[node name="Warning" type="Label" parent="Layout/Content/PreparationPanel/PreparationContent/PreparationScroll/PreparationDetails/HostBlock"]
+layout_mode = 2
+autowrap_mode = 2
+theme_override_colors/font_color = Color(0.42, 0.13, 0.11, 1)
+theme_override_font_sizes/font_size = 14
+text = "Гибель носителя завершит забег. Остальные выжившие вернутся в хаб."
+
+[node name="RecoveryNote" type="Label" parent="Layout/Content/PreparationPanel/PreparationContent/PreparationScroll/PreparationDetails"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 14
 theme_override_colors/font_color = Color(0.25, 0.18, 0.12, 1)
 autowrap_mode = 2
 text = "Броня в хабе восстановлена бесплатно. Перед выходом восстановится здоровье."
 
-[node name="WarningsScroll" type="ScrollContainer" parent="Layout/Content/PreparationPanel/PreparationContent"]
-layout_mode = 2
-size_flags_vertical = 3
-horizontal_scroll_mode = 0
-
-[node name="Warnings" type="VBoxContainer" parent="Layout/Content/PreparationPanel/PreparationContent/WarningsScroll"]
+[node name="Warnings" type="VBoxContainer" parent="Layout/Content/PreparationPanel/PreparationContent/PreparationScroll/PreparationDetails"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_constants/separation = 8
 
-[node name="LaunchHint" type="Label" parent="Layout/Content/PreparationPanel/PreparationContent"]
+[node name="PreparationFooter" type="VBoxContainer" parent="Layout/Content/PreparationPanel/PreparationContent"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/separation = 4
+
+[node name="LaunchHint" type="Label" parent="Layout/Content/PreparationPanel/PreparationContent/PreparationFooter"]
 theme_override_colors/font_color = Color(0.2, 0.15, 0.11, 1)
 layout_mode = 2
 autowrap_mode = 2
@@ -465,11 +514,11 @@ theme_override_font_sizes/font_size = 16
 size_flags_vertical = 0
 custom_minimum_size = Vector2(0, 44)
 
-[node name="FixSpace" type="Control" parent="Layout/Content/PreparationPanel/PreparationContent"]
+[node name="FixSpace" type="Control" parent="Layout/Content/PreparationPanel/PreparationContent/PreparationFooter"]
 layout_mode = 2
 custom_minimum_size = Vector2(0, 40)
 
-[node name="FixIssue" type="Button" parent="Layout/Content/PreparationPanel/PreparationContent/FixSpace"]
+[node name="FixIssue" type="Button" parent="Layout/Content/PreparationPanel/PreparationContent/PreparationFooter/FixSpace"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -479,7 +528,7 @@ theme_override_styles/normal = SubResource("ButtonDark")
 theme_override_styles/hover = SubResource("ButtonDark")
 text = "К колоде"
 
-[node name="StartJourney" type="Button" parent="Layout/Content/PreparationPanel/PreparationContent"]
+[node name="StartJourney" type="Button" parent="Layout/Content/PreparationPanel/PreparationContent/PreparationFooter"]
 layout_mode = 2
 theme_override_colors/font_color = Color(1, 0.94, 0.81, 1)
 theme_override_colors/font_disabled_color = Color(0.75, 0.7, 0.64, 1)
@@ -522,4 +571,7 @@ grow_vertical = 2
 visible = false
 
 [node name="PartyPicker" parent="." instance=ExtResource("party_picker")]
+layout_mode = 1
+
+[node name="HostPossessionDialog" parent="." instance=ExtResource("host_dialog")]
 layout_mode = 1

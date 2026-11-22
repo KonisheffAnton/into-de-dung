@@ -46,6 +46,7 @@ func _run() -> void:
 		DirAccess.make_dir_recursive_absolute(captures)
 	var profile := HeroHubState.create(9404)
 	profile.enable_mage_deck()
+	profile.select_mage_host(profile.party[0])
 	profile = ExpeditionTransitions.apply(profile, "start").profile
 	var bundle := HeroHubBattleFactory.create(profile)
 	check(not bundle.is_empty() and bundle.has("session"), "current expedition factory creates battle session")

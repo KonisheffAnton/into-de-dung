@@ -291,6 +291,7 @@ func run() -> void:
 	if not captures.is_empty(): DirAccess.make_dir_recursive_absolute(captures)
 	var profile := HeroHubState.create(9404)
 	profile.enable_mage_deck()
+	profile.select_mage_host(profile.party[0])
 	var started := ExpeditionTransitions.apply(profile, "start")
 	check(started.is_ok() and started.profile.expedition.current_node().layer == 0,
 		"fixture starts on a real layer-zero expedition node")

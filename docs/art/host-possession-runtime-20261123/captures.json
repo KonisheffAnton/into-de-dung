@@ -1,0 +1,37 @@
+[
+  {
+    "file": "host-in-battle.png",
+    "source": "test_reports/demo-5b2560331fd24903af90b6870a2b8120/host_ui/host-in-battle.png",
+    "sha256": "d6ad651b8455c55337827ad4fbbb25e66f591823e8155d7e9815021e0fd1fdb1"
+  },
+  {
+    "file": "host-glow-poses.png",
+    "source": "test_reports/demo-5b2560331fd24903af90b6870a2b8120/host_glow/host-glow-poses.png",
+    "sha256": "ba52ab2dba33828abe15a2b0a69e6b4d6e8b9e5d573db6efe194c92172433652"
+  },
+  {
+    "file": "host-flame-game-render.png",
+    "source": "test_reports/demo-5b2560331fd24903af90b6870a2b8120/host_glow/host-flame-game-render.png",
+    "sha256": "ac267e66757d712fbe4a546f36fb85f30e8d398fd05849e189807916796991d6"
+  },
+  {
+    "file": "hub-unselected.png",
+    "source": "test_reports/demo-3084abf396cf4f92b2fb81186b29061a/host_ui/hub-unselected.png",
+    "sha256": "5e446d9c019be43138825db5b8b05c3f75b6b746dcdc3834d241ee0258b6ebdd"
+  },
+  {
+    "file": "hub-selected-1280x720.png",
+    "source": "test_reports/demo-3084abf396cf4f92b2fb81186b29061a/host_ui/hub-selected-1280x720.png",
+    "sha256": "559e388462fd72badbd80875ccb71775183f707cb6a88d3dfea38d6fe33dc416"
+  },
+  {
+    "file": "possession-with-cards-1024x720.png",
+    "source": "test_reports/demo-3084abf396cf4f92b2fb81186b29061a/host_ui/possession-with-cards.png",
+    "sha256": "cf08f5db6e56dac908b28844ae2538760433a399f4af7ac10a34238a06fc3157"
+  },
+  {
+    "file": "preparation-blocked-1024x720.png",
+    "source": "test_reports/demo-3084abf396cf4f92b2fb81186b29061a/hub-approved-screenshots/preparation-blocked.png",
+    "sha256": "df2b2033b23dc6fcb129dc0c101f6a3134eafbd4ae166c11d09163c1f087e6ed"
+  }
+]

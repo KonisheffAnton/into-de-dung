@@ -241,6 +241,8 @@ static func create(run: HeroHubState) -> Dictionary:
 		session.state.abilities = BattleAbilityState.create_deck(ability_definitions,Faction.Type.ENEMY)
 		session.state.deck = BattleDeckState.create(run.expedition.active_cards(),run.expedition.checkpoint.draw_seed)
 		session.state.card_effects = BattleCardEffectState.new()
+		session.state.card_effects.host_unit_id = hero_units[run.expedition.host_hero_id]
+		session.board.get_unit_by_id(session.state.card_effects.host_unit_id).debug_name += " · носитель"
 		for unit: UnitState in session.units:
 			var attack_id: StringName = session.actor_loadouts[unit.id].attack_id if session.actor_loadouts.has(unit.id) else &"demo_strike"
 			session.state.card_effects.ordinary_attacks.append({"unit_id":unit.id,"attack_id":String(attack_id)})

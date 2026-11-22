@@ -152,6 +152,7 @@ func _test_battle_ui() -> void:
 	root.add_child(viewport)
 	var profile := HeroHubState.create(9404, 4)
 	profile.enable_mage_deck()
+	profile.select_mage_host(profile.party[0])
 	profile = ExpeditionTransitions.apply(profile, "start").profile
 	var demo := (load("res://scenes/demo/battle/hero_hub_battle.tscn") as PackedScene).instantiate() as HeroHubBattleView
 	var route := HeroHubScreen.new()

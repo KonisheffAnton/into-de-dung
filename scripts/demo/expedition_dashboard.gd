@@ -13,6 +13,7 @@ signal deck_action_requested(action: String, type_id: String)
 signal party_move_requested(hero_id: int, target_index: int, expected_party: Array[int])
 signal party_select_requested(slot_index: int, hero_id: int, expected_party: Array[int])
 signal hero_route_requested(hero_id: int, destination: StringName)
+signal host_confirmed(hero_id: int, expected_party: Array[int], expected_host: int, appearance: Dictionary, glow_only: bool)
 
 const TAB_IDS: Array[StringName] = [&"expedition", &"mercenaries", &"smith", &"schools", &"deck"]
 var _tabs: Array[Button] = []
@@ -22,17 +23,23 @@ var _tabs: Array[Button] = []
 @onready var _essence: Label = $Layout/Resources/Essence
 @onready var _items: Label = $Layout/Resources/Items
 @onready var _reserve: Label = $Layout/Resources/Reserve
-@onready var _preparation_title: Label = $Layout/Content/PreparationPanel/PreparationContent/PreparationTitle
-@onready var _route: Label = $Layout/Content/PreparationPanel/PreparationContent/Route
-@onready var _party_summary: Label = $Layout/Content/PreparationPanel/PreparationContent/PartySummary
-@onready var _deck_summary: Label = $Layout/Content/PreparationPanel/PreparationContent/DeckSummary
-@onready var _launch_hint: Label = $Layout/Content/PreparationPanel/PreparationContent/LaunchHint
-@onready var _start_button: Button = $Layout/Content/PreparationPanel/PreparationContent/StartJourney
+@onready var _preparation_title: Label = $Layout/Content/PreparationPanel/PreparationContent/PreparationScroll/PreparationDetails/PreparationTitle
+@onready var _route: Label = $Layout/Content/PreparationPanel/PreparationContent/PreparationScroll/PreparationDetails/Route
+@onready var _party_summary: Label = $Layout/Content/PreparationPanel/PreparationContent/PreparationScroll/PreparationDetails/PartySummary
+@onready var _deck_summary: Label = $Layout/Content/PreparationPanel/PreparationContent/PreparationScroll/PreparationDetails/DeckSummary
+# Нижняя подсказка и выход остаются на месте, пока длинная подготовка прокручивается отдельно.
+@onready var _launch_hint: Label = $Layout/Content/PreparationPanel/PreparationContent/PreparationFooter/LaunchHint
+@onready var _start_button: Button = $Layout/Content/PreparationPanel/PreparationContent/PreparationFooter/StartJourney
+@onready var _host_block: VBoxContainer = $Layout/Content/PreparationPanel/PreparationContent/PreparationScroll/PreparationDetails/HostBlock
+@onready var _host_name: Label = $Layout/Content/PreparationPanel/PreparationContent/PreparationScroll/PreparationDetails/HostBlock/HostName
+@onready var _host_choose: Button = $Layout/Content/PreparationPanel/PreparationContent/PreparationScroll/PreparationDetails/HostBlock/Actions/Choose
+@onready var _host_glow: Button = $Layout/Content/PreparationPanel/PreparationContent/PreparationScroll/PreparationDetails/HostBlock/Actions/Glow
+@onready var _host_dialog: HostPossessionDialog = $HostPossessionDialog
 @onready var _manage_button: Button = $Layout/Content/LeftColumn/PartyPanel/PartyContent/ManageParty
 @onready var _diorama: HubDiorama = $Layout/Content/CenterSpace/Diorama
 @onready var _picker: HubPartyPicker = $PartyPicker
-@onready var _warnings: VBoxContainer = $Layout/Content/PreparationPanel/PreparationContent/WarningsScroll/Warnings
-@onready var _fix_button: Button = $Layout/Content/PreparationPanel/PreparationContent/FixSpace/FixIssue
+@onready var _warnings: VBoxContainer = $Layout/Content/PreparationPanel/PreparationContent/PreparationScroll/PreparationDetails/Warnings
+@onready var _fix_button: Button = $Layout/Content/PreparationPanel/PreparationContent/PreparationFooter/FixSpace/FixIssue
 
 var _active_tab: StringName = &"expedition"
 var character_skins: Dictionary[StringName, StringName] = {}
@@ -61,6 +68,10 @@ func _ready() -> void:
 	_picker.hero_selected.connect(_on_picker_selected)
 	_picker.cancelled.connect(_on_picker_cancelled)
 	_fix_button.pressed.connect(_on_fix_issue)
+	_host_choose.pressed.connect(open_host_dialog)
+	_host_glow.pressed.connect(open_host_dialog.bind(true))
+	_host_dialog.confirmed.connect(func(id: int, party: Array[int], host: int, appearance: Dictionary, glow_only: bool) -> void:
+		host_confirmed.emit(id, party, host, appearance, glow_only))
 	for node: Node in find_children("*", "HubDeckPage", true, false):
 		_deck_page = node as HubDeckPage
 		_deck_page.action_requested.connect(_on_deck_action_requested)
@@ -85,7 +96,9 @@ func render_profile(profile: HeroHubState, expedition: bool, tab: StringName, la
 	_profile = profile
 	_editing_deck = editing
 	_active_tab = tab if TAB_IDS.has(tab) else &"expedition"
-	if _active_tab != &"expedition": _picker.close()
+	if _active_tab != &"expedition":
+		_picker.close()
+		_host_dialog.close()
 	_render_tabs()
 	($Layout/Content as Control).visible = _active_tab == &"expedition"
 	if is_instance_valid(_deck_page) and is_ancestor_of(_deck_page):
@@ -112,12 +125,20 @@ func render_profile(profile: HeroHubState, expedition: bool, tab: StringName, la
 	_party_summary.text = "Отряд: %d" % active_count
 	_route.text = "7 комнат" if expedition else "1 бой"
 	_deck_summary.text = _deck_summary_text(profile)
+	_host_block.visible = expedition and not profile.mage_deck.is_empty()
+	var host := profile.heroes.get(int(profile.mage_deck.get("host_hero_id", 0))) as HeroProgression
+	var missing_host: bool = _host_block.visible and host == null
+	_host_name.text = "Носитель не выбран" if host == null else "%s · %s" % [host.name, HeroCatalog.class_definition(host.class_id).display_name]
+	_host_choose.text = "Выбрать носителя" if host == null else "Сменить"
+	_host_choose.disabled = profile.party.is_empty() or editing
+	_host_glow.disabled = profile.party.is_empty() or editing
 	if editing: _deck_summary.text += "\nЧерновик: %d/10" % draft.size()
 	_launch_hint.text = launch_hint
+	if missing_host: _launch_hint.text = "Выберите носителя перед выходом."
 	if editing: _launch_hint.text = "Завершите редактирование колоды"
-	_start_button.disabled = not launch_enabled
-	_fix_button.visible = not launch_enabled
-	_fix_button.text = "К колоде" if editing else "Выбрать отряд"
+	_start_button.disabled = not launch_enabled or missing_host
+	_fix_button.visible = not launch_enabled or missing_host
+	_fix_button.text = "К колоде" if editing else ("Выбрать носителя" if missing_host and not profile.party.is_empty() else "Выбрать отряд")
 	if not editing and not _has_living_heroes(profile): _fix_button.text = "Нанять героя"
 	_render_warnings(profile)
 	if _active_tab == &"expedition":
@@ -133,8 +154,14 @@ func _render_party(profile: HeroHubState) -> void:
 	_hero_cards.render_profile(profile, character_skins)
 	_diorama.render_profile(profile, character_skins)
 
+func open_host_dialog(glow_only: bool = false) -> void:
+	if _active_tab != &"expedition" or not is_visible_in_tree() or _profile == null or _editing_deck: return
+	if _profile.mage_deck.is_empty() or _profile.party.is_empty(): return
+	_picker.close()
+	_host_dialog.open_for(_profile, character_skins, glow_only)
+
 func _open_party_picker(slot_index: int) -> void:
-	if _active_tab != &"expedition" or not is_visible_in_tree() or _profile == null: return
+	if _active_tab != &"expedition" or not is_visible_in_tree() or _profile == null or _host_dialog.is_visible_in_tree(): return
 	if not _has_living_heroes(_profile):
 		tab_requested.emit(&"mercenaries")
 		var page := _section_pages.get(&"mercenaries") as HubSectionPage
@@ -156,12 +183,13 @@ func _on_picker_cancelled() -> void:
 	_hero_cards.call_deferred("focus_slot", _picker_slot)
 
 func _on_party_reorder(hero_id: int, target_index: int, expected: Array[int]) -> void:
-	if _active_tab == &"expedition" and is_visible_in_tree() and not _picker.is_visible_in_tree():
+	if _active_tab == &"expedition" and is_visible_in_tree() and not _picker.is_visible_in_tree() and not _host_dialog.is_visible_in_tree():
 		party_move_requested.emit(hero_id, target_index, expected)
 
 func _on_fix_issue() -> void:
 	if _active_tab != &"expedition" or not is_visible_in_tree() or not _fix_button.is_visible_in_tree(): return
 	if _editing_deck: tab_requested.emit(&"deck")
+	elif _profile != null and not _profile.party.is_empty() and not _profile.mage_deck.is_empty() and int(_profile.mage_deck.host_hero_id) == 0: open_host_dialog()
 	else: _open_party_picker(0)
 
 func _has_living_heroes(profile: HeroHubState) -> bool:
@@ -227,7 +255,7 @@ func _render_tabs() -> void:
 		if is_instance_valid(_tabs[index]): _tabs[index].set_pressed_no_signal(TAB_IDS[index] == _active_tab)
 
 func _on_tab_pressed(tab_id: StringName) -> void:
-	if _picker.is_visible_in_tree(): return
+	if _picker.is_visible_in_tree() or _host_dialog.is_visible_in_tree(): return
 	var index := TAB_IDS.find(tab_id)
 	if index < 0: return
 	var button := _tabs[index]
@@ -235,7 +263,7 @@ func _on_tab_pressed(tab_id: StringName) -> void:
 	tab_requested.emit(tab_id)
 
 func _on_start_pressed() -> void:
-	if _start_button.disabled or _picker.is_visible_in_tree():
+	if _start_button.disabled or _picker.is_visible_in_tree() or _host_dialog.is_visible_in_tree():
 		return
 	start_requested.emit()
 

@@ -34,14 +34,17 @@ func run() -> void:
 	var hub := HeroHubState.create(443)
 	var old := hub.to_dict()
 	hub.enable_mage_deck()
-	check(hub.to_dict().schema == 7 and HeroHubState.from_dict(hub.to_dict()) != null,"profile7")
+	check(hub.mage_deck.schema == 2 and hub.to_dict().schema == 7 and HeroHubState.from_dict(hub.to_dict()) != null,"profile7 with strict deck schema2")
+	var old_deck_profile := hub.to_dict(); old_deck_profile.mage_deck.schema = 1
+	check(HeroHubState.from_dict(old_deck_profile) == null,"reject old mage deck profile schema1")
 	check(hub.rng_state == old.rng_state and hub.expedition_rng_state == old.expedition_rng_state,"upgrade preserves streams")
 	check(hub.mage_deck.base_types.count("card.wet") == 2 and not hub.mage_deck.base_types.has("card.burning"),"D13 exact default")
+	check(hub.select_mage_host(hub.party[0]),"select living host before deck expedition")
 	hub = step(hub,"start")
 	if hub.expedition == null: quit(1); return
 	var strict_run := hub.expedition.to_dict()
 	var invalid_run: Dictionary
-	for version: int in [2, 3, 5]:
+	for version: int in [1, 2, 3, 4, 6]:
 		invalid_run = strict_run.duplicate(true); invalid_run.schema = version
 		check(ExpeditionRunState.from_dict(invalid_run) == null,"reject old/future run schema %d" % version)
 	invalid_run = strict_run.duplicate(true); invalid_run.erase("ruleset_id")
@@ -178,6 +181,7 @@ func _legacy_migration() -> void:
 	check(route.expedition == null and route.essence == ExpeditionCatalog.FINAL_ESSENCE + legacy_copies * ExpeditionCatalog.COPY_ESSENCE,"old final essence remains legacy")
 	if route.expedition == null:
 		check(route.dismiss_battle_report(),"old final report Continue")
+		check(route.select_mage_host(route.party[0]),"next deck run explicitly selects a carrier after legacy return")
 		route = step(route,"start")
 		check(route.expedition.is_deck(),"only next run uses cards")
 	DirAccess.remove_absolute(ProjectSettings.globalize_path(path))

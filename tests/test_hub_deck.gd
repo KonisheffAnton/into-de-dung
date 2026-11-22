@@ -128,7 +128,7 @@ func _test_limits_and_guards() -> void:
 		while hub.deck_draft.count(card.id) < 2: await _press("plus")
 		_button("plus").pressed.emit()
 		check(hub.deck_draft.count(card.id) == 2, "copy limit at two: " + card.id)
-	check(hub.deck_draft.size() == 26 and _button("save").disabled, "catalog-wide draft does not bypass exact ten")
+	check(hub.deck_draft.size() == 30 and _button("save").disabled, "15 card types at two copies do not bypass exact ten")
 	for resolution: Vector2i in [Vector2i(1024, 720), Vector2i(1280, 850), Vector2i(1920, 1080)]:
 		viewport.size = resolution
 		await _settle()
@@ -218,6 +218,7 @@ func _test_reload_legacy_launch() -> void:
 		hub._base_deck_action("edit", "", &"deck")
 		check(not hub.deck_editing and hub.run.to_dict() == before, "forced legacy edit inert")
 		fixture.enable_mage_deck()
+		check(fixture.select_mage_host(fixture.party[0]), "choose carrier before returning to expedition launch")
 		hub._commit(fixture)
 		await _replace("card.fire", "card.poison")
 		await _press("save")

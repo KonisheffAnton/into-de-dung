@@ -344,6 +344,8 @@ static func _reserved_event_capacity(command: Command, context: ActionContext) -
 		var environment := command as EnvironmentCommand
 		if environment._target != null and not environment._death: ids.append(environment._target.id)
 	var capacity := _event_capacity(command)
+	if command is PlayMageCardCommand and context.get_state().deck != null:
+		if context.get_state().deck.card(command.card_instance_id).get("type_id") == "card.binding_thread": capacity = 32
 	for id: int in ids:
 		var unit := context.get_state().get_board().get_unit_by_id(id)
 		if unit != null and unit.armor != null and not unit.armor.shield.is_empty(): capacity += 1

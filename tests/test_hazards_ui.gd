@@ -40,6 +40,7 @@ func run() -> void:
 	await process_frame
 	var profile := HeroHubState.create(443)
 	profile.enable_mage_deck()
+	profile.select_mage_host(profile.party[0])
 	var started := ExpeditionTransitions.apply(profile, "start")
 	check(started.is_ok(), "production H1/U14 opening can be entered")
 	if started.is_ok():
@@ -321,6 +322,9 @@ func advance(player: BattlePresentationPlayer, seconds: float) -> void:
 	if player.active and player._tween != null: player._tween.pause()
 
 func trap_playback(session: BattleCoreReactionsSession) -> void:
+	check(session.confirm_mage_deployment(), "trap fixture confirms deployment")
+	check(session.confirm_mage_mulligan([]).status == ActionReceipt.APPLIED, "trap fixture confirms hand")
+	check(session.start_battle(), "trap fixture starts battle before the delayed tick")
 	var unit := session.units[0]
 	var cell := Vector2i(2, 4)
 	session.board.move_unit(unit, cell)
@@ -338,7 +342,10 @@ func trap_playback(session: BattleCoreReactionsSession) -> void:
 	if index > 0: before = frames[index - 1].after.duplicate(true)
 	var packet: Array[Dictionary] = [frame]
 	var original := packet.duplicate(true)
-	var snapshot := ItemSimulationSnapshot.capture(session.state, []).snapshot.to_dict()
+	var captured := ItemSimulationSnapshot.capture(session.state, [])
+	check(captured.snapshot != null, "trap aftermath has valid snapshot: " + captured.reason)
+	if captured.snapshot == null: return
+	var snapshot := captured.snapshot.to_dict()
 	var rng := session.context.get_rng().to_dict()
 	var counters := session.context.simulation_counters()
 	var player := BattlePresentationPlayer.new()

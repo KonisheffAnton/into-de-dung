@@ -118,6 +118,7 @@ func _check_shared_selector() -> void:
 	root.add_child(viewport)
 	var profile := HeroHubState.create(9404)
 	profile.enable_mage_deck()
+	profile.select_mage_host(profile.party[0])
 	profile = ExpeditionTransitions.apply(profile, "start").profile
 	var session := HeroHubBattleFactory.create(profile).session as BattleCoreReactionsSession
 	var demo := CURRENT_BATTLE.instantiate() as HeroHubBattleView

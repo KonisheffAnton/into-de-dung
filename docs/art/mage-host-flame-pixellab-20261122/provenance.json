@@ -1,0 +1,103 @@
+{
+  "source": "PixelLab API v2",
+  "source_endpoint": "create-image-pixen",
+  "animation_endpoint": "animate-pixminimax",
+  "badge_edits": "edit-image-pixen",
+  "frames": 17,
+  "size": [
+    64,
+    64
+  ],
+  "duration_ms_per_frame": 80,
+  "selected_badge": "mystic-icons/10-indigo-contrast.png",
+  "selected_badge_sha256": "6c0b6c2c3418fbbc01ba0c1f4b9b75c60e278b83614d3ceb1ac2cea9c3a0d7d8",
+  "usage": [
+    {
+      "file": "source-response.json",
+      "usage": {
+        "type": "generations",
+        "generations": 1.0
+      }
+    },
+    {
+      "file": "animation-job.json",
+      "usage": {
+        "type": "generations",
+        "generations": 2.0
+      }
+    },
+    {
+      "file": "icons/01-eye-diamond-response.json",
+      "usage": {
+        "type": "generations",
+        "generations": 1.0
+      }
+    },
+    {
+      "file": "icons/02-linked-runes-response.json",
+      "usage": {
+        "type": "generations",
+        "generations": 1.0
+      }
+    },
+    {
+      "file": "icons/03-soul-signet-response.json",
+      "usage": {
+        "type": "generations",
+        "generations": 1.0
+      }
+    },
+    {
+      "file": "icons/04-vessel-mark-response.json",
+      "usage": {
+        "type": "generations",
+        "generations": 1.0
+      }
+    },
+    {
+      "file": "mystic-icons/05-broken-seal-response.json",
+      "usage": {
+        "type": "generations",
+        "generations": 1.0
+      }
+    },
+    {
+      "file": "mystic-icons/06-hidden-gaze-response.json",
+      "usage": {
+        "type": "generations",
+        "generations": 1.0
+      }
+    },
+    {
+      "file": "mystic-icons/07-unknown-rune-response.json",
+      "usage": {
+        "type": "generations",
+        "generations": 1.0
+      }
+    },
+    {
+      "file": "mystic-icons/08-hooded-gaze-response.json",
+      "usage": {
+        "type": "generations",
+        "generations": 1.0
+      }
+    },
+    {
+      "file": "mystic-icons/09-indigo-yellow-eyes-job.json",
+      "usage": {
+        "type": "generations",
+        "generations": 1.0
+      }
+    },
+    {
+      "file": "mystic-icons/10-indigo-contrast-job.json",
+      "usage": {
+        "type": "generations",
+        "generations": 1.0
+      }
+    }
+  ],
+  "total_generations": 13.0,
+  "raw_frames_unretouched": true,
+  "palette_variants": "Only derived runtime blue/violet/white atlases remap hue and saturation; amber RGBA is exact."
+}

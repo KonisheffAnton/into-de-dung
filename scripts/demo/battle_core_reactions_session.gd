@@ -206,6 +206,9 @@ func healing_item() -> ItemInstance:
 	return null
 
 func _check_outcome() -> void:
+	if context != null and not context.is_busy() and not context.is_faulted() and HostCardEffect.host_dead(state):
+		_set_terminal(Phase.DEFEAT, "Носитель погиб. Поход окончен; выжившие возвращаются в хаб.")
+		return
 	super._check_outcome()
 	if actor_loadouts.is_empty() or context == null or context.is_busy() or context.is_faulted(): return
 	if phase not in [Phase.PLAYER_TURN, Phase.ENEMY_TURN, Phase.VICTORY]: return

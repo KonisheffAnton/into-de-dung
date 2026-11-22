@@ -1,0 +1,470 @@
+{
+  "full": {
+    "passed": 200,
+    "failed": 29,
+    "timed_out": 1,
+    "failed_labels": [
+      "environment_visual_contract",
+      "presentation_foundation",
+      "battle_panels",
+      "shieldbearer_profile",
+      "class_showcase_ui",
+      "presentation_support",
+      "hub_approved_ui",
+      "hub_scene_authoring",
+      "hub_dashboard",
+      "hub_deck",
+      "battle_mage_presenter",
+      "expedition_transitions",
+      "mage_deck_expedition",
+      "hazards_ui",
+      "summon_definition",
+      "attack_d1",
+      "critical_control",
+      "unit_snapshot_performance",
+      "d5_integration",
+      "battle",
+      "raise_forecast_ui",
+      "guard_forecast_ui",
+      "armor_ui",
+      "bleeding_ui",
+      "d4_ui",
+      "d5_ui",
+      "control_ui",
+      "core_reactions_ui",
+      "turn_forecast_ui",
+      "safe_retreat_ui"
+    ],
+    "unexecuted_requested": [],
+    "blocked": null
+  },
+  "gpu_core": {
+    "passed": 25,
+    "failed": 4,
+    "timed_out": 0,
+    "failed_labels": [
+      "presentation_foundation",
+      "battle_panels",
+      "presentation_support",
+      "hub_approved_ui"
+    ],
+    "unexecuted_requested": [],
+    "blocked": null
+  },
+  "layout_final": {
+    "passed": 7,
+    "failed": 0,
+    "timed_out": 0,
+    "failed_labels": [],
+    "unexecuted_requested": [],
+    "blocked": null
+  },
+  "baseline": {
+    "head": "7347102ee4800fd4d108bfa255858c60af0b7f40",
+    "worktree": "D:/Games/host-baseline-20261123",
+    "report": "D:/Games/host-baseline-20261123/test_reports/demo-1e2d661aa51b4c0589ffdd25fe4f28d5",
+    "summary": {
+      "passed": 2,
+      "failed": 18,
+      "timed_out": 1,
+      "failed_labels": [
+        "environment_visual_contract",
+        "presentation_foundation",
+        "presentation_support",
+        "summon_definition",
+        "attack_d1",
+        "critical_control",
+        "unit_snapshot_performance",
+        "d5_integration",
+        "battle",
+        "raise_forecast_ui",
+        "guard_forecast_ui",
+        "armor_ui",
+        "bleeding_ui",
+        "d4_ui",
+        "d5_ui",
+        "control_ui",
+        "core_reactions_ui",
+        "turn_forecast_ui",
+        "safe_retreat_ui"
+      ],
+      "unexecuted_requested": [],
+      "blocked": null
+    },
+    "comparisons": [
+      {
+        "label": "environment_visual_contract",
+        "baseline_status": "FAIL",
+        "same_failure_labels": true,
+        "failure_count": 1
+      },
+      {
+        "label": "presentation_foundation",
+        "baseline_status": "FAIL",
+        "same_failure_labels": true,
+        "failure_count": 2
+      },
+      {
+        "label": "presentation_support",
+        "baseline_status": "FAIL",
+        "same_failure_labels": true,
+        "failure_count": 1
+      },
+      {
+        "label": "summon_definition",
+        "baseline_status": "FAIL",
+        "same_failure_labels": true,
+        "failure_count": 1
+      },
+      {
+        "label": "attack_d1",
+        "baseline_status": "FAIL",
+        "same_failure_labels": true,
+        "failure_count": 57
+      },
+      {
+        "label": "critical_control",
+        "baseline_status": "FAIL",
+        "same_failure_labels": true,
+        "failure_count": 1
+      },
+      {
+        "label": "unit_snapshot_performance",
+        "baseline_status": "FAIL",
+        "same_failure_labels": true,
+        "failure_count": 33
+      },
+      {
+        "label": "d5_integration",
+        "baseline_status": "FAIL",
+        "same_failure_labels": true,
+        "failure_count": 6
+      },
+      {
+        "label": "battle",
+        "baseline_status": "FAIL",
+        "same_failure_labels": true,
+        "failure_count": 3
+      },
+      {
+        "label": "raise_forecast_ui",
+        "baseline_status": "FAIL",
+        "same_failure_labels": true,
+        "failure_count": 1
+      },
+      {
+        "label": "guard_forecast_ui",
+        "baseline_status": "TIMEOUT",
+        "same_failure_labels": true,
+        "failure_count": 2
+      },
+      {
+        "label": "armor_ui",
+        "baseline_status": "FAIL",
+        "same_failure_labels": true,
+        "failure_count": 2
+      },
+      {
+        "label": "bleeding_ui",
+        "baseline_status": "FAIL",
+        "same_failure_labels": true,
+        "failure_count": 1
+      },
+      {
+        "label": "d4_ui",
+        "baseline_status": "FAIL",
+        "same_failure_labels": true,
+        "failure_count": 1
+      },
+      {
+        "label": "d5_ui",
+        "baseline_status": "FAIL",
+        "same_failure_labels": true,
+        "failure_count": 1
+      },
+      {
+        "label": "control_ui",
+        "baseline_status": "FAIL",
+        "same_failure_labels": true,
+        "failure_count": 1
+      },
+      {
+        "label": "core_reactions_ui",
+        "baseline_status": "FAIL",
+        "same_failure_labels": true,
+        "failure_count": 3
+      },
+      {
+        "label": "turn_forecast_ui",
+        "baseline_status": "FAIL",
+        "same_failure_labels": true,
+        "failure_count": 3
+      },
+      {
+        "label": "safe_retreat_ui",
+        "baseline_status": "FAIL",
+        "same_failure_labels": true,
+        "failure_count": 1
+      }
+    ]
+  },
+  "failure_resolution": [
+    {
+      "label": "environment_visual_contract",
+      "resolution": "targeted PASS",
+      "baseline": {
+        "label": "environment_visual_contract",
+        "baseline_status": "FAIL",
+        "same_failure_labels": true,
+        "failure_count": 1
+      }
+    },
+    {
+      "label": "presentation_foundation",
+      "resolution": "reproduced on clean baseline",
+      "baseline": {
+        "label": "presentation_foundation",
+        "baseline_status": "FAIL",
+        "same_failure_labels": true,
+        "failure_count": 2
+      }
+    },
+    {
+      "label": "battle_panels",
+      "resolution": "targeted PASS",
+      "baseline": null
+    },
+    {
+      "label": "shieldbearer_profile",
+      "resolution": "targeted PASS",
+      "baseline": null
+    },
+    {
+      "label": "class_showcase_ui",
+      "resolution": "targeted PASS",
+      "baseline": null
+    },
+    {
+      "label": "presentation_support",
+      "resolution": "reproduced on clean baseline",
+      "baseline": {
+        "label": "presentation_support",
+        "baseline_status": "FAIL",
+        "same_failure_labels": true,
+        "failure_count": 1
+      }
+    },
+    {
+      "label": "hub_approved_ui",
+      "resolution": "targeted PASS",
+      "baseline": null
+    },
+    {
+      "label": "hub_scene_authoring",
+      "resolution": "targeted PASS",
+      "baseline": null
+    },
+    {
+      "label": "hub_dashboard",
+      "resolution": "targeted PASS",
+      "baseline": null
+    },
+    {
+      "label": "hub_deck",
+      "resolution": "targeted PASS",
+      "baseline": null
+    },
+    {
+      "label": "battle_mage_presenter",
+      "resolution": "targeted PASS",
+      "baseline": null
+    },
+    {
+      "label": "expedition_transitions",
+      "resolution": "targeted PASS",
+      "baseline": null
+    },
+    {
+      "label": "mage_deck_expedition",
+      "resolution": "targeted PASS",
+      "baseline": null
+    },
+    {
+      "label": "hazards_ui",
+      "resolution": "targeted PASS",
+      "baseline": null
+    },
+    {
+      "label": "summon_definition",
+      "resolution": "reproduced on clean baseline",
+      "baseline": {
+        "label": "summon_definition",
+        "baseline_status": "FAIL",
+        "same_failure_labels": true,
+        "failure_count": 1
+      }
+    },
+    {
+      "label": "attack_d1",
+      "resolution": "reproduced on clean baseline",
+      "baseline": {
+        "label": "attack_d1",
+        "baseline_status": "FAIL",
+        "same_failure_labels": true,
+        "failure_count": 57
+      }
+    },
+    {
+      "label": "critical_control",
+      "resolution": "reproduced on clean baseline",
+      "baseline": {
+        "label": "critical_control",
+        "baseline_status": "FAIL",
+        "same_failure_labels": true,
+        "failure_count": 1
+      }
+    },
+    {
+      "label": "unit_snapshot_performance",
+      "resolution": "reproduced on clean baseline",
+      "baseline": {
+        "label": "unit_snapshot_performance",
+        "baseline_status": "FAIL",
+        "same_failure_labels": true,
+        "failure_count": 33
+      }
+    },
+    {
+      "label": "d5_integration",
+      "resolution": "reproduced on clean baseline",
+      "baseline": {
+        "label": "d5_integration",
+        "baseline_status": "FAIL",
+        "same_failure_labels": true,
+        "failure_count": 6
+      }
+    },
+    {
+      "label": "battle",
+      "resolution": "reproduced on clean baseline",
+      "baseline": {
+        "label": "battle",
+        "baseline_status": "FAIL",
+        "same_failure_labels": true,
+        "failure_count": 3
+      }
+    },
+    {
+      "label": "raise_forecast_ui",
+      "resolution": "reproduced on clean baseline",
+      "baseline": {
+        "label": "raise_forecast_ui",
+        "baseline_status": "FAIL",
+        "same_failure_labels": true,
+        "failure_count": 1
+      }
+    },
+    {
+      "label": "guard_forecast_ui",
+      "resolution": "reproduced on clean baseline",
+      "baseline": {
+        "label": "guard_forecast_ui",
+        "baseline_status": "TIMEOUT",
+        "same_failure_labels": true,
+        "failure_count": 2
+      }
+    },
+    {
+      "label": "armor_ui",
+      "resolution": "reproduced on clean baseline",
+      "baseline": {
+        "label": "armor_ui",
+        "baseline_status": "FAIL",
+        "same_failure_labels": true,
+        "failure_count": 2
+      }
+    },
+    {
+      "label": "bleeding_ui",
+      "resolution": "reproduced on clean baseline",
+      "baseline": {
+        "label": "bleeding_ui",
+        "baseline_status": "FAIL",
+        "same_failure_labels": true,
+        "failure_count": 1
+      }
+    },
+    {
+      "label": "d4_ui",
+      "resolution": "reproduced on clean baseline",
+      "baseline": {
+        "label": "d4_ui",
+        "baseline_status": "FAIL",
+        "same_failure_labels": true,
+        "failure_count": 1
+      }
+    },
+    {
+      "label": "d5_ui",
+      "resolution": "reproduced on clean baseline",
+      "baseline": {
+        "label": "d5_ui",
+        "baseline_status": "FAIL",
+        "same_failure_labels": true,
+        "failure_count": 1
+      }
+    },
+    {
+      "label": "control_ui",
+      "resolution": "reproduced on clean baseline",
+      "baseline": {
+        "label": "control_ui",
+        "baseline_status": "FAIL",
+        "same_failure_labels": true,
+        "failure_count": 1
+      }
+    },
+    {
+      "label": "core_reactions_ui",
+      "resolution": "reproduced on clean baseline",
+      "baseline": {
+        "label": "core_reactions_ui",
+        "baseline_status": "FAIL",
+        "same_failure_labels": true,
+        "failure_count": 3
+      }
+    },
+    {
+      "label": "turn_forecast_ui",
+      "resolution": "reproduced on clean baseline",
+      "baseline": {
+        "label": "turn_forecast_ui",
+        "baseline_status": "FAIL",
+        "same_failure_labels": true,
+        "failure_count": 3
+      }
+    },
+    {
+      "label": "safe_retreat_ui",
+      "resolution": "reproduced on clean baseline",
+      "baseline": {
+        "label": "safe_retreat_ui",
+        "baseline_status": "FAIL",
+        "same_failure_labels": true,
+        "failure_count": 1
+      }
+    }
+  ],
+  "full_repeated_after_fixes": false,
+  "core": {
+    "passed": 9428,
+    "failed": 0
+  },
+  "review": "APPROVE",
+  "limits": [
+    "manual battle/F5/Editor/DPI not checked",
+    "balance playtest not performed",
+    "60FPS not established",
+    "mage_deck schema1 and old run/checkpoint forms rejected without changing saved file"
+  ]
+}

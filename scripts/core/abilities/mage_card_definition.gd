@@ -6,6 +6,7 @@ const SOURCE_IDS: Dictionary = {
 	"card.raise": 17, "card.burning": 18, "card.wet": 19, "card.freeze": 20,
 	"card.stun": 21, "card.roots": 22, "card.bleeding": 23, "card.fire_imbue": 24,
 	"card.poison": 25,
+	"card.light_step": 27, "card.binding_thread": 28,
 }
 const MECHANICS: Dictionary = {
 	"card.fire": ["mage.fire", {"damage": 4}, "enemy_unit", 2],
@@ -21,6 +22,8 @@ const MECHANICS: Dictionary = {
 	"card.bleeding": ["bleeding", {}, "living_unit", 1],
 	"card.fire_imbue": ["fire_imbue", {"bonus": 2, "duration": 2}, "ally_unit", 1],
 	"card.poison": ["poison", {"damage": 4}, "enemy_unit", 1],
+	"card.light_step": ["light_step", {"movement": 2}, "host_unit", 1],
+	"card.binding_thread": ["binding_thread", {"damage": 4}, "host_link_ally", 2],
 }
 
 @export var id: String = ""

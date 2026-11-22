@@ -12,6 +12,8 @@ static func prepare(context: ActionContext, target_id: int, target_cell: Vector2
 		&"raise": effect = &"mage.test_raise"
 	var state := context.get_state()
 	var board := state.get_board()
+	if effect in [&"light_step", &"binding_thread"]:
+		return HostCardEffect.prepare(context, target_id, effect, source, paid, effects_after)
 	if effect in [&"mage.test_summon", &"mage.test_raise"]:
 		var summon_id: StringName = spell_id
 		var summon_plan := MageSummonEffect.prepare(context, target_id, target_cell, summon_id, paid, deck_after, effects_after)
@@ -62,6 +64,7 @@ static func prepare(context: ActionContext, target_id: int, target_cell: Vector2
 	return {"reason": &"", "target": target, "guard": guard, "source": source, "request": request, "hp_after": hp_after, "paid": paid, "effect": effect, "status_plan": status_plan, "spell_id": spell_id, "effects_after": effects_after}
 
 static func apply(context: ActionContext, plan: Dictionary, guard: SpatialRules.Guard, seal_check: Callable) -> CommandStepResult:
+	if plan.has("host_requests"): return HostCardEffect.apply(context, plan, guard, seal_check)
 	var result := CommandStepResult.applied([], [], [], null, true)
 	var target: UnitState = plan.target
 	var source: DamageSource = plan.source

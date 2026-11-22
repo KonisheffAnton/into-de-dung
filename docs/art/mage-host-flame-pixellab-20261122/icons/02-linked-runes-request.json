@@ -1,0 +1,12 @@
+{
+  "description": "Two simple interlocking arc-shaped runes, one small and one larger, embracing one bright central dot. A clear compact symbol of two spirits linked within one host. No chain links or padlock. One isolated game UI badge, readable at 18 pixels. Refined crisp pixel art matching a warm medieval tactical game UI. Bronze outer shape, warm ivory inner light, three or four flat colors, strong simple silhouette and open negative spaces, no gradient glow. Transparent background, centered complete icon with 6 pixel margin. No lettering, no border panel, no background, no character, no flames, no burning sign.",
+  "image_size": {
+    "width": 32,
+    "height": 32
+  },
+  "no_background": true,
+  "outline": "lineless",
+  "detail": "low detail",
+  "seed": 20261124,
+  "enhance_prompt": false
+}

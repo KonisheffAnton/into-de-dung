@@ -146,6 +146,7 @@ func test_scaling_preparation() -> void:
 		copy.name = "Герой %d" % copy.id
 		fixture.heroes[copy.id] = copy
 		fixture.party.append(copy.id)
+	check(fixture.select_mage_host(fixture.party[0]), "scaling fixture explicitly selects a living host")
 	var six := fixture.party.duplicate()
 	for resolution: Vector2i in [Vector2i(1024, 720), Vector2i(1280, 850), Vector2i(1920, 1080)]:
 		viewport.size = resolution
@@ -182,6 +183,7 @@ func test_scaling_preparation() -> void:
 	mouse_button(edge, false)
 	await settle()
 	fixture = HeroHubState.from_dict(live)
+	check(fixture.select_mage_host(fixture.party[0]), "ready-state fixture explicitly selects a living host")
 	dashboard.render_profile(fixture, true, &"expedition", true, "Готово")
 	await settle()
 	var button_rect := dashboard._start_button.get_global_rect()
@@ -215,6 +217,7 @@ func test_empty_roster_route() -> void:
 	var fixture := HeroHubState.from_dict(original)
 	fixture.party.clear()
 	fixture.heroes.clear()
+	fixture.clear_missing_mage_host()
 	for id: int in fixture.items: fixture.items[id].hero_id = 0
 	hub._commit(fixture)
 	await settle()
@@ -231,6 +234,7 @@ func test_empty_roster_route() -> void:
 func test_warning_routes() -> void:
 	var original := hub.run.to_dict()
 	var fixture := HeroHubState.from_dict(original)
+	check(fixture.select_mage_host(fixture.party[0]), "warning-route fixture explicitly selects a living host")
 	var hero: HeroProgression = fixture.heroes[fixture.party[0]]
 	hero.award_experience_tenths(6000)
 	for id: int in fixture.items:
@@ -238,8 +242,16 @@ func test_warning_routes() -> void:
 		if int(item.hero_id) == hero.id and String(item.definition).begins_with("armor:"): item.remaining = 1.0
 	hub._commit(fixture)
 	await settle()
-	var warning := dashboard._warnings.get_child(0) as Button
-	await click(warning)
+	var development_warning: Button
+	for candidate: Button in dashboard._warnings.get_children():
+		if candidate.text.contains(hero.name) and candidate.text.contains("очк."):
+			development_warning = candidate
+			break
+	check(development_warning != null, "development warning is found by the owned hero instead of list position")
+	if development_warning != null:
+		(dashboard._warnings.get_parent().get_parent() as ScrollContainer).ensure_control_visible(development_warning)
+		await settle()
+		await click(development_warning)
 	var merc := dashboard._section_pages[&"mercenaries"]
 	check(hub._hub_tab == &"mercenaries" and merc._selected_hero_id == hero.id and (merc._slot("development_panel") as Control).is_visible_in_tree(), "development warning opens correct owned hero development")
 	merc._on_action("development_close")

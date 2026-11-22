@@ -1,0 +1,103 @@
+{
+  "source_dir": "docs/art/mage-host-flame-pixellab-20261122/raw",
+  "rawsha256": [
+    {
+      "file": "frame-00.png",
+      "sha256": "62640dcaa168354130aa7f67442331d7d470b5a617131cb0099aeaf9a91b0400"
+    },
+    {
+      "file": "frame-01.png",
+      "sha256": "680532c8e81c4814faa2d0aff46df93d7ea6633cfd58d34080433190759f9d42"
+    },
+    {
+      "file": "frame-02.png",
+      "sha256": "58c29ea274906e5e85f0a7adef06bd60ac2a7ae71a6fc04bb737d13cf973a22a"
+    },
+    {
+      "file": "frame-03.png",
+      "sha256": "4f463624bd0416d6772f69688a078dec1be0999be401edd041e273b3e6cab87b"
+    },
+    {
+      "file": "frame-04.png",
+      "sha256": "58595ae75e1fe6805d93edb88081877fe469bd48f32bc713061dcd2e0e62c997"
+    },
+    {
+      "file": "frame-05.png",
+      "sha256": "68dd61a98c37e9181f1a266651377b07835c2fae3cc70ea65afd6b88039a96de"
+    },
+    {
+      "file": "frame-06.png",
+      "sha256": "e8eac81d824a0537fc644066e7305a594c43407ce802fd97e28cc0581da49485"
+    },
+    {
+      "file": "frame-07.png",
+      "sha256": "cd9aff29e01d685d1376079b6009f4e6dc088d803e29e6c11da5c81b03c7f778"
+    },
+    {
+      "file": "frame-08.png",
+      "sha256": "f81ba309b18edd708a78aa6243eeeb60b5fabdc1a2044654a83ad2fdf0dbf889"
+    },
+    {
+      "file": "frame-09.png",
+      "sha256": "a61a48b6af06301cde90aa5929f96aa30048cf613171662513a0c9b7700b793e"
+    },
+    {
+      "file": "frame-10.png",
+      "sha256": "43a2171142befa492a4046f6720ce9d3b4ac35871af517bc71873b80c3936405"
+    },
+    {
+      "file": "frame-11.png",
+      "sha256": "b58d60585262d17c55602301bc2f5739c2145aecd2d243a02f707d9c67677d26"
+    },
+    {
+      "file": "frame-12.png",
+      "sha256": "45208e45e252119b94791fc42400da0bda69a04606ace6cfa9979f67d5c94e3f"
+    },
+    {
+      "file": "frame-13.png",
+      "sha256": "2205176c7e56ea6baa733ae6b725992021735ef451a112cebd97dd65a616911e"
+    },
+    {
+      "file": "frame-14.png",
+      "sha256": "55b0036e237573c965f38f1a142ea9db1155bd06f15b3618459a33ca50a91dd7"
+    },
+    {
+      "file": "frame-15.png",
+      "sha256": "d3f2f3ef9b4a3d0fb77b3d110fa824ae29fb9ef4331770ad00a4eee0120c7fd3"
+    },
+    {
+      "file": "frame-16.png",
+      "sha256": "57f80bb6d3be6383c16ffc3056ec714c0d8b18deaf71f0212f43f7048dc69489"
+    }
+  ],
+  "frames": 17,
+  "frame_size_px": [
+    64,
+    64
+  ],
+  "duration_ms": 80,
+  "anchor_px": [
+    31,
+    40
+  ],
+  "scale": 0.25,
+  "atlases": {
+    "amber": {
+      "file": "amber.png",
+      "recolor": "Исходные пиксели RGBA без изменений."
+    },
+    "blue": {
+      "file": "blue.png",
+      "recolor": "H=196/360; S=S×0.8; V и alpha исходные."
+    },
+    "violet": {
+      "file": "violet.png",
+      "recolor": "H=270/360; S=S×0.7; V и alpha исходные."
+    },
+    "white": {
+      "file": "white.png",
+      "recolor": "H=45/360; S=S×0.05; V и alpha исходные."
+    }
+  },
+  "construction": "Каждый атлас — кадры 00..16 в исходном порядке; позы, альфа, геометрия и тайминг не изменяются."
+}

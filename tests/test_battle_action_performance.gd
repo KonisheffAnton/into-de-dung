@@ -97,6 +97,7 @@ func _make_stress_session() -> BattleCoreReactionsSession:
 	# Фабрика задаёт настоящие способности, колоду, экипировку и классификацию рисунков экспедиции.
 	var hub := _stress_profile()
 	hub.enable_mage_deck()
+	hub.select_mage_host(hub.party[0])
 	var started := ExpeditionTransitions.apply(hub, "start", {})
 	if not started.is_ok(): return null
 	var bundle := HeroHubBattleFactory.create(started.profile)

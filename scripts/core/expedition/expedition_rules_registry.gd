@@ -41,7 +41,7 @@ static func generate_plan(seed_value: int, opening: bool) -> Dictionary:
 		for card: MageCardDefinition in MageCardCatalog.all(): types.append(String(card.id))
 		types.sort()
 		for i: int in 3:
-			var value := rng.next_int(&"combat",12-i)
+			var value := rng.next_int(&"combat",types.size()-i)
 			if value < 0: return {}
 			var other := i + value
 			var saved: String = types[i]; types[i] = types[other]; types[other] = saved

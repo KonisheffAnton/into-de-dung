@@ -1,0 +1,10 @@
+{
+  "image": {
+    "type": "base64",
+    "format": "png",
+    "base64": "iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAETklEQVR4nK1W62sUVxQ/985aLQ2b3c3uJsSQZKNLEmJoCrWKaIL4xPbP8IsIfmhLhIqf/KCxSWMFoYVCLC2IiqIgosEH8f3AGh/BSESt0epuTMzGx4cmO1POmT2TO7Ozj9n6g5mduXfv+f3O4547AkpARaDOUN/HJ/8WUCJ8XhcEy2uNNcu/hrqG+RCPNcPQw0HYf2C/8Sb1rCQR0iv5yiXrQJszu2z632nAMZxzRuajCghmyBGfzNGy5nGu46u19L+PLiCokNMiTVL4GemZGZsQLyKkV3Jd1yEcCVvvkaoqCIX9JALnvIoQXskrIn4S8P7dO0vA29QkjI9NwJsJc0xK06/z109DoeL0FaNSJQ+GAjAwcBWu3blA421Ni2H1qnaoiITonUUUC1HIew4rk5/uPwf3Rm6DULLXGGuGbzasp+dHD595ioIspBANMfmZsxeyyBHDT4bgxMlT9LywsRaMjOhiIAvlnotu5MFTGBy+SWMG6LaLRWB0EOHKAK3Dq1BB+nJN/JN4CbqhQ/uKJZB8lYTj547QeGW40hRhmDaFMKObeJ2g6Giaj2pCT+tF1YN087459gU9tzTFyWDfoT6LHImZnIXgxcI4SliURhFRkG6DupEm7wOhckinZyjnTJ4LLAIvrgdMhacIBLO816jw8oFToALrAddh4QZDZXmjIG0vQlje877GkP7U0wc/bOvOSYhjPN65tQt+7v0D7gzfone2k9MByABPsnhdKz03Ny6g8Pf+sgd6e36HTd+2WAt+2zsMO3Z8Z0sHkiPx5u8XWWPzxJdWk8IumZr84NoXpFOR6j3mXtftUdu4pQm2b+/JS85Qo8ANDaOsQqreIznmHoHe4x7f3bUV9nXfty0affzUNRWMX/c8sJoV1xA2MxThPLJ9ptcGkccXNNi8RyRfj8GHt+9JhJQmad+fey0yTEXXrk6Q8kdrbNfOThKPNrCGMA1YkNwbOhavgWNnDhsAU0Kg9431bVAVjUJDvIYM4DbCSmYR0XAks991ECJ/9+bIoHASCDo0xVqss0Kth4Eb/SbDjD4N1TXmGY/tFMlp32fa7Kxxd/Jc6cD1aEc9K5y7QuKtpmo+fFZWBt37eqidcldjEdhm88HZoPD/TM52UATad0LyA3Y8izTTXtUWWww4EmrnZHHRiij9Ph55Tr9H+w/S57zEG75cufwXLGtbCbqedjWeHE/mrXz1UHKmjkVgLWStAwt+AwUgJlJJGE8lKOeqYY6QatRJrnrLCPkjUFsdo+dP587NnKxTtEjY9cyKQDwaHbKRuBG4CWRxuGvita2gaeZ/Lt4yvxeY3EWAKQLvqhCMyMTUmE2E+lXEIWdy9DhUPivyyuD5LOI8AnILwYNq9NUTeJEYzRJQXx2D6mg9qMhHzBBQEKaQpZ+3WyNSaHB1cMAiV+ewo964e6kgcQnwG+rVGu8wBATo1znnxer/UOg3OA0GTJZs5z+p10G7xbYONwAAAABJRU5ErkJggg=="
+  },
+  "description": "Keep this exact hooded-head icon, silhouette and transparent background. Recolor the hood to deep INDIGO blue, with readable indigo folds and dark outer edges. Keep the entire face in almost black shadow. Make both eyes brilliant warm YELLOW, with small soft golden halos immediately around each eye only. The halos must not surround the hood or the whole icon. No face details. Preserve head-only framing, pose, pixel-art style, and 32x32 canvas.",
+  "seed": 20261131,
+  "no_background": true
+}

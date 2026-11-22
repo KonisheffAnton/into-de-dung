@@ -48,6 +48,7 @@ func _exercise(hub: bool) -> void:
 	if hub:
 		var profile := HeroHubState.create(9404, 4)
 		profile.enable_mage_deck()
+		profile.select_mage_host(profile.party[0])
 		profile = ExpeditionTransitions.apply(profile, "start").profile
 		var battle := (load("res://scenes/demo/battle/hero_hub_battle.tscn") as PackedScene).instantiate() as HeroHubBattleView
 		var route := HeroHubScreen.new()

@@ -33,10 +33,15 @@ func validate(context: ActionContext) -> StringName:
 func execute(context: ActionContext) -> CommandStepResult:
 	var after := projected_after(context)
 	if after.is_empty(): return CommandStepResult.faulted(&"ability/invalid_boundary")
-	var guard := SpatialRules.capture_guard(context, [], [], {})
+	var state := context.get_state()
+	var expiry_host: UnitState = null
+	var expiry_units: Array[UnitState] = []
+	if operation == &"end" and team == Faction.Type.PLAYER and state.card_effects != null and state.card_effects.light_step_serial == serial and serial > 0:
+		expiry_host = state.get_board().get_unit_by_id(state.card_effects.host_unit_id)
+		if expiry_host != null and expiry_host.is_alive(): expiry_units.append(expiry_host)
+	var guard := SpatialRules.capture_guard(context, expiry_units, [], {})
 	if guard == null: return CommandStepResult.faulted(&"ability/invalid_runtime")
 	guard = guard.ability_phase(after)
-	var state := context.get_state()
 	var events: Array[Dictionary] = []
 	if state.deck != null:
 		var deck_after := projected_deck(context)
@@ -45,6 +50,10 @@ func execute(context: ActionContext) -> CommandStepResult:
 		guard = guard.deck_phase(deck_after,effects_after)
 		if deck_after != state.deck.to_dict(): events.append(MageDeckChangeCommand.changed(state.deck.to_dict(),deck_after,"draw"))
 		state.card_effects.apply_values(effects_after); state.deck.apply_values(deck_after)
+	if not expiry_units.is_empty():
+		var spent := minf(2.0, expiry_host.move_points_left)
+		guard = guard.debit(expiry_host.id, 0, spent)
+		expiry_host.move_points_left -= spent
 	context.get_state().abilities.apply_values(after)
 	if not guard.check(context): return CommandStepResult.faulted(&"ability/checkpoint")
 	return CommandStepResult.applied(events, [], [], null, true)

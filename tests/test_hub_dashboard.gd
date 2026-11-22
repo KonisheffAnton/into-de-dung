@@ -37,8 +37,6 @@ func _run() -> void:
 	if hub.run == null:
 		quit(1)
 		return
-	var baseline := hub.run.to_dict()
-	var save_bytes := FileAccess.get_file_as_bytes(path)
 	var cards := dashboard.find_child("HeroCards", true, false) as HubSquadList
 	var card_rows := cards.get_node("Cards") as VBoxContainer
 	var start := dashboard.find_child("StartJourney", true, false) as Button
@@ -52,6 +50,17 @@ func _run() -> void:
 	check(tab.get_theme_font_size("font_size") == 23, "refresh preserves authored override")
 	check(start.get_signal_connection_list(&"pressed").size() == 1, "start has one connection")
 	check(dashboard.start_requested.get_connections().size() == 1, "host has one launch connection")
+	check(start.disabled, "fresh profile without a host cannot start")
+	dashboard.open_host_dialog()
+	var host_dialog := dashboard._host_dialog
+	check(host_dialog.is_visible_in_tree(), "host dialog opens from the dashboard")
+	var host_id: int = hub.run.party[0]
+	var confirm := host_dialog.get_node("Dialog/Content/Actions/Confirm") as Button
+	confirm.pressed.emit()
+	await _settle()
+	check(int(hub.run.mage_deck.host_hero_id) == host_id, "dialog confirmation persists host selection")
+	var baseline := hub.run.to_dict()
+	var save_bytes := FileAccess.get_file_as_bytes(path)
 	for resolution: Vector2i in [Vector2i(1024, 720), Vector2i(1280, 850), Vector2i(1920, 1080)]:
 		viewport.size = resolution
 		await _settle()
@@ -96,6 +105,7 @@ func _run() -> void:
 	fixture.gold = 237
 	fixture.essence = 11
 	fixture.party.resize(1)
+	fixture.clear_missing_mage_host()
 	var hero: HeroProgression = fixture.heroes[fixture.party[0]]
 	hero.class_id = &"mage"
 	hero.award_experience_tenths(6000)
@@ -108,6 +118,7 @@ func _run() -> void:
 	check((card_rows.get_child(1).get_node("Portrait") as TextureRect).texture == null, "empty slot clears old portrait")
 	await _capture("partial-party")
 	fixture.party.clear()
+	fixture.clear_missing_mage_host()
 	dashboard.render_profile(fixture, false, &"expedition", false, "Добавьте героя")
 	check(start.disabled and _label("Route").text == "1 бой", "empty H1 disables launch and has correct route")
 	check(_label("PreparationTitle").text == "Подготовка к бою", "H1 heading")

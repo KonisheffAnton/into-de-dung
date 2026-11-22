@@ -44,6 +44,9 @@ func render_profile(profile: HeroHubState, skins: Dictionary) -> void:
 		title.text = hero.name if hero != null else "Добавить героя"
 		identity.text = ""
 		state.text = ""
+		var flame := card.get_node("HostBadge") as TextureRect
+		flame.visible = false
+		state.offset_left = 10.0
 		portrait.texture = null
 		if hero == null:
 			card.tooltip_text = "Выбрать героя из своего отряда и резерва"
@@ -52,6 +55,10 @@ func render_profile(profile: HeroHubState, skins: Dictionary) -> void:
 		identity.text = "%s · ур. %d" % [definition.display_name, hero.level()]
 		portrait.texture = HubSkeletonCard.hero_texture(hero.class_id, StringName(skins.get(hero.class_id, &"")))
 		var notices: Array[String] = []
+		if int(profile.mage_deck.get("host_hero_id",0)) == hero.id:
+			notices.append("Носитель")
+			flame.visible = true
+			state.offset_left = 29.0
 		if hero.available_points() > 0: notices.append("+%d очк." % hero.available_points())
 		state.text = " · ".join(notices)
 		card.tooltip_text = "%s\n%s\n%s\nКлик: выбрать героя. Перетаскивание или Alt+↑/↓: порядок." % [hero.name, identity.text, state.text]

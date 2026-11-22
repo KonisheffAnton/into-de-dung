@@ -121,6 +121,7 @@ func _spells() -> void:
 func _deck() -> void:
 	var profile := HeroHubState.create(9404)
 	profile.enable_mage_deck()
+	profile.select_mage_host(profile.party[0])
 	profile = ExpeditionTransitions.apply(profile, "start").profile
 	var session := HeroHubBattleFactory.create(profile).session as BattleCoreReactionsSession
 	_open(session)

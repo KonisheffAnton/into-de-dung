@@ -133,6 +133,7 @@ func tile_at(cell: Vector2i) -> BattleDemoIsoVisual:
 func warrior_art() -> void:
 	var hub := HeroHubState.create(443)
 	hub.enable_mage_deck()
+	hub.select_mage_host(hub.party[0])
 	var started := ExpeditionTransitions.apply(hub, "start")
 	check(started.is_ok(), "warrior art fixture enters production opening")
 	if not started.is_ok(): return

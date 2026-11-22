@@ -464,7 +464,7 @@ def main():
         if label in ("ability_catalog", "mage_cooldowns", "mage_guards", "mage_ui"):
             marker = {"ability_catalog": "ABILITY CATALOG RESULTS:", "mage_cooldowns": "MAGE COOLDOWNS RESULTS:", "mage_guards": "MAGE GUARDS RESULTS:", "mage_ui": "MAGE UI RESULTS:"}[label]
             invalid = invalid or marker not in output or ", 0 failed" not in output
-        if label in ("mage_deck_models", "deck_ability_state", "mage_deck_expedition", "mage_deck_battle", "mage_deck_playthrough", "mage_deck_ui"):
+        if label in ("host_card_geometry", "host_cards", "host_expedition", "host_selection", "host_ui", "host_glow", "mage_deck_models", "deck_ability_state", "mage_deck_expedition", "mage_deck_battle", "mage_deck_playthrough", "mage_deck_ui"):
             marker = "MAGE DECK MODEL RESULTS:" if label == "mage_deck_models" else label.replace("_", " ").upper() + " RESULTS:"
             invalid = invalid or marker not in output or ", 0 failed" not in output
         if label == "poison":
@@ -840,8 +840,16 @@ def main():
         if args.render_check:
             expedition_ui_args += ["--", "--captures=" + str(out / "expedition_ui")]
         run("expedition_ui", expedition_ui_args, headless=not args.render_check)
-        for label in ("mage_deck_models", "deck_ability_state", "mage_deck_expedition", "mage_deck_battle"):
+        for label in ("host_card_geometry", "host_cards", "host_expedition", "host_selection", "mage_deck_models", "deck_ability_state", "mage_deck_expedition", "mage_deck_battle"):
             run(label, ["--script", "tests/test_" + label + ".gd"])
+        host_ui_args = ["--script", "tests/test_host_ui.gd"]
+        if args.render_check:
+            host_ui_args += ["--", "--captures=" + str(out / "host_ui")]
+        run("host_ui", host_ui_args, headless=not args.render_check)
+        host_glow_args = ["--script", "tests/test_host_glow.gd"]
+        if args.render_check:
+            host_glow_args += ["--", "--captures=" + str(out / "host_glow")]
+        run("host_glow", host_glow_args, headless=not args.render_check)
         run("mage_deck_playthrough", ["--script", "tests/test_expedition_playthrough.gd", "--", "--deck"])
         deck_ui_args = ["--script", "tests/test_mage_deck_ui.gd"]
         if args.render_check:

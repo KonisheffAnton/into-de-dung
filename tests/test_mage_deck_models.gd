@@ -20,7 +20,7 @@ func _run() -> void:
 	quit(0 if failed == 0 else 1)
 
 func _test_catalog() -> void:
-	check(MageCardCatalog.all().size() == 13 and MageCardCatalog.default_base_types().size() == 10, "catalog adds poison without changing the ten-card default")
+	check(MageCardCatalog.all().size() == 15 and MageCardCatalog.default_base_types().size() == 10, "catalog adds host cards without changing the ten-card default")
 	check(MageCardCatalog.valid_base(MageCardCatalog.default_base_types()), "default base validates")
 	check(not MageCardCatalog.valid_base(["card.fire"]), "base rejects wrong count")
 	check(not MageCardCatalog.valid_base(["card.fire","card.fire","card.fire","card.heal","card.heal","card.shield","card.shield","card.summon","card.summon","card.wet"]), "base rejects more than two copies")

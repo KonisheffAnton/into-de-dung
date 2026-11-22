@@ -140,6 +140,7 @@ func different(a: Color, b: Color) -> bool:
 func production_lifecycle() -> void:
 	var profile := HeroHubState.create(443)
 	profile.enable_mage_deck()
+	profile.select_mage_host(profile.party[0])
 	var started := ExpeditionTransitions.apply(profile, "start")
 	check(started.is_ok(), "production expedition starts")
 	if not started.is_ok(): return

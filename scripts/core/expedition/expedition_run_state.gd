@@ -20,6 +20,7 @@ var cards: Array[Dictionary] = []
 var active_ids: Array[int] = []
 var next_card_id: int = 1
 var reward_decisions: Array[Dictionary] = []
+var host_hero_id: int = 0
 
 func is_deck() -> bool:
 	return ruleset_id == ExpeditionRulesRegistry.DECK
@@ -46,23 +47,24 @@ func artifact(id: int) -> Dictionary:
 	return {}
 
 func to_dict() -> Dictionary:
-	var data := {"schema":4,"ruleset_id":ruleset_id,"run_id":run_id,"plan":plan.duplicate(true),"phase":phase,
+	var data := {"schema":5,"ruleset_id":ruleset_id,"run_id":run_id,"plan":plan.duplicate(true),"phase":phase,
 		"route":route.duplicate(),"resolved":resolved.duplicate(),"ordinary_item_ids":ordinary_item_ids.duplicate(),
 		"battle_serial":battle_serial,"checkpoint":checkpoint.duplicate(true),"gold":gold,"repair_spent":repair_spent,
 		"artifacts":artifacts.duplicate(true),"next_artifact_id":next_artifact_id,"fallen":fallen.duplicate()}
 	if is_deck():
 		data.erase("artifacts"); data.erase("next_artifact_id")
-		data.merge({"catalog_id":"mage-neutral-v1","catalog_version":1,"cards":cards.duplicate(true),"active_ids":active_ids.duplicate(),"next_card_id":next_card_id,"reward_decisions":reward_decisions.duplicate(true)},true)
+		data.merge({"catalog_id":"mage-neutral-v1","catalog_version":1,"cards":cards.duplicate(true),"active_ids":active_ids.duplicate(),"next_card_id":next_card_id,"reward_decisions":reward_decisions.duplicate(true),"host_hero_id":host_hero_id},true)
 	return data
 
 static func from_dict(data: Variant) -> ExpeditionRunState:
-	if not data is Dictionary or typeof(data.get("schema")) != TYPE_INT or data.schema != 4: return null
+	if not data is Dictionary or typeof(data.get("schema")) != TYPE_INT: return null
 	if typeof(data.get("ruleset_id")) != TYPE_STRING or data.ruleset_id not in [ExpeditionRulesRegistry.LEGACY, ExpeditionRulesRegistry.DECK]: return null
 	var deck: bool = data.ruleset_id == ExpeditionRulesRegistry.DECK
+	if data.schema != 5: return null
 	var shape := {"schema":TYPE_INT,"ruleset_id":TYPE_STRING,"run_id":TYPE_INT,"plan":TYPE_DICTIONARY,"phase":TYPE_STRING,"route":TYPE_ARRAY,"resolved":TYPE_ARRAY,"ordinary_item_ids":TYPE_ARRAY,"battle_serial":TYPE_INT,"checkpoint":TYPE_DICTIONARY,"gold":TYPE_INT,"repair_spent":TYPE_INT,"fallen":TYPE_ARRAY}
 	if not deck: shape.merge({"artifacts":TYPE_ARRAY,"next_artifact_id":TYPE_INT})
 	if deck:
-		shape.merge({"catalog_id":TYPE_STRING,"catalog_version":TYPE_INT,"cards":TYPE_ARRAY,"active_ids":TYPE_ARRAY,"next_card_id":TYPE_INT,"reward_decisions":TYPE_ARRAY})
+		shape.merge({"catalog_id":TYPE_STRING,"catalog_version":TYPE_INT,"cards":TYPE_ARRAY,"active_ids":TYPE_ARRAY,"next_card_id":TYPE_INT,"reward_decisions":TYPE_ARRAY,"host_hero_id":TYPE_INT})
 	if not ItemSimulationSnapshot._shape(data,shape): return null
 	if deck and (data.ruleset_id != ExpeditionRulesRegistry.DECK or data.catalog_id != "mage-neutral-v1" or data.catalog_version != 1): return null
 	if data.run_id < 1 or data.run_id > MAX_VALUE or not ExpeditionGenerator.valid(data.plan): return null
@@ -73,6 +75,7 @@ static func from_dict(data: Variant) -> ExpeditionRunState:
 	if data.route.size() > 7 or data.ordinary_item_ids.size() > HeroHubState.MAX_PARTY * 2 or data.fallen.size() > HeroHubState.MAX_PARTY: return null
 	var result := ExpeditionRunState.new()
 	result.ruleset_id = data.ruleset_id
+	result.host_hero_id = int(data.get("host_hero_id", 0))
 	result.run_id = data.run_id; result.plan = data.plan.duplicate(true); result.phase = data.phase
 	var previous: int = 0
 	for id: Variant in data.route:
@@ -153,6 +156,7 @@ func _completed_reward_count() -> int:
 func valid_profile(hub: HeroHubState) -> bool:
 	if is_deck() and hub.mage_deck.is_empty(): return false
 	if hub.phase != "expedition" or hub.run_serial != run_id or hub.party.is_empty(): return false
+	if is_deck() and (host_hero_id <= 0 or not hub.party.has(host_hero_id)): return false
 	for id: int in hub.party:
 		if not hub.heroes.has(id) or (hub.heroes[id] as HeroProgression).hp_current <= 0.0: return false
 	for id: int in ordinary_item_ids:
@@ -175,12 +179,13 @@ static func make_checkpoint(hub: HeroHubState, seed_value: int) -> Dictionary:
 		if hub.party.has(hub.items[id].hero_id): items.append(hub.items[id].duplicate(true))
 	var run := hub.expedition
 	if run.is_deck():
-		return {"schema":1,"ruleset_id":ExpeditionRulesRegistry.DECK,"run_id":run.run_id,"node_id":run.current_node().id,"battle_serial":run.battle_serial,
+		return {"schema":2,"ruleset_id":ExpeditionRulesRegistry.DECK,"run_id":run.run_id,"node_id":run.current_node().id,"battle_serial":run.battle_serial,"host_hero_id":run.host_hero_id,
 			"legacy_inputs":{"heroes":heroes,"items":items,"seed":seed_value},"cards":run.cards.duplicate(true),"active_ids":run.active_ids.duplicate(),"catalog_id":"mage-neutral-v1","catalog_version":1,
 			"draw_seed":BattleDeckState.draw_seed(run.run_id,run.current_node().id,run.battle_serial,seed_value)}
 	return {"heroes":heroes,"items":items,"artifacts":run.artifacts.duplicate(true),"seed":seed_value}
 
 func _read_cards(data: Dictionary) -> bool:
+	if host_hero_id <= 0 or host_hero_id >= MAX_VALUE: return false
 	if data.next_card_id < 11 or data.next_card_id >= ActionContext.MAX_ID or data.cards.size() != data.next_card_id - 1: return false
 	var base_types: Array = []
 	for i: int in data.cards.size():
@@ -214,8 +219,8 @@ func _read_cards(data: Dictionary) -> bool:
 	return true
 
 func _valid_deck_checkpoint() -> bool:
-	if not ItemSimulationSnapshot._shape(checkpoint,{"schema":TYPE_INT,"ruleset_id":TYPE_STRING,"run_id":TYPE_INT,"node_id":TYPE_INT,"battle_serial":TYPE_INT,"legacy_inputs":TYPE_DICTIONARY,"cards":TYPE_ARRAY,"active_ids":TYPE_ARRAY,"catalog_id":TYPE_STRING,"catalog_version":TYPE_INT,"draw_seed":TYPE_INT}): return false
-	if checkpoint.schema != 1 or checkpoint.ruleset_id != ruleset_id or checkpoint.run_id != run_id or checkpoint.node_id != current_node().id or checkpoint.battle_serial != battle_serial: return false
+	if not ItemSimulationSnapshot._shape(checkpoint,{"schema":TYPE_INT,"ruleset_id":TYPE_STRING,"run_id":TYPE_INT,"node_id":TYPE_INT,"battle_serial":TYPE_INT,"legacy_inputs":TYPE_DICTIONARY,"cards":TYPE_ARRAY,"active_ids":TYPE_ARRAY,"catalog_id":TYPE_STRING,"catalog_version":TYPE_INT,"draw_seed":TYPE_INT,"host_hero_id":TYPE_INT}): return false
+	if checkpoint.schema != 2 or checkpoint.ruleset_id != ruleset_id or checkpoint.run_id != run_id or checkpoint.node_id != current_node().id or checkpoint.battle_serial != battle_serial or checkpoint.host_hero_id != host_hero_id: return false
 	if checkpoint.catalog_id != "mage-neutral-v1" or checkpoint.catalog_version != 1 or checkpoint.cards != cards or checkpoint.active_ids != active_ids: return false
 	if not ItemSimulationSnapshot._shape(checkpoint.legacy_inputs,{"heroes":TYPE_ARRAY,"items":TYPE_ARRAY,"seed":TYPE_INT}) or checkpoint.legacy_inputs.seed != current_node().battle_seed: return false
 	return checkpoint.draw_seed == BattleDeckState.draw_seed(run_id,current_node().id,battle_serial,current_node().battle_seed)

@@ -39,6 +39,7 @@ func _prepare(context: ActionContext) -> Dictionary:
 	for unit: UnitState in state.get_board().get_all_units():
 		if unit.is_alive() and unit.faction in [Faction.Type.PLAYER, Faction.Type.ENEMY]: teams[unit.faction] = true
 	if not teams[0] or not teams[1]: return {"reason": &"mage_card/terminal"}
+	if HostCardEffect.host_dead(state): return {"reason": &"mage_card/terminal"}
 	var deck_plan := state.deck.play(card_instance_id)
 	if deck_plan.is_empty(): return {"reason": &"mage_card/not_in_hand"}
 	var paid := ability.to_dict()
@@ -52,7 +53,8 @@ func _prepare(context: ActionContext) -> Dictionary:
 	var plan := MageEffectExecutor.prepare(context, target_id, target_cell, StringName(definition.effect), amount, hits, source, paid, StringName(definition.id), card_instance_id, deck_after, effects_after)
 	if plan.get("reason", &"") != &"": return plan
 	if not plan.get("effects_after", {}).is_empty(): effects_after = plan.effects_after
-	if context._next_event_seq > ActionContext.MAX_ID - 8: return {"reason": &"sequence_exhausted"}
+	var capacity: int = 32 if definition.effect == "binding_thread" else 8
+	if context._next_event_seq > ActionContext.MAX_ID - capacity: return {"reason": &"sequence_exhausted"}
 	plan["card_type_id"] = definition.id
 	plan["deck_after"] = deck_after
 	plan["effects_after"] = effects_after
@@ -72,7 +74,7 @@ func execute(context: ActionContext) -> CommandStepResult:
 	# Обе стоимости публикуются до первого callback; при ошибке эффект видит оплаченный prefix.
 	ability.apply_values(plan.paid)
 	deck.apply_values(plan.deck_after)
-	if plan.effect == &"fire_imbue": state.card_effects.apply_values(plan.effects_after)
+	if plan.effect in [&"fire_imbue", &"light_step"]: state.card_effects.apply_values(plan.effects_after)
 	var source: DamageSource = plan.source
 	var played := {"kind": &"mage_card_played", "type_id": String(plan.card_type_id), "card_instance_id": card_instance_id,
 		"actor_unit_id": 0, "target_unit_id": target_id, "target_cell": target_cell, "source": source.to_dict(),

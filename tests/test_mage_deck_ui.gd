@@ -24,6 +24,9 @@ func _run() -> void:
 	await _open(path)
 	check(host.run != null and not host.run.mage_deck.is_empty() and host.run.phase == "hub", "fresh deck profile")
 	if host.run == null: quit(1); return
+	var selected_profile := host._copy_run()
+	check(selected_profile.select_mage_host(selected_profile.party[0]), "select host before starting deck expedition")
+	host._commit(selected_profile)
 	var original: Array = host.run.mage_deck.base_types.duplicate()
 	await _press("ManageParty")
 	await _press("deck_edit")
@@ -359,6 +362,7 @@ func _rewards_camp_and_return(path: String) -> void:
 func _final_pending_fixture(seed: int) -> HeroHubState:
 	var profile := HeroHubState.create(seed)
 	profile.enable_mage_deck()
+	if not profile.select_mage_host(profile.party[0]): return null
 	var start := ExpeditionTransitions.apply(profile,"start")
 	if not start.is_ok(): return null
 	profile = start.profile

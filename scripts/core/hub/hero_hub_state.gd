@@ -38,6 +38,25 @@ func set_mage_base(types: Array) -> bool:
 	mage_deck.base_types = sorted
 	return true
 
+func select_mage_host(id: int) -> bool:
+	if phase != "hub" or mage_deck.is_empty() or not party.has(id): return false
+	var hero := heroes.get(id) as HeroProgression
+	if hero == null or hero.hp_current <= 0.0: return false
+	mage_deck.host_hero_id = id
+	return true
+
+func set_host_glow(color: String, form: String, flicker: String) -> bool:
+	if phase != "hub" or mage_deck.is_empty(): return false
+	if color not in ["amber","blue","violet","white"] or form not in ["glow","flame"] or flicker not in ["still","soft"]: return false
+	mage_deck.host_glow = {"color":color,"form":form,"flicker":flicker}
+	return true
+
+func clear_missing_mage_host() -> void:
+	var host_id: int = int(mage_deck.get("host_hero_id", 0))
+	if host_id == 0: return
+	var hero := heroes.get(host_id) as HeroProgression
+	if not party.has(host_id) or hero == null or hero.hp_current <= 0.0: mage_deck.host_hero_id = 0
+
 func dismiss_battle_report() -> bool:
 	if battle_report.is_empty() or not battle_report.open or (expedition != null and expedition.phase == "reward"): return false
 	battle_report.open = false
@@ -113,6 +132,7 @@ func toggle_party(id: int) -> bool:
 	if party.has(id): party.erase(id)
 	elif party.size() < MAX_PARTY: party.append(id)
 	else: return false
+	clear_missing_mage_host()
 	return true
 
 func move_party_member(hero_id: int, target_index: int, expected_party: Array[int]) -> bool:
@@ -141,6 +161,7 @@ func select_party_member(slot_index: int, hero_id: int, expected_party: Array[in
 		party[slot_index] = hero_id
 	else:
 		party[slot_index] = hero_id
+	clear_missing_mage_host()
 	return true
 
 func allocate(id: int, delta: Array[int]) -> bool:
@@ -234,6 +255,7 @@ func finish_battle(serial: int, victory: bool, hp: Dictionary, gear: Dictionary)
 	for id: int in lost:
 		heroes.erase(id)
 		party.erase(id)
+	clear_missing_mage_host()
 	if victory:
 		gold += VICTORY_GOLD
 		for id: int in heroes:
@@ -292,6 +314,9 @@ static func from_dict(data: Variant) -> HeroHubState:
 	for id: Variant in data.party:
 		if typeof(id) != TYPE_INT or not result.heroes.has(id) or result.party.has(id): return null
 		result.party.append(id)
+	if not result.mage_deck.is_empty() and result.mage_deck.host_hero_id != 0:
+		var host := result.heroes.get(result.mage_deck.host_hero_id) as HeroProgression
+		if not result.party.has(result.mage_deck.host_hero_id) or host == null or host.hp_current <= 0.0: return null
 	if data.phase == "battle" and (result.party.is_empty() or data.run_serial == 0): return null
 	var slots: Dictionary = {}
 	for row: Variant in data.items:
@@ -312,6 +337,7 @@ static func from_dict(data: Variant) -> HeroHubState:
 	if data.phase == "expedition":
 		result.expedition = ExpeditionRunState.from_dict(data.expedition)
 		if result.expedition == null or not result.expedition.valid_profile(result): return null
+		if not result.mage_deck.is_empty() and int(result.mage_deck.host_hero_id) != result.expedition.host_hero_id: return null
 	elif not data.expedition.is_empty(): return null
 	result.achievements = ProfileAchievements.from_dict(data.achievements)
 	if result.achievements == null: return null

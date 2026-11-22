@@ -46,6 +46,7 @@ func _exercise_hub() -> void:
 	var hub := HeroHubBattleView.new()
 	var profile := HeroHubState.create(9404)
 	profile.enable_mage_deck()
+	profile.select_mage_host(profile.party[0])
 	profile = ExpeditionTransitions.apply(profile, "start").profile
 	hub.supplied_session = HeroHubBattleFactory.create(profile).session
 	viewport.add_child(hub)
@@ -58,6 +59,7 @@ func _exercise_hub() -> void:
 func _exercise_large_hub() -> void:
 	var profile := HeroHubState.create(9404)
 	profile.enable_mage_deck()
+	profile.select_mage_host(profile.party[0])
 	profile = ExpeditionTransitions.apply(profile, "start").profile
 	var battle := (load("res://scenes/demo/battle/hero_hub_battle.tscn") as PackedScene).instantiate() as HeroHubBattleView
 	var route_helper := HeroHubScreen.new()

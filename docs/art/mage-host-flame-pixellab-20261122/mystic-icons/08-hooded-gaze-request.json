@@ -1,0 +1,11 @@
+{
+  "description": "A mysterious hooded head icon for the possessed host in a dark fantasy tactical game. Front view, just the head under a deep pointed hood. The face is completely lost in black shadow, no visible nose, mouth, skin, beard or facial details. Exactly two narrow eyes burn with intense bright ivory-white magical light with a subtle cold violet fringe. The hood has a strong simple dark charcoal silhouette, restrained muted gray violet outer folds. Eerie unseen mage presence inside the hood. Clean bold pixel art game UI icon, very readable at 18 pixels. No shoulders, no torso, no hands, no staff, no skull, no mask, no flame, no text, no medallion or frame. Transparent background, entire head centered, at least 3 pixels transparent margin on all sides. Three to five flat colors, no noisy texture.",
+  "image_size": {
+    "width": 32,
+    "height": 32
+  },
+  "no_background": true,
+  "detail": "low detail",
+  "seed": 20261130,
+  "enhance_prompt": false
+}

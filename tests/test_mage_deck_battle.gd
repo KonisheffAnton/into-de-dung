@@ -55,6 +55,8 @@ func safe_cell(session: BattleCoreReactionsSession, owner: UnitState) -> Vector2
 
 func run() -> void:
 	for card: MageCardDefinition in MageCardCatalog.all():
+		# Привязанные к носителю карты проверяет test_host_cards с геометрией отряда.
+		if card.target_policy in ["host_unit", "host_link_ally"]: continue
 		var session := fixture()
 		if session.phase != BattleTacticalSession.Phase.PLAYER_TURN: session.close(); continue
 		var id := card_in_hand(session,card.id)
@@ -96,6 +98,7 @@ func run() -> void:
 		check(session._queue.submit(PlayMageCardCommand.new(id,target.id,cell,session.context.get_revision()),session.context).status == ActionReceipt.REJECTED and snapshot(session) == saved,"repeat refused " + card.id)
 		session.close()
 	var hub := HeroHubState.create(997); hub.enable_mage_deck()
+	check(hub.select_mage_host(hub.party[0]),"select host before factory schema fixture")
 	hub = ExpeditionTransitions.apply(hub,"start").profile
 	var bundle := HeroHubBattleFactory.create(hub)
 	check(not bundle.is_empty(),"production factory schema10")
@@ -167,6 +170,7 @@ func _invalid_effect_owners() -> void:
 func _invalid_hero_attack_binding() -> void:
 	var hub := HeroHubState.create(1997)
 	hub.enable_mage_deck()
+	check(hub.select_mage_host(hub.party[0]),"select host before hero binding fixture")
 	hub = ExpeditionTransitions.apply(hub,"start").profile
 	var bundle := HeroHubBattleFactory.create(hub)
 	check(not bundle.is_empty(),"hero binding production fixture")

@@ -3,6 +3,19 @@
 Актуальный порядок 2026-10-11, сверенный с `tools/demo/isolate.py`.
 Это инструкции проверки; прежние прогоны не считаются результатом нового изменения.
 
+Носитель и две карты (2026-11-22/23): `python tools/demo/isolate.py --check --full`;
+адресно `--render-check --only host_card_geometry host_cards host_expedition
+host_selection host_ui host_glow mage_deck_models mage_deck_battle mage_deck_expedition
+mage_deck_ui hub_approved_ui hub_dashboard hub_scene_authoring class_showcase_ui
+character_skins --screen 0`. Команды одной строкой, runner последовательно.
+`tools/art/build_host_glow_anchors.py --check` и `tools/art/build_host_flame.py --check`
+проверяют покадровые якоря и точную сборку PixelLab/косметических палитр.
+Новые suites покрывают explicit selection/save/retry, once-per-turn/геометрию,
+queue terminal priority, salvage/no-survivors, preview/worker/live и callback guards.
+GPU: диалог/бейдж/минимальное окно, все человеческие облики/позы и движение
+верхушки пламени отдельно от пульсации яркости. Это не баланс или ручная F5/DPI
+приёмка; [правила и границы](HOST_POSSESSION_V1.md).
+
 Троглодит/останки (2026-11-22): `--render-check --only unit_creature_identity
  tamed_troglodyte tamed_troglodyte_visual fresh_corpses current_schema_boundary
  class_showcase class_showcase_ui battle_character_card` (аргументы одной строкой).

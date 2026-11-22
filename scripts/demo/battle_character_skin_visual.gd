@@ -11,14 +11,24 @@ var _skin_durations: Dictionary[StringName, float] = {}
 var _skin_ambient_wait: float = 0.0
 var _skin_ambient_elapsed: float = -1.0
 var _skin_ambient_first: bool = true
+var _host_marker: HostGlowSprite
+var _is_host: bool = false
+var _host_style: Dictionary = {}
 
 func _ready() -> void:
 	_skin_sprite = get_node_or_null("ArtRoot/CharacterSkinSprite") as Sprite2D
+	if _skin_sprite != null:
+		_host_marker = HostGlowSprite.new()
+		_host_marker.name = "HostEyeGlow"
+		_skin_sprite.add_child(_host_marker)
 	if _skin_sprite != null and _skin_sprite.material != null:
 		_skin_sprite.material = _skin_sprite.material.duplicate()
 	super._ready()
 
 func apply_view(values: Dictionary, config: IsoGridConfig) -> bool:
+	var host_changed: bool = _is_host != bool(values.get("is_host",false)) or _host_style != values.get("host_glow",{})
+	_is_host = bool(values.get("is_host",false))
+	_host_style = values.get("host_glow",{}).duplicate(true)
 	var next := CharacterSkinCatalog.definition(values["visual_class_id"], values.get("visual_skin_id", &""))
 	var changed := skin_definition != next or _skin_owner != int(values["unit"]["id"])
 	if changed:
@@ -35,10 +45,10 @@ func apply_view(values: Dictionary, config: IsoGridConfig) -> bool:
 			skin_clock.configure(_skin_owner * 7919 + String(next.id).hash(), _skin_durations[&"idle"], _skin_durations[&"idle_secondary"])
 			if _skin_sprite != null: _skin_sprite.texture = next.still
 	var applied := super.apply_view(values, config)
-	if changed and not applied:
+	if (changed or host_changed) and not applied:
 		sync_scene_art()
 		view_apply_count += 1
-	return changed or applied
+	return changed or host_changed or applied
 
 func _has_skin() -> bool:
 	return skin_definition != null and skin_definition.class_id == visual_class_id \
@@ -118,6 +128,8 @@ func _sync_scene_art_layers() -> void:
 
 func _set_skin_texture(texture: Texture2D) -> void:
 	if texture == null: texture = skin_definition.still
+	if _host_marker != null:
+		_host_marker.configure(skin_definition.id,texture,_host_style,_is_host and unit != null and unit.alive and not _skin_dying)
 	var material := _skin_sprite.material as ShaderMaterial
 	var region := Rect2(Vector2.ZERO, texture.get_size())
 	if texture is AtlasTexture: region = (texture as AtlasTexture).region

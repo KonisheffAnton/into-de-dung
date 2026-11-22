@@ -109,6 +109,8 @@ var _visual_lifecycle: Dictionary[String, int] = {
 	"unit_created": 0, "unit_retired": 0,
 }
 var _view_width: int = 0
+var host_unit_id: int = 0
+var host_glow: Dictionary = {}
 var _view_height: int = 0
 var _view_heights: PackedInt32Array = PackedInt32Array()
 var _view_terrain: PackedByteArray = PackedByteArray()
@@ -1958,6 +1960,7 @@ func _unit_view_values(row: Dictionary) -> Dictionary:
 			"alive": unit.alive, "hp": unit.hp, "hp_max": unit.hp_max,
 			"balance": unit.balance, "balance_max": unit.balance_max},
 		"visual_class_id": _view_visual_classes.get(unit.id, &""),
+		"is_host": unit.id == host_unit_id, "host_glow": host_glow.duplicate(true),
 		"visual_skin_id": character_skins.get(_view_visual_classes.get(unit.id, &""), &""),
 		"selected": bool(row["selected"]) and unit.alive,
 		"inspected": bool(row["inspected"]) and unit.alive,

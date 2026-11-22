@@ -79,6 +79,11 @@ static func refresh_deck(
 		% [ability.mana, ability.maximum, deck.draw_ids.size(), deck.spent_ids.size(), replacement]
 	)
 	label.tooltip_text = "Рука %d/6" % deck.hand_ids.size()
+	if mage_session.state.card_effects != null:
+		var host := mage_session.board.get_unit_by_id(mage_session.state.card_effects.host_unit_id)
+		if host != null:
+			label.text += " · Носитель: " + host.debug_name
+			label.tooltip_text += "\nСмерть носителя завершает поход. Живые бойцы возвращаются с вещами и добычей."
 	var shown: Array[Button] = []
 	var ids: Array[int] = deck.hand_ids.duplicate()
 	var reasons: Dictionary[int, StringName] = {}

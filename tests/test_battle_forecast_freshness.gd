@@ -44,6 +44,7 @@ func run() -> void:
 func _make_production_session() -> BattleCoreReactionsSession:
 	var hub := HeroHubState.create(9404)
 	hub.enable_mage_deck()
+	hub.select_mage_host(hub.party[0])
 	var started := ExpeditionTransitions.apply(hub, "start", {})
 	if not started.is_ok(): return null
 	var bundle := HeroHubBattleFactory.create(started.profile)

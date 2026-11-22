@@ -30,10 +30,17 @@ static func default_attack_id(unit_id: int, ability: Dictionary) -> String:
 	return "demo_strike"
 
 static func _references(deck: BattleDeckState, effects: BattleCardEffectState, ability: Dictionary, units: Array, summons: Array) -> bool:
-	if not deck.mulligan_done and ability.stage != "setup": return false
+	# Прямая core-команда может закончить бой ещё до подтверждения руки.
+	# Терминальный снимок сохраняет исходную колоду без добора и mulligan.
+	if not deck.mulligan_done and ability.stage not in ["setup", "terminal"]: return false
 	if deck.replaced_serial > ability.serials[0]: return false
 	var by_id: Dictionary = {}
 	for unit: Dictionary in units: by_id[unit.id] = unit
+	if effects.host_unit_id != 0:
+		if not by_id.has(effects.host_unit_id) or by_id[effects.host_unit_id].faction != Faction.Type.PLAYER: return false
+		for summon: Dictionary in summons:
+			if summon.get("unit_id") == effects.host_unit_id: return false
+	if effects.light_step_serial > ability.serials[Faction.Type.PLAYER]: return false
 	var bound: Dictionary = {}
 	for record: Dictionary in effects.ordinary_attacks:
 		if not by_id.has(record.unit_id) or record.attack_id != default_attack_id(record.unit_id,ability): return false

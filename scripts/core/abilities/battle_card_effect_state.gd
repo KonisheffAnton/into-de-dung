@@ -4,9 +4,11 @@ class_name BattleCardEffectState
 const MAX_ID: int = ActionContext.MAX_ID
 var ordinary_attacks: Array[Dictionary] = []
 var fire_imbues: Array[Dictionary] = []
+var host_unit_id: int = 0
+var light_step_serial: int = 0
 
 func to_dict() -> Dictionary:
-	return {"schema":1,"ordinary_attacks":ordinary_attacks.duplicate(true),"fire_imbues":fire_imbues.duplicate(true)}
+	return {"schema":2,"ordinary_attacks":ordinary_attacks.duplicate(true),"fire_imbues":fire_imbues.duplicate(true),"host_unit_id":host_unit_id,"light_step_serial":light_step_serial}
 
 func duplicate() -> BattleCardEffectState:
 	return from_dict(to_dict())
@@ -15,9 +17,12 @@ func apply_values(value: Dictionary) -> bool:
 	var checked := BattleCardEffectState.from_dict(value)
 	if checked == null: return false
 	ordinary_attacks.assign(checked.ordinary_attacks); fire_imbues.assign(checked.fire_imbues)
+	host_unit_id = checked.host_unit_id; light_step_serial = checked.light_step_serial
 	return true
 
 func valid() -> bool:
+	if host_unit_id < 0 or host_unit_id >= MAX_ID or light_step_serial < 0 or light_step_serial >= MAX_ID: return false
+	if host_unit_id == 0 and light_step_serial != 0: return false
 	var seen: Dictionary = {}; var last_id: int = 0
 	for entry: Dictionary in ordinary_attacks:
 		if not ItemSimulationSnapshot._shape(entry,{"unit_id":TYPE_INT,"attack_id":TYPE_STRING}): return false
@@ -34,8 +39,9 @@ func valid() -> bool:
 
 static func from_dict(value: Variant) -> BattleCardEffectState:
 	if typeof(value) != TYPE_DICTIONARY: return null
-	if not ItemSimulationSnapshot._shape(value,{"schema":TYPE_INT,"ordinary_attacks":TYPE_ARRAY,"fire_imbues":TYPE_ARRAY}) or value.schema != 1: return null
+	if not ItemSimulationSnapshot._shape(value,{"schema":TYPE_INT,"ordinary_attacks":TYPE_ARRAY,"fire_imbues":TYPE_ARRAY,"host_unit_id":TYPE_INT,"light_step_serial":TYPE_INT}) or value.schema != 2: return null
 	var result := BattleCardEffectState.new()
+	result.host_unit_id = value.host_unit_id; result.light_step_serial = value.light_step_serial
 	for entry: Variant in value.ordinary_attacks:
 		if typeof(entry) != TYPE_DICTIONARY: return null
 		result.ordinary_attacks.append(entry.duplicate(true))

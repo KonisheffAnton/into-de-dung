@@ -1,0 +1,11 @@
+{
+  "description": "An unfamiliar ancient spirit rune: one angular branching vertical stroke, two short detached diagonal marks, and a tiny suspended hollow diamond. Compact memorable abstract silhouette, suggesting a secret name or a spirit residing within someone. Single flat pixel-art game UI glyph on transparent background. Readable at 18 pixels, broad clean pixel strokes, minimal detail, at most 3 colors: dark ink outline, muted bone ivory body, one tiny desaturated violet accent. No object, no medallion, no metallic frame, no raised surface, no coin, no round badge background, no shadow, no flame, no sparkle cluster, no letters, no text. Whole glyph centered with generous transparent margin on every side.",
+  "image_size": {
+    "width": 32,
+    "height": 32
+  },
+  "no_background": true,
+  "detail": "low detail",
+  "seed": 20261129,
+  "enhance_prompt": false
+}

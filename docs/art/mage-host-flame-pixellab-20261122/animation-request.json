@@ -1,0 +1,20 @@
+{
+  "first_frame": {
+    "base64": "iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAADaElEQVR4nO2az08TQRTHvztt6Y9QaOkvdmsQgiRgpBibSHpojDEePPqXePHon+Af4V+gR2LUgykROZCoJGJQEhOEGgiCYGzpth3zptmyQCHxwAztzieZZHZmtq/z5s17b6YFNBqNRqPRaCTzOJviVKAYBo/DVAgtWibPWQCVgmUqtQIGj8PgcZgKoTluY9TiotziNlTC4HGYbIHk9DLhI7FUV+kImWyBcQMYTRzN1xwE/PDgFqhUledAAunKT9ZtRMPA9emoeN7Z/YO+LR88YwFpv3GqbbJpe0MBRcvkw1EDifhRG9XHBpnogxcsYDAMJFOB9nM06sN4uglP5wEHFQN1Lyggx22MpBui3n83LwqRGWoqywiZTGHuBMhhIB44s08GTJYgJ9tLp/yIxoIdx6hwhEyWoIgBTF9pObv+4ky7fSA/jnDIaPf1rAJqnda2Xoc/HhORQBVMpjCK+cnhsKgHJvIITM0e6/NkGGwe1tqOsN6rCihYJr8fanT+AsG+dv1BqCH9aMxkCJlo2OII7Ox1t+lTPTyWFn00JsM7K6qrFRB1SQnduHqqPzDUOhkSWTR7SwEFy+R02KFsz00geVsUNzRG9g0Ru2gBlOKmo1zEenJ2FPZO4k8lRR+NoW0gMy1mF/nhlNmRg6fbXyfpOQunj8bKtAJ20YcfM9YScdIB+oJZUUTbRP7YmER/y3K6WgEFy+RhZuCa2RATowSIRSJnjqet4eQD9A6929UKiBgA3f64Cd4s/tdnyDgcMUiAVtZ9ACLv74tMitJum5pFrDjdvi0aS3S5BdTOWTtn7xOh7EOohMHjMFxi6t2sgNJm2Zg7aIW1b6sV/Hq9dO54e2URe6VlrK/XxPPzHR8WNstG11tAaaU1h/1dG5V3L0W9uvECjb9fRKE6UVlbF2Pc73T9T2NvNspGjULZio18pYHg/CoykYgIh87ECVLM3ucytrbrWPzqw0LDJ95FL/w2WCIzJiV8p9Wl8gFmsK+dEZLpb8+vCtOnyb8/lDd5Qpogygzv+W3kR4HcTOhY36ePVSz/YHhV9bUUJhFDpjBSAt36dOKt5JVXRsEy+ZORJN9+dof/XnzEn06mucp/iPhVCd5fWgOW1vDzQO0fJQwVQt1bYa4qJ95fOgqWqdT0NRqNRqPRaDQaeJt/dwYDVJEgTwUAAAAASUVORK5CYII=",
+    "format": "png",
+    "type": "base64"
+  },
+  "last_frame": {
+    "base64": "iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAADaElEQVR4nO2az08TQRTHvztt6Y9QaOkvdmsQgiRgpBibSHpojDEePPqXePHon+Af4V+gR2LUgykROZCoJGJQEhOEGgiCYGzpth3zptmyQCHxwAztzieZZHZmtq/z5s17b6YFNBqNRqPRaCTzOJviVKAYBo/DVAgtWibPWQCVgmUqtQIGj8PgcZgKoTluY9TiotziNlTC4HGYbIHk9DLhI7FUV+kImWyBcQMYTRzN1xwE/PDgFqhUledAAunKT9ZtRMPA9emoeN7Z/YO+LR88YwFpv3GqbbJpe0MBRcvkw1EDifhRG9XHBpnogxcsYDAMJFOB9nM06sN4uglP5wEHFQN1Lyggx22MpBui3n83LwqRGWoqywiZTGHuBMhhIB44s08GTJYgJ9tLp/yIxoIdx6hwhEyWoIgBTF9pObv+4ky7fSA/jnDIaPf1rAJqnda2Xoc/HhORQBVMpjCK+cnhsKgHJvIITM0e6/NkGGwe1tqOsN6rCihYJr8fanT+AsG+dv1BqCH9aMxkCJlo2OII7Ox1t+lTPTyWFn00JsM7K6qrFRB1SQnduHqqPzDUOhkSWTR7SwEFy+R02KFsz00geVsUNzRG9g0Ru2gBlOKmo1zEenJ2FPZO4k8lRR+NoW0gMy1mF/nhlNmRg6fbXyfpOQunj8bKtAJ20YcfM9YScdIB+oJZUUTbRP7YmER/y3K6WgEFy+RhZuCa2RATowSIRSJnjqet4eQD9A6929UKiBgA3f64Cd4s/tdnyDgcMUiAVtZ9ACLv74tMitJum5pFrDjdvi0aS3S5BdTOWTtn7xOh7EOohMHjMFxi6t2sgNJm2Zg7aIW1b6sV/Hq9dO54e2URe6VlrK/XxPPzHR8WNstG11tAaaU1h/1dG5V3L0W9uvECjb9fRKE6UVlbF2Pc73T9T2NvNspGjULZio18pYHg/CoykYgIh87ECVLM3ucytrbrWPzqw0LDJ95FL/w2WCIzJiV8p9Wl8gFmsK+dEZLpb8+vCtOnyb8/lDd5Qpogygzv+W3kR4HcTOhY36ePVSz/YHhV9bUUJhFDpjBSAt36dOKt5JVXRsEy+ZORJN9+dof/XnzEn06mucp/iPhVCd5fWgOW1vDzQO0fJQwVQt1bYa4qJ95fOgqWqdT0NRqNRqPRaDQaeJt/dwYDVJEgTwUAAAAASUVORK5CYII=",
+    "format": "png",
+    "type": "base64"
+  },
+  "description": "The narrow flame gently flickers in place in a seamless looping cycle. Its pointed tongue repeatedly stretches upward, softly curls to one side then the other, and settles back. Upward licking motion, never downward. The small bright base stays perfectly fixed at the same position and remains visible. No translation, no bouncing, no rotation of the whole flame, no growth outside the canvas, no sparks or new objects. Return smoothly to the starting flame shape. Calm living magical eye-fire.",
+  "frame_count": 16,
+  "seed": 20261122,
+  "no_background": true,
+  "drift_threshold": 0.1,
+  "enhance_prompt": false,
+  "subject_description": "one thin amber magical eye-flame on transparency",
+  "initial_pose": "upright tapered flame with a fixed bright base"
+}

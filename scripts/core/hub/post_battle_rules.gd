@@ -76,7 +76,7 @@ static func valid_report(data: Dictionary, hub: HeroHubState) -> bool:
 	if data.get("ruleset_id") == ExpeditionRulesRegistry.DECK: return MageDeckReport.valid(data,hub)
 	return _valid_legacy_report(data,hub)
 
-static func _valid_legacy_report(data: Dictionary, hub: HeroHubState, early: bool = false) -> bool:
+static func _valid_legacy_report(data: Dictionary, hub: HeroHubState, early: bool = false, allow_surviving_defeat: bool = false) -> bool:
 	if data.is_empty(): return true
 	if not ItemSimulationSnapshot._shape(data,{"schema":TYPE_INT,"ruleset_id":TYPE_STRING,"open":TYPE_BOOL,"source":TYPE_STRING,"run_id":TYPE_INT,"node_id":TYPE_INT,"serial":TYPE_INT,"title":TYPE_STRING,"victory":TYPE_BOOL,"completed":TYPE_BOOL,"heroes":TYPE_ARRAY,"gold_awarded":TYPE_INT,"essence_awarded":TYPE_INT,"gold_lost":TYPE_INT,"gold_scope":TYPE_STRING,"items":TYPE_ARRAY,"lost_items":TYPE_ARRAY,"achievements":TYPE_ARRAY,"points_awarded":TYPE_INT,"repairs":TYPE_ARRAY,"artifact_selected":TYPE_STRING}): return false
 	if data.schema != 3 or data.ruleset_id != ExpeditionRulesRegistry.LEGACY or data.source not in ["legacy","expedition"] or data.gold_scope not in ["run","hub"]: return false
@@ -118,7 +118,8 @@ static func _valid_legacy_report(data: Dictionary, hub: HeroHubState, early: boo
 			if row.alive: living += 1
 			if row.alive != (row.hp_after_battle > 0.0): return false
 		if (not row.alive or not row.participated or not data.victory) and row.hp_restored != 0.0: return false
-	if participants < 1 or participants > HeroHubState.MAX_PARTY or data.victory != (living > 0): return false
+	if participants < 1 or participants > HeroHubState.MAX_PARTY: return false
+	if data.victory != (living > 0) and not (allow_surviving_defeat and not data.victory and living > 0): return false
 	var gained: int = 0; var seen: Dictionary = {}
 	for id: String in data.achievements:
 		if not hub.achievements.unlocked.has(id) or seen.has(id): return false

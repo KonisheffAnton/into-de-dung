@@ -11,7 +11,7 @@ Legacy и общие эффекты описывают [K18](MAGE_COOLDOWNS_K18.
 ## 1. Граница и существующие точки интеграции
 
 Один пакет: сборка базы → поход → расстановка/рука/бой → награда → костёр → итог.
-Включены 13 типов, включая огненное усиление и яд; не включены экипировка13, стаки,
+Включены 15 типов, включая две [карты носителя](HOST_POSSESSION_V1.md); не включены экипировка13, стаки,
 школы, кузня/рецепты/слоты постоянных артефактов, новые реакции и D4-save.
 Реализация, технический PASS, пользовательский плейтест и финальный баланс —
 разные статусы. Пользователю предъявляется один целый путь для общей ручной
@@ -56,6 +56,8 @@ digest каталога; параметры/цели/цены входят. Save
 | `card.bleeding` | 23 | `MageStatusEffect/bleeding` |
 | `card.fire_imbue` | 24 | Новый временный эффект; живой вступивший союзник |
 | `card.poison` | 25 | Прямой hit + яд; живой вступивший враг |
+| `card.light_step` | 27 | HostCardEffect; живой носитель |
+| `card.binding_thread` | 28 | HostCardEffect/HostCardGeometry; другой боец отряда |
 
 Для прежних карт числовые эффекты/цены — таблица U-D10 у владельца дизайна.
 Добавление U2026-10-17: `card.poison` — 1 мана, 4 прямого физического урона,
@@ -63,7 +65,7 @@ digest каталога; параметры/цели/цены входят. Save
 балансная граница — [K17](STATUS_EFFECTS_NEXT.md#яд--u-2026-10-17).
 В хабе карта выбирается в базовую колоду; исходная база не заменяется.
 Legacy `mage.test_poison` использует новый source26 без deck-capability;
-карточные источники — 13..25, прежние ID не перенумеровываются.
+карточные источники — 13..25,27,28, прежние ID не перенумеровываются.
 Для шести status-карт цель как в текущем `MageCastCommand`: любой живой
 вступивший боец одной из двух команд, включая своего; прежние иммунитеты,
 HP-gate, реакции состояний и причины отказа сохраняются. Pending запрещён.
@@ -93,21 +95,21 @@ type_id, затем номера копии; находки — очередно
 | Формат | Новая запись и ограничения |
 |---|---|
 | Профиль | Единственный формат и отказ старой загрузки — [SAVE_FORMAT_CURRENT](SAVE_FORMAT_CURRENT.md); `mage_deck` и `h1_ruleset` обязательны |
-| `mage_deck` | `{schema:1, catalog_id:"mage-neutral-v1", catalog_version:1, base_types:Array[String], crafted_types:Array[String], forge_discovered_types:Array[String]}` |
+| `mage_deck` | `{schema:2, catalog_id:"mage-neutral-v1", catalog_version:1, base_types:Array[String], crafted_types:Array[String], forge_discovered_types:Array[String], host_hero_id:int, host_glow:Dictionary}`; поля носителя/огонька — [HOST_POSSESSION_V1](HOST_POSSESSION_V1.md) |
 | `h1_ruleset` | `"h1-legacy-v1"` только для верхней `phase=battle`, иначе пустая строка. В checkpoint H1 поле не дописывать; режим находится у профиля |
-| Поход legacy | Run4 с `ruleset_id="u14-legacy-v1"`; артефактная часть без карточных полей |
-| Поход колоды | Run4 с `ruleset_id="u14-deck-v1"`: без `artifacts/next_artifact_id`, с `catalog_id/version`, `cards`, `active_ids`, `next_card_id`, `reward_decisions` |
+| Поход legacy | Run5 с `ruleset_id="u14-legacy-v1"`; артефактная часть без карточных полей |
+| Поход колоды | Run5 с `ruleset_id="u14-deck-v1"`, обязательный host_hero_id: без `artifacts/next_artifact_id`, с `catalog_id/version`, `cards`, `active_ids`, `next_card_id`, `reward_decisions` |
 | План колоды | Plan4, `ruleset_id="u14-deck-v1"`, `opening:bool`; node keys прежние. `content` хранит полные механические values текущего варианта графа |
-| Checkpoint колоды | `{schema:1, ruleset_id:"u14-deck-v1", run_id, node_id, battle_serial, legacy_inputs, cards, active_ids, catalog_id, catalog_version, draw_seed}`. `legacy_inputs={heroes:Array, items:Array, seed:int}` — прежние value-входы героев/надетых обычных вещей/seed, поле artifacts отсутствует |
+| Checkpoint колоды | `{schema:2, ruleset_id:"u14-deck-v1", run_id, node_id, battle_serial, host_hero_id, legacy_inputs, cards, active_ids, catalog_id, catalog_version, draw_seed}`. `legacy_inputs={heroes:Array, items:Array, seed:int}` — прежние value-входы героев/надетых обычных вещей/seed, поле artifacts отсутствует |
 | Отчёт колоды | Report3 с карточным `ruleset_id`, без `artifact_selected`; содержит `reward_state`, `offered_types`, `selected_type`, `selected_card_id`, `recycled_count`, `new_forge_types`, `return_reason`, `returned_cards` |
 | Ability runtime | Abilities3: явные `ruleset_id="u14-deck-v1"` и `first_team:int`; legacy mage definitions/ledger отсутствуют. Мана 0..maximum, maximum 2..9; часы поддерживают любой порядок команд |
 | Deck runtime | `BattleDeckState`: `{schema:1, catalog_id, catalog_version, cards, draw_ids, hand_ids, spent_ids, draw_rng, mulligan_done, replaced_serial}`; только активные копии текущего боя |
-| Эффект атаки | `BattleCardEffectState`: `{schema:1, ordinary_attacks, fire_imbues}`; карта unit→ID обычной атаки, плюс отсортированные записи эффекта из §6 |
+| Эффект атаки | `BattleCardEffectState`: `{schema:2, ordinary_attacks, fire_imbues, host_unit_id, light_step_serial}`; карта unit→ID обычной атаки, плюс отсортированные записи эффекта из §6 |
 | Боевой envelope | [Текущий ItemSimulation schema11](BATTLE_SNAPSHOT_CURRENT.md), scope `battle_state_v11`. При наличии `deck` обязательны `abilities` с карточным ruleset_id и `card_effects`, `artifacts` запрещён; summons допускает R14 `source_kind` |
 
 `base_types` содержит ровно 10 записей, повтор type_id ≤2; сериализация
 лексикографическая. Постоянные множества типов сортируются, не содержат дублей.
-Допуск базы = 13 нейтральных типов каталога ∪ crafted_types. Нейтральный допуск
+Допуск базы = 15 типов каталога ∪ crafted_types. Нейтральный допуск
 не заполняет фиктивный крафт или находки: оба множества нового профиля пусты.
 Для будущего ненейтрального типа находка даст только forge_discovered_types;
 первый реальный крафт даст crafted_types. Этот пакет такой операции не содержит.
@@ -122,7 +124,9 @@ Run `cards` хранит базовые и найденные копии, `activ
 порядку маршрута. Поля report `reward_state` = pending/chosen/skipped/none;
 при отсутствии выбора `selected_type=""`, `selected_card_id=0`.
 Финальный report хранит значения уничтоженной находки, не ссылку в пустой run.
-`ruleset_id` отчёта всегда `u14-deck-v1`; `return_reason` = none/early/completed/defeat.
+`ruleset_id` отчёта всегда `u14-deck-v1`; `return_reason` = none/early/completed/defeat/host_defeat.
+Host_defeat сохраняет добычу выживших по HOST_POSSESSION_V1; ниже defeat означает
+полную потерю при гибели всех участников.
 `returned_cards` — отсортированные по id value-записи
 `{id, type_id, origin, was_active:bool, disposition:"recycled"|"lost"|"expired"}`.
 При none массив пуст; при возвращении содержит каждую копию до удаления run.
@@ -232,7 +236,7 @@ U-D14: три разных типа из 12, все равновероятны, 
 Использовать независимый reward RNG, не graph/battle seed/H1 recruitment RNG.
 Его seed — SHA-256 UTF-8 `mage-reward-v1|<plan.seed>`, первые8 байтов little-endian
 с очищенным старшим битом; числа как для draw_seed ниже. Это отдельный CombatRng
-schema1 с `next_int("combat",bound)`. Для позиций i=0,1,2 выбрать j=i+draw(12-i)
+schema1 с `next_int("combat",bound)`. Для позиций i=0,1,2 выбрать j=i+draw(N-i), N — размер текущего каталога (15),
 и обменять элементы i/j. Отрицательный результат RNG отвергает весь candidate.
 Полный план хранит предложенные ID/определения, UI не раскрывает будущие тройки.
 Непредложенный ID/повторный выбор/подмена версии — отказ без мутации.

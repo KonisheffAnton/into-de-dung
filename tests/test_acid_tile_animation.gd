@@ -240,6 +240,7 @@ func snapshot(session: BattleCoreReactionsSession) -> Dictionary:
 func check_live_route() -> void:
 	var profile := HeroHubState.create(9404)
 	profile.enable_mage_deck()
+	check(profile.select_mage_host(profile.party[0]), "route fixture selects host")
 	var started := ExpeditionTransitions.apply(profile, "start")
 	check(started.is_ok(), "route fixture starts first expedition room")
 	if not started.is_ok(): return

@@ -107,10 +107,19 @@ func ui_and_areas() -> void:
 	check(demo._action_bar._buttons[3].global_position.y > demo._action_bar._buttons[0].get_global_rect().end.y, "slots vertical")
 	check(demo._mage_row.global_position.y >= demo.board_view.get_global_rect().end.y and demo._mage_buttons.size() == 13, "thirteen mage spells including poison below field across pages")
 	check(demo._mage_row.get_global_rect().end.x <= viewport.size.x and demo._instructions.get_global_rect().end.y <= viewport.size.y, "panels fit 1280x850")
-	check(demo.board_view.grid_config.tile_size == Vector2(128,96), "panels preserve fixed 4:3 tiles")
+	check(demo.board_view.grid_config.tile_size == Vector2(128,64), "panels preserve authored 2:1 trial projection")
 	var areas := demo.board_view.action_areas
 	check(area_for(ally.id, areas).ready and area_for(enemy.id, areas).ready, "both ready factions shown")
-	check(area_for(ally.id, areas).faction == Faction.Type.PLAYER and area_for(enemy.id, areas).faction == Faction.Type.ENEMY and BattleDemoBoard.ALLY_AREA != BattleDemoBoard.ENEMY_AREA, "side colors separate")
+	var ally_origin: Dictionary = {}
+	for mark: Dictionary in demo.board_view._ground_marks_for(ally.cell):
+		if mark.get("kind", "") == "action_origin": ally_origin = mark
+	var enemy_origin: Dictionary = {}
+	for mark: Dictionary in demo.board_view._ground_marks_for(enemy.cell):
+		if mark.get("kind", "") == "action_origin": enemy_origin = mark
+	check(area_for(ally.id, areas).faction == Faction.Type.PLAYER and area_for(enemy.id, areas).faction == Faction.Type.ENEMY
+		and ally_origin.get("color", Color.TRANSPARENT) == Color("64cb8c")
+		and enemy_origin.get("color", Color.TRANSPARENT) == Color("e97979")
+		and ally_origin.get("color") != enemy_origin.get("color"), "PLAYER and ENEMY reaction areas use distinct ground-mark colors")
 	check(demo.board_view.area_details(enemy.cell).contains(enemy.debug_name), "area inspection names source")
 	var saved := ActionPresentationState.capture(s.state)
 	enemy.action_resources._set_for_refill(enemy.action_resources.get_main_left(), 0)

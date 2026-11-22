@@ -50,6 +50,19 @@ func _run() -> void:
 	check(hub.run.party.size() == 3 and party_classes.size() == 3
 		and party_classes.has(&"rogue") and party_classes.has(&"mage") and party_classes.has(&"fighter"),
 		"new catalog defaults to Rogue, Mage and Fighter party")
+	# Выбор носителя должен пройти через модальный UI и сохранить назначение до старта.
+	hub._start_battle()
+	await _settle(2)
+	var host_dialog: HostPossessionDialog = hub._dashboard._host_dialog
+	check(host_dialog.is_visible_in_tree(), "missing host opens the real possession dialog before expedition start")
+	check(hub.battle_view == null and hub.run.expedition == null, "host selection is required before any expedition starts")
+	var selected_host: int = hub.run.party[1] if hub.run.party.size() > 1 else hub.run.party[0]
+	var host_button := host_dialog.get_node_or_null("Dialog/Content/Heroes/Hero%d" % selected_host) as Button
+	check(host_button != null, "host dialog exposes the selected party member")
+	if host_button != null: host_button.pressed.emit()
+	(host_dialog.get_node("Dialog/Content/Actions/Confirm") as Button).pressed.emit()
+	await _settle(3)
+	check(int(hub.run.mage_deck.host_hero_id) == selected_host, "confirming the host dialog persists the chosen hero")
 	# Проходим настоящий старт похода; на первом маршруте все варианты — боевые комнаты.
 	hub._start_battle()
 	await _settle(6)

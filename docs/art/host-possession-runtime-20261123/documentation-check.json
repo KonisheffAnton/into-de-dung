@@ -1,0 +1,46 @@
+{
+  "input_sizes": [
+    {
+      "path": "AGENTS.md",
+      "head_chars_lf": 4565,
+      "chars_lf": 4565,
+      "guide": 5000,
+      "growth": 0
+    },
+    {
+      "path": "docs/CODEX_HANDOFF.md",
+      "head_chars_lf": 2423,
+      "chars_lf": 2411,
+      "guide": 2500,
+      "growth": -12
+    },
+    {
+      "path": "docs/PROJECT_CONTEXT.md",
+      "head_chars_lf": 3734,
+      "chars_lf": 3761,
+      "guide": 3500,
+      "growth": 27
+    },
+    {
+      "path": "docs/CODEX_WORKFLOW.md",
+      "head_chars_lf": 4482,
+      "chars_lf": 4482,
+      "guide": 4500,
+      "growth": 0
+    }
+  ],
+  "size_exception": "PROJECT_CONTEXT уже3734 в HEAD; добавлено27символов для единственного маршрута HOST_POSSESSION_V1. Уникальные контракты/запреты сохранены.",
+  "local_links_checked": 1447,
+  "broken_links": [],
+  "protected_foreign_files": 33,
+  "frozen_documents": 26,
+  "reviewed_source_equality": true,
+  "archive": {
+    "archive": "docs/CODEX_HANDOFF.history-20261123-5.md",
+    "previous_sha256": "7d327d47d57b7c619dedcd2199b34bf76032924aaec991c07ee502eaa04e0ee2",
+    "archive_sha256": "7d327d47d57b7c619dedcd2199b34bf76032924aaec991c07ee502eaa04e0ee2",
+    "byte_exact": true,
+    "base_head": "07b6d8ac23c2b9015bf83bc64195c363dc2a3ce8",
+    "handoff_chars_lf": 2411
+  }
+}

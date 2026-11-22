@@ -45,6 +45,7 @@ func _ready() -> void:
 	_dashboard.party_move_requested.connect(_on_dashboard_party_move)
 	_dashboard.party_select_requested.connect(_on_dashboard_party_select)
 	_dashboard.hero_route_requested.connect(_on_dashboard_hero_route)
+	_dashboard.host_confirmed.connect(_on_host_confirmed)
 	($Panel/Column/Header/DashboardBack as Button).pressed.connect(_return_hub_dashboard)
 	_page_host = $Panel/Column/HeroHubScroll/Content/Pages
 	for child: Node in _page_host.get_children():
@@ -160,10 +161,15 @@ func _mutate(method: StringName, args: Array = []) -> void:
 	_commit(candidate)
 
 func _start_battle() -> void:
+	if _dashboard._host_dialog.is_visible_in_tree(): return
 	if deck_editing:
 		_message = "Сохраните или отмените состав колоды перед выходом."
 		_render(); return
 	if expedition_mode:
+		if run != null and not run.mage_deck.is_empty() and int(run.mage_deck.host_hero_id) == 0:
+			_return_hub_dashboard()
+			_dashboard.open_host_dialog()
+			return
 		_expedition_action("start")
 		return
 	if run == null or run.party.is_empty() or _pending_save != null or not _storage_error.is_empty():
@@ -200,6 +206,7 @@ func _begin_battle() -> void:
 	battle_view = (load("res://scenes/demo/battle/hero_hub_battle.tscn") as PackedScene).instantiate() as HeroHubBattleView
 	battle_view.expedition_battle = run.phase == "expedition"
 	battle_view.character_skins = skin_settings.selections.duplicate()
+	battle_view.host_glow = run.mage_deck.get("host_glow",{}).duplicate(true)
 	_configure_first_room_art(battle_view, run)
 	battle_view.supplied_session = _battle_bundle["session"]
 	battle_view.return_requested.connect(_on_battle_return)
@@ -349,6 +356,21 @@ func _on_dashboard_party_move(hero_id: int, target_index: int, expected: Array[i
 	if not _can_change_dashboard_party() or run.party != expected: return
 	if target_index < 0 or target_index >= run.party.size() or run.party.find(hero_id) == target_index: return
 	_mutate(&"move_party_member", [hero_id, target_index, expected.duplicate()])
+
+func _on_host_confirmed(hero_id: int, expected_party: Array[int], expected_host: int, appearance: Dictionary, glow_only: bool) -> void:
+	if not _can_change_dashboard_party() or deck_editing or not _dashboard._host_dialog.is_visible_in_tree(): return
+	if run.party != expected_party or int(run.mage_deck.get("host_hero_id", 0)) != expected_host:
+		_dashboard._host_dialog.close()
+		_message = "Состав изменился. Выберите носителя снова."
+		_render()
+		return
+	var candidate := _copy_run()
+	if candidate == null: return
+	if not glow_only and not candidate.select_mage_host(hero_id): return
+	if not candidate.set_host_glow(String(appearance.get("color", "")), String(appearance.get("form", "")), String(appearance.get("flicker", ""))): return
+	_commit(candidate)
+	# При отказе записи старый профиль остаётся владельцем; retry публикует тот же кандидат.
+	_dashboard._host_dialog.close()
 
 func _on_dashboard_party_select(slot_index: int, hero_id: int, expected: Array[int]) -> void:
 	if not _can_change_dashboard_party() or run.party != expected: return

@@ -68,7 +68,9 @@ func _test_profile_codec() -> void:
 	var deck_profile := HeroHubState.create(7102, 2)
 	deck_profile.enable_mage_deck()
 	var deck_v7 := deck_profile.to_dict()
-	check(deck_v7.schema == 7 and MageDeckProfile.valid(deck_v7.mage_deck) and HeroHubState.from_dict(deck_v7) != null, "schema seven also stores enabled mage deck")
+	check(deck_v7.schema == 7 and deck_v7.mage_deck.schema == 2 and MageDeckProfile.valid(deck_v7.mage_deck) and HeroHubState.from_dict(deck_v7) != null, "schema seven stores strict mage deck schema two")
+	var old_deck := deck_v7.duplicate(true); old_deck.mage_deck.schema = 1
+	check(HeroHubState.from_dict(old_deck) == null, "schema seven rejects old mage deck profile schema")
 	var bad := v7.duplicate(true)
 	bad.hero_catalog_version = 1
 	check(HeroHubState.from_dict(bad) == null, "schema seven rejects class list inconsistent with catalog")
@@ -88,18 +90,33 @@ func _test_profile_codec() -> void:
 	var restored_fighter := HeroHubState.from_dict(fighter_v7)
 	check(restored_fighter != null and restored_fighter.to_dict() == fighter_v7 and restored_fighter.hero_catalog_version == 3, "catalog three profile roundtrip preserves schema seven data")
 	bad = fighter_v7.duplicate(true)
-	bad.hero_catalog_version = 4
-	check(HeroHubState.from_dict(bad) == null and HeroHubState.create(7101, 4) == null, "profile and create reject unsupported catalog version four")
+	bad.hero_catalog_version = 5
+	check(HeroHubState.from_dict(bad) == null and HeroHubState.create(7101, 5) == null, "profile and create reject unsupported catalog version five")
+	var showcase := HeroHubState.create(7106, 4)
+	var showcase_data := showcase.to_dict()
+	check(showcase.hero_catalog_version == 4 and showcase.party.size() == 3
+		and showcase.heroes[showcase.party[0]].class_id == &"rogue"
+		and showcase.heroes[showcase.party[1]].class_id == &"mage"
+		and showcase.heroes[showcase.party[2]].class_id == &"fighter",
+		"catalog version four starts with Rogue, Mage and Fighter party")
+	var restored_showcase := HeroHubState.from_dict(showcase_data)
+	check(restored_showcase != null and restored_showcase.to_dict() == showcase_data
+		and restored_showcase.hero_catalog_version == 4,
+		"catalog four profile roundtrip preserves schema seven data")
 
 func _test_store_dispatch() -> void:
 	var path := "user://shieldbearer-profile-%d.save" % Time.get_ticks_usec()
 	var fresh := HeroHubStore.read_run(path, true)
 	var run: HeroHubState = fresh.run
-	check(run != null and run.hero_catalog_version == 3 and run.heroes[1].class_id == &"shieldbearer" and run.heroes[5].class_id == &"fighter" and not run.mage_deck.is_empty(), "missing deck profile starts with version three classes and deck")
+	check(run != null and run.hero_catalog_version == 4 and run.party.size() == 3
+		and run.heroes[run.party[0]].class_id == &"rogue"
+		and run.heroes[run.party[1]].class_id == &"mage"
+		and run.heroes[run.party[2]].class_id == &"fighter"
+		and not run.mage_deck.is_empty(), "missing deck profile starts with version four party and deck")
 	if run != null:
 		check(HeroHubStore.write_run(path, run).is_empty(), "schema seven profile saves")
 		var loaded := HeroHubStore.read_run(path)
-		check(loaded.run != null and loaded.run.hero_catalog_version == 3 and loaded.run.to_dict() == run.to_dict(), "schema seven version three store envelope reads back without migration")
+		check(loaded.run != null and loaded.run.hero_catalog_version == 4 and loaded.run.to_dict() == run.to_dict(), "schema seven version four store envelope reads back without migration")
 		var file := FileAccess.open(path, FileAccess.READ)
 		if file != null:
 			var envelope: Variant = bytes_to_var(file.get_buffer(file.get_length()))

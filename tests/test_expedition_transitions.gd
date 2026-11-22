@@ -37,7 +37,7 @@ func _run() -> void:
 	step("start")
 	var current_run := profile.expedition.to_dict()
 	var invalid_run: Dictionary
-	for version: int in [1,2,3,5]:
+	for version: int in [1,2,3,4,6]:
 		invalid_run = current_run.duplicate(true); invalid_run.schema = version
 		check(ExpeditionRunState.from_dict(invalid_run) == null,"reject old/future run schema %d" % version)
 	invalid_run = current_run.duplicate(true); invalid_run.erase("ruleset_id")

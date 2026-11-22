@@ -53,6 +53,7 @@ func run() -> void:
 	check(not legacy_bundle.is_empty() and legacy_bundle.session.board.width == 8 and legacy_bundle.session.board.height == 8, "legacy battle keeps standard board")
 	if not legacy_bundle.is_empty(): legacy_bundle.session.close()
 	hub.enable_mage_deck()
+	hub.select_mage_host(hub.party[0])
 	var started := ExpeditionTransitions.apply(hub, "start", {})
 	check(started.is_ok(), "deck expedition starts")
 	if started.is_ok():

@@ -35,6 +35,7 @@ func _exercise(deck_mode: bool) -> void:
 	if deck_mode:
 		var profile := HeroHubState.create(9404)
 		profile.enable_mage_deck()
+		profile.select_mage_host(profile.party[0])
 		profile = ExpeditionTransitions.apply(profile, "start").profile
 		var bundle := HeroHubBattleFactory.create(profile)
 		(demo as HeroHubBattleView).supplied_session = bundle.session

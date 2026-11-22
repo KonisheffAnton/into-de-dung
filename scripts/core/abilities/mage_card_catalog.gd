@@ -3,10 +3,12 @@ class_name MageCardCatalog
 
 const CATALOG_ID: String = "mage-neutral-v1"
 const VERSION: int = 1
-const IDS: Array[String] = ["card.bleeding","card.burning","card.fire","card.fire_imbue","card.freeze","card.heal","card.poison","card.raise","card.roots","card.shield","card.stun","card.summon","card.wet"]
+const IDS: Array[String] = ["card.binding_thread","card.bleeding","card.burning","card.fire","card.fire_imbue","card.freeze","card.heal","card.light_step","card.poison","card.raise","card.roots","card.shield","card.stun","card.summon","card.wet"]
 const DEFAULT_TYPES: Array[String] = ["card.fire","card.fire","card.heal","card.heal","card.shield","card.shield","card.summon","card.summon","card.wet","card.wet"]
 
 const PRESENTATION: Dictionary = {
+	"card.light_step": ["Лёгкий шаг", "+2 к остатку перемещения носителя до конца хода отряда. Один розыгрыш за ход. Не возвращает атаку и не снимает путы. Мана: 1."],
+	"card.binding_thread": ["Связующая нить", "Связь носителя с другим бойцом отряда в 2–4 клетках по прямой или диагонали одной высоты. Врагам между ними — 4 огня без горения. Стена блокирует; нужен враг между концами. Мана: 2."],
 	"card.fire": ["Огненный импульс", "Наносит 4 ед. огненного урона одной живой вражеской цели. Мана: 2."],
 	"card.heal": ["Лечение", "Восстанавливает союзнику 4 HP, если он ранен. Мана: 1."],
 	"card.shield": ["Щит", "Поглощает один положительный пакет урона объёмом до 6 HP. Мана: 1."],

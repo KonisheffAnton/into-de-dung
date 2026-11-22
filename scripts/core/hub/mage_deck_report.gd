@@ -9,33 +9,34 @@ static func upgrade(report: Dictionary, offered: Array) -> Dictionary:
 	data.merge({"schema":3,"ruleset_id":ExpeditionRulesRegistry.DECK,"reward_state":"pending" if not offered.is_empty() else "none","offered_types":offered.duplicate(),"selected_type":"","selected_card_id":0,"recycled_count":0,"new_forge_types":[],"return_reason":"none","returned_cards":[]},true)
 	return data
 
-static func finish_run(hub: HeroHubState, defeat: bool, completed: bool) -> String:
+static func finish_run(hub: HeroHubState, defeat: bool, completed: bool, salvage: bool = false) -> String:
 	var run := hub.expedition
+	if salvage and (not defeat or completed or hub.party.is_empty()): return "expedition/invalid_salvage"
 	var early: bool = not defeat and not completed
 	if early:
 		hub.battle_report = upgrade(PostBattleRules.begin(hub,"expedition",run.current_node().id,run.battle_serial,"Досрочное возвращение",true,false),[])
 	var report := hub.battle_report
-	report.return_reason = "defeat" if defeat else ("completed" if completed else "early")
+	report.return_reason = "host_defeat" if salvage else ("defeat" if defeat else ("completed" if completed else "early"))
 	report.completed = completed; report.gold_scope = "hub"
 	var new_types: Array[String] = []
 	for card: Dictionary in run.cards:
-		var disposition := "expired" if card.origin == "base" else ("lost" if defeat else "recycled")
+		var disposition := "expired" if card.origin == "base" else ("lost" if defeat and not salvage else "recycled")
 		report.returned_cards.append({"id":card.id,"type_id":card.type_id,"origin":card.origin,"was_active":run.active_ids.has(card.id),"disposition":disposition})
 		if disposition == "recycled":
 			report.recycled_count += 1
 			if not hub.mage_deck.forge_discovered_types.has(card.type_id) and not new_types.has(card.type_id): new_types.append(card.type_id)
 	var essence: int = report.recycled_count * 10
-	var gold: int = 0 if defeat else run.gold + (ExpeditionCatalog.FINAL_GOLD if completed else 0)
+	var gold: int = 0 if defeat and not salvage else run.gold + (ExpeditionCatalog.FINAL_GOLD if completed else 0)
 	if hub.gold > ExpeditionRunState.MAX_VALUE - gold or hub.essence > ExpeditionRunState.MAX_VALUE - essence: return "expedition/overflow"
-	if defeat:
+	if defeat and not salvage:
 		for id: int in run.ordinary_item_ids: hub.items.erase(id)
 	hub.gold += gold; hub.essence += essence
 	new_types.sort(); report.new_forge_types = new_types
 	hub.mage_deck.forge_discovered_types.append_array(new_types); hub.mage_deck.forge_discovered_types.sort()
-	report.essence_awarded = essence; report.gold_lost = run.gold if defeat else 0
+	report.essence_awarded = essence; report.gold_lost = run.gold if defeat and not salvage else 0
 	if completed: report.gold_awarded += ExpeditionCatalog.FINAL_GOLD
-	if early: report.gold_awarded = gold
-	hub.last_result = "%s. Золото +%d, эссенция +%d. Найденные карты: %s." % ["Поражение" if defeat else ("Поход завершён" if completed else "Досрочное возвращение"),gold,essence,"потеряны" if defeat else "переработаны"]
+	if early or salvage: report.gold_awarded = gold
+	hub.last_result = "%s. Золото +%d, эссенция +%d. Найденные карты: %s." % ["Поражение" if defeat else ("Поход завершён" if completed else "Досрочное возвращение"),gold,essence,"переработаны" if salvage or not defeat else "потеряны"]
 	hub.expedition = null; hub.phase = "hub"; hub._refresh_candidates()
 	hub.restore_hub_armor()
 	return ""
@@ -48,9 +49,9 @@ static func valid(data: Dictionary, hub: HeroHubState) -> bool:
 	var legacy := data.duplicate(true)
 	for key: String in FIELDS: legacy.erase(key)
 	legacy["ruleset_id"] = ExpeditionRulesRegistry.LEGACY; legacy["artifact_selected"] = ""
-	if not PostBattleRules._valid_legacy_report(legacy,hub,data.return_reason == "early"): return false
+	if not PostBattleRules._valid_legacy_report(legacy,hub,data.return_reason == "early",data.return_reason == "host_defeat"): return false
 	if data.has("artifact_selected") or data.ruleset_id != ExpeditionRulesRegistry.DECK or data.source != "expedition": return false
-	if data.reward_state not in ["pending","chosen","skipped","none"] or data.return_reason not in ["none","early","completed","defeat"]: return false
+	if data.reward_state not in ["pending","chosen","skipped","none"] or data.return_reason not in ["none","early","completed","defeat","host_defeat"]: return false
 	var offered: Dictionary = {}
 	for value: Variant in data.offered_types:
 		if typeof(value) != TYPE_STRING or MageCardCatalog.get_card(value) == null or offered.has(value): return false
@@ -91,8 +92,13 @@ static func valid(data: Dictionary, hub: HeroHubState) -> bool:
 		if not MageCardCatalog.valid_base(base) or active_count < 10: return false
 		if data.returned_cards.size() < 10 or (data.open and hub.phase != "hub") or data.completed != (data.return_reason == "completed"): return false
 		if data.reward_state == "pending" or (data.reward_state == "chosen" and not chosen_present): return false
-		if data.return_reason in ["early","defeat"] and data.reward_state != "none": return false
+		if data.return_reason in ["early","defeat","host_defeat"] and data.reward_state != "none": return false
 		if data.return_reason == "completed" and data.reward_state not in ["chosen","skipped"]: return false
+		if data.return_reason == "host_defeat":
+			var living_participants: int = 0
+			for row: Dictionary in data.heroes:
+				if row.participated and row.alive: living_participants += 1
+			if data.victory or data.completed or living_participants < 1 or data.gold_lost != 0 or not data.lost_items.is_empty(): return false
 		if data.return_reason == "early":
 			# План уже удалён при возвращении; отчёт допускает костёр обеих сохранённых раскладок.
 			if data.node_id not in [7, 8] or not data.victory or not data.repairs.is_empty() or not data.achievements.is_empty() or data.points_awarded != 0: return false

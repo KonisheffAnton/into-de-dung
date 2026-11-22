@@ -46,6 +46,7 @@ func _run() -> void:
 		elif mode == 2:
 			profile.party.assign([5])
 		profile.enable_mage_deck()
+		check(profile.select_mage_host(profile.party[0]), "select showcase host " + str(mode))
 		var transition := ExpeditionTransitions.apply(profile, "start")
 		check(transition.is_ok(), "start deck showcase " + str(mode))
 		if not transition.is_ok(): continue

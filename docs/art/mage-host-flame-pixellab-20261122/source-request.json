@@ -1,0 +1,10 @@
+{
+  "description": "A single tiny magical eye-fire overlay, one narrow upright tongue of amber gold flame with a bright ivory core. Small compact glowing teardrop base, long tapered tip rising straight upward and leaning slightly at the very top. Clean readable pixel art, 4 color ramp, crisp silhouette, no dark outline. Exactly one flame on transparent background, centered, fixed base near lower center. No eyeball, no face, no character, no candle, no torch, no ground, no shadows, no particles, no text. Intended to sit over a character eye at a few pixels high in an isometric tactical game. Keep transparent margin on every side.",
+  "image_size": {
+    "width": 64,
+    "height": 64
+  },
+  "no_background": true,
+  "seed": 20261122,
+  "enhance_prompt": false
+}

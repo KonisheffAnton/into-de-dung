@@ -42,6 +42,7 @@ func _journey(leave: bool) -> void:
 		if deck_mode:
 			# Для полного маршрута полигон с бронёй проходит допустимый смешанный отряд.
 			check(profile.toggle_party(2) and profile.toggle_party(4), "veteran party includes mage against opening armor")
+		check(not deck_mode or profile.select_mage_host(profile.party[0]), "deck journey selects a living carrier before departure")
 	transition("start")
 	var battles: int = 0
 	var path := "user://u14-playthrough-%d.save" % Time.get_ticks_usec()
@@ -183,14 +184,22 @@ func _distance(s: BattleCoreReactionsSession, cell: Vector2i) -> int:
 
 func _defeat() -> void:
 	profile = HeroHubState.create(4280)
-	if deck_mode: profile.enable_mage_deck()
+	if deck_mode:
+		profile.enable_mage_deck()
+		profile.select_mage_host(profile.party[0])
 	transition("start")
 	if not deck_mode: transition("choose",{"node":1})
 	var outcome := _battle(true)
 	if outcome.is_empty(): return
+	var host_id: int = profile.expedition.host_hero_id if deck_mode else 0
+	var host_alive: bool = not deck_mode or float(outcome.hp.get(host_id,0.0)) > 0.0
+	check(not deck_mode or not host_alive, "deck defeat receipt has dead carrier")
 	check(not outcome.victory,"passive party reaches actual defeat")
 	transition("outcome",outcome)
-	check(profile.phase == "hub" and profile.party.is_empty() and profile.gold == 100 and profile.essence == 0,"defeat settles loss")
+	if profile.battle_report.get("return_reason", "") == "host_defeat":
+		check(deck_mode and profile.phase == "hub" and not profile.party.is_empty() and profile.gold >= 100 and profile.battle_report.gold_lost == 0,"host defeat returns survivors and salvages progress")
+	else:
+		check(profile.phase == "hub" and profile.party.is_empty() and profile.gold == 100 and profile.essence == 0,"defeat settles full loss")
 
 func _play_cards(s: BattleCoreReactionsSession) -> void:
 	var hand := s.state.deck.hand_ids.duplicate()

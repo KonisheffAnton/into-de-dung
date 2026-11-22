@@ -47,6 +47,7 @@ func _new_session() -> BattleCoreReactionsSession:
 	# Один настоящий маг делает источник способностей и его loadout явными.
 	profile.party.clear()
 	profile.party.append(mage_id)
+	if not profile.select_mage_host(mage_id): return null
 	var started := ExpeditionTransitions.apply(profile, "start", {})
 	if not started.is_ok(): return null
 	var bundle := HeroHubBattleFactory.create(started.profile)
