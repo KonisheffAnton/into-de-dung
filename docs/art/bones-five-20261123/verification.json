@@ -1,0 +1,93 @@
+{
+  "base": "7347102ee4800fd4d108bfa255858c60af0b7f40",
+  "date": "2026-11-23",
+  "scope": "Five new bare-bone previews for user selection; integration deferred by explicit user answer",
+  "selected": [
+    {
+      "label": "PL4",
+      "file": "B1/image.png",
+      "sha256": "921c0c1fea9f8da3c6c6856c81e2a3321d8effec6df3ee0fdca8fbaf53ba252e",
+      "size": [
+        64,
+        64
+      ],
+      "bbox": [
+        6,
+        16,
+        57,
+        52
+      ]
+    },
+    {
+      "label": "PL5",
+      "file": "B2-v2/image.png",
+      "sha256": "287939e1741cbf9fdfee052a9ab92254e3a53e88e828d9373e37bc609a1899bf",
+      "size": [
+        64,
+        64
+      ],
+      "bbox": [
+        7,
+        10,
+        57,
+        54
+      ]
+    },
+    {
+      "label": "PL6",
+      "file": "B3-v2/image.png",
+      "sha256": "1747f692cd578e53aa88274744a0309e2e4a1280e816d6521024eab52cc5c826",
+      "size": [
+        64,
+        64
+      ],
+      "bbox": [
+        10,
+        12,
+        54,
+        51
+      ]
+    },
+    {
+      "label": "PL7",
+      "file": "B4-clean/image.png",
+      "sha256": "4e70c3e7c64b8b1314866d580e03b815dca2cdf017de59dfc9915eb8c095092d",
+      "size": [
+        64,
+        64
+      ],
+      "bbox": [
+        6,
+        15,
+        61,
+        51
+      ]
+    },
+    {
+      "label": "PL8",
+      "file": "B5-v2/image.png",
+      "sha256": "280119bd480f89f0d9fc490b76f11659734e4bcebf83641ea1a7ed43e033e053",
+      "size": [
+        64,
+        64
+      ],
+      "bbox": [
+        4,
+        13,
+        61,
+        54
+      ]
+    }
+  ],
+  "previous_pngs_unchanged": 15,
+  "post_requests": 10,
+  "pixellab_generations": 14.0,
+  "review": "APPROVE for preview; PL8 most natural pile, PL5/PL7 add diversity; PL4/PL6 more arranged",
+  "cleanup_PL7": {
+    "unmasked_pixels_preserved_exactly": 1248,
+    "stray_pixels_cleared": 247,
+    "provider": "inpaint-image-pro-flash"
+  },
+  "runtime_changes": false,
+  "godot_run": false
+}

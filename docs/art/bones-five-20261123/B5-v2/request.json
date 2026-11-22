@@ -1,0 +1,16 @@
+{
+  "endpoint": "/create-image-pixen",
+  "payload": {
+    "description": "A tiny UNIVERSAL bare-bones remains prop for a dark fantasy pixel-art tactics game. Simple chunky crisp native 64x64 pixel art, low detail, muted dirty ivory and taupe bone, purple-gray shadows, selective charcoal outline, top-left light. Shallow three-quarter overhead camera. Flat on the ground, overall occupied footprint about 48x28 pixels. Anonymous thick bone fragments: impossible to identify human or monster. NO skull, head, face, jaw, teeth, claws, horns, hands, feet, tall plate, upright bone, complete skeleton, flesh, blood, clothing, soil, pedestal or background. No blur, glow or smooth illustration. Transparent RGBA. A LOW DENSE TRIANGULAR heap of SEVEN short irregular overlapping broken bone chips. Mostly short flat fragments, one small thicker joint piece. Wide squat triangle, no long upright projection or central plate.",
+    "image_size": {
+      "width": 64,
+      "height": 64
+    },
+    "outline": "selective outline",
+    "detail": "low detail",
+    "view": "high top-down",
+    "no_background": true,
+    "enhance_prompt": false,
+    "seed": 202611283
+  }
+}

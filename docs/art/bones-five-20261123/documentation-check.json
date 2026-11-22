@@ -1,0 +1,8 @@
+{
+  "base": "7347102ee4800fd4d108bfa255858c60af0b7f40",
+  "handoff_chars_before": 2349,
+  "handoff_chars_after": 2423,
+  "archive_exact": true,
+  "archive_sha256": "eec7101ec9428cb88531b5fc81c92c3f6cfdf76ca0259d55783d3eebd34d8f9b",
+  "boundaries_preserved": true
+}

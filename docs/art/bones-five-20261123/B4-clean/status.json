@@ -1,0 +1,54 @@
+{
+  "usage": {
+    "type": "generations",
+    "generations": 5.0
+  },
+  "id": "64a1cf08-7529-4b6f-b516-1bf362519880",
+  "status": "completed",
+  "created_at": "2026-11-22T21:27:13.976860+00:00",
+  "last_response": {
+    "seed": 202611299,
+    "type": "message_done",
+    "model": "inpaint_pro_flash",
+    "width": 64,
+    "action": "Removing background",
+    "height": 64,
+    "images": [
+      {
+        "type": "base64",
+        "width": 64,
+        "base64": "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",
+        "height": 64
+      }
+    ],
+    "prompt": "Erase every isolated stray dark stroke and shadow in the white masked background. Make all white masked regions fully transparent. Preserve the two unmasked bone clusters exactly. Do not add any pixels, bones, ground, debris or shadows.",
+    "status": "completed",
+    "paste_x": 0,
+    "paste_y": 0,
+    "asset_id": "89a55b04-ed41-559c-a3ce-94f4eabb8bf6",
+    "image_id": "89a55b04-ed41-559c-a3ce-94f4eabb8bf6",
+    "job_kind": "creator-image",
+    "progress": 1.0,
+    "image_url": "https://s3.eu-central-003.backblazeb2.com/pixellab-generations/production/creator/fde61ad5-94d0-4740-b19d-41b66e0c3d38/89a55b04-ed41-559c-a3ce-94f4eabb8bf6/image.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=0037e6521c1d7c20000000001%2F20261122%2Feu-west-1%2Fs3%2Faws4_request&X-Amz-Date=20261122T212735Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=4e1792db4f2b0393a2cace0a7b26a6e821dbacad678cfcabb5aa160f9df7b322",
+    "billing_usage": {
+      "usd": 0.0,
+      "type": "generations",
+      "generations": 5
+    },
+    "canvas_growth": false,
+    "generation_id": "c410669d-a4e4-434c-b6ed-00c6774cc95c",
+    "output_method": "Modify current layer",
+    "billing_charged": true,
+    "original_images": [
+      {
+        "type": "base64",
+        "width": 64,
+        "base64": "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",
+        "height": 64
+      }
+    ],
+    "source_image_id": "89a55b04-ed41-559c-a3ce-94f4eabb8bf6",
+    "creator_image_saved": true,
+    "generation_started_at": "2026-11-22T21:27:14.035363+00:00"
+  }
+}
