@@ -64,7 +64,7 @@ static func check(command: Command, context: ActionContext, max_commands: int, m
 	if result.reason == &"" and not AbilityCatalog.attack_references_valid(context): result.reason = &"ability/attack_catalog"
 	if result.reason == &"" and not MageDeckRules.references_valid(context): result.reason = &"deck/attack_catalog"
 	if result.reason == &"" and context.get_state().artifacts != null and not BattleArtifactRules.references_valid(context): result.reason = &"artifact/attack_catalog"
-	if result.reason == &"" and context.get_state().abilities != null and result.accepted.get_script() in [AttackCommand, MoveCommand, GuardCommand, RaiseShieldsCommand, RestoreArmorCommand, RaiseCorpseCommand, ElementalCastCommand, UseHealingItemCommand, UseSummoningItemCommand, MageCastCommand]:
+	if result.reason == &"" and context.get_state().abilities != null and result.accepted.get_script() in [CannibalizeCommand, AttackCommand, MoveCommand, GuardCommand, RaiseShieldsCommand, RestoreArmorCommand, RaiseCorpseCommand, ElementalCastCommand, UseHealingItemCommand, UseSummoningItemCommand, MageCastCommand]:
 		var descriptor := result.accepted.get_ability_definition(context)
 		var registered := context.get_state().abilities.definition(descriptor.ability_id) if descriptor != null else null
 		if descriptor == null or registered == null or descriptor.to_dict() != registered.to_dict(): result.reason = &"ability/unregistered_action"

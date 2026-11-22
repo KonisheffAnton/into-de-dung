@@ -346,7 +346,7 @@ def main():
             invalid = invalid or "BATTLE HUD INPUT RESULTS:" not in output or ", 0 failed" not in output
         if label == "battle_character_card":
             invalid = invalid or "BATTLE CHARACTER CARD RESULTS:" not in output or ", 0 failed" not in output
-        if label in ("passive_opportunist", "raised_shield", "raise_shields", "shieldbearer_profile", "shieldbearer_ui", "warrior_class", "warrior_recovery", "warrior_visuals", "shieldbearer_palette", "character_skins", "character_skins_hub", "mage_archer_skins", "character_coverage", "class_showcase", "class_showcase_ui", "sick_hobgoblin"):
+        if label in ("passive_opportunist", "raised_shield", "raise_shields", "shieldbearer_profile", "shieldbearer_ui", "warrior_class", "warrior_recovery", "warrior_visuals", "shieldbearer_palette", "character_skins", "character_skins_hub", "mage_archer_skins", "character_coverage", "class_showcase", "class_showcase_ui", "sick_hobgoblin", "tamed_troglodyte_visual", "unit_creature_identity", "tamed_troglodyte", "fresh_corpses"):
             marker = label.replace("_", " ").upper() + " RESULTS:"
             invalid = invalid or marker not in output or ", 0 failed" not in output
         if label in ("hero_progression", "hero_hub", "hero_hub_ui", "hero_hub_playthrough"):
@@ -698,7 +698,7 @@ def main():
         if args.render_check:
             showcase_ui_args += ["--", "--captures=" + str(out / "class-showcase-screenshots")]
         run("class_showcase_ui", showcase_ui_args, headless=not args.render_check)
-        for skin_label in ("character_skins_hub", "character_skins", "mage_archer_skins", "sick_hobgoblin"):
+        for skin_label in ("character_skins_hub", "character_skins", "mage_archer_skins", "sick_hobgoblin", "tamed_troglodyte_visual", "unit_creature_identity", "tamed_troglodyte", "fresh_corpses"):
             skin_args = ["--script", "tests/test_" + skin_label + ".gd"]
             if args.render_check:
                 skin_args += ["--", "--captures=" + str(out / "character-skins-screenshots")]

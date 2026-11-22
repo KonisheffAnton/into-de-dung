@@ -3,7 +3,7 @@ class_name AbilityCatalog
 
 static func defaults() -> Array[AbilityDefinition]:
 	var result: Array[AbilityDefinition] = []
-	for id: StringName in [&"move", &"safe_retreat", &"guard:default", &"guard:opportunist", &"guard:cover", &"guard:counterattack", &"restore_armor", &"raise_corpse", &"elemental:burning", &"elemental:wet", &"elemental:freeze", &"perk:sneak_attack", &"perk:tank_reactions", &"perk:stunning_strike", &"perk:stun_immune", &"perk:entangle_immune", &"perk:counterattack", &"perk:burning_bypass_hp_gate", &"immunity:stun", &"immunity:entangle", &"immunity:bleeding", &"immunity:freeze", &"team.end_turn"]:
+	for id: StringName in [&"move", &"safe_retreat", &"guard:default", &"guard:opportunist", &"guard:cover", &"guard:counterattack", &"restore_armor", &"raise_corpse", &"elemental:burning", &"elemental:wet", &"elemental:freeze", &"perk:sneak_attack", &"perk:tank_reactions", &"perk:stunning_strike", &"perk:stun_immune", &"perk:entangle_immune", &"perk:counterattack", &"perk:burning_bypass_hp_gate", &"immunity:stun", &"immunity:entangle", &"immunity:bleeding", &"immunity:freeze", &"team.end_turn", &"troglodyte.cannibalize", &"troglodyte.thick_skin"]:
 		result.append(_definition(id))
 	var fire := _definition(&"mage.fire")
 	fire.effect = &"fire"; fire.amount = 4; fire.mana_cost = 2; fire.cooldown_turns = 2
@@ -94,6 +94,7 @@ static func for_command(command: Command, context: ActionContext) -> AbilityDefi
 		id = &"guard:opportunist" if mode == CombatPerksState.Mode.OPPORTUNIST else &"guard:cover" if mode == CombatPerksState.Mode.COVER else &"guard:counterattack" if mode == CombatPerksState.Mode.COUNTERATTACK else &"guard:default"
 	elif command is RaiseShieldsCommand: id = &"unit.raise_shields"
 	elif command is RestoreArmorCommand: id = &"restore_armor"
+	elif command is CannibalizeCommand: id = &"troglodyte.cannibalize"
 	elif command is RaiseCorpseCommand: id = &"raise_corpse"
 	elif command is ElementalCastCommand: id = StringName("elemental:" + String((command as ElementalCastCommand)._effect))
 	elif command is MageCastCommand: id = (command as MageCastCommand).spell_id

@@ -1,7 +1,7 @@
 extends RefCounted
 class_name UnitState
 
-const SNAPSHOT_SCHEMA_VERSION := 9
+const SNAPSHOT_SCHEMA_VERSION := 10
 
 ## ЕДИНАЯ сущность юнита в игровой логике — фикс корневого дефекта C-1.
 ##
@@ -40,6 +40,11 @@ var id: int = UnitId.NONE
 
 ## Сторона конфликта. Заменяет ручное разделение на enemy_cells/ally_cells.
 var faction: Faction.Type = Faction.Type.NEUTRAL
+
+## Вид существа не зависит от стороны: приручённый враг остаётся отдельным видом.
+var creature_kind: StringName = &"living"
+## Ключ конкретного архетипа пуст у обычных юнитов.
+var archetype_id: StringName = &""
 
 ## Логическая клетка на сетке.
 ## ВАЖНО: это ЕДИНСТВЕННОЕ место хранения позиции юнита, но авторитетным
@@ -221,11 +226,13 @@ func can_attack() -> bool:
 # --- Сериализация (R-4) ----------------------------------------------------
 
 func to_dict() -> Dictionary:
-	if action_resources != null or guard_stance or armor != null or bleeding != null or control != null or combat_perks != null or elemental != null:
+	if not identity_valid() or action_resources != null or guard_stance or armor != null or bleeding != null or control != null or combat_perks != null or elemental != null:
 		return {}
 	return {
 		"id": id,
 		"faction": int(faction),
+		"creature_kind": String(creature_kind),
+		"archetype_id": String(archetype_id),
 		"cell_x": cell.x,
 		"cell_y": cell.y,
 		"height": height,
@@ -240,6 +247,12 @@ func to_dict() -> Dictionary:
 
 static func from_dict(data: Dictionary) -> UnitState:
 	if data.has("armor") or data.has("bleeding") or data.has("control") or data.has("combat_perks") or data.has("elemental"):
+		return null
+	var creature_value: Variant = data.get("creature_kind", "living")
+	var archetype_value: Variant = data.get("archetype_id", "")
+	if typeof(creature_value) != TYPE_STRING or typeof(archetype_value) != TYPE_STRING:
+		return null
+	if not _identity_values_valid(StringName(creature_value), StringName(archetype_value)):
 		return null
 	var unit := UnitState.new()
 
@@ -257,6 +270,8 @@ static func from_dict(data: Dictionary) -> UnitState:
 
 	unit.id = id_int
 	unit.faction = faction_int as Faction.Type
+	unit.creature_kind = StringName(creature_value)
+	unit.archetype_id = StringName(archetype_value)
 	unit.cell = Vector2i(cell_x, cell_y)
 	unit.height = height_int
 	unit.debug_name = name_str
@@ -286,6 +301,14 @@ func to_reference_dict() -> Dictionary:
 	return _checked_snapshot_data(true)
 
 
+func identity_valid() -> bool:
+	return _identity_values_valid(creature_kind, archetype_id)
+
+
+static func _identity_values_valid(kind: StringName, archetype: StringName) -> bool:
+	return kind in [&"living", &"undead"] and String(archetype).to_utf8_buffer().size() <= 64
+
+
 ## Малые DTO компонентов живут только в вызове; большой stats DTO аудит не строит.
 func _validated_snapshot_components() -> Dictionary:
 	if get_script() != UnitState or stats == null or vitals == null or stats.get_script() != StatsBag or vitals.get_script() != Vitals or ai_profile != null:
@@ -304,7 +327,7 @@ func _validated_snapshot_components() -> Dictionary:
 		if control.get_script() != ControlState or action_resources == null: return {}
 		control_data = control.to_dict()
 		if not ControlState.valid(control_data): return {}
-	if vitals._stats != stats or id < UnitId.FIRST or int(faction) < 0 or int(faction) > 2 or not is_finite(move_points_left) or move_points_left < 0.0:
+	if not identity_valid() or vitals._stats != stats or id < UnitId.FIRST or int(faction) < 0 or int(faction) > 2 or not is_finite(move_points_left) or move_points_left < 0.0:
 		return {}
 	if not stats.snapshot_runtime_valid():
 		return {}
@@ -358,6 +381,7 @@ func _checked_snapshot_data(reference_only: bool) -> Dictionary:
 		return {"id": id, "faction": int(faction), "vitals": {"is_alive": components["vitals"]["is_alive"]}}
 	# Stats уже проверены в этом синхронном вызове; данные не публикуются до сборки.
 	var result := {"schema_version": SNAPSHOT_SCHEMA_VERSION, "id": id, "faction": int(faction),
+		"creature_kind": String(creature_kind), "archetype_id": String(archetype_id),
 		"cell_x": cell.x, "cell_y": cell.y, "height": height,
 		"debug_name": debug_name, "ai_profile_path": "",
 		"move_points_left": move_points_left, "has_attacked": has_attacked,
@@ -371,6 +395,8 @@ static func from_snapshot_dict(data: Dictionary) -> UnitState:
 	var unit := UnitState.new()
 	unit.id = data["id"]
 	unit.faction = data["faction"] as Faction.Type
+	unit.creature_kind = StringName(data["creature_kind"])
+	unit.archetype_id = StringName(data["archetype_id"])
 	unit.cell = Vector2i(data["cell_x"], data["cell_y"])
 	unit.height = data["height"]
 	unit.debug_name = data["debug_name"]
@@ -404,7 +430,7 @@ static func validate_snapshot_dict(data: Variant) -> bool:
 	if typeof(data) != TYPE_DICTIONARY: return false
 	var d: Dictionary = data
 	if typeof(d.get("schema_version")) != TYPE_INT or d["schema_version"] != SNAPSHOT_SCHEMA_VERSION: return false
-	var required := ["schema_version", "id", "faction", "cell_x", "cell_y", "height", "debug_name", "ai_profile_path", "move_points_left", "has_attacked", "stats", "vitals", "guard_stance"]
+	var required := ["schema_version", "id", "faction", "creature_kind", "archetype_id", "cell_x", "cell_y", "height", "debug_name", "ai_profile_path", "move_points_left", "has_attacked", "stats", "vitals", "guard_stance"]
 	for optional_key in ["action_resources", "armor", "bleeding", "control", "combat_perks", "elemental"]:
 		if d.has(optional_key): required.append(optional_key)
 	if not _has_exact_string_keys(d, required): return false
@@ -412,6 +438,8 @@ static func validate_snapshot_dict(data: Variant) -> bool:
 		if typeof(d[key]) != TYPE_INT: return false
 	if d["id"] < UnitId.FIRST or d["faction"] < 0 or d["faction"] > 2 or d["cell_x"] < -2147483648 or d["cell_x"] > 2147483647 or d["cell_y"] < -2147483648 or d["cell_y"] > 2147483647: return false
 	if typeof(d["debug_name"]) != TYPE_STRING or typeof(d["ai_profile_path"]) != TYPE_STRING or not d["ai_profile_path"].is_empty() or typeof(d["move_points_left"]) != TYPE_FLOAT or not is_finite(d["move_points_left"]) or d["move_points_left"] < 0.0 or typeof(d["has_attacked"]) != TYPE_BOOL: return false
+	if typeof(d["creature_kind"]) != TYPE_STRING or typeof(d["archetype_id"]) != TYPE_STRING: return false
+	if not _identity_values_valid(StringName(d["creature_kind"]), StringName(d["archetype_id"])): return false
 	if typeof(d["guard_stance"]) != TYPE_BOOL: return false
 	if not StatsBag.validate_snapshot_dict(d["stats"]): return false
 	if d.has("action_resources") and not ActionResources.validate_snapshot_dict(d["action_resources"], d["id"]): return false

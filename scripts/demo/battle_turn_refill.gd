@@ -21,6 +21,7 @@ func validate(context: ActionContext) -> StringName:
 	if context == null or context.get_state() == null: return &"turn/closed"
 	if context.get_revision() != _revision: return &"turn/stale_revision"
 	if _ids.is_empty(): return &"turn/empty_team"
+	if context.get_state().environment != null and ItemSimulationSnapshot.capture(context.get_state(), []).code != ItemSnapshotResult.Code.OK: return &"turn/invalid_environment"
 	var seen: Dictionary = {}
 	var move := context.get_move_rules()
 	var attack := context.get_attack_rules()
@@ -75,6 +76,9 @@ func execute(context: ActionContext) -> CommandStepResult:
 	var result := CommandStepResult.applied([], [], [], null, true)
 	result.combat_perk_changes = perk_changes
 	if _needs_recovery(context): _recover_balance(context, result)
+	var first_team: int = context.get_state().abilities.first_team if context.get_state().abilities != null else int(Faction.Type.PLAYER)
+	if result.status == CommandStepResult.APPLIED and int(_faction) == first_team and context.get_state().environment != null:
+		context.get_state().environment.age_corpses()
 	return result
 
 func _needs_recovery(context: ActionContext) -> bool:

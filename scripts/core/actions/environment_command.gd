@@ -8,6 +8,7 @@ var _cell: Vector2i
 var _death: bool = false
 var _leaves_body: bool = false
 var _faction: int
+var _creature_kind: StringName = &"living"
 var _fire: Dictionary = {}
 var _seal: Dictionary = {}
 
@@ -20,9 +21,10 @@ static func for_death(event: Dictionary, context: ActionContext) -> EnvironmentC
 	if result._target == null: return result
 	result._cell = result._target.cell
 	result._faction = result._target.faction
+	result._creature_kind = result._target.creature_kind
 	var source: Dictionary = event["source"]
 	var fell_away: bool = source["kind"] == &"fall" and (not state.get_board().is_in_bounds(source["origin_cell"]) or state.get_board().is_lethal(source["origin_cell"]))
-	result._leaves_body = not fell_away and not state.is_summon(result._target.id) and state.get_board().is_in_bounds(result._cell) and not state.get_board().is_lethal(result._cell)
+	result._leaves_body = not fell_away and (not state.is_summon(result._target.id) or result._creature_kind == &"undead") and state.get_board().is_in_bounds(result._cell) and not state.get_board().is_lethal(result._cell)
 	result._seal = result._values()
 	return result
 
@@ -36,7 +38,7 @@ static func for_entry(id: int, cell: Vector2i, context: ActionContext) -> Enviro
 	return result
 
 func _values() -> Dictionary:
-	return {"target": _target, "environment": _environment, "cell": _cell, "death": _death, "leaves_body": _leaves_body, "faction": _faction, "fire": _fire.duplicate(true)}
+	return {"target": _target, "environment": _environment, "cell": _cell, "death": _death, "leaves_body": _leaves_body, "faction": _faction, "creature_kind": _creature_kind, "fire": _fire.duplicate(true)}
 
 func get_kind() -> StringName: return &"environment_death" if _death else &"fire_entry"
 
@@ -44,6 +46,7 @@ func copy_for_queue() -> Command:
 	var copy := EnvironmentCommand.new()
 	copy._target = _target; copy._environment = _environment; copy._cell = _cell
 	copy._death = _death; copy._leaves_body = _leaves_body; copy._faction = _faction
+	copy._creature_kind = _creature_kind
 	copy._fire = _fire.duplicate(true); copy._seal = _seal.duplicate(true)
 	return copy
 
@@ -51,7 +54,7 @@ func validate(context: ActionContext) -> StringName:
 	if context == null or _values() != _seal or _environment == null or _target == null: return &"environment/invalid_binding"
 	if context.get_state().environment != _environment or context.get_state().get_board().get_unit_by_id(_target.id) != _target: return &"environment/invalid_binding"
 	if _death:
-		if _target.is_alive() or _target.cell != _cell or _target.faction != _faction: return &"environment/invalid_death"
+		if _target.is_alive() or _target.cell != _cell or _target.faction != _faction or _target.creature_kind != _creature_kind: return &"environment/invalid_death"
 	elif _environment.fire_at(_cell) != _fire or _fire.is_empty() or _target.armor == null:
 		return &"environment/invalid_fire"
 	return &""
@@ -62,7 +65,7 @@ func execute(context: ActionContext) -> CommandStepResult:
 	if _death:
 		if _environment.processed_deaths.has(_target.id): return CommandStepResult.skipped(&"environment/death_recorded")
 		if _environment.processed_deaths.size() >= 65536 or (_leaves_body and (_environment.corpses.size() >= CombatEnvironmentState.MAX_RECORDS or _environment.next_corpse_id >= ActionContext.MAX_ID - 1)): return CommandStepResult.faulted(&"environment/corpse_limit")
-		var corpse := _environment.record_death(_target.id, _cell, _faction, "humanoid", _leaves_body)
+		var corpse := _environment.record_death(_target.id, _cell, _faction, "humanoid", _leaves_body, _creature_kind == &"undead")
 		var events: Array[Dictionary] = []
 		if not corpse.is_empty(): events.append({"kind": &"corpse_created", "actor_unit_id": 0, "target_unit_id": _target.id, "corpse": corpse})
 		return CommandStepResult.applied(events, [], [], null, true)

@@ -178,12 +178,14 @@ static func _find_unsupported(board_value: Dictionary) -> String:
 		if typeof(raw_unit) != TYPE_DICTIONARY: continue
 		var unit: Dictionary = raw_unit
 		var unit_version: Variant = unit.get("schema_version")
-		var unit_keys := ["schema_version", "id", "faction", "cell_x", "cell_y", "height", "debug_name", "ai_profile_path", "move_points_left", "has_attacked", "stats", "vitals", "guard_stance"]
+		var unit_keys := ["schema_version", "id", "faction", "creature_kind", "archetype_id", "cell_x", "cell_y", "height", "debug_name", "ai_profile_path", "move_points_left", "has_attacked", "stats", "vitals", "guard_stance"]
 		var has_resource_shape := unit.has("action_resources")
 		for key: String in ["action_resources", "armor", "bleeding", "control", "combat_perks", "elemental"]:
 			if unit.has(key): unit_keys.append(key)
 		if typeof(unit.get("guard_stance")) != TYPE_BOOL: continue
 		if not _has_exact_string_keys(unit, unit_keys): continue
+		if typeof(unit["creature_kind"]) != TYPE_STRING or typeof(unit["archetype_id"]) != TYPE_STRING: continue
+		if not UnitState._identity_values_valid(StringName(unit["creature_kind"]), StringName(unit["archetype_id"])): continue
 		var unit_types_valid := true
 		for key in ["schema_version", "id", "faction", "cell_x", "cell_y", "height"]:
 			if typeof(unit[key]) != TYPE_INT:

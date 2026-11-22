@@ -4,6 +4,12 @@ class_name ArmorHitExecutor
 static func prepare(request: DamageRequest, view: Dictionary, hp: float, maximum: float, rng: ActionRngPort, frozen: bool = false, context: ActionContext = null) -> Dictionary:
 	if request == null or request.armor_mode != &"armor" or request.source == null: return {"reason": &"armor/invalid_hit"}
 	var raw := request.armor_components
+	var thick_skin := false
+	if context != null and request.source.kind in [&"attack", &"mage"] and TroglodyteKit.owns(context.get_state().get_board().get_unit_by_id(request.target_unit_id)):
+		var reduced := TroglodyteKit.mitigate(raw)
+		if reduced.reason != &"": return reduced
+		raw = reduced.raw
+		thick_skin = true
 	var raised: Dictionary = {}
 	if view.get("state", {}).has("raised_shield") and request.source.kind in [&"attack", &"mage"] and request.attack_group_id > 0:
 		if context == null: return {"reason": &"raise_shields/missing_context"}
@@ -29,6 +35,9 @@ static func prepare(request: DamageRequest, view: Dictionary, hp: float, maximum
 		plan["raised_shield"] = raised
 		RaisedShield.write_state(plan.after.state, raised.after)
 		# Binding проверяет исходный запрос; уменьшенные дроби остаются в объяснении слоя.
+		plan.raw = request.armor_components.duplicate(true)
+	if thick_skin:
+		plan["thick_skin"] = {"reduction": 2, "raw_after": raw.duplicate(true)}
 		plan.raw = request.armor_components.duplicate(true)
 	return ElementalRules.shatter(plan, frozen)
 

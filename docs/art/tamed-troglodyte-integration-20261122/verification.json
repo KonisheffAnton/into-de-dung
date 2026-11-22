@@ -1,0 +1,451 @@
+{
+  "date": "2026-11-22",
+  "initial_base": "3d7e33c5686bc5db2cbc329b9d3365d40b5be0bc",
+  "integration_parent": "bf3d4327edfbf5567894fc4ee007d65ffc3cabcd",
+  "effective_checks": {
+    "import": {
+      "report": "demo-c91b67bd81de40babccb1c925b4fe6e3",
+      "status": "PASS",
+      "assertions": null
+    },
+    "startup": {
+      "report": "demo-c91b67bd81de40babccb1c925b4fe6e3",
+      "status": "PASS",
+      "assertions": null
+    },
+    "class_showcase_ui": {
+      "report": "demo-b8487db2a8de4f7a9b727ac6d5f568c8",
+      "status": "PASS",
+      "assertions": [
+        60,
+        0
+      ]
+    },
+    "sick_hobgoblin": {
+      "report": "demo-00ce95aef6e840f0934cf7043197469b",
+      "status": "PASS",
+      "assertions": [
+        66,
+        0
+      ]
+    },
+    "tamed_troglodyte_visual": {
+      "report": "demo-408a43470ae24d4da6efcd3187eea224",
+      "status": "PASS",
+      "assertions": [
+        24,
+        0
+      ]
+    },
+    "unit_creature_identity": {
+      "report": "demo-408a43470ae24d4da6efcd3187eea224",
+      "status": "PASS",
+      "assertions": [
+        18,
+        0
+      ]
+    },
+    "presentation_environment": {
+      "report": "demo-00ce95aef6e840f0934cf7043197469b",
+      "status": "PASS",
+      "assertions": [
+        364,
+        0
+      ]
+    },
+    "fractional_armor_hit": {
+      "report": "demo-00ce95aef6e840f0934cf7043197469b",
+      "status": "PASS",
+      "assertions": [
+        75,
+        0
+      ]
+    },
+    "status_effects": {
+      "report": "demo-00ce95aef6e840f0934cf7043197469b",
+      "status": "PASS",
+      "assertions": [
+        74,
+        0
+      ]
+    },
+    "hazards": {
+      "report": "demo-00ce95aef6e840f0934cf7043197469b",
+      "status": "PASS",
+      "assertions": [
+        165,
+        0
+      ]
+    },
+    "raise_forecast": {
+      "report": "demo-00ce95aef6e840f0934cf7043197469b",
+      "status": "PASS",
+      "assertions": [
+        100,
+        0
+      ]
+    },
+    "current_schema_boundary": {
+      "report": "demo-408a43470ae24d4da6efcd3187eea224",
+      "status": "PASS",
+      "assertions": [
+        593,
+        0
+      ]
+    },
+    "forecast_clone_probe": {
+      "report": "demo-00ce95aef6e840f0934cf7043197469b",
+      "status": "PASS",
+      "assertions": [
+        53163,
+        0
+      ]
+    },
+    "summon_checkpoint": {
+      "report": "demo-00ce95aef6e840f0934cf7043197469b",
+      "status": "PASS",
+      "assertions": [
+        70,
+        0
+      ]
+    },
+    "armor_integration": {
+      "report": "demo-00ce95aef6e840f0934cf7043197469b",
+      "status": "PASS",
+      "assertions": [
+        263,
+        0
+      ]
+    },
+    "collapse_state": {
+      "report": "demo-408a43470ae24d4da6efcd3187eea224",
+      "status": "PASS",
+      "assertions": [
+        23,
+        0
+      ]
+    },
+    "collapse_phase": {
+      "report": "demo-408a43470ae24d4da6efcd3187eea224",
+      "status": "PASS",
+      "assertions": [
+        67,
+        0
+      ]
+    },
+    "summon_snapshot": {
+      "report": "demo-00ce95aef6e840f0934cf7043197469b",
+      "status": "PASS",
+      "assertions": [
+        80,
+        0
+      ]
+    },
+    "class_showcase": {
+      "report": "demo-408a43470ae24d4da6efcd3187eea224",
+      "status": "PASS",
+      "assertions": [
+        292,
+        0
+      ]
+    },
+    "fresh_corpses": {
+      "report": "demo-408a43470ae24d4da6efcd3187eea224",
+      "status": "PASS",
+      "assertions": [
+        27,
+        0
+      ]
+    },
+    "battle_character_card": {
+      "report": "demo-c91b67bd81de40babccb1c925b4fe6e3",
+      "status": "PASS",
+      "assertions": [
+        122,
+        0
+      ]
+    },
+    "core": {
+      "report": "demo-b8487db2a8de4f7a9b727ac6d5f568c8",
+      "status": "PASS",
+      "assertions": [
+        9428,
+        0
+      ]
+    },
+    "tamed_troglodyte": {
+      "report": "demo-c91b67bd81de40babccb1c925b4fe6e3/tamed-diagnostic-final.log",
+      "status": "PASS",
+      "assertions": [
+        57,
+        0
+      ],
+      "mode": "headless isolated rerun; final test fixture copied into already imported project; production unchanged"
+    }
+  },
+  "runs_including_superseded_failures": [
+    {
+      "report": "demo-00ce95aef6e840f0934cf7043197469b",
+      "checks": {
+        "import": "PASS",
+        "startup": "PASS",
+        "class_showcase": "FAIL",
+        "class_showcase_ui": "PASS",
+        "sick_hobgoblin": "PASS",
+        "tamed_troglodyte_visual": "PASS",
+        "unit_creature_identity": "PASS",
+        "tamed_troglodyte": "FAIL",
+        "fresh_corpses": "FAIL",
+        "presentation_environment": "PASS",
+        "fractional_armor_hit": "PASS",
+        "battle_character_card": "FAIL",
+        "status_effects": "PASS",
+        "hazards": "PASS",
+        "raise_forecast": "PASS",
+        "current_schema_boundary": "PASS",
+        "forecast_clone_probe": "PASS",
+        "summon_checkpoint": "PASS",
+        "armor_integration": "PASS",
+        "collapse_state": "PASS",
+        "collapse_phase": "PASS",
+        "summon_snapshot": "PASS"
+      }
+    },
+    {
+      "report": "demo-408a43470ae24d4da6efcd3187eea224",
+      "checks": {
+        "import": "PASS",
+        "startup": "PASS",
+        "class_showcase": "PASS",
+        "class_showcase_ui": "FAIL",
+        "tamed_troglodyte_visual": "PASS",
+        "unit_creature_identity": "PASS",
+        "tamed_troglodyte": "FAIL",
+        "fresh_corpses": "PASS",
+        "battle_character_card": "FAIL",
+        "current_schema_boundary": "PASS",
+        "collapse_state": "PASS",
+        "collapse_phase": "PASS",
+        "core": "FAIL"
+      }
+    },
+    {
+      "report": "demo-b8487db2a8de4f7a9b727ac6d5f568c8",
+      "checks": {
+        "import": "PASS",
+        "startup": "PASS",
+        "class_showcase_ui": "PASS",
+        "tamed_troglodyte": "FAIL",
+        "battle_character_card": "PASS",
+        "core": "PASS"
+      }
+    },
+    {
+      "report": "demo-c91b67bd81de40babccb1c925b4fe6e3",
+      "checks": {
+        "import": "PASS",
+        "startup": "PASS",
+        "tamed_troglodyte": "FAIL",
+        "battle_character_card": "PASS"
+      }
+    }
+  ],
+  "final_production_matches_imported_project": [
+    {
+      "path": "scripts/core/abilities/ability_catalog.gd",
+      "sha256": "5fdb49d8776395daf45760b058895dbd835f4e4f8201275227f81967745f63a6"
+    },
+    {
+      "path": "scripts/core/actions/action_admission.gd",
+      "sha256": "dd76a0245ee9b2e22135f77caa0a3b9fed063ec8520b4019d72d9d522ae2af60"
+    },
+    {
+      "path": "scripts/core/actions/action_event_validator.gd",
+      "sha256": "90f4b28cc18436a1c38829cd283059faef482c079852a620fef35f284fbd5b48"
+    },
+    {
+      "path": "scripts/core/actions/action_presentation_state.gd",
+      "sha256": "c2b3bbc7bdcc9751287e9f816add06222d766baa4ec3c9f9b80e1204a5b3c341"
+    },
+    {
+      "path": "scripts/core/actions/armor_hit_executor.gd",
+      "sha256": "24dee863ee6fc28e1b7c7424249652002efaabe6ab809e7ee3f09fd94b34691a"
+    },
+    {
+      "path": "scripts/core/actions/damage_source.gd",
+      "sha256": "42b25aa9a7732962ad7602c8adf83f6ef1621bf5092bf995fd1874149d7c1abe"
+    },
+    {
+      "path": "scripts/core/actions/environment_command.gd",
+      "sha256": "85907b1127f9129ddaafcb5c37018446ce9023313b3553e375a64b997bf4d530"
+    },
+    {
+      "path": "scripts/core/actions/environment_rules.gd",
+      "sha256": "9386a4d5d01e49b7c80bb59ca61961c61b28e2e830565645364c063f0c90f323"
+    },
+    {
+      "path": "scripts/core/actions/forecast_simulation.gd",
+      "sha256": "5502d0a80e73dc27eaf6ffa585284e3d4ace9d2a9533ae7d2eb5ad6c540162f2"
+    },
+    {
+      "path": "scripts/core/actions/item_simulation_snapshot.gd",
+      "sha256": "8445285374a238e970fae7bedb67bcaaf83c647083a1689bd1c2fa02e9e0fbe7"
+    },
+    {
+      "path": "scripts/core/actions/mage_summon_effect.gd",
+      "sha256": "343cab751354a8c940cba8b502ccd8b0b86a664612ad593ec5f584399896d970"
+    },
+    {
+      "path": "scripts/core/actions/raise_corpse_command.gd",
+      "sha256": "7424f99dd00ded67989078c26a1bb1d98badfb8ec3c9415c10580e2664f6e272"
+    },
+    {
+      "path": "scripts/core/actions/simulation_snapshot.gd",
+      "sha256": "e5dedf2fdb53d79092bba41f5d069b910a0c4b42afc479cfa34d41bdd597ca20"
+    },
+    {
+      "path": "scripts/core/actions/spatial_rules.gd",
+      "sha256": "9bd52418ccc88967884ad81cc258041be74d079efd5fe10243ac869cf644f6ed"
+    },
+    {
+      "path": "scripts/core/board/combat_environment_state.gd",
+      "sha256": "8ca2a0533b54d439b250c9f01b9db1b5b7e48a15c23c3a11d5aefb0ddb659005"
+    },
+    {
+      "path": "scripts/core/snapshot/checked_board_clone.gd",
+      "sha256": "9227ccaf7b3da1d552215fff0da67d3246e6c358c7527587323253090f3f965d"
+    },
+    {
+      "path": "scripts/core/units/unit_state.gd",
+      "sha256": "33a392f6b34b6b5400586bd81aa7a8960f19db29b01acffee164a9360d20c12b"
+    },
+    {
+      "path": "scripts/demo/battle_ai_intent.gd",
+      "sha256": "958f030fe25619a26cdf5d741568d43dea8dbd29ff8506a8806da6ec32de1fcd"
+    },
+    {
+      "path": "scripts/demo/battle_character_skin_visual.gd",
+      "sha256": "c65f6d2a01b72c950c6c7f51230abbcc597ced874b025a05cbd00d9a325255d7"
+    },
+    {
+      "path": "scripts/demo/battle_demo.gd",
+      "sha256": "161fadb6f2b514a35e5cb07a2e08fad6211d18a7bb6d9651fdf1a2c0300a84ea"
+    },
+    {
+      "path": "scripts/demo/battle_demo_board.gd",
+      "sha256": "1207f33f5adbbf7d4eafcc2df1c7c061f7c63cc2e8520fa19774a3f3c2008446"
+    },
+    {
+      "path": "scripts/demo/battle_demo_bt.gd",
+      "sha256": "4dc8e0ca3913ed5e42335581adb7b749471b7cb40072292dd5d0bd162ca818ee"
+    },
+    {
+      "path": "scripts/demo/battle_environment_visual.gd",
+      "sha256": "3a0bf06c62427ee8d44e733220d354f06678e0f261a4bce0ac3f375a90a544e0"
+    },
+    {
+      "path": "scripts/demo/battle_tactical_session.gd",
+      "sha256": "f5e12fc30b7a4dfc7206ccc69b0a24b315109bdb94bdb793def02e1ab17eda8d"
+    },
+    {
+      "path": "scripts/demo/battle_turn_refill.gd",
+      "sha256": "b5c73f9951b0f91434dfbbec03547e77a4b0bf6a443fca4dc0375876b83ad398"
+    },
+    {
+      "path": "scripts/demo/character_skin_catalog.gd",
+      "sha256": "ff92333ba456e7a6548091d6b9529a9d7d9ccceefb86a947e2b3da9bc678d128"
+    },
+    {
+      "path": "scripts/demo/hero_hub_battle_factory.gd",
+      "sha256": "368f2e0bf54707ea2af8a54a046ab7a075a52828364c341e7c77d8f7647db0f0"
+    },
+    {
+      "path": "scripts/ui/battle/battle_character_card_data.gd",
+      "sha256": "b5515bd352b3ab9340d1c2535d65e009748a02f77b7051a72ee5bec0184c4322"
+    },
+    {
+      "path": "assets/art_presets/approved/character_skins_v1/tamed_troglodyte/README.md",
+      "sha256": "6a5e296cc33a576770a96d5414e7b79fb76a48b6628f369ee9906f8e2fbefde1"
+    },
+    {
+      "path": "assets/art_presets/approved/character_skins_v1/tamed_troglodyte/buff.png",
+      "sha256": "c965babc0dafaa52352cb0a24f2357ae3f8fca1a74a3207c2ed9a9ba3fa8030c"
+    },
+    {
+      "path": "assets/art_presets/approved/character_skins_v1/tamed_troglodyte/death.png",
+      "sha256": "c068acdd1c19ad8b8357ac40d7ee51eb8bf2974c88264fe641e2623ad87139ee"
+    },
+    {
+      "path": "assets/art_presets/approved/character_skins_v1/tamed_troglodyte/frames.tres",
+      "sha256": "b482c89abd5324f5a9faa0a96d854278bbe5cd65be18b1c5049e910cc194fc12"
+    },
+    {
+      "path": "assets/art_presets/approved/character_skins_v1/tamed_troglodyte/idle.png",
+      "sha256": "0a0f0d315a820a4bbe1e29944346f3104373feaee4888a83eb07e619c1b29af1"
+    },
+    {
+      "path": "assets/art_presets/approved/character_skins_v1/tamed_troglodyte/idle_secondary.png",
+      "sha256": "5d23737b399f82f3b8ce11a947ef094332049cb0a3b555caef105158c16dfffe"
+    },
+    {
+      "path": "assets/art_presets/approved/character_skins_v1/tamed_troglodyte/manifest.json",
+      "sha256": "b31d234fd19531f52fb715403506e1a8e3d94412186111bd446f8be17d1da076"
+    },
+    {
+      "path": "assets/art_presets/approved/character_skins_v1/tamed_troglodyte/skin.tres",
+      "sha256": "25a53660fe55eb78ad944b9846b03948734823edb1d15f31af920ec3b7eaaa99"
+    },
+    {
+      "path": "assets/art_presets/approved/character_skins_v1/tamed_troglodyte/still.png",
+      "sha256": "43565f959861c8b8068172ef04f483a4f6709633f6a9e97e89353649cf070486"
+    },
+    {
+      "path": "assets/ui/abilities/troglodyte_cannibalism.svg",
+      "sha256": "bd87fcd556d0fab536bc3dee0e9135f89f45a14489073adae392e560e9095c59"
+    },
+    {
+      "path": "assets/ui/abilities/troglodyte_thick_skin.svg",
+      "sha256": "5139ad96871c4daff46a6a721cd28e1721a0a1c7e09edfa6ae0b23f064445c36"
+    },
+    {
+      "path": "resources/enemies/tamed_troglodyte.tres",
+      "sha256": "611a501c3dba90a0ecf46d7fbf87029043d63970cb148739ed871d0a1b53c189"
+    },
+    {
+      "path": "scripts/core/actions/cannibalize_command.gd",
+      "sha256": "e5b745a0394c3dacb81cc5fea7a2d11fcb1e72117174d95b9c1215c2d246467d"
+    },
+    {
+      "path": "scripts/core/combat/troglodyte_kit.gd",
+      "sha256": "fa43ae56b446a569df38a8a094df69a2d880bbbf52666aaba9caf581b2281e6f"
+    },
+    {
+      "path": "scripts/core/expedition/tamed_troglodyte_definition.gd",
+      "sha256": "158e2156c5f6f67f39c6ea3197374bf78f3dae0fa68915d7575bc49e03724bdc"
+    },
+    {
+      "path": "tools/art/build_troglodyte_skin.py",
+      "sha256": "5ebac7175623983e9470b55bb867bb5735b6096a63bd95466cbcd77e9981f49d"
+    }
+  ],
+  "review": "APPROVE: game_reviewer; production, snapshot classification, callback guards, final fixture corrections",
+  "lead_audit": [
+    "round boundary follows first_team; incomplete death round excluded",
+    "identity carried by snapshot/clone/presentation/guards",
+    "preview runs real command and matches full state/RNG/counters/admission",
+    "cannibalism queue prefix and callback guards",
+    "all 132 RGBA atlas cells exact; nearest filter; visible field spawn and card icons"
+  ],
+  "limitations": [
+    "not the complete --full suite",
+    "no prolonged manual F5 combat, DPI or performance acceptance",
+    "R2 roar is lead selection; final user aesthetic acceptance pending"
+  ],
+  "resolved_failures": [
+    "test fixtures used stale actor counts and invalid item/snapshot state",
+    "SimulationSnapshot strict unit keys omitted new identity fields",
+    "troglodyte initially placed beyond opening viewport",
+    "typed BT ternary produced untyped Array at runtime",
+    "AI fixture included dead attacker; callback fixture mutated copied rules"
+  ]
+}

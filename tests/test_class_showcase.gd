@@ -56,8 +56,8 @@ func _run() -> void:
 		check(not bundle.is_empty(), "build showcase " + str(mode))
 		if bundle.is_empty(): continue
 		var session: BattleCoreReactionsSession = bundle.session
-		check(session.units.size() == 6 and session.actor_loadouts.size() == 6, "five hero classes and one named hobgoblin actor, without anonymous filler")
-		check(session.living_ids(Faction.Type.ENEMY).size() == 6 - profile.party.size(), "enemy count follows absent classes and the named hobgoblin")
+		check(session.units.size() == 7 and session.actor_loadouts.size() == 7, "five hero classes and two named monster actors, without anonymous filler")
+		check(session.living_ids(Faction.Type.ENEMY).size() == 7 - profile.party.size(), "enemy count follows absent classes and two named monsters")
 		check(not "\n".join(session.flow_log).contains("Страж, Щит, Дозорный"), "opening text names actual class opponents")
 		var classes: Array[StringName] = []
 		var hobgoblin_count := 0
@@ -78,6 +78,7 @@ func _run() -> void:
 				check(session.actor_loadouts[unit.id].attack_id == MageDeckRules.hero_attack_id(unit.id), "hobgoblin uses its own strike loadout")
 				check(session.unit_visual_classes.get(unit.id) == &"sick_hobgoblin", "hobgoblin uses its own enemy visual class")
 				continue
+			if class_id == TroglodyteKit.ID: continue
 			check(unit.stats.get_value(StatTypes.StatType.BALANCE_MAX) == 5.0, "current class enemy base balance is five")
 			check(session.unit_visual_classes.get(unit.id) == class_id, "real enemy class matches visual")
 			check(session.context.get_attack_rules().get_definition(session.actor_loadouts[unit.id].attack_id) != null, "enemy has actual attack loadout")
@@ -124,7 +125,7 @@ func _showcase_session() -> Dictionary:
 	# боевую способность, а не исходную расстановку или террейн конкретного плана.
 	var park_x: int = 0
 	for unit: UnitState in session.board.get_alive_units():
-		var parking := Vector2i(park_x, 0)
+		var parking := Vector2i(park_x, session.board.height - 1)
 		park_x += 1
 		if unit.cell != parking:
 			check(session.board.move_unit(unit, parking), "showcase fixture stages unit through board")

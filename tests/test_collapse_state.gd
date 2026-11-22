@@ -23,7 +23,7 @@ func _run() -> void:
 func _test_empty_current() -> void:
 	var session := BattleEnvironmentSession.new()
 	var raw: Dictionary = session.state.environment.to_dict()
-	check(raw.keys().size() == 7 and raw["schema_version"] == 5 and raw["status_effects"] == false and not raw.has("collapse"), "empty state emits current explicit disabled-capability form")
+	check(raw.keys().size() == 7 and raw["schema_version"] == 6 and raw["status_effects"] == false and not raw.has("collapse"), "empty state emits current explicit disabled-capability form")
 	var decoded := CombatEnvironmentState.from_dict(raw)
 	check(decoded != null and decoded.collapse.is_empty() and decoded.to_dict() == raw, "empty current environment roundtrip")
 	var old := raw.duplicate(true); old.schema_version = 4; old.erase("status_effects")
@@ -35,7 +35,7 @@ func _test_current_with_collapse() -> void:
 	state.status_effects = true
 	state.collapse = {"turn": 19, "marked": [Vector2i(2, 3)]}
 	var raw := state.to_dict()
-	check(raw["schema_version"] == 5 and raw["status_effects"] and raw["collapse"] == state.collapse, "enabled state emits current explicit capability and collapse")
+	check(raw["schema_version"] == 6 and raw["status_effects"] and raw["collapse"] == state.collapse, "enabled state emits current explicit capability and collapse")
 	var decoded := CombatEnvironmentState.from_dict(raw)
 	check(decoded != null and decoded.to_dict() == raw, "current collapse roundtrip is canonical")
 	if decoded != null:
@@ -45,7 +45,7 @@ func _test_current_with_collapse() -> void:
 	var exported := state.to_dict()
 	exported["collapse"]["marked"][0] = Vector2i(8, 8)
 	check(state.collapse["marked"] == [Vector2i(2, 3)], "to_dict deep-copies nested values")
-	var canonical := CombatEnvironmentState.from_dict({"schema_version": 5, "status_effects": true, "next_fire_id": 1, "next_corpse_id": 1, "fires": [], "corpses": [], "processed_deaths": [], "collapse": {"turn": 7, "marked": []}})
+	var canonical := CombatEnvironmentState.from_dict({"schema_version": 6, "status_effects": true, "next_fire_id": 1, "next_corpse_id": 1, "fires": [], "corpses": [], "processed_deaths": [], "collapse": {"turn": 7, "marked": []}})
 	check(canonical != null and canonical.to_dict()["collapse"] == {"turn": 7, "marked": []}, "current schema accepts empty marker list at positive turn")
 
 func _test_invalid_shapes() -> void:
@@ -72,7 +72,7 @@ func _test_invalid_shapes() -> void:
 
 func _v2(collapse: Dictionary) -> Dictionary:
 	var raw: Dictionary = CombatEnvironmentState.new().to_dict()
-	raw["schema_version"] = 5
+	raw["schema_version"] = 6
 	raw["status_effects"] = true
 	raw["collapse"] = collapse
 	return raw

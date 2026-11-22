@@ -1005,3 +1005,11 @@ CombatPerksState хранит необязательный личный ready_tu
 1 включён только у его материала в `art_trial_unit.tscn`. PNG/UV/alpha и
 геометрия прежние; портрет снова читает исходный17 без боевой коррекции.
 Цветовой контракт и сравнение — [ART_DIRECTION](ART_DIRECTION.md).
+
+### Троглодит и останки — 2026-11-22
+
+[Противник](TAMED_TROGLODYTE_V1.md) использует отдельное Resource-определение,
+UnitState identity, общий ArmorHitExecutor и CannibalizeCommand. BT выбирает
+намерение, очередь оплачивает/лечит/поглощает, ForecastSimulation исполняет копию.
+[Свежесть и кости](ENVIRONMENT_D5.md#свежие-трупы-и-кости--2026-11-22) принадлежат
+CombatEnvironmentState и границе полного раунда BattleTurnRefill; UI не меняет срок.

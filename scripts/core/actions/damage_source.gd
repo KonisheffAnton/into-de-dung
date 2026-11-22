@@ -1,7 +1,7 @@
 extends RefCounted
 class_name DamageSource
 
-const KINDS: Array[StringName] = [&"attack", &"collision", &"fall", &"cell", &"status", &"item", &"test", &"mage", &"status_snapshot"]
+const KINDS: Array[StringName] = [&"attack", &"collision", &"fall", &"cell", &"status", &"item", &"test", &"mage", &"status_snapshot", &"creature"]
 var kind: StringName
 var source_instance_id: int
 var origin_cell: Vector2i

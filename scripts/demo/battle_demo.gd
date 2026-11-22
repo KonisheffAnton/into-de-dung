@@ -511,6 +511,17 @@ func _displayed_cell_hovered(cell: Vector2i) -> void:
 		return
 	_compact_inspection.text = board_view.displayed_cell_summary(cell, true)
 	_compact_inspection.tooltip_text = board_view.displayed_cell_summary(cell)
+	if session != null and session.state != null and session.state.environment != null and cell.x >= 0:
+		var corpse_details: PackedStringArray = []
+		for corpse: Dictionary in session.state.environment.corpses_at(cell):
+			if corpse.get("remains", "fresh") == "bones":
+				corpse_details.append("Кости")
+			else:
+				corpse_details.append("Свежий труп · ещё %d раунда" % int(corpse.get("fresh_turns_left", 1)))
+		if not corpse_details.is_empty():
+			var remains_text := "\n".join(corpse_details)
+			_compact_inspection.text += "\n" + remains_text
+			_compact_inspection.tooltip_text += "\n" + remains_text
 	board_view.tooltip_text = _compact_inspection.tooltip_text if cell.x >= 0 else ""
 
 func _card_imbue_text(unit_id: int) -> String:

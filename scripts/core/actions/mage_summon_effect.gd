@@ -45,6 +45,7 @@ static func _prepare(context: ActionContext, owner_id: int, cell: Vector2i, spel
 	if admission.is_empty(): return {"reason": &"summon/invalid_admission"}
 	var helper := UseSummoningItemCommand.make_helper(id, owner.faction, cell, owner.debug_name if owned else "Верховный маг")
 	if helper == null: return {"reason": &"environment/invalid_helper_name"}
+	if corpse_id > 0: helper.creature_kind = &"undead"
 	helper.armor = ArmorState.new(); helper.armor.in_battle = true
 	# Опора передаёт только формат боя, а не характеристики или силу внешнего мага.
 	helper.armor.fractional = owner.armor != null and owner.armor.fractional

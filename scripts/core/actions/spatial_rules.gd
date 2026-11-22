@@ -132,7 +132,7 @@ class Guard extends RefCounted:
 			if state.get_inventory(id) != r["inventory"] or state.get_equipment(id) != r["equipment"]: return false
 			if unit.cell != v["cell"] or unit.height != v["height"] or board.get_height_steps(unit.cell) != v["height_steps"]: return false
 			if vitals._hp != v["hp"] or vitals._is_alive != v["alive"] or vitals._balance != v["balance"] or unit.move_points_left != v["move"]: return false
-			if unit.guard_stance != v["guard_stance"]: return false
+			if unit.guard_stance != v["guard_stance"] or unit.creature_kind != v["creature_kind"] or unit.archetype_id != v["archetype_id"]: return false
 			if unit.bleeding != r["bleeding"]: return false
 			if unit.bleeding != null and unit.bleeding.to_dict() != v["bleeding"]: return false
 			if unit.elemental != r["elemental"]: return false
@@ -359,6 +359,8 @@ static func capture_guard(context: ActionContext, units: Array[UnitState], cells
 		guard._validated_stats_values[unit.id] = stats_values.duplicate(true)
 		guard.values["geometry"][unit.cell] = [board.get_height_steps(unit.cell), board.get_terrain(unit.cell), unit.id]
 		guard.values["participants"][unit.id]["guard_stance"] = unit.guard_stance
+		guard.values["participants"][unit.id]["creature_kind"] = unit.creature_kind
+		guard.values["participants"][unit.id]["archetype_id"] = unit.archetype_id
 		guard.refs["participants"][unit.id]["bleeding"] = unit.bleeding
 		guard.values["participants"][unit.id]["bleeding"] = unit.bleeding.to_dict() if unit.bleeding != null else {}
 		if unit.bleeding != null and (unit.bleeding.get_script() != BleedingState or not BleedingState.valid(unit.bleeding.to_dict())): return null

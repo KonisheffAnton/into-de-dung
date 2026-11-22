@@ -27,6 +27,8 @@ static func copy_unit_unchecked(source: UnitState) -> UnitState:
 	unit.cell = source.cell
 	unit.height = source.height
 	unit.debug_name = source.debug_name
+	unit.creature_kind = source.creature_kind
+	unit.archetype_id = source.archetype_id
 	unit.move_points_left = source.move_points_left
 	unit.has_attacked = source.has_attacked
 	unit.guard_stance = source.guard_stance

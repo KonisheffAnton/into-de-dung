@@ -12,6 +12,7 @@ static func ids(class_id: StringName) -> Array[StringName]:
 		&"mage": return [&"star_hood"]
 		&"archer": return [&"silver_ranger"]
 		&"sick_hobgoblin": return [&"sick_hobgoblin"]
+		&"tamed_troglodyte": return [&"tamed_troglodyte"]
 	return []
 
 static func resolve_id(class_id: StringName, requested: StringName = &"") -> StringName:
@@ -31,7 +32,7 @@ static func definition(class_id: StringName, requested: StringName = &"") -> Cha
 		if resource.still == null: return null
 		for animation: StringName in [&"idle", &"buff", &"death"]:
 			if not resource.clip_valid(animation): return null
-		if skin_id in [&"watch_shield", &"star_hood", &"silver_ranger", &"sick_hobgoblin"] and not resource.clip_valid(&"idle_secondary"):
+		if skin_id in [&"watch_shield", &"star_hood", &"silver_ranger", &"sick_hobgoblin", &"tamed_troglodyte"] and not resource.clip_valid(&"idle_secondary"):
 			return null
 		_loaded[skin_id] = resource
 	return _loaded[skin_id]

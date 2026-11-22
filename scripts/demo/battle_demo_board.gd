@@ -801,6 +801,7 @@ static func _presentation_caption(event: Dictionary) -> String:
 		&"mage_cast", &"mage_card_play": return "МАГ"
 		&"elemental_cast", &"elemental_changed", &"control_changed", &"bleeding_changed": return "СОСТОЯНИЕ"
 		&"summoned", &"corpse_raised": return "ПРИЗЫВ"
+		&"corpse_consumed": return "КАННИБАЛИЗМ"
 		&"mage_summoned": return "ПОДНЯТИЕ" if int(event.get("corpse_id", 0)) > 0 else "ПРИЗЫВ"
 		&"support_collapsed": return "ОБВАЛ"
 		&"fell": return "ПАДЕНИЕ"
@@ -1067,7 +1068,7 @@ func _matching_obstacle_deaths(events: Array) -> Dictionary:
 func _matching_defender_buff(events: Array, step: Dictionary) -> BattleDefenderIdleVisual:
 	if step.get("status") != &"APPLIED": return null
 	# Общий жест всех текущих защитных усилений; расход/срабатывание защиты не активация.
-	var expected: StringName = {&"guard": &"guarded", &"raise_shields": &"raised_shields"}.get(step.get("kind"), &"")
+	var expected: StringName = {&"guard": &"guarded", &"raise_shields": &"raised_shields", &"cannibalize": &"corpse_consumed"}.get(step.get("kind"), &"")
 	if expected == &"": return null
 	for event: Dictionary in events:
 		if event.get("kind") != expected or int(event.get("command_seq", -1)) != int(step.get("command_seq", -2)): continue
@@ -1077,6 +1078,8 @@ func _matching_defender_buff(events: Array, step: Dictionary) -> BattleDefenderI
 		# У разбойника пока нет активного self-buff: жест обслуживает только обычную защиту.
 		if actor_class == &"rogue":
 			if expected != &"guarded": continue
+		elif actor_class == TroglodyteKit.ID:
+			if expected != &"corpse_consumed": continue
 		elif actor_class not in [&"warrior", &"shieldbearer"]: continue
 		var visual := _presentation_visual(actor_id) as BattleDefenderIdleVisual
 		if visual != null and visual.can_play_buff(): return visual

@@ -7,6 +7,7 @@ class_name BattleDemoBT
 var _nodes: Array[Callable] = []
 var _session: BattleDemoSession
 var _actor: UnitState
+var _troglodyte_target_id: int = 0
 
 
 func _init() -> void:
@@ -106,7 +107,10 @@ func _reaction_guard() -> BattleAIIntent:
 func decide(session: BattleDemoSession, actor: UnitState) -> BattleAIIntent:
 	_session = session
 	_actor = actor
-	for node in _nodes:
+	_troglodyte_target_id = _nearest_enemy_id() if TroglodyteKit.owns(actor) else 0
+	var nodes: Array[Callable] = [_cannibalize, _attack, _advance, _wait]
+	if not TroglodyteKit.owns(actor): nodes = _nodes
+	for node in nodes:
 		var candidate: BattleAIIntent = node.call()
 		if candidate != null:
 			_session = null
@@ -126,7 +130,7 @@ func _attack() -> BattleAIIntent:
 	var board := _session.board
 	var valid: Array[Dictionary] = []
 	for target in board.get_alive_units():
-		if target == null or not _actor.is_hostile_to(target):
+		if target == null or not _actor.is_hostile_to(target) or (TroglodyteKit.owns(_actor) and target.id != _troglodyte_target_id):
 			continue
 		# Только команда решает доступность умения; cooldown оставляет обычную атаку запасным выбором.
 		for definition_id: StringName in _attack_ids(target):
@@ -186,7 +190,7 @@ func _advance() -> BattleAIIntent:
 	finder.configure(board.get_bounds(), _movement_provider(board), 1, &"spatial_move_v1")
 	var candidates: Array[Dictionary] = []
 	for target in board.get_alive_units():
-		if target == null or not _actor.is_hostile_to(target):
+		if target == null or not _actor.is_hostile_to(target) or (TroglodyteKit.owns(_actor) and target.id != _troglodyte_target_id):
 			continue
 		for offset in [Vector2i(1, 0), Vector2i(-1, 0), Vector2i(0, 1), Vector2i(0, -1)]:
 			var goal: Vector2i = target.cell + offset
@@ -293,4 +297,30 @@ func _summon() -> BattleAIIntent:
 		intent.item_id = item.get_item_instance_id()
 		intent.cell = cell
 		return intent
+	return null
+
+func _nearest_enemy_id() -> int:
+	var targets: Array[UnitState] = []
+	for unit: UnitState in _session.board.get_alive_units():
+		if _actor.is_hostile_to(unit): targets.append(unit)
+	targets.sort_custom(func(a: UnitState, b: UnitState) -> bool:
+		var da := absi(a.cell.x - _actor.cell.x) + absi(a.cell.y - _actor.cell.y)
+		var db := absi(b.cell.x - _actor.cell.x) + absi(b.cell.y - _actor.cell.y)
+		if da != db: return da < db
+		if a.vitals.get_hp() != b.vitals.get_hp(): return a.vitals.get_hp() < b.vitals.get_hp()
+		return a.id < b.id)
+	return targets[0].id if not targets.is_empty() else 0
+
+func _cannibalize() -> BattleAIIntent:
+	if _session.state.environment == null or not _actor.can_attack() or _actor.vitals.get_hp() >= _actor.get_stat(StatTypes.StatType.HP_MAX): return null
+	var corpses := _session.state.environment.corpses.duplicate(true)
+	corpses.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a.id < b.id)
+	for corpse: Dictionary in corpses:
+		var delta: Vector2i = corpse.cell - _actor.cell
+		if corpse.remains != "fresh" or absi(delta.x) + absi(delta.y) > 1: continue
+		if CannibalizeCommand.new(_actor.id, corpse.id, _session.context.get_revision()).validate(_session.context) != &"": continue
+		var result := BattleAIIntent.new()
+		result.kind = BattleAIIntent.Kind.CANNIBALIZE
+		result.actor_id = _actor.id; result.corpse_id = corpse.id
+		return result
 	return null

@@ -3,6 +3,15 @@
 Актуальный порядок 2026-10-11, сверенный с `tools/demo/isolate.py`.
 Это инструкции проверки; прежние прогоны не считаются результатом нового изменения.
 
+Троглодит/останки (2026-11-22): `--render-check --only unit_creature_identity
+ tamed_troglodyte tamed_troglodyte_visual fresh_corpses current_schema_boundary
+ class_showcase class_showcase_ui battle_character_card` (аргументы одной строкой).
+Срез затрагивает snapshot/preview/очередь: также нужны core, armor_integration,
+fractional_armor_hit, forecast_clone_probe, collapse_state/collapse_phase,
+hazards, raise_forecast, summon_snapshot/summon_checkpoint, status_effects,
+presentation_environment. [Правила](TAMED_TROGLODYTE_V1.md),
+[итоги](art/tamed-troglodyte-integration-20261122/README.md).
+
 ## Среда
 
 Нужны Python 3 и Godot; путь к Godot передаётся в GODOT_BIN либо `--godot`.

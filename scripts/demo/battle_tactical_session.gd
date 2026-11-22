@@ -292,6 +292,8 @@ func step_enemy() -> ActionReceipt:
 		command = GuardCommand.new(actor.id, context.get_revision(), intent.reaction_mode, intent.target_id)
 	elif intent.kind == BattleAIIntent.Kind.RAISE_SHIELDS:
 		command = RaiseShieldsCommand.new(actor.id, context.get_revision())
+	elif intent.kind == BattleAIIntent.Kind.CANNIBALIZE:
+		command = CannibalizeCommand.new(actor.id, intent.corpse_id, context.get_revision())
 	elif intent.kind == BattleAIIntent.Kind.MOVE:
 		command = MoveCommand.new(actor.id, intent.path, context.get_revision())
 	else:
@@ -301,7 +303,7 @@ func step_enemy() -> ActionReceipt:
 			return null
 		command = AttackCommand.new(actor.id, target.id, actor.cell, target.cell, intent.attack_definition_id, context.get_revision())
 	var receipt := _submit(command)
-	if receipt.status != ActionReceipt.APPLIED or intent.kind in [BattleAIIntent.Kind.ATTACK, BattleAIIntent.Kind.SUMMON, BattleAIIntent.Kind.GUARD, BattleAIIntent.Kind.RAISE_SHIELDS]: _next_enemy()
+	if receipt.status != ActionReceipt.APPLIED or intent.kind in [BattleAIIntent.Kind.ATTACK, BattleAIIntent.Kind.SUMMON, BattleAIIntent.Kind.GUARD, BattleAIIntent.Kind.RAISE_SHIELDS, BattleAIIntent.Kind.CANNIBALIZE]: _next_enemy()
 	return receipt
 
 func _next_enemy() -> void:

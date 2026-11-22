@@ -3,6 +3,8 @@ class_name HeroHubBattleFactory
 
 const SICK_HOBGOBLIN: SickHobgoblinDefinition = preload("res://resources/enemies/sick_hobgoblin.tres")
 
+const TAMED_TROGLODYTE: TamedTroglodyteDefinition = preload("res://resources/enemies/tamed_troglodyte.tres")
+
 static func create(run: HeroHubState) -> Dictionary:
 	if run == null or HeroHubState.from_dict(run.to_dict()) == null: return {}
 	var expedition := run.phase == "expedition" and run.expedition != null and run.expedition.phase == "battle"
@@ -22,14 +24,17 @@ static func create(run: HeroHubState) -> Dictionary:
 	var showcase_classes := ClassShowcaseRoster.enemies(run)
 	# Новый вид дополняет обзор классов; старые каталоги и сохранённый план не мигрируем.
 	var add_hobgoblin: bool = run.hero_catalog_version >= 4
+	var add_troglodyte: bool = (run.phase == "battle" or showcase_layout) and run.hero_catalog_version >= 4 and not showcase_classes.is_empty()
 	var enemy_cells: Array[Vector2i] = []
 	for index: int in enemy_count:
 		enemy_cells.append(ExpeditionOpening.cell(opening.enemies[index].cell) if not opening.is_empty() else encounter.enemy_cells[index])
 	if not showcase_classes.is_empty():
-		enemy_count = showcase_classes.size() + (1 if add_hobgoblin else 0)
+		enemy_count = showcase_classes.size() + (1 if add_hobgoblin else 0) + (1 if add_troglodyte else 0)
 		enemy_cells = ClassShowcaseRoster.cells(enemy_cells, enemy_count, opening, board_size)
 		if enemy_cells.size() < enemy_count:
 			session.close(); return {}
+	if add_troglodyte:
+		enemy_cells[-1] = _nearby_troglodyte_cell(enemy_cells, opening, board_size, run.party.size())
 	var hero_units: Dictionary = {}
 	var gear_items: Dictionary = {}
 	var owners: Array[ItemOwnerState] = []
@@ -57,8 +62,9 @@ static func create(run: HeroHubState) -> Dictionary:
 		var hero: HeroProgression = run.heroes[run.party[index]] if index < run.party.size() else null
 		var enemy_index := index - run.party.size()
 		var is_hobgoblin: bool = hero == null and add_hobgoblin and enemy_index == showcase_classes.size()
-		var enemy_data: Dictionary = opening.enemies[enemy_index] if hero == null and not is_hobgoblin and not opening.is_empty() and enemy_index < opening.enemies.size() else {}
-		var enemy_class: StringName = showcase_classes[enemy_index] if hero == null and not is_hobgoblin and not showcase_classes.is_empty() else &""
+		var is_troglodyte: bool = hero == null and add_troglodyte and enemy_index == showcase_classes.size() + (1 if add_hobgoblin else 0)
+		var enemy_data: Dictionary = opening.enemies[enemy_index] if hero == null and not is_hobgoblin and not is_troglodyte and not opening.is_empty() and enemy_index < opening.enemies.size() else {}
+		var enemy_class: StringName = showcase_classes[enemy_index] if hero == null and not is_hobgoblin and not is_troglodyte and not showcase_classes.is_empty() else &""
 		var enemy_definition := HeroCatalog.class_definition(enemy_class)
 		var hero_class := HeroCatalog.class_definition(hero.class_id) if hero != null else null
 		var enemy_balance := CharacterAttributeRules.balance_max(float(enemy_definition.base_attributes[2])) if enemy_definition != null else float(encounter.enemy_balance)
@@ -75,6 +81,7 @@ static func create(run: HeroHubState) -> Dictionary:
 			StatTypes.StatType.ATTACK_RANGE: float(hero_class.attack_range if hero != null else enemy_definition.attack_range if enemy_definition != null else encounter.enemy_range),
 			StatTypes.StatType.PHYSICAL_PIERCING_PERCENT: 0.0,
 		})
+		if is_troglodyte: stats = StatsBag.from_base_values(TAMED_TROGLODYTE.base_stats())
 		if is_hobgoblin: stats = StatsBag.from_base_values(SICK_HOBGOBLIN.base_stats())
 		if hero != null:
 			var attributes := hero.attributes()
@@ -86,6 +93,9 @@ static func create(run: HeroHubState) -> Dictionary:
 			for attribute_index: int in attribute_types.size(): stats.set_base_value(attribute_types[attribute_index], float(enemy_definition.base_attributes[attribute_index]))
 		var cell := Vector2i(1, 2 + index) if hero != null else enemy_cells[enemy_index]
 		var unit := UnitState.create(Faction.Type.PLAYER if hero != null else Faction.Type.ENEMY, cell, stats, hero.name if hero != null else "Дозорный %d" % (index - run.party.size() + 1))
+		if is_troglodyte:
+			unit.debug_name = TAMED_TROGLODYTE.display_name
+			unit.archetype_id = TroglodyteKit.ID
 		if is_hobgoblin: unit.debug_name = SICK_HOBGOBLIN.display_name
 		unit.armor = ArmorState.new(); unit.armor.in_battle = false
 		unit.armor.fractional = true
@@ -141,6 +151,11 @@ static func create(run: HeroHubState) -> Dictionary:
 			session.unit_visual_classes[unit.id] = SICK_HOBGOBLIN.id
 			unit.armor.natural.physical = int(CharacterAttributeRules.resistance_contribution(SICK_HOBGOBLIN.attributes[1]))
 			unit.armor.natural.fire = int(CharacterAttributeRules.resistance_contribution(SICK_HOBGOBLIN.attributes[3]))
+		if is_troglodyte:
+			var attack := _attack(MageDeckRules.hero_attack_id(unit.id))
+			definitions.append(attack)
+			session.actor_loadouts[unit.id] = {"class_id":TroglodyteKit.ID, "attack_id":attack.id}
+			session.unit_visual_classes[unit.id] = TroglodyteKit.ID
 		unit.combat_perks.uses_bonus_actions = true
 		unit.enable_action_resources(); unit.try_refill_turn_resources()
 		session.board.add_unit(unit)
@@ -242,6 +257,7 @@ static func create(run: HeroHubState) -> Dictionary:
 				var names: PackedStringArray = []
 				for class_id: StringName in showcase_classes: names.append(HeroCatalog.class_definition(class_id).display_name)
 				if add_hobgoblin: names.append(SICK_HOBGOBLIN.display_name)
+				if add_troglodyte: names.append(TAMED_TROGLODYTE.display_name)
 				opponents = ", ".join(names)
 			session.flow_log.append("Стартовая комната: %s; шипы, огонь, уступ, стена, пропасти и обрушение. После победы откроется выбор пути." % opponents)
 	if rules.validate() != &"" or session.state.abilities == null or not session.begin_deployment() or ItemSimulationSnapshot.capture(session.state, []).code != ItemSnapshotResult.Code.OK:
@@ -279,3 +295,30 @@ static func _attack(id: StringName) -> AttackDefinition:
 
 static func _fire(amount: int) -> Dictionary:
 	return {"type":"fire","policy":"standard","numerator":amount,"denominator":1,"source":"hero_spell","factor_num":1,"factor_den":1}
+
+static func _nearby_troglodyte_cell(cells: Array[Vector2i], opening: Dictionary, size: Vector2i, party_size: int) -> Vector2i:
+	# Дополнительный монстр должен быть виден рядом с авторской группой, а не в дальнем углу большой карты.
+	var reserved: Array[Vector2i] = []
+	reserved.assign(cells.slice(0, cells.size() - 1))
+	for index: int in party_size: reserved.append(Vector2i(1, 2 + index))
+	var anchor := cells[0]
+	var terrain := BattleBoard.new(size.x, size.y)
+	for tile: Dictionary in opening.get("terrain", []):
+		terrain.set_terrain(ExpeditionOpening.cell(tile.cell), int(tile.type) as TerrainType.Type)
+	if size == BiomeShowcaseLayout.SIZE: BiomeShowcaseLayout.apply(terrain, not opening.is_empty())
+	var hazards: Array[Vector2i] = []
+	for hazard: Dictionary in opening.get("hazards", []): hazards.append(ExpeditionOpening.cell(hazard.cell))
+	var available: Array[Vector2i] = []
+	for y: int in size.y:
+		for x: int in size.x:
+			var cell := Vector2i(x, y)
+			if terrain.get_terrain(cell) == TerrainType.Type.FLOOR and not hazards.has(cell): available.append(cell)
+	available.sort_custom(func(a: Vector2i, b: Vector2i) -> bool:
+		var da := absi(a.x - anchor.x) + absi(a.y - anchor.y)
+		var db := absi(b.x - anchor.x) + absi(b.y - anchor.y)
+		if da != db: return da < db
+		if a.y != b.y: return a.y > b.y
+		return a.x < b.x)
+	for cell: Vector2i in available:
+		if not reserved.has(cell): return cell
+	return cells[-1]

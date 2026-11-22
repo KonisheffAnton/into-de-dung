@@ -36,7 +36,7 @@ func _run() -> void:
 	for unit: UnitState in session.units:
 		if session.actor_loadouts.get(unit.id, {}).get("class_id", &"") == &"sick_hobgoblin": hob = unit
 		if unit.faction == Faction.Type.PLAYER and target == null: target = unit
-	check(hob != null and target != null and session.units.size() == 6, "one monster supplements five classes")
+	check(hob != null and target != null and session.units.size() == 7, "two monsters supplement five classes")
 	if hob == null or target == null: session.close(); quit(1); return
 	check(hob.faction == Faction.Type.ENEMY and hob.debug_name == "Нездоровый хоб-гоблин", "enemy name and faction")
 	check(hob.vitals.get_hp() == 24.0 and hob.get_stat(StatTypes.StatType.MOVE_RANGE) == 3.0

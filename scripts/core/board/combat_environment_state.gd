@@ -2,6 +2,7 @@ extends RefCounted
 class_name CombatEnvironmentState
 
 const FIRE_DAMAGE: int = 8
+const FRESH_TURNS: int = 3
 const MAX_RECORDS: int = 1024
 const MAX_PROCESSED_DEATHS: int = 65536
 const MAX_ID: int = 9223372036854775807
@@ -16,7 +17,7 @@ var status_effects: bool = false
 var hazards: Dictionary = {}
 
 func to_dict() -> Dictionary:
-	var raw := {"schema_version": 5, "status_effects": status_effects, "next_fire_id": next_fire_id,
+	var raw := {"schema_version": 6, "status_effects": status_effects, "next_fire_id": next_fire_id,
 		"next_corpse_id": next_corpse_id, "fires": fires.duplicate(true), "corpses": corpses.duplicate(true),
 		"processed_deaths": processed_deaths.duplicate()}
 	if status_effects or not collapse.is_empty(): raw["collapse"] = collapse.duplicate(true)
@@ -35,7 +36,7 @@ static func valid(data: Variant) -> bool:
 		"next_corpse_id": TYPE_INT, "fires": TYPE_ARRAY, "corpses": TYPE_ARRAY, "processed_deaths": TYPE_ARRAY}
 	for key: String in ["collapse", "hazards"]:
 		if value.has(key): shape[key] = TYPE_DICTIONARY
-	if not ItemSimulationSnapshot._shape(value, shape) or value.schema_version != 5: return false
+	if not ItemSimulationSnapshot._shape(value, shape) or value.schema_version != 6: return false
 	var status_enabled: bool = value.status_effects
 	if status_enabled and not value.has("collapse"): return false
 	if value.has("collapse") and not _valid_collapse(value.collapse): return false
@@ -86,7 +87,7 @@ static func valid(data: Variant) -> bool:
 		if typeof(raw) != TYPE_DICTIONARY:
 			return false
 		var corpse: Dictionary = raw
-		if not _has_exact_keys(corpse, ["id", "cell", "source_unit_id", "faction", "creature_kind"]):
+		if not _has_exact_keys(corpse, ["id", "cell", "source_unit_id", "faction", "creature_kind", "remains", "fresh_turns_left", "fresh_round_pending"]):
 			return false
 		if typeof(corpse["id"]) != TYPE_INT or not _valid_id(corpse["id"]) or corpse_ids.has(corpse["id"]):
 			return false
@@ -96,6 +97,7 @@ static func valid(data: Variant) -> bool:
 			return false
 		if typeof(corpse["creature_kind"]) != TYPE_STRING or not _valid_kind(corpse["creature_kind"]):
 			return false
+		if not valid_freshness(corpse): return false
 		if corpse_sources.has(corpse["source_unit_id"]):
 			return false
 		corpse_ids[corpse["id"]] = true
@@ -167,7 +169,7 @@ func ignite(cell: Vector2i, effect: String = "bleeding") -> Dictionary:
 	next_fire_id += 1
 	return result.duplicate(true)
 
-func record_death(unit_id: int, cell: Vector2i, faction: int, creature_kind: String, leaves_body: bool = true) -> Dictionary:
+func record_death(unit_id: int, cell: Vector2i, faction: int, creature_kind: String, leaves_body: bool = true, undead: bool = false) -> Dictionary:
 	if not _valid_id(unit_id) or not _valid_faction(faction) or not _valid_kind(creature_kind):
 		return {}
 	if processed_deaths.has(unit_id):
@@ -180,7 +182,7 @@ func record_death(unit_id: int, cell: Vector2i, faction: int, creature_kind: Str
 	processed_deaths.sort()
 	if not leaves_body:
 		return {}
-	var result := {"id": next_corpse_id, "cell": cell, "source_unit_id": unit_id, "faction": faction, "creature_kind": creature_kind}
+	var result := {"id": next_corpse_id, "cell": cell, "source_unit_id": unit_id, "faction": faction, "creature_kind": creature_kind, "remains": "bones" if undead else "fresh", "fresh_turns_left": 0 if undead else FRESH_TURNS, "fresh_round_pending": not undead}
 	corpses.append(result.duplicate(true))
 	next_corpse_id += 1
 	return result.duplicate(true)
@@ -228,3 +230,23 @@ static func _has_exact_keys(value: Dictionary, required: Array[String]) -> bool:
 		if typeof(key) != TYPE_STRING or not required.has(key):
 			return false
 	return true
+
+static func valid_freshness(corpse: Dictionary) -> bool:
+	if typeof(corpse.get("fresh_round_pending")) != TYPE_BOOL: return false
+	if typeof(corpse.get("remains")) != TYPE_STRING or typeof(corpse.get("fresh_turns_left")) != TYPE_INT: return false
+	if corpse.remains == "bones": return corpse.fresh_turns_left == 0 and not corpse.fresh_round_pending
+	if corpse.fresh_round_pending and corpse.fresh_turns_left != FRESH_TURNS: return false
+	return corpse.remains == "fresh" and corpse.fresh_turns_left >= 1 and corpse.fresh_turns_left <= FRESH_TURNS
+
+func age_corpses() -> Array[Dictionary]:
+	var changes: Array[Dictionary] = []
+	for corpse: Dictionary in corpses:
+		if corpse.remains != "fresh": continue
+		# Неполный раунд смерти не входит в три полных раунда свежести.
+		if corpse.fresh_round_pending:
+			corpse.fresh_round_pending = false
+			continue
+		corpse.fresh_turns_left -= 1
+		if corpse.fresh_turns_left == 0: corpse.remains = "bones"
+		changes.append(corpse.duplicate(true))
+	return changes

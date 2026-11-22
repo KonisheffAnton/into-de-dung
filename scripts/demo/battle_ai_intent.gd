@@ -11,6 +11,7 @@ enum Kind {
 	SUMMON,
 	GUARD,
 	RAISE_SHIELDS,
+	CANNIBALIZE,
 }
 
 var kind: Kind = Kind.WAIT
@@ -18,6 +19,7 @@ var actor_id: int = UnitId.NONE
 var target_id: int = UnitId.NONE
 var attack_definition_id: StringName = &"demo_strike"
 var item_id: int = 0
+var corpse_id: int = 0
 var cell: Vector2i = Vector2i.ZERO
 var path: Array[Vector2i] = []
 var reaction_mode: int = CombatPerksState.Mode.NONE
@@ -53,5 +55,6 @@ func get_ability_definition(context: ActionContext) -> AbilityDefinition:
 	if kind == Kind.MOVE: return MoveCommand.new().get_ability_definition(context)
 	if kind == Kind.GUARD: return GuardCommand.new(actor_id, context.get_revision(), reaction_mode, target_id).get_ability_definition(context)
 	if kind == Kind.RAISE_SHIELDS: return RaiseShieldsCommand.definition()
+	if kind == Kind.CANNIBALIZE: return CannibalizeCommand.new(actor_id, corpse_id, context.get_revision()).get_ability_definition(context)
 	if kind == Kind.SUMMON: return UseSummoningItemCommand.new(actor_id, item_id, cell, context.get_revision()).get_ability_definition(context)
 	return null

@@ -266,28 +266,39 @@ func _draw_corpses(alpha: float) -> void:
 		var record: Dictionary = corpse_records[index]
 		var centered_index: float = float(index) - float(visible_count - 1) * 0.5
 		var center: Vector2 = Vector2(centered_index * 12.0, 6.0 + float(index) * 9.0)
-		_draw_corpse(center, _faction_color(record.get("faction", -1)), alpha)
+		_draw_corpse(center, String(record.get("remains", "fresh")), alpha)
 	if corpse_records.size() > 1:
 		# Число сообщает только количество тел; детали состояния юнита здесь недоступны.
 		draw_string(ThemeDB.fallback_font, Vector2(24.0, 17.0), str(corpse_records.size()), HORIZONTAL_ALIGNMENT_CENTER, 12.0, 10, Color("e3e0d9", alpha * 0.9))
 
 
-func _draw_corpse(center: Vector2, base_tint: Color, alpha: float) -> void:
-	var tint: Color = Color(base_tint.r, base_tint.g, base_tint.b, base_tint.a * alpha)
+func _draw_corpse(center: Vector2, remains: String, alpha: float) -> void:
 	var shadow: Color = Color("18232a", alpha * 0.52)
-	# Лежащий силуэт остаётся коротким и приглушённым, не напоминая активного бойца.
-	draw_colored_polygon(PackedVector2Array([
-		center + Vector2(-23, 1), center + Vector2(-12, -7), center + Vector2(13, -6),
-		center + Vector2(19, 0), center + Vector2(11, 9), center + Vector2(-20, 8)
-	]), shadow)
-	draw_colored_polygon(PackedVector2Array([
-		center + Vector2(-21, -5), center + Vector2(-11, -5), center + Vector2(-6, -3),
-		center + Vector2(5, -5), center + Vector2(9, -3), center + Vector2(6, 1),
-		center + Vector2(2, 6), center + Vector2(-1, 5), center + Vector2(2, 1),
-		center + Vector2(-7, 2), center + Vector2(-19, 6), center + Vector2(-22, 3),
-		center + Vector2(-11, -1), center + Vector2(-21, -2)
-	]), tint)
-	draw_circle(center + Vector2(13, -3), 3.7, tint.lightened(0.12))
+	if remains == "bones":
+		# Квадратный череп и перекрещённые кости остаются различимы при масштабе тайла.
+		var bone := Color("d8c9a5", alpha)
+		var light := Color("eee1bf", alpha)
+		draw_colored_polygon(PackedVector2Array([center + Vector2(-17, 5), center + Vector2(13, 9), center + Vector2(15, 13), center + Vector2(-15, 9)]), shadow)
+		draw_colored_polygon(PackedVector2Array([center + Vector2(-15, 7), center + Vector2(13, 11), center + Vector2(14, 13), center + Vector2(-14, 9)]), bone)
+		draw_colored_polygon(PackedVector2Array([center + Vector2(-14, 12), center + Vector2(13, 6), center + Vector2(15, 8), center + Vector2(-12, 14)]), shadow)
+		draw_colored_polygon(PackedVector2Array([center + Vector2(-12, 11), center + Vector2(13, 5), center + Vector2(14, 7), center + Vector2(-11, 13)]), light)
+		for end: Vector2 in [Vector2(-16, 5), Vector2(13, 9), Vector2(-14, 12), Vector2(13, 5)]:
+			draw_colored_polygon(PackedVector2Array([center + end, center + end + Vector2(-2, -2), center + end + Vector2(-5, -1), center + end + Vector2(-4, 2)]), light)
+		draw_colored_polygon(PackedVector2Array([center + Vector2(-4, -10), center + Vector2(3, -12), center + Vector2(9, -8), center + Vector2(10, -2), center + Vector2(6, 2), center + Vector2(-3, 1), center + Vector2(-7, -3)]), shadow)
+		draw_colored_polygon(PackedVector2Array([center + Vector2(-4, -11), center + Vector2(3, -13), center + Vector2(8, -9), center + Vector2(9, -3), center + Vector2(5, 1), center + Vector2(-3, 0), center + Vector2(-7, -4)]), bone)
+		draw_rect(Rect2(center + Vector2(-4, -7), Vector2(3, 3)), shadow)
+		draw_rect(Rect2(center + Vector2(3, -8), Vector2(3, 3)), shadow)
+		draw_colored_polygon(PackedVector2Array([center + Vector2(-2, -1), center + Vector2(6, 0), center + Vector2(5, 3), center + Vector2(-1, 3)]), light)
+		return
+	# У свежего тела приглушённая угловатая плоть с короткими конечностями.
+	var flesh := Color("714b4b", alpha)
+	var muted := Color("946365", alpha)
+	var shade := Color("503c40", alpha)
+	draw_colored_polygon(PackedVector2Array([center + Vector2(-24, 3), center + Vector2(-17, -4), center + Vector2(-6, -5), center + Vector2(7, -4), center + Vector2(17, 1), center + Vector2(12, 9), center + Vector2(-17, 9)]), shadow)
+	draw_colored_polygon(PackedVector2Array([center + Vector2(-21, -3), center + Vector2(-12, -7), center + Vector2(-3, -5), center + Vector2(7, -6), center + Vector2(16, -1), center + Vector2(14, 4), center + Vector2(5, 5), center + Vector2(1, 9), center + Vector2(-5, 6), center + Vector2(-15, 8), center + Vector2(-22, 3)]), flesh)
+	draw_colored_polygon(PackedVector2Array([center + Vector2(-17, -2), center + Vector2(-11, -5), center + Vector2(-5, -3), center + Vector2(-8, 1), center + Vector2(-16, 3)]), muted)
+	draw_colored_polygon(PackedVector2Array([center + Vector2(8, -3), center + Vector2(15, 0), center + Vector2(18, 4), center + Vector2(15, 6), center + Vector2(9, 3)]), muted)
+	draw_colored_polygon(PackedVector2Array([center + Vector2(-3, 5), center + Vector2(2, 5), center + Vector2(6, 11), center + Vector2(2, 12), center + Vector2(-2, 8)]), shade)
 
 
 func _draw_hazard_accent(progress: float, alpha: float) -> void:
@@ -320,16 +331,6 @@ func _draw_collapse(progress: float) -> void:
 		]), tint)
 		if index % 2 == 0:
 			draw_circle(point + Vector2(0.0, 3.5), 1.1 + amount, Color("b8a99a", fade * 0.35))
-
-
-func _faction_color(faction_value: Variant) -> Color:
-	var faction: int = int(faction_value)
-	match faction:
-		0: return Color("8297aa")
-		1: return Color("a87970")
-		2: return Color("9c916b")
-		3: return Color("817ba0")
-		_: return Color("8e969a")
 
 
 func _ellipse_points(center: Vector2, radius_x: float, radius_y: float, segments: int) -> PackedVector2Array:

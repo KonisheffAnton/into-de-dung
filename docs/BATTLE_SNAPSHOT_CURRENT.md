@@ -6,7 +6,9 @@
 
 ## Формат и граница совместимости
 
-- `UnitState.SNAPSHOT_SCHEMA_VERSION = 9`: базовые поля и `guard_stance` обязательны.
+- `UnitState.SNAPSHOT_SCHEMA_VERSION = 10`: базовые поля, `guard_stance`, `creature_kind` и `archetype_id` обязательны.
+  С2026-11-22 `creature_kind` — living/undead, `archetype_id` — строка ≤64 UTF-8 байт;
+  пустая означает обычного бойца. Clone/restore/guards сохраняют идентичность.
   `action_resources`, `armor`, `bleeding`, `control`, `combat_perks`, `elemental`
   присутствуют только при наличии компонента. Отсутствие не создаёт компонент.
 - `ItemSimulationSnapshot.SCHEMA_VERSION = 11`, scope `battle_state_v11`:
@@ -19,7 +21,7 @@
   перки или неверные типы. Каталог при restore должен совпадать с descriptor;
   deep copy переносит независимый массив. Счётчик выводится из размещения вещей,
   отдельного поля Unit/perks нет. [Правило и суммирование](EQUIPMENT_ATTACKS.md).
-- Старые unit1–8 и item1–10 больше не читаются и не записываются runtime codec.
+- Старые unit1–9 и item1–10 больше не читаются и не записываются runtime codec.
   Переписывание номера не является миграцией. Повреждённые данные отклоняются;
   корректная текущая форма с неподдержанным номером даёт UNSUPPORTED.
 - Это **не формат сохранения профиля**: постоянный файл и граница отказа —
@@ -33,7 +35,7 @@
 
 Каждый владелец пишет и читает одну версию. Старые формы не восстанавливаются;
 внешний DTO проходит прежние строгие проверки. Режим задаётся значением,
-а не номером схемы. Unit9 и Item11 остаются текущими оболочками.
+а не номером схемы. Unit10 и Item11 остаются текущими оболочками.
 
 | Владелец | Форма / признаки режима |
 |---|---|
@@ -42,7 +44,7 @@
 | BleedingState | bleeding4; обязательны `stacked:bool` и `stacks:int`; опциональный `contributions:Array` включает авторский режим только при stacked |
 | ElementalState | elemental4; обязательны `acid_ticks:int`, `poison_stacks:int`, `poison_ticks:int`, `poison_source:Dictionary`; авторский режим содержит оба массива `burning_contributions` и `poison_contributions` |
 | CombatPerksState | perks7; все восемь флагов, `uses_bonus_actions:bool` и `reaction_left:int`; при оплате из bonus старый запас строго 0; опциональный `warrior:{ready_turn:int}` — capability и личный откат [Воина](WARRIOR_V1.md) |
-| CombatEnvironmentState | environment5; `status_effects:bool`, опциональные collapse/hazards (hazards1; опциональный wall_mount=ledge); status требует collapse, hazards требует status |
+| CombatEnvironmentState | environment6; `status_effects:bool`, опциональные collapse/hazards (hazards1; опциональный wall_mount=ledge); status требует collapse, hazards требует status |
 | BattleAbilityState | abilities3; `ruleset_id` пустой для прежней маны либо `u14-deck-v1`, обязательный `first_team`; прежний режим требует first_team=1 |
 
 С2026-11-05 terrain в board2 допускает ID0–4: прежние FLOOR/WALL/HAZARD/VOID
@@ -51,7 +53,7 @@ board/item/board-only validators. Форма board2 и остальные ном
 каталоги1–3 не мигрируют. [Поведение глубокой кислоты](ENVIRONMENT_HAZARDS_V1.md#глубокая-кислота--2026-11-05).
 
 Вложенные старые номера armor1–3/bleeding1–3/elemental1–2/perks1–6/
-environment1–4/abilities1–2 отклоняются. Game modes и их числовые правила
+environment1–5/abilities1–2 отклоняются. Game modes и их числовые правила
 сохранены. Валидаторы событий, guards, UI и колода читают явные признаки режима.
 В runtime нет прежних readers и выбора минимальной версии по содержимому.
 Неизвестный номер текущей корректной board-формы даёт UNSUPPORTED;
@@ -84,7 +86,7 @@ environment1–4/abilities1–2 отклоняются. Game modes и их чи�
 проверки вкладов; текущие источники атак продолжают требовать ссылку на юнита.
 Семантика суммы/срока/кредита — [V1](CHARACTER_ATTRIBUTES_V1.md).
 
-Unit9/Item11 и вложенные номера сохраняются: это явные режимы действующей
+Unit10/Item11 и вложенные номера сохраняются: это явные режимы действующей
 формы, а постоянный профиль отдельно переходит на save v7. Все полные копии,
 clone/restore, foreground/worker и presentation DTO несут одинаковые значения.
 
@@ -108,7 +110,7 @@ Elemental4 принимает только текущую точную форм�
 Нулевые poison_stacks/ticks требуют пустой source; активные — положительных
 обоих счётчиков и проверенного source. В authored-режиме число записей равно
 силе, оба массива обязательны даже пустыми. Copy/restore/guard включают весь
-DTO; старые Unit9/Item11/envelope и постоянный save v7 не меняются.
+DTO; старые Unit10/Item11/envelope и постоянный save v7 не меняются.
 Исторические авторы разрешены только у authored-вкладов; обычный attack-source
 требует существующего юнита. Карточный mage source25 требует deck, legacy26 — нет.
 Старые source ID сохраняются. Правила — [K17](STATUS_EFFECTS_NEXT.md).
@@ -378,3 +380,7 @@ FAULTED, ownership, свежесть, refusal/fallback/discard/join. Подпи�
 `test_reports/snapshot-current-20261010/`. Производственная сцена с `_process`
 включённым проверяется отдельно; синтетический рост не является прогнозом FPS,
 а технический прогон не закрывает ручной F5/Editor/DPI/GPU.
+
+С2026-11-22 записи трупов environment6 содержат `remains`, `fresh_turns_left`
+и `fresh_round_pending`; строгие формы и срок принадлежат [D5](ENVIRONMENT_D5.md#свежие-трупы-и-кости--2026-11-22).
+Unit9/environment5 отклоняются без миграции; формат постоянного профиля прежний.

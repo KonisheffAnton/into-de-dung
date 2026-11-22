@@ -264,7 +264,7 @@ static func _board_structure(envelope: Dictionary) -> String:
 	for cell: Variant in board["occupancy"]:
 		if not _shape(cell, {"x": TYPE_INT, "y": TYPE_INT, "unit_id": TYPE_INT}): return "board/occupancy/schema"
 	for unit: Variant in board["units"]:
-		var unit_fields := {"schema_version": TYPE_INT, "id": TYPE_INT, "faction": TYPE_INT, "cell_x": TYPE_INT, "cell_y": TYPE_INT, "height": TYPE_INT, "debug_name": TYPE_STRING, "ai_profile_path": TYPE_STRING, "move_points_left": TYPE_FLOAT, "has_attacked": TYPE_BOOL, "stats": TYPE_DICTIONARY, "vitals": TYPE_DICTIONARY, "guard_stance": TYPE_BOOL}
+		var unit_fields := {"schema_version": TYPE_INT, "id": TYPE_INT, "faction": TYPE_INT, "cell_x": TYPE_INT, "cell_y": TYPE_INT, "height": TYPE_INT, "debug_name": TYPE_STRING, "creature_kind": TYPE_STRING, "archetype_id": TYPE_STRING, "ai_profile_path": TYPE_STRING, "move_points_left": TYPE_FLOAT, "has_attacked": TYPE_BOOL, "stats": TYPE_DICTIONARY, "vitals": TYPE_DICTIONARY, "guard_stance": TYPE_BOOL}
 		if typeof(unit) != TYPE_DICTIONARY: return "board/unit/schema"
 		for key: String in ["action_resources", "armor", "bleeding", "control", "combat_perks", "elemental"]:
 			if unit.has(key): unit_fields[key] = TYPE_DICTIONARY

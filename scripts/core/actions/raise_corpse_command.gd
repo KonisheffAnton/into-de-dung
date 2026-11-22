@@ -53,6 +53,7 @@ func _new_helper(context: ActionContext, id: int, corpse: Dictionary) -> UnitSta
 	var state := context.get_state()
 	var actor := state.get_board().get_unit_by_id(_actor_id)
 	var unit := UseSummoningItemCommand.make_helper(id, actor.faction, corpse["cell"], actor.debug_name)
+	unit.creature_kind = &"undead"
 	unit.armor = ArmorState.new()
 	unit.armor.in_battle = true
 	unit.armor.fractional = actor.armor != null and actor.armor.fractional

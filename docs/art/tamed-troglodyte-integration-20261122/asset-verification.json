@@ -1,0 +1,35 @@
+{
+  "atlas_checks": [
+    {
+      "clip": "buff",
+      "frames_byte_exact": 33,
+      "all_frames_inside_canvas": true,
+      "max_visible_height": 113,
+      "max_visible_width": 146
+    },
+    {
+      "clip": "death",
+      "frames_byte_exact": 33,
+      "all_frames_inside_canvas": true,
+      "max_visible_height": 103,
+      "max_visible_width": 178
+    },
+    {
+      "clip": "idle",
+      "frames_byte_exact": 33,
+      "all_frames_inside_canvas": true,
+      "max_visible_height": 104,
+      "max_visible_width": 146
+    },
+    {
+      "clip": "idle_secondary",
+      "frames_byte_exact": 33,
+      "all_frames_inside_canvas": true,
+      "max_visible_height": 103,
+      "max_visible_width": 146
+    }
+  ],
+  "total_frames_byte_exact": 132,
+  "no_resampling": true,
+  "roar_selection": "R2 integration proposal, independent art review APPROVE; user acceptance open"
+}

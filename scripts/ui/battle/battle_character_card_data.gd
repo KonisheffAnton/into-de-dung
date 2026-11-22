@@ -19,8 +19,10 @@ static func live(unit: UnitState, state: ItemSimulationState, loadout: Dictionar
 	}
 	var class_id := StringName(loadout.get("class_id", &""))
 	var definition := HeroCatalog.class_definition(class_id) if class_id != &"" else null
+	var is_troglodyte := unit.archetype_id == &"tamed_troglodyte" or class_id == &"tamed_troglodyte"
 	var identity := {
-		"class_label": definition.display_name if definition != null else ("Помощник" if state.is_summon(unit.id) else "Боец"),
+		"class_label": "Прирученный троглодит" if is_troglodyte else (definition.display_name if definition != null else ("Помощник" if state.is_summon(unit.id) else "Боец")),
+		"is_troglodyte": is_troglodyte,
 		"portrait": HubSkeletonCard.hero_texture(class_id, StringName(loadout.get("skin_id", &""))) if class_id != &"" else null,
 	}
 	var data := frame(row, identity)
@@ -31,6 +33,10 @@ static func live(unit: UnitState, state: ItemSimulationState, loadout: Dictionar
 	attributes.append("Оружие  %s  ·  Дальность  %s" % [_amount(unit.get_stat(StatTypes.StatType.WEAPON_DAMAGE)), _amount(unit.get_stat(StatTypes.StatType.ATTACK_RANGE))])
 	data.attributes_text = "\n".join(attributes)
 	var details: PackedStringArray = []
+	if is_troglodyte:
+		details.append("Плотный воин ближнего боя")
+		details.append("Толстая кожа — прямой урон меньше на 2 (один раз за попадание); не действует на периодический урон, падения и ловушки.")
+		details.append("Каннибализм — 1 основное действие; пожирает свежий труп на своей или соседней по стороне клетке, восстанавливая 50% недостающего здоровья. Кости не подходят.")
 	var owner := state.get_owner(unit.id)
 	if owner != null:
 		for item: ItemInstance in owner._items.values():
@@ -43,6 +49,7 @@ static func live(unit: UnitState, state: ItemSimulationState, loadout: Dictionar
 
 static func frame(row: Dictionary, identity: Dictionary) -> Dictionary:
 	if row.is_empty(): return {}
+	var is_troglodyte := bool(identity.get("is_troglodyte", identity.get("class_label", "") == "Прирученный троглодит"))
 	var hp := float(row.get("hp", 0.0))
 	var maximum := float(row.get("hp_max", 0.0))
 	var armor: Dictionary = row.get("armor", {})
@@ -75,6 +82,15 @@ static func frame(row: Dictionary, identity: Dictionary) -> Dictionary:
 	if statuses.is_empty():
 		statuses = "Состояний нет."
 		status_bbcode = BattleStatusPresentation.escape_bbcode(statuses)
+	if is_troglodyte:
+		var thick_skin := "Толстая кожа — прямой урон меньше на 2 (один раз за попадание); не действует на периодический урон, падения и ловушки."
+		var cannibalism := "Каннибализм — 1 основное действие; пожирает свежий труп на своей или соседней по стороне клетке, восстанавливая 50% недостающего здоровья. Кости не подходят."
+		statuses += "\n" + thick_skin + "\n" + cannibalism
+		status_bbcode += "\n[img=32x32]res://assets/ui/abilities/troglodyte_thick_skin.svg[/img] [color=#e0ddcb]%s[/color]" % BattleStatusPresentation.escape_bbcode(thick_skin)
+		status_bbcode += "\n[img=32x32]res://assets/ui/abilities/troglodyte_cannibalism.svg[/img] [color=#e0ddcb]%s[/color]" % BattleStatusPresentation.escape_bbcode(cannibalism)
+	var details_text := "Снаряжение и свойства доступны после действия."
+	if is_troglodyte:
+		details_text = "Плотный воин ближнего боя\n\nТолстая кожа — прямой урон меньше на 2 (один раз за попадание); не действует на периодический урон, падения и ловушки.\n\nКаннибализм — 1 основное действие; пожирает свежий труп на своей или соседней по стороне клетке, восстанавливая 50% недостающего здоровья. Кости не подходят."
 	return {
 		"id": int(row.get("id", 0)), "name": String(row.get("name", "")),
 		"class_label": String(identity.get("class_label", "Боец")), "portrait": identity.get("portrait"),
@@ -85,7 +101,7 @@ static func frame(row: Dictionary, identity: Dictionary) -> Dictionary:
 		"balance_text": BattleBalanceDisplay.value_text(balance, balance_max), "balance_ratio": BattleBalanceDisplay.ratio(balance, balance_max),
 		"actions_text": "Основное  %d   ·   Доп.  %d\nДвижение  %s" % [int(row.get("main", 0)), int(row.get("bonus", 0)), _amount(float(row.get("move", 0.0)))],
 		"attributes_text": "Характеристики доступны после действия.", "status_text": statuses, "status_bbcode": status_bbcode,
-		"details_text": "Снаряжение и свойства доступны после действия.", "published": true,
+		"details_text": details_text, "published": true,
 	}
 
 static func _extra_statuses(row: Dictionary) -> Array[Dictionary]:

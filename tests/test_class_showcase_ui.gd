@@ -75,6 +75,11 @@ func _run() -> void:
 				var mean_center := board.cell_center(Vector2i(roundi(mean_cell.x), roundi(mean_cell.y)))
 				board.pan_camera(board.size * 0.5 - mean_center)
 				await RenderingServer.frame_post_draw
+				for visible_unit: UnitState in session.units:
+					if visible_unit.archetype_id != TroglodyteKit.ID: continue
+					var visual := board._presentation_visual(visible_unit.id)
+					var screen_position := visual.get_global_transform_with_canvas().origin
+					check(Rect2(70, 190, 1140, 480).has_point(screen_position), "new troglodyte appears inside the opening viewport away from HUD")
 				var captures := _capture_directory()
 				DirAccess.make_dir_recursive_absolute(ProjectSettings.globalize_path(captures))
 				var image := viewport.get_texture().get_image()
@@ -97,7 +102,7 @@ func _check_live_roster(view: HeroHubBattleView, profile: HeroHubState) -> Dicti
 	var board := view.board_view
 	check(session != null and board != null, "first tactical field owns its factory session and board")
 	if session == null or board == null: return {}
-	check(session.units.size() == 6 and session.actor_loadouts.size() == 6,
+	check(session.units.size() == 7 and session.actor_loadouts.size() == 7,
 		"three class heroes, two missing classes and the named hobgoblin share one field")
 	var counts: Dictionary = {}
 	var enemy_count := 0
@@ -106,7 +111,7 @@ func _check_live_roster(view: HeroHubBattleView, profile: HeroHubState) -> Dicti
 	var expected_skins: Dictionary[StringName, StringName] = {
 		&"shieldbearer": &"watch_shield", &"fighter": &"red_bastion",
 		&"rogue": &"short_cape", &"mage": &"star_hood", &"archer": &"silver_ranger",
-		&"sick_hobgoblin": &"sick_hobgoblin",
+		&"sick_hobgoblin": &"sick_hobgoblin", &"tamed_troglodyte": &"tamed_troglodyte",
 	}
 	for unit: UnitState in session.units:
 		var loadout: Dictionary = session.actor_loadouts.get(unit.id, {})
@@ -137,13 +142,13 @@ func _check_live_roster(view: HeroHubBattleView, profile: HeroHubState) -> Dicti
 				if node is CanvasItem and (node as CanvasItem).visible: presets_hidden = false
 		check(presets_hidden, "named class actor does not borrow an EnemyPreset: " + String(class_id))
 	var expected: Array[StringName] = HeroCatalog.class_ids(4)
-	var exactly_one_of_each := counts.size() == expected.size() + 1
+	var exactly_one_of_each := counts.size() == expected.size() + 2
 	for class_id: StringName in expected:
 		if int(counts.get(class_id, 0)) != 1: exactly_one_of_each = false
-	check(enemy_count == 3 and enemy_without_loadout == 0, "two absent classes and hobgoblin carry their own enemy loadouts")
+	check(enemy_count == 4 and enemy_without_loadout == 0, "two absent classes and two monsters carry their own enemy loadouts")
 	check(hobgoblin_count == 1 and int(counts.get(&"sick_hobgoblin", 0)) == 1,
 		"one named hobgoblin appears independently of the five hero classes")
-	check(exactly_one_of_each, "all five hero class identities and one hobgoblin appear exactly once")
+	check(exactly_one_of_each, "all five hero class identities and two monsters appear exactly once")
 	check(view.expedition_battle and profile.phase == "expedition" and profile.expedition.phase == "battle",
 		"showcase is the selected expedition battle, without starting a new campaign mode")
 	# У исходников разные направления; покой фигуры определяется её командой.
@@ -173,7 +178,7 @@ func _test_single_party_mage_enemy() -> void:
 	var mage: UnitState = null
 	for unit: UnitState in session.units:
 		if unit.faction == Faction.Type.ENEMY and session.actor_loadouts.get(unit.id, {}).get("class_id", &"") == &"mage": mage = unit
-	check(session.units.size() == 6 and session.actor_loadouts.size() == 6 and mage != null,
+	check(session.units.size() == 7 and session.actor_loadouts.size() == 7 and mage != null,
 		"single Fighter party yields four absent hero classes and the named enemy")
 	if mage != null and board != null:
 		var visual := board._presentation_visual(mage.id)

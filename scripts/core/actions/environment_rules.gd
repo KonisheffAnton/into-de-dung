@@ -24,8 +24,9 @@ static func snapshot_reason(data: Dictionary, board: Dictionary, summons: Array)
 		if not units.has(id) or units[id]["vitals"]["is_alive"]: return "environment/death_reference"
 	for record: Dictionary in data["corpses"]:
 		var id: int = record["source_unit_id"]
-		if not units.has(id) or summoned.has(id) or not _safe_cell(record["cell"], board): return "environment/corpse_reference"
+		if not units.has(id) or (summoned.has(id) and units[id].creature_kind != "undead") or not _safe_cell(record["cell"], board): return "environment/corpse_reference"
 		var unit: Dictionary = units[id]
+		if unit.creature_kind == "undead" and record.remains != "bones": return "environment/undead_remains"
 		if unit["vitals"]["is_alive"] or record["cell"] != Vector2i(unit["cell_x"], unit["cell_y"]) or record["faction"] != unit["faction"]: return "environment/corpse_reference"
 	return ""
 
@@ -65,5 +66,5 @@ static func consequences(event: Dictionary, context: ActionContext) -> Array[Com
 static func valid_draft(event: Dictionary) -> bool:
 	if not ItemSimulationSnapshot._shape(event, {"kind": TYPE_STRING_NAME, "actor_unit_id": TYPE_INT, "target_unit_id": TYPE_INT, "corpse": TYPE_DICTIONARY}): return false
 	var corpse: Dictionary = event["corpse"]
-	if not ItemSimulationSnapshot._shape(corpse, {"id": TYPE_INT, "cell": TYPE_VECTOR2I, "source_unit_id": TYPE_INT, "faction": TYPE_INT, "creature_kind": TYPE_STRING}): return false
-	return event["kind"] == &"corpse_created" and event["actor_unit_id"] == 0 and event["target_unit_id"] == corpse["source_unit_id"] and corpse["id"] > 0 and corpse["id"] < ActionContext.MAX_ID and corpse["source_unit_id"] > 0 and corpse["source_unit_id"] < ActionContext.MAX_ID and corpse["faction"] in Faction.Type.values() and corpse["creature_kind"] == "humanoid"
+	if not ItemSimulationSnapshot._shape(corpse, {"id": TYPE_INT, "cell": TYPE_VECTOR2I, "source_unit_id": TYPE_INT, "faction": TYPE_INT, "creature_kind": TYPE_STRING, "remains": TYPE_STRING, "fresh_turns_left": TYPE_INT, "fresh_round_pending": TYPE_BOOL}): return false
+	return event["kind"] == &"corpse_created" and event["actor_unit_id"] == 0 and event["target_unit_id"] == corpse["source_unit_id"] and corpse["id"] > 0 and corpse["id"] < ActionContext.MAX_ID and corpse["source_unit_id"] > 0 and corpse["source_unit_id"] < ActionContext.MAX_ID and corpse["faction"] in Faction.Type.values() and corpse["creature_kind"] == "humanoid" and CombatEnvironmentState.valid_freshness(corpse)

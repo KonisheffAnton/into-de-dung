@@ -1069,7 +1069,7 @@ func _test_p06_a10_rejections() -> void:
 	board.add_unit(first)
 	board.add_unit(second)
 	var snapshot := SimulationSnapshot.capture_board(board, []).snapshot
-	for unit_key: String in ["schema_version", "id", "faction", "cell_x", "cell_y", "height", "debug_name", "ai_profile_path", "move_points_left", "has_attacked", "stats", "vitals", "guard_stance"]:
+	for unit_key: String in ["schema_version", "id", "faction", "creature_kind", "archetype_id", "cell_x", "cell_y", "height", "debug_name", "ai_profile_path", "move_points_left", "has_attacked", "stats", "vitals", "guard_stance"]:
 		var missing_unit_key := snapshot.to_dict()
 		missing_unit_key["board"]["units"][0].erase(unit_key)
 		_check(SimulationSnapshot.from_dict(missing_unit_key).code == BoardSnapshotResult.Code.SNAPSHOT_INVALID, "P06 A10 missing v2 Unit key " + unit_key)

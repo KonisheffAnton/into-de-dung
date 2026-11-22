@@ -57,6 +57,7 @@ func get_unit_art_scale() -> float:
 
 func get_unit_pick_rect() -> Rect2:
 	if _has_skin() and visual_class_id == &"sick_hobgoblin": return Rect2(-31, -55, 62, 58)
+	if _has_skin() and visual_class_id == &"tamed_troglodyte": return Rect2(-37, -46, 74, 48)
 	if _has_skin() and visual_class_id in [&"mage", &"archer"]: return Rect2(-40, -78, 80, 82)
 	return super.get_unit_pick_rect()
 

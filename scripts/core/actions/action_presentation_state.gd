@@ -31,7 +31,7 @@ static func capture(state: ItemSimulationState) -> Dictionary:
 		var elemental: Dictionary = unit.elemental.to_dict().duplicate(true) if unit.elemental != null else {}
 		var control: Dictionary = unit.control.to_dict().duplicate(true) if unit.control != null else {}
 		units[unit.id] = {
-			"id": unit.id, "name": unit.debug_name, "faction": int(unit.faction),
+			"id": unit.id, "name": unit.debug_name, "creature_kind": String(unit.creature_kind), "archetype_id": String(unit.archetype_id), "faction": int(unit.faction),
 			"cell": unit.cell, "alive": unit.is_alive(),
 			"hp": unit.vitals.get_hp() if unit.vitals != null else 0.0,
 			"hp_max": hp_max,

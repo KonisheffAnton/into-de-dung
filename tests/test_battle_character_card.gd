@@ -149,6 +149,11 @@ func _exercise(hub: bool) -> void:
 		var count := 0
 		for unit: UnitState in session.units:
 			var unit_data := BattleCharacterCardData.live(unit, session.state, session.actor_loadouts.get(unit.id, {}), demo._inspection_options(unit))
+			var class_id: StringName = session.actor_loadouts.get(unit.id, {}).get("class_id", &"")
+			if not HeroCatalog.class_ids(4).has(class_id):
+				if class_id == TroglodyteKit.ID:
+					check(unit_data.class_label == "Прирученный троглодит" and unit_data.portrait != null and unit_data.details_text.contains("Толстая кожа") and unit_data.status_bbcode.contains("troglodyte_cannibalism.svg"), "troglodyte card shows identity, portrait and both abilities")
+				continue
 			check(unit_data.portrait != null and unit_data.class_label != "Боец", "production class has name and portrait")
 			count += 1
 		check(count == 5, "five-class production roster preserved")
@@ -195,6 +200,17 @@ func _exercise(hub: bool) -> void:
 	demo._character_card_session = -1
 	demo._refresh_character_card()
 	check(not card.visible and demo._character_card_id == UnitId.NONE, "session replacement clears old inspection")
+	if hub:
+		for monster: UnitState in session.units:
+			if monster.archetype_id != TroglodyteKit.ID: continue
+			demo._open_character_card(monster.id)
+			await _settle()
+			check(card.visible and card.name_label.text == "Прирученный троглодит" and card.status_label.get_parsed_text().contains("Каннибализм"), "real enemy inspection renders troglodyte abilities")
+			if not card.details_label.visible: card.details_button.pressed.emit()
+			await _settle()
+			card.scroll_container.scroll_vertical = int(card.status_label.position.y)
+			await _settle()
+			await _capture("troglodyte-abilities")
 	demo.queue_free()
 	await _settle()
 

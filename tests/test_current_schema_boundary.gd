@@ -37,7 +37,7 @@ func run() -> void:
 	codec(BleedingState.new().to_dict(), 4, BleedingState.valid, BleedingState.from_dict, "bleeding")
 	codec(ElementalState.new().to_dict(), 4, ElementalState.valid, ElementalState.from_dict, "elemental")
 	codec(CombatPerksState.new().to_dict(), 7, CombatPerksState.valid, CombatPerksState.from_dict, "perks")
-	codec(CombatEnvironmentState.new().to_dict(), 5, CombatEnvironmentState.valid, CombatEnvironmentState.from_dict, "environment")
+	codec(CombatEnvironmentState.new().to_dict(), 6, CombatEnvironmentState.valid, CombatEnvironmentState.from_dict, "environment")
 	codec(BattleAbilityState.create(AbilityCatalog.defaults()).to_dict(), 3, BattleAbilityState.valid, BattleAbilityState.from_dict, "abilities")
 	var board := BattleBoard.new(2, 1)
 	codec(board.to_snapshot_dict(), 2, BattleBoard.validate_snapshot_dict, BattleBoard.from_snapshot_dict, "board")

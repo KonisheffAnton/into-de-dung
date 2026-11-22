@@ -62,6 +62,7 @@ static func valid_draft(draft: Dictionary, context: ActionContext = null) -> boo
 		var reaction_def := context.get_attack_rules().get_definition(draft["attack_definition_id"])
 		return reaction_def != null and reaction_def.reaction_strike and draft["actor_unit_id"] > 0 and draft["actor_unit_id"] < MAX_ID and draft["target_unit_id"] > 0 and draft["target_unit_id"] < MAX_ID and draft["actor_unit_id"] != draft["target_unit_id"] and draft["main_cost"] == 0 and draft["main_before"] >= 0 and draft["main_before"] <= 4096 and draft["main_after"] == draft["main_before"]
 	if draft.get("kind") == &"corpse_created": return EnvironmentRules.valid_draft(draft)
+	if draft.get("kind") == &"corpse_consumed": return CannibalizeCommand.valid_draft(draft)
 	if draft.get("kind") == &"corpse_raised": return RaiseCorpseCommand.valid_draft(draft)
 	if draft.get("kind") == &"bleeding_changed": return _valid_bleeding_draft(draft)
 	if draft.get("kind") == &"control_changed": return _valid_control_draft(draft)
