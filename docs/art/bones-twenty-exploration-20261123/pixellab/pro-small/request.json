@@ -1,0 +1,32 @@
+{
+  "endpoint": "/generate-image-v2",
+  "payload": {
+    "description": "One low compact mound of tiny BONE FRAGMENTS and BONE SHARDS for a dark fantasy pixel game. The bones are all snapped into small unequal pieces: short jagged tubular ends, thin pointed splinters, flat curved flakes and tiny joint chips. Mostly stubby and irregular. About 18 small fragments, close together and overlapping. The heap is a low irregular oval, about 40 pixels wide and 22 pixels high. Every individual fragment is only 3-7 pixels long. NO whole bones. NO large dog-bone silhouettes. NO skull or recognizable skeleton. Clearly dry dirty ivory bone material, not round rocks. Each image should be a different irregular arrangement with varied bone shapes. Simple crisp low-resolution pixel art, sparse flat shading, selective dark outline. Top-down three-quarter camera, top-left light. Transparent empty margins, no ground, tray, tile, floor or shadow halo.",
+    "image_size": {
+      "width": 64,
+      "height": 64
+    },
+    "seed": 202611551,
+    "no_background": true,
+    "style_options": {
+      "color_palette": false,
+      "outline": false,
+      "detail": false,
+      "shading": false
+    },
+    "target_palette": {
+      "colors": [
+        "#e0d6be",
+        "#c6bba7",
+        "#aa9f90",
+        "#8c8179",
+        "#71676b",
+        "#564c59",
+        "#3e3544",
+        "#28232e"
+      ],
+      "max_colors": 8,
+      "name": "muted ivory bone and gray purple shadow"
+    }
+  }
+}

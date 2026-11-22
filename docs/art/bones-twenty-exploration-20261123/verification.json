@@ -1,0 +1,298 @@
+{
+  "base": "f9e041b02ef991a06fdca649f17ec666288e83d7",
+  "scope": "20 art proposals plus research; no runtime edits",
+  "images": [
+    {
+      "label": "G11",
+      "file": "imagegen/G11.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "alpha": [
+        0,
+        254
+      ],
+      "visible_rgb_colors": 15105,
+      "sha256": "cd46ccf086cd9f76c45473a232b46101b324c629975abe35f840865a40c79ab6"
+    },
+    {
+      "label": "G12",
+      "file": "imagegen/G12.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "visible_rgb_colors": 10504,
+      "sha256": "19925ed5e62a7bf6d0dba693c6659831e61347404a8c75dfa02bf1eb95574fe4"
+    },
+    {
+      "label": "G13",
+      "file": "imagegen/G13.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "visible_rgb_colors": 18788,
+      "sha256": "1b0dbc0748cc284bd507bc2b969a2a8ebe7e74fc7cf9ecefc798c93a86dd759c"
+    },
+    {
+      "label": "G14",
+      "file": "imagegen/G14.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "visible_rgb_colors": 17588,
+      "sha256": "fb5350bf8e2f15ed314687c687df578cd4447e034f630ee91e823e3dd91c15ca"
+    },
+    {
+      "label": "G15",
+      "file": "imagegen/G15.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "alpha": [
+        0,
+        254
+      ],
+      "visible_rgb_colors": 13933,
+      "sha256": "663846f196b2619d433bbb55e18731b2fa28bcffdb057d7903c2bf307288bf76"
+    },
+    {
+      "label": "G16",
+      "file": "imagegen/G16.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "visible_rgb_colors": 15583,
+      "sha256": "65a6cc07b5aed9349fabcaed30e36621e79ac0da4d0932099a3d4df634e4b4df"
+    },
+    {
+      "label": "G17",
+      "file": "imagegen/G17.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "alpha": [
+        0,
+        254
+      ],
+      "visible_rgb_colors": 21189,
+      "sha256": "7ecb26e7d0b8b002dcf38ffe4c8d68800c014ca4aa7aca1c04043d5d61184537"
+    },
+    {
+      "label": "G18",
+      "file": "imagegen/G18.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "alpha": [
+        0,
+        254
+      ],
+      "visible_rgb_colors": 16228,
+      "sha256": "6e75ba171e2ab10a2adf32010940b0c7e1bcdc536ae4795c61e7f453da87c504"
+    },
+    {
+      "label": "G19",
+      "file": "imagegen/G19.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "alpha": [
+        0,
+        254
+      ],
+      "visible_rgb_colors": 17365,
+      "sha256": "7496df5ec4da29fed1fa05caa1d053fa74e1c3adfdff6facc24009a596e8399b"
+    },
+    {
+      "label": "G20",
+      "file": "imagegen/G20.png",
+      "size": [
+        1536,
+        1024
+      ],
+      "alpha": [
+        0,
+        254
+      ],
+      "visible_rgb_colors": 20143,
+      "sha256": "7ed2247962d73a4506c7b9959c1407febe104db71effe71e8e5e7389a26904de"
+    },
+    {
+      "label": "PL19",
+      "file": "pixellab/pro-candidates/image.png",
+      "size": [
+        64,
+        64
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "visible_rgb_colors": 6,
+      "sha256": "3c87fbae6b59facb14f76f6ef18c1773868d21c8691c1ce694e54f16aeda3ddf"
+    },
+    {
+      "label": "PL20",
+      "file": "pixellab/pro-candidates/image-10.png",
+      "size": [
+        64,
+        64
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "visible_rgb_colors": 6,
+      "sha256": "3dcba1a65352b371ea90c9d94a38095d456327c7db1c1945d4d4426d209f74d1"
+    },
+    {
+      "label": "PL21",
+      "file": "pixellab/pro-candidates/image-13.png",
+      "size": [
+        64,
+        64
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "visible_rgb_colors": 7,
+      "sha256": "a812e1de3dd408dafc6aa2f0328cf8be0279e8c319d8f363cb37882769b6199d"
+    },
+    {
+      "label": "PL22",
+      "file": "pixellab/pro-small/image.png",
+      "size": [
+        64,
+        64
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "visible_rgb_colors": 6,
+      "sha256": "51a14d29c72ce6f140d9f347c309c91402d48911362af0828cb283f1f2c83a10"
+    },
+    {
+      "label": "PL23",
+      "file": "pixellab/pro-small/image-5.png",
+      "size": [
+        64,
+        64
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "visible_rgb_colors": 7,
+      "sha256": "5f0f3b34448d73768ddaf2716927d0ea22c3102096279cd04331bfa0b646d7ab"
+    },
+    {
+      "label": "PL24",
+      "file": "pixellab/pro-small/image-6.png",
+      "size": [
+        64,
+        64
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "visible_rgb_colors": 5,
+      "sha256": "357fc69695548179003a0f3d527520113f6b0724bce83549f9d60c29543e8136"
+    },
+    {
+      "label": "PL25",
+      "file": "pixellab/pro-small/image-7.png",
+      "size": [
+        64,
+        64
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "visible_rgb_colors": 6,
+      "sha256": "003e641622cffab462757055f3e0a6a9abe42b4f6e5c3a0831945518c3822e40"
+    },
+    {
+      "label": "PL26",
+      "file": "pixellab/pro-small/image-9.png",
+      "size": [
+        64,
+        64
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "visible_rgb_colors": 5,
+      "sha256": "137b15c321ebefe0879a47d546806f852a2b6ba5edce7eacfd6b66d1bd5849e4"
+    },
+    {
+      "label": "PL27",
+      "file": "pixellab/pro-small/image-12.png",
+      "size": [
+        64,
+        64
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "visible_rgb_colors": 6,
+      "sha256": "8032733ae4ac972c106152dd7c0c3852c40e3397b74b6fb8706771c3b26c808e"
+    },
+    {
+      "label": "PL28",
+      "file": "pixellab/pro-small/image-13.png",
+      "size": [
+        64,
+        64
+      ],
+      "alpha": [
+        0,
+        255
+      ],
+      "visible_rgb_colors": 4,
+      "sha256": "9e6692a3d038a0c69235eff7d4f22a8d3f39e7a622b1c26ffaf065d961f68039"
+    }
+  ],
+  "prior_png_unchanged": 44,
+  "imagegen_original_copies_identical": true,
+  "imagegen_calls": 10,
+  "pixellab_post_count": 12,
+  "pixellab_generations": 30.0,
+  "preview": "nearest only; G cropped/framed, PL native integer upscale",
+  "limitations": [
+    "G are large raster concepts with soft alpha; not native production sprites",
+    "Some concepts trade bone legibility for dense fragments; user acceptance pending",
+    "No Godot, game field placement, gameplay or performance checks",
+    "No third-party paid asset was purchased or integrated"
+  ]
+}

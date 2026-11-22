@@ -1,0 +1,17 @@
+{
+  "endpoint": "/create-image-pixflux",
+  "payload": {
+    "description": "One small low heap of anonymous BROKEN BONES. Many SMALL different fragments tightly overlap: short hollow bone stubs, tiny crooked splinters, flat chips, small knobbly joint ends. Most pieces 4-7 pixels long, about 12 pieces in total. NO complete long bones, skull, head, face, jaw, ribcage, large loop or large plate. Clearly bone material, not rocks or gravel. ONE compact LOW mound, wide irregular silhouette, not arranged specimens. Simple chunky pixel art, only a few flat dirty ivory/taupe/purple-gray colors, selective dark outline. Three-quarter overhead camera, top-left light. Centered small ground prop with transparent margins. Transparent background; NO floor, ground patch, tile, tray, pedestal, rocks, flesh, glow or smooth shading. Elongated low heap along a gentle diagonal; little tube ends, flat flakes and short bent splinters interlocked.",
+    "image_size": {
+      "width": 48,
+      "height": 48
+    },
+    "outline": "selective outline",
+    "detail": "low detail",
+    "view": "high top-down",
+    "no_background": true,
+    "seed": 202611502,
+    "shading": "basic shading",
+    "text_guidance_scale": 10
+  }
+}
