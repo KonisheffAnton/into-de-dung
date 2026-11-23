@@ -1,0 +1,825 @@
+{
+	"camera_zoom": 1.0,
+	"capture": "D:\\Games\\into-de-dung\\test_reports\\bones-field-9c5b14a7dac84974ac39503b5bc3eaf0\\captures/field-all-100.png",
+	"failed_checks": [],
+	"field_size": [
+		8,
+		8
+	],
+	"renderer": "mobile",
+	"safe_cells_count": 38,
+	"selected_cells_unique": 20,
+	"shallow_projection": true,
+	"snapshot_unchanged": true,
+	"tile_size": [
+		128.0,
+		64.0
+	],
+	"variants": [
+		{
+			"canvas_origin": [
+				464.0,
+				617.5
+			],
+			"canvas_scale": [
+				0.0510638281702995,
+				0.0503597110509872
+			],
+			"cell": [
+				3,
+				7
+			],
+			"display_size": [
+				60.0,
+				21.0
+			],
+			"id": "G21",
+			"label_offset_y": 13.5,
+			"local_scale": [
+				0.0510638281702995,
+				0.0503597110509872
+			],
+			"path": "D:\\Games\\into-de-dung\\docs\\art\\bones-twenty-more-20261123\\imagegen\\G21.png",
+			"region": [
+				181.0,
+				383.0,
+				1175.0,
+				417.0
+			],
+			"source_alpha_unchanged": true,
+			"source_size": [
+				1536,
+				1024
+			],
+			"viewport_bounds": [
+				434.0,
+				607.0,
+				60.0,
+				21.0
+			]
+		},
+		{
+			"canvas_origin": [
+				272.0,
+				521.5
+			],
+			"canvas_scale": [
+				0.0535236410796642,
+				0.0523809529840946
+			],
+			"cell": [
+				0,
+				7
+			],
+			"display_size": [
+				60.0,
+				22.0
+			],
+			"id": "G22",
+			"label_offset_y": 14.0,
+			"local_scale": [
+				0.0535236410796642,
+				0.0523809529840946
+			],
+			"path": "D:\\Games\\into-de-dung\\docs\\art\\bones-twenty-more-20261123\\imagegen\\G22.png",
+			"region": [
+				206.0,
+				383.0,
+				1121.0,
+				420.0
+			],
+			"source_alpha_unchanged": true,
+			"source_size": [
+				1536,
+				1024
+			],
+			"viewport_bounds": [
+				242.0,
+				510.5,
+				60.0,
+				22.0
+			]
+		},
+		{
+			"canvas_origin": [
+				400.0,
+				585.5
+			],
+			"canvas_scale": [
+				0.0658616870641708,
+				0.0644171759486198
+			],
+			"cell": [
+				2,
+				7
+			],
+			"display_size": [
+				60.0,
+				21.0
+			],
+			"id": "G23",
+			"label_offset_y": 13.5,
+			"local_scale": [
+				0.0658616870641708,
+				0.0644171759486198
+			],
+			"path": "D:\\Games\\into-de-dung\\docs\\art\\bones-twenty-more-20261123\\imagegen\\G23.png",
+			"region": [
+				297.0,
+				385.0,
+				911.0,
+				326.0
+			],
+			"source_alpha_unchanged": true,
+			"source_size": [
+				1536,
+				1024
+			],
+			"viewport_bounds": [
+				370.0,
+				575.0,
+				60.0,
+				21.0
+			]
+		},
+		{
+			"canvas_origin": [
+				528.0,
+				649.5
+			],
+			"canvas_scale": [
+				0.0543478243052959,
+				0.0553935877978802
+			],
+			"cell": [
+				4,
+				7
+			],
+			"display_size": [
+				60.0,
+				19.0
+			],
+			"id": "G24",
+			"label_offset_y": 12.5,
+			"local_scale": [
+				0.0543478243052959,
+				0.0553935877978802
+			],
+			"path": "D:\\Games\\into-de-dung\\docs\\art\\bones-twenty-more-20261123\\imagegen\\G24.png",
+			"region": [
+				214.0,
+				381.0,
+				1104.0,
+				343.0
+			],
+			"source_alpha_unchanged": true,
+			"source_size": [
+				1536,
+				1024
+			],
+			"viewport_bounds": [
+				498.0,
+				640.0,
+				60.0,
+				19.0
+			]
+		},
+		{
+			"canvas_origin": [
+				528.0,
+				585.5
+			],
+			"canvas_scale": [
+				0.0758533477783203,
+				0.0742049440741539
+			],
+			"cell": [
+				3,
+				6
+			],
+			"display_size": [
+				60.0,
+				21.0
+			],
+			"id": "G25",
+			"label_offset_y": 13.5,
+			"local_scale": [
+				0.0758533477783203,
+				0.0742049440741539
+			],
+			"path": "D:\\Games\\into-de-dung\\docs\\art\\bones-twenty-more-20261123\\imagegen\\G25.png",
+			"region": [
+				379.0,
+				486.0,
+				791.0,
+				283.0
+			],
+			"source_alpha_unchanged": true,
+			"source_size": [
+				1536,
+				1024
+			],
+			"viewport_bounds": [
+				498.0,
+				575.0,
+				60.0,
+				21.0
+			]
+		},
+		{
+			"canvas_origin": [
+				912.0,
+				393.5
+			],
+			"canvas_scale": [
+				0.0531443767249584,
+				0.0528052821755409
+			],
+			"cell": [
+				3,
+				0
+			],
+			"display_size": [
+				60.0,
+				16.0
+			],
+			"id": "G26",
+			"label_offset_y": 11.0,
+			"local_scale": [
+				0.0531443767249584,
+				0.0528052821755409
+			],
+			"path": "D:\\Games\\into-de-dung\\docs\\art\\bones-twenty-more-20261123\\imagegen\\G26.png",
+			"region": [
+				179.0,
+				419.0,
+				1129.0,
+				303.0
+			],
+			"source_alpha_unchanged": true,
+			"source_size": [
+				1536,
+				1024
+			],
+			"viewport_bounds": [
+				882.0,
+				385.5,
+				60.0,
+				16.0
+			]
+		},
+		{
+			"canvas_origin": [
+				336.0,
+				553.5
+			],
+			"canvas_scale": [
+				0.0770218223333359,
+				0.075987845659256
+			],
+			"cell": [
+				1,
+				7
+			],
+			"display_size": [
+				60.0,
+				25.0
+			],
+			"id": "G27",
+			"label_offset_y": 15.5,
+			"local_scale": [
+				0.0770218223333359,
+				0.075987845659256
+			],
+			"path": "D:\\Games\\into-de-dung\\docs\\art\\bones-twenty-more-20261123\\imagegen\\G27.png",
+			"region": [
+				365.0,
+				376.0,
+				779.0,
+				329.0
+			],
+			"source_alpha_unchanged": true,
+			"source_size": [
+				1536,
+				1024
+			],
+			"viewport_bounds": [
+				306.0,
+				541.0,
+				60.0,
+				25.0
+			]
+		},
+		{
+			"canvas_origin": [
+				592.0,
+				681.5
+			],
+			"canvas_scale": [
+				0.0547945201396942,
+				0.0544662326574326
+			],
+			"cell": [
+				5,
+				7
+			],
+			"display_size": [
+				60.0,
+				25.0
+			],
+			"id": "G28",
+			"label_offset_y": 15.5,
+			"local_scale": [
+				0.0547945201396942,
+				0.0544662326574326
+			],
+			"path": "D:\\Games\\into-de-dung\\docs\\art\\bones-twenty-more-20261123\\imagegen\\G28.png",
+			"region": [
+				213.0,
+				351.0,
+				1095.0,
+				459.0
+			],
+			"source_alpha_unchanged": true,
+			"source_size": [
+				1536,
+				1024
+			],
+			"viewport_bounds": [
+				562.0,
+				669.0,
+				60.0,
+				25.0
+			]
+		},
+		{
+			"canvas_origin": [
+				720.0,
+				745.5
+			],
+			"canvas_scale": [
+				0.0539083555340767,
+				0.0549738220870495
+			],
+			"cell": [
+				7,
+				7
+			],
+			"display_size": [
+				60.0,
+				21.0
+			],
+			"id": "G29",
+			"label_offset_y": 13.5,
+			"local_scale": [
+				0.0539083555340767,
+				0.0549738220870495
+			],
+			"path": "D:\\Games\\into-de-dung\\docs\\art\\bones-twenty-more-20261123\\imagegen\\G29.png",
+			"region": [
+				208.0,
+				384.0,
+				1113.0,
+				382.0
+			],
+			"source_alpha_unchanged": true,
+			"source_size": [
+				1536,
+				1024
+			],
+			"viewport_bounds": [
+				690.0,
+				735.0,
+				60.0,
+				21.0
+			]
+		},
+		{
+			"canvas_origin": [
+				336.0,
+				489.5
+			],
+			"canvas_scale": [
+				0.0625,
+				0.0631067976355553
+			],
+			"cell": [
+				0,
+				6
+			],
+			"display_size": [
+				60.0,
+				26.0
+			],
+			"id": "G30",
+			"label_offset_y": 16.0,
+			"local_scale": [
+				0.0625,
+				0.0631067976355553
+			],
+			"path": "D:\\Games\\into-de-dung\\docs\\art\\bones-twenty-more-20261123\\imagegen\\G30.png",
+			"region": [
+				297.0,
+				357.0,
+				960.0,
+				412.0
+			],
+			"source_alpha_unchanged": true,
+			"source_size": [
+				1536,
+				1024
+			],
+			"viewport_bounds": [
+				306.0,
+				476.5,
+				60.0,
+				26.0
+			]
+		},
+		{
+			"canvas_origin": [
+				464.0,
+				550.0
+			],
+			"canvas_scale": [
+				1.0,
+				1.0
+			],
+			"cell": [
+				2,
+				6
+			],
+			"display_size": [
+				64.0,
+				64.0
+			],
+			"id": "PL29",
+			"label_offset_y": 19.0,
+			"local_scale": [
+				1.0,
+				1.0
+			],
+			"path": "D:\\Games\\into-de-dung\\docs\\art\\bones-twenty-more-20261123\\pixellab\\fragments\\image.png",
+			"region": null,
+			"source_alpha_unchanged": true,
+			"source_size": [
+				64,
+				64
+			],
+			"viewport_bounds": [
+				432.0,
+				518.0,
+				64.0,
+				64.0
+			]
+		},
+		{
+			"canvas_origin": [
+				592.0,
+				614.0
+			],
+			"canvas_scale": [
+				1.0,
+				1.0
+			],
+			"cell": [
+				4,
+				6
+			],
+			"display_size": [
+				64.0,
+				64.0
+			],
+			"id": "PL30",
+			"label_offset_y": 21.0,
+			"local_scale": [
+				1.0,
+				1.0
+			],
+			"path": "D:\\Games\\into-de-dung\\docs\\art\\bones-twenty-more-20261123\\pixellab\\fragments\\image-2.png",
+			"region": null,
+			"source_alpha_unchanged": true,
+			"source_size": [
+				64,
+				64
+			],
+			"viewport_bounds": [
+				560.0,
+				582.0,
+				64.0,
+				64.0
+			]
+		},
+		{
+			"canvas_origin": [
+				592.0,
+				550.0
+			],
+			"canvas_scale": [
+				1.0,
+				1.0
+			],
+			"cell": [
+				3,
+				5
+			],
+			"display_size": [
+				64.0,
+				64.0
+			],
+			"id": "PL31",
+			"label_offset_y": 24.0,
+			"local_scale": [
+				1.0,
+				1.0
+			],
+			"path": "D:\\Games\\into-de-dung\\docs\\art\\bones-twenty-more-20261123\\pixellab\\fragments\\image-5.png",
+			"region": null,
+			"source_alpha_unchanged": true,
+			"source_size": [
+				64,
+				64
+			],
+			"viewport_bounds": [
+				560.0,
+				518.0,
+				64.0,
+				64.0
+			]
+		},
+		{
+			"canvas_origin": [
+				720.0,
+				550.0
+			],
+			"canvas_scale": [
+				1.0,
+				1.0
+			],
+			"cell": [
+				4,
+				4
+			],
+			"display_size": [
+				64.0,
+				64.0
+			],
+			"id": "PL32",
+			"label_offset_y": 24.0,
+			"local_scale": [
+				1.0,
+				1.0
+			],
+			"path": "D:\\Games\\into-de-dung\\docs\\art\\bones-twenty-more-20261123\\pixellab\\fragments\\image-8.png",
+			"region": null,
+			"source_alpha_unchanged": true,
+			"source_size": [
+				64,
+				64
+			],
+			"viewport_bounds": [
+				688.0,
+				518.0,
+				64.0,
+				64.0
+			]
+		},
+		{
+			"canvas_origin": [
+				848.0,
+				422.0
+			],
+			"canvas_scale": [
+				1.0,
+				1.0
+			],
+			"cell": [
+				3,
+				1
+			],
+			"display_size": [
+				64.0,
+				64.0
+			],
+			"id": "PL33",
+			"label_offset_y": 24.0,
+			"local_scale": [
+				1.0,
+				1.0
+			],
+			"path": "D:\\Games\\into-de-dung\\docs\\art\\bones-twenty-more-20261123\\pixellab\\fragments\\image-9.png",
+			"region": null,
+			"source_alpha_unchanged": true,
+			"source_size": [
+				64,
+				64
+			],
+			"viewport_bounds": [
+				816.0,
+				390.0,
+				64.0,
+				64.0
+			]
+		},
+		{
+			"canvas_origin": [
+				720.0,
+				294.0
+			],
+			"canvas_scale": [
+				1.0,
+				1.0
+			],
+			"cell": [
+				0,
+				0
+			],
+			"display_size": [
+				64.0,
+				64.0
+			],
+			"id": "PL34",
+			"label_offset_y": 24.0,
+			"local_scale": [
+				1.0,
+				1.0
+			],
+			"path": "D:\\Games\\into-de-dung\\docs\\art\\bones-twenty-more-20261123\\pixellab\\fragments\\image-13.png",
+			"region": null,
+			"source_alpha_unchanged": true,
+			"source_size": [
+				64,
+				64
+			],
+			"viewport_bounds": [
+				688.0,
+				262.0,
+				64.0,
+				64.0
+			]
+		},
+		{
+			"canvas_origin": [
+				848.0,
+				358.0
+			],
+			"canvas_scale": [
+				1.0,
+				1.0
+			],
+			"cell": [
+				2,
+				0
+			],
+			"display_size": [
+				64.0,
+				64.0
+			],
+			"id": "PL35",
+			"label_offset_y": 24.0,
+			"local_scale": [
+				1.0,
+				1.0
+			],
+			"path": "D:\\Games\\into-de-dung\\docs\\art\\bones-twenty-more-20261123\\pixellab\\fragments\\image-15.png",
+			"region": null,
+			"source_alpha_unchanged": true,
+			"source_size": [
+				64,
+				64
+			],
+			"viewport_bounds": [
+				816.0,
+				326.0,
+				64.0,
+				64.0
+			]
+		},
+		{
+			"canvas_origin": [
+				976.0,
+				422.0
+			],
+			"canvas_scale": [
+				1.0,
+				1.0
+			],
+			"cell": [
+				4,
+				0
+			],
+			"display_size": [
+				64.0,
+				64.0
+			],
+			"id": "PL36",
+			"label_offset_y": 22.0,
+			"local_scale": [
+				1.0,
+				1.0
+			],
+			"path": "D:\\Games\\into-de-dung\\docs\\art\\bones-twenty-more-20261123\\pixellab\\candidates\\image-9.png",
+			"region": null,
+			"source_alpha_unchanged": true,
+			"source_size": [
+				64,
+				64
+			],
+			"viewport_bounds": [
+				944.0,
+				390.0,
+				64.0,
+				64.0
+			]
+		},
+		{
+			"canvas_origin": [
+				656.0,
+				710.0
+			],
+			"canvas_scale": [
+				1.0,
+				1.0
+			],
+			"cell": [
+				6,
+				7
+			],
+			"display_size": [
+				64.0,
+				64.0
+			],
+			"id": "PL37",
+			"label_offset_y": 19.0,
+			"local_scale": [
+				1.0,
+				1.0
+			],
+			"path": "D:\\Games\\into-de-dung\\docs\\art\\bones-twenty-more-20261123\\pixellab\\candidates\\image-12.png",
+			"region": null,
+			"source_alpha_unchanged": true,
+			"source_size": [
+				64,
+				64
+			],
+			"viewport_bounds": [
+				624.0,
+				678.0,
+				64.0,
+				64.0
+			]
+		},
+		{
+			"canvas_origin": [
+				400.0,
+				518.0
+			],
+			"canvas_scale": [
+				1.0,
+				1.0
+			],
+			"cell": [
+				1,
+				6
+			],
+			"display_size": [
+				64.0,
+				64.0
+			],
+			"id": "PL38",
+			"label_offset_y": 18.0,
+			"local_scale": [
+				1.0,
+				1.0
+			],
+			"path": "D:\\Games\\into-de-dung\\docs\\art\\bones-twenty-more-20261123\\pixellab\\candidates\\image-14.png",
+			"region": null,
+			"source_alpha_unchanged": true,
+			"source_size": [
+				64,
+				64
+			],
+			"viewport_bounds": [
+				368.0,
+				486.0,
+				64.0,
+				64.0
+			]
+		}
+	],
+	"variants_json": "D:\\Games\\into-de-dung\\docs\\art\\bones-field-comparison-20261123\\variants.json",
+	"viewport": [
+		1440,
+		1100
+	],
+	"warrior": {
+		"art_scale": 0.8,
+		"cell": [
+			1,
+			4
+		],
+		"class": "fighter",
+		"id": 3,
+		"skin": "red_bastion"
+	}
+}

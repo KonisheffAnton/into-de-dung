@@ -1,0 +1,232 @@
+[
+  {
+    "id": "G21",
+    "path": "D:\\Games\\into-de-dung\\docs\\art\\bones-twenty-more-20261123\\imagegen\\G21.png",
+    "region": [
+      181,
+      383,
+      1175,
+      417
+    ],
+    "display_size": [
+      60,
+      21
+    ]
+  },
+  {
+    "id": "G22",
+    "path": "D:\\Games\\into-de-dung\\docs\\art\\bones-twenty-more-20261123\\imagegen\\G22.png",
+    "region": [
+      206,
+      383,
+      1121,
+      420
+    ],
+    "display_size": [
+      60,
+      22
+    ]
+  },
+  {
+    "id": "G23",
+    "path": "D:\\Games\\into-de-dung\\docs\\art\\bones-twenty-more-20261123\\imagegen\\G23.png",
+    "region": [
+      297,
+      385,
+      911,
+      326
+    ],
+    "display_size": [
+      60,
+      21
+    ]
+  },
+  {
+    "id": "G24",
+    "path": "D:\\Games\\into-de-dung\\docs\\art\\bones-twenty-more-20261123\\imagegen\\G24.png",
+    "region": [
+      214,
+      381,
+      1104,
+      343
+    ],
+    "display_size": [
+      60,
+      19
+    ]
+  },
+  {
+    "id": "G25",
+    "path": "D:\\Games\\into-de-dung\\docs\\art\\bones-twenty-more-20261123\\imagegen\\G25.png",
+    "region": [
+      379,
+      486,
+      791,
+      283
+    ],
+    "display_size": [
+      60,
+      21
+    ]
+  },
+  {
+    "id": "G26",
+    "path": "D:\\Games\\into-de-dung\\docs\\art\\bones-twenty-more-20261123\\imagegen\\G26.png",
+    "region": [
+      179,
+      419,
+      1129,
+      303
+    ],
+    "display_size": [
+      60,
+      16
+    ]
+  },
+  {
+    "id": "G27",
+    "path": "D:\\Games\\into-de-dung\\docs\\art\\bones-twenty-more-20261123\\imagegen\\G27.png",
+    "region": [
+      365,
+      376,
+      779,
+      329
+    ],
+    "display_size": [
+      60,
+      25
+    ]
+  },
+  {
+    "id": "G28",
+    "path": "D:\\Games\\into-de-dung\\docs\\art\\bones-twenty-more-20261123\\imagegen\\G28.png",
+    "region": [
+      213,
+      351,
+      1095,
+      459
+    ],
+    "display_size": [
+      60,
+      25
+    ]
+  },
+  {
+    "id": "G29",
+    "path": "D:\\Games\\into-de-dung\\docs\\art\\bones-twenty-more-20261123\\imagegen\\G29.png",
+    "region": [
+      208,
+      384,
+      1113,
+      382
+    ],
+    "display_size": [
+      60,
+      21
+    ]
+  },
+  {
+    "id": "G30",
+    "path": "D:\\Games\\into-de-dung\\docs\\art\\bones-twenty-more-20261123\\imagegen\\G30.png",
+    "region": [
+      297,
+      357,
+      960,
+      412
+    ],
+    "display_size": [
+      60,
+      26
+    ]
+  },
+  {
+    "id": "PL29",
+    "path": "D:\\Games\\into-de-dung\\docs\\art\\bones-twenty-more-20261123\\pixellab\\fragments\\image.png",
+    "region": null,
+    "display_size": [
+      64,
+      64
+    ]
+  },
+  {
+    "id": "PL30",
+    "path": "D:\\Games\\into-de-dung\\docs\\art\\bones-twenty-more-20261123\\pixellab\\fragments\\image-2.png",
+    "region": null,
+    "display_size": [
+      64,
+      64
+    ]
+  },
+  {
+    "id": "PL31",
+    "path": "D:\\Games\\into-de-dung\\docs\\art\\bones-twenty-more-20261123\\pixellab\\fragments\\image-5.png",
+    "region": null,
+    "display_size": [
+      64,
+      64
+    ]
+  },
+  {
+    "id": "PL32",
+    "path": "D:\\Games\\into-de-dung\\docs\\art\\bones-twenty-more-20261123\\pixellab\\fragments\\image-8.png",
+    "region": null,
+    "display_size": [
+      64,
+      64
+    ]
+  },
+  {
+    "id": "PL33",
+    "path": "D:\\Games\\into-de-dung\\docs\\art\\bones-twenty-more-20261123\\pixellab\\fragments\\image-9.png",
+    "region": null,
+    "display_size": [
+      64,
+      64
+    ]
+  },
+  {
+    "id": "PL34",
+    "path": "D:\\Games\\into-de-dung\\docs\\art\\bones-twenty-more-20261123\\pixellab\\fragments\\image-13.png",
+    "region": null,
+    "display_size": [
+      64,
+      64
+    ]
+  },
+  {
+    "id": "PL35",
+    "path": "D:\\Games\\into-de-dung\\docs\\art\\bones-twenty-more-20261123\\pixellab\\fragments\\image-15.png",
+    "region": null,
+    "display_size": [
+      64,
+      64
+    ]
+  },
+  {
+    "id": "PL36",
+    "path": "D:\\Games\\into-de-dung\\docs\\art\\bones-twenty-more-20261123\\pixellab\\candidates\\image-9.png",
+    "region": null,
+    "display_size": [
+      64,
+      64
+    ]
+  },
+  {
+    "id": "PL37",
+    "path": "D:\\Games\\into-de-dung\\docs\\art\\bones-twenty-more-20261123\\pixellab\\candidates\\image-12.png",
+    "region": null,
+    "display_size": [
+      64,
+      64
+    ]
+  },
+  {
+    "id": "PL38",
+    "path": "D:\\Games\\into-de-dung\\docs\\art\\bones-twenty-more-20261123\\pixellab\\candidates\\image-14.png",
+    "region": null,
+    "display_size": [
+      64,
+      64
+    ]
+  }
+]

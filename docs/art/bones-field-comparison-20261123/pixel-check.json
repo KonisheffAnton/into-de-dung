@@ -1,0 +1,23 @@
+{
+  "crop_box": [
+    470,
+    260,
+    810,
+    465
+  ],
+  "crop_scale": 1,
+  "opaque_source_checks": [
+    {
+      "label": "PL29",
+      "opaque_source_pixels": 818,
+      "exact_rendered_rgb_pixels": 818,
+      "ratio": 1.0
+    },
+    {
+      "label": "PL34",
+      "opaque_source_pixels": 1080,
+      "exact_rendered_rgb_pixels": 1080,
+      "ratio": 1.0
+    }
+  ]
+}

@@ -1,0 +1,90 @@
+{
+	"bones": [
+		{
+			"alpha_rect": [
+				2,
+				22,
+				60,
+				26
+			],
+			"canvas_scale": [
+				1.0,
+				1.0
+			],
+			"cell": [
+				0,
+				4
+			],
+			"label": "PL29",
+			"local_scale": [
+				1.0,
+				1.0
+			],
+			"path": "D:\\Games\\into-de-dung\\docs\\art\\bones-twenty-more-20261123\\pixellab\\fragments\\image.png",
+			"screen_position": [
+				576.0,
+				328.0
+			],
+			"source_alpha_unchanged": true,
+			"texture_size": [
+				64,
+				64
+			]
+		},
+		{
+			"alpha_rect": [
+				2,
+				22,
+				60,
+				31
+			],
+			"canvas_scale": [
+				1.0,
+				1.0
+			],
+			"cell": [
+				2,
+				4
+			],
+			"label": "PL34",
+			"local_scale": [
+				1.0,
+				1.0
+			],
+			"path": "D:\\Games\\into-de-dung\\docs\\art\\bones-twenty-more-20261123\\pixellab\\fragments\\image-13.png",
+			"screen_position": [
+				704.0,
+				392.0
+			],
+			"source_alpha_unchanged": true,
+			"texture_size": [
+				64,
+				64
+			]
+		}
+	],
+	"camera_zoom": 1.0,
+	"capture": "D:\\Games\\into-de-dung\\test_reports\\bones-field-9c5b14a7dac84974ac39503b5bc3eaf0\\captures/field-100.png",
+	"failed_checks": [],
+	"renderer": "mobile",
+	"shallow_projection": true,
+	"snapshot_unchanged": true,
+	"tile_size": [
+		128.0,
+		64.0
+	],
+	"viewport": [
+		1280,
+		720
+	],
+	"warrior": {
+		"art_scale": 0.8,
+		"cell": [
+			1,
+			4
+		],
+		"class": "fighter",
+		"id": 3,
+		"skin": "red_bastion"
+	}
+}
