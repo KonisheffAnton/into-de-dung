@@ -1,0 +1,232 @@
+[
+  {
+    "id": "G31",
+    "path": "D:\\Games\\into-de-dung\\docs\\art\\bones-twenty-next-20261123\\imagegen\\G31.png",
+    "region": [
+      466,
+      330,
+      772,
+      329
+    ],
+    "display_size": [
+      60,
+      26
+    ]
+  },
+  {
+    "id": "G32",
+    "path": "D:\\Games\\into-de-dung\\docs\\art\\bones-twenty-next-20261123\\imagegen\\G32.png",
+    "region": [
+      436,
+      325,
+      839,
+      342
+    ],
+    "display_size": [
+      60,
+      24
+    ]
+  },
+  {
+    "id": "G33",
+    "path": "D:\\Games\\into-de-dung\\docs\\art\\bones-twenty-next-20261123\\imagegen\\G33.png",
+    "region": [
+      432,
+      318,
+      853,
+      336
+    ],
+    "display_size": [
+      60,
+      24
+    ]
+  },
+  {
+    "id": "G34",
+    "path": "D:\\Games\\into-de-dung\\docs\\art\\bones-twenty-next-20261123\\imagegen\\G34.png",
+    "region": [
+      419,
+      345,
+      828,
+      316
+    ],
+    "display_size": [
+      60,
+      23
+    ]
+  },
+  {
+    "id": "G35",
+    "path": "D:\\Games\\into-de-dung\\docs\\art\\bones-twenty-next-20261123\\imagegen\\G35.png",
+    "region": [
+      336,
+      361,
+      1051,
+      347
+    ],
+    "display_size": [
+      60,
+      20
+    ]
+  },
+  {
+    "id": "G36",
+    "path": "D:\\Games\\into-de-dung\\docs\\art\\bones-twenty-next-20261123\\imagegen\\G36.png",
+    "region": [
+      445,
+      317,
+      789,
+      324
+    ],
+    "display_size": [
+      60,
+      25
+    ]
+  },
+  {
+    "id": "G37",
+    "path": "D:\\Games\\into-de-dung\\docs\\art\\bones-twenty-next-20261123\\imagegen\\G37.png",
+    "region": [
+      480,
+      310,
+      746,
+      370
+    ],
+    "display_size": [
+      60,
+      30
+    ]
+  },
+  {
+    "id": "G38",
+    "path": "D:\\Games\\into-de-dung\\docs\\art\\bones-twenty-next-20261123\\imagegen\\G38-clean.png",
+    "region": [
+      360,
+      340,
+      1003,
+      386
+    ],
+    "display_size": [
+      60,
+      23
+    ]
+  },
+  {
+    "id": "G39",
+    "path": "D:\\Games\\into-de-dung\\docs\\art\\bones-twenty-next-20261123\\imagegen\\G39.png",
+    "region": [
+      395,
+      272,
+      876,
+      405
+    ],
+    "display_size": [
+      60,
+      28
+    ]
+  },
+  {
+    "id": "G40",
+    "path": "D:\\Games\\into-de-dung\\docs\\art\\bones-twenty-next-20261123\\imagegen\\G40.png",
+    "region": [
+      236,
+      453,
+      874,
+      309
+    ],
+    "display_size": [
+      60,
+      21
+    ]
+  },
+  {
+    "id": "PL39",
+    "path": "D:\\Games\\into-de-dung\\docs\\art\\bones-twenty-next-20261123\\pixellab\\fragment-redesign\\image.png",
+    "region": null,
+    "display_size": [
+      64,
+      64
+    ]
+  },
+  {
+    "id": "PL40",
+    "path": "D:\\Games\\into-de-dung\\docs\\art\\bones-twenty-next-20261123\\pixellab\\fragment-redesign\\image-1.png",
+    "region": null,
+    "display_size": [
+      64,
+      64
+    ]
+  },
+  {
+    "id": "PL41",
+    "path": "D:\\Games\\into-de-dung\\docs\\art\\bones-twenty-next-20261123\\pixellab\\fragment-redesign\\image-2.png",
+    "region": null,
+    "display_size": [
+      64,
+      64
+    ]
+  },
+  {
+    "id": "PL42",
+    "path": "D:\\Games\\into-de-dung\\docs\\art\\bones-twenty-next-20261123\\pixellab\\fragment-redesign\\image-3.png",
+    "region": null,
+    "display_size": [
+      64,
+      64
+    ]
+  },
+  {
+    "id": "PL43",
+    "path": "D:\\Games\\into-de-dung\\docs\\art\\bones-twenty-next-20261123\\pixellab\\fragment-redesign\\image-4.png",
+    "region": null,
+    "display_size": [
+      64,
+      64
+    ]
+  },
+  {
+    "id": "PL44",
+    "path": "D:\\Games\\into-de-dung\\docs\\art\\bones-twenty-next-20261123\\pixellab\\fragment-redesign\\image-5.png",
+    "region": null,
+    "display_size": [
+      64,
+      64
+    ]
+  },
+  {
+    "id": "PL45",
+    "path": "D:\\Games\\into-de-dung\\docs\\art\\bones-twenty-next-20261123\\pixellab\\fragment-redesign\\image-7.png",
+    "region": null,
+    "display_size": [
+      64,
+      64
+    ]
+  },
+  {
+    "id": "PL46",
+    "path": "D:\\Games\\into-de-dung\\docs\\art\\bones-twenty-next-20261123\\pixellab\\fragment-redesign\\image-8.png",
+    "region": null,
+    "display_size": [
+      64,
+      64
+    ]
+  },
+  {
+    "id": "PL47",
+    "path": "D:\\Games\\into-de-dung\\docs\\art\\bones-twenty-next-20261123\\pixellab\\fragment-redesign\\image-10.png",
+    "region": null,
+    "display_size": [
+      64,
+      64
+    ]
+  },
+  {
+    "id": "PL48",
+    "path": "D:\\Games\\into-de-dung\\docs\\art\\bones-twenty-next-20261123\\pixellab\\fragment-redesign\\image-13.png",
+    "region": null,
+    "display_size": [
+      64,
+      64
+    ]
+  }
+]

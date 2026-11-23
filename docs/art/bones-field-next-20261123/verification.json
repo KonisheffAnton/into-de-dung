@@ -1,0 +1,11 @@
+{
+  "result": "PASS",
+  "variants": 20,
+  "native_PL_opaque_pixels": 8980,
+  "exact_PL_RGB_pixels": 8980,
+  "crop_pixel_exact": true,
+  "protected33_unchanged": true,
+  "runtime_changed": false,
+  "new_import_run": false,
+  "reused_imported_copy": true
+}

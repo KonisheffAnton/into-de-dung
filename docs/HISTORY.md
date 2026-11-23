@@ -1,5 +1,16 @@
 # История и свидетельства проверок
 
+## Новые двадцать костяных кучек на поле — 2026-11-23
+
+По U показаны [все G31–G40/PL39–PL48 рядом с персонажами](art/bones-field-next-20261123/README.md).
+GPU BattleDemoBoard8×8, камера100%, tile128×64; PL native64×64/NEAREST1×,
+G уменьшены при отрисовке до60×32. Это примерка, без подключения lifecycle.
+[Проверки](art/bones-field-next-20261123/verification.json):20 safe unique cells/0fail,
+state/RNG parity,8980/8980 PL pixels, crop1:1,1685 runtime hashes/protected33 PASS;
+независимый review APPROVE. Использована импортированная isolated-копия;
+свежий import/full/core/F5/DPI/performance не запускались. Выбор U открыт.
+[Прежняя передача побайтно](CODEX_HANDOFF.history-20261123-28.md).
+
 ## «Поднять мертвеца» — 2026-11-23
 
 U принял [концепт карты и параметры нежити](DESIGN_DIRECTION.md#mage-raise-dead-card-20261123).
