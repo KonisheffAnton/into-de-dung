@@ -1,0 +1,283 @@
+{
+  "status": "selected for lead review; generation receipt mapping only, visual acceptance pending",
+  "selection_method": "One separate /create-image-pixen request per ID, each with its own composition description and seed.",
+  "selected": [
+    {
+      "id": "PL39",
+      "path": "docs/art/bones-twenty-next-20261123/pixellab/individual/PL39/image.png",
+      "request_path": "docs/art/bones-twenty-next-20261123/pixellab/individual/PL39/request.json",
+      "response_path": "docs/art/bones-twenty-next-20261123/pixellab/individual/PL39/response.json",
+      "sha256": "2a848149bbce441c41afe2044f582af857039d231341b0bdbc32f93737e37c65",
+      "size": [
+        64,
+        64
+      ],
+      "alpha_bbox": [
+        0,
+        8,
+        64,
+        61
+      ],
+      "seed": 202611739,
+      "usage": {
+        "type": "generations",
+        "generations": 1.0
+      },
+      "job_id": null
+    },
+    {
+      "id": "PL40",
+      "path": "docs/art/bones-twenty-next-20261123/pixellab/individual/PL40/image.png",
+      "request_path": "docs/art/bones-twenty-next-20261123/pixellab/individual/PL40/request.json",
+      "response_path": "docs/art/bones-twenty-next-20261123/pixellab/individual/PL40/response.json",
+      "sha256": "6c406f1b9761ba09e5cc9c904d5d0301819d03f2b1efb1cee90497577480e732",
+      "size": [
+        64,
+        64
+      ],
+      "alpha_bbox": [
+        5,
+        7,
+        59,
+        55
+      ],
+      "seed": 202611740,
+      "usage": {
+        "type": "generations",
+        "generations": 1.0
+      },
+      "job_id": null
+    },
+    {
+      "id": "PL41",
+      "path": "docs/art/bones-twenty-next-20261123/pixellab/individual/PL41/image.png",
+      "request_path": "docs/art/bones-twenty-next-20261123/pixellab/individual/PL41/request.json",
+      "response_path": "docs/art/bones-twenty-next-20261123/pixellab/individual/PL41/response.json",
+      "sha256": "9d8c1d9ecd35086773948e5df62e5b8829306783f885f6985cb32a37db109e09",
+      "size": [
+        64,
+        64
+      ],
+      "alpha_bbox": [
+        7,
+        11,
+        57,
+        53
+      ],
+      "seed": 202611741,
+      "usage": {
+        "type": "generations",
+        "generations": 1.0
+      },
+      "job_id": null
+    },
+    {
+      "id": "PL42",
+      "path": "docs/art/bones-twenty-next-20261123/pixellab/individual/PL42/image.png",
+      "request_path": "docs/art/bones-twenty-next-20261123/pixellab/individual/PL42/request.json",
+      "response_path": "docs/art/bones-twenty-next-20261123/pixellab/individual/PL42/response.json",
+      "sha256": "58cf3a070120c58dcd6bdb8854cf02b84c30705982ee8b4c9edd7e4aa151cb74",
+      "size": [
+        64,
+        64
+      ],
+      "alpha_bbox": [
+        7,
+        7,
+        55,
+        56
+      ],
+      "seed": 202611742,
+      "usage": {
+        "type": "generations",
+        "generations": 1.0
+      },
+      "job_id": null
+    },
+    {
+      "id": "PL43",
+      "path": "docs/art/bones-twenty-next-20261123/pixellab/individual/PL43/image.png",
+      "request_path": "docs/art/bones-twenty-next-20261123/pixellab/individual/PL43/request.json",
+      "response_path": "docs/art/bones-twenty-next-20261123/pixellab/individual/PL43/response.json",
+      "sha256": "83cc6df7db5db0b3888e06c4d67c2d4ac0fd92af3565874dd0c51afdb4c50dd7",
+      "size": [
+        64,
+        64
+      ],
+      "alpha_bbox": [
+        9,
+        12,
+        55,
+        53
+      ],
+      "seed": 202611743,
+      "usage": {
+        "type": "generations",
+        "generations": 1.0
+      },
+      "job_id": null
+    },
+    {
+      "id": "PL44",
+      "path": "docs/art/bones-twenty-next-20261123/pixellab/individual/PL44/image.png",
+      "request_path": "docs/art/bones-twenty-next-20261123/pixellab/individual/PL44/request.json",
+      "response_path": "docs/art/bones-twenty-next-20261123/pixellab/individual/PL44/response.json",
+      "sha256": "2aa3cf0f19a2e420c49aad9f8e823602b6e7e9de1a76f252a95e393a81d48c30",
+      "size": [
+        64,
+        64
+      ],
+      "alpha_bbox": [
+        2,
+        8,
+        61,
+        56
+      ],
+      "seed": 202611744,
+      "usage": {
+        "type": "generations",
+        "generations": 1.0
+      },
+      "job_id": null
+    },
+    {
+      "id": "PL45",
+      "path": "docs/art/bones-twenty-next-20261123/pixellab/individual/PL45/image.png",
+      "request_path": "docs/art/bones-twenty-next-20261123/pixellab/individual/PL45/request.json",
+      "response_path": "docs/art/bones-twenty-next-20261123/pixellab/individual/PL45/response.json",
+      "sha256": "46684a103dd50b07ef3d6ee80c7dbd99d83dbab9c90fc06088c4ddc6423aa226",
+      "size": [
+        64,
+        64
+      ],
+      "alpha_bbox": [
+        4,
+        7,
+        61,
+        55
+      ],
+      "seed": 202611745,
+      "usage": {
+        "type": "generations",
+        "generations": 1.0
+      },
+      "job_id": null
+    },
+    {
+      "id": "PL46",
+      "path": "docs/art/bones-twenty-next-20261123/pixellab/individual/PL46/image.png",
+      "request_path": "docs/art/bones-twenty-next-20261123/pixellab/individual/PL46/request.json",
+      "response_path": "docs/art/bones-twenty-next-20261123/pixellab/individual/PL46/response.json",
+      "sha256": "05ff8d364e811dcca27723155c207faa5f1917b63d97a0a40292b8a159eea30f",
+      "size": [
+        64,
+        64
+      ],
+      "alpha_bbox": [
+        1,
+        4,
+        60,
+        61
+      ],
+      "seed": 202611746,
+      "usage": {
+        "type": "generations",
+        "generations": 1.0
+      },
+      "job_id": null
+    },
+    {
+      "id": "PL47",
+      "path": "docs/art/bones-twenty-next-20261123/pixellab/individual/PL47/image.png",
+      "request_path": "docs/art/bones-twenty-next-20261123/pixellab/individual/PL47/request.json",
+      "response_path": "docs/art/bones-twenty-next-20261123/pixellab/individual/PL47/response.json",
+      "sha256": "cb9df8bbbd282ca18979708b6cebe3878cfcd303a1ea3e8d15703de3e7dcbc86",
+      "size": [
+        64,
+        64
+      ],
+      "alpha_bbox": [
+        2,
+        2,
+        62,
+        62
+      ],
+      "seed": 202611747,
+      "usage": {
+        "type": "generations",
+        "generations": 1.0
+      },
+      "job_id": null
+    },
+    {
+      "id": "PL48",
+      "path": "docs/art/bones-twenty-next-20261123/pixellab/individual/PL48/image.png",
+      "request_path": "docs/art/bones-twenty-next-20261123/pixellab/individual/PL48/request.json",
+      "response_path": "docs/art/bones-twenty-next-20261123/pixellab/individual/PL48/response.json",
+      "sha256": "21c0a13e5bcb8886c36ee4122538eff84bd1025334da4a817573babc05773325",
+      "size": [
+        64,
+        64
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        64,
+        64
+      ],
+      "seed": 202611748,
+      "usage": {
+        "type": "generations",
+        "generations": 1.0
+      },
+      "job_id": null
+    }
+  ],
+  "rejected_initial_batch": {
+    "reason": "Rejected for choosing final candidates because the 16-image batch was a family of near-duplicate crossed-stick compositions.",
+    "job_id": "a9a70e32-573b-47dc-b0aa-68ea1b3b55ee",
+    "retained_under": "docs/art/bones-twenty-next-20261123/pixellab/mixed-small/",
+    "initial_top_level_candidates_retained": [
+      {
+        "id": "PL39",
+        "path": "docs/art/bones-twenty-next-20261123/pixellab/PL39.png"
+      },
+      {
+        "id": "PL40",
+        "path": "docs/art/bones-twenty-next-20261123/pixellab/PL40.png"
+      },
+      {
+        "id": "PL41",
+        "path": "docs/art/bones-twenty-next-20261123/pixellab/PL41.png"
+      },
+      {
+        "id": "PL42",
+        "path": "docs/art/bones-twenty-next-20261123/pixellab/PL42.png"
+      },
+      {
+        "id": "PL43",
+        "path": "docs/art/bones-twenty-next-20261123/pixellab/PL43.png"
+      },
+      {
+        "id": "PL44",
+        "path": "docs/art/bones-twenty-next-20261123/pixellab/PL44.png"
+      },
+      {
+        "id": "PL45",
+        "path": "docs/art/bones-twenty-next-20261123/pixellab/PL45.png"
+      },
+      {
+        "id": "PL46",
+        "path": "docs/art/bones-twenty-next-20261123/pixellab/PL46.png"
+      },
+      {
+        "id": "PL47",
+        "path": "docs/art/bones-twenty-next-20261123/pixellab/PL47.png"
+      },
+      {
+        "id": "PL48",
+        "path": "docs/art/bones-twenty-next-20261123/pixellab/PL48.png"
+      }
+    ]
+  }
+}

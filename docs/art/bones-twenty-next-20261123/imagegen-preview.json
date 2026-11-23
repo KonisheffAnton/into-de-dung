@@ -1,0 +1,182 @@
+[
+  {
+    "id": "G31",
+    "source": "imagegen/G31.png",
+    "source_size": [
+      1721,
+      914
+    ],
+    "crop_alpha_128": [
+      466,
+      330,
+      1238,
+      659
+    ],
+    "shown_size_before_4x": [
+      48,
+      20
+    ]
+  },
+  {
+    "id": "G32",
+    "source": "imagegen/G32.png",
+    "source_size": [
+      1717,
+      916
+    ],
+    "crop_alpha_128": [
+      436,
+      325,
+      1275,
+      667
+    ],
+    "shown_size_before_4x": [
+      48,
+      20
+    ]
+  },
+  {
+    "id": "G33",
+    "source": "imagegen/G33.png",
+    "source_size": [
+      1717,
+      916
+    ],
+    "crop_alpha_128": [
+      432,
+      318,
+      1285,
+      654
+    ],
+    "shown_size_before_4x": [
+      48,
+      19
+    ]
+  },
+  {
+    "id": "G34",
+    "source": "imagegen/G34.png",
+    "source_size": [
+      1721,
+      914
+    ],
+    "crop_alpha_128": [
+      419,
+      345,
+      1247,
+      661
+    ],
+    "shown_size_before_4x": [
+      48,
+      18
+    ]
+  },
+  {
+    "id": "G35",
+    "source": "imagegen/G35.png",
+    "source_size": [
+      1721,
+      914
+    ],
+    "crop_alpha_128": [
+      336,
+      361,
+      1387,
+      708
+    ],
+    "shown_size_before_4x": [
+      48,
+      16
+    ]
+  },
+  {
+    "id": "G36",
+    "source": "imagegen/G36.png",
+    "source_size": [
+      1721,
+      914
+    ],
+    "crop_alpha_128": [
+      445,
+      317,
+      1234,
+      641
+    ],
+    "shown_size_before_4x": [
+      48,
+      20
+    ]
+  },
+  {
+    "id": "G37",
+    "source": "imagegen/G37.png",
+    "source_size": [
+      1719,
+      915
+    ],
+    "crop_alpha_128": [
+      480,
+      310,
+      1226,
+      680
+    ],
+    "shown_size_before_4x": [
+      48,
+      24
+    ]
+  },
+  {
+    "id": "G38",
+    "source": "imagegen/G38-clean.png",
+    "source_size": [
+      1721,
+      914
+    ],
+    "crop_alpha_128": [
+      360,
+      340,
+      1363,
+      726
+    ],
+    "shown_size_before_4x": [
+      48,
+      18
+    ]
+  },
+  {
+    "id": "G39",
+    "source": "imagegen/G39.png",
+    "source_size": [
+      1721,
+      914
+    ],
+    "crop_alpha_128": [
+      395,
+      272,
+      1271,
+      677
+    ],
+    "shown_size_before_4x": [
+      48,
+      22
+    ]
+  },
+  {
+    "id": "G40",
+    "source": "imagegen/G40.png",
+    "source_size": [
+      1371,
+      1147
+    ],
+    "crop_alpha_128": [
+      236,
+      453,
+      1110,
+      762
+    ],
+    "shown_size_before_4x": [
+      48,
+      17
+    ]
+  }
+]

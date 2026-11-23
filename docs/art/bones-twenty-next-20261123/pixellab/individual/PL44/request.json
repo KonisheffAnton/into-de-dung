@@ -1,0 +1,16 @@
+{
+  "endpoint": "/create-image-pixen",
+  "payload": {
+    "description": "64px crisp pixel art, transparent, top-down. Dry low bone heap, ~34x18px. 9-12 varied fragments, 4-8px each: curved chips, hollow snapped stubs, tiny joint knobs, flat flakes. Mix shapes, lengths, angles. Dirty ivory, taupe, purple-gray; 6-8 colors, selective outline, sparse shading. Composition: small round heap. No skull, face, jaw, flesh, blood, floor, stones, whole long bones, identical dumbbells, pedestal, background.",
+    "image_size": {
+      "width": 64,
+      "height": 64
+    },
+    "outline": "selective outline",
+    "detail": "low detail",
+    "view": "high top-down",
+    "no_background": true,
+    "enhance_prompt": false,
+    "seed": 202611744
+  }
+}

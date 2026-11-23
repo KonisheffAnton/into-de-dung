@@ -1,0 +1,42 @@
+{
+  "endpoint": "/generate-image-v2",
+  "payload": {
+    "description": "One tiny dry universal bone heap sprite for a dark fantasy pixel art tactics game. Make a low compact broad pile, footprint about 34 by 18 pixels on a 64x64 canvas. Inside each pile use 8 to 12 DIFFERENT small short fragments: thin gently curved snapped segments, short hollow tubular stubs with broken ends, tiny rounded joint knobs, and a few flat tapered flakes. Every fragment is short and irregular; vary lengths and shapes within the same pile. Overlap in a low dense cluster with a few narrow dark gaps. All pieces lie flat. Make unmistakable little bone fragments, not pebbles, stones, spikes, or a repeated row of dumbbells. Explore distinct asymmetric arrangements and silhouettes across the batch. Crisp 64x64 pixel art with small clear pixel clusters, 6 to 8 muted dirty ivory, warm taupe, and dark purple-gray colors, restrained upper-left lighting. Dry bare anonymous bones, impossible to tell human or monster. NO skull, face, jaw, teeth, ribcage, whole skeleton, flesh, blood, clothes, equipment, floor, rocks, podium, pedestal, halo, or background. Transparent background and generous empty margins. Use the reference only for pixel-art style and palette; invent new small varied fragments and compositions.",
+    "image_size": {
+      "width": 64,
+      "height": 64
+    },
+    "seed": 202611639,
+    "no_background": true,
+    "style_image": {
+      "image": {
+        "base64": "iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAADxklEQVR4nOWZP2sUURDA5w1XWwRMxEtnoSKkUCztbETJR7A4LdJpG5AUEoylgkgKucJamxBJky4QEDHFgQTbkBMTIYVf4MmsN8vs7Hu7++72PMP8QPbcfW/ezLz583bjrl1ZAssgGAfBOAjGQTAOgnEQjINgHATjIBgHwTgIxkEwDoJxEIyDYBwE4yAYB8E4CMZBMA6CcTrw/+DFb3feHeDV/13duP7manbtrWy0vUZrDvApC7FBRG9lw6t5Xo8ZjWsq3yv5MC6u4R9G/L27d7IfO7t7Eyv5/FmvMPDDx88wOPyW66TlqPsFuUK2m2oR3Nnda2K853+PH94vGM1Ka+MJMp4cPHJyLoMdL++3aXxKBNTlX8G4o6OT7Pru/afsGooEGru23s9+y+ian5uHWzevFuSOHB+U08D4yuLqEh0QzF1NKCdj6UAGS6TxbDiPOz07LcmrcUQeMbFI6UAiJPD4+O8OLy4uRAsQ7ypD46QTlq7fyK7d7lxpbmzHeY4wSDqitla0kgL9zVWvjdbGSuQuKoUzg36e/IrueswBNIeiIWSg2unas4WrcEBsstdGs9J0TxtMxXD44zcMh2ey0meQQRQB3csX8nqhuk1hLKFlyOdPnywnF0anHFA6mAiBUQWlcnpX9vcHUQewPJLF81693iqM04ZT8aTU4zSkgkvytcPGcYDnKk4LSONl63rzdju7vnzxKL9HSjPSCTpVQi2Mqz4boNskd4pI+0s2OMkBvUA+cRGUTuKxHNKhIhaD5ul0im1ESH+YEBdLgcgCuRNihfDrwffsKltWFVQjtra/5IWwqgjqYhsI+5jeue56jBvnHEBQ6F5auFjY8aadQUJzOXJCzwiZUlouOVwfnES9CbZEGdmdFMO5orNytMuDw+LZQOZtFaQ4RwkpS3K4ILKRXB+qXna08SxP6l6Vii4hAkrHX10P2AnkgKojLT1bfnA7a311YV7nQLmOiMTYC1XpuRv3XYAVD50K6Rl1hkB6FAoqhb5unaGiqNtvxauw+1cfRJw4euZIxehQEugihXeJWGhzXktj9dFX6zOmHTBuBMSIhVrda2zQMTLFxPhWvgSlRIAP3IstWvlGxgSOqtlvjipus7KwNlg7prebxAE+8sKhP3G1RcERqpukrJcf6tbW+5W6ugYpEO2hKQrpdRPnJ62Voq9r+k1QzoHZkKJD47GdhovPyujSR9nRq3NdCrpZdYFpMpUo7MD5YSpRiGAcBOMgGAfBOAjGQTAOgnEQjINgHATjIBgHwTgIxkEwDs5agVnzBzz5DykLdYS/AAAAAElFTkSuQmCC"
+      },
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "usage_description": "Pixel-art style and muted palette only; invent a new small varied fragment pile."
+    },
+    "style_options": {
+      "color_palette": false,
+      "outline": true,
+      "detail": true,
+      "shading": true
+    },
+    "target_palette": {
+      "colors": [
+        "#e0d6be",
+        "#c6bba7",
+        "#aa9f90",
+        "#8c8179",
+        "#71676b",
+        "#564c59",
+        "#3e3544",
+        "#28232e"
+      ],
+      "max_colors": 8,
+      "name": "muted ivory bone fragments"
+    }
+  }
+}

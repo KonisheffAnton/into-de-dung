@@ -1,0 +1,32 @@
+{
+  "endpoint": "/generate-image-v2",
+  "payload": {
+    "description": "A small compact low heap of tiny DRY BROKEN BONE FRAGMENTS, a battle-remains ground prop for a muted dark fantasy pixel art game. Draw 12 to 16 small unequal bone fragments packed close together in two flat overlapping layers: short snapped tubular bits with chipped hollow ends, tiny irregular knuckly joint chips, thin gently bent segments and small flat flakes. Each fragment only 3 to 7 pixels long and at most one fifth of the heap width. Flat broad uneven oval footprint occupying 36x18 pixels centered inside a 64x64 transparent canvas, generous empty transparent space on all sides. Anonymous small bony fragments, different lengths and shapes WITHIN each heap. Crisp simple low-detail pixel clusters; dirty pale ivory, gray-taupe middle tones and purple-gray dark crevices; light from upper left. A connected low pile resting flat, viewed from above at shallow three-quarter angle. ONLY the small loose broken fragments, no skull or face, no intact long bones, no display base, no ground, no other objects. New compact arrangement for each candidate.",
+    "image_size": {
+      "width": 64,
+      "height": 64
+    },
+    "seed": 202611839,
+    "no_background": true,
+    "style_options": {
+      "color_palette": false,
+      "outline": false,
+      "detail": false,
+      "shading": false
+    },
+    "target_palette": {
+      "colors": [
+        "#e0d6be",
+        "#c6bba7",
+        "#aa9f90",
+        "#8c8179",
+        "#71676b",
+        "#564c59",
+        "#3e3544",
+        "#28232e"
+      ],
+      "max_colors": 8,
+      "name": "muted ivory bone fragments"
+    }
+  }
+}

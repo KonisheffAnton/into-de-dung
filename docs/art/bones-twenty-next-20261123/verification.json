@@ -1,0 +1,412 @@
+{
+  "result": "PASS",
+  "selected_count": 20,
+  "unique_files": 20,
+  "imagegen_original_copies_byte_exact": true,
+  "protected_files_unchanged": true,
+  "runtime_changed": false,
+  "godot_run": false,
+  "art_acceptance": "pending user choice",
+  "assets": [
+    {
+      "id": "G31",
+      "source": "imagegen/G31.png",
+      "size": [
+        1721,
+        914
+      ],
+      "sha256": "c2ec9a6fc24e49130d40a84d79d025625c0b99f1fc2f1749a6c301e8476e28fa",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_128_bbox": [
+        466,
+        330,
+        1238,
+        659
+      ],
+      "visible_rgba_colors": 21509
+    },
+    {
+      "id": "G32",
+      "source": "imagegen/G32.png",
+      "size": [
+        1717,
+        916
+      ],
+      "sha256": "d6dcf3292a7d11b610d1df451a593133a89382785ecbe7ca929aebdd49a1129b",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_128_bbox": [
+        436,
+        325,
+        1275,
+        667
+      ],
+      "visible_rgba_colors": 25302
+    },
+    {
+      "id": "G33",
+      "source": "imagegen/G33.png",
+      "size": [
+        1717,
+        916
+      ],
+      "sha256": "f91da140b1f107c9af3f02ca7051ca924da4b32cbf3bab42bc220671de277c6f",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_128_bbox": [
+        432,
+        318,
+        1285,
+        654
+      ],
+      "visible_rgba_colors": 24726
+    },
+    {
+      "id": "G34",
+      "source": "imagegen/G34.png",
+      "size": [
+        1721,
+        914
+      ],
+      "sha256": "87c99280f9e98318533f6b8f7c1c06b83f7247ea6154f60dcf53ef5a4b12d67e",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_128_bbox": [
+        419,
+        345,
+        1247,
+        661
+      ],
+      "visible_rgba_colors": 23865
+    },
+    {
+      "id": "G35",
+      "source": "imagegen/G35.png",
+      "size": [
+        1721,
+        914
+      ],
+      "sha256": "ed7fefe99af0c788bb6cb170664b15aa9337e2bf5a04108afe7fece9bc5e39f9",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_128_bbox": [
+        336,
+        361,
+        1387,
+        708
+      ],
+      "visible_rgba_colors": 28632
+    },
+    {
+      "id": "G36",
+      "source": "imagegen/G36.png",
+      "size": [
+        1721,
+        914
+      ],
+      "sha256": "f3ff8c1c8592e64527ab5c463c521fa4f2462081c7342f00b0382285639716b3",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_128_bbox": [
+        445,
+        317,
+        1234,
+        641
+      ],
+      "visible_rgba_colors": 24839
+    },
+    {
+      "id": "G37",
+      "source": "imagegen/G37.png",
+      "size": [
+        1719,
+        915
+      ],
+      "sha256": "e459a0c55d22a07943782740d0339864aeb7ce1c94c578d6ec098c09399c4349",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_128_bbox": [
+        480,
+        310,
+        1226,
+        680
+      ],
+      "visible_rgba_colors": 20745
+    },
+    {
+      "id": "G38",
+      "source": "imagegen/G38-clean.png",
+      "size": [
+        1721,
+        914
+      ],
+      "sha256": "245761bb6cba83921ed61e90c3051007138adbf457a142e061a01dc0acbfae77",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_128_bbox": [
+        360,
+        340,
+        1363,
+        726
+      ],
+      "visible_rgba_colors": 27134
+    },
+    {
+      "id": "G39",
+      "source": "imagegen/G39.png",
+      "size": [
+        1721,
+        914
+      ],
+      "sha256": "05178f8c2f3e2a924305d7c0747496d467c4401c00308ed7b2120c0a53fb7504",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_128_bbox": [
+        395,
+        272,
+        1271,
+        677
+      ],
+      "visible_rgba_colors": 20548
+    },
+    {
+      "id": "G40",
+      "source": "imagegen/G40.png",
+      "size": [
+        1371,
+        1147
+      ],
+      "sha256": "0147b12318d2e1a49b49bfd77b6af1483dfd7a60e3c4eaeccfae422a850d2094",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_128_bbox": [
+        236,
+        453,
+        1110,
+        762
+      ],
+      "visible_rgba_colors": 29364
+    },
+    {
+      "id": "PL39",
+      "source": "pixellab/fragment-redesign/image.png",
+      "size": [
+        64,
+        64
+      ],
+      "sha256": "42dffaa71fa44c3b8090b4fca61f0dd7bef33107a59d0fe7f7c0b752de4eb19d",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_128_bbox": [
+        4,
+        15,
+        60,
+        49
+      ],
+      "visible_rgba_colors": 5
+    },
+    {
+      "id": "PL40",
+      "source": "pixellab/fragment-redesign/image-1.png",
+      "size": [
+        64,
+        64
+      ],
+      "sha256": "f15013899590b356c9bf19338ed275e44fe833d585de6444fd4914b463bcb415",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_128_bbox": [
+        5,
+        13,
+        59,
+        48
+      ],
+      "visible_rgba_colors": 6
+    },
+    {
+      "id": "PL41",
+      "source": "pixellab/fragment-redesign/image-2.png",
+      "size": [
+        64,
+        64
+      ],
+      "sha256": "70e68d62dc09f123f28118260a303a749bc0347e271b29f6d2de82bdc349ba16",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_128_bbox": [
+        5,
+        15,
+        59,
+        48
+      ],
+      "visible_rgba_colors": 4
+    },
+    {
+      "id": "PL42",
+      "source": "pixellab/fragment-redesign/image-3.png",
+      "size": [
+        64,
+        64
+      ],
+      "sha256": "a5cace440dc499b6a6cfaa41442ff78d99a2444b4f1f2ce26b76f8cf82ecad0d",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_128_bbox": [
+        5,
+        14,
+        59,
+        49
+      ],
+      "visible_rgba_colors": 6
+    },
+    {
+      "id": "PL43",
+      "source": "pixellab/fragment-redesign/image-4.png",
+      "size": [
+        64,
+        64
+      ],
+      "sha256": "1aa4cd37f0882d82621ca5bcf3082add13c141c757818f0a5c24a48e30028885",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_128_bbox": [
+        4,
+        15,
+        59,
+        49
+      ],
+      "visible_rgba_colors": 6
+    },
+    {
+      "id": "PL44",
+      "source": "pixellab/fragment-redesign/image-5.png",
+      "size": [
+        64,
+        64
+      ],
+      "sha256": "be2b667e4a3e4b258b900e0c8caa7e919a4b33ba15e9c3139f5dc98bc77caaa3",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_128_bbox": [
+        5,
+        15,
+        59,
+        48
+      ],
+      "visible_rgba_colors": 7
+    },
+    {
+      "id": "PL45",
+      "source": "pixellab/fragment-redesign/image-7.png",
+      "size": [
+        64,
+        64
+      ],
+      "sha256": "c4d041ad63df25a361a3d4393c5878ce88a411444198170d47fca9e4a058da99",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_128_bbox": [
+        5,
+        13,
+        58,
+        50
+      ],
+      "visible_rgba_colors": 5
+    },
+    {
+      "id": "PL46",
+      "source": "pixellab/fragment-redesign/image-8.png",
+      "size": [
+        64,
+        64
+      ],
+      "sha256": "1276810d4494212252f61223547bcb178d56b5cb5376b48f443d694f7aedd3cb",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_128_bbox": [
+        4,
+        15,
+        59,
+        50
+      ],
+      "visible_rgba_colors": 6
+    },
+    {
+      "id": "PL47",
+      "source": "pixellab/fragment-redesign/image-10.png",
+      "size": [
+        64,
+        64
+      ],
+      "sha256": "220c868b5f3f13025a7cd0f038c2fdb0cf6706b9c35e4f294cbf4c8788bf2fd3",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_128_bbox": [
+        4,
+        15,
+        59,
+        50
+      ],
+      "visible_rgba_colors": 5
+    },
+    {
+      "id": "PL48",
+      "source": "pixellab/fragment-redesign/image-13.png",
+      "size": [
+        64,
+        64
+      ],
+      "sha256": "d634fe8c0cbd952a465b13f6140b222e4504ffabe0f10ec1e2f69b70206318b3",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_128_bbox": [
+        5,
+        15,
+        59,
+        49
+      ],
+      "visible_rgba_colors": 6
+    }
+  ]
+}

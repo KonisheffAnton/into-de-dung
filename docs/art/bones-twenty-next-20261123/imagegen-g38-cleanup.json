@@ -1,0 +1,6 @@
+{
+  "source": "imagegen/G38.png",
+  "output": "imagegen/G38-clean.png",
+  "prompt": "Use case: background-extraction. Correct ONLY the alpha/background of this generated pixel-art bone heap. Remove all gray fuzzy halo, speckles and translucent pixels outside the hard stepped bone silhouette. The entire outside must be genuinely fully transparent. Preserve exactly the bone shapes, arrangement, bone colors, hard square pixel grid and internal dark gaps. Do not redraw or add any bones; no glow, no shadow halo, no smoothing. This is one small bare universal bone-heap game sprite, not a scene. Keep all the existing bone silhouette; make its edge clean and pixel sharp.",
+  "method": "built-in image_gen transparent background edit"
+}

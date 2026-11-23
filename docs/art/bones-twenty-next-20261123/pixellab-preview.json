@@ -1,0 +1,132 @@
+[
+  {
+    "id": "PL39",
+    "source": "pixellab/fragment-redesign/image.png",
+    "source_size": [
+      64,
+      64
+    ],
+    "crop_alpha_128": null,
+    "shown_size_before_4x": [
+      64,
+      64
+    ]
+  },
+  {
+    "id": "PL40",
+    "source": "pixellab/fragment-redesign/image-1.png",
+    "source_size": [
+      64,
+      64
+    ],
+    "crop_alpha_128": null,
+    "shown_size_before_4x": [
+      64,
+      64
+    ]
+  },
+  {
+    "id": "PL41",
+    "source": "pixellab/fragment-redesign/image-2.png",
+    "source_size": [
+      64,
+      64
+    ],
+    "crop_alpha_128": null,
+    "shown_size_before_4x": [
+      64,
+      64
+    ]
+  },
+  {
+    "id": "PL42",
+    "source": "pixellab/fragment-redesign/image-3.png",
+    "source_size": [
+      64,
+      64
+    ],
+    "crop_alpha_128": null,
+    "shown_size_before_4x": [
+      64,
+      64
+    ]
+  },
+  {
+    "id": "PL43",
+    "source": "pixellab/fragment-redesign/image-4.png",
+    "source_size": [
+      64,
+      64
+    ],
+    "crop_alpha_128": null,
+    "shown_size_before_4x": [
+      64,
+      64
+    ]
+  },
+  {
+    "id": "PL44",
+    "source": "pixellab/fragment-redesign/image-5.png",
+    "source_size": [
+      64,
+      64
+    ],
+    "crop_alpha_128": null,
+    "shown_size_before_4x": [
+      64,
+      64
+    ]
+  },
+  {
+    "id": "PL45",
+    "source": "pixellab/fragment-redesign/image-7.png",
+    "source_size": [
+      64,
+      64
+    ],
+    "crop_alpha_128": null,
+    "shown_size_before_4x": [
+      64,
+      64
+    ]
+  },
+  {
+    "id": "PL46",
+    "source": "pixellab/fragment-redesign/image-8.png",
+    "source_size": [
+      64,
+      64
+    ],
+    "crop_alpha_128": null,
+    "shown_size_before_4x": [
+      64,
+      64
+    ]
+  },
+  {
+    "id": "PL47",
+    "source": "pixellab/fragment-redesign/image-10.png",
+    "source_size": [
+      64,
+      64
+    ],
+    "crop_alpha_128": null,
+    "shown_size_before_4x": [
+      64,
+      64
+    ]
+  },
+  {
+    "id": "PL48",
+    "source": "pixellab/fragment-redesign/image-13.png",
+    "source_size": [
+      64,
+      64
+    ],
+    "crop_alpha_128": null,
+    "shown_size_before_4x": [
+      64,
+      64
+    ]
+  }
+]
