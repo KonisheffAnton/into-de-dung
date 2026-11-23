@@ -1,0 +1,66 @@
+[gd_scene load_steps=3 format=3]
+
+[sub_resource type="StyleBoxFlat" id="Row"]
+bg_color = Color(0.19, 0.22, 0.31, 1)
+border_color = Color(0.48, 0.40, 0.27, 1)
+border_width_bottom = 1
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+
+[sub_resource type="StyleBoxFlat" id="RowHover"]
+bg_color = Color(0.29, 0.28, 0.35, 1)
+border_color = Color(0.87, 0.68, 0.34, 1)
+border_width_bottom = 2
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_left = 4
+corner_radius_bottom_right = 4
+
+[node name="DeckEntry" type="Button"]
+custom_minimum_size = Vector2(0, 38)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_styles/normal = SubResource("Row")
+theme_override_styles/hover = SubResource("RowHover")
+theme_override_styles/pressed = SubResource("RowHover")
+metadata/hub_action = "deck_remove_card"
+
+[node name="Mana" type="Label" parent="."]
+layout_mode = 1
+anchor_left = 0.015
+anchor_right = 0.13
+anchor_bottom = 1.0
+mouse_filter = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_font_sizes/font_size = 16
+theme_override_colors/font_color = Color(0.60, 0.80, 1, 1)
+metadata/hub_field = "mana"
+
+[node name="Title" type="Label" parent="."]
+layout_mode = 1
+anchor_left = 0.16
+anchor_right = 0.82
+anchor_bottom = 1.0
+mouse_filter = 2
+vertical_alignment = 1
+clip_text = true
+autowrap_mode = 2
+max_lines_visible = 2
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(0.98, 0.91, 0.76, 1)
+metadata/hub_field = "title"
+
+[node name="Copies" type="Label" parent="."]
+layout_mode = 1
+anchor_left = 0.84
+anchor_right = 0.98
+anchor_bottom = 1.0
+mouse_filter = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+theme_override_font_sizes/font_size = 13
+theme_override_colors/font_color = Color(0.98, 0.83, 0.46, 1)
+metadata/hub_field = "count"

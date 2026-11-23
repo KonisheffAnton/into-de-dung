@@ -415,6 +415,20 @@ func _base_deck_action(action: String, type_id: String, surface: StringName) -> 
 	if was_editing and not deck_editing:
 		_render()
 		return
+	if action in ["add", "remove"]:
+		if surface != &"deck" or MageCardCatalog.get_card(type_id) == null: return
+		var current: Array = deck_draft if deck_editing else run.mage_deck.base_types
+		if action == "add" and (current.size() >= 10 or current.count(type_id) >= 2): return
+		if action == "remove" and not current.has(type_id): return
+		# Первое реальное изменение книги открывает тот же черновик, что и старый редактор.
+		if not deck_editing:
+			deck_editing = true
+			deck_draft = current.duplicate()
+			_base_deck_expected = run.mage_deck.duplicate(true)
+		if action == "add": deck_draft.append(type_id)
+		else: deck_draft.erase(type_id)
+		_render()
+		return
 	if action == "edit":
 		if deck_editing: return
 		deck_editing = true

@@ -41,6 +41,8 @@ func _run() -> void:
 		check(_text("deck_selected_title") == card.name and _text("deck_selected_description") == card.description, "catalog definition shown: " + card.id)
 		check(_text("deck_selected_mana").contains(str(card.mana_cost)), "mana shown: " + card.id)
 	await _select("card.poison")
+	await _test_book_interactions()
+	await _select("card.poison")
 	await _check_sizes("overview")
 	for cycle: int in 3: hub._render()
 	check(hub.run.to_dict() == baseline and FileAccess.get_file_as_bytes(path) == bytes, "selection pagination refresh preserve complete profile RNG file")
@@ -100,6 +102,146 @@ func _run() -> void:
 	print("HUB DECK RESULTS: %d passed, %d failed" % [passed, failed])
 	quit(0 if failed == 0 else 1)
 
+func _test_book_interactions() -> void:
+	var published := hub.run.to_dict()
+	var saved_bytes := FileAccess.get_file_as_bytes(path)
+	var target := _slot("deck_drop_target") as Control
+	check(target != null, "book has a deck drop target")
+	if target == null: return
+	var fire := await _catalog_card("card.fire")
+	check(fire != null, "full-deck catalog card is available")
+	if fire == null: return
+	await _click(fire)
+	check(not hub.deck_editing and hub.deck_draft.is_empty() and hub.run.to_dict() == published, "catalog click on full deck only inspects")
+	check(FileAccess.get_file_as_bytes(path) == saved_bytes, "full-deck click preserves save bytes")
+	var full_payload := _payload_for(fire)
+	check(not page._can_drop_card(target.size * 0.5, full_payload, target), "full deck rejects a forged valid source")
+	fire.drag_started = false
+
+	await _press("edit")
+	await _select("card.fire")
+	await _press("minus")
+	var source := await _catalog_card("card.binding_thread")
+	check(source != null and hub.deck_draft.size() == 9, "underfilled draft and add source are ready")
+	if source != null:
+		await _click(source)
+		check(hub.deck_editing and hub.deck_draft.size() == 10 and hub.deck_draft.count("card.binding_thread") == 1, "catalog click adds one card to underfilled draft")
+	check(hub.run.to_dict() == published and FileAccess.get_file_as_bytes(path) == saved_bytes, "catalog add remains in shared draft before save")
+	await _press("cancel")
+
+	var fire_row := _deck_row("card.fire")
+	check(fire_row != null, "published deck exposes a removable row")
+	if fire_row == null: return
+	await _click(fire_row)
+	check(hub.deck_editing and hub.deck_draft.size() == 9 and hub.deck_draft.count("card.fire") == 1, "row click starts shared draft and removes one copy")
+	var binding_source := await _catalog_card("card.binding_thread")
+	check(binding_source != null, "binding thread drag source is available")
+	if binding_source != null:
+		var rows := _slot("deck_rows") as Control
+		var drop_area := rows.get_parent() as Control
+		var drop_point := drop_area.get_global_rect().get_center()
+		await _native_begin_drag(binding_source)
+		check(viewport.gui_is_dragging() and binding_source.drag_started, "catalog drag starts with source preview")
+		_native_motion(drop_point, true)
+		await _settle()
+		check(viewport.gui_is_dragging() and binding_source.drag_started, "catalog drag preview remains active over deck rows")
+		_native_mouse(drop_point, false)
+		await _settle()
+		check(not viewport.gui_is_dragging() and hub.deck_draft.size() == 10 and hub.deck_draft.count("card.binding_thread") == 1, "native drop adds exactly one card")
+		check(_deck_row("card.binding_thread") != null, "valid drop refreshes shared deck rows")
+	check(hub.run.to_dict() == published and FileAccess.get_file_as_bytes(path) == saved_bytes, "native drop changes draft only before save")
+	await _press("cancel")
+
+	# Фиктивные данные нужны для адресной проверки защит без обхода обработчика UI.
+	await _press("edit")
+	await _select("card.fire")
+	await _press("minus")
+	var fire_again := await _catalog_card("card.fire")
+	if fire_again != null:
+		var stale_payload := _payload_for(fire_again)
+		fire_again.hide()
+		check(not page._can_drop_card(target.size * 0.5, stale_payload, target), "hidden catalog source cannot be dropped")
+		fire_again.show()
+		var old_parent := fire_again.get_parent() as Control
+		var old_index := fire_again.get_index()
+		var layout := _control_layout(fire_again)
+		fire_again.reparent(viewport, true)
+		check(not page._can_drop_card(target.size * 0.5, stale_payload, target), "source moved outside page cannot be dropped")
+		fire_again.reparent(old_parent, true)
+		_restore_control_layout(fire_again, layout)
+		old_parent.move_child(fire_again, old_index)
+		check(page._can_drop_card(target.size * 0.5, stale_payload, target), "current visible source can address the deck")
+		var unknown_payload := stale_payload.duplicate(true)
+		unknown_payload["type_id"] = "card.unknown"
+		check(not page._can_drop_card(target.size * 0.5, unknown_payload, target), "unknown spell payload is rejected")
+		hub._render()
+		check(not page._can_drop_card(target.size * 0.5, stale_payload, target), "profile render invalidates old drag generation")
+		var hidden_payload := _payload_for(fire_again)
+		await _press_name("TabMercenaries")
+		check(not page._can_drop_card(target.size * 0.5, hidden_payload, target), "tab change rejects current source")
+		await _press_name("TabDeck")
+		fire_again.drag_started = false
+
+	await _press("cancel")
+	await _press("edit")
+	await _select("card.fire")
+	await _press("minus")
+	var capped_source := await _catalog_card("card.heal")
+	if capped_source != null:
+		var capped_payload := _payload_for(capped_source)
+		check(not page._can_drop_card(target.size * 0.5, capped_payload, target), "third copy is rejected while draft has room")
+		capped_source.drag_started = false
+	var fresh_source := await _catalog_card("card.binding_thread")
+	if fresh_source != null:
+		var fresh_payload := _payload_for(fresh_source)
+		check(page._can_drop_card(target.size * 0.5, fresh_payload, target), "valid payload can target deck while draft has room")
+		fresh_source.drag_started = false
+		check(not page._can_drop_card(target.size * 0.5, fresh_payload, target), "completed drag source cannot be replayed")
+	await _press("cancel")
+
+	await _press("edit")
+	await _select("card.fire")
+	await _press("minus")
+	var unchanged_draft := hub.deck_draft.duplicate()
+	var outside_source := await _catalog_card("card.binding_thread")
+	var outside_target := await _catalog_card("card.bleeding")
+	if outside_source != null and outside_target != null:
+		await _native_drag(outside_source, outside_target.get_global_rect().get_center())
+		check(hub.deck_editing and hub.deck_draft == unchanged_draft and hub.run.to_dict() == published, "drop outside deck does not mutate shared draft")
+	var cancel_source := await _catalog_card("card.binding_thread")
+	if cancel_source != null:
+		await _native_begin_drag(cancel_source)
+		var escape := InputEventKey.new()
+		escape.keycode = KEY_ESCAPE
+		escape.pressed = true
+		viewport.push_input(escape, true)
+		escape.pressed = false
+		viewport.push_input(escape, true)
+		_native_mouse(viewport.get_mouse_position(), false)
+		await _settle()
+		check(not viewport.gui_is_dragging() and hub.deck_editing and hub.deck_draft == unchanged_draft and hub.run.to_dict() == published, "escape cancels drag without mutating shared draft")
+	await _press("cancel")
+	check(not hub.deck_editing and hub.deck_draft.is_empty() and hub.run.to_dict() == published, "cancel discards draft after rejected drags")
+	check(FileAccess.get_file_as_bytes(path) == saved_bytes, "cancelled and rejected interactions preserve save bytes")
+
+func _control_layout(control: Control) -> Dictionary:
+	return {
+		"anchor_left": control.anchor_left, "anchor_top": control.anchor_top,
+		"anchor_right": control.anchor_right, "anchor_bottom": control.anchor_bottom,
+		"offset_left": control.offset_left, "offset_top": control.offset_top,
+		"offset_right": control.offset_right, "offset_bottom": control.offset_bottom,
+	}
+
+func _restore_control_layout(control: Control, layout: Dictionary) -> void:
+	control.anchor_left = layout.anchor_left
+	control.anchor_top = layout.anchor_top
+	control.anchor_right = layout.anchor_right
+	control.anchor_bottom = layout.anchor_bottom
+	control.offset_left = layout.offset_left
+	control.offset_top = layout.offset_top
+	control.offset_right = layout.offset_right
+	control.offset_bottom = layout.offset_bottom
+
 func _test_failure_retry() -> void:
 	await _replace("card.fire", "card.poison")
 	var draft := hub.deck_draft.duplicate()
@@ -110,7 +252,7 @@ func _test_failure_retry() -> void:
 	check(hub._pending_save != null and hub.run.to_dict() == before, "failed write keeps published state")
 	check(hub.deck_editing and hub.deck_draft == draft and hub._page("ErrorPage").is_visible_in_tree(), "write failure retains draft behind error page")
 	var pending := hub._pending_save.to_dict()
-	for action: String in ["edit", "plus", "minus", "save", "cancel", "close"]:
+	for action: String in ["edit", "plus", "minus", "add", "remove", "save", "cancel", "close"]:
 		page.action_requested.emit(action, "card.poison")
 		hub._base_deck_action(action, "card.poison", &"deck")
 		hub._base_deck_action(action, "card.poison", &"management")
@@ -315,14 +457,45 @@ func _reparent_control(control: Control, parent: Control) -> void:
 	control.size = rectangle.size
 
 func _select(type_id: String) -> void:
+	var card := await _catalog_card(type_id)
+	check(card != null, "type can be selected: " + type_id)
+	if card == null: return
+	await _hover(card)
+	check(_text("deck_selected_title") == MageCardCatalog.get_card(type_id).name, "hover inspects catalog card: " + type_id)
+
+func _catalog_card(type_id: String) -> HubDeckTypeCard:
 	while not _button("deck_page_prev").disabled: await _press("deck_page_prev")
-	for index: int in 3:
+	var page_count := maxi(ceili(float(MageCardCatalog.IDS.size()) / float(HubDeckPage.PAGE_SIZE)), 1)
+	for index: int in page_count:
 		for node: Node in page.find_children("*", "Button", true, false):
-			if String(node.get_meta(&"hub_type_id", "")) == type_id:
-				await _click(node as Button)
-				return
+			if node is HubDeckTypeCard and String(node.get_meta(&"hub_type_id", "")) == type_id:
+				return node as HubDeckTypeCard
 		if not _button("deck_page_next").disabled: await _press("deck_page_next")
-	check(false, "type can be selected: " + type_id)
+	return null
+
+func _deck_row(type_id: String) -> Button:
+	var rows := _slot("deck_rows") as Control
+	if rows == null: return null
+	for node: Node in rows.find_children("*", "Button", true, false):
+		if String(node.get_meta(&"hub_type_id", "")) == type_id: return node as Button
+	return null
+
+func _payload_for(source: HubDeckTypeCard) -> Dictionary:
+	source.drag_started = true
+	return {
+		"kind": "hub_spellbook_card",
+		"type_id": source.type_id,
+		"source_id": int(source.get_instance_id()),
+		"page_id": int(page.get_instance_id()),
+		"generation": int(page._view_generation),
+	}
+
+func _hover(control: Control) -> void:
+	await _settle()
+	var motion := InputEventMouseMotion.new()
+	motion.position = control.get_global_rect().get_center()
+	viewport.push_input(motion, true)
+	await _settle()
 
 func _check_sizes(label: String) -> void:
 	for resolution: Vector2i in [Vector2i(1024, 720), Vector2i(1280, 850), Vector2i(1920, 1080)]:
@@ -344,10 +517,14 @@ func _check_layout(parent: Control, resolution: Vector2i) -> void:
 	for node: Node in parent.get_children():
 		if node is Control and (node as Control).is_visible_in_tree(): controls.append(node as Control)
 	for child: Control in controls:
-		check(parent.get_global_rect().grow(1).encloses(child.get_global_rect()), "%s fits %s" % [child.name, resolution])
+		# Содержимое списка намеренно выше ScrollContainer и обрезается им при прокрутке.
+		if not parent is ScrollContainer:
+			check(parent.get_global_rect().grow(1).encloses(child.get_global_rect()), "%s fits %s" % [child.name, resolution])
 		_check_layout(child, resolution)
 	for index: int in controls.size():
-		for other: int in range(index + 1, controls.size()): check(not controls[index].get_global_rect().intersects(controls[other].get_global_rect()), "%s/%s separate %s" % [controls[index].name, controls[other].name, resolution])
+		for other: int in range(index + 1, controls.size()):
+			if controls[index] is ScrollBar or controls[other] is ScrollBar: continue
+			check(not controls[index].get_global_rect().intersects(controls[other].get_global_rect()), "%s/%s separate %s" % [controls[index].name, controls[other].name, resolution])
 
 func _load_hub() -> void:
 	hub = (load("res://scenes/demo/hero_hub.tscn") as PackedScene).instantiate() as HeroHubScreen
@@ -407,6 +584,36 @@ func _click(button: Button) -> void:
 	viewport.push_input(event, true)
 	event.pressed = false
 	viewport.push_input(event, true)
+	await _settle()
+
+func _native_motion(point: Vector2, held: bool = false) -> void:
+	var event := InputEventMouseMotion.new()
+	event.relative = point - viewport.get_mouse_position()
+	event.position = point
+	event.button_mask = MOUSE_BUTTON_MASK_LEFT if held else 0
+	viewport.push_input(event, true)
+
+func _native_mouse(point: Vector2, pressed: bool) -> void:
+	var event := InputEventMouseButton.new()
+	event.position = point
+	event.button_index = MOUSE_BUTTON_LEFT
+	event.pressed = pressed
+	event.button_mask = MOUSE_BUTTON_MASK_LEFT if pressed else 0
+	viewport.push_input(event, true)
+
+func _native_begin_drag(source: Control) -> void:
+	var point := source.get_global_rect().get_center()
+	_native_motion(point)
+	_native_mouse(point, true)
+	_native_motion(point + Vector2(0, 30), true)
+	await _settle()
+	check(viewport.gui_is_dragging(), "native drag begins")
+
+func _native_drag(source: Control, target: Vector2) -> void:
+	await _native_begin_drag(source)
+	_native_motion(target, true)
+	await _settle()
+	_native_mouse(target, false)
 	await _settle()
 
 func _settle() -> void:

@@ -1,44 +1,153 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=6 format=3]
 
 [ext_resource type="Theme" path="res://assets/ui/hub/skeleton_theme.tres" id="1_theme"]
 [ext_resource type="Script" path="res://scripts/demo/hub_deck_type_card.gd" id="2_script"]
 
+[sub_resource type="StyleBoxFlat" id="CardFace"]
+bg_color = Color(0.12, 0.14, 0.22, 0.98)
+border_color = Color(0.82, 0.66, 0.36, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="CardHover"]
+bg_color = Color(0.20, 0.22, 0.33, 1)
+border_color = Color(1, 0.82, 0.45, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxFlat" id="SigilPlate"]
+bg_color = Color(0.2, 0.19, 0.28, 1)
+border_color = Color(0.72, 0.53, 0.27, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
 [node name="DeckTypeCard" type="Button"]
 theme = ExtResource("1_theme")
-custom_minimum_size = Vector2(150, 110)
+custom_minimum_size = Vector2(108, 130)
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/normal = SubResource("CardFace")
+theme_override_styles/hover = SubResource("CardHover")
+theme_override_styles/pressed = SubResource("CardHover")
 script = ExtResource("2_script")
 metadata/hub_action = "deck_select_card"
 
+[node name="Mana" type="Label" parent="."]
+layout_mode = 1
+anchor_left = 0.08
+anchor_top = 0.035
+anchor_right = 0.32
+anchor_bottom = 0.17
+horizontal_alignment = 1
+vertical_alignment = 1
+text = "2"
+theme_override_colors/font_color = Color(0.53, 0.82, 1, 1)
+theme_override_font_sizes/font_size = 15
+mouse_filter = 2
+metadata/hub_field = "mana"
+
 [node name="Title" type="Label" parent="."]
 layout_mode = 1
-anchor_left = 0.06
-anchor_top = 0.12
-anchor_right = 0.94
-anchor_bottom = 0.63
+anchor_left = 0.08
+anchor_top = 0.20
+anchor_right = 0.92
+anchor_bottom = 0.42
 autowrap_mode = 3
+max_lines_visible = 2
+text_overrun_behavior = 3
 horizontal_alignment = 1
 vertical_alignment = 1
 text = "Название карты"
+theme_override_colors/font_color = Color(1, 0.91, 0.69, 1)
+theme_override_font_sizes/font_size = 12
 mouse_filter = 2
-theme_override_colors/font_color = Color(1, 0.94, 0.81, 1)
 metadata/hub_field = "title"
+
+[node name="SigilPlate" type="Panel" parent="."]
+layout_mode = 1
+anchor_left = 0.34
+anchor_top = 0.44
+anchor_right = 0.66
+anchor_bottom = 0.64
+mouse_filter = 2
+theme_override_styles/panel = SubResource("SigilPlate")
+
+[node name="Sigil" type="Label" parent="SigilPlate"]
+layout_mode = 1
+anchor_right = 1.0
+anchor_bottom = 1.0
+horizontal_alignment = 1
+vertical_alignment = 1
+text = "✧"
+theme_override_colors/font_color = Color(1, 0.82, 0.45, 1)
+theme_override_font_sizes/font_size = 19
+mouse_filter = 2
+metadata/hub_field = "sigil"
+
+[node name="Description" type="Label" parent="."]
+layout_mode = 1
+anchor_left = 0.08
+anchor_top = 0.67
+anchor_right = 0.92
+anchor_bottom = 0.87
+autowrap_mode = 3
+max_lines_visible = 2
+text_overrun_behavior = 3
+horizontal_alignment = 1
+vertical_alignment = 1
+text = "Краткое описание заклинания"
+theme_override_colors/font_color = Color(0.9, 0.88, 0.81, 1)
+theme_override_font_sizes/font_size = 10
+mouse_filter = 2
+metadata/hub_field = "description"
 
 [node name="Subtitle" type="Label" parent="."]
 layout_mode = 1
-anchor_left = 0.06
-anchor_top = 0.66
-anchor_right = 0.94
-anchor_bottom = 0.91
-autowrap_mode = 2
+anchor_left = 0.05
+anchor_top = 0.91
+anchor_right = 0.55
+anchor_bottom = 0.99
+clip_text = true
 horizontal_alignment = 1
 vertical_alignment = 1
 text = "Мана · копии"
+theme_override_colors/font_color = Color(0.73, 0.68, 0.57, 1)
+theme_override_font_sizes/font_size = 10
 mouse_filter = 2
-theme_override_colors/font_color = Color(1, 0.94, 0.81, 1)
 metadata/hub_field = "subtitle"
+
+[node name="Count" type="Label" parent="."]
+layout_mode = 1
+anchor_left = 0.67
+anchor_top = 0.91
+anchor_right = 0.95
+anchor_bottom = 0.99
+horizontal_alignment = 1
+vertical_alignment = 1
+text = "×0"
+theme_override_colors/font_color = Color(1, 0.82, 0.45, 1)
+theme_override_font_sizes/font_size = 10
+mouse_filter = 2
+metadata/hub_field = "count"

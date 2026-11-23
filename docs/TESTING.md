@@ -428,6 +428,12 @@ expedition_ui mage_deck_ui --screen 0`.
 RenderingServer CPU/GPU, память/число узлов. Это не OS present-time и не ручной
 плейтест; протокол и ограничения — пакет `docs/art/hub-approved-implementation-20261114/`.
 
+Книга заклинаний (2026-11-23): `--render-check --only hub_deck hub_dashboard
+hub_scene_authoring hub_approved_ui hero_hub_ui mage_deck_ui --screen 0`.
+`hub_deck` также проверяет клик/нативный drag, один add на drop, отмену вне колоды,
+устаревшие payload, общий черновик, барьеры записи и три размера книги.
+GPU-снимки — hub-deck-screenshots; ручная художественная приёмка отдельно.
+
 Отдельная Колода (2026-10-24): `--render-check --only hub_deck hub_development
 hub_mercenaries hub_smith hub_sections hub_dashboard hub_scene_authoring hero_hub_ui
 expedition_ui mage_deck_ui hero_hub mage_deck_models mage_deck_expedition --screen 0`.
