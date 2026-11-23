@@ -1,0 +1,82 @@
+{
+  "task_id": "HUB-PIXELLAB-10-20261123",
+  "base_commit": "9dd5f076d03080eb839195e8b45de546dce781e5",
+  "id": "10",
+  "slug": "bold-pixel",
+  "name": "Крупный пиксель",
+  "style": "Bold hand-crafted pixel-art UI: chunky clean 2-to-4-pixel stepped outlines, broad quiet charcoal fills, ivory lettering, ochre highlights, crimson active tab and CTA. Strong simple icon silhouettes. Cream card panels with bold dark borders; minimal ornament but real depth from three-tone pixel bevels. Confident readable premium retro tactical game, no rounded mobile UI, no blur.",
+  "job_id": "f3c86bac-172b-474f-94f4-7e09c9cdf46d",
+  "status": "completed",
+  "prompt": "Use case: ui-mockup. Draw ONE finished, fully illustrated 16:9 landscape hub screen for intoDeDung, a medieval fantasy tactical dungeon game. Polished visual proposal, not wireframe/contact sheet. Buttons are the focus: every tab, card, small action and primary button has cohesive crafted material, silhouette, border, icon system and clear state hierarchy. Match layout: four large top tabs; slim resource line below; narrow left squad panel with EXACTLY THREE compact cards (warrior, shieldbearer, archer); broad unobstructed fortress courtyard center with three small pixel heroes near a fire; narrow preparation panel right; large primary button bottom-right. Background: stone fortress, plain red and blue cloth flags, tents, stairs, braziers, distant mountains at warm sunset; calmer than UI. Redraw composition; do not copy screenshot six-hero fixture or stale prose. Exact labels: top 'Поход', 'Наёмники', 'Кузнец', 'Колода'; left 'Отряд', 'Воин', 'Щитоносец', 'Лучница', secondary bottom-left 'Дополнительно'; right 'Подготовка', '7 комнат', 'Отряд: 3', 'Колода: 10 карт', 'Готово'; bottom-right 'В путь'; resources 'Золото 100', 'Эссенция 0'. 'Поход' active; icons in tab order: crossed swords, helmet, anvil, card stack. Frame selected first hero card clearly. Inactive tabs readable. Crisp, comfortably large text, not handwriting. No long copy, popup, invented mechanics, extra tabs, logo, watermark, caption or collage. Full scene and UI edge-to-edge; every apparent button looks clickable; useful whitespace. STYLE DIRECTION: Bold hand-crafted pixel-art UI: chunky clean 2-to-4-pixel stepped outlines, broad quiet charcoal fills, ivory lettering, ochre highlights, crimson active tab and CTA. Strong simple icon silhouettes. Cream card panels with bold dark borders; minimal ornament but real depth from three-tone pixel bevels. Confident readable premium retro tactical game, no rounded mobile UI, no blur.",
+  "prompt_characters": 1923,
+  "endpoint": "https://api.pixellab.ai/v2/generate-image-v2",
+  "image_size": {
+    "height": 384,
+    "width": 688
+  },
+  "no_background": false,
+  "reference": {
+    "path": "docs/art/hub-approved-implementation-20261114/expedition-6-1920x1080.png",
+    "width": 1920,
+    "height": 1080,
+    "sha256": "703b359d29c991dc04d789a04741394c67cbf2ab1fd8fd654622741d39a3b661",
+    "usage_description": "Composition/world reference only; redraw with exactly three heroes and exact requested labels. Do not reproduce the screenshot six-hero fixture or stale UI copy.",
+    "base64": "redacted from sanitized receipt"
+  },
+  "post_usage": null,
+  "final_usage": {
+    "type": "generations",
+    "generations": 25.0
+  },
+  "outputs": [
+    {
+      "path": "10-bold-pixel.png",
+      "sha256": "3784b8a666e61826830bb907e8dd6099cb273cb1741a87766d6e308bf7899c02",
+      "bytes": 250453
+    }
+  ],
+  "raw_request": "pixel-10-bold-pixel-request.json",
+  "raw_post_response": "pixel-10-bold-pixel-post-response.json",
+  "raw_final_job": "pixel-10-bold-pixel-job.json",
+  "result_keys": [
+    "seed",
+    "type",
+    "action",
+    "images",
+    "progress",
+    "billing_usage",
+    "generation_id",
+    "usage_cost_usd",
+    "billing_charged",
+    "style_reference",
+    "style_selection",
+    "style_reference_path",
+    "generation_started_at",
+    "original_image_n_colors",
+    "quantized_image_n_colors"
+  ],
+  "request_body_sha256": "728874fe16999228e4cf304478c5d16d228044e733f02942a3a4f822cbe77da9",
+  "sanitized_request": {
+    "description": "Use case: ui-mockup. Draw ONE finished, fully illustrated 16:9 landscape hub screen for intoDeDung, a medieval fantasy tactical dungeon game. Polished visual proposal, not wireframe/contact sheet. Buttons are the focus: every tab, card, small action and primary button has cohesive crafted material, silhouette, border, icon system and clear state hierarchy. Match layout: four large top tabs; slim resource line below; narrow left squad panel with EXACTLY THREE compact cards (warrior, shieldbearer, archer); broad unobstructed fortress courtyard center with three small pixel heroes near a fire; narrow preparation panel right; large primary button bottom-right. Background: stone fortress, plain red and blue cloth flags, tents, stairs, braziers, distant mountains at warm sunset; calmer than UI. Redraw composition; do not copy screenshot six-hero fixture or stale prose. Exact labels: top 'Поход', 'Наёмники', 'Кузнец', 'Колода'; left 'Отряд', 'Воин', 'Щитоносец', 'Лучница', secondary bottom-left 'Дополнительно'; right 'Подготовка', '7 комнат', 'Отряд: 3', 'Колода: 10 карт', 'Готово'; bottom-right 'В путь'; resources 'Золото 100', 'Эссенция 0'. 'Поход' active; icons in tab order: crossed swords, helmet, anvil, card stack. Frame selected first hero card clearly. Inactive tabs readable. Crisp, comfortably large text, not handwriting. No long copy, popup, invented mechanics, extra tabs, logo, watermark, caption or collage. Full scene and UI edge-to-edge; every apparent button looks clickable; useful whitespace. STYLE DIRECTION: Bold hand-crafted pixel-art UI: chunky clean 2-to-4-pixel stepped outlines, broad quiet charcoal fills, ivory lettering, ochre highlights, crimson active tab and CTA. Strong simple icon silhouettes. Cream card panels with bold dark borders; minimal ornament but real depth from three-tone pixel bevels. Confident readable premium retro tactical game, no rounded mobile UI, no blur.",
+    "image_size": {
+      "width": 688,
+      "height": 384
+    },
+    "no_background": false,
+    "reference_images": [
+      {
+        "image": {
+          "type": "base64",
+          "format": "png",
+          "base64": "<redacted; decoded image sha256=703b359d29c991dc04d789a04741394c67cbf2ab1fd8fd654622741d39a3b661>"
+        },
+        "size": {
+          "width": 1920,
+          "height": 1080
+        },
+        "usage_description": "Composition/world reference only; redraw with exactly three heroes and exact requested labels. Do not reproduce the screenshot six-hero fixture or stale UI copy."
+      }
+    ]
+  },
+  "actual_usage_generations": 25.0
+}

@@ -1,0 +1,235 @@
+{
+  "task_id": "HUB-PIXELLAB-10-20261123",
+  "base_commit": "9dd5f076d03080eb839195e8b45de546dce781e5",
+  "endpoint": "https://api.pixellab.ai/v2/generate-image-v2",
+  "image_size": {
+    "width": 688,
+    "height": 384
+  },
+  "requested_variants": 10,
+  "completed_variants": 10,
+  "total_billed_generations": 250.0,
+  "reference_sha256": "703b359d29c991dc04d789a04741394c67cbf2ab1fd8fd654622741d39a3b661",
+  "variants": [
+    {
+      "id": "01",
+      "slug": "forged-garnet",
+      "name": "Кованое железо",
+      "job_id": "e4c2e97d-7a96-4914-919b-5dab1fda3428",
+      "status": "completed",
+      "actual_usage_generations": 25.0,
+      "prompt_characters": 1846,
+      "request_body_sha256": "fd08cce96de4e7568d06152b11d8f3d905db620c84a70792ff83d2e62cdfb979",
+      "reference_sha256": "703b359d29c991dc04d789a04741394c67cbf2ab1fd8fd654622741d39a3b661",
+      "outputs": [
+        {
+          "path": "01-forged-garnet.png",
+          "sha256": "2835b181b8a7b419fc413a08f26f62f374f433c34bf78442d3eca1f97cc0ae9e",
+          "bytes": 244071
+        }
+      ],
+      "receipt": "pixel-01-forged-garnet.json",
+      "raw_request": "pixel-01-forged-garnet-request.json",
+      "raw_post_response": "pixel-01-forged-garnet-post-response.json",
+      "raw_final_job": "pixel-01-forged-garnet-job.json"
+    },
+    {
+      "id": "02",
+      "slug": "carved-oak",
+      "name": "Резной дуб",
+      "job_id": "0798d0b7-ba71-40db-8973-b0f21731ee59",
+      "status": "completed",
+      "actual_usage_generations": 25.0,
+      "prompt_characters": 1823,
+      "request_body_sha256": "7e67e517184716f8a6e097a18aabd270504e6ac2c6eb24c8b99dfa19aabe0813",
+      "reference_sha256": "703b359d29c991dc04d789a04741394c67cbf2ab1fd8fd654622741d39a3b661",
+      "outputs": [
+        {
+          "path": "02-carved-oak.png",
+          "sha256": "dd14e0bb17f77b8749440f3fbac33dc219edcdc7d7fdfb6a5c3f6cd3060e2f62",
+          "bytes": 239902
+        }
+      ],
+      "receipt": "pixel-02-carved-oak.json",
+      "raw_request": "pixel-02-carved-oak-request.json",
+      "raw_post_response": "pixel-02-carved-oak-post-response.json",
+      "raw_final_job": "pixel-02-carved-oak-job.json"
+    },
+    {
+      "id": "03",
+      "slug": "basalt-relief",
+      "name": "Каменные плиты",
+      "job_id": "c1808bcd-5886-457a-9893-765e0d055931",
+      "status": "completed",
+      "actual_usage_generations": 25.0,
+      "prompt_characters": 1858,
+      "request_body_sha256": "4eb56d6d0fcf65207d9ff70cf149cfe97c1f97af4ef2e59d779aaea8ab5a7fd3",
+      "reference_sha256": "703b359d29c991dc04d789a04741394c67cbf2ab1fd8fd654622741d39a3b661",
+      "outputs": [
+        {
+          "path": "03-basalt-relief.png",
+          "sha256": "91ada2c958e80db44648c94c54263c626b81e3ccde2cc6c984f3851761094f11",
+          "bytes": 256761
+        }
+      ],
+      "receipt": "pixel-03-basalt-relief.json",
+      "raw_request": "pixel-03-basalt-relief-request.json",
+      "raw_post_response": "pixel-03-basalt-relief-post-response.json",
+      "raw_final_job": "pixel-03-basalt-relief-job.json"
+    },
+    {
+      "id": "04",
+      "slug": "guild-banners",
+      "name": "Знамёна гильдии",
+      "job_id": "464776a1-300a-4e02-bac6-300d4aa79793",
+      "status": "completed",
+      "actual_usage_generations": 25.0,
+      "prompt_characters": 1861,
+      "request_body_sha256": "ceb286e5ffbc71325360774b9685f4834022634768cc3e680ebdc23794842664",
+      "reference_sha256": "703b359d29c991dc04d789a04741394c67cbf2ab1fd8fd654622741d39a3b661",
+      "outputs": [
+        {
+          "path": "04-guild-banners.png",
+          "sha256": "b7add19b66bac59edeeee0a3700bf1cc3e0b62ebb3836fdd3987e84b632b1d91",
+          "bytes": 223796
+        }
+      ],
+      "receipt": "pixel-04-guild-banners.json",
+      "raw_request": "pixel-04-guild-banners-request.json",
+      "raw_post_response": "pixel-04-guild-banners-post-response.json",
+      "raw_final_job": "pixel-04-guild-banners-job.json"
+    },
+    {
+      "id": "05",
+      "slug": "copper-enamel",
+      "name": "Медь и эмаль",
+      "job_id": "a8529cf2-259d-40b7-91e0-8c90a7945e41",
+      "status": "completed",
+      "actual_usage_generations": 25.0,
+      "prompt_characters": 1864,
+      "request_body_sha256": "32ff0cacf83f9113859dfe5edacc371ee757899e980cc372c70f812044f097c5",
+      "reference_sha256": "703b359d29c991dc04d789a04741394c67cbf2ab1fd8fd654622741d39a3b661",
+      "outputs": [
+        {
+          "path": "05-copper-enamel.png",
+          "sha256": "6f93163fcba7b278a474e192a3452e115d9d4b27891c77d3ed5166dc579c2ebe",
+          "bytes": 253510
+        }
+      ],
+      "receipt": "pixel-05-copper-enamel.json",
+      "raw_request": "pixel-05-copper-enamel-request.json",
+      "raw_post_response": "pixel-05-copper-enamel-post-response.json",
+      "raw_final_job": "pixel-05-copper-enamel-job.json"
+    },
+    {
+      "id": "06",
+      "slug": "leather-brass",
+      "name": "Кожа и латунь",
+      "job_id": "2f7ca625-de24-43e5-ac92-841027d49fe9",
+      "status": "completed",
+      "actual_usage_generations": 25.0,
+      "prompt_characters": 1896,
+      "request_body_sha256": "b344939efd15e58eaa4acdedc9bb333109229cef73eb4ac811ba6cdb7a5eb8b6",
+      "reference_sha256": "703b359d29c991dc04d789a04741394c67cbf2ab1fd8fd654622741d39a3b661",
+      "outputs": [
+        {
+          "path": "06-leather-brass.png",
+          "sha256": "fff2d79fe99b71077b88a8e44489b1b2d7482026469cdc6c690d5f25d764cd8b",
+          "bytes": 225397
+        }
+      ],
+      "receipt": "pixel-06-leather-brass.json",
+      "raw_request": "pixel-06-leather-brass-request.json",
+      "raw_post_response": "pixel-06-leather-brass-post-response.json",
+      "raw_final_job": "pixel-06-leather-brass-job.json"
+    },
+    {
+      "id": "07",
+      "slug": "expedition-atlas",
+      "name": "Походный атлас",
+      "job_id": "0696f776-bece-4f11-b94c-87fc214c67be",
+      "status": "completed",
+      "actual_usage_generations": 25.0,
+      "prompt_characters": 1930,
+      "request_body_sha256": "37301989768ed0a65cbc6a555871dcb95836be5fa0bcda53f56362dbe0141562",
+      "reference_sha256": "703b359d29c991dc04d789a04741394c67cbf2ab1fd8fd654622741d39a3b661",
+      "outputs": [
+        {
+          "path": "07-expedition-atlas.png",
+          "sha256": "6499d04480491f65aee692cff712353155b2b26c38c5e24d65a99faf908d646b",
+          "bytes": 109945
+        }
+      ],
+      "receipt": "pixel-07-expedition-atlas.json",
+      "raw_request": "pixel-07-expedition-atlas-request.json",
+      "raw_post_response": "pixel-07-expedition-atlas-post-response.json",
+      "raw_final_job": "pixel-07-expedition-atlas-job.json"
+    },
+    {
+      "id": "08",
+      "slug": "bone-obsidian",
+      "name": "Кость и обсидиан",
+      "job_id": "a592a84f-8e77-40c1-a07a-31799674837a",
+      "status": "completed",
+      "actual_usage_generations": 25.0,
+      "prompt_characters": 1912,
+      "request_body_sha256": "6ff21d3fb4fec9f37ea30f437b559a4a75809b5fab747a8f985653fed486b8d3",
+      "reference_sha256": "703b359d29c991dc04d789a04741394c67cbf2ab1fd8fd654622741d39a3b661",
+      "outputs": [
+        {
+          "path": "08-bone-obsidian.png",
+          "sha256": "7164aa747bab51f1fe09e4e8377ca2ed0e6651e53eaa0618915dc5abccae4a31",
+          "bytes": 246633
+        }
+      ],
+      "receipt": "pixel-08-bone-obsidian.json",
+      "raw_request": "pixel-08-bone-obsidian-request.json",
+      "raw_post_response": "pixel-08-bone-obsidian-post-response.json",
+      "raw_final_job": "pixel-08-bone-obsidian-job.json"
+    },
+    {
+      "id": "09",
+      "slug": "runic-slate",
+      "name": "Рунический сланец",
+      "job_id": "a3a75dec-9f7e-4915-83de-4c2b7f09796e",
+      "status": "completed",
+      "actual_usage_generations": 25.0,
+      "prompt_characters": 1923,
+      "request_body_sha256": "599aa221b9122d41f3429fdffafc62a320b653077442e56dcb7a66cd1075dd34",
+      "reference_sha256": "703b359d29c991dc04d789a04741394c67cbf2ab1fd8fd654622741d39a3b661",
+      "outputs": [
+        {
+          "path": "09-runic-slate.png",
+          "sha256": "e8e4c6abc1bdc607aed8591ae9afd07a90e27d5f3e020709f1a89b557bee5b42",
+          "bytes": 229113
+        }
+      ],
+      "receipt": "pixel-09-runic-slate.json",
+      "raw_request": "pixel-09-runic-slate-request.json",
+      "raw_post_response": "pixel-09-runic-slate-post-response.json",
+      "raw_final_job": "pixel-09-runic-slate-job.json"
+    },
+    {
+      "id": "10",
+      "slug": "bold-pixel",
+      "name": "Крупный пиксель",
+      "job_id": "f3c86bac-172b-474f-94f4-7e09c9cdf46d",
+      "status": "completed",
+      "actual_usage_generations": 25.0,
+      "prompt_characters": 1923,
+      "request_body_sha256": "728874fe16999228e4cf304478c5d16d228044e733f02942a3a4f822cbe77da9",
+      "reference_sha256": "703b359d29c991dc04d789a04741394c67cbf2ab1fd8fd654622741d39a3b661",
+      "outputs": [
+        {
+          "path": "10-bold-pixel.png",
+          "sha256": "3784b8a666e61826830bb907e8dd6099cb273cb1741a87766d6e308bf7899c02",
+          "bytes": 250453
+        }
+      ],
+      "receipt": "pixel-10-bold-pixel.json",
+      "raw_request": "pixel-10-bold-pixel-request.json",
+      "raw_post_response": "pixel-10-bold-pixel-post-response.json",
+      "raw_final_job": "pixel-10-bold-pixel-job.json"
+    }
+  ]
+}

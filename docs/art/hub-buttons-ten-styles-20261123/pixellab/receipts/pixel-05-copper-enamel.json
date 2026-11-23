@@ -1,0 +1,82 @@
+{
+  "task_id": "HUB-PIXELLAB-10-20261123",
+  "base_commit": "9dd5f076d03080eb839195e8b45de546dce781e5",
+  "id": "05",
+  "slug": "copper-enamel",
+  "name": "Медь и эмаль",
+  "style": "Refined medieval copper-and-enamel buttons, broad bevelled copper rim, ivory enamel text faces, restrained dark teal inset for active navigation, vermilion primary CTA. Geometric forged icon medallions, tidy cream panels and thin copper corners. Handcrafted jewel-like clarity, no industrial gauges or steampunk machinery.",
+  "job_id": "a8529cf2-259d-40b7-91e0-8c90a7945e41",
+  "status": "completed",
+  "prompt": "Use case: ui-mockup. Draw ONE finished, fully illustrated 16:9 landscape hub screen for intoDeDung, a medieval fantasy tactical dungeon game. Polished visual proposal, not wireframe/contact sheet. Buttons are the focus: every tab, card, small action and primary button has cohesive crafted material, silhouette, border, icon system and clear state hierarchy. Match layout: four large top tabs; slim resource line below; narrow left squad panel with EXACTLY THREE compact cards (warrior, shieldbearer, archer); broad unobstructed fortress courtyard center with three small pixel heroes near a fire; narrow preparation panel right; large primary button bottom-right. Background: stone fortress, plain red and blue cloth flags, tents, stairs, braziers, distant mountains at warm sunset; calmer than UI. Redraw composition; do not copy screenshot six-hero fixture or stale prose. Exact labels: top 'Поход', 'Наёмники', 'Кузнец', 'Колода'; left 'Отряд', 'Воин', 'Щитоносец', 'Лучница', secondary bottom-left 'Дополнительно'; right 'Подготовка', '7 комнат', 'Отряд: 3', 'Колода: 10 карт', 'Готово'; bottom-right 'В путь'; resources 'Золото 100', 'Эссенция 0'. 'Поход' active; icons in tab order: crossed swords, helmet, anvil, card stack. Frame selected first hero card clearly. Inactive tabs readable. Crisp, comfortably large text, not handwriting. No long copy, popup, invented mechanics, extra tabs, logo, watermark, caption or collage. Full scene and UI edge-to-edge; every apparent button looks clickable; useful whitespace. STYLE DIRECTION: Refined medieval copper-and-enamel buttons, broad bevelled copper rim, ivory enamel text faces, restrained dark teal inset for active navigation, vermilion primary CTA. Geometric forged icon medallions, tidy cream panels and thin copper corners. Handcrafted jewel-like clarity, no industrial gauges or steampunk machinery.",
+  "prompt_characters": 1864,
+  "endpoint": "https://api.pixellab.ai/v2/generate-image-v2",
+  "image_size": {
+    "height": 384,
+    "width": 688
+  },
+  "no_background": false,
+  "reference": {
+    "path": "docs/art/hub-approved-implementation-20261114/expedition-6-1920x1080.png",
+    "width": 1920,
+    "height": 1080,
+    "sha256": "703b359d29c991dc04d789a04741394c67cbf2ab1fd8fd654622741d39a3b661",
+    "usage_description": "Composition/world reference only; redraw with exactly three heroes and exact requested labels. Do not reproduce the screenshot six-hero fixture or stale UI copy.",
+    "base64": "redacted from sanitized receipt"
+  },
+  "post_usage": null,
+  "final_usage": {
+    "type": "generations",
+    "generations": 25.0
+  },
+  "outputs": [
+    {
+      "path": "05-copper-enamel.png",
+      "sha256": "6f93163fcba7b278a474e192a3452e115d9d4b27891c77d3ed5166dc579c2ebe",
+      "bytes": 253510
+    }
+  ],
+  "raw_request": "pixel-05-copper-enamel-request.json",
+  "raw_post_response": "pixel-05-copper-enamel-post-response.json",
+  "raw_final_job": "pixel-05-copper-enamel-job.json",
+  "result_keys": [
+    "seed",
+    "type",
+    "action",
+    "images",
+    "progress",
+    "billing_usage",
+    "generation_id",
+    "usage_cost_usd",
+    "billing_charged",
+    "style_reference",
+    "style_selection",
+    "style_reference_path",
+    "generation_started_at",
+    "original_image_n_colors",
+    "quantized_image_n_colors"
+  ],
+  "request_body_sha256": "32ff0cacf83f9113859dfe5edacc371ee757899e980cc372c70f812044f097c5",
+  "sanitized_request": {
+    "description": "Use case: ui-mockup. Draw ONE finished, fully illustrated 16:9 landscape hub screen for intoDeDung, a medieval fantasy tactical dungeon game. Polished visual proposal, not wireframe/contact sheet. Buttons are the focus: every tab, card, small action and primary button has cohesive crafted material, silhouette, border, icon system and clear state hierarchy. Match layout: four large top tabs; slim resource line below; narrow left squad panel with EXACTLY THREE compact cards (warrior, shieldbearer, archer); broad unobstructed fortress courtyard center with three small pixel heroes near a fire; narrow preparation panel right; large primary button bottom-right. Background: stone fortress, plain red and blue cloth flags, tents, stairs, braziers, distant mountains at warm sunset; calmer than UI. Redraw composition; do not copy screenshot six-hero fixture or stale prose. Exact labels: top 'Поход', 'Наёмники', 'Кузнец', 'Колода'; left 'Отряд', 'Воин', 'Щитоносец', 'Лучница', secondary bottom-left 'Дополнительно'; right 'Подготовка', '7 комнат', 'Отряд: 3', 'Колода: 10 карт', 'Готово'; bottom-right 'В путь'; resources 'Золото 100', 'Эссенция 0'. 'Поход' active; icons in tab order: crossed swords, helmet, anvil, card stack. Frame selected first hero card clearly. Inactive tabs readable. Crisp, comfortably large text, not handwriting. No long copy, popup, invented mechanics, extra tabs, logo, watermark, caption or collage. Full scene and UI edge-to-edge; every apparent button looks clickable; useful whitespace. STYLE DIRECTION: Refined medieval copper-and-enamel buttons, broad bevelled copper rim, ivory enamel text faces, restrained dark teal inset for active navigation, vermilion primary CTA. Geometric forged icon medallions, tidy cream panels and thin copper corners. Handcrafted jewel-like clarity, no industrial gauges or steampunk machinery.",
+    "image_size": {
+      "width": 688,
+      "height": 384
+    },
+    "no_background": false,
+    "reference_images": [
+      {
+        "image": {
+          "type": "base64",
+          "format": "png",
+          "base64": "<redacted; decoded image sha256=703b359d29c991dc04d789a04741394c67cbf2ab1fd8fd654622741d39a3b661>"
+        },
+        "size": {
+          "width": 1920,
+          "height": 1080
+        },
+        "usage_description": "Composition/world reference only; redraw with exactly three heroes and exact requested labels. Do not reproduce the screenshot six-hero fixture or stale UI copy."
+      }
+    ]
+  },
+  "actual_usage_generations": 25.0
+}

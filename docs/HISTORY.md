@@ -1,5 +1,16 @@
 # История и свидетельства проверок
 
+## Десять стилей кнопок хаба — 2026-11-23
+
+По U подготовлены [10 Imagegen и те же10 PixelLab экранов](art/hub-buttons-ten-styles-20261123/README.md).
+Материалы, форма, рамки и иконки сравниваются при общей структуре «Похода».
+PNG/промпты/usage сохранены; PixelLab250generations. Выбор U открыт,
+runtime/темы/ассеты не менялись. Независимый визуальный review Imagegen APPROVE;
+20PNG/размеры/SHA/ссылки/JS syntax PASS. Browser file:// отклонён политикой,
+Godot/full/core/F5/DPI/performance не запускались.
+[Проверки](../test_reports/hub-buttons-design-20261123/validation.json);
+[прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261123-20.md).
+
 ## Счётчики статусов и полосы над тайлами — 2026-11-23
 
 [Пакет](art/status-icons-vitals-order-20261123/README.md): иконки18px, Play Bold AA

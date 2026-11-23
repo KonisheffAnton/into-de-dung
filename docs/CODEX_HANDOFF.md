@@ -1,35 +1,34 @@
-# Передача — 2026-11-23: статусы и полосы
+# Передача — 2026-11-23: десять стилей кнопок хаба
 
-D:/Games/into-de-dung; main; база 6566f0550d27280460006329b3b7b1995506457a.
-[UI](art/status-icons-vitals-order-20261123/README.md): значки18px в слотах20px;
-только счётчики статусов Play Bold AA. HP/броня/урон прежние. Полосы над рельефом;
-невыбранные маскируются границами моделей, selected снимает маску. Наведение атаки
-не выбор. Локальный слой отклонён U из-за тайлов; исправлено и переснято.
-[Проверки](art/status-icons-vitals-order-20261123/verification.json): isolated import/startup,
-4 адресных suites и поле/state/RNG parity PASS; review APPROVE.
-Foundation141/2: те же2 отказа на baseline6566f055. Full/core/F5/Editor/resize/DPI/
-performance не выполнены;60FPS не заявлены. Маска — bounds, не просветы силуэта.
-Ручная приёмка открыта; контракт — BATTLE_PRESENTATION_REWORK.
+D:/Games/into-de-dung; main; старт9dd5f076, перед фиксацией961d4b76.
+По U сделаны [10 Imagegen + 10 PixelLab экранов](art/hub-buttons-ten-styles-20261123/README.md):
+[галерея](art/hub-buttons-ten-styles-20261123/index.html), PNG, промпты, SHA/usage.
+Imagegen1672×941, PixelLab688×384/250generations. Только концепты кнопок;
+runtime/темы/ассеты не менялись. Выбор U открыт. P ведущего04/07/10,
+reviewer10/01/09; у PixelLab полезны04/07. Отклонения PL10:4 карточки,
+прочих — лишние герои/кириллица/слабый материал; не переносить ошибки в игру.
+[Проверки](../test_reports/hub-buttons-design-20261123/validation.json):
+20PNG/размеры/SHA/ссылки/JS syntax PASS; Imagegen visual review APPROVE.
+Browser file:// отклонён политикой; UI галереи в браузере не проверен.
+Godot/import/full/core/F5/Editor/DPI/performance не запускались.
+Следующий шаг — выбор U1–3 направлений, затем уточнение кнопок/состояний.
+Не внедрять и не генерировать новый набор автоматически.
 
-[Все20 костей](art/bones-field-comparison-20261123/README.md) показаны, commit124d0d81:
-PL29–38 в1:1, G21–30 уменьшены NEAREST; выбор открыт, в runtime не внедрены.
-Свежие тела U решил показывать последним кадром смерти; переход ещё не внедрён.
-Следующий шаг — отзыв U по UI и выбор костей; новый срез автоматически не начинать.
-
-Книга заклинаний6566f055 реализована, ручная приёмка открыта: HUB_SCENES_V1
-и art/mage-spellbook-ui-20261123/. Школы/развитие/финальный арт — Q.
-Дух/труп носителя — концепт2ea6374f, runtime ещё host_defeat; Q у DESIGN_DIRECTION.
-Обводкаf9e041b0 без приёмки; карты81c968ba: прежний full не зелёный,
-старые nested save не мигрируются.
-Чужие scenes/demo/main_menu.tscn, docs/art/battlefield-reference-03-20261017/,
-ART_DIRECTION и пробы кнопок не reset/stage/commit; проверить status/HEAD.
+Статусы/полосы961d4b76 — BATTLE_PRESENTATION_REWORK; ручная приёмка открыта,
+foundation141/2 с теми же baseline-отказами. Кости124d0d81 — выбор открыт;
+свежие тела последним кадром смерти ещё не внедрены. Книга6566f055 реализована:
+HUB_SCENES_V1; ручная приёмка/школы/развитие/финальный арт открыты.
+Дух/носитель2ea6374f — концепт, runtime host_defeat; Q у DESIGN_DIRECTION.
+Обводкаf9e041b0 без приёмки; карты81c968ba: full не зелёный, nested save не мигрируются.
+Чужие scenes/demo/main_menu.tscn и docs/art/battlefield-reference-03-20261017/
+не reset/stage/commit; остальные параллельные изменения сверять по status/HEAD.
 Сохранить core/preview/queue/RNG/save/frozen,5 классов, PLAYER вправо/ENEMY влево,
 возврат после атаки, правило брони,2:1↔4:3. Инициативы нет; команда3/лимит Q;
-каталоги1–3 не мигрировать; H2–H5 не начинать.
+каталоги1–3 не мигрировать; H2–H5/прочие Q не начинать.
 Один isolated runner; без root import/служб/драйверов/фокуса ОС/push/sidebar/расписаний.
 D:/Games/trog-grounding-check-20261122 не удалять: cleanup отклонён.
-[Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261123-19.md), [HISTORY](HISTORY.md).
-Завершение: проверки, локальный Conventional Commit своего, короткая передача;
+[Прежняя передача побайтно](CODEX_HANDOFF.history-20261123-20.md), [HISTORY](HISTORY.md).
+Завершение: проверки, локальный Conventional Commit своего, короткий HANDOFF;
 прежнюю побайтно отдельно + HISTORY. В финале/при блокере предложить новый чат
 и полный промпт: HEAD, результат, docs/artifacts, остаток, ограничения, проверки
-и это же правило. Новый чат автоматически не создавать.
+и это же правило. Чат автоматически не создавать.
