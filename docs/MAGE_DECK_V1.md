@@ -125,6 +125,9 @@ Run `cards` хранит базовые и найденные копии, `activ
 при отсутствии выбора `selected_type=""`, `selected_card_id=0`.
 Финальный report хранит значения уничтоженной находки, не ссылку в пустой run.
 `ruleset_id` отчёта всегда `u14-deck-v1`; `return_reason` = none/early/completed/defeat/host_defeat.
+Текущий host_defeat остаётся в исполняемом формате. [Новый целевой концепт](DESIGN_DIRECTION.md#mage-corpse-anchor-20261123)
+отменяет автоматический исход от смерти носителя, но этим этапом отчёт/codec
+и сохранения не изменяются; новые причины исхода или миграции не добавлены.
 Host_defeat сохраняет добычу выживших по HOST_POSSESSION_V1; ниже defeat означает
 полную потерю при гибели всех участников.
 `returned_cards` — отсортированные по id value-записи

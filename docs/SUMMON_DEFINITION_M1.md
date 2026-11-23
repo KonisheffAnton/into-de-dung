@@ -3,6 +3,10 @@
 Пакет ведущего 2026-09-22, base `12e996f74c73a127ebd54d8ae1a0772a85923639`.
 Контракт зафиксирован до реализации; M1 реализован, результаты проверки — HANDOFF.
 
+[Будущая привязка мага к поднятому носителю — U 2026-11-23](DESIGN_DIRECTION.md#mage-corpse-anchor-20261123)
+пока описана только в концепте. Указанные ниже шаблон/владелец/появление и отсутствие
+тела после смерти помощника остаются текущими правилами, а не реализацией нового U.
+
 `SummonDefinition extends Resource` хранит десять базовых float-параметров:
 hp_max=16, armor=0, strength=4, weapon_damage=2, impact_power=3,
 balance_max=5, move_range=4, main_actions_max=1, bonus_actions_max=1,
