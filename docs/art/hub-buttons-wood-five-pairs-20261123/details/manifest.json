@@ -1,0 +1,512 @@
+[
+  {
+    "id": "W01",
+    "provider": "imagegen",
+    "detail": "active",
+    "file": "details/imagegen-W01-active.webp",
+    "source": "imagegen/W01-pale-ash.png",
+    "box": [
+      0,
+      0,
+      459,
+      127
+    ],
+    "sha256": "64b10013074aa10ee72d11a3bccd92b0273dd5c5b6787df0519270cd4265c949",
+    "source_sha256": "1d8b36ef5e5477c636985f4c309ce2c9420247b960d4f8cae4568a7022361743",
+    "bytes": 61256,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "W01",
+    "provider": "imagegen",
+    "detail": "cta",
+    "file": "details/imagegen-W01-cta.webp",
+    "source": "imagegen/W01-pale-ash.png",
+    "box": [
+      1290,
+      765,
+      1672,
+      941
+    ],
+    "sha256": "86d87629e49bf1510aa286e2b175c5908ef60d9ad5a27400d4ce99a4dd68420f",
+    "source_sha256": "1d8b36ef5e5477c636985f4c309ce2c9420247b960d4f8cae4568a7022361743",
+    "bytes": 75796,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "W01",
+    "provider": "imagegen",
+    "detail": "frame",
+    "file": "details/imagegen-W01-frame.webp",
+    "source": "imagegen/W01-pale-ash.png",
+    "box": [
+      0,
+      169,
+      395,
+      429
+    ],
+    "sha256": "406701505458dba211ddf9a50302e2e4f853d2b0b40d7d08972d5322a0070efe",
+    "source_sha256": "1d8b36ef5e5477c636985f4c309ce2c9420247b960d4f8cae4568a7022361743",
+    "bytes": 116244,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "W02",
+    "provider": "imagegen",
+    "detail": "active",
+    "file": "details/imagegen-W02-active.webp",
+    "source": "imagegen/W02-smoked-oak.png",
+    "box": [
+      0,
+      0,
+      459,
+      127
+    ],
+    "sha256": "e910a4544d45442325dd1336d632cdc6033149c6c914139106984f4cacf287b5",
+    "source_sha256": "32b22f5fe5819347a9c619f60bdafa76e1dd6f871a96943489005c778204f025",
+    "bytes": 65094,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "W02",
+    "provider": "imagegen",
+    "detail": "cta",
+    "file": "details/imagegen-W02-cta.webp",
+    "source": "imagegen/W02-smoked-oak.png",
+    "box": [
+      1290,
+      765,
+      1672,
+      941
+    ],
+    "sha256": "e98338ba55c30bdab1f18499b36eedfe7e0faf4f9c94ee32425d7cf9d2fa4767",
+    "source_sha256": "32b22f5fe5819347a9c619f60bdafa76e1dd6f871a96943489005c778204f025",
+    "bytes": 78384,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "W02",
+    "provider": "imagegen",
+    "detail": "frame",
+    "file": "details/imagegen-W02-frame.webp",
+    "source": "imagegen/W02-smoked-oak.png",
+    "box": [
+      0,
+      169,
+      395,
+      429
+    ],
+    "sha256": "919026ab69e0486c030987ca0e538f3caf47046743f6a4acbfd73360a3972a09",
+    "source_sha256": "32b22f5fe5819347a9c619f60bdafa76e1dd6f871a96943489005c778204f025",
+    "bytes": 119562,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "W03",
+    "provider": "imagegen",
+    "detail": "active",
+    "file": "details/imagegen-W03-active.webp",
+    "source": "imagegen/W03-carved-walnut.png",
+    "box": [
+      0,
+      0,
+      459,
+      127
+    ],
+    "sha256": "a5f569a304508a14ed1e1039f8ce895a31fc15da02af92dd9f50bd640d75de6f",
+    "source_sha256": "ff72b5f3fd6ff0f394a3b860b26ccc80c4b5d8317ed68a749228209e05f81946",
+    "bytes": 65590,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "W03",
+    "provider": "imagegen",
+    "detail": "cta",
+    "file": "details/imagegen-W03-cta.webp",
+    "source": "imagegen/W03-carved-walnut.png",
+    "box": [
+      1290,
+      765,
+      1672,
+      941
+    ],
+    "sha256": "faf8edc7f5a66d754037f7c8b76125313c47f8b53e032d70d727fa30deaacc4d",
+    "source_sha256": "ff72b5f3fd6ff0f394a3b860b26ccc80c4b5d8317ed68a749228209e05f81946",
+    "bytes": 77596,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "W03",
+    "provider": "imagegen",
+    "detail": "frame",
+    "file": "details/imagegen-W03-frame.webp",
+    "source": "imagegen/W03-carved-walnut.png",
+    "box": [
+      0,
+      169,
+      395,
+      429
+    ],
+    "sha256": "2c15db58e184ff1f237210ecfc6de158da23cbb9016518578e68db7e86892418",
+    "source_sha256": "ff72b5f3fd6ff0f394a3b860b26ccc80c4b5d8317ed68a749228209e05f81946",
+    "bytes": 124118,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "W04",
+    "provider": "imagegen",
+    "detail": "active",
+    "file": "details/imagegen-W04-active.webp",
+    "source": "imagegen/W04-timber-cloth.png",
+    "box": [
+      0,
+      0,
+      459,
+      127
+    ],
+    "sha256": "8d05588729d4941266edb4b8b27e14d43cfb30cb01578d69dba59ceadbdc8576",
+    "source_sha256": "1e10fbf979556fa532780b9a206f047ee83ef3a4251a7e159fbf99ce1a6247d3",
+    "bytes": 67534,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "W04",
+    "provider": "imagegen",
+    "detail": "cta",
+    "file": "details/imagegen-W04-cta.webp",
+    "source": "imagegen/W04-timber-cloth.png",
+    "box": [
+      1290,
+      765,
+      1672,
+      941
+    ],
+    "sha256": "1ea98b7ad74c458a62adf86766560022859eaff71a678fff9290106cbbcfd6ab",
+    "source_sha256": "1e10fbf979556fa532780b9a206f047ee83ef3a4251a7e159fbf99ce1a6247d3",
+    "bytes": 83272,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "W04",
+    "provider": "imagegen",
+    "detail": "frame",
+    "file": "details/imagegen-W04-frame.webp",
+    "source": "imagegen/W04-timber-cloth.png",
+    "box": [
+      0,
+      169,
+      395,
+      429
+    ],
+    "sha256": "f8f39e99c56dd23fdae3b36b382a5375d8729d9e096a905baf4da972e6fe2124",
+    "source_sha256": "1e10fbf979556fa532780b9a206f047ee83ef3a4251a7e159fbf99ce1a6247d3",
+    "bytes": 126024,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "W05",
+    "provider": "imagegen",
+    "detail": "active",
+    "file": "details/imagegen-W05-active.webp",
+    "source": "imagegen/W05-weathered-planks.png",
+    "box": [
+      0,
+      0,
+      459,
+      127
+    ],
+    "sha256": "5b9e3607b3fa32afddb9a3357f59d474268e168368c312bde3ed8b72de4ae659",
+    "source_sha256": "a972b7424b872daa99ca804fe1bdfa1012038c1c4c9119e3a9f6b9f7159c5b6a",
+    "bytes": 68180,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "W05",
+    "provider": "imagegen",
+    "detail": "cta",
+    "file": "details/imagegen-W05-cta.webp",
+    "source": "imagegen/W05-weathered-planks.png",
+    "box": [
+      1290,
+      765,
+      1672,
+      941
+    ],
+    "sha256": "7605eeb507cf7d3498af243a8f7ca7ff824e9bd846523f64eaffb79cb6a26078",
+    "source_sha256": "a972b7424b872daa99ca804fe1bdfa1012038c1c4c9119e3a9f6b9f7159c5b6a",
+    "bytes": 83650,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "W05",
+    "provider": "imagegen",
+    "detail": "frame",
+    "file": "details/imagegen-W05-frame.webp",
+    "source": "imagegen/W05-weathered-planks.png",
+    "box": [
+      0,
+      169,
+      395,
+      429
+    ],
+    "sha256": "a683d91a51e207d59fd1185de222e79c3fe452c2dad757e05602b4f94abf35db",
+    "source_sha256": "a972b7424b872daa99ca804fe1bdfa1012038c1c4c9119e3a9f6b9f7159c5b6a",
+    "bytes": 128588,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "W01",
+    "provider": "pixellab",
+    "detail": "active",
+    "file": "details/pixellab-W01-active.webp",
+    "source": "pixellab/W01-pale-ash.png",
+    "box": [
+      0,
+      0,
+      190,
+      48
+    ],
+    "sha256": "71322a233b4483ea9e772608b2ddc30e9bbcf5c884e7c9462cb1051ee39de74e",
+    "source_sha256": "c11b53cf70a6a3746ceebb40160e7b5cac50ab919f3c9a33ea7f0d680300d153",
+    "bytes": 1348,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "W01",
+    "provider": "pixellab",
+    "detail": "cta",
+    "file": "details/pixellab-W01-cta.webp",
+    "source": "pixellab/W01-pale-ash.png",
+    "box": [
+      535,
+      312,
+      688,
+      384
+    ],
+    "sha256": "0cfb4a82b9110ba03775c052f1b05894f4f6f6a79d68ac95bdff1d7b25e60203",
+    "source_sha256": "c11b53cf70a6a3746ceebb40160e7b5cac50ab919f3c9a33ea7f0d680300d153",
+    "bytes": 1842,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "W01",
+    "provider": "pixellab",
+    "detail": "frame",
+    "file": "details/pixellab-W01-frame.webp",
+    "source": "pixellab/W01-pale-ash.png",
+    "box": [
+      0,
+      68,
+      163,
+      177
+    ],
+    "sha256": "3e8b124557b33ddc9db879236449a4280c8137413cd24bc6b81bf12c5be6eeff",
+    "source_sha256": "c11b53cf70a6a3746ceebb40160e7b5cac50ab919f3c9a33ea7f0d680300d153",
+    "bytes": 2738,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "W02",
+    "provider": "pixellab",
+    "detail": "active",
+    "file": "details/pixellab-W02-active.webp",
+    "source": "pixellab/W02-smoked-oak.png",
+    "box": [
+      0,
+      0,
+      190,
+      48
+    ],
+    "sha256": "2ba1d71141ed16d59ce1469ab41f3c01b67e4ec97a1bb7f8458ac5bb46d8ccdd",
+    "source_sha256": "58e46e3f4473226b8dc46d81fe6076df6e128547fc0faaf75d7cf65490b795f5",
+    "bytes": 1486,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "W02",
+    "provider": "pixellab",
+    "detail": "cta",
+    "file": "details/pixellab-W02-cta.webp",
+    "source": "pixellab/W02-smoked-oak.png",
+    "box": [
+      535,
+      312,
+      688,
+      384
+    ],
+    "sha256": "adc36fef12684ba30f1345ced7c2b85ec8ddfd4912841d4bfc1e639fa6636cb9",
+    "source_sha256": "58e46e3f4473226b8dc46d81fe6076df6e128547fc0faaf75d7cf65490b795f5",
+    "bytes": 1644,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "W02",
+    "provider": "pixellab",
+    "detail": "frame",
+    "file": "details/pixellab-W02-frame.webp",
+    "source": "pixellab/W02-smoked-oak.png",
+    "box": [
+      0,
+      68,
+      163,
+      177
+    ],
+    "sha256": "eef02ff1953869e82591fa5a2d1f632ca5c6a7d6e675b87a4863de71e1a4dfb1",
+    "source_sha256": "58e46e3f4473226b8dc46d81fe6076df6e128547fc0faaf75d7cf65490b795f5",
+    "bytes": 2594,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "W03",
+    "provider": "pixellab",
+    "detail": "active",
+    "file": "details/pixellab-W03-active.webp",
+    "source": "pixellab/W03-carved-walnut.png",
+    "box": [
+      0,
+      0,
+      190,
+      48
+    ],
+    "sha256": "47ad8533ceba726e3ecadbc4ffd7a6cd89a4eb61970f7715e38c8e8fc11b7ccd",
+    "source_sha256": "22fd98df67cab4965d6d0fbd58267124161bc59119f79f6ac434fcaac762051a",
+    "bytes": 1530,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "W03",
+    "provider": "pixellab",
+    "detail": "cta",
+    "file": "details/pixellab-W03-cta.webp",
+    "source": "pixellab/W03-carved-walnut.png",
+    "box": [
+      535,
+      312,
+      688,
+      384
+    ],
+    "sha256": "e7325644ae815d9ab5ac6479b40f0a9e276a2a85af6446ff30191cfe134bf8ea",
+    "source_sha256": "22fd98df67cab4965d6d0fbd58267124161bc59119f79f6ac434fcaac762051a",
+    "bytes": 2362,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "W03",
+    "provider": "pixellab",
+    "detail": "frame",
+    "file": "details/pixellab-W03-frame.webp",
+    "source": "pixellab/W03-carved-walnut.png",
+    "box": [
+      0,
+      68,
+      163,
+      177
+    ],
+    "sha256": "f7030ff33c6e630489467b91e82dd2f959924a92f920d83c2702660e61604705",
+    "source_sha256": "22fd98df67cab4965d6d0fbd58267124161bc59119f79f6ac434fcaac762051a",
+    "bytes": 3172,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "W04",
+    "provider": "pixellab",
+    "detail": "active",
+    "file": "details/pixellab-W04-active.webp",
+    "source": "pixellab/W04-timber-cloth.png",
+    "box": [
+      0,
+      0,
+      190,
+      48
+    ],
+    "sha256": "e40e96523c395fb6abe262c6540f81a42c7239a82ca1a733a281e8fd0f65c2b7",
+    "source_sha256": "61ebbd3d4a025138cdcf0ae67e5c8a30014d6bd87c6d07e8d512766918a5593f",
+    "bytes": 1326,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "W04",
+    "provider": "pixellab",
+    "detail": "cta",
+    "file": "details/pixellab-W04-cta.webp",
+    "source": "pixellab/W04-timber-cloth.png",
+    "box": [
+      535,
+      312,
+      688,
+      384
+    ],
+    "sha256": "b087ce60729834572b0ae0c14388e5379244b66981b7b9fa84f604e721ed1d07",
+    "source_sha256": "61ebbd3d4a025138cdcf0ae67e5c8a30014d6bd87c6d07e8d512766918a5593f",
+    "bytes": 1410,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "W04",
+    "provider": "pixellab",
+    "detail": "frame",
+    "file": "details/pixellab-W04-frame.webp",
+    "source": "pixellab/W04-timber-cloth.png",
+    "box": [
+      0,
+      68,
+      163,
+      177
+    ],
+    "sha256": "e163987650c30e40d2cd9053d0fa13165b1caf1dfa3c186226ede63a42044d96",
+    "source_sha256": "61ebbd3d4a025138cdcf0ae67e5c8a30014d6bd87c6d07e8d512766918a5593f",
+    "bytes": 2458,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "W05",
+    "provider": "pixellab",
+    "detail": "active",
+    "file": "details/pixellab-W05-active.webp",
+    "source": "pixellab/W05-weathered-planks.png",
+    "box": [
+      0,
+      0,
+      190,
+      48
+    ],
+    "sha256": "2f9ee4cec012f09ede2470da13d2c88b1224ca2d50484a6b45ed2fc8bfee8479",
+    "source_sha256": "0e61c348e1f5b7964a73f268a989e00b47051bc175a27e664204d7cda56df8e3",
+    "bytes": 1746,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "W05",
+    "provider": "pixellab",
+    "detail": "cta",
+    "file": "details/pixellab-W05-cta.webp",
+    "source": "pixellab/W05-weathered-planks.png",
+    "box": [
+      535,
+      312,
+      688,
+      384
+    ],
+    "sha256": "b86b26cee78ba008e7cfbf414287964a165cf598d3405e23765ecf2e62e1da37",
+    "source_sha256": "0e61c348e1f5b7964a73f268a989e00b47051bc175a27e664204d7cda56df8e3",
+    "bytes": 2404,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "W05",
+    "provider": "pixellab",
+    "detail": "frame",
+    "file": "details/pixellab-W05-frame.webp",
+    "source": "pixellab/W05-weathered-planks.png",
+    "box": [
+      0,
+      68,
+      163,
+      177
+    ],
+    "sha256": "5aa49352546b21d0172ba382fc14e6d1ac51cdbba0534576c32cd01b1d05d7b9",
+    "source_sha256": "0e61c348e1f5b7964a73f268a989e00b47051bc175a27e664204d7cda56df8e3",
+    "bytes": 3198,
+    "lossless_crop_verified": true
+  }
+]

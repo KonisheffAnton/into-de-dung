@@ -1,0 +1,131 @@
+{
+  "task": "hub-buttons-wood-five-pairs-20261123",
+  "base_commit": "373a220ea810ab00df06136ba93e1ca80d0dc625",
+  "endpoint": "https://api.pixellab.ai/v2/generate-image-v2",
+  "image_size": {
+    "width": 688,
+    "height": 384
+  },
+  "requested_variants": 5,
+  "completed_variants": 5,
+  "total_billed_generations": 125.0,
+  "reference": {
+    "path": "docs/art/hub-buttons-matte-wood-20261123/imagegen.png",
+    "width": 1672,
+    "height": 941,
+    "sha256": "77547069fe4eb24b956c2a623a07347d5a05833c9af00c69585875d84168eef9"
+  },
+  "raw_evidence_dir": "test_reports/hub-buttons-wood-five-pairs-20261123/pixel-raw/",
+  "variants": [
+    {
+      "id": "W01",
+      "slug": "pale-ash",
+      "name": "Светлый ясень",
+      "job_id": "2184a331-a49f-4542-b0b1-dc9c24c63ca1",
+      "status": "completed",
+      "actual_usage_generations": 25.0,
+      "prompt_characters": 1677,
+      "request_sha256": "eebe415af28c2f26ab7668468ec8d1d692f3c1242c026e9501338026018072ce",
+      "reference_sha256": "77547069fe4eb24b956c2a623a07347d5a05833c9af00c69585875d84168eef9",
+      "output": {
+        "path": "W01-pale-ash.png",
+        "sha256": "c11b53cf70a6a3746ceebb40160e7b5cac50ab919f3c9a33ea7f0d680300d153",
+        "width": 688,
+        "bytes": 195789,
+        "height": 384
+      },
+      "receipt": "receipts/W01-pale-ash.json",
+      "raw_request": "test_reports/hub-buttons-wood-five-pairs-20261123/pixel-raw/pixel-W01-pale-ash-request.json",
+      "raw_post_response": "test_reports/hub-buttons-wood-five-pairs-20261123/pixel-raw/pixel-W01-pale-ash-post-response.json",
+      "raw_final_job": "test_reports/hub-buttons-wood-five-pairs-20261123/pixel-raw/pixel-W01-pale-ash-final-job.json"
+    },
+    {
+      "id": "W02",
+      "slug": "smoked-oak",
+      "name": "Морёный дуб",
+      "job_id": "338761aa-531d-4e86-b858-a4c4141a342f",
+      "status": "completed",
+      "actual_usage_generations": 25.0,
+      "prompt_characters": 1674,
+      "request_sha256": "72c1997ca85321a4c7033c9536da14eb0c58b08f87ad20f11b000823fe083771",
+      "reference_sha256": "77547069fe4eb24b956c2a623a07347d5a05833c9af00c69585875d84168eef9",
+      "output": {
+        "path": "W02-smoked-oak.png",
+        "sha256": "58e46e3f4473226b8dc46d81fe6076df6e128547fc0faaf75d7cf65490b795f5",
+        "width": 688,
+        "bytes": 198224,
+        "height": 384
+      },
+      "receipt": "receipts/W02-smoked-oak.json",
+      "raw_request": "test_reports/hub-buttons-wood-five-pairs-20261123/pixel-raw/pixel-W02-smoked-oak-request.json",
+      "raw_post_response": "test_reports/hub-buttons-wood-five-pairs-20261123/pixel-raw/pixel-W02-smoked-oak-post-response.json",
+      "raw_final_job": "test_reports/hub-buttons-wood-five-pairs-20261123/pixel-raw/pixel-W02-smoked-oak-final-job.json"
+    },
+    {
+      "id": "W03",
+      "slug": "carved-walnut",
+      "name": "Резной орех",
+      "job_id": "35a52fed-7cad-4d40-843e-2d48526e2b0c",
+      "status": "completed",
+      "actual_usage_generations": 25.0,
+      "prompt_characters": 1710,
+      "request_sha256": "fa0578025a39fe4edd6dc9b6d09eacf5ef5532bc0f1038eb11abdedba05d0dd4",
+      "reference_sha256": "77547069fe4eb24b956c2a623a07347d5a05833c9af00c69585875d84168eef9",
+      "output": {
+        "path": "W03-carved-walnut.png",
+        "sha256": "22fd98df67cab4965d6d0fbd58267124161bc59119f79f6ac434fcaac762051a",
+        "width": 688,
+        "bytes": 221397,
+        "height": 384
+      },
+      "receipt": "receipts/W03-carved-walnut.json",
+      "raw_request": "test_reports/hub-buttons-wood-five-pairs-20261123/pixel-raw/pixel-W03-carved-walnut-request.json",
+      "raw_post_response": "test_reports/hub-buttons-wood-five-pairs-20261123/pixel-raw/pixel-W03-carved-walnut-post-response.json",
+      "raw_final_job": "test_reports/hub-buttons-wood-five-pairs-20261123/pixel-raw/pixel-W03-carved-walnut-final-job.json"
+    },
+    {
+      "id": "W04",
+      "slug": "timber-cloth",
+      "name": "Дерево и ткань",
+      "job_id": "0f794016-883b-4172-918c-78cbfd5ca015",
+      "status": "completed",
+      "actual_usage_generations": 25.0,
+      "prompt_characters": 1722,
+      "request_sha256": "6008f5d7a6cd3676145c784baaef1a7fca41f64cab493f13e8f8b64405d9c80c",
+      "reference_sha256": "77547069fe4eb24b956c2a623a07347d5a05833c9af00c69585875d84168eef9",
+      "output": {
+        "path": "W04-timber-cloth.png",
+        "sha256": "61ebbd3d4a025138cdcf0ae67e5c8a30014d6bd87c6d07e8d512766918a5593f",
+        "width": 688,
+        "bytes": 198661,
+        "height": 384
+      },
+      "receipt": "receipts/W04-timber-cloth.json",
+      "raw_request": "test_reports/hub-buttons-wood-five-pairs-20261123/pixel-raw/pixel-W04-timber-cloth-request.json",
+      "raw_post_response": "test_reports/hub-buttons-wood-five-pairs-20261123/pixel-raw/pixel-W04-timber-cloth-post-response.json",
+      "raw_final_job": "test_reports/hub-buttons-wood-five-pairs-20261123/pixel-raw/pixel-W04-timber-cloth-final-job.json"
+    },
+    {
+      "id": "W05",
+      "slug": "weathered-planks",
+      "name": "Старые доски",
+      "job_id": "4d5c6ad4-e480-44f3-8db7-bd1b934f8b11",
+      "status": "completed",
+      "actual_usage_generations": 25.0,
+      "prompt_characters": 1760,
+      "request_sha256": "58dec8b55ca0765cad174ec394f7dcdcc7d2140e65813b57bc5a5a90537752b5",
+      "reference_sha256": "77547069fe4eb24b956c2a623a07347d5a05833c9af00c69585875d84168eef9",
+      "output": {
+        "path": "W05-weathered-planks.png",
+        "sha256": "0e61c348e1f5b7964a73f268a989e00b47051bc175a27e664204d7cda56df8e3",
+        "width": 688,
+        "bytes": 225341,
+        "height": 384
+      },
+      "receipt": "receipts/W05-weathered-planks.json",
+      "raw_request": "test_reports/hub-buttons-wood-five-pairs-20261123/pixel-raw/pixel-W05-weathered-planks-request.json",
+      "raw_post_response": "test_reports/hub-buttons-wood-five-pairs-20261123/pixel-raw/pixel-W05-weathered-planks-post-response.json",
+      "raw_final_job": "test_reports/hub-buttons-wood-five-pairs-20261123/pixel-raw/pixel-W05-weathered-planks-final-job.json"
+    }
+  ]
+}

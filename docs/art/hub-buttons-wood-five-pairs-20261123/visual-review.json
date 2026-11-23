@@ -1,0 +1,13 @@
+{
+  "scope": "Five fixed Imagegen full-screen concepts, read-only independent game_reviewer; no PixelLab or runtime assessment",
+  "verdict": "APPROVE as five concept variants; user acceptance remains open",
+  "reviewed_files": ["imagegen/W01-pale-ash.png", "imagegen/W02-smoked-oak.png", "imagegen/W03-carved-walnut.png", "imagegen/W04-timber-cloth.png", "imagegen/W05-weathered-planks.png"],
+  "shared": "Four readable top tabs, three squad cards, literal largely matte wood button faces; no bright gold selected-card frame.",
+  "W01": "Airy pale ash, ink-like edges, readable but flatter and less tactile.",
+  "W02": "Dark rugged matte oak and iron corner brackets; strong contrast, less distinct from prior dark-wood concept.",
+  "W03": "Carved wooden ends, soft bevel, dry walnut, clear CTA and quiet ochre-red selection; best balance.",
+  "W04": "Stitched red/blue end wraps distinguish it, wood stays visible; bright stitches and cloth make edges busier.",
+  "W05": "Most literal carpentry with two-board seams and pegs; matte/rustic, but seam behind lettering and rough edges are busier.",
+  "preferred": ["W03", "W05"],
+  "caveat": "W01/W03/W04 frame around information row '7 комнат' can suggest an interactive button. No concept blocker."
+}

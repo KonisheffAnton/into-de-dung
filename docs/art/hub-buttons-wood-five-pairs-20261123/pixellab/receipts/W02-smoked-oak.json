@@ -1,0 +1,82 @@
+{
+  "task": "hub-buttons-wood-five-pairs-20261123",
+  "base_commit": "373a220ea810ab00df06136ba93e1ca80d0dc625",
+  "variant_id": "W02",
+  "slug": "smoked-oak",
+  "name": "Морёный дуб",
+  "style": "SMOKED OAK / IRON: very dark smoky brown wood, broad rectangular tabs with angular cuts, narrow matte charcoal iron corner brackets and just two tiny dull rivets. Ivory letters, moderately thick straight frames, almost black grain. Active tab deep reddish-brown wood with restrained rusty-red inset edge. Quiet rugged fortress equipment, sturdy not ornate; no shiny highlights.",
+  "endpoint": "https://api.pixellab.ai/v2/generate-image-v2",
+  "job_id": "338761aa-531d-4e86-b858-a4c4141a342f",
+  "status": "completed",
+  "prompt": "Create ONE complete fully illustrated 16:9 hub screen for intoDeDung. Use the reference for layout, fortress, labels and exactly three squad cards. Keep four top tabs, resource line, squad left, open fortress courtyard center, preparation right and main button bottom-right. Stone fortress, tents, plain red/blue flags, warm sunset; exactly three small courtyard heroes. Focus on BUTTONS AND FRAMES: every tab and action has visible MATTE WOOD as its entire face, subdued grain and diffuse shading. No lacquer, gloss, shiny metal, gold edges, glow, jewels or specular streaks. Warm cream labels on dark wood, dark ink on pale wood. Selected tab and selected hero use a quiet painted brick/ochre line plus a small marker; absolutely no bright yellow/gold card outline. Primary CTA is more prominent through silhouette and muted red-brown wood, not shine. Panel interiors calm parchment. Information rows must stay flat text, not raised buttons. Do not duplicate cards or add UI. Exact labels: 'Поход', 'Наёмники', 'Кузнец', 'Колода'; 'Отряд', 'Воин', 'Щитоносец', 'Лучница', 'Дополнительно'; 'Подготовка', '7 комнат', 'Отряд: 3', 'Колода: 10 карт', 'Готово', 'В путь'; 'Золото 100', 'Эссенция 0'. Simple readable icons. Full finished screen, no collage, no outside captions, no watermark. VARIANT: SMOKED OAK / IRON: very dark smoky brown wood, broad rectangular tabs with angular cuts, narrow matte charcoal iron corner brackets and just two tiny dull rivets. Ivory letters, moderately thick straight frames, almost black grain. Active tab deep reddish-brown wood with restrained rusty-red inset edge. Quiet rugged fortress equipment, sturdy not ornate; no shiny highlights.",
+  "prompt_characters": 1674,
+  "image_size": {
+    "height": 384,
+    "width": 688
+  },
+  "no_background": false,
+  "reference": {
+    "sha256": "77547069fe4eb24b956c2a623a07347d5a05833c9af00c69585875d84168eef9",
+    "width": 1672,
+    "path": "docs/art/hub-buttons-matte-wood-20261123/imagegen.png",
+    "base64": "redacted",
+    "usage_description": "Use for layout, fortress and squad reference only. Keep exactly three squad cards and three courtyard heroes; follow the variant prompt for matte wooden buttons.",
+    "height": 941
+  },
+  "sanitized_request": {
+    "no_background": false,
+    "image_size": {
+      "height": 384,
+      "width": 688
+    },
+    "description": "Create ONE complete fully illustrated 16:9 hub screen for intoDeDung. Use the reference for layout, fortress, labels and exactly three squad cards. Keep four top tabs, resource line, squad left, open fortress courtyard center, preparation right and main button bottom-right. Stone fortress, tents, plain red/blue flags, warm sunset; exactly three small courtyard heroes. Focus on BUTTONS AND FRAMES: every tab and action has visible MATTE WOOD as its entire face, subdued grain and diffuse shading. No lacquer, gloss, shiny metal, gold edges, glow, jewels or specular streaks. Warm cream labels on dark wood, dark ink on pale wood. Selected tab and selected hero use a quiet painted brick/ochre line plus a small marker; absolutely no bright yellow/gold card outline. Primary CTA is more prominent through silhouette and muted red-brown wood, not shine. Panel interiors calm parchment. Information rows must stay flat text, not raised buttons. Do not duplicate cards or add UI. Exact labels: 'Поход', 'Наёмники', 'Кузнец', 'Колода'; 'Отряд', 'Воин', 'Щитоносец', 'Лучница', 'Дополнительно'; 'Подготовка', '7 комнат', 'Отряд: 3', 'Колода: 10 карт', 'Готово', 'В путь'; 'Золото 100', 'Эссенция 0'. Simple readable icons. Full finished screen, no collage, no outside captions, no watermark. VARIANT: SMOKED OAK / IRON: very dark smoky brown wood, broad rectangular tabs with angular cuts, narrow matte charcoal iron corner brackets and just two tiny dull rivets. Ivory letters, moderately thick straight frames, almost black grain. Active tab deep reddish-brown wood with restrained rusty-red inset edge. Quiet rugged fortress equipment, sturdy not ornate; no shiny highlights.",
+    "reference_images": [
+      {
+        "usage_description": "Use for layout, fortress and squad reference only. Keep exactly three squad cards and three courtyard heroes; follow the variant prompt for matte wooden buttons.",
+        "size": {
+          "height": 941,
+          "width": 1672
+        },
+        "image": {
+          "format": "png",
+          "type": "base64",
+          "base64": "<redacted; decoded image sha256=77547069fe4eb24b956c2a623a07347d5a05833c9af00c69585875d84168eef9>"
+        }
+      }
+    ]
+  },
+  "request_sha256": "72c1997ca85321a4c7033c9536da14eb0c58b08f87ad20f11b000823fe083771",
+  "raw_request": "test_reports/hub-buttons-wood-five-pairs-20261123/pixel-raw/pixel-W02-smoked-oak-request.json",
+  "raw_post_response": "test_reports/hub-buttons-wood-five-pairs-20261123/pixel-raw/pixel-W02-smoked-oak-post-response.json",
+  "raw_final_job": "test_reports/hub-buttons-wood-five-pairs-20261123/pixel-raw/pixel-W02-smoked-oak-final-job.json",
+  "post_usage": null,
+  "final_usage": {
+    "type": "generations",
+    "generations": 25.0
+  },
+  "actual_usage_generations": 25.0,
+  "output": {
+    "path": "W02-smoked-oak.png",
+    "sha256": "58e46e3f4473226b8dc46d81fe6076df6e128547fc0faaf75d7cf65490b795f5",
+    "width": 688,
+    "bytes": 198224,
+    "height": 384
+  },
+  "result_keys": [
+    "seed",
+    "type",
+    "action",
+    "images",
+    "progress",
+    "billing_usage",
+    "generation_id",
+    "usage_cost_usd",
+    "billing_charged",
+    "style_reference",
+    "style_selection",
+    "style_reference_path",
+    "generation_started_at",
+    "original_image_n_colors",
+    "quantized_image_n_colors"
+  ]
+}

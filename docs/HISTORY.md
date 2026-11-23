@@ -1,5 +1,16 @@
 # История и свидетельства проверок
 
+## Ещё пять пар деревянных кнопок хаба — 2026-11-23
+
+По U сделаны [5 Imagegen и 5 PixelLab экранов](art/hub-buttons-wood-five-pairs-20261123/README.md):
+ясень, дуб, резной орех, дерево с тканью, старые доски. Матовые деревянные
+лица кнопок и рамки;30 lossless-деталей. PixelLab5jobs/125generations.
+PNG/SHA/prompts/расход/ссылки/crops PASS; независимый G review APPROVE.
+Все10 просмотрены; HTML проверен статически, browser/Godot не запускались.
+Runtime не менялся; выбор/приёмка U открыты.
+[Проверки](../test_reports/hub-buttons-wood-five-pairs-20261123/validation.json);
+[прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261123-26.md).
+
 ## Ещё двадцать костяных кучек — 2026-11-23
 
 По U созданы [G31–G40 и PL39–PL48](art/bones-twenty-next-20261123/README.md).
