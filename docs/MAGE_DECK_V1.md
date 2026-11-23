@@ -336,6 +336,8 @@ fire_imbue при capture/restore обязан быть живым PLAYER без
 [Целевой раздел «Маг» — U 2026-11-23](DESIGN_DIRECTION.md#mage-section-progression-flame-20261123)
 меняет концепт доступа к редактору, без реализации и без изменения правил
 колоды, общего черновика, текущих данных или сохранений.
+[Книга по школам и «Общие», колода справа — U 2026-11-23](DESIGN_DIRECTION.md#mage-deck-spellbook-ui-20261123)
+задаёт целевой интерфейс; текущие каталог и кнопки этим концептом не заменены.
 
 Добавить deck/card_effects к ItemSimulationState, capture/restore/clone,
 SpatialRules guard и ожидаемым phase-after, snapshot bytes, admission и всем
