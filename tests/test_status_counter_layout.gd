@@ -42,9 +42,8 @@ func new_color_pixel_count(image: Image, reference: Image, expected: Color, rect
 		for x: int in range(bounds.position.x, bounds.end.x):
 			var pixel := image.get_pixel(x, y)
 			var prior := reference.get_pixel(x, y)
-			var matches := pixel.a >= 0.5 and absf(pixel.r - expected.r) <= 0.01 and absf(pixel.g - expected.g) <= 0.01 and absf(pixel.b - expected.b) <= 0.01
-			var already_icon_color := prior.a >= 0.5 and absf(prior.r - expected.r) <= 0.01 and absf(prior.g - expected.g) <= 0.01 and absf(prior.b - expected.b) <= 0.01
-			if matches and not already_icon_color:
+			var coverage := tint_coverage(pixel, prior, expected)
+			if pixel.a >= 0.5 and coverage >= 0.08:
 				count += 1
 	return count
 
@@ -56,10 +55,7 @@ func new_colored_bounds(image: Image, reference: Image, expected: Color, rect: R
 		for x: int in range(bounds.position.x, bounds.end.x):
 			var pixel := image.get_pixel(x, y)
 			var prior := reference.get_pixel(x, y)
-			if pixel.a < 0.5 or absf(pixel.r - expected.r) > 0.01 or absf(pixel.g - expected.g) > 0.01 or absf(pixel.b - expected.b) > 0.01:
-				continue
-			if prior.a >= 0.5 and absf(prior.r - expected.r) <= 0.01 and absf(prior.g - expected.g) <= 0.01 and absf(prior.b - expected.b) <= 0.01:
-				continue
+			if pixel.a < 0.5 or tint_coverage(pixel, prior, expected) < 0.08: continue
 			if not initialized:
 				result = Rect2i(x, y, 1, 1)
 				initialized = true
@@ -70,6 +66,28 @@ func new_colored_bounds(image: Image, reference: Image, expected: Color, rect: R
 				result.position.y = mini(result.position.y, y)
 				result.size = Vector2i(right - result.position.x, bottom - result.position.y)
 	return result
+
+func tint_coverage(actual: Color, reference: Color, tint: Color) -> float:
+	# Сглаженные края глифа смешивают светлый цвет с рисунком или тёмной обводкой.
+	var actual_channels: Array[float] = [actual.r, actual.g, actual.b]
+	var reference_channels: Array[float] = [reference.r, reference.g, reference.b]
+	var tint_channels: Array[float] = [tint.r, tint.g, tint.b]
+	var channel_index := 0
+	var largest_delta := 0.0
+	for index: int in 3:
+		var delta := absf(tint_channels[index] - reference_channels[index])
+		if delta > largest_delta:
+			channel_index = index
+			largest_delta = delta
+	if largest_delta < 0.12: return -1.0
+	var coverage := (actual_channels[channel_index] - reference_channels[channel_index]) \
+		/ (tint_channels[channel_index] - reference_channels[channel_index])
+	if coverage < 0.05 or coverage > 1.08: return -1.0
+	var estimate := reference.lerp(tint, clampf(coverage, 0.0, 1.0))
+	if absf(actual.r - estimate.r) > 0.14 or absf(actual.g - estimate.g) > 0.14 \
+		or absf(actual.b - estimate.b) > 0.14:
+		return -1.0
+	return coverage
 
 func count_color_outside(image: Image, expected: Color, protected_rect: Rect2i) -> int:
 	var count := 0
@@ -105,6 +123,28 @@ func draw_probe(entries: Array[Dictionary], scale: float, offset: Vector2, hover
 	var image := viewport.get_texture().get_image()
 	canvas.draw.disconnect(draw_callback)
 	visual.free()
+	viewport.queue_free()
+	await process_frame
+	return image
+
+func draw_panel_probe(scale: float, offset: Vector2) -> Image:
+	var viewport := SubViewport.new()
+	viewport.size = Vector2i(256, 128)
+	viewport.transparent_bg = true
+	viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
+	root.add_child(viewport)
+	var canvas := Node2D.new()
+	canvas.position = Vector2(128, 64) + offset
+	canvas.scale = Vector2.ONE * scale
+	canvas.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	viewport.add_child(canvas)
+	var draw_callback := func() -> void:
+		canvas.draw_style_box(Visual.STATUS_HOVER_PANEL, Rect2(-14, -27, 28, 24))
+	canvas.draw.connect(draw_callback)
+	await process_frame
+	await process_frame
+	var image := viewport.get_texture().get_image()
+	canvas.draw.disconnect(draw_callback)
 	viewport.queue_free()
 	await process_frame
 	return image
@@ -147,6 +187,35 @@ func pixel_region(scale: float, offset: Vector2, local_rect: Rect2) -> Rect2i:
 	var top_left := origin + local_rect.position * scale
 	var bottom_right := origin + local_rect.end * scale
 	return Rect2i(Vector2i(floori(top_left.x), floori(top_left.y)), Vector2i(ceili(bottom_right.x) - floori(top_left.x), ceili(bottom_right.y) - floori(top_left.y)))
+
+func changed_bounds(image: Image, reference: Image, rect: Rect2i) -> Rect2i:
+	var result := Rect2i()
+	var initialized := false
+	var bounds := rect.intersection(Rect2i(Vector2i.ZERO, image.get_size()))
+	for y: int in range(bounds.position.y, bounds.end.y):
+		for x: int in range(bounds.position.x, bounds.end.x):
+			if image.get_pixel(x, y).is_equal_approx(reference.get_pixel(x, y)): continue
+			if not initialized:
+				result = Rect2i(x, y, 1, 1)
+				initialized = true
+			else:
+				var right := maxi(result.end.x, x + 1)
+				var bottom := maxi(result.end.y, y + 1)
+				result.position.x = mini(result.position.x, x)
+				result.position.y = mini(result.position.y, y)
+				result.size = Vector2i(right - result.position.x, bottom - result.position.y)
+	return result
+
+func has_antialiased_counter_edge(image: Image, reference: Image, rect: Rect2i, tint: Color) -> bool:
+	var bounds := rect.intersection(Rect2i(Vector2i.ZERO, image.get_size()))
+	for y: int in range(bounds.position.y, bounds.end.y):
+		for x: int in range(bounds.position.x, bounds.end.x):
+			var actual := image.get_pixel(x, y)
+			var prior := reference.get_pixel(x, y)
+			if actual.is_equal_approx(prior): continue
+			var coverage := tint_coverage(actual, prior, tint)
+			if coverage >= 0.08 and coverage <= 0.95: return true
+	return false
 
 func opaque_pixel_count(image: Image, rect: Rect2i) -> int:
 	var count := 0
@@ -194,6 +263,8 @@ func run() -> void:
 	check(structural.status_hud_bounds() == box, "hover backing never shifts status layout bounds")
 	var widths: Array[float] = [28.0, 46.0, 60.0]
 	var steps: Array[float] = [20.0, 18.0, 16.0]
+	check(Visual.STATUS_ICON_SIZE == 18.0 and Visual.STATUS_SLOT_SIZE == 20.0,
+		"status drawing is 18px while its established layout slot remains 20px")
 	for count: int in range(1, 4):
 		var unique: Array[Dictionary] = []
 		for index: int in count:
@@ -202,7 +273,7 @@ func run() -> void:
 		var current_bounds := structural.status_hud_bounds()
 		check(current_bounds.position == Vector2(-widths[count - 1] * 0.5, -27.0)
 			and current_bounds.size == Vector2(widths[count - 1], 24.0), "panel width for %d icons preserves centered row and fixed vertical anchor" % count)
-		check(structural._status_icon_step(count) == steps[count - 1], "%d icons use bounded overlap without scaling icons" % count)
+		check(structural._status_icon_step(count) == steps[count - 1], "%d icons keep the original bounded slot overlap" % count)
 	structural.status_entries = crowded.slice(0, 4)
 	check(structural.status_hud_bounds() == Rect2(-41, -27, 82, 24) and structural.status_overflow_count() == 1, "overflow extends the three-icon row to its 82-pixel maximum")
 	structural.status_entries = []
@@ -245,6 +316,7 @@ func run() -> void:
 	var inspected_only := await draw_probe(simple, 1.0, Vector2(0.35, 0.65), false, false, true)
 	var hover_transitions := await draw_hover_sequence(simple, 1.0, Vector2(0.35, 0.65))
 	var reference := await draw_probe(icon_only, 1.0, Vector2(0.35, 0.65), true)
+	var empty_panel := await draw_panel_probe(1.0, Vector2(0.35, 0.65))
 	var reference_three_quarters := await draw_probe(icon_only, 0.75, Vector2(0.35, 0.65), true)
 	save_capture(at_one, "status-counter-idle-100")
 	save_capture(at_three_quarters, "status-counter-idle-075")
@@ -272,6 +344,23 @@ func run() -> void:
 	var cool_one := new_color_pixel_count(hovered_one, reference, COOL, lower_right)
 	check(warm_one > 0, "stack glyph appears in upper-left icon region")
 	check(cool_one > 0, "duration glyph appears in lower-right icon region")
+	var icon_ink := changed_bounds(reference, empty_panel,
+		pixel_region(1.0, Vector2(0.35, 0.65), Rect2(-10, -25, 20, 20)))
+	check(icon_ink.size != Vector2i.ZERO and icon_ink.size.x <= 18 and icon_ink.size.y <= 18,
+		"icon-only render confirms the 18px drawing fits the unchanged 20px slot")
+	var fallback_image := await draw_probe([status("extra_a", 0, 0)] as Array[Dictionary], 1.0, Vector2(0.35, 0.65), true)
+	var fallback_ink := changed_bounds(fallback_image, empty_panel,
+		pixel_region(1.0, Vector2(0.35, 0.65), Rect2(-10, -25, 20, 20)))
+	check(fallback_ink.size != Vector2i.ZERO and fallback_ink.size.x <= 8 and fallback_ink.size.y <= 8,
+		"fallback diamond also scales to 90 percent inside the original slot")
+	var counter_font := Visual._status_counter_font.base_font as FontFile
+	var original_play_data := FileAccess.get_file_as_bytes("res://assets/ui/combat_fonts/combat_letters.ttf")
+	check(counter_font != null and not original_play_data.is_empty() and counter_font.data == original_play_data
+		and counter_font.antialiasing == TextServer.FONT_ANTIALIASING_GRAY
+		and counter_font.subpixel_positioning == TextServer.SUBPIXEL_POSITIONING_DISABLED,
+		"status counters use the real Play Bold subset with grayscale AA and no subpixel placement")
+	check(has_antialiased_counter_edge(hovered_one, reference, upper_left, WARM),
+		"status counter render diff contains a grayscale blended Play glyph edge")
 	var remaining_icon_pixels := 0
 	for y: int in range(icon.position.y, icon.end.y):
 		for x: int in range(icon.position.x, icon.end.x):
@@ -281,7 +370,9 @@ func run() -> void:
 	check(remaining_icon_pixels > 20, "original icon foreground remains visible beneath the counters")
 	var glyph_one := new_colored_bounds(hovered_one, reference, WARM, upper_left)
 	var glyph_three_quarters := new_colored_bounds(hovered_three_quarters, reference_three_quarters, WARM, regions_three_quarters["stack"])
-	check(glyph_one.size != Vector2i.ZERO and glyph_three_quarters.size != Vector2i.ZERO and abs(glyph_one.size.y - glyph_three_quarters.size.y) <= 2, "screen-space glyph height remains legible at both scales")
+	check(glyph_one.size.y >= 6 and glyph_three_quarters.size.y >= 4
+		and glyph_three_quarters.size.y <= glyph_one.size.y,
+		"coverage-aware screen-space glyphs remain legible as they scale from 100 to 75 percent")
 	check(new_color_pixel_count(hovered_three_quarters, reference_three_quarters, COOL, regions_three_quarters["duration"]) > 0, "duration remains visible inside the icon at 75 percent")
 	var outside_icon := icon.grow(1)
 	check(count_color_outside(hovered_one, WARM, outside_icon) == 0 and count_color_outside(hovered_one, COOL, outside_icon) == 0, "counter tints stay within the icon with one-pixel outline tolerance")

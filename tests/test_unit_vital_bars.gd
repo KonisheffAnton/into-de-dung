@@ -79,6 +79,8 @@ func _run() -> void:
 	# Проверяются все шесть используемых id классов и отдельное субединичное значение брони.
 	for zoom_index: int in ZOOMS.size():
 		await _check_zoom(zoom_index)
+	await _check_vitals_y_sort_selection()
+	_check_vitals_mask_sources()
 	if not captures.is_empty():
 		await _check_crisp_number_pixels()
 		await _check_balance_sections()
@@ -89,6 +91,173 @@ func _run() -> void:
 	await process_frame
 	print("UNIT VITAL BARS RESULTS: %d passed, %d failed" % [passed, failed])
 	quit(0 if failed == 0 else 1)
+
+
+func _check_vitals_y_sort_selection() -> void:
+	var visual := visuals[0]
+	stage.scale = Vector2.ONE
+	stage.z_index = 200
+	var base_values := _view_values(_vital_cases()[0], visual.visual_class_id, Faction.Type.PLAYER,
+		visual.unit.id, visual.grid_anchor)
+	var anchor := _bar_origin(visual)
+	var proxy := Polygon2D.new()
+	proxy.name = "VitalsBodyOcclusionProbe"
+	proxy.polygon = PackedVector2Array([Vector2.ZERO, Vector2(48, 0), Vector2(48, 11), Vector2(0, 11)])
+	proxy.color = Color("d140e8")
+	var art_root := visual.get_node("ArtRoot") as Node2D
+	art_root.add_child(proxy)
+	# Проба входит в настоящую body-ветку, маска обязана найти её самостоятельно.
+	proxy.transform = art_root.get_global_transform().affine_inverse() * visual.get_global_transform() 		* Transform2D(0.0, anchor + Vector2(-24.0, 14.0))
+	base_values.selected = false
+	visual.apply_view(base_values, config)
+	visual.queue_screen_hud_redraw()
+	await process_frame
+	await RenderingServer.frame_post_draw
+	var unselected_image := viewport.get_texture().get_image()
+	var hud := visual._vitals_hud
+	check(not hud.z_as_relative and hud.z_index == 501 and stage.z_index == 200,
+		"ordinary HUD stays above terrain independently of the entity layer")
+	var probe_point := _bar_screen_anchor(visual) + Vector2(-18.0, 19.5)
+	check(unselected_image.get_pixel(roundi(probe_point.x), roundi(probe_point.y)).is_equal_approx(proxy.color),
+		"actual body branch masks ordinary HP pixels above the world")
+	await _capture_sort_probe(unselected_image, probe_point, "unit-vitals-sort-own-unselected")
+	proxy.visible = false
+	var front_model := Polygon2D.new()
+	front_model.name = "FrontModelOcclusionProbe"
+	front_model.position = visual.position + anchor + Vector2(-24.0, 14.0)
+	front_model.polygon = proxy.polygon
+	front_model.color = Color("19d9e8")
+	stage.add_child(front_model)
+	var branches: Array[Node2D] = [front_model]
+	visual.set_vitals_model_rects(BattleVitalsOcclusion.body_rects(branches))
+	await process_frame
+	await RenderingServer.frame_post_draw
+	var front_image := viewport.get_texture().get_image()
+	check(front_image.get_pixel(roundi(probe_point.x), roundi(probe_point.y)).is_equal_approx(front_model.color),
+		"a peer model masks ordinary HP pixels")
+	await _capture_sort_probe(front_image, probe_point, "unit-vitals-sort-front-unselected")
+	base_values.selected = true
+	check(visual.apply_view(base_values, config), "selection republishes the existing view")
+	await process_frame
+	await RenderingServer.frame_post_draw
+	var selected_image := viewport.get_texture().get_image()
+	check(int((hud.material as ShaderMaterial).get_shader_parameter("blocker_count")) == 0,
+		"only selection bypasses the body mask")
+	check(_has_color_near(selected_image, probe_point, Color("a2bf7b"), 1.0, 0.01),
+		"selected HP renders over the peer model")
+	await _capture_sort_probe(selected_image, probe_point, "unit-vitals-sort-selected")
+	var passive_values := base_values.duplicate(true)
+	passive_values.selected = false
+	passive_values.hovered = true
+	passive_values.inspected = true
+	passive_values.acting = true
+	passive_values.forecast_entry = {"after": {"hp": 10.0, "alive": true, "armor_current": 10.0}}
+	check(visual.apply_view(passive_values, config), "passive target flags replace selection")
+	await process_frame
+	await RenderingServer.frame_post_draw
+	var passive_image := viewport.get_texture().get_image()
+	check(passive_image.get_pixel(roundi(probe_point.x), roundi(probe_point.y)).is_equal_approx(front_model.color),
+		"hover, inspection, acting and forecast cannot bypass model masking")
+	await _capture_sort_probe(passive_image, probe_point, "unit-vitals-sort-passive-target-flags")
+	# Одинаковые экранные полосы должны оставаться целыми и над плоскостью, и над уступом.
+	front_model.visible = false
+	visual.set_vitals_model_rects([])
+	base_values.selected = false
+	visual.apply_view(base_values, config)
+	var terrain := Polygon2D.new()
+	terrain.name = "ForegroundTerrainProbe"
+	terrain.polygon = PackedVector2Array([Vector2.ZERO, Vector2(48, 0), Vector2(48, 30), Vector2(0, 30)])
+	terrain.color = Color("ee2266")
+	terrain.z_as_relative = false
+	terrain.z_index = 450
+	viewport.add_child(terrain)
+	for zoom: float in ZOOMS:
+		stage.scale = Vector2.ONE * zoom
+		terrain.visible = false
+		await process_frame
+		await RenderingServer.frame_post_draw
+		var clear_image := viewport.get_texture().get_image()
+		var screen_anchor := _bar_screen_anchor(visual)
+		terrain.position = screen_anchor + Vector2(-24, 1)
+		terrain.visible = true
+		await process_frame
+		await RenderingServer.frame_post_draw
+		var terrain_image := viewport.get_texture().get_image()
+		for region: Rect2i in [Rect2i(-24, 1, 48, 11), Rect2i(-24, 14, 48, 11), Rect2i(-24, 27, 48, 4)]:
+			check(_regions_equal(clear_image, screen_anchor, terrain_image, screen_anchor, region),
+				"foreground terrain cannot cut ordinary bars at zoom %.2f" % zoom)
+		if is_equal_approx(zoom, 1.0):
+			await _capture_sort_probe(terrain_image, screen_anchor + Vector2(0, 19), "unit-vitals-over-terrain")
+	var reused_values := _view_values(_vital_cases()[1], &"fighter", Faction.Type.PLAYER,
+		visual.unit.id + 1000, visual.grid_anchor + Vector2i(0, 1))
+	reused_values.selected = false
+	base_values.selected = true
+	visual.apply_view(base_values, config)
+	visual.set_vitals_model_rects([Rect2(0, 0, 1440, 1000)])
+	check(visual.apply_view(reused_values, config), "pooled view accepts another unselected unit")
+	check(int((hud.material as ShaderMaterial).get_shader_parameter("blocker_count")) > 0,
+		"unit reuse does not retain the selected mask bypass")
+	proxy.queue_free()
+	front_model.queue_free()
+	terrain.queue_free()
+	stage.scale = Vector2.ONE
+	stage.z_index = 0
+	visual._vitals_has_board_mask = false
+	visual._vitals_model_rects = []
+	base_values.selected = true
+	visual.apply_view(base_values, config)
+	await process_frame
+
+
+func _check_vitals_mask_sources() -> void:
+	var source := Image.create(8, 8, false, Image.FORMAT_RGBA8)
+	source.fill(Color.TRANSPARENT)
+	source.fill_rect(Rect2i(1, 1, 3, 3), Color.WHITE)
+	var sprite := Sprite2D.new()
+	sprite.texture = ImageTexture.create_from_image(source)
+	sprite.position = Vector2(70, 70)
+	sprite.scale = Vector2(2, 2)
+	viewport.add_child(sprite)
+	var branches: Array[Node2D] = [sprite]
+	var rectangles := BattleVitalsOcclusion.body_rects(branches)
+	check(rectangles.size() == 1 and rectangles[0] == Rect2(64, 64, 6, 6),
+		"transparent PNG margins do not hide unrelated bar pixels")
+	sprite.flip_h = true
+	sprite.flip_v = true
+	rectangles = BattleVitalsOcclusion.body_rects(branches)
+	check(rectangles.size() == 1 and rectangles[0] == Rect2(70, 70, 6, 6),
+		"body bounds follow texture flips and canvas transform")
+	var atlas := AtlasTexture.new()
+	atlas.atlas = sprite.texture
+	atlas.region = Rect2(0, 0, 8, 8)
+	sprite.texture = atlas
+	check(BattleVitalsOcclusion.body_rects(branches) == rectangles,
+		"animation atlas frame excludes its transparent margin just like a still")
+	sprite.hide()
+	check(BattleVitalsOcclusion.body_rects(branches).is_empty(), "hidden body cannot mask HUD")
+	sprite.show()
+	sprite.modulate.a = 0.0
+	check(BattleVitalsOcclusion.body_rects(branches).is_empty(), "invisible alpha cannot mask HUD")
+	var many: Array[Rect2] = []
+	for index: int in 70: many.append(Rect2(index * 2, 0, 1, 2))
+	var material := BattleVitalsOcclusion.create_material()
+	BattleVitalsOcclusion.apply(material, many, false)
+	check(int(material.get_shader_parameter("blocker_count")) == 64,
+		"overflow coalesces excess blockers instead of dropping model protection")
+	var packed: PackedVector4Array = material.get_shader_parameter("blocker_rects")
+	check(packed[63].x <= 126.0 and packed[63].z >= 139.0,
+		"overflow union contains the final models")
+	BattleVitalsOcclusion.apply(material, many, true)
+	check(int(material.get_shader_parameter("blocker_count")) == 0, "selection bypasses even a full mask")
+	sprite.queue_free()
+
+func _capture_sort_probe(image: Image, point: Vector2, label: String) -> void:
+	if captures.is_empty(): return
+	var origin := Vector2i(roundi(point.x) - 32, roundi(point.y) - 24)
+	var region := Rect2i(origin, Vector2i(64, 48))
+	check(image.save_png(captures.path_join(label + ".png")) == OK, "PNG %s full stage" % label)
+	check(image.get_region(region).save_png(captures.path_join(label + "-crop.png")) == OK,
+		"PNG %s exact overlap crop" % label)
 
 
 func _vital_cases() -> Array[Dictionary]:
@@ -116,7 +285,8 @@ func _view_values(row: Dictionary, class_id: StringName, faction: Faction.Type, 
 			"alive": true, "hp": float(row.hp), "hp_max": float(row.hp_max),
 			"balance": float(row.balance), "balance_max": float(row.balance_max)},
 		"visual_class_id": class_id, "visual_skin_id": &"",
-		"selected": false, "inspected": false, "hovered": false, "acting": false,
+		# Геометрия/шрифт проверяются целиком; отдельная проба ниже явно снимает выбор и проверяет маску.
+		"selected": true, "inspected": false, "hovered": false, "acting": false,
 		"show_rear": false, "summon_pending": false, "forecast_entry": forecast,
 		"armor_values": {"current": float(row.armor), "maximum": float(row.armor_max), "extra": 0.0},
 		"shield_view": {}, "raised_shield_view": {"active": false},

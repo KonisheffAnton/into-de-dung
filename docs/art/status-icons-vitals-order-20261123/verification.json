@@ -1,0 +1,108 @@
+{
+  "base": "6566f0550d27280460006329b3b7b1995506457a",
+  "isolated_run": "D:\\Games\\into-de-dung\\test_reports\\demo-2f791ac889864e78be19395dfeb22edc",
+  "source_sha256": {
+    "scripts/demo/battle_demo_iso_visual.gd": "8c5d825882f9b0b07309519956f9f74ef2ece5e095aecc18f66d2089c633a98b",
+    "scripts/demo/battle_demo_board.gd": "eba7ff57077dfb43332f84d88cabd1319bbfca311b3700716d0ce129b9b940cb",
+    "scripts/ui/battle/battle_vitals_occlusion.gd": "f762ca4fb1f902650cf12f46ec86c91f2ffec1f6e1dddbf26c222294b198cfb6",
+    "scripts/ui/battle/battle_vitals_occlusion.gd.uid": "0ac2ef52ccc01434c5f829303fe71ec7c9c774dfc3715847ec5e01fd36180b68",
+    "assets/shaders/battle_vitals_occlusion.gdshader": "cf244d3bf22cb2faeb5ead908d781c0fa5f441744f4c7ea04dc5feab57f7631c",
+    "assets/shaders/battle_vitals_occlusion.gdshader.uid": "f3355b897ee1fce33c1296769ed387a774d95de2ff60544181d56fc5f8e034bf",
+    "tests/test_status_counter_layout.gd": "eec81595a7f4f331b3dfe769225941fc4624e9a5abc811b5f3c1ca3befa782cc",
+    "tests/test_unit_vital_bars.gd": "b4aac621ea2acaa2e17b0657d47b8b294b337e58126119ec1f3c24a6ea089119"
+  },
+  "tested_sources_match": true,
+  "runtime_files_checked": 1685,
+  "runtime_changes_since_snapshot": [],
+  "protected_source_count": 21,
+  "protected_source_mismatches": [],
+  "checks": {
+    "import": {
+      "elapsed_seconds": 27.41271720000077,
+      "status": "PASS"
+    },
+    "startup": {
+      "elapsed_seconds": 3.8892421000055037,
+      "status": "PASS"
+    },
+    "unit_visual_contract": {
+      "elapsed_seconds": 4.084019400004763,
+      "status": "PASS"
+    },
+    "presentation_foundation": {
+      "elapsed_seconds": 5.313200200005667,
+      "status": "FAIL"
+    },
+    "status_counter_layout": {
+      "elapsed_seconds": 4.124508300010348,
+      "status": "PASS"
+    },
+    "unit_vital_bars": {
+      "elapsed_seconds": 5.534769799996866,
+      "status": "PASS"
+    },
+    "battle_pointer_pick": {
+      "elapsed_seconds": 4.427389599994058,
+      "status": "PASS"
+    }
+  },
+  "status_counter_final_log": "D:\\Games\\into-de-dung\\test_reports\\demo-2f791ac889864e78be19395dfeb22edc\\status_counter_layout-final.log",
+  "baseline": {
+    "base": "6566f0550d27280460006329b3b7b1995506457a",
+    "current_failures": [
+      "FAIL PRESENTATION FOUNDATION: missing warrior texture falls back to deterministic enemy preset",
+      "FAIL PRESENTATION FOUNDATION: moving warrior remains pickable"
+    ],
+    "baseline_failures": [
+      "FAIL PRESENTATION FOUNDATION: missing warrior texture falls back to deterministic enemy preset",
+      "FAIL PRESENTATION FOUNDATION: moving warrior remains pickable"
+    ],
+    "same_failures": true,
+    "runtime_restored": true
+  },
+  "field": {
+    "actor": 3,
+    "failed_checks": [],
+    "other": 2,
+    "snapshot_unchanged": true,
+    "statuses_are_presentation_only": true,
+    "target": 4,
+    "zoom": 1.0
+  },
+  "review": "APPROVE: game_reviewer, final sources and corrected field",
+  "limitations": [
+    "full/core not rerun",
+    "manual F5/editor/resize/DPI not performed",
+    "large-unit performance not measured",
+    "conservative model AABBs, not per-pixel interior holes"
+  ],
+  "closeout": {
+    "entry_sizes": {
+      "AGENTS.md": {
+        "before_chars_lf": 4565,
+        "after_chars_lf": 4565,
+        "changed": false
+      },
+      "docs/CODEX_HANDOFF.md": {
+        "before_chars_lf": 2443,
+        "after_chars_lf": 2395,
+        "changed": true
+      },
+      "docs/PROJECT_CONTEXT.md": {
+        "before_chars_lf": 3761,
+        "after_chars_lf": 3761,
+        "changed": false
+      },
+      "docs/CODEX_WORKFLOW.md": {
+        "before_chars_lf": 4482,
+        "after_chars_lf": 4482,
+        "changed": false
+      }
+    },
+    "staged_files": 37,
+    "staged_scope_clean": true,
+    "staged_archive_exact": true,
+    "new_package_links_exist": true,
+    "diff_check": "PASS"
+  }
+}

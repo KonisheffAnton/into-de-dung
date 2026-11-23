@@ -1346,6 +1346,7 @@ func _ready() -> void:
 	_tiles = _layer("TilesLayer", RenderLayers.Layer.TILES)
 	_entities = _layer("EntitiesLayer", RenderLayers.Layer.ENTITIES)
 	_entities.y_sort_enabled = true
+	RenderingServer.frame_pre_draw.connect(_sync_vitals_model_masks)
 	_ghosts = _layer("FallingFigures", RenderLayers.Layer.VFX_OVERLAY)
 	_impacts = _layer("HitImpacts", RenderLayers.Layer.VFX_OVERLAY)
 	_numbers = _layer("ResultNumbers", RenderLayers.Layer.VFX_OVERLAY)
@@ -2177,6 +2178,17 @@ func _ensure_environment_visual(cell: Vector2i) -> BattleEnvironmentVisual:
 				_add_environment_visual(visual, cell, true, _index_environment_view().get(cell, {}))
 				break
 	return _environment_visuals.get(cell) as BattleEnvironmentVisual
+
+func _sync_vitals_model_masks() -> void:
+	if not is_visible_in_tree(): return
+	# После idle/Tween собираем только рисунки фигур: земля не участвует в маске HUD.
+	var rectangles: Array[Rect2] = []
+	var units: Array[BattleDemoIsoVisual] = []
+	for visual: BattleDemoIsoVisual in _entity_visuals:
+		if not is_instance_valid(visual) or visual.role != BattleDemoIsoVisual.Role.UNIT: continue
+		units.append(visual)
+		rectangles.append_array(visual.vitals_body_screen_rects())
+	for visual: BattleDemoIsoVisual in units: visual.set_vitals_model_rects(rectangles)
 
 func _process(delta: float) -> void:
 	# Смена canvas/stretch не обязана прислать transform notification дочерним узлам.

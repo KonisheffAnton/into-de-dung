@@ -69,7 +69,8 @@ var frozen: bool = false
 var burning: bool = false
 var stunned: bool = false
 var entangled: bool = false
-const STATUS_ICON_SIZE: float = 20.0
+const STATUS_ICON_SIZE: float = 18.0
+const STATUS_SLOT_SIZE: float = 20.0
 const STATUS_ICON_MAX_OVERLAP: float = 4.0
 const STATUS_PANEL_PADDING: float = 4.0
 const STATUS_OVERFLOW_GAP: float = 2.0
@@ -81,6 +82,8 @@ static var _status_counter_font: FontVariation
 var _scene_art_enabled: bool = false
 var _status_hud: Node2D
 var _vitals_hud: Node2D
+var _vitals_model_rects: Array[Rect2] = []
+var _vitals_has_board_mask: bool = false
 var _ground_overlay: Node2D
 var _unit_highlights: Node2D
 var _ground_shadow: Node2D
@@ -175,10 +178,7 @@ func _ready() -> void:
 	_vitals_hud = Node2D.new()
 	_vitals_hud.name = "VitalsHud"
 	_vitals_hud.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
-	# Экранные полосы выходят за ромб при zoom-out: рельеф не должен обрезать числа.
-	# Главное HUD и карточка имеют z600/650, поэтому остаются выше полос.
-	_vitals_hud.z_as_relative = false
-	_vitals_hud.z_index = RenderLayers.z_index_for(RenderLayers.Layer.UI_PREVIEW) + 1
+	_vitals_hud.material = BattleVitalsOcclusion.create_material()
 	add_child(_vitals_hud)
 	_vitals_hud.draw.connect(_draw_vitals_hud)
 	_sync_status_hud()
@@ -198,10 +198,34 @@ func queue_screen_hud_redraw() -> void:
 func _sync_vitals_hud() -> void:
 	if not is_instance_valid(_vitals_hud): return
 	_vitals_hud.visible = role == Role.UNIT and unit != null and unit.alive
+	# Рельеф не режет шкалы. Только модели вырезают обычный HUD; выбор снимает маску.
+	_vitals_hud.z_as_relative = false
+	_vitals_hud.z_index = RenderLayers.z_index_for(RenderLayers.Layer.UI_PREVIEW) + 1
+	_vitals_hud.show_behind_parent = false
+	_sync_vitals_mask()
 	_vitals_hud.queue_redraw()
+
+func set_vitals_model_rects(rectangles: Array[Rect2]) -> void:
+	_vitals_has_board_mask = true
+	if _vitals_model_rects != rectangles: _vitals_model_rects.assign(rectangles)
+	_sync_vitals_mask()
+
+func vitals_body_screen_rects() -> Array[Rect2]:
+	if not is_visible_in_tree() or role != Role.UNIT: return []
+	if _scene_art_enabled: return BattleVitalsOcclusion.body_rects(_body_branches())
+	if unit != null and not unit.alive or grid_config == null: return []
+	# Процедурный fallback рисует тело ровно в этих локальных границах.
+	var screen := get_global_transform_with_canvas() * body_drawing_transform(grid_config.tile_size.x / 128.0)
+	return [screen * Rect2(-14, -37, 31, 39)]
+
+func _sync_vitals_mask() -> void:
+	if not is_instance_valid(_vitals_hud): return
+	var rectangles := _vitals_model_rects if _vitals_has_board_mask else vitals_body_screen_rects()
+	BattleVitalsOcclusion.apply(_vitals_hud.material as ShaderMaterial, rectangles, selected)
 
 func _draw_vitals_hud() -> void:
 	if grid_config == null: return
+	_sync_vitals_mask()
 	var anchor := get_visual_offset() + get_unit_bars_offset() * grid_config.tile_size.x / 128.0
 	BattleUnitVitalsPainter.draw_vitals(_vitals_hud, unit, armor_values, forecast_entry, anchor)
 
@@ -288,11 +312,11 @@ func status_hud_bounds() -> Rect2:
 
 func _status_icon_step(visible_count: int) -> float:
 	# Три знака с лёгким нахлёстом удерживают ряд компактным; остальные доступны через +N.
-	return STATUS_ICON_SIZE - clampf(float(visible_count - 1) * 2.0, 0.0, STATUS_ICON_MAX_OVERLAP)
+	return STATUS_SLOT_SIZE - clampf(float(visible_count - 1) * 2.0, 0.0, STATUS_ICON_MAX_OVERLAP)
 
 func _status_content_width(icon_count: int, overflow: bool) -> float:
 	if icon_count <= 0: return 0.0
-	var width := STATUS_ICON_SIZE + float(icon_count - 1) * _status_icon_step(icon_count)
+	var width := STATUS_SLOT_SIZE + float(icon_count - 1) * _status_icon_step(icon_count)
 	if overflow: width += STATUS_OVERFLOW_GAP + STATUS_OVERFLOW_WIDTH
 	return width
 
@@ -872,22 +896,24 @@ func _draw_status_icons(canvas: Node2D) -> void:
 	var y := bounds.position.y + 2.0
 	for entry: Dictionary in entries:
 		var id := String(entry.get("id", ""))
-		var rect := Rect2(Vector2(x, y), Vector2(STATUS_ICON_SIZE, STATUS_ICON_SIZE))
+		# Рисунок уменьшается внутри прежнего слота, поэтому панель и цифры не сдвигаются.
+		var inset := (STATUS_SLOT_SIZE - STATUS_ICON_SIZE) * 0.5
+		var rect := Rect2(Vector2(x + inset, y + inset), Vector2(STATUS_ICON_SIZE, STATUS_ICON_SIZE))
 		var icon := _status_icon(id)
 		if icon != null:
 			canvas.draw_texture_rect(icon, rect, false)
 		elif id == "acid":
-			canvas.draw_circle(rect.get_center(), 6.0, Color("57dd72"))
-			canvas.draw_circle(rect.get_center() + Vector2(2.0, -2.0), 1.4, Color("d0ff9d"))
-			canvas.draw_circle(rect.get_center() + Vector2(-2.0, 2.0), 1.0, Color("d0ff9d"))
+			canvas.draw_circle(rect.get_center(), 5.4, Color("57dd72"))
+			canvas.draw_circle(rect.get_center() + Vector2(1.8, -1.8), 1.26, Color("d0ff9d"))
+			canvas.draw_circle(rect.get_center() + Vector2(-1.8, 1.8), 0.9, Color("d0ff9d"))
 		elif id == "poison":
 			# Яд получает собственный оттенок, чтобы его счётчик не читался как вода.
-			canvas.draw_circle(rect.get_center(), 6.0, Color("8acb55"))
-			canvas.draw_circle(rect.get_center() + Vector2(1.0, -2.0), 2.0, Color("d8ff9d"))
+			canvas.draw_circle(rect.get_center(), 5.4, Color("8acb55"))
+			canvas.draw_circle(rect.get_center() + Vector2(0.9, -1.8), 1.8, Color("d8ff9d"))
 		else:
 			# Неизвестные виды получают одинаковую геометрию для проверки переполнения.
 			var center := rect.position + rect.size * 0.5
-			canvas.draw_colored_polygon(PackedVector2Array([center + Vector2(0, -4), center + Vector2(4, 0), center + Vector2(0, 4), center + Vector2(-4, 0)]), Color("c7d4e2"))
+			canvas.draw_colored_polygon(PackedVector2Array([center + Vector2(0, -3.6), center + Vector2(3.6, 0), center + Vector2(0, 3.6), center + Vector2(-3.6, 0)]), Color("c7d4e2"))
 		x += step
 	# Сначала весь ряд рисунков, затем все числа: следующий значок не закрывает счётчик.
 	x = bounds.position.x + STATUS_PANEL_PADDING
@@ -897,11 +923,11 @@ func _draw_status_icons(canvas: Node2D) -> void:
 		if id in ["bleeding", "burning", "poison"] and stacks > 0:
 			var badge := "99+" if stacks > 99 else "×%d" % stacks
 			# Разные углы оставляют середину рисунка видимой и разделяют стаки со сроком.
-			_draw_status_counter(canvas, badge, Vector2(x, y + 8), STATUS_ICON_SIZE, Color("f1e4c8"), HORIZONTAL_ALIGNMENT_LEFT)
+			_draw_status_counter(canvas, badge, Vector2(x, y + 8), STATUS_SLOT_SIZE, Color("f1e4c8"), HORIZONTAL_ALIGNMENT_LEFT)
 		var remaining := int(entry.get("remaining", 0))
 		if remaining > 0:
 			var remaining_label := "99+" if remaining > 99 else str(remaining)
-			_draw_status_counter(canvas, remaining_label, Vector2(x, y + 18), STATUS_ICON_SIZE, Color("b6cfce"), HORIZONTAL_ALIGNMENT_RIGHT)
+			_draw_status_counter(canvas, remaining_label, Vector2(x, y + 18), STATUS_SLOT_SIZE, Color("b6cfce"), HORIZONTAL_ALIGNMENT_RIGHT)
 		x += step
 	if overflow > 0:
 		var overflow_label := "+99+" if overflow > 99 else "+%d" % overflow
@@ -909,16 +935,14 @@ func _draw_status_icons(canvas: Node2D) -> void:
 
 func _draw_status_counter(canvas: Node2D, text: String, local_baseline: Vector2, slot_width: float, tint: Color, alignment: HorizontalAlignment = HORIZONTAL_ALIGNMENT_CENTER) -> void:
 	if _status_counter_font == null:
-		var numbers := (load("res://assets/ui/combat_fonts/jersey20_numbers.ttf") as FontFile).duplicate() as FontFile
+		# Сглаживание применяется только к мелким цифрам статусов; остальные HUD используют свои гарнитуры.
 		var letters := (load("res://assets/ui/combat_fonts/combat_letters.ttf") as FontFile).duplicate() as FontFile
-		for font_file: FontFile in [numbers, letters]:
-			font_file.antialiasing = TextServer.FONT_ANTIALIASING_NONE
-			font_file.subpixel_positioning = TextServer.SUBPIXEL_POSITIONING_DISABLED
-			font_file.oversampling = 1.0
-			font_file.keep_rounding_remainders = false
+		letters.antialiasing = TextServer.FONT_ANTIALIASING_GRAY
+		letters.subpixel_positioning = TextServer.SUBPIXEL_POSITIONING_DISABLED
+		letters.oversampling = 1.0
+		letters.keep_rounding_remainders = false
 		_status_counter_font = FontVariation.new()
-		_status_counter_font.base_font = numbers
-		_status_counter_font.fallbacks = [letters]
+		_status_counter_font.base_font = letters
 	var screen_transform := canvas.get_global_transform_with_canvas()
 	var screen_scale := screen_transform.x.length()
 	if not is_finite(screen_scale) or screen_scale < 0.05:
