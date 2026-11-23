@@ -1,0 +1,13 @@
+{
+  "provider": "built-in image_gen",
+  "source": "D:\\Codex\\home\\generated_images\\01a20706-1f80-7ce2-90d7-0fe6642ee458\\exec-933622b4-c6ea-4111-816f-8320eab63bce.png",
+  "reference": "docs/art/hub-buttons-ten-styles-20261123/imagegen/10-bold-pixel.png",
+  "prompt": "Create ONE complete fully illustrated landscape 16:9 hub screen for intoDeDung. Use the reference for layout, text, fortress setting and three-hero squad. Four large top tabs, resource line, narrow squad panel left, open fortress courtyard center, preparation panel right, main action bottom-right. Keep courtyard stone, tents, plain flags and warm sunset; do not add panels or characters. NEW ART DIRECTION: matte WOODEN BUTTON FACES. Every navigation tab and action button must have a clearly visible solid unfinished oak backing, muted medium walnut-brown color, subtle broad horizontal grain, worn cut corners, a small plain bevel, flat diffuse lighting. Low sheen, tactile dry wood, restrained hand-painted pixel-game craft. Narrow plain dark iron or darker wood edging only. NO gold rims, glowing outlines, glossy enamel, lacquer, polished metal, bright specular highlights, jewels or elaborate ornaments. Selected tab stays visibly wooden: a thin muted brick-red painted border and small notch marker, never a shiny red filled plaque. Primary CTA is warm reddish-brown stained wood with visible grain, slightly heavier plain frame and cream lettering. Inactive tabs darker plain wood with cream lettering. Panel frames are narrow matte timber rails; pale quiet parchment interiors with dark readable type. Selected hero has a restrained ochre outline without glow. Clear strong simple silhouettes and roomy lettering. EXACT labels: top 'Поход', 'Наёмники', 'Кузнец', 'Колода'; left 'Отряд', 'Воин', 'Щитоносец', 'Лучница', bottom 'Дополнительно'; right 'Подготовка', '7 комнат', 'Отряд: 3', 'Колода: 10 карт', 'Готово', 'В путь'; resources 'Золото 100', 'Эссенция 0'. Exactly three hero cards; no duplicate card. Keep small icons simple carved or painted ivory silhouettes. Fully drawn finished screen, no wireframe, no collage, no extra text or watermark. The wooden backing and reduced gloss are the essential requested changes.",
+  "output": "imagegen.png",
+  "mode": "generative restyle; not pixel-exact",
+  "size": [
+    1672,
+    941
+  ],
+  "sha256": "77547069fe4eb24b956c2a623a07347d5a05833c9af00c69585875d84168eef9"
+}

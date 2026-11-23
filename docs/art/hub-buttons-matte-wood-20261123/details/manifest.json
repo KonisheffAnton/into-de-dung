@@ -1,0 +1,106 @@
+[
+  {
+    "provider": "imagegen",
+    "file": "details/imagegen-active.webp",
+    "source": "imagegen.png",
+    "box": [
+      14,
+      0,
+      458,
+      118
+    ],
+    "sha256": "e91345487663cb94e365cf0afeef5793469aed667d6c18dc295cbf62bb963ed3",
+    "lossless_crop_verified": true
+  },
+  {
+    "provider": "imagegen",
+    "file": "details/imagegen-inactive.webp",
+    "source": "imagegen.png",
+    "box": [
+      458,
+      0,
+      854,
+      110
+    ],
+    "sha256": "3cd6c58cc87195ee6b2fb9fc5bd8c9e60a2bfaf0bba35fee3ea4b828140d63b1",
+    "lossless_crop_verified": true
+  },
+  {
+    "provider": "imagegen",
+    "file": "details/imagegen-panel.webp",
+    "source": "imagegen.png",
+    "box": [
+      0,
+      170,
+      364,
+      429
+    ],
+    "sha256": "0d1620b82d4cbe5144f13a45f49375bf4b61492140a9304df674021f756289b5",
+    "lossless_crop_verified": true
+  },
+  {
+    "provider": "imagegen",
+    "file": "details/imagegen-cta.webp",
+    "source": "imagegen.png",
+    "box": [
+      1328,
+      784,
+      1663,
+      921
+    ],
+    "sha256": "17e59544342ece4f8bc154d47bd63f670eff61ffd3ecb97bd21ec20b2d16c767",
+    "lossless_crop_verified": true
+  },
+  {
+    "provider": "pixellab",
+    "file": "details/pixellab-active.webp",
+    "source": "pixellab.png",
+    "box": [
+      4,
+      0,
+      190,
+      48
+    ],
+    "sha256": "3a8ff2b6ca252cbfebb7d3a4ac92b51eadafd717793ac78906a686ac04d4de71",
+    "lossless_crop_verified": true
+  },
+  {
+    "provider": "pixellab",
+    "file": "details/pixellab-inactive.webp",
+    "source": "pixellab.png",
+    "box": [
+      190,
+      0,
+      364,
+      48
+    ],
+    "sha256": "92578fdd55c8e2b3013a308db72f7b32a62b52a5e10725391363c0df00fbe43f",
+    "lossless_crop_verified": true
+  },
+  {
+    "provider": "pixellab",
+    "file": "details/pixellab-panel.webp",
+    "source": "pixellab.png",
+    "box": [
+      3,
+      71,
+      166,
+      185
+    ],
+    "sha256": "a32f266bf1817a045a671bff8ca7f933c8aa3b5530468fcd3ed0b91401941aad",
+    "lossless_crop_verified": true
+  },
+  {
+    "provider": "pixellab",
+    "file": "details/pixellab-cta.webp",
+    "source": "pixellab.png",
+    "box": [
+      539,
+      318,
+      673,
+      370
+    ],
+    "sha256": "f5e2bc0b9d8320011e8d5ff030aeccdf824696a8e1b7da96d06ca8f8ece691f1",
+    "lossless_crop_verified": true
+  }
+]

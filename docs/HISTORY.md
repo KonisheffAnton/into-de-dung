@@ -1,5 +1,15 @@
 # История и свидетельства проверок
 
+## Матовые деревянные кнопки хаба — 2026-11-23
+
+По U сделана [новая пара Imagegen/PixelLab](art/hub-buttons-matte-wood-20261123/README.md):
+деревянная подложка кнопок и меньше глянца. Один brief, два полных экрана,
+восемь lossless-деталей; PixelLab25generations. Runtime не менялся, приёмка U открыта.
+PNG/размеры/SHA/ссылки/provenance/crops PASS; G visual review APPROVE.
+Godot/F5/DPI/performance и браузерный preview не запускались.
+[Проверки](../test_reports/hub-buttons-matte-wood-20261123/validation.json);
+[прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261123-23.md).
+
 ## Полоски двух соседних персонажей — 2026-11-23
 
 По U сняты [три состояния воина и троглодита](art/adjacent-unit-bars-20261123/README.md)

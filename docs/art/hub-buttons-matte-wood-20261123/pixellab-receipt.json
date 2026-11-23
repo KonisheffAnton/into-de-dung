@@ -1,0 +1,78 @@
+﻿{
+    "task":  "hub-buttons-matte-wood-20261123",
+    "base_commit":  "b591029d17c4b0fca98c8786dc076b451f91e217",
+    "endpoint":  "https://api.pixellab.ai/v2/generate-image-v2",
+    "job_id":  "04c34bfe-6438-484d-93aa-cc9ec3dd3e22",
+    "status":  "completed",
+    "prompt":  "Create ONE complete fully illustrated landscape 16:9 hub screen for intoDeDung. Use the reference for layout, text, fortress setting and three-hero squad. Four large top tabs, resource line, narrow squad panel left, open fortress courtyard center, preparation panel right, main action bottom-right. Keep courtyard stone, tents, plain flags and warm sunset; do not add panels or characters. NEW ART DIRECTION: matte WOODEN BUTTON FACES. Every navigation tab and action button must have a clearly visible solid unfinished oak backing, muted medium walnut-brown color, subtle broad horizontal grain, worn cut corners, a small plain bevel, flat diffuse lighting. Low sheen, tactile dry wood, restrained hand-painted pixel-game craft. Narrow plain dark iron or darker wood edging only. NO gold rims, glowing outlines, glossy enamel, lacquer, polished metal, bright specular highlights, jewels or elaborate ornaments. Selected tab stays visibly wooden: a thin muted brick-red painted border and small notch marker, never a shiny red filled plaque. Primary CTA is warm reddish-brown stained wood with visible grain, slightly heavier plain frame and cream lettering. Inactive tabs darker plain wood with cream lettering. Panel frames are narrow matte timber rails; pale quiet parchment interiors with dark readable type. Selected hero has a restrained ochre outline without glow. Clear strong simple silhouettes and roomy lettering. EXACT labels: top \u0027Поход\u0027, \u0027Наёмники\u0027, \u0027Кузнец\u0027, \u0027Колода\u0027; left \u0027Отряд\u0027, \u0027Воин\u0027, \u0027Щитоносец\u0027, \u0027Лучница\u0027, bottom \u0027Дополнительно\u0027; right \u0027Подготовка\u0027, \u00277 комнат\u0027, \u0027Отряд: 3\u0027, \u0027Колода: 10 карт\u0027, \u0027Готово\u0027, \u0027В путь\u0027; resources \u0027Золото 100\u0027, \u0027Эссенция 0\u0027. Exactly three hero cards; no duplicate card. Keep small icons simple carved or painted ivory silhouettes. Fully drawn finished screen, no wireframe, no collage, no extra text or watermark. The wooden backing and reduced gloss are the essential requested changes.",
+    "prompt_characters":  1937,
+    "image_size":  {
+                       "height":  384,
+                       "width":  688
+                   },
+    "no_background":  false,
+    "reference":  {
+                      "sha256":  "aca79ea5787352031f20c97ac682020dd460238f0dc1a0f4fb87956275f2018a",
+                      "width":  1672,
+                      "path":  "docs/art/hub-buttons-ten-styles-20261123/imagegen/10-bold-pixel.png",
+                      "base64":  "redacted from sanitized receipt",
+                      "usage_description":  "Use this as a reference for layout, exact text, fortress setting and three-hero squad; do not copy its glossy button treatment. Apply the requested matte wooden button faces.",
+                      "height":  941
+                  },
+    "sanitized_request":  {
+                              "no_background":  false,
+                              "image_size":  {
+                                                 "height":  384,
+                                                 "width":  688
+                                             },
+                              "description":  "Create ONE complete fully illustrated landscape 16:9 hub screen for intoDeDung. Use the reference for layout, text, fortress setting and three-hero squad. Four large top tabs, resource line, narrow squad panel left, open fortress courtyard center, preparation panel right, main action bottom-right. Keep courtyard stone, tents, plain flags and warm sunset; do not add panels or characters. NEW ART DIRECTION: matte WOODEN BUTTON FACES. Every navigation tab and action button must have a clearly visible solid unfinished oak backing, muted medium walnut-brown color, subtle broad horizontal grain, worn cut corners, a small plain bevel, flat diffuse lighting. Low sheen, tactile dry wood, restrained hand-painted pixel-game craft. Narrow plain dark iron or darker wood edging only. NO gold rims, glowing outlines, glossy enamel, lacquer, polished metal, bright specular highlights, jewels or elaborate ornaments. Selected tab stays visibly wooden: a thin muted brick-red painted border and small notch marker, never a shiny red filled plaque. Primary CTA is warm reddish-brown stained wood with visible grain, slightly heavier plain frame and cream lettering. Inactive tabs darker plain wood with cream lettering. Panel frames are narrow matte timber rails; pale quiet parchment interiors with dark readable type. Selected hero has a restrained ochre outline without glow. Clear strong simple silhouettes and roomy lettering. EXACT labels: top \u0027Поход\u0027, \u0027Наёмники\u0027, \u0027Кузнец\u0027, \u0027Колода\u0027; left \u0027Отряд\u0027, \u0027Воин\u0027, \u0027Щитоносец\u0027, \u0027Лучница\u0027, bottom \u0027Дополнительно\u0027; right \u0027Подготовка\u0027, \u00277 комнат\u0027, \u0027Отряд: 3\u0027, \u0027Колода: 10 карт\u0027, \u0027Готово\u0027, \u0027В путь\u0027; resources \u0027Золото 100\u0027, \u0027Эссенция 0\u0027. Exactly three hero cards; no duplicate card. Keep small icons simple carved or painted ivory silhouettes. Fully drawn finished screen, no wireframe, no collage, no extra text or watermark. The wooden backing and reduced gloss are the essential requested changes.",
+                              "reference_images":  [
+                                                       {
+                                                           "usage_description":  "Use this as a reference for layout, exact text, fortress setting and three-hero squad; do not copy its glossy button treatment. Apply the requested matte wooden button faces.",
+                                                           "size":  {
+                                                                        "height":  941,
+                                                                        "width":  1672
+                                                                    },
+                                                           "image":  {
+                                                                         "format":  "png",
+                                                                         "type":  "base64",
+                                                                         "base64":  "\u003credacted; decoded image sha256=aca79ea5787352031f20c97ac682020dd460238f0dc1a0f4fb87956275f2018a\u003e"
+                                                                     }
+                                                       }
+                                                   ]
+                          },
+    "raw_request":  "test_reports/hub-buttons-matte-wood-20261123/pixel-raw/pixel-request.json",
+    "raw_request_sha256":  "66b70167a39fda41b6cd87a7bd9ae827269df900ca7b1e1d87312949a02174f3",
+    "raw_post_response":  "test_reports/hub-buttons-matte-wood-20261123/pixel-raw/pixel-post-response.json",
+    "raw_final_job":  "test_reports/hub-buttons-matte-wood-20261123/pixel-raw/pixel-final-job.json",
+    "post_usage":  null,
+    "final_usage":  {
+                        "type":  "generations",
+                        "generations":  25.0
+                    },
+    "actual_usage_generations":  25.0,
+    "output":  {
+                   "path":  "pixellab.png",
+                   "sha256":  "d90977bf63ea8f127b1149e8b5a3e6f3511c12a98a9673addee58853f4ba6c9e",
+                   "width":  688,
+                   "bytes":  200686,
+                   "height":  384
+               },
+    "result_keys":  [
+                        "seed",
+                        "type",
+                        "action",
+                        "images",
+                        "progress",
+                        "billing_usage",
+                        "generation_id",
+                        "usage_cost_usd",
+                        "billing_charged",
+                        "style_reference",
+                        "style_selection",
+                        "style_reference_path",
+                        "generation_started_at",
+                        "original_image_n_colors",
+                        "quantized_image_n_colors"
+                    ]
+}
