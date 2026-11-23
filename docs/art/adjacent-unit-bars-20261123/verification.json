@@ -1,0 +1,46 @@
+{
+  "result": "PASS",
+  "captures": 6,
+  "camera_zooms": [
+    1,
+    0.75
+  ],
+  "adjacent_cells": {
+    "actor": [
+      3,
+      3
+    ],
+    "manhattan": 1,
+    "target": [
+      4,
+      3
+    ]
+  },
+  "core_rng_counters_revision_unchanged": true,
+  "ui_states_and_mask_counts": true,
+  "geometry_fixed_within_zoom": true,
+  "native_crops_pixel_exact": true,
+  "montage_nearest_2x_pixel_exact": true,
+  "runtime": {
+    "isolated_project": "D:\\Games\\into-de-dung\\test_reports\\demo-2f791ac889864e78be19395dfeb22edc\\project",
+    "runtime_files": 1685,
+    "mismatches": [],
+    "script_sha256": "57c7127f9283f88381d7228193929e82909b5cea5a64da3fee6a30a6ca0ca950",
+    "exit_code": 0
+  },
+  "sha256": {
+    "adjacent-attack-hover-075-crop.png": "8dd3cb7ead90f7d9a674df44e539ca911e66a7cf4a3b06587aa1fa58d504adcf",
+    "adjacent-attack-hover-075.png": "0bad52921822f27a452f01fd56c41802859f3d2ed9bed98eec622354994810ea",
+    "adjacent-attack-hover-100-crop.png": "3bdb66c9a16277bbfa2222c915fca77cb6bbdd0e552ba3ef2ded9724c1b046f8",
+    "adjacent-attack-hover-100.png": "8e7ddccfda3375c114a913e18af630eec032095c0309cd25613944cac9e2c699",
+    "adjacent-no-selection-075-crop.png": "5ceff9dddb919e516fcc22c17be297c674270b2eef72a52fa589ece726fa3999",
+    "adjacent-no-selection-075.png": "7bf2566299c005ee692cf938096a47ff77b594fc77b5bdee95ad545a74f548d1",
+    "adjacent-no-selection-100-crop.png": "587edd1debf9b58bc2d5687f8b3800b481476c94bfd768efca878692a8821a64",
+    "adjacent-no-selection-100.png": "76bd57a7aecb77d737777f0721076403d880643a35e2bff919144d6d53e9a3d7",
+    "adjacent-selected-075-crop.png": "abcd57603d8d6e55aeff68c1c144744606809fb4857d2c09f6448e36669579d5",
+    "adjacent-selected-075.png": "defa172e22d0e6e2a6d2c4db0344d947843318dff9543be144430143127d1b65",
+    "adjacent-selected-100-crop.png": "7ea0ee3f80af867896af9a6e1a16388adac112d63b191fc8e65adda2b5e8dd1c",
+    "adjacent-selected-100.png": "6120cdcb61e0882fac5efa43e0aaff66f72ab3113581f21fb11405bfcb6f1893",
+    "comparison.png": "0690b2173e351f377d0c061efb6d3001f9ccc6899cc5cbabd0a18eed4815c6d8"
+  }
+}

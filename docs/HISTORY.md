@@ -1,5 +1,16 @@
 # История и свидетельства проверок
 
+## Полоски двух соседних персонажей — 2026-11-23
+
+По U сняты [три состояния воина и троглодита](art/adjacent-unit-bars-20261123/README.md)
+на соседних клетках: без выбора, выбран воин, наведение атаки. Камера100/75%,
+монтаж NEAREST2×; hover не выбирает цель. Runtime не менялся.
+[Проверка](art/adjacent-unit-bars-20261123/verification.json):6 GPU кадров/0 отказов,
+core/RNG parity,1685 runtime hashes, native crops/монтаж pixel-exact PASS;
+независимый review APPROVE. Свежий import/full/core/F5/DPI/performance не запускались.
+Пара постановочная без сильного перекрытия HUD/моделей; визуальная приёмка открыта.
+[Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261123-22.md).
+
 ## HP, очистка эффектов и пределы духа — 2026-11-23
 
 U [уточнил концепт](DESIGN_DIRECTION.md#mage-corpse-anchor-20261123): HP задаёт

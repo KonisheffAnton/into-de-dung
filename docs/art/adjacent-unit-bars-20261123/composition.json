@@ -1,0 +1,53 @@
+{
+  "output": "D:\\Games\\into-de-dung\\docs\\art\\adjacent-unit-bars-20261123\\comparison.png",
+  "rows": [
+    {
+      "title": "Камера 100% · фрагменты увеличены 2× без сглаживания",
+      "crop": [
+        735,
+        475,
+        150,
+        170
+      ],
+      "enlarge": 2,
+      "panels": [
+        {
+          "title": "Без выбора",
+          "source": "D:\\Games\\into-de-dung\\docs\\art\\adjacent-unit-bars-20261123\\adjacent-no-selection-100.png"
+        },
+        {
+          "title": "Выбран воин",
+          "source": "D:\\Games\\into-de-dung\\docs\\art\\adjacent-unit-bars-20261123\\adjacent-selected-100.png"
+        },
+        {
+          "title": "Наведение атаки",
+          "source": "D:\\Games\\into-de-dung\\docs\\art\\adjacent-unit-bars-20261123\\adjacent-attack-hover-100.png"
+        }
+      ]
+    },
+    {
+      "title": "Камера 75% · фрагменты увеличены 2× без сглаживания",
+      "crop": [
+        730,
+        493,
+        150,
+        170
+      ],
+      "enlarge": 2,
+      "panels": [
+        {
+          "title": "Без выбора",
+          "source": "D:\\Games\\into-de-dung\\docs\\art\\adjacent-unit-bars-20261123\\adjacent-no-selection-075.png"
+        },
+        {
+          "title": "Выбран воин",
+          "source": "D:\\Games\\into-de-dung\\docs\\art\\adjacent-unit-bars-20261123\\adjacent-selected-075.png"
+        },
+        {
+          "title": "Наведение атаки",
+          "source": "D:\\Games\\into-de-dung\\docs\\art\\adjacent-unit-bars-20261123\\adjacent-attack-hover-075.png"
+        }
+      ]
+    }
+  ]
+}
