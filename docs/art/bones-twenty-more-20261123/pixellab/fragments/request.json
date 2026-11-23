@@ -1,0 +1,42 @@
+{
+  "endpoint": "/generate-image-v2",
+  "payload": {
+    "description": "One NEW universal BONE FRAGMENT HEAP sprite. Keep the reference pixel-art style and SMALL BROKEN fragments, but invent DIFFERENT LOW COMPOSITIONS. A compact low heap of 8 to 12 tiny unequal skeletal fragments: short snapped crooked segments, tiny hollow stubs, small flat curved flakes, little rounded joint ends. Every fragment is SHORTER THAN ONE THIRD of the pile width. All lie flat, overlapping in a dense low mound. NO intact long femur, no repeated dumbbell shape, no large U-shaped curve, no rib framework. Think of a handful of crushed dry bones: smaller irregular bone fragments, not whole skeleton bones. Keep enough elongated and bent tiny silhouettes to read as bone rather than pebbles or gravel. Low broad asymmetric footprint, shallow overhead three-quarter view, upper-left light. Simple bold crisp pixel clusters, sparse flat shading, dirty ivory with taupe and dark purple-gray shadows. Mix different shapes WITHIN each heap. Explore small flattened ovals, wedges and bean shapes. No skull, face, eye sockets, jaw, teeth, horns, spikes, standing fragments, flesh, blood, clothes, floor, rocks, tray, pedestal, cast-shadow patch, halo or background. Transparent empty margins.",
+    "image_size": {
+      "width": 64,
+      "height": 64
+    },
+    "seed": 202611562,
+    "no_background": true,
+    "style_image": {
+      "image": {
+        "base64": "iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAFO0lEQVR4nOVbu44URxStLvUXEKwTMoTWkQM7wZLJSFZyCD+wJMjyB9gIOUCW8Qcgy4n5ARwiTbIZSCaxc8spiSfgF9o6vX1aZ+7We4YdozpSa5vp6qr7OPdRNcPw6a3PXM/wrnN41zm86xzedQ7vOod3ncO7zuFd5/Cuc3jXOfyB5pmW65iYjmWA6cWv3ztcRzTC9PTJedP6Y8ticj+4jxxji7eJ80fPdv6de7fSaNPJjRO3fb/NjZ9lePn7G3ftIfD0knYzvnv8W3Z8RZhMZ/fuui8+P82NXx2wuXjdxEjv9sDNm5+s99v32yIBCowwK39d8JXjh/NHz4IPGpIgK0fyncUYU8r7797961rhG96ZjRCKOSOsKrijAAXHeL5zdu/uFPL+Qu2k8j/8+GKWq0EX1xoCQ0QwYlZEL0CNBgU4B57jPqQ88kyCBXtj2PNMcPWEZURMIa0a9F7M63Zu+/m+3m/tA2w4zJ5ByVqydtYQmkShDEKKY6yRQsoHYr62xB6kCkwas0sVWEFaK9UJKKzJlOU0FFYP7n81X6GEt3h/J5fUhsrQEALzAiGvQgEywdIVCi+Nzfo3ZjD2Fd9+8/VOqeU8NFgifIYP1gmeJWq0PuM9BFZKQ3n9C8AYlvp7ojgkxoZJZ3x55/Z6/8fbf6IvwRCx3oEssDFP9sD79t2SJgkMWcJjyhlhdBWe//Ovv1fhlO6IUQXoqwmRlLf0V8Xxjg2LGuU15JhUM6V6RlUIQEArtDJBAWNRIShNyts5QoqGQgFjaHTtH7RfUMaw+mwuXidZMBQmQe7MrggX8hyV/vmnh1cUNLvJdSznoCIxMJkSKpOW09KkOLpC5RUoRRQSAuiitDwYEFJaFQF07kiN38kNNcoDORaMdVn/dCerxxbNIeXFkPeVQWTK5bqX8uSQMsK477Y01ukhCdJASJLwLKqFTZglOUG7TOQczKN5AJ8h62vSIwv5XswIY43yWqvpRc32WNBubKgwPLu52BUyBBsaJe01lI+VUrCkuRXeZIQlHaE4LnRukn2Dsc+2FYqFvM8xfK65hMpyTcrI3MH8AaNznZwOPtbfs7Ro3bfeJ5DtcT3/5VV0oVC+wPw26eneAfdaYWhcu3HC3DSMGoF7CIyLGWJU5W0ry0mtIlyUJUvPA9XqGsu2Uuh5olYVAh62+UKh7FHHqFE5pz633eEYXSHTedEIV3F6pUFRIIGBPTCufaZzU2CdK7ZljiFhiNUIXl8oaR0pGCfU4y3bLyigMC7GLo2ACwJqDFvlrYyhrTHHc86QIUI9xhDoBNdNT6ir0vLC8hMqO4A+Txkn1EmmTolCZwJ2fp2TTJNWORkCgyy6s/fnX1uaQp7iHsF2hSHYpigWepb2UD5mWP3cMGJo2gucZQ5AcsgZIaV87CwR4HjLPvt+aSs8lR4kaFLKLc66njNCifLMP3YsT6FqW/Mx5OXcFrJ0ITuORiiJ+ZjyuRMpe9S+oHg7POmz0uRIYW3sWVbYc0KF9ax2eLHzvxD7as8Eh5ZDUdvUqOAhpBS3iJ3mlDKu9mh8rBlsFiIGhk2ucbKwdZleRgWxOztD57U6hWS5zm+GiioFhc5te5X+Rpn5XVvDSw49dW8TGjsc+OfyoS8lrMDRZwkD6Ls1Xp7nlIZsfwOc3DiZBSn45UYLmr/iap1zrJlp+Qp7xuZiW0K/WnwIoybnHCoZkKLwdeGgP9IaK8cf+1dhtgTvzcLhI/w/Q0dlwP8BB2Whd53Du87hXefwrnN41zm86xzedQ7vOod3ncMfW4Bj4z9DV86YNNryBwAAAABJRU5ErkJggg=="
+      },
+      "size": {
+        "width": 64,
+        "height": 64
+      },
+      "usage_description": "Small varied broken fragments and simple pixel style only. New flatter heaps, no large whole bones."
+    },
+    "style_options": {
+      "color_palette": false,
+      "outline": true,
+      "detail": true,
+      "shading": true
+    },
+    "target_palette": {
+      "colors": [
+        "#e0d6be",
+        "#c6bba7",
+        "#aa9f90",
+        "#8c8179",
+        "#71676b",
+        "#564c59",
+        "#3e3544",
+        "#28232e"
+      ],
+      "max_colors": 8,
+      "name": "muted ivory bone fragments"
+    }
+  }
+}

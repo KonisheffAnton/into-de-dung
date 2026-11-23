@@ -1,0 +1,22 @@
+{
+  "G21": "imagegen/G21.png",
+  "G22": "imagegen/G22.png",
+  "G23": "imagegen/G23.png",
+  "G24": "imagegen/G24.png",
+  "G25": "imagegen/G25.png",
+  "G26": "imagegen/G26.png",
+  "G27": "imagegen/G27.png",
+  "G28": "imagegen/G28.png",
+  "G29": "imagegen/G29.png",
+  "G30": "imagegen/G30.png",
+  "PL29": "pixellab/fragments/image.png",
+  "PL30": "pixellab/fragments/image-2.png",
+  "PL31": "pixellab/fragments/image-5.png",
+  "PL32": "pixellab/fragments/image-8.png",
+  "PL33": "pixellab/fragments/image-9.png",
+  "PL34": "pixellab/fragments/image-13.png",
+  "PL35": "pixellab/fragments/image-15.png",
+  "PL36": "pixellab/candidates/image-9.png",
+  "PL37": "pixellab/candidates/image-12.png",
+  "PL38": "pixellab/candidates/image-14.png"
+}

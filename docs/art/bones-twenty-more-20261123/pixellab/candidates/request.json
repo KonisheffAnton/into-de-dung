@@ -1,0 +1,30 @@
+{
+  "endpoint": "/generate-image-v2",
+  "payload": {
+    "description": "One SMALL FLAT PILE OF SHORT BROKEN BONES for a dark fantasy pixel art tactics game. Only 7 to 10 different short skeletal fragments per pile, overlapping in TWO LOW LAYERS. A compact flat oval, footprint only about 34 pixels wide and 18 pixels high in the 64-pixel canvas. All pieces lie FLAT, not sticking up. The heap is viewed from above in shallow three-quarter perspective. Every fragment has a DIFFERENT recognizable BONE shape: thin gently bent bone segments, short blunt tubular stubs with small broken ends, tiny rounded joint knobs, a few flat tapered bone flakes. Each piece short, about 4 to 8 pixels long. Some bone fragments curve but no complete rings. Make bones, not rocks, shards of stone or spiky scrap. No uniform collection of straight sticks. Allow little dark gaps separating the overlapping pieces. Compact mound, not scattered specimens. Different images should explore noticeably different low footprints and arrangements: flattened oval, low wedge, bent bean, lopsided trapezoid, short diagonal cluster. SIMPLE COARSE PIXEL ART, minimal detail, large clean flat pixel clusters, only six earthy colors. Muted warm dirty ivory, warm taupe shadow, dark gray-purple deepest outline. Upper-left light. NO skull, eyes, face, jaw, teeth, ribcage, identifiable skeleton, horns, spikes, whole long femurs, dominant pale plate, smooth shading, meat, blood, clothes, equipment, floor, tile, pedestal or shadow halo. Transparent background, generous empty margins. Bare universal bones, impossible to tell human or monster.",
+    "image_size": {
+      "width": 64,
+      "height": 64
+    },
+    "seed": 202611561,
+    "no_background": true,
+    "style_options": {
+      "color_palette": false,
+      "outline": false,
+      "detail": false,
+      "shading": false
+    },
+    "target_palette": {
+      "colors": [
+        "#ddd0b4",
+        "#b8aa91",
+        "#938474",
+        "#716369",
+        "#4e414f",
+        "#2d2733"
+      ],
+      "max_colors": 6,
+      "name": "earthy ivory bones"
+    }
+  }
+}
