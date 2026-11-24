@@ -1,0 +1,232 @@
+[
+  {
+    "id": "G41",
+    "path": "D:\\Games\\into-de-dung\\docs\\art\\bones-ribs-skull-twenty-20261124\\imagegen\\G41.png",
+    "region": [
+      308,
+      334,
+      1051,
+      409
+    ],
+    "display_size": [
+      60,
+      23
+    ]
+  },
+  {
+    "id": "G42",
+    "path": "D:\\Games\\into-de-dung\\docs\\art\\bones-ribs-skull-twenty-20261124\\imagegen\\G42.png",
+    "region": [
+      372,
+      329,
+      915,
+      373
+    ],
+    "display_size": [
+      60,
+      24
+    ]
+  },
+  {
+    "id": "G43",
+    "path": "D:\\Games\\into-de-dung\\docs\\art\\bones-ribs-skull-twenty-20261124\\imagegen\\G43.png",
+    "region": [
+      297,
+      256,
+      1188,
+      487
+    ],
+    "display_size": [
+      60,
+      25
+    ]
+  },
+  {
+    "id": "G44",
+    "path": "D:\\Games\\into-de-dung\\docs\\art\\bones-ribs-skull-twenty-20261124\\imagegen\\G44.png",
+    "region": [
+      256,
+      347,
+      1191,
+      446
+    ],
+    "display_size": [
+      60,
+      22
+    ]
+  },
+  {
+    "id": "G45",
+    "path": "D:\\Games\\into-de-dung\\docs\\art\\bones-ribs-skull-twenty-20261124\\imagegen\\G45.png",
+    "region": [
+      303,
+      322,
+      1028,
+      369
+    ],
+    "display_size": [
+      60,
+      22
+    ]
+  },
+  {
+    "id": "G46",
+    "path": "D:\\Games\\into-de-dung\\docs\\art\\bones-ribs-skull-twenty-20261124\\imagegen\\G46-final.png",
+    "region": [
+      201,
+      268,
+      1276,
+      465
+    ],
+    "display_size": [
+      60,
+      22
+    ]
+  },
+  {
+    "id": "G47",
+    "path": "D:\\Games\\into-de-dung\\docs\\art\\bones-ribs-skull-twenty-20261124\\imagegen\\G47.png",
+    "region": [
+      220,
+      327,
+      1248,
+      396
+    ],
+    "display_size": [
+      60,
+      19
+    ]
+  },
+  {
+    "id": "G48",
+    "path": "D:\\Games\\into-de-dung\\docs\\art\\bones-ribs-skull-twenty-20261124\\imagegen\\G48.png",
+    "region": [
+      428,
+      254,
+      816,
+      428
+    ],
+    "display_size": [
+      60,
+      31
+    ]
+  },
+  {
+    "id": "G49",
+    "path": "D:\\Games\\into-de-dung\\docs\\art\\bones-ribs-skull-twenty-20261124\\imagegen\\G49.png",
+    "region": [
+      260,
+      274,
+      1160,
+      427
+    ],
+    "display_size": [
+      60,
+      22
+    ]
+  },
+  {
+    "id": "G50",
+    "path": "D:\\Games\\into-de-dung\\docs\\art\\bones-ribs-skull-twenty-20261124\\imagegen\\G50.png",
+    "region": [
+      261,
+      306,
+      1147,
+      388
+    ],
+    "display_size": [
+      60,
+      20
+    ]
+  },
+  {
+    "id": "PL49",
+    "path": "D:\\Games\\into-de-dung\\docs\\art\\bones-ribs-skull-twenty-20261124\\pixellab\\ribs-skull\\image.png",
+    "region": null,
+    "display_size": [
+      64,
+      64
+    ]
+  },
+  {
+    "id": "PL50",
+    "path": "D:\\Games\\into-de-dung\\docs\\art\\bones-ribs-skull-twenty-20261124\\pixellab\\ribs-skull\\image-1.png",
+    "region": null,
+    "display_size": [
+      64,
+      64
+    ]
+  },
+  {
+    "id": "PL51",
+    "path": "D:\\Games\\into-de-dung\\docs\\art\\bones-ribs-skull-twenty-20261124\\pixellab\\ribs-skull\\image-2.png",
+    "region": null,
+    "display_size": [
+      64,
+      64
+    ]
+  },
+  {
+    "id": "PL52",
+    "path": "D:\\Games\\into-de-dung\\docs\\art\\bones-ribs-skull-twenty-20261124\\pixellab\\ribs-skull\\image-3.png",
+    "region": null,
+    "display_size": [
+      64,
+      64
+    ]
+  },
+  {
+    "id": "PL53",
+    "path": "D:\\Games\\into-de-dung\\docs\\art\\bones-ribs-skull-twenty-20261124\\pixellab\\ribs-skull\\image-5.png",
+    "region": null,
+    "display_size": [
+      64,
+      64
+    ]
+  },
+  {
+    "id": "PL54",
+    "path": "D:\\Games\\into-de-dung\\docs\\art\\bones-ribs-skull-twenty-20261124\\pixellab\\ribs-skull\\image-7.png",
+    "region": null,
+    "display_size": [
+      64,
+      64
+    ]
+  },
+  {
+    "id": "PL55",
+    "path": "D:\\Games\\into-de-dung\\docs\\art\\bones-ribs-skull-twenty-20261124\\pixellab\\ribs-skull\\image-9.png",
+    "region": null,
+    "display_size": [
+      64,
+      64
+    ]
+  },
+  {
+    "id": "PL56",
+    "path": "D:\\Games\\into-de-dung\\docs\\art\\bones-ribs-skull-twenty-20261124\\pixellab\\ribs-skull\\image-10.png",
+    "region": null,
+    "display_size": [
+      64,
+      64
+    ]
+  },
+  {
+    "id": "PL57",
+    "path": "D:\\Games\\into-de-dung\\docs\\art\\bones-ribs-skull-twenty-20261124\\pixellab\\ribs-skull\\image-12.png",
+    "region": null,
+    "display_size": [
+      64,
+      64
+    ]
+  },
+  {
+    "id": "PL58",
+    "path": "D:\\Games\\into-de-dung\\docs\\art\\bones-ribs-skull-twenty-20261124\\pixellab\\ribs-skull\\image-14.png",
+    "region": null,
+    "display_size": [
+      64,
+      64
+    ]
+  }
+]

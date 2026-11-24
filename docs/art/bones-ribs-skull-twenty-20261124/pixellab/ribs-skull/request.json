@@ -1,0 +1,32 @@
+{
+  "endpoint": "/generate-image-v2",
+  "payload": {
+    "description": "One low compact universal dry bone heap; 10-14 different SMALL fragments; 2-3 short thin curved BROKEN RIB pieces in a loose partial fan, plus one small BROKEN CRANIUM DOME fragment partly buried under bones near back edge, only a 5-7 pixel chipped curved rim visible, subtle, not central focus; rest short unequal tubes, joint chips, flat flakes; anonymous species, skull fragment secondary, no frontal face, no paired empty eyeholes, no head/teeth/jaw/whole cage/no human or creature identifier. Low 44x24 footprint centered in 64x64 with generous margins, shallow overhead three-quarter, flat pixel clusters, dirty ivory/taupe/purple-gray, upper-left light; no floor/pedestal/grass/halo/meat/blood. Different arrangements each candidate, fragment length 3-9px, all lying flat.",
+    "image_size": {
+      "width": 64,
+      "height": 64
+    },
+    "seed": 202611949,
+    "no_background": true,
+    "style_options": {
+      "color_palette": false,
+      "outline": false,
+      "detail": false,
+      "shading": false
+    },
+    "target_palette": {
+      "colors": [
+        "#e0d6be",
+        "#c6bba7",
+        "#aa9f90",
+        "#8c8179",
+        "#71676b",
+        "#564c59",
+        "#3e3544",
+        "#28232e"
+      ],
+      "max_colors": 8,
+      "name": "muted ivory bone fragments"
+    }
+  }
+}

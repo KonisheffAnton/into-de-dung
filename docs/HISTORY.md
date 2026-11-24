@@ -1,5 +1,18 @@
 # История и свидетельства проверок
 
+## Двадцать кучек с рёбрами и слабым черепом — 2026-11-24
+
+По U подготовлены [G41–G50/PL49–PL58](art/bones-ribs-skull-twenty-20261124/README.md),
+листы и примерка всех20 на настоящем поле.12 Imagegen вызовов,1PLjob/10generations.
+Череп без лица, заметность различается; частьPL ярче задания, часть темновата.
+20 RGBA/уникальность/alpha/источники/protected33 PASS. GPU camera100%, PLnative64,
+G уменьшены при показе;20 safe cells, state/RNG unchanged,10353/10353 PLpixels.
+Isolated runtime сверен с base f7c2f79a с явным CRLF/main_menu исключением;
+чужие live core-правки не копировались. Parse/GPU и независимый review PASS.
+Fresh import/full/core/F5/Editor/DPI/performance не запускались.
+Выбор/приёмка U открыты, lifecycle и runtime этой задачей не менялись.
+[Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261124-2.md).
+
 ## Атрибутика данжей в кнопках хаба — 2026-11-24
 
 По U подготовлены [5 Imagegen +5 PixelLab](art/hub-buttons-dungeon-five-pairs-20261123/README.md):

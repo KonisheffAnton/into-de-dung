@@ -1,0 +1,412 @@
+{
+  "result": "PASS",
+  "selected_count": 20,
+  "unique_files": 20,
+  "imagegen_original_copies_byte_exact": true,
+  "protected_files_unchanged": true,
+  "production_runtime_changed_by_this_task": false,
+  "godot_evidence": "runtime-check.json and capture-all.json",
+  "art_acceptance": "pending user choice",
+  "assets": [
+    {
+      "id": "G41",
+      "source": "imagegen/G41.png",
+      "size": [
+        1688,
+        932
+      ],
+      "sha256": "bf2b6f2acf17befad114410e9fc890fe2fed03f3bdeb2441f35443983dbbfcd0",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_128_bbox": [
+        308,
+        334,
+        1359,
+        743
+      ],
+      "visible_rgba_colors": 25322
+    },
+    {
+      "id": "G42",
+      "source": "imagegen/G42.png",
+      "size": [
+        1672,
+        941
+      ],
+      "sha256": "8ca1d9a0db9e4d333d3bdaa37d88512eee2a0986eebef14d6cebb5758b0709aa",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_128_bbox": [
+        372,
+        329,
+        1287,
+        702
+      ],
+      "visible_rgba_colors": 22370
+    },
+    {
+      "id": "G43",
+      "source": "imagegen/G43.png",
+      "size": [
+        1774,
+        887
+      ],
+      "sha256": "15679791c3bec6873eb01ae882367d35d5aa527082c7d177be7d0fe669573659",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_128_bbox": [
+        297,
+        256,
+        1485,
+        743
+      ],
+      "visible_rgba_colors": 31348
+    },
+    {
+      "id": "G44",
+      "source": "imagegen/G44.png",
+      "size": [
+        1695,
+        928
+      ],
+      "sha256": "3c357dc63be1a727b2db98914531ea0584559baf7178834b62c6d680494cc002",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_128_bbox": [
+        256,
+        347,
+        1447,
+        793
+      ],
+      "visible_rgba_colors": 25567
+    },
+    {
+      "id": "G45",
+      "source": "imagegen/G45.png",
+      "size": [
+        1698,
+        926
+      ],
+      "sha256": "2fad1d495f75de93edc050c1de9ad51e9b296beccad7eec43a523c849b59ca5f",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_128_bbox": [
+        303,
+        322,
+        1331,
+        691
+      ],
+      "visible_rgba_colors": 27099
+    },
+    {
+      "id": "G46",
+      "source": "imagegen/G46-final.png",
+      "size": [
+        1695,
+        928
+      ],
+      "sha256": "79367014bb97f711aca07b24c61b3f023b13ad942ce3a23628623f3da9a191ba",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_128_bbox": [
+        201,
+        268,
+        1477,
+        733
+      ],
+      "visible_rgba_colors": 21201
+    },
+    {
+      "id": "G47",
+      "source": "imagegen/G47.png",
+      "size": [
+        1688,
+        932
+      ],
+      "sha256": "e6d17d6f1f8f8032f93edda3650e65405335cc4a0ca50b627e2e04c753aebe39",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_128_bbox": [
+        220,
+        327,
+        1468,
+        723
+      ],
+      "visible_rgba_colors": 32190
+    },
+    {
+      "id": "G48",
+      "source": "imagegen/G48.png",
+      "size": [
+        1701,
+        924
+      ],
+      "sha256": "7b3c2c85344a0e6358f0cc705901f62a6d604b36702fa9a5676f9b914663a0e1",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_128_bbox": [
+        428,
+        254,
+        1244,
+        682
+      ],
+      "visible_rgba_colors": 29499
+    },
+    {
+      "id": "G49",
+      "source": "imagegen/G49.png",
+      "size": [
+        1695,
+        928
+      ],
+      "sha256": "d7cf306608287c03749987b08076790f2339f9de726ac613c5f2238861dab409",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_128_bbox": [
+        260,
+        274,
+        1420,
+        701
+      ],
+      "visible_rgba_colors": 25910
+    },
+    {
+      "id": "G50",
+      "source": "imagegen/G50.png",
+      "size": [
+        1695,
+        928
+      ],
+      "sha256": "2f3521f35ea75ce74861d9e5de82865da0453a81be945f58b9feebb75ec9c2d9",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_128_bbox": [
+        261,
+        306,
+        1408,
+        694
+      ],
+      "visible_rgba_colors": 27616
+    },
+    {
+      "id": "PL49",
+      "source": "pixellab/ribs-skull/image.png",
+      "size": [
+        64,
+        64
+      ],
+      "sha256": "fa75706f445dfd345320060f7b8cbf85cf5fcace3f4c0ec194bd896eba47d9c4",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_128_bbox": [
+        4,
+        15,
+        59,
+        46
+      ],
+      "visible_rgba_colors": 5
+    },
+    {
+      "id": "PL50",
+      "source": "pixellab/ribs-skull/image-1.png",
+      "size": [
+        64,
+        64
+      ],
+      "sha256": "0a7f70759f4a6d4b878a4ef1339fc7ff0c53bc42f537d50b3066b6c85edb2e55",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_128_bbox": [
+        4,
+        15,
+        60,
+        47
+      ],
+      "visible_rgba_colors": 6
+    },
+    {
+      "id": "PL51",
+      "source": "pixellab/ribs-skull/image-2.png",
+      "size": [
+        64,
+        64
+      ],
+      "sha256": "deec26e4637a6752764730210d741f97346784271e334cdcda87de7575e39425",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_128_bbox": [
+        5,
+        15,
+        60,
+        49
+      ],
+      "visible_rgba_colors": 6
+    },
+    {
+      "id": "PL52",
+      "source": "pixellab/ribs-skull/image-3.png",
+      "size": [
+        64,
+        64
+      ],
+      "sha256": "444710748ebb9ad69ff8ed556b3bad1437589011b97836e692d0ba00443ce4a6",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_128_bbox": [
+        4,
+        14,
+        60,
+        49
+      ],
+      "visible_rgba_colors": 6
+    },
+    {
+      "id": "PL53",
+      "source": "pixellab/ribs-skull/image-5.png",
+      "size": [
+        64,
+        64
+      ],
+      "sha256": "361df400c145e580a6c6102d46b77e0a4788c9b6d72b83df4a661c0549274905",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_128_bbox": [
+        6,
+        15,
+        60,
+        49
+      ],
+      "visible_rgba_colors": 7
+    },
+    {
+      "id": "PL54",
+      "source": "pixellab/ribs-skull/image-7.png",
+      "size": [
+        64,
+        64
+      ],
+      "sha256": "330b4fe6f923e9a528207407df5665dd8f39f7b31018b2e45b4827a18268013e",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_128_bbox": [
+        3,
+        17,
+        61,
+        48
+      ],
+      "visible_rgba_colors": 5
+    },
+    {
+      "id": "PL55",
+      "source": "pixellab/ribs-skull/image-9.png",
+      "size": [
+        64,
+        64
+      ],
+      "sha256": "0e4b5d474760d974c883db27446fb29b86c3969fd74fd4e012e6a26bfc4cec4d",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_128_bbox": [
+        5,
+        13,
+        61,
+        49
+      ],
+      "visible_rgba_colors": 6
+    },
+    {
+      "id": "PL56",
+      "source": "pixellab/ribs-skull/image-10.png",
+      "size": [
+        64,
+        64
+      ],
+      "sha256": "f8de28bc51cae120d3649ade637123d38b9d2640b74d941030fa13df4368a0b6",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_128_bbox": [
+        4,
+        13,
+        60,
+        49
+      ],
+      "visible_rgba_colors": 6
+    },
+    {
+      "id": "PL57",
+      "source": "pixellab/ribs-skull/image-12.png",
+      "size": [
+        64,
+        64
+      ],
+      "sha256": "9633fc441e1442360bdc3cc0a7e629551b80ec2d1812f381d84f4076200f97b7",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_128_bbox": [
+        4,
+        16,
+        60,
+        49
+      ],
+      "visible_rgba_colors": 6
+    },
+    {
+      "id": "PL58",
+      "source": "pixellab/ribs-skull/image-14.png",
+      "size": [
+        64,
+        64
+      ],
+      "sha256": "d31be3d59c894283197cb8b8c3a992dfddda812d791bb30e5790dac68c4c118a",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_128_bbox": [
+        4,
+        15,
+        61,
+        50
+      ],
+      "visible_rgba_colors": 6
+    }
+  ]
+}

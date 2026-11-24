@@ -1,0 +1,132 @@
+[
+  {
+    "id": "PL49",
+    "source": "pixellab/ribs-skull/image.png",
+    "source_size": [
+      64,
+      64
+    ],
+    "crop_alpha_128": null,
+    "shown_size_before_4x": [
+      64,
+      64
+    ]
+  },
+  {
+    "id": "PL50",
+    "source": "pixellab/ribs-skull/image-1.png",
+    "source_size": [
+      64,
+      64
+    ],
+    "crop_alpha_128": null,
+    "shown_size_before_4x": [
+      64,
+      64
+    ]
+  },
+  {
+    "id": "PL51",
+    "source": "pixellab/ribs-skull/image-2.png",
+    "source_size": [
+      64,
+      64
+    ],
+    "crop_alpha_128": null,
+    "shown_size_before_4x": [
+      64,
+      64
+    ]
+  },
+  {
+    "id": "PL52",
+    "source": "pixellab/ribs-skull/image-3.png",
+    "source_size": [
+      64,
+      64
+    ],
+    "crop_alpha_128": null,
+    "shown_size_before_4x": [
+      64,
+      64
+    ]
+  },
+  {
+    "id": "PL53",
+    "source": "pixellab/ribs-skull/image-5.png",
+    "source_size": [
+      64,
+      64
+    ],
+    "crop_alpha_128": null,
+    "shown_size_before_4x": [
+      64,
+      64
+    ]
+  },
+  {
+    "id": "PL54",
+    "source": "pixellab/ribs-skull/image-7.png",
+    "source_size": [
+      64,
+      64
+    ],
+    "crop_alpha_128": null,
+    "shown_size_before_4x": [
+      64,
+      64
+    ]
+  },
+  {
+    "id": "PL55",
+    "source": "pixellab/ribs-skull/image-9.png",
+    "source_size": [
+      64,
+      64
+    ],
+    "crop_alpha_128": null,
+    "shown_size_before_4x": [
+      64,
+      64
+    ]
+  },
+  {
+    "id": "PL56",
+    "source": "pixellab/ribs-skull/image-10.png",
+    "source_size": [
+      64,
+      64
+    ],
+    "crop_alpha_128": null,
+    "shown_size_before_4x": [
+      64,
+      64
+    ]
+  },
+  {
+    "id": "PL57",
+    "source": "pixellab/ribs-skull/image-12.png",
+    "source_size": [
+      64,
+      64
+    ],
+    "crop_alpha_128": null,
+    "shown_size_before_4x": [
+      64,
+      64
+    ]
+  },
+  {
+    "id": "PL58",
+    "source": "pixellab/ribs-skull/image-14.png",
+    "source_size": [
+      64,
+      64
+    ],
+    "crop_alpha_128": null,
+    "shown_size_before_4x": [
+      64,
+      64
+    ]
+  }
+]

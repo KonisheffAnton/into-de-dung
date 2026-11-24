@@ -1,0 +1,347 @@
+{
+  "provider": "PixelLab.ai",
+  "endpoint": "/generate-image-v2",
+  "job_name": "ribs-skull",
+  "job_id": "043eac14-9c38-4e35-9373-30375968473f",
+  "seed": 202611949,
+  "status": "completed",
+  "usage": {
+    "type": "generations",
+    "generations": 10.0
+  },
+  "request_path": "docs/art/bones-ribs-skull-twenty-20261124/pixellab/ribs-skull/request.json",
+  "response_path": "docs/art/bones-ribs-skull-twenty-20261124/pixellab/ribs-skull/response.json",
+  "status_path": "docs/art/bones-ribs-skull-twenty-20261124/pixellab/ribs-skull/status.json",
+  "reference_image_sent": false,
+  "returned_png_count": 16,
+  "contact_sheet": "docs/art/bones-ribs-skull-twenty-20261124/pixellab/ribs-skull/contact-sheet.png",
+  "payload_contract": {
+    "image_size": {
+      "width": 64,
+      "height": 64
+    },
+    "no_background": true,
+    "style_options": {
+      "color_palette": false,
+      "outline": false,
+      "detail": false,
+      "shading": false
+    },
+    "target_palette": {
+      "colors": [
+        "#e0d6be",
+        "#c6bba7",
+        "#aa9f90",
+        "#8c8179",
+        "#71676b",
+        "#564c59",
+        "#3e3544",
+        "#28232e"
+      ],
+      "max_colors": 8,
+      "name": "muted ivory bone fragments"
+    }
+  },
+  "checks": {
+    "all_64x64_rgba": true,
+    "all_sha256_unique": true,
+    "all_nonempty_alpha": true,
+    "alpha_margins": true
+  },
+  "candidates": [
+    {
+      "path": "docs/art/bones-ribs-skull-twenty-20261124/pixellab/ribs-skull/image.png",
+      "sha256": "fa75706f445dfd345320060f7b8cbf85cf5fcace3f4c0ec194bd896eba47d9c4",
+      "size": [
+        64,
+        64
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        4,
+        15,
+        59,
+        46
+      ],
+      "opaque_pixels": 999,
+      "unique_rgba": 6,
+      "alpha_levels": 2
+    },
+    {
+      "path": "docs/art/bones-ribs-skull-twenty-20261124/pixellab/ribs-skull/image-1.png",
+      "sha256": "0a7f70759f4a6d4b878a4ef1339fc7ff0c53bc42f537d50b3066b6c85edb2e55",
+      "size": [
+        64,
+        64
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        4,
+        15,
+        60,
+        47
+      ],
+      "opaque_pixels": 1017,
+      "unique_rgba": 7,
+      "alpha_levels": 2
+    },
+    {
+      "path": "docs/art/bones-ribs-skull-twenty-20261124/pixellab/ribs-skull/image-2.png",
+      "sha256": "deec26e4637a6752764730210d741f97346784271e334cdcda87de7575e39425",
+      "size": [
+        64,
+        64
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        5,
+        15,
+        60,
+        49
+      ],
+      "opaque_pixels": 1041,
+      "unique_rgba": 7,
+      "alpha_levels": 2
+    },
+    {
+      "path": "docs/art/bones-ribs-skull-twenty-20261124/pixellab/ribs-skull/image-3.png",
+      "sha256": "444710748ebb9ad69ff8ed556b3bad1437589011b97836e692d0ba00443ce4a6",
+      "size": [
+        64,
+        64
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        4,
+        14,
+        60,
+        49
+      ],
+      "opaque_pixels": 1076,
+      "unique_rgba": 7,
+      "alpha_levels": 2
+    },
+    {
+      "path": "docs/art/bones-ribs-skull-twenty-20261124/pixellab/ribs-skull/image-4.png",
+      "sha256": "6ba15c9a3d137f2015c77bddec35c2eb82d672500179590538436d38251e6542",
+      "size": [
+        64,
+        64
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        7,
+        12,
+        60,
+        47
+      ],
+      "opaque_pixels": 1055,
+      "unique_rgba": 7,
+      "alpha_levels": 2
+    },
+    {
+      "path": "docs/art/bones-ribs-skull-twenty-20261124/pixellab/ribs-skull/image-5.png",
+      "sha256": "361df400c145e580a6c6102d46b77e0a4788c9b6d72b83df4a661c0549274905",
+      "size": [
+        64,
+        64
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        6,
+        15,
+        60,
+        49
+      ],
+      "opaque_pixels": 1076,
+      "unique_rgba": 8,
+      "alpha_levels": 2
+    },
+    {
+      "path": "docs/art/bones-ribs-skull-twenty-20261124/pixellab/ribs-skull/image-6.png",
+      "sha256": "a458dde631ad0bc088e22acd5a18864b70f902d70f182951c5d8e251fad006a1",
+      "size": [
+        64,
+        64
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        5,
+        12,
+        61,
+        49
+      ],
+      "opaque_pixels": 1109,
+      "unique_rgba": 7,
+      "alpha_levels": 2
+    },
+    {
+      "path": "docs/art/bones-ribs-skull-twenty-20261124/pixellab/ribs-skull/image-7.png",
+      "sha256": "330b4fe6f923e9a528207407df5665dd8f39f7b31018b2e45b4827a18268013e",
+      "size": [
+        64,
+        64
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        3,
+        17,
+        61,
+        48
+      ],
+      "opaque_pixels": 986,
+      "unique_rgba": 6,
+      "alpha_levels": 2
+    },
+    {
+      "path": "docs/art/bones-ribs-skull-twenty-20261124/pixellab/ribs-skull/image-8.png",
+      "sha256": "826372a506602852e64fe00a4c28a4f339a161be953a1738b625e1ab402aa12c",
+      "size": [
+        64,
+        64
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        3,
+        14,
+        61,
+        49
+      ],
+      "opaque_pixels": 1080,
+      "unique_rgba": 7,
+      "alpha_levels": 2
+    },
+    {
+      "path": "docs/art/bones-ribs-skull-twenty-20261124/pixellab/ribs-skull/image-9.png",
+      "sha256": "0e4b5d474760d974c883db27446fb29b86c3969fd74fd4e012e6a26bfc4cec4d",
+      "size": [
+        64,
+        64
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        5,
+        13,
+        61,
+        49
+      ],
+      "opaque_pixels": 1033,
+      "unique_rgba": 7,
+      "alpha_levels": 2
+    },
+    {
+      "path": "docs/art/bones-ribs-skull-twenty-20261124/pixellab/ribs-skull/image-10.png",
+      "sha256": "f8de28bc51cae120d3649ade637123d38b9d2640b74d941030fa13df4368a0b6",
+      "size": [
+        64,
+        64
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        4,
+        13,
+        60,
+        49
+      ],
+      "opaque_pixels": 1056,
+      "unique_rgba": 7,
+      "alpha_levels": 2
+    },
+    {
+      "path": "docs/art/bones-ribs-skull-twenty-20261124/pixellab/ribs-skull/image-11.png",
+      "sha256": "cb536b30277c376ecb802264114b2db2cd22eea028db4a7c1a36fa521f5da9bd",
+      "size": [
+        64,
+        64
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        4,
+        13,
+        61,
+        49
+      ],
+      "opaque_pixels": 1081,
+      "unique_rgba": 7,
+      "alpha_levels": 2
+    },
+    {
+      "path": "docs/art/bones-ribs-skull-twenty-20261124/pixellab/ribs-skull/image-12.png",
+      "sha256": "9633fc441e1442360bdc3cc0a7e629551b80ec2d1812f381d84f4076200f97b7",
+      "size": [
+        64,
+        64
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        4,
+        16,
+        60,
+        49
+      ],
+      "opaque_pixels": 997,
+      "unique_rgba": 7,
+      "alpha_levels": 2
+    },
+    {
+      "path": "docs/art/bones-ribs-skull-twenty-20261124/pixellab/ribs-skull/image-13.png",
+      "sha256": "3e86daa1cde66cf507cb7814ca167d284455619291e00500f153a6982be54cbb",
+      "size": [
+        64,
+        64
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        4,
+        13,
+        60,
+        50
+      ],
+      "opaque_pixels": 1062,
+      "unique_rgba": 6,
+      "alpha_levels": 2
+    },
+    {
+      "path": "docs/art/bones-ribs-skull-twenty-20261124/pixellab/ribs-skull/image-14.png",
+      "sha256": "d31be3d59c894283197cb8b8c3a992dfddda812d791bb30e5790dac68c4c118a",
+      "size": [
+        64,
+        64
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        4,
+        15,
+        61,
+        50
+      ],
+      "opaque_pixels": 1072,
+      "unique_rgba": 7,
+      "alpha_levels": 2
+    },
+    {
+      "path": "docs/art/bones-ribs-skull-twenty-20261124/pixellab/ribs-skull/image-15.png",
+      "sha256": "48f9f5791d4c1bc77658b1f889bfff201b028f0eb16b753acc586dd509ad1f65",
+      "size": [
+        64,
+        64
+      ],
+      "mode": "RGBA",
+      "alpha_bbox": [
+        3,
+        15,
+        61,
+        50
+      ],
+      "opaque_pixels": 1035,
+      "unique_rgba": 7,
+      "alpha_levels": 2
+    }
+  ],
+  "selection": "Not selected here; lead will review and map ten final candidates.",
+  "visual_review": "Contact sheet inspection: most candidates show a pale chipped dome/rim at the rear with curved rib-like fragments; no obvious frontal face or paired eyeholes. Layouts are similar across several candidates. Alpha bounds span about 53-58x31-38 pixels, larger than the requested 44x24 footprint. Candidate selection is left to the lead.",
+  "limitations": [
+    "Visual similarity across several outputs; lead should select ten distinct layouts.",
+    "Heap alpha bounds exceed requested footprint."
+  ]
+}
