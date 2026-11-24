@@ -1,0 +1,77 @@
+{
+  "provider": "OpenAI imagegen",
+  "base_commit": "e28135645f3992bd8b2adc7fc1670bdec3f8dd44",
+  "reference": "docs/art/hub-buttons-wood-five-pairs-20261123/imagegen/W03-carved-walnut.png",
+  "variants": [
+    {
+      "id": "D01",
+      "slug": "dungeon-gates",
+      "name": "Врата и ключи",
+      "prompt": "Use case: ui-mockup. Create ONE fully illustrated 16:9 intoDeDung hub screen. Reference gives layout and scene, NOT the new frame design. Redesign the UI with immediately recognizable DUNGEON ATTRIBUTES built into BUTTON SHAPES, PANEL FRAMES and selection markers. Make these details conspicuous at menu scale, not tiny background props. Keep MATTE WOOD covering most of every button face, diffuse dry shading, restrained grain; no lacquer, glossy bevels, gold trim, jewels or bloom. Use dull iron/stone accents and muted brick red selection; no yellow/gold selected-card border. Clear cream lettering, dark ink on parchment. Preserve four top tabs, resource line, three squad cards left, fortress courtyard with three heroes center, preparation panel right, main action bottom-right. Retain the reference sunset courtyard. Large readable labels, uncluttered interiors, small functional icons. Info rows are flat text, not raised buttons. Exact labels: 'Поход', 'Наёмники', 'Кузнец', 'Колода'; 'Золото 100', 'Эссенция 0'; 'Отряд', 'Воин', 'Щитоносец', 'Лучница', 'Дополнительно'; 'Подготовка', '7 комнат', 'Отряд: 3', 'Колода: 10 карт', 'Готово', 'В путь'. No extra cards/tabs, no collage, no outside captions, no watermark. VARIANT: DUNGEON GATES: tabs are squat oak dungeon-door slabs with prominent black iron strap hinges and small ring pulls at their ends. Side panels are framed by chunky door jambs with short chain attachments. A conspicuous iron keyhole plate marks selected tab, without replacing its label/icon. Main CTA is a shut wooden gate inset in a low squared stone portal, a large antique key beside 'В путь'. Dry dark oak, dull charcoal iron, brick-red paint. No chains crossing text.",
+      "reference": "docs/art/hub-buttons-wood-five-pairs-20261123/imagegen/W03-carved-walnut.png",
+      "source": "D:\\Codex\\home\\generated_images\\01a20706-1f80-7ce2-90d7-0fe6642ee458\\exec-db8cffcd-84dc-42ec-ba04-20f7dbbab6a6.png",
+      "file": "imagegen/D01-dungeon-gates.png",
+      "size": [
+        1672,
+        941
+      ],
+      "sha256": "0a26164832ee28e68651869e5fae198355ac43ea57cd82f44037dd6e2c3210db"
+    },
+    {
+      "id": "D02",
+      "slug": "vaults-torches",
+      "name": "Своды и факелы",
+      "prompt": "Use case: ui-mockup. Create ONE fully illustrated 16:9 intoDeDung hub screen. Reference gives layout and scene, NOT the new frame design. Redesign the UI with immediately recognizable DUNGEON ATTRIBUTES built into BUTTON SHAPES, PANEL FRAMES and selection markers. Make these details conspicuous at menu scale, not tiny background props. Keep MATTE WOOD covering most of every button face, diffuse dry shading, restrained grain; no lacquer, glossy bevels, gold trim, jewels or bloom. Use dull iron/stone accents and muted brick red selection; no yellow/gold selected-card border. Clear cream lettering, dark ink on parchment. Preserve four top tabs, resource line, three squad cards left, fortress courtyard with three heroes center, preparation panel right, main action bottom-right. Retain the reference sunset courtyard. Large readable labels, uncluttered interiors, small functional icons. Info rows are flat text, not raised buttons. Exact labels: 'Поход', 'Наёмники', 'Кузнец', 'Колода'; 'Золото 100', 'Эссенция 0'; 'Отряд', 'Воин', 'Щитоносец', 'Лучница', 'Дополнительно'; 'Подготовка', '7 комнат', 'Отряд: 3', 'Колода: 10 карт', 'Готово', 'В путь'. No extra cards/tabs, no collage, no outside captions, no watermark. VARIANT: VAULTS AND TORCHES: wood-faced tabs nest inside shallow segmental stone arches, visibly separated rough gray masonry blocks and one keystone. Both side panels are dungeon alcoves with stone pillars and a pair of small iron torch sconces fixed to their outer jambs. Main CTA is a wood plaque across a descending-stair doorway motif. Tiny amber flames only, no surrounding bloom. Cool chalky gray stone, warm dry walnut, muted red active marker. Arches must dominate frame silhouettes.",
+      "reference": "docs/art/hub-buttons-wood-five-pairs-20261123/imagegen/W03-carved-walnut.png",
+      "source": "D:\\Codex\\home\\generated_images\\01a20706-1f80-7ce2-90d7-0fe6642ee458\\exec-5380a6cc-5f1c-4164-b737-d6f6eb4a80bd.png",
+      "file": "imagegen/D02-vaults-torches.png",
+      "size": [
+        1672,
+        941
+      ],
+      "sha256": "fb54bf8229f6aa65961e764d58c25042c16d0df53ac34b5147bccc979fd7d3de"
+    },
+    {
+      "id": "D03",
+      "slug": "delver-kit",
+      "name": "Снаряжение искателя",
+      "prompt": "Use case: ui-mockup. Create ONE fully illustrated 16:9 intoDeDung hub screen. Reference gives layout and scene, NOT the new frame design. Redesign the UI with immediately recognizable DUNGEON ATTRIBUTES built into BUTTON SHAPES, PANEL FRAMES and selection markers. Make these details conspicuous at menu scale, not tiny background props. Keep MATTE WOOD covering most of every button face, diffuse dry shading, restrained grain; no lacquer, glossy bevels, gold trim, jewels or bloom. Use dull iron/stone accents and muted brick red selection; no yellow/gold selected-card border. Clear cream lettering, dark ink on parchment. Preserve four top tabs, resource line, three squad cards left, fortress courtyard with three heroes center, preparation panel right, main action bottom-right. Retain the reference sunset courtyard. Large readable labels, uncluttered interiors, small functional icons. Info rows are flat text, not raised buttons. Exact labels: 'Поход', 'Наёмники', 'Кузнец', 'Колода'; 'Золото 100', 'Эссенция 0'; 'Отряд', 'Воин', 'Щитоносец', 'Лучница', 'Дополнительно'; 'Подготовка', '7 комнат', 'Отряд: 3', 'Колода: 10 карт', 'Готово', 'В путь'. No extra cards/tabs, no collage, no outside captions, no watermark. VARIANT: DELVER'S KIT: weathered timber tabs tied with thick hemp rope loops and leather end straps; a chunky iron key and folded dungeon-map corner hang from selected tab. Panel corners use pickaxe-shaped iron brackets, with visible coiled rope and hooded exploration lantern attached outside the text areas. Main CTA has a clear descending staircase/map-route emblem carved into its wooden face. Dry gray-brown oak, faded parchment, ochre rope, restrained brick paint. Expedition tools, no ornate luxury.",
+      "reference": "docs/art/hub-buttons-wood-five-pairs-20261123/imagegen/W03-carved-walnut.png",
+      "source": "D:\\Codex\\home\\generated_images\\01a20706-1f80-7ce2-90d7-0fe6642ee458\\exec-1c834fa4-9c74-4047-9789-e84f6af18941.png",
+      "file": "imagegen/D03-delver-kit.png",
+      "size": [
+        1672,
+        941
+      ],
+      "sha256": "f89bb8704db4a88f1bb126312143f107c3747f77947010ae8978beb312e86b44"
+    },
+    {
+      "id": "D04",
+      "slug": "trap-machinery",
+      "name": "Ловушки и механизмы",
+      "prompt": "Use case: ui-mockup. Create ONE fully illustrated 16:9 intoDeDung hub screen. Reference gives layout and scene, NOT the new frame design. Redesign the UI with immediately recognizable DUNGEON ATTRIBUTES built into BUTTON SHAPES, PANEL FRAMES and selection markers. Make these details conspicuous at menu scale, not tiny background props. Keep MATTE WOOD covering most of every button face, diffuse dry shading, restrained grain; no lacquer, glossy bevels, gold trim, jewels or bloom. Use dull iron/stone accents and muted brick red selection; no yellow/gold selected-card border. Clear cream lettering, dark ink on parchment. Preserve four top tabs, resource line, three squad cards left, fortress courtyard with three heroes center, preparation panel right, main action bottom-right. Retain the reference sunset courtyard. Large readable labels, uncluttered interiors, small functional icons. Info rows are flat text, not raised buttons. Exact labels: 'Поход', 'Наёмники', 'Кузнец', 'Колода'; 'Золото 100', 'Эссенция 0'; 'Отряд', 'Воин', 'Щитоносец', 'Лучница', 'Дополнительно'; 'Подготовка', '7 комнат', 'Отряд: 3', 'Колода: 10 карт', 'Готово', 'В путь'. No extra cards/tabs, no collage, no outside captions, no watermark. VARIANT: TRAP MACHINERY: each wood-faced tab is a dungeon pressure plate sliding inside blunt dark iron guide rails. Large simple cog corners, chain pulleys and exposed locking pins make panel frames read as trap mechanisms. Short retracted stone teeth only outside panel boundaries, never over labels/cards. Main CTA is a chunky wooden lever-plate with an obvious portcullis gear symbol beside the label. Square industrial silhouettes, dusty oak, charcoal metal, rust-red selection, dry surfaces, no steampunk shine.",
+      "reference": "docs/art/hub-buttons-wood-five-pairs-20261123/imagegen/W03-carved-walnut.png",
+      "source": "D:\\Codex\\home\\generated_images\\01a20706-1f80-7ce2-90d7-0fe6642ee458\\exec-6b0981ef-87b5-438f-b05e-6fc094ecf268.png",
+      "file": "imagegen/D04-trap-machinery.png",
+      "size": [
+        1672,
+        941
+      ],
+      "sha256": "e6037d8e75ddeacb18c6e5a7c5c1f16e9937785ad694f237429d2f2adf8161ba"
+    },
+    {
+      "id": "D05",
+      "slug": "ancient-crypt",
+      "name": "Древний склеп",
+      "prompt": "Use case: ui-mockup. Create ONE fully illustrated 16:9 intoDeDung hub screen. Reference gives layout and scene, NOT the new frame design. Redesign the UI with immediately recognizable DUNGEON ATTRIBUTES built into BUTTON SHAPES, PANEL FRAMES and selection markers. Make these details conspicuous at menu scale, not tiny background props. Keep MATTE WOOD covering most of every button face, diffuse dry shading, restrained grain; no lacquer, glossy bevels, gold trim, jewels or bloom. Use dull iron/stone accents and muted brick red selection; no yellow/gold selected-card border. Clear cream lettering, dark ink on parchment. Preserve four top tabs, resource line, three squad cards left, fortress courtyard with three heroes center, preparation panel right, main action bottom-right. Retain the reference sunset courtyard. Large readable labels, uncluttered interiors, small functional icons. Info rows are flat text, not raised buttons. Exact labels: 'Поход', 'Наёмники', 'Кузнец', 'Колода'; 'Золото 100', 'Эссенция 0'; 'Отряд', 'Воин', 'Щитоносец', 'Лучница', 'Дополнительно'; 'Подготовка', '7 комнат', 'Отряд: 3', 'Колода: 10 карт', 'Готово', 'В путь'. No extra cards/tabs, no collage, no outside captions, no watermark. VARIANT: ANCIENT CRYPT: matte dark walnut button slabs set into chipped tomb-door stone frames with shallow carved rune marks. One small worn skull keystone above each side panel, short bone-shaped corner clasps, and a few dusty cobweb strands on outer corners. Main CTA combines a low tomb-arch silhouette and a carved stairway icon, full wood face remains visible. Ash-gray stone, dry brown timber, muted bone ivory and brick-red selection; runes are incised, NOT luminous. Restrained spooky dungeon relics, no gore or ornamental gold.",
+      "reference": "docs/art/hub-buttons-wood-five-pairs-20261123/imagegen/W03-carved-walnut.png",
+      "source": "D:\\Codex\\home\\generated_images\\01a20706-1f80-7ce2-90d7-0fe6642ee458\\exec-851b46ec-6514-4591-9dd5-40f3df5e9d6e.png",
+      "file": "imagegen/D05-ancient-crypt.png",
+      "size": [
+        1672,
+        941
+      ],
+      "sha256": "da3bf6ea570ef7c52f221ab5c517f2a72109098351876cd1fcb81d966151ff45"
+    }
+  ]
+}

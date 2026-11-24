@@ -1,0 +1,83 @@
+{
+  "task": "hub-buttons-dungeon-five-pairs-20261123",
+  "base_commit": "e28135645f3992bd8b2adc7fc1670bdec3f8dd44",
+  "variant_id": "D05",
+  "slug": "ancient-crypt",
+  "name": "Древний склеп",
+  "style": "ANCIENT CRYPT: matte dark walnut button slabs set into chipped tomb-door stone frames with shallow carved rune marks. One small worn skull keystone above each side panel, short bone-shaped corner clasps, and a few dusty cobweb strands on outer corners. Main CTA combines a low tomb-arch silhouette and a carved stairway icon, full wood face remains visible. Ash-gray stone, dry brown timber, muted bone ivory and brick-red selection; runes are incised, NOT luminous. Restrained spooky dungeon relics, no gore or ornamental gold.",
+  "endpoint": "https://api.pixellab.ai/v2/generate-image-v2",
+  "job_id": "6f58eb86-5dab-4b1a-b195-92bcbe14ea3c",
+  "status": "completed",
+  "prompt": "Use case: ui-mockup. Create ONE fully illustrated 16:9 intoDeDung hub screen. Reference gives layout and scene, NOT the new frame design. Redesign the UI with immediately recognizable DUNGEON ATTRIBUTES built into BUTTON SHAPES, PANEL FRAMES and selection markers. Make these details conspicuous at menu scale, not tiny background props. Keep MATTE WOOD covering most of every button face, diffuse dry shading, restrained grain; no lacquer, glossy bevels, gold trim, jewels or bloom. Use dull iron/stone accents and muted brick red selection; no yellow/gold selected-card border. Clear cream lettering, dark ink on parchment. Preserve four top tabs, resource line, three squad cards left, fortress courtyard with three heroes center, preparation panel right, main action bottom-right. Retain the reference sunset courtyard. Large readable labels, uncluttered interiors, small functional icons. Info rows are flat text, not raised buttons. Exact labels: 'Поход', 'Наёмники', 'Кузнец', 'Колода'; 'Золото 100', 'Эссенция 0'; 'Отряд', 'Воин', 'Щитоносец', 'Лучница', 'Дополнительно'; 'Подготовка', '7 комнат', 'Отряд: 3', 'Колода: 10 карт', 'Готово', 'В путь'. No extra cards/tabs, no collage, no outside captions, no watermark. VARIANT: ANCIENT CRYPT: matte dark walnut button slabs set into chipped tomb-door stone frames with shallow carved rune marks. One small worn skull keystone above each side panel, short bone-shaped corner clasps, and a few dusty cobweb strands on outer corners. Main CTA combines a low tomb-arch silhouette and a carved stairway icon, full wood face remains visible. Ash-gray stone, dry brown timber, muted bone ivory and brick-red selection; runes are incised, NOT luminous. Restrained spooky dungeon relics, no gore or ornamental gold.",
+  "prompt_characters": 1762,
+  "image_size": {
+    "height": 384,
+    "width": 688
+  },
+  "no_background": false,
+  "reference": {
+    "sha256": "ff72b5f3fd6ff0f394a3b860b26ccc80c4b5d8317ed68a749228209e05f81946",
+    "width": 1672,
+    "path": "docs/art/hub-buttons-wood-five-pairs-20261123/imagegen/W03-carved-walnut.png",
+    "base64": "redacted",
+    "usage_description": "Use for layout, fortress and squad reference only. Keep exactly three squad cards and three courtyard heroes; follow the variant prompt for matte wooden buttons.",
+    "height": 941
+  },
+  "sanitized_request": {
+    "no_background": false,
+    "image_size": {
+      "height": 384,
+      "width": 688
+    },
+    "description": "Use case: ui-mockup. Create ONE fully illustrated 16:9 intoDeDung hub screen. Reference gives layout and scene, NOT the new frame design. Redesign the UI with immediately recognizable DUNGEON ATTRIBUTES built into BUTTON SHAPES, PANEL FRAMES and selection markers. Make these details conspicuous at menu scale, not tiny background props. Keep MATTE WOOD covering most of every button face, diffuse dry shading, restrained grain; no lacquer, glossy bevels, gold trim, jewels or bloom. Use dull iron/stone accents and muted brick red selection; no yellow/gold selected-card border. Clear cream lettering, dark ink on parchment. Preserve four top tabs, resource line, three squad cards left, fortress courtyard with three heroes center, preparation panel right, main action bottom-right. Retain the reference sunset courtyard. Large readable labels, uncluttered interiors, small functional icons. Info rows are flat text, not raised buttons. Exact labels: 'Поход', 'Наёмники', 'Кузнец', 'Колода'; 'Золото 100', 'Эссенция 0'; 'Отряд', 'Воин', 'Щитоносец', 'Лучница', 'Дополнительно'; 'Подготовка', '7 комнат', 'Отряд: 3', 'Колода: 10 карт', 'Готово', 'В путь'. No extra cards/tabs, no collage, no outside captions, no watermark. VARIANT: ANCIENT CRYPT: matte dark walnut button slabs set into chipped tomb-door stone frames with shallow carved rune marks. One small worn skull keystone above each side panel, short bone-shaped corner clasps, and a few dusty cobweb strands on outer corners. Main CTA combines a low tomb-arch silhouette and a carved stairway icon, full wood face remains visible. Ash-gray stone, dry brown timber, muted bone ivory and brick-red selection; runes are incised, NOT luminous. Restrained spooky dungeon relics, no gore or ornamental gold.",
+    "reference_images": [
+      {
+        "usage_description": "Use for layout, fortress and squad reference only. Keep exactly three squad cards and three courtyard heroes; follow the variant prompt for matte wooden buttons.",
+        "size": {
+          "height": 941,
+          "width": 1672
+        },
+        "image": {
+          "format": "png",
+          "type": "base64",
+          "base64": "<redacted; decoded image sha256=ff72b5f3fd6ff0f394a3b860b26ccc80c4b5d8317ed68a749228209e05f81946>"
+        }
+      }
+    ]
+  },
+  "request_sha256": "5370d1d208858294f249741d57b5a638e8e6198c52203de9d3cd644834d23036",
+  "raw_request": "test_reports/hub-buttons-dungeon-five-pairs-20261123/pixel-raw/pixel-D05-ancient-crypt-request.json",
+  "raw_post_response": "test_reports/hub-buttons-dungeon-five-pairs-20261123/pixel-raw/pixel-D05-ancient-crypt-post-response.json",
+  "raw_final_job": "test_reports/hub-buttons-dungeon-five-pairs-20261123/pixel-raw/pixel-D05-ancient-crypt-final-job.json",
+  "post_usage": null,
+  "final_usage": {
+    "type": "generations",
+    "generations": 25.0
+  },
+  "actual_usage_generations": 25.0,
+  "output": {
+    "path": "D05-ancient-crypt.png",
+    "sha256": "56672173ec0dd578d97f20c77df3be234334d27fd6d8cba41737ce5d1abaf932",
+    "width": 688,
+    "bytes": 184565,
+    "height": 384
+  },
+  "result_keys": [
+    "seed",
+    "type",
+    "action",
+    "progress",
+    "billing_usage",
+    "generation_id",
+    "usage_cost_usd",
+    "billing_charged",
+    "style_reference",
+    "style_selection",
+    "style_reference_path",
+    "generation_started_at",
+    "original_image_n_colors",
+    "quantized_image_n_colors",
+    "image",
+    "images"
+  ]
+}

@@ -1,0 +1,152 @@
+[
+  {
+    "id": "D01",
+    "provider": "imagegen",
+    "file": "previews/imagegen-D01.webp",
+    "source": "imagegen/D01-dungeon-gates.png",
+    "source_sha256": "0a26164832ee28e68651869e5fae198355ac43ea57cd82f44037dd6e2c3210db",
+    "sha256": "fb6eaa4ca1f11cc4deda9cb22cc461c66264942887c4681bb02e060903d963f0",
+    "bytes": 84200,
+    "size": [
+      640,
+      360
+    ],
+    "method": "LANCZOS display thumbnail / WEBP quality85",
+    "source_unchanged": true
+  },
+  {
+    "id": "D02",
+    "provider": "imagegen",
+    "file": "previews/imagegen-D02.webp",
+    "source": "imagegen/D02-vaults-torches.png",
+    "source_sha256": "fb54bf8229f6aa65961e764d58c25042c16d0df53ac34b5147bccc979fd7d3de",
+    "sha256": "61a65113ea9239df1cee5b583242355ab2f8571b3639bdc4beab8648318b1e0a",
+    "bytes": 84736,
+    "size": [
+      640,
+      360
+    ],
+    "method": "LANCZOS display thumbnail / WEBP quality85",
+    "source_unchanged": true
+  },
+  {
+    "id": "D03",
+    "provider": "imagegen",
+    "file": "previews/imagegen-D03.webp",
+    "source": "imagegen/D03-delver-kit.png",
+    "source_sha256": "f89bb8704db4a88f1bb126312143f107c3747f77947010ae8978beb312e86b44",
+    "sha256": "ae82ceee29efb17b028399c4306440477bb32bebace511f8a43db8c2f6fb2bd3",
+    "bytes": 89400,
+    "size": [
+      640,
+      360
+    ],
+    "method": "LANCZOS display thumbnail / WEBP quality85",
+    "source_unchanged": true
+  },
+  {
+    "id": "D04",
+    "provider": "imagegen",
+    "file": "previews/imagegen-D04.webp",
+    "source": "imagegen/D04-trap-machinery.png",
+    "source_sha256": "e6037d8e75ddeacb18c6e5a7c5c1f16e9937785ad694f237429d2f2adf8161ba",
+    "sha256": "ea178972fa70b178d8ba9d988a846a0c4930dbf37e14b5b2fb96a8fb28e8a1f8",
+    "bytes": 82948,
+    "size": [
+      640,
+      360
+    ],
+    "method": "LANCZOS display thumbnail / WEBP quality85",
+    "source_unchanged": true
+  },
+  {
+    "id": "D05",
+    "provider": "imagegen",
+    "file": "previews/imagegen-D05.webp",
+    "source": "imagegen/D05-ancient-crypt.png",
+    "source_sha256": "da3bf6ea570ef7c52f221ab5c517f2a72109098351876cd1fcb81d966151ff45",
+    "sha256": "1ab62bfc0244e4880b6b60929e801ca2ccf54c408aa709e74bb385c28b147816",
+    "bytes": 83340,
+    "size": [
+      640,
+      360
+    ],
+    "method": "LANCZOS display thumbnail / WEBP quality85",
+    "source_unchanged": true
+  },
+  {
+    "id": "D01",
+    "provider": "pixellab",
+    "file": "previews/pixellab-D01.webp",
+    "source": "pixellab/D01-dungeon-gates.png",
+    "source_sha256": "4fabb0d016a9194239cd7a8b743211d6478c8ff9e395d64dccf36dd9457ca703",
+    "sha256": "3368360075442c7e69acd69f9f33041c25d8179a7e2703b18ac834e08486ba4c",
+    "bytes": 68456,
+    "size": [
+      688,
+      384
+    ],
+    "method": "native RGB / lossless WEBP",
+    "source_unchanged": true
+  },
+  {
+    "id": "D02",
+    "provider": "pixellab",
+    "file": "previews/pixellab-D02.webp",
+    "source": "pixellab/D02-vaults-torches.png",
+    "source_sha256": "5c2402a6c238a3992abd0240a05407f19fcb720a45c47ff83157a0903e4a292a",
+    "sha256": "aed29cd448075e720810a90feed61eb2025be1d5197ac2abb16e7d76f541b103",
+    "bytes": 70268,
+    "size": [
+      688,
+      384
+    ],
+    "method": "native RGB / lossless WEBP",
+    "source_unchanged": true
+  },
+  {
+    "id": "D03",
+    "provider": "pixellab",
+    "file": "previews/pixellab-D03.webp",
+    "source": "pixellab/D03-delver-kit.png",
+    "source_sha256": "397916844d71a8dab7d085dcbecf67c5a8e6c7337135518c26dc2a33cd083394",
+    "sha256": "370e2821337defdcd07f017fa9a8bec4c7b22fac06ee68ae8877573cb083ee51",
+    "bytes": 66646,
+    "size": [
+      688,
+      384
+    ],
+    "method": "native RGB / lossless WEBP",
+    "source_unchanged": true
+  },
+  {
+    "id": "D04",
+    "provider": "pixellab",
+    "file": "previews/pixellab-D04.webp",
+    "source": "pixellab/D04-trap-machinery.png",
+    "source_sha256": "68e654bbecee65f08d6eb9dc94f312c4f6e741b474756ace0acba6fa56beed19",
+    "sha256": "2e0a5035a8b40fdf0e6a128e4ff391a2ebe3c4522926a209358d05e87ea2f661",
+    "bytes": 68260,
+    "size": [
+      688,
+      384
+    ],
+    "method": "native RGB / lossless WEBP",
+    "source_unchanged": true
+  },
+  {
+    "id": "D05",
+    "provider": "pixellab",
+    "file": "previews/pixellab-D05.webp",
+    "source": "pixellab/D05-ancient-crypt.png",
+    "source_sha256": "56672173ec0dd578d97f20c77df3be234334d27fd6d8cba41737ce5d1abaf932",
+    "sha256": "8698f9ca9976c7fc46a5b74bdbc634ec42e7c8111ba6edd6ba354b345a9ab0f2",
+    "bytes": 63352,
+    "size": [
+      688,
+      384
+    ],
+    "method": "native RGB / lossless WEBP",
+    "source_unchanged": true
+  }
+]

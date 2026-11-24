@@ -1,5 +1,16 @@
 # История и свидетельства проверок
 
+## Атрибутика данжей в кнопках хаба — 2026-11-24
+
+По U подготовлены [5 Imagegen +5 PixelLab](art/hub-buttons-dungeon-five-pairs-20261123/README.md):
+врата/ключи, своды/факелы, снаряжение, механизмы ловушек, склеп. Деревянные
+лица кнопок и матовость сохранены;10 PNG,30 lossless-деталей,10 обзоров.
+PixelLab5jobs/125generations. PNG/SHA/prompts/ссылки/crops PASS;
+G review APPROVE для выбора. Все10 просмотрены; HTML проверен статически.
+Browser/Godot не запускались, runtime не менялся; выбор/приёмка U открыты.
+[Проверки](../test_reports/hub-buttons-dungeon-five-pairs-20261123/validation.json);
+[прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261124.md).
+
 ## Новые двадцать костяных кучек на поле — 2026-11-23
 
 По U показаны [все G31–G40/PL39–PL48 рядом с персонажами](art/bones-field-next-20261123/README.md).

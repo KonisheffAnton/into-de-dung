@@ -1,0 +1,82 @@
+{
+  "task": "hub-buttons-dungeon-five-pairs-20261123",
+  "base_commit": "e28135645f3992bd8b2adc7fc1670bdec3f8dd44",
+  "variant_id": "D03",
+  "slug": "delver-kit",
+  "name": "Снаряжение искателя",
+  "style": "DELVER'S KIT: weathered timber tabs tied with thick hemp rope loops and leather end straps; a chunky iron key and folded dungeon-map corner hang from selected tab. Panel corners use pickaxe-shaped iron brackets, with visible coiled rope and hooded exploration lantern attached outside the text areas. Main CTA has a clear descending staircase/map-route emblem carved into its wooden face. Dry gray-brown oak, faded parchment, ochre rope, restrained brick paint. Expedition tools, no ornate luxury.",
+  "endpoint": "https://api.pixellab.ai/v2/generate-image-v2",
+  "job_id": "a0d8a854-9c1a-4dab-ab0b-160b20099cb3",
+  "status": "completed",
+  "prompt": "Use case: ui-mockup. Create ONE fully illustrated 16:9 intoDeDung hub screen. Reference gives layout and scene, NOT the new frame design. Redesign the UI with immediately recognizable DUNGEON ATTRIBUTES built into BUTTON SHAPES, PANEL FRAMES and selection markers. Make these details conspicuous at menu scale, not tiny background props. Keep MATTE WOOD covering most of every button face, diffuse dry shading, restrained grain; no lacquer, glossy bevels, gold trim, jewels or bloom. Use dull iron/stone accents and muted brick red selection; no yellow/gold selected-card border. Clear cream lettering, dark ink on parchment. Preserve four top tabs, resource line, three squad cards left, fortress courtyard with three heroes center, preparation panel right, main action bottom-right. Retain the reference sunset courtyard. Large readable labels, uncluttered interiors, small functional icons. Info rows are flat text, not raised buttons. Exact labels: 'Поход', 'Наёмники', 'Кузнец', 'Колода'; 'Золото 100', 'Эссенция 0'; 'Отряд', 'Воин', 'Щитоносец', 'Лучница', 'Дополнительно'; 'Подготовка', '7 комнат', 'Отряд: 3', 'Колода: 10 карт', 'Готово', 'В путь'. No extra cards/tabs, no collage, no outside captions, no watermark. VARIANT: DELVER'S KIT: weathered timber tabs tied with thick hemp rope loops and leather end straps; a chunky iron key and folded dungeon-map corner hang from selected tab. Panel corners use pickaxe-shaped iron brackets, with visible coiled rope and hooded exploration lantern attached outside the text areas. Main CTA has a clear descending staircase/map-route emblem carved into its wooden face. Dry gray-brown oak, faded parchment, ochre rope, restrained brick paint. Expedition tools, no ornate luxury.",
+  "prompt_characters": 1731,
+  "image_size": {
+    "height": 384,
+    "width": 688
+  },
+  "no_background": false,
+  "reference": {
+    "sha256": "ff72b5f3fd6ff0f394a3b860b26ccc80c4b5d8317ed68a749228209e05f81946",
+    "width": 1672,
+    "path": "docs/art/hub-buttons-wood-five-pairs-20261123/imagegen/W03-carved-walnut.png",
+    "base64": "redacted",
+    "usage_description": "Use for layout, fortress and squad reference only. Keep exactly three squad cards and three courtyard heroes; follow the variant prompt for matte wooden buttons.",
+    "height": 941
+  },
+  "sanitized_request": {
+    "no_background": false,
+    "image_size": {
+      "height": 384,
+      "width": 688
+    },
+    "description": "Use case: ui-mockup. Create ONE fully illustrated 16:9 intoDeDung hub screen. Reference gives layout and scene, NOT the new frame design. Redesign the UI with immediately recognizable DUNGEON ATTRIBUTES built into BUTTON SHAPES, PANEL FRAMES and selection markers. Make these details conspicuous at menu scale, not tiny background props. Keep MATTE WOOD covering most of every button face, diffuse dry shading, restrained grain; no lacquer, glossy bevels, gold trim, jewels or bloom. Use dull iron/stone accents and muted brick red selection; no yellow/gold selected-card border. Clear cream lettering, dark ink on parchment. Preserve four top tabs, resource line, three squad cards left, fortress courtyard with three heroes center, preparation panel right, main action bottom-right. Retain the reference sunset courtyard. Large readable labels, uncluttered interiors, small functional icons. Info rows are flat text, not raised buttons. Exact labels: 'Поход', 'Наёмники', 'Кузнец', 'Колода'; 'Золото 100', 'Эссенция 0'; 'Отряд', 'Воин', 'Щитоносец', 'Лучница', 'Дополнительно'; 'Подготовка', '7 комнат', 'Отряд: 3', 'Колода: 10 карт', 'Готово', 'В путь'. No extra cards/tabs, no collage, no outside captions, no watermark. VARIANT: DELVER'S KIT: weathered timber tabs tied with thick hemp rope loops and leather end straps; a chunky iron key and folded dungeon-map corner hang from selected tab. Panel corners use pickaxe-shaped iron brackets, with visible coiled rope and hooded exploration lantern attached outside the text areas. Main CTA has a clear descending staircase/map-route emblem carved into its wooden face. Dry gray-brown oak, faded parchment, ochre rope, restrained brick paint. Expedition tools, no ornate luxury.",
+    "reference_images": [
+      {
+        "usage_description": "Use for layout, fortress and squad reference only. Keep exactly three squad cards and three courtyard heroes; follow the variant prompt for matte wooden buttons.",
+        "size": {
+          "height": 941,
+          "width": 1672
+        },
+        "image": {
+          "format": "png",
+          "type": "base64",
+          "base64": "<redacted; decoded image sha256=ff72b5f3fd6ff0f394a3b860b26ccc80c4b5d8317ed68a749228209e05f81946>"
+        }
+      }
+    ]
+  },
+  "request_sha256": "0a1dcb8f6c2cad5eaae97a115a840cb515d998804c3327b084fece4efa2bb910",
+  "raw_request": "test_reports/hub-buttons-dungeon-five-pairs-20261123/pixel-raw/pixel-D03-delver-kit-request.json",
+  "raw_post_response": "test_reports/hub-buttons-dungeon-five-pairs-20261123/pixel-raw/pixel-D03-delver-kit-post-response.json",
+  "raw_final_job": "test_reports/hub-buttons-dungeon-five-pairs-20261123/pixel-raw/pixel-D03-delver-kit-final-job.json",
+  "post_usage": null,
+  "final_usage": {
+    "type": "generations",
+    "generations": 25.0
+  },
+  "actual_usage_generations": 25.0,
+  "output": {
+    "path": "D03-delver-kit.png",
+    "sha256": "397916844d71a8dab7d085dcbecf67c5a8e6c7337135518c26dc2a33cd083394",
+    "width": 688,
+    "bytes": 190115,
+    "height": 384
+  },
+  "result_keys": [
+    "seed",
+    "type",
+    "action",
+    "images",
+    "progress",
+    "billing_usage",
+    "generation_id",
+    "usage_cost_usd",
+    "billing_charged",
+    "style_reference",
+    "style_selection",
+    "style_reference_path",
+    "generation_started_at",
+    "original_image_n_colors",
+    "quantized_image_n_colors"
+  ]
+}

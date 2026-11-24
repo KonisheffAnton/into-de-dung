@@ -1,0 +1,512 @@
+[
+  {
+    "id": "D01",
+    "provider": "imagegen",
+    "detail": "active",
+    "file": "details/imagegen-D01-active.webp",
+    "source": "imagegen/D01-dungeon-gates.png",
+    "box": [
+      0,
+      0,
+      447,
+      152
+    ],
+    "sha256": "03c85c991fa1b046dd9dd6b737fec0160b4ac4d6e21f9c8ad406aa7c524baccc",
+    "source_sha256": "0a26164832ee28e68651869e5fae198355ac43ea57cd82f44037dd6e2c3210db",
+    "bytes": 93324,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "D01",
+    "provider": "imagegen",
+    "detail": "frame",
+    "file": "details/imagegen-D01-frame.webp",
+    "source": "imagegen/D01-dungeon-gates.png",
+    "box": [
+      0,
+      205,
+      450,
+      482
+    ],
+    "sha256": "e49531a1ece80040b662f269594d119d25d7131fa86202cb2ced3630837e3b18",
+    "source_sha256": "0a26164832ee28e68651869e5fae198355ac43ea57cd82f44037dd6e2c3210db",
+    "bytes": 161948,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "D01",
+    "provider": "imagegen",
+    "detail": "cta",
+    "file": "details/imagegen-D01-cta.webp",
+    "source": "imagegen/D01-dungeon-gates.png",
+    "box": [
+      1180,
+      610,
+      1672,
+      941
+    ],
+    "sha256": "397c870f8429c58fa534fa540d846577c3ac9580fe0c04732ac33d0078c58c94",
+    "source_sha256": "0a26164832ee28e68651869e5fae198355ac43ea57cd82f44037dd6e2c3210db",
+    "bytes": 216874,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "D02",
+    "provider": "imagegen",
+    "detail": "active",
+    "file": "details/imagegen-D02-active.webp",
+    "source": "imagegen/D02-vaults-torches.png",
+    "box": [
+      0,
+      0,
+      500,
+      196
+    ],
+    "sha256": "340885c734259887ba9df6ad6c2178c494c43d668f43a5c4fe11358b55d1464b",
+    "source_sha256": "fb54bf8229f6aa65961e764d58c25042c16d0df53ac34b5147bccc979fd7d3de",
+    "bytes": 125546,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "D02",
+    "provider": "imagegen",
+    "detail": "frame",
+    "file": "details/imagegen-D02-frame.webp",
+    "source": "imagegen/D02-vaults-torches.png",
+    "box": [
+      0,
+      244,
+      473,
+      523
+    ],
+    "sha256": "e52f476f3ccb42ce08ad47a786bbf7dfd966660ecc0326a587c4bf04f77df411",
+    "source_sha256": "fb54bf8229f6aa65961e764d58c25042c16d0df53ac34b5147bccc979fd7d3de",
+    "bytes": 175462,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "D02",
+    "provider": "imagegen",
+    "detail": "cta",
+    "file": "details/imagegen-D02-cta.webp",
+    "source": "imagegen/D02-vaults-torches.png",
+    "box": [
+      1090,
+      594,
+      1672,
+      941
+    ],
+    "sha256": "afffb44ed54f758e92d6b9e06dcea0f3111120f1ea0724fce1c9692e7a60292a",
+    "source_sha256": "fb54bf8229f6aa65961e764d58c25042c16d0df53ac34b5147bccc979fd7d3de",
+    "bytes": 266862,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "D03",
+    "provider": "imagegen",
+    "detail": "active",
+    "file": "details/imagegen-D03-active.webp",
+    "source": "imagegen/D03-delver-kit.png",
+    "box": [
+      0,
+      0,
+      485,
+      194
+    ],
+    "sha256": "caac20d8c251240c0627271a998d89ce07f193a864223729fa2264321c0f7884",
+    "source_sha256": "f89bb8704db4a88f1bb126312143f107c3747f77947010ae8978beb312e86b44",
+    "bytes": 124984,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "D03",
+    "provider": "imagegen",
+    "detail": "frame",
+    "file": "details/imagegen-D03-frame.webp",
+    "source": "imagegen/D03-delver-kit.png",
+    "box": [
+      0,
+      246,
+      480,
+      568
+    ],
+    "sha256": "81cd56f845350d223e8307b850c6951a00209b3b910dc4bbb3284baab0e88d03",
+    "source_sha256": "f89bb8704db4a88f1bb126312143f107c3747f77947010ae8978beb312e86b44",
+    "bytes": 207548,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "D03",
+    "provider": "imagegen",
+    "detail": "cta",
+    "file": "details/imagegen-D03-cta.webp",
+    "source": "imagegen/D03-delver-kit.png",
+    "box": [
+      1190,
+      711,
+      1672,
+      941
+    ],
+    "sha256": "d6aacf15f05f8f97da4eaf62e4ee9ef79fd3246444c2bcf28e607e0bcc5bdd3b",
+    "source_sha256": "f89bb8704db4a88f1bb126312143f107c3747f77947010ae8978beb312e86b44",
+    "bytes": 141998,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "D04",
+    "provider": "imagegen",
+    "detail": "active",
+    "file": "details/imagegen-D04-active.webp",
+    "source": "imagegen/D04-trap-machinery.png",
+    "box": [
+      0,
+      0,
+      500,
+      152
+    ],
+    "sha256": "18be9d473c3024e16bccd210105c1a49bf7db3d9d3d987521546a41880d031d1",
+    "source_sha256": "e6037d8e75ddeacb18c6e5a7c5c1f16e9937785ad694f237429d2f2adf8161ba",
+    "bytes": 92570,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "D04",
+    "provider": "imagegen",
+    "detail": "frame",
+    "file": "details/imagegen-D04-frame.webp",
+    "source": "imagegen/D04-trap-machinery.png",
+    "box": [
+      0,
+      212,
+      475,
+      500
+    ],
+    "sha256": "0197ab4f858387ae6de0078be3aa3d19c14e893f9dae262f1c73cec233c86c68",
+    "source_sha256": "e6037d8e75ddeacb18c6e5a7c5c1f16e9937785ad694f237429d2f2adf8161ba",
+    "bytes": 171110,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "D04",
+    "provider": "imagegen",
+    "detail": "cta",
+    "file": "details/imagegen-D04-cta.webp",
+    "source": "imagegen/D04-trap-machinery.png",
+    "box": [
+      1150,
+      645,
+      1672,
+      941
+    ],
+    "sha256": "5ab45d2e504ab73fb61c538cc70bd2a48efee09f4cd459fc07d187a8c8c25d43",
+    "source_sha256": "e6037d8e75ddeacb18c6e5a7c5c1f16e9937785ad694f237429d2f2adf8161ba",
+    "bytes": 185140,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "D05",
+    "provider": "imagegen",
+    "detail": "active",
+    "file": "details/imagegen-D05-active.webp",
+    "source": "imagegen/D05-ancient-crypt.png",
+    "box": [
+      0,
+      0,
+      475,
+      131
+    ],
+    "sha256": "6f25a1c4af9fdb6ec45b98f6ee44023f6aa66650afbec616935ed53f4e45b336",
+    "source_sha256": "da3bf6ea570ef7c52f221ab5c517f2a72109098351876cd1fcb81d966151ff45",
+    "bytes": 76800,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "D05",
+    "provider": "imagegen",
+    "detail": "frame",
+    "file": "details/imagegen-D05-frame.webp",
+    "source": "imagegen/D05-ancient-crypt.png",
+    "box": [
+      0,
+      165,
+      448,
+      475
+    ],
+    "sha256": "89e170898c33d8e3a68507a4b847e1b57795ad0eb32df84e8375ad0801bdc96b",
+    "source_sha256": "da3bf6ea570ef7c52f221ab5c517f2a72109098351876cd1fcb81d966151ff45",
+    "bytes": 180978,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "D05",
+    "provider": "imagegen",
+    "detail": "cta",
+    "file": "details/imagegen-D05-cta.webp",
+    "source": "imagegen/D05-ancient-crypt.png",
+    "box": [
+      1200,
+      640,
+      1672,
+      941
+    ],
+    "sha256": "ce94d9cddf7f0ded3a8e7e2cd665240a677891602e3347a8ba2ff9e4879c7b5d",
+    "source_sha256": "da3bf6ea570ef7c52f221ab5c517f2a72109098351876cd1fcb81d966151ff45",
+    "bytes": 177146,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "D01",
+    "provider": "pixellab",
+    "detail": "active",
+    "file": "details/pixellab-D01-active.webp",
+    "source": "pixellab/D01-dungeon-gates.png",
+    "box": [
+      0,
+      0,
+      193,
+      58
+    ],
+    "sha256": "de348c750c7b74816ab3c4a248d1dddaeb4db974cbdb5fc9a9a13178bb3a52f5",
+    "source_sha256": "4fabb0d016a9194239cd7a8b743211d6478c8ff9e395d64dccf36dd9457ca703",
+    "bytes": 2360,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "D01",
+    "provider": "pixellab",
+    "detail": "frame",
+    "file": "details/pixellab-D01-frame.webp",
+    "source": "pixellab/D01-dungeon-gates.png",
+    "box": [
+      0,
+      70,
+      184,
+      180
+    ],
+    "sha256": "55118989577e36850e5253329270e2f7b00998702451ebcf74106772d9752b57",
+    "source_sha256": "4fabb0d016a9194239cd7a8b743211d6478c8ff9e395d64dccf36dd9457ca703",
+    "bytes": 2526,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "D01",
+    "provider": "pixellab",
+    "detail": "cta",
+    "file": "details/pixellab-D01-cta.webp",
+    "source": "pixellab/D01-dungeon-gates.png",
+    "box": [
+      507,
+      250,
+      688,
+      384
+    ],
+    "sha256": "0bc3d93ceff7af5aa119e33ee5734c24246136424acb2d5fe2743edb2c6c9137",
+    "source_sha256": "4fabb0d016a9194239cd7a8b743211d6478c8ff9e395d64dccf36dd9457ca703",
+    "bytes": 3550,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "D02",
+    "provider": "pixellab",
+    "detail": "active",
+    "file": "details/pixellab-D02-active.webp",
+    "source": "pixellab/D02-vaults-torches.png",
+    "box": [
+      0,
+      0,
+      180,
+      61
+    ],
+    "sha256": "38f7f2c21969f56dccba9acc3e3b1e78098e0d2b50f7f69436093dec41eca3af",
+    "source_sha256": "5c2402a6c238a3992abd0240a05407f19fcb720a45c47ff83157a0903e4a292a",
+    "bytes": 2128,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "D02",
+    "provider": "pixellab",
+    "detail": "frame",
+    "file": "details/pixellab-D02-frame.webp",
+    "source": "pixellab/D02-vaults-torches.png",
+    "box": [
+      0,
+      84,
+      180,
+      194
+    ],
+    "sha256": "cd4b27be230b46db78ab3065e6beb1b36baa597000d9bfa01877c7b01f44cbd0",
+    "source_sha256": "5c2402a6c238a3992abd0240a05407f19fcb720a45c47ff83157a0903e4a292a",
+    "bytes": 3166,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "D02",
+    "provider": "pixellab",
+    "detail": "cta",
+    "file": "details/pixellab-D02-cta.webp",
+    "source": "pixellab/D02-vaults-torches.png",
+    "box": [
+      510,
+      249,
+      688,
+      384
+    ],
+    "sha256": "24aba2efd0b7296215ee7a7527a8d36ec9df306690e5723d87e7f672f2d967e6",
+    "source_sha256": "5c2402a6c238a3992abd0240a05407f19fcb720a45c47ff83157a0903e4a292a",
+    "bytes": 4120,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "D03",
+    "provider": "pixellab",
+    "detail": "active",
+    "file": "details/pixellab-D03-active.webp",
+    "source": "pixellab/D03-delver-kit.png",
+    "box": [
+      0,
+      0,
+      215,
+      78
+    ],
+    "sha256": "30c7ca6ef03f432176f262ff1bc8c5312d1e3f8ecd25e1a4e0057692d5e2f5c6",
+    "source_sha256": "397916844d71a8dab7d085dcbecf67c5a8e6c7337135518c26dc2a33cd083394",
+    "bytes": 3762,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "D03",
+    "provider": "pixellab",
+    "detail": "frame",
+    "file": "details/pixellab-D03-frame.webp",
+    "source": "pixellab/D03-delver-kit.png",
+    "box": [
+      0,
+      77,
+      198,
+      196
+    ],
+    "sha256": "a6927a401d0db0e074cd09d89f61368a37fb9d11aa6ebed90686452d490d8a7e",
+    "source_sha256": "397916844d71a8dab7d085dcbecf67c5a8e6c7337135518c26dc2a33cd083394",
+    "bytes": 5160,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "D03",
+    "provider": "pixellab",
+    "detail": "cta",
+    "file": "details/pixellab-D03-cta.webp",
+    "source": "pixellab/D03-delver-kit.png",
+    "box": [
+      500,
+      302,
+      688,
+      384
+    ],
+    "sha256": "69e69f9f27e708b6a581b36f899b9850b234dba547c830d68f45b360698e0990",
+    "source_sha256": "397916844d71a8dab7d085dcbecf67c5a8e6c7337135518c26dc2a33cd083394",
+    "bytes": 2818,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "D04",
+    "provider": "pixellab",
+    "detail": "active",
+    "file": "details/pixellab-D04-active.webp",
+    "source": "pixellab/D04-trap-machinery.png",
+    "box": [
+      0,
+      0,
+      214,
+      55
+    ],
+    "sha256": "bd69739825b2222915c1d9a114714f78728137ef9a897f914ead3659119b51e2",
+    "source_sha256": "68e654bbecee65f08d6eb9dc94f312c4f6e741b474756ace0acba6fa56beed19",
+    "bytes": 2004,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "D04",
+    "provider": "pixellab",
+    "detail": "frame",
+    "file": "details/pixellab-D04-frame.webp",
+    "source": "pixellab/D04-trap-machinery.png",
+    "box": [
+      0,
+      62,
+      184,
+      177
+    ],
+    "sha256": "6c2df1bdcdd7cfffc62add639084352872f2cd00499eeb850a3831972570de3a",
+    "source_sha256": "68e654bbecee65f08d6eb9dc94f312c4f6e741b474756ace0acba6fa56beed19",
+    "bytes": 3390,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "D04",
+    "provider": "pixellab",
+    "detail": "cta",
+    "file": "details/pixellab-D04-cta.webp",
+    "source": "pixellab/D04-trap-machinery.png",
+    "box": [
+      451,
+      263,
+      688,
+      384
+    ],
+    "sha256": "7a05f0744a6ed3ba98b4778ebb15b9d90b3eb3b61f58ba5a14434e0b52d2c19a",
+    "source_sha256": "68e654bbecee65f08d6eb9dc94f312c4f6e741b474756ace0acba6fa56beed19",
+    "bytes": 5246,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "D05",
+    "provider": "pixellab",
+    "detail": "active",
+    "file": "details/pixellab-D05-active.webp",
+    "source": "pixellab/D05-ancient-crypt.png",
+    "box": [
+      20,
+      8,
+      205,
+      56
+    ],
+    "sha256": "45f6b28c8d5b3b1d87c9628c3b072275079671da56e870e52dae054842d94c96",
+    "source_sha256": "56672173ec0dd578d97f20c77df3be234334d27fd6d8cba41737ce5d1abaf932",
+    "bytes": 1146,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "D05",
+    "provider": "pixellab",
+    "detail": "frame",
+    "file": "details/pixellab-D05-frame.webp",
+    "source": "pixellab/D05-ancient-crypt.png",
+    "box": [
+      15,
+      69,
+      181,
+      198
+    ],
+    "sha256": "2e97ac3eefbd225141c64a4b0a0249ab31bb8552264f6dc269db7840e75f9e48",
+    "source_sha256": "56672173ec0dd578d97f20c77df3be234334d27fd6d8cba41737ce5d1abaf932",
+    "bytes": 3518,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "D05",
+    "provider": "pixellab",
+    "detail": "cta",
+    "file": "details/pixellab-D05-cta.webp",
+    "source": "pixellab/D05-ancient-crypt.png",
+    "box": [
+      511,
+      302,
+      667,
+      371
+    ],
+    "sha256": "527a44b18edd96ca38bf247c382dcaae72945db99bce18b3629b2e9e09ebebb4",
+    "source_sha256": "56672173ec0dd578d97f20c77df3be234334d27fd6d8cba41737ce5d1abaf932",
+    "bytes": 1470,
+    "lossless_crop_verified": true
+  }
+]

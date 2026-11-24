@@ -1,0 +1,131 @@
+{
+  "task": "hub-buttons-dungeon-five-pairs-20261123",
+  "base_commit": "e28135645f3992bd8b2adc7fc1670bdec3f8dd44",
+  "endpoint": "https://api.pixellab.ai/v2/generate-image-v2",
+  "image_size": {
+    "width": 688,
+    "height": 384
+  },
+  "requested_variants": 5,
+  "completed_variants": 5,
+  "total_billed_generations": 125.0,
+  "reference": {
+    "path": "docs/art/hub-buttons-wood-five-pairs-20261123/imagegen/W03-carved-walnut.png",
+    "width": 1672,
+    "height": 941,
+    "sha256": "ff72b5f3fd6ff0f394a3b860b26ccc80c4b5d8317ed68a749228209e05f81946"
+  },
+  "raw_evidence_dir": "test_reports/hub-buttons-dungeon-five-pairs-20261123/pixel-raw/",
+  "variants": [
+    {
+      "id": "D01",
+      "slug": "dungeon-gates",
+      "name": "Врата и ключи",
+      "job_id": "7659ea9e-7eac-403e-916a-efc7b37a57da",
+      "status": "completed",
+      "actual_usage_generations": 25.0,
+      "prompt_characters": 1703,
+      "request_sha256": "e298b2a625f743fdc264e2e84c722caa62bcd3d288ee9a840a02210b083502f2",
+      "reference_sha256": "ff72b5f3fd6ff0f394a3b860b26ccc80c4b5d8317ed68a749228209e05f81946",
+      "output": {
+        "path": "D01-dungeon-gates.png",
+        "sha256": "4fabb0d016a9194239cd7a8b743211d6478c8ff9e395d64dccf36dd9457ca703",
+        "width": 688,
+        "bytes": 194644,
+        "height": 384
+      },
+      "receipt": "receipts/D01-dungeon-gates.json",
+      "raw_request": "test_reports/hub-buttons-dungeon-five-pairs-20261123/pixel-raw/pixel-D01-dungeon-gates-request.json",
+      "raw_post_response": "test_reports/hub-buttons-dungeon-five-pairs-20261123/pixel-raw/pixel-D01-dungeon-gates-post-response.json",
+      "raw_final_job": "test_reports/hub-buttons-dungeon-five-pairs-20261123/pixel-raw/pixel-D01-dungeon-gates-final-job.json"
+    },
+    {
+      "id": "D02",
+      "slug": "vaults-torches",
+      "name": "Своды и факелы",
+      "job_id": "90a262aa-f01c-4151-bb51-151e4df69fbb",
+      "status": "completed",
+      "actual_usage_generations": 25.0,
+      "prompt_characters": 1717,
+      "request_sha256": "285e9ed4fb619c5df5ed46a33ea5c7989721db8c4cc24c377103966aff843c53",
+      "reference_sha256": "ff72b5f3fd6ff0f394a3b860b26ccc80c4b5d8317ed68a749228209e05f81946",
+      "output": {
+        "path": "D02-vaults-torches.png",
+        "sha256": "5c2402a6c238a3992abd0240a05407f19fcb720a45c47ff83157a0903e4a292a",
+        "width": 688,
+        "bytes": 196500,
+        "height": 384
+      },
+      "receipt": "receipts/D02-vaults-torches.json",
+      "raw_request": "test_reports/hub-buttons-dungeon-five-pairs-20261123/pixel-raw/pixel-D02-vaults-torches-request.json",
+      "raw_post_response": "test_reports/hub-buttons-dungeon-five-pairs-20261123/pixel-raw/pixel-D02-vaults-torches-post-response.json",
+      "raw_final_job": "test_reports/hub-buttons-dungeon-five-pairs-20261123/pixel-raw/pixel-D02-vaults-torches-final-job.json"
+    },
+    {
+      "id": "D03",
+      "slug": "delver-kit",
+      "name": "Снаряжение искателя",
+      "job_id": "a0d8a854-9c1a-4dab-ab0b-160b20099cb3",
+      "status": "completed",
+      "actual_usage_generations": 25.0,
+      "prompt_characters": 1731,
+      "request_sha256": "0a1dcb8f6c2cad5eaae97a115a840cb515d998804c3327b084fece4efa2bb910",
+      "reference_sha256": "ff72b5f3fd6ff0f394a3b860b26ccc80c4b5d8317ed68a749228209e05f81946",
+      "output": {
+        "path": "D03-delver-kit.png",
+        "sha256": "397916844d71a8dab7d085dcbecf67c5a8e6c7337135518c26dc2a33cd083394",
+        "width": 688,
+        "bytes": 190115,
+        "height": 384
+      },
+      "receipt": "receipts/D03-delver-kit.json",
+      "raw_request": "test_reports/hub-buttons-dungeon-five-pairs-20261123/pixel-raw/pixel-D03-delver-kit-request.json",
+      "raw_post_response": "test_reports/hub-buttons-dungeon-five-pairs-20261123/pixel-raw/pixel-D03-delver-kit-post-response.json",
+      "raw_final_job": "test_reports/hub-buttons-dungeon-five-pairs-20261123/pixel-raw/pixel-D03-delver-kit-final-job.json"
+    },
+    {
+      "id": "D04",
+      "slug": "trap-machinery",
+      "name": "Ловушки и механизмы",
+      "job_id": "97a4dd8e-3160-4927-945f-47333a8dfcbc",
+      "status": "completed",
+      "actual_usage_generations": 25.0,
+      "prompt_characters": 1742,
+      "request_sha256": "06e6405504a25d7a2c16b9850a7b42a55494d8324f3c3eb03756bb541e67476b",
+      "reference_sha256": "ff72b5f3fd6ff0f394a3b860b26ccc80c4b5d8317ed68a749228209e05f81946",
+      "output": {
+        "path": "D04-trap-machinery.png",
+        "sha256": "68e654bbecee65f08d6eb9dc94f312c4f6e741b474756ace0acba6fa56beed19",
+        "width": 688,
+        "bytes": 189348,
+        "height": 384
+      },
+      "receipt": "receipts/D04-trap-machinery.json",
+      "raw_request": "test_reports/hub-buttons-dungeon-five-pairs-20261123/pixel-raw/pixel-D04-trap-machinery-request.json",
+      "raw_post_response": "test_reports/hub-buttons-dungeon-five-pairs-20261123/pixel-raw/pixel-D04-trap-machinery-post-response.json",
+      "raw_final_job": "test_reports/hub-buttons-dungeon-five-pairs-20261123/pixel-raw/pixel-D04-trap-machinery-final-job.json"
+    },
+    {
+      "id": "D05",
+      "slug": "ancient-crypt",
+      "name": "Древний склеп",
+      "job_id": "6f58eb86-5dab-4b1a-b195-92bcbe14ea3c",
+      "status": "completed",
+      "actual_usage_generations": 25.0,
+      "prompt_characters": 1762,
+      "request_sha256": "5370d1d208858294f249741d57b5a638e8e6198c52203de9d3cd644834d23036",
+      "reference_sha256": "ff72b5f3fd6ff0f394a3b860b26ccc80c4b5d8317ed68a749228209e05f81946",
+      "output": {
+        "path": "D05-ancient-crypt.png",
+        "sha256": "56672173ec0dd578d97f20c77df3be234334d27fd6d8cba41737ce5d1abaf932",
+        "width": 688,
+        "bytes": 184565,
+        "height": 384
+      },
+      "receipt": "receipts/D05-ancient-crypt.json",
+      "raw_request": "test_reports/hub-buttons-dungeon-five-pairs-20261123/pixel-raw/pixel-D05-ancient-crypt-request.json",
+      "raw_post_response": "test_reports/hub-buttons-dungeon-five-pairs-20261123/pixel-raw/pixel-D05-ancient-crypt-post-response.json",
+      "raw_final_job": "test_reports/hub-buttons-dungeon-five-pairs-20261123/pixel-raw/pixel-D05-ancient-crypt-final-job.json"
+    }
+  ]
+}

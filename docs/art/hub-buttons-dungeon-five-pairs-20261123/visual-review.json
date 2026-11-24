@@ -1,0 +1,13 @@
+{
+  "scope": "Five fixed Imagegen PNG concepts; independent read-only game_reviewer; no PixelLab or runtime assessment",
+  "verdict": "APPROVE for concept selection; user acceptance remains open",
+  "reviewed_files": ["imagegen/D01-dungeon-gates.png","imagegen/D02-vaults-torches.png","imagegen/D03-delver-kit.png","imagegen/D04-trap-machinery.png","imagegen/D05-ancient-crypt.png"],
+  "shared": "Four readable tabs, three squad cards, visible matte wood button faces and clear main CTA.",
+  "D01": "Strongest direct dungeon cue: doors, hinges, keyholes and gate CTA; portal is large but lettering clear.",
+  "D02": "Stone arches, torches and staircase communicate dungeon architecture; masonry dominates and shrinks courtyard.",
+  "D03": "Rope, key/map, pickaxes, lanterns and stairs communicate expedition tools with wood prominent; corners and hanging map are busy.",
+  "D04": "Rails, gears, chains and portcullis form a distinct trap mechanism; density and industrial tone may overwhelm wood.",
+  "D05": "Skull keystones, runes, bones and webs clearly communicate crypt; heavy borders narrow the theme toward undead.",
+  "preferred": ["D01","D03"],
+  "limitations": "Shared courtyard and hero arrangement. D02/D04/D05 allocate much space to ornament. Not implementation readiness."
+}
