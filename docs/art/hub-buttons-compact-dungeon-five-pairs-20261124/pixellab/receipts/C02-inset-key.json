@@ -1,0 +1,102 @@
+{
+  "task": "hub-buttons-compact-dungeon-five-pairs-20261124",
+  "base_commit": "f7c2f79aefc43df77aabb220591718ac293ce660",
+  "variant_id": "C02",
+  "slug": "inset-key",
+  "name": "Врезанный ключ",
+  "style": "D01 INSET KEY: dark matte walnut, clipped rectangular corners and slim wooden rim. Recess a small keyhole into the active tab, engrave a discreet arched-door icon on CTA. Use only tiny iron corner staples on side panels; no projecting objects. Low-relief carved details, clean compact silhouette, cream labels.",
+  "endpoint": "https://api.pixellab.ai/v2/generate-image-v2",
+  "job_id": "6b4bf37b-917b-4f91-94fe-57d733e7cdf2",
+  "status": "completed",
+  "prompt": "Use case: ui-mockup. Create ONE complete 16:9 intoDeDung hub screen, refining reference 1 (D01 gates/keys) and reference 2 (D03 delver tools). MAIN CHANGE: MUCH THINNER FRAMES AND SMALLER DECOR. Preserve visible dungeon identity and dry MATTE WOOD button faces. Border rails only 0.4-0.7% of screen width; each sidebar about21% of screen width; top tabs under10% of screen height. Main CTA is a normal horizontal wood button under11% of screen height, NOT a tall portal. Increase open courtyard and calm parchment space. Props are no larger than nearby text height, attached flush to corners; at most one small themed accent per panel. No masonry pillars, giant keys/pickaxes, hanging maps, rope coils, massive chains, skulls or gears. No gloss, lacquer, shiny bevels, gold trim or bloom. Dull iron, restrained grain, muted brick selection, no yellow card outlines. Keep sunset fortress courtyard, three courtyard heroes, exactly three squad cards, four top tabs, resource strip and right preparation panel. Preserve large readable lettering and functional icons; info rows flat. Exact labels: 'Поход','Наёмники','Кузнец','Колода'; 'Золото 100','Эссенция 0'; 'Отряд','Воин','Щитоносец','Лучница','Дополнительно'; 'Подготовка','7 комнат','Отряд: 3','Колода: 10 карт','Готово','В путь'. Full finished screen, no collage/captions/watermark. VARIANT: D01 INSET KEY: dark matte walnut, clipped rectangular corners and slim wooden rim. Recess a small keyhole into the active tab, engrave a discreet arched-door icon on CTA. Use only tiny iron corner staples on side panels; no projecting objects. Low-relief carved details, clean compact silhouette, cream labels.",
+  "prompt_characters": 1657,
+  "image_size": {
+    "height": 384,
+    "width": 688
+  },
+  "no_background": false,
+  "references": [
+    {
+      "path": "docs/art/hub-buttons-dungeon-five-pairs-20261123/imagegen/D01-dungeon-gates.png",
+      "sha256": "0a26164832ee28e68651869e5fae198355ac43ea57cd82f44037dd6e2c3210db",
+      "width": 1672,
+      "height": 941,
+      "usage_description": "Reference 1, gates/key visual basis: door and key dungeon identity only; keep frames and props compact as requested."
+    },
+    {
+      "path": "docs/art/hub-buttons-dungeon-five-pairs-20261123/imagegen/D03-delver-kit.png",
+      "sha256": "f89bb8704db4a88f1bb126312143f107c3747f77947010ae8978beb312e86b44",
+      "width": 1672,
+      "height": 941,
+      "usage_description": "Reference 2, delver tools visual basis: rope, map, pickaxe and lantern accents only; keep decor compact as requested."
+    }
+  ],
+  "sanitized_request": {
+    "no_background": false,
+    "image_size": {
+      "height": 384,
+      "width": 688
+    },
+    "description": "Use case: ui-mockup. Create ONE complete 16:9 intoDeDung hub screen, refining reference 1 (D01 gates/keys) and reference 2 (D03 delver tools). MAIN CHANGE: MUCH THINNER FRAMES AND SMALLER DECOR. Preserve visible dungeon identity and dry MATTE WOOD button faces. Border rails only 0.4-0.7% of screen width; each sidebar about21% of screen width; top tabs under10% of screen height. Main CTA is a normal horizontal wood button under11% of screen height, NOT a tall portal. Increase open courtyard and calm parchment space. Props are no larger than nearby text height, attached flush to corners; at most one small themed accent per panel. No masonry pillars, giant keys/pickaxes, hanging maps, rope coils, massive chains, skulls or gears. No gloss, lacquer, shiny bevels, gold trim or bloom. Dull iron, restrained grain, muted brick selection, no yellow card outlines. Keep sunset fortress courtyard, three courtyard heroes, exactly three squad cards, four top tabs, resource strip and right preparation panel. Preserve large readable lettering and functional icons; info rows flat. Exact labels: 'Поход','Наёмники','Кузнец','Колода'; 'Золото 100','Эссенция 0'; 'Отряд','Воин','Щитоносец','Лучница','Дополнительно'; 'Подготовка','7 комнат','Отряд: 3','Колода: 10 карт','Готово','В путь'. Full finished screen, no collage/captions/watermark. VARIANT: D01 INSET KEY: dark matte walnut, clipped rectangular corners and slim wooden rim. Recess a small keyhole into the active tab, engrave a discreet arched-door icon on CTA. Use only tiny iron corner staples on side panels; no projecting objects. Low-relief carved details, clean compact silhouette, cream labels.",
+    "reference_images": [
+      {
+        "usage_description": "Reference 1, gates/key visual basis: door and key dungeon identity only; keep frames and props compact as requested.",
+        "size": {
+          "height": 941,
+          "width": 1672
+        },
+        "image": {
+          "format": "png",
+          "type": "base64",
+          "base64": "<redacted; decoded image sha256=0a26164832ee28e68651869e5fae198355ac43ea57cd82f44037dd6e2c3210db>"
+        }
+      },
+      {
+        "usage_description": "Reference 2, delver tools visual basis: rope, map, pickaxe and lantern accents only; keep decor compact as requested.",
+        "size": {
+          "height": 941,
+          "width": 1672
+        },
+        "image": {
+          "format": "png",
+          "type": "base64",
+          "base64": "<redacted; decoded image sha256=f89bb8704db4a88f1bb126312143f107c3747f77947010ae8978beb312e86b44>"
+        }
+      }
+    ]
+  },
+  "request_sha256": "6789b9e2ebf59dffaed98402bc8a4b1e96dc649e85f9ded154785383c66b8216",
+  "raw_request": "test_reports/hub-buttons-compact-dungeon-five-pairs-20261124/pixel-raw/pixel-C02-inset-key-request.json",
+  "raw_post_response": "test_reports/hub-buttons-compact-dungeon-five-pairs-20261124/pixel-raw/pixel-C02-inset-key-post-response.json",
+  "raw_final_job": "test_reports/hub-buttons-compact-dungeon-five-pairs-20261124/pixel-raw/pixel-C02-inset-key-final-job.json",
+  "post_usage": null,
+  "final_usage": {
+    "type": "generations",
+    "generations": 25.0
+  },
+  "actual_usage_generations": 25.0,
+  "output": {
+    "path": "C02-inset-key.png",
+    "sha256": "2b8e32a1b5c55766e1ccc40579844865ea26c4050ed3ceb7b1257486bea2c12a",
+    "width": 688,
+    "bytes": 188578,
+    "height": 384
+  },
+  "result_keys": [
+    "seed",
+    "type",
+    "action",
+    "images",
+    "progress",
+    "billing_usage",
+    "generation_id",
+    "usage_cost_usd",
+    "billing_charged",
+    "style_reference",
+    "style_selection",
+    "style_reference_path",
+    "generation_started_at",
+    "original_image_n_colors",
+    "quantized_image_n_colors"
+  ]
+}

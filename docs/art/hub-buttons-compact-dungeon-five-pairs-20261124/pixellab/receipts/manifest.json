@@ -1,0 +1,216 @@
+{
+  "task": "hub-buttons-compact-dungeon-five-pairs-20261124",
+  "base_commit": "f7c2f79aefc43df77aabb220591718ac293ce660",
+  "endpoint": "https://api.pixellab.ai/v2/generate-image-v2",
+  "image_size": {
+    "width": 688,
+    "height": 384
+  },
+  "requested_variants": 5,
+  "completed_variants": 5,
+  "total_billed_generations": 125.0,
+  "references": [
+    {
+      "path": "docs/art/hub-buttons-dungeon-five-pairs-20261123/imagegen/D01-dungeon-gates.png",
+      "width": 1672,
+      "height": 941,
+      "sha256": "0a26164832ee28e68651869e5fae198355ac43ea57cd82f44037dd6e2c3210db",
+      "usage_description": "Reference 1, gates/key visual basis: door and key dungeon identity only; keep frames and props compact as requested."
+    },
+    {
+      "path": "docs/art/hub-buttons-dungeon-five-pairs-20261123/imagegen/D03-delver-kit.png",
+      "width": 1672,
+      "height": 941,
+      "sha256": "f89bb8704db4a88f1bb126312143f107c3747f77947010ae8978beb312e86b44",
+      "usage_description": "Reference 2, delver tools visual basis: rope, map, pickaxe and lantern accents only; keep decor compact as requested."
+    }
+  ],
+  "raw_evidence_dir": "test_reports/hub-buttons-compact-dungeon-five-pairs-20261124/pixel-raw/",
+  "variants": [
+    {
+      "id": "C01",
+      "slug": "slim-gates",
+      "name": "Тонкая дверная рама",
+      "job_id": "4c96bfdc-ef84-46f5-8aee-19ffedc4267b",
+      "status": "completed",
+      "actual_usage_generations": 25.0,
+      "prompt_characters": 1672,
+      "request_sha256": "bd3ef197372df3f0ed1c948b7be4c931497d115fc163b25a8193b2a241880d49",
+      "references": [
+        {
+          "path": "docs/art/hub-buttons-dungeon-five-pairs-20261123/imagegen/D01-dungeon-gates.png",
+          "sha256": "0a26164832ee28e68651869e5fae198355ac43ea57cd82f44037dd6e2c3210db",
+          "width": 1672,
+          "height": 941,
+          "usage_description": "Reference 1, gates/key visual basis: door and key dungeon identity only; keep frames and props compact as requested."
+        },
+        {
+          "path": "docs/art/hub-buttons-dungeon-five-pairs-20261123/imagegen/D03-delver-kit.png",
+          "sha256": "f89bb8704db4a88f1bb126312143f107c3747f77947010ae8978beb312e86b44",
+          "width": 1672,
+          "height": 941,
+          "usage_description": "Reference 2, delver tools visual basis: rope, map, pickaxe and lantern accents only; keep decor compact as requested."
+        }
+      ],
+      "output": {
+        "path": "C01-slim-gates.png",
+        "sha256": "748f5462ea9e9143ab33110d2c109a65f5ab1b1224f2ca45cccfcc0fdc01be5a",
+        "width": 688,
+        "bytes": 214862,
+        "height": 384
+      },
+      "receipt": "receipts/C01-slim-gates.json",
+      "raw_request": "test_reports/hub-buttons-compact-dungeon-five-pairs-20261124/pixel-raw/pixel-C01-slim-gates-request.json",
+      "raw_post_response": "test_reports/hub-buttons-compact-dungeon-five-pairs-20261124/pixel-raw/pixel-C01-slim-gates-post-response.json",
+      "raw_final_job": "test_reports/hub-buttons-compact-dungeon-five-pairs-20261124/pixel-raw/pixel-C01-slim-gates-final-job.json"
+    },
+    {
+      "id": "C02",
+      "slug": "inset-key",
+      "name": "Врезанный ключ",
+      "job_id": "6b4bf37b-917b-4f91-94fe-57d733e7cdf2",
+      "status": "completed",
+      "actual_usage_generations": 25.0,
+      "prompt_characters": 1657,
+      "request_sha256": "6789b9e2ebf59dffaed98402bc8a4b1e96dc649e85f9ded154785383c66b8216",
+      "references": [
+        {
+          "path": "docs/art/hub-buttons-dungeon-five-pairs-20261123/imagegen/D01-dungeon-gates.png",
+          "sha256": "0a26164832ee28e68651869e5fae198355ac43ea57cd82f44037dd6e2c3210db",
+          "width": 1672,
+          "height": 941,
+          "usage_description": "Reference 1, gates/key visual basis: door and key dungeon identity only; keep frames and props compact as requested."
+        },
+        {
+          "path": "docs/art/hub-buttons-dungeon-five-pairs-20261123/imagegen/D03-delver-kit.png",
+          "sha256": "f89bb8704db4a88f1bb126312143f107c3747f77947010ae8978beb312e86b44",
+          "width": 1672,
+          "height": 941,
+          "usage_description": "Reference 2, delver tools visual basis: rope, map, pickaxe and lantern accents only; keep decor compact as requested."
+        }
+      ],
+      "output": {
+        "path": "C02-inset-key.png",
+        "sha256": "2b8e32a1b5c55766e1ccc40579844865ea26c4050ed3ceb7b1257486bea2c12a",
+        "width": 688,
+        "bytes": 188578,
+        "height": 384
+      },
+      "receipt": "receipts/C02-inset-key.json",
+      "raw_request": "test_reports/hub-buttons-compact-dungeon-five-pairs-20261124/pixel-raw/pixel-C02-inset-key-request.json",
+      "raw_post_response": "test_reports/hub-buttons-compact-dungeon-five-pairs-20261124/pixel-raw/pixel-C02-inset-key-post-response.json",
+      "raw_final_job": "test_reports/hub-buttons-compact-dungeon-five-pairs-20261124/pixel-raw/pixel-C02-inset-key-final-job.json"
+    },
+    {
+      "id": "C03",
+      "slug": "field-notes",
+      "name": "Записки искателя",
+      "job_id": "14167e4c-ccd4-4cd2-bc71-eeb456c965bd",
+      "status": "completed",
+      "actual_usage_generations": 25.0,
+      "prompt_characters": 1665,
+      "request_sha256": "26fb2471f6ad34d0dd5fc9715ad90a71c77241d6b39d66c253a5c8d7a7679abb",
+      "references": [
+        {
+          "path": "docs/art/hub-buttons-dungeon-five-pairs-20261123/imagegen/D01-dungeon-gates.png",
+          "sha256": "0a26164832ee28e68651869e5fae198355ac43ea57cd82f44037dd6e2c3210db",
+          "width": 1672,
+          "height": 941,
+          "usage_description": "Reference 1, gates/key visual basis: door and key dungeon identity only; keep frames and props compact as requested."
+        },
+        {
+          "path": "docs/art/hub-buttons-dungeon-five-pairs-20261123/imagegen/D03-delver-kit.png",
+          "sha256": "f89bb8704db4a88f1bb126312143f107c3747f77947010ae8978beb312e86b44",
+          "width": 1672,
+          "height": 941,
+          "usage_description": "Reference 2, delver tools visual basis: rope, map, pickaxe and lantern accents only; keep decor compact as requested."
+        }
+      ],
+      "output": {
+        "path": "C03-field-notes.png",
+        "sha256": "321ab78fb6e3de3d4edd2d2a9c960d63d74967a59650473d076bc2dcdd08c97a",
+        "width": 688,
+        "bytes": 184685,
+        "height": 384
+      },
+      "receipt": "receipts/C03-field-notes.json",
+      "raw_request": "test_reports/hub-buttons-compact-dungeon-five-pairs-20261124/pixel-raw/pixel-C03-field-notes-request.json",
+      "raw_post_response": "test_reports/hub-buttons-compact-dungeon-five-pairs-20261124/pixel-raw/pixel-C03-field-notes-post-response.json",
+      "raw_final_job": "test_reports/hub-buttons-compact-dungeon-five-pairs-20261124/pixel-raw/pixel-C03-field-notes-final-job.json"
+    },
+    {
+      "id": "C04",
+      "slug": "rope-lantern",
+      "name": "Шнур и фонарь",
+      "job_id": "b2d33b8c-8316-477a-a64a-0e38716a115a",
+      "status": "completed",
+      "actual_usage_generations": 25.0,
+      "prompt_characters": 1685,
+      "request_sha256": "7340849153eb5ec8f39b038bfaf56d5bc29c05c744149f1bac772c36b935fcae",
+      "references": [
+        {
+          "path": "docs/art/hub-buttons-dungeon-five-pairs-20261123/imagegen/D01-dungeon-gates.png",
+          "sha256": "0a26164832ee28e68651869e5fae198355ac43ea57cd82f44037dd6e2c3210db",
+          "width": 1672,
+          "height": 941,
+          "usage_description": "Reference 1, gates/key visual basis: door and key dungeon identity only; keep frames and props compact as requested."
+        },
+        {
+          "path": "docs/art/hub-buttons-dungeon-five-pairs-20261123/imagegen/D03-delver-kit.png",
+          "sha256": "f89bb8704db4a88f1bb126312143f107c3747f77947010ae8978beb312e86b44",
+          "width": 1672,
+          "height": 941,
+          "usage_description": "Reference 2, delver tools visual basis: rope, map, pickaxe and lantern accents only; keep decor compact as requested."
+        }
+      ],
+      "output": {
+        "path": "C04-rope-lantern.png",
+        "sha256": "e19e3e0a48ba67cfada600ab77cd94cdeb9c4742b5746e24db6dc80eddcf25f5",
+        "width": 688,
+        "bytes": 138904,
+        "height": 384
+      },
+      "receipt": "receipts/C04-rope-lantern.json",
+      "raw_request": "test_reports/hub-buttons-compact-dungeon-five-pairs-20261124/pixel-raw/pixel-C04-rope-lantern-request.json",
+      "raw_post_response": "test_reports/hub-buttons-compact-dungeon-five-pairs-20261124/pixel-raw/pixel-C04-rope-lantern-post-response.json",
+      "raw_final_job": "test_reports/hub-buttons-compact-dungeon-five-pairs-20261124/pixel-raw/pixel-C04-rope-lantern-final-job.json"
+    },
+    {
+      "id": "C05",
+      "slug": "gate-delver",
+      "name": "Ключ и маршрут",
+      "job_id": "36563e5a-86db-4643-87a2-d77f24d46da1",
+      "status": "completed",
+      "actual_usage_generations": 25.0,
+      "prompt_characters": 1706,
+      "request_sha256": "03c53b8eeef692a6904c4a501b5692c572605d49a40d3346411673103bc1d474",
+      "references": [
+        {
+          "path": "docs/art/hub-buttons-dungeon-five-pairs-20261123/imagegen/D01-dungeon-gates.png",
+          "sha256": "0a26164832ee28e68651869e5fae198355ac43ea57cd82f44037dd6e2c3210db",
+          "width": 1672,
+          "height": 941,
+          "usage_description": "Reference 1, gates/key visual basis: door and key dungeon identity only; keep frames and props compact as requested."
+        },
+        {
+          "path": "docs/art/hub-buttons-dungeon-five-pairs-20261123/imagegen/D03-delver-kit.png",
+          "sha256": "f89bb8704db4a88f1bb126312143f107c3747f77947010ae8978beb312e86b44",
+          "width": 1672,
+          "height": 941,
+          "usage_description": "Reference 2, delver tools visual basis: rope, map, pickaxe and lantern accents only; keep decor compact as requested."
+        }
+      ],
+      "output": {
+        "path": "C05-gate-delver.png",
+        "sha256": "586fb8de9e8afe084042ef7b978eb42d3087271ef46130c7d2ce397e6a2f7e7a",
+        "width": 688,
+        "bytes": 60919,
+        "height": 384
+      },
+      "receipt": "receipts/C05-gate-delver.json",
+      "raw_request": "test_reports/hub-buttons-compact-dungeon-five-pairs-20261124/pixel-raw/pixel-C05-gate-delver-request.json",
+      "raw_post_response": "test_reports/hub-buttons-compact-dungeon-five-pairs-20261124/pixel-raw/pixel-C05-gate-delver-post-response.json",
+      "raw_final_job": "test_reports/hub-buttons-compact-dungeon-five-pairs-20261124/pixel-raw/pixel-C05-gate-delver-final-job.json"
+    }
+  ]
+}

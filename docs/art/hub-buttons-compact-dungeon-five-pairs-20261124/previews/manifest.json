@@ -1,0 +1,152 @@
+[
+  {
+    "id": "C01",
+    "provider": "imagegen",
+    "file": "previews/imagegen-C01.webp",
+    "source": "imagegen/C01-slim-gates.png",
+    "source_sha256": "83ed6639f89eb39619a01a625e85986e34c280e70e169ad111246fa5b260b580",
+    "sha256": "bc391d35f89af8f70b24274c14596b3a5b9c90f4857f0fbbc01dc758b5bba3b8",
+    "bytes": 66712,
+    "size": [
+      640,
+      360
+    ],
+    "method": "LANCZOS display thumbnail / WEBP quality85",
+    "source_unchanged": true
+  },
+  {
+    "id": "C02",
+    "provider": "imagegen",
+    "file": "previews/imagegen-C02.webp",
+    "source": "imagegen/C02-inset-key.png",
+    "source_sha256": "c2e7ab4cefe8a482354e632c3dc9c86c8b83abf52b7159188966217621671001",
+    "sha256": "95e8e19be5f5c223094dc82f4adf454631900687f1d49d12ab498f008670cfb7",
+    "bytes": 69498,
+    "size": [
+      640,
+      360
+    ],
+    "method": "LANCZOS display thumbnail / WEBP quality85",
+    "source_unchanged": true
+  },
+  {
+    "id": "C03",
+    "provider": "imagegen",
+    "file": "previews/imagegen-C03.webp",
+    "source": "imagegen/C03-field-notes.png",
+    "source_sha256": "1ee99a99dab7c5931e91203e1c66556c81aba0fea667c116b5b6f58366115a94",
+    "sha256": "9429d9a95e7b7619306cc862bab0b85e7d9102273f74c822fb97eb0dc756e3ef",
+    "bytes": 71228,
+    "size": [
+      640,
+      360
+    ],
+    "method": "LANCZOS display thumbnail / WEBP quality85",
+    "source_unchanged": true
+  },
+  {
+    "id": "C04",
+    "provider": "imagegen",
+    "file": "previews/imagegen-C04.webp",
+    "source": "imagegen/C04-rope-lantern.png",
+    "source_sha256": "8595ad2317961458237ed38688a73b11cb865b8563deb7058db6869bccfd1981",
+    "sha256": "4e7cdb42a2029e1f4c2a4e03fc103cbfe3cd854582013864f92a08e077603dab",
+    "bytes": 55212,
+    "size": [
+      640,
+      360
+    ],
+    "method": "LANCZOS display thumbnail / WEBP quality85",
+    "source_unchanged": true
+  },
+  {
+    "id": "C05",
+    "provider": "imagegen",
+    "file": "previews/imagegen-C05.webp",
+    "source": "imagegen/C05-gate-delver.png",
+    "source_sha256": "2530d674a79d70d0bc6f7278fd3769e328e75dab5c3122349f74deaa3e7be6c5",
+    "sha256": "ccfc0496fbbf337ab2f7f5bc216946b8319b88ce01d3f0ffa5e1c65f1580c3c3",
+    "bytes": 69886,
+    "size": [
+      640,
+      360
+    ],
+    "method": "LANCZOS display thumbnail / WEBP quality85",
+    "source_unchanged": true
+  },
+  {
+    "id": "C01",
+    "provider": "pixellab",
+    "file": "previews/pixellab-C01.webp",
+    "source": "pixellab/C01-slim-gates.png",
+    "source_sha256": "748f5462ea9e9143ab33110d2c109a65f5ab1b1224f2ca45cccfcc0fdc01be5a",
+    "sha256": "5a7ad6f1adde4da6d99d14c140ca8c01916759d9f67857c8108d3ccb659d7b54",
+    "bytes": 76422,
+    "size": [
+      688,
+      384
+    ],
+    "method": "native RGB / lossless WEBP",
+    "source_unchanged": true
+  },
+  {
+    "id": "C02",
+    "provider": "pixellab",
+    "file": "previews/pixellab-C02.webp",
+    "source": "pixellab/C02-inset-key.png",
+    "source_sha256": "2b8e32a1b5c55766e1ccc40579844865ea26c4050ed3ceb7b1257486bea2c12a",
+    "sha256": "7e2906280e3d4f16dfd12166d1dc8378f73ff4da4d28fc185f6890b94e6db01e",
+    "bytes": 65672,
+    "size": [
+      688,
+      384
+    ],
+    "method": "native RGB / lossless WEBP",
+    "source_unchanged": true
+  },
+  {
+    "id": "C03",
+    "provider": "pixellab",
+    "file": "previews/pixellab-C03.webp",
+    "source": "pixellab/C03-field-notes.png",
+    "source_sha256": "321ab78fb6e3de3d4edd2d2a9c960d63d74967a59650473d076bc2dcdd08c97a",
+    "sha256": "7b5b261b66f65d48b0b2044363db1197a168fe6408a08ec11e912eac3726702a",
+    "bytes": 65366,
+    "size": [
+      688,
+      384
+    ],
+    "method": "native RGB / lossless WEBP",
+    "source_unchanged": true
+  },
+  {
+    "id": "C04",
+    "provider": "pixellab",
+    "file": "previews/pixellab-C04.webp",
+    "source": "pixellab/C04-rope-lantern.png",
+    "source_sha256": "e19e3e0a48ba67cfada600ab77cd94cdeb9c4742b5746e24db6dc80eddcf25f5",
+    "sha256": "007bb06538a882cea79e010ccb90eb5e8c61ac7112c43befbe16fe63c804e70d",
+    "bytes": 50802,
+    "size": [
+      688,
+      384
+    ],
+    "method": "native RGB / lossless WEBP",
+    "source_unchanged": true
+  },
+  {
+    "id": "C05",
+    "provider": "pixellab",
+    "file": "previews/pixellab-C05.webp",
+    "source": "pixellab/C05-gate-delver.png",
+    "source_sha256": "586fb8de9e8afe084042ef7b978eb42d3087271ef46130c7d2ce397e6a2f7e7a",
+    "sha256": "5d6859ca972e890035f1ad7d4582af28c6193912c56c694c1cc8bbd6c029c464",
+    "bytes": 22668,
+    "size": [
+      688,
+      384
+    ],
+    "method": "native RGB / lossless WEBP",
+    "source_unchanged": true
+  }
+]

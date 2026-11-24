@@ -1,0 +1,102 @@
+{
+  "task": "hub-buttons-compact-dungeon-five-pairs-20261124",
+  "base_commit": "f7c2f79aefc43df77aabb220591718ac293ce660",
+  "variant_id": "C05",
+  "slug": "gate-delver",
+  "name": "Ключ и маршрут",
+  "style": "D01+D03 HYBRID: medium dry oak, slender timber rails with tiny dull iron hinge caps. A small iron key emblem marks selected tab; a sparse etched dungeon-route line decorates only one panel corner, with two tiny nodes. Main CTA has a small key-over-stair symbol. One short leather end strap per button; no stone or hanging props. Restrained functional game UI.",
+  "endpoint": "https://api.pixellab.ai/v2/generate-image-v2",
+  "job_id": "36563e5a-86db-4643-87a2-d77f24d46da1",
+  "status": "completed",
+  "prompt": "Use case: ui-mockup. Create ONE complete 16:9 intoDeDung hub screen, refining reference 1 (D01 gates/keys) and reference 2 (D03 delver tools). MAIN CHANGE: MUCH THINNER FRAMES AND SMALLER DECOR. Preserve visible dungeon identity and dry MATTE WOOD button faces. Border rails only 0.4-0.7% of screen width; each sidebar about21% of screen width; top tabs under10% of screen height. Main CTA is a normal horizontal wood button under11% of screen height, NOT a tall portal. Increase open courtyard and calm parchment space. Props are no larger than nearby text height, attached flush to corners; at most one small themed accent per panel. No masonry pillars, giant keys/pickaxes, hanging maps, rope coils, massive chains, skulls or gears. No gloss, lacquer, shiny bevels, gold trim or bloom. Dull iron, restrained grain, muted brick selection, no yellow card outlines. Keep sunset fortress courtyard, three courtyard heroes, exactly three squad cards, four top tabs, resource strip and right preparation panel. Preserve large readable lettering and functional icons; info rows flat. Exact labels: 'Поход','Наёмники','Кузнец','Колода'; 'Золото 100','Эссенция 0'; 'Отряд','Воин','Щитоносец','Лучница','Дополнительно'; 'Подготовка','7 комнат','Отряд: 3','Колода: 10 карт','Готово','В путь'. Full finished screen, no collage/captions/watermark. VARIANT: D01+D03 HYBRID: medium dry oak, slender timber rails with tiny dull iron hinge caps. A small iron key emblem marks selected tab; a sparse etched dungeon-route line decorates only one panel corner, with two tiny nodes. Main CTA has a small key-over-stair symbol. One short leather end strap per button; no stone or hanging props. Restrained functional game UI.",
+  "prompt_characters": 1706,
+  "image_size": {
+    "height": 384,
+    "width": 688
+  },
+  "no_background": false,
+  "references": [
+    {
+      "path": "docs/art/hub-buttons-dungeon-five-pairs-20261123/imagegen/D01-dungeon-gates.png",
+      "sha256": "0a26164832ee28e68651869e5fae198355ac43ea57cd82f44037dd6e2c3210db",
+      "width": 1672,
+      "height": 941,
+      "usage_description": "Reference 1, gates/key visual basis: door and key dungeon identity only; keep frames and props compact as requested."
+    },
+    {
+      "path": "docs/art/hub-buttons-dungeon-five-pairs-20261123/imagegen/D03-delver-kit.png",
+      "sha256": "f89bb8704db4a88f1bb126312143f107c3747f77947010ae8978beb312e86b44",
+      "width": 1672,
+      "height": 941,
+      "usage_description": "Reference 2, delver tools visual basis: rope, map, pickaxe and lantern accents only; keep decor compact as requested."
+    }
+  ],
+  "sanitized_request": {
+    "no_background": false,
+    "image_size": {
+      "height": 384,
+      "width": 688
+    },
+    "description": "Use case: ui-mockup. Create ONE complete 16:9 intoDeDung hub screen, refining reference 1 (D01 gates/keys) and reference 2 (D03 delver tools). MAIN CHANGE: MUCH THINNER FRAMES AND SMALLER DECOR. Preserve visible dungeon identity and dry MATTE WOOD button faces. Border rails only 0.4-0.7% of screen width; each sidebar about21% of screen width; top tabs under10% of screen height. Main CTA is a normal horizontal wood button under11% of screen height, NOT a tall portal. Increase open courtyard and calm parchment space. Props are no larger than nearby text height, attached flush to corners; at most one small themed accent per panel. No masonry pillars, giant keys/pickaxes, hanging maps, rope coils, massive chains, skulls or gears. No gloss, lacquer, shiny bevels, gold trim or bloom. Dull iron, restrained grain, muted brick selection, no yellow card outlines. Keep sunset fortress courtyard, three courtyard heroes, exactly three squad cards, four top tabs, resource strip and right preparation panel. Preserve large readable lettering and functional icons; info rows flat. Exact labels: 'Поход','Наёмники','Кузнец','Колода'; 'Золото 100','Эссенция 0'; 'Отряд','Воин','Щитоносец','Лучница','Дополнительно'; 'Подготовка','7 комнат','Отряд: 3','Колода: 10 карт','Готово','В путь'. Full finished screen, no collage/captions/watermark. VARIANT: D01+D03 HYBRID: medium dry oak, slender timber rails with tiny dull iron hinge caps. A small iron key emblem marks selected tab; a sparse etched dungeon-route line decorates only one panel corner, with two tiny nodes. Main CTA has a small key-over-stair symbol. One short leather end strap per button; no stone or hanging props. Restrained functional game UI.",
+    "reference_images": [
+      {
+        "usage_description": "Reference 1, gates/key visual basis: door and key dungeon identity only; keep frames and props compact as requested.",
+        "size": {
+          "height": 941,
+          "width": 1672
+        },
+        "image": {
+          "format": "png",
+          "type": "base64",
+          "base64": "<redacted; decoded image sha256=0a26164832ee28e68651869e5fae198355ac43ea57cd82f44037dd6e2c3210db>"
+        }
+      },
+      {
+        "usage_description": "Reference 2, delver tools visual basis: rope, map, pickaxe and lantern accents only; keep decor compact as requested.",
+        "size": {
+          "height": 941,
+          "width": 1672
+        },
+        "image": {
+          "format": "png",
+          "type": "base64",
+          "base64": "<redacted; decoded image sha256=f89bb8704db4a88f1bb126312143f107c3747f77947010ae8978beb312e86b44>"
+        }
+      }
+    ]
+  },
+  "request_sha256": "03c53b8eeef692a6904c4a501b5692c572605d49a40d3346411673103bc1d474",
+  "raw_request": "test_reports/hub-buttons-compact-dungeon-five-pairs-20261124/pixel-raw/pixel-C05-gate-delver-request.json",
+  "raw_post_response": "test_reports/hub-buttons-compact-dungeon-five-pairs-20261124/pixel-raw/pixel-C05-gate-delver-post-response.json",
+  "raw_final_job": "test_reports/hub-buttons-compact-dungeon-five-pairs-20261124/pixel-raw/pixel-C05-gate-delver-final-job.json",
+  "post_usage": null,
+  "final_usage": {
+    "type": "generations",
+    "generations": 25.0
+  },
+  "actual_usage_generations": 25.0,
+  "output": {
+    "path": "C05-gate-delver.png",
+    "sha256": "586fb8de9e8afe084042ef7b978eb42d3087271ef46130c7d2ce397e6a2f7e7a",
+    "width": 688,
+    "bytes": 60919,
+    "height": 384
+  },
+  "result_keys": [
+    "seed",
+    "type",
+    "action",
+    "images",
+    "progress",
+    "billing_usage",
+    "generation_id",
+    "usage_cost_usd",
+    "billing_charged",
+    "style_reference",
+    "style_selection",
+    "style_reference_path",
+    "generation_started_at",
+    "original_image_n_colors",
+    "quantized_image_n_colors"
+  ]
+}

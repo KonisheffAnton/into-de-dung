@@ -1,5 +1,17 @@
 # История и свидетельства проверок
 
+## Компактные рамки и декор хаба — 2026-11-24
+
+По U на основе D01/D03 созданы [ещё5 Imagegen +5 PixelLab](art/hub-buttons-compact-dungeon-five-pairs-20261124/README.md).
+Тоньше рамы, меньше декор, матовое дерево и признаки данжей сохранены.
+Обе базы переданы каждой паре;10 PNG,30 lossless-деталей,10 обзоров.
+PixelLab5jobs/125generations; PNG/SHA/prompts/refs/ссылки/crops PASS.
+G review APPROVE как концептов. Все10 просмотрены; HTML проверен статически.
+Browser/Godot не запускались, внедрения нет; выбор/приёмка U открыты.
+Отклонения PL-C01/C02/C04/C05 перечислены в README, без reroll.
+[Проверки](../test_reports/hub-buttons-compact-dungeon-five-pairs-20261124/validation.json);
+[прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261124-3.md).
+
 ## Двадцать кучек с рёбрами и слабым черепом — 2026-11-24
 
 По U подготовлены [G41–G50/PL49–PL58](art/bones-ribs-skull-twenty-20261124/README.md),

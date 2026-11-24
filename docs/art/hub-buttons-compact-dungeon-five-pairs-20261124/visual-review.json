@@ -1,0 +1,12 @@
+{
+  "scope":"Independent read-only game_reviewer, five fixed Imagegen concepts compared with G-D01 and G-D03; no PixelLab or runtime review",
+  "verdict":"APPROVE as concept selection package; user acceptance remains open",
+  "reviewed_files":["imagegen/C01-slim-gates.png","imagegen/C02-inset-key.png","imagegen/C03-field-notes.png","imagegen/C04-rope-lantern.png","imagegen/C05-gate-delver.png"],
+  "shared":"All five substantially reduce bulky frames/stone portals and hanging props. Matte wood, four tabs, three squad cards and readable labels remain.",
+  "C01":"Clean lean gate translation: flush hinges, small keyhole, door-seam CTA and slim rails. Dungeon identity rests on a few icons.",
+  "C02":"Clean inset-key silhouette, but small motifs weaken dungeon identity and dark CTA blends into other wood.",
+  "C03":"Elegant thin field-note UI and clear CTA; map/stair motifs read closer to generic journal than dungeon UI.",
+  "C04":"Compact rope/pickaxe/lantern/stair identity; CTA less emphasized and courtyard very empty.",
+  "C05":"Best balanced hybrid, flush key/hinge details and route/stair marks without heavy borders. A few extra corner straps remain restrained.",
+  "preferred":["C05","C01"]
+}

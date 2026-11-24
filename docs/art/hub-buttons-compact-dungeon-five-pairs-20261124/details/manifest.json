@@ -1,0 +1,512 @@
+[
+  {
+    "id": "C01",
+    "provider": "imagegen",
+    "detail": "active",
+    "file": "details/imagegen-C01-active.webp",
+    "source": "imagegen/C01-slim-gates.png",
+    "box": [
+      10,
+      8,
+      448,
+      125
+    ],
+    "sha256": "fd3a404e40a20a14fbbfff567783aed2ae6ea8d5e0aa3c40be99982c22afdda4",
+    "source_sha256": "83ed6639f89eb39619a01a625e85986e34c280e70e169ad111246fa5b260b580",
+    "bytes": 60938,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "C01",
+    "provider": "imagegen",
+    "detail": "frame",
+    "file": "details/imagegen-C01-frame.webp",
+    "source": "imagegen/C01-slim-gates.png",
+    "box": [
+      10,
+      195,
+      402,
+      461
+    ],
+    "sha256": "0722b95b1640be229c2e37cae3430e1eaf256a373ce15ee5558b391a48d3f088",
+    "source_sha256": "83ed6639f89eb39619a01a625e85986e34c280e70e169ad111246fa5b260b580",
+    "bytes": 123556,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "C01",
+    "provider": "imagegen",
+    "detail": "cta",
+    "file": "details/imagegen-C01-cta.webp",
+    "source": "imagegen/C01-slim-gates.png",
+    "box": [
+      1260,
+      757,
+      1663,
+      918
+    ],
+    "sha256": "9ab61b404911124ba3b86e1f8214f1bd0994e3dae8dcb4fb20bb6476aa414296",
+    "source_sha256": "83ed6639f89eb39619a01a625e85986e34c280e70e169ad111246fa5b260b580",
+    "bytes": 77206,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "C02",
+    "provider": "imagegen",
+    "detail": "active",
+    "file": "details/imagegen-C02-active.webp",
+    "source": "imagegen/C02-inset-key.png",
+    "box": [
+      17,
+      5,
+      436,
+      126
+    ],
+    "sha256": "7021dad46fa387778bb0d2538f345c891936e6973945e1c935daf313ad9a85a0",
+    "source_sha256": "c2e7ab4cefe8a482354e632c3dc9c86c8b83abf52b7159188966217621671001",
+    "bytes": 59652,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "C02",
+    "provider": "imagegen",
+    "detail": "frame",
+    "file": "details/imagegen-C02-frame.webp",
+    "source": "imagegen/C02-inset-key.png",
+    "box": [
+      12,
+      208,
+      416,
+      479
+    ],
+    "sha256": "472dfcbc401038e0f4a5655bfde24ac4c55bf7f6f43688d459c547cf9b7e46a2",
+    "source_sha256": "c2e7ab4cefe8a482354e632c3dc9c86c8b83abf52b7159188966217621671001",
+    "bytes": 131794,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "C02",
+    "provider": "imagegen",
+    "detail": "cta",
+    "file": "details/imagegen-C02-cta.webp",
+    "source": "imagegen/C02-inset-key.png",
+    "box": [
+      1251,
+      734,
+      1656,
+      912
+    ],
+    "sha256": "e489c1193f25a64b358922774cbe60e856dd14b1a65486c562e49efffeb4519e",
+    "source_sha256": "c2e7ab4cefe8a482354e632c3dc9c86c8b83abf52b7159188966217621671001",
+    "bytes": 86074,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "C03",
+    "provider": "imagegen",
+    "detail": "active",
+    "file": "details/imagegen-C03-active.webp",
+    "source": "imagegen/C03-field-notes.png",
+    "box": [
+      24,
+      24,
+      437,
+      136
+    ],
+    "sha256": "e0090ec014cea59dcfeb8c6be426b68196e359a6f2cd01f88c1d1011433fa30e",
+    "source_sha256": "1ee99a99dab7c5931e91203e1c66556c81aba0fea667c116b5b6f58366115a94",
+    "bytes": 59208,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "C03",
+    "provider": "imagegen",
+    "detail": "frame",
+    "file": "details/imagegen-C03-frame.webp",
+    "source": "imagegen/C03-field-notes.png",
+    "box": [
+      12,
+      217,
+      401,
+      489
+    ],
+    "sha256": "996404172d2766c2c806816e3c6c6412da448f9f068ad74252e491c6b812d586",
+    "source_sha256": "1ee99a99dab7c5931e91203e1c66556c81aba0fea667c116b5b6f58366115a94",
+    "bytes": 136872,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "C03",
+    "provider": "imagegen",
+    "detail": "cta",
+    "file": "details/imagegen-C03-cta.webp",
+    "source": "imagegen/C03-field-notes.png",
+    "box": [
+      1289,
+      742,
+      1645,
+      895
+    ],
+    "sha256": "d4f1bf8a9a79db90b984e9a2a7a94fa3fdebdd0c0119664d7605ba5c034d6723",
+    "source_sha256": "1ee99a99dab7c5931e91203e1c66556c81aba0fea667c116b5b6f58366115a94",
+    "bytes": 67800,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "C04",
+    "provider": "imagegen",
+    "detail": "active",
+    "file": "details/imagegen-C04-active.webp",
+    "source": "imagegen/C04-rope-lantern.png",
+    "box": [
+      15,
+      29,
+      442,
+      121
+    ],
+    "sha256": "c084fc52ca4a468a841028e813fde2725160b722fb1b63923e72ebb7f61d2993",
+    "source_sha256": "8595ad2317961458237ed38688a73b11cb865b8563deb7058db6869bccfd1981",
+    "bytes": 46062,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "C04",
+    "provider": "imagegen",
+    "detail": "frame",
+    "file": "details/imagegen-C04-frame.webp",
+    "source": "imagegen/C04-rope-lantern.png",
+    "box": [
+      14,
+      207,
+      405,
+      448
+    ],
+    "sha256": "5e19f3474f3c0249d7ac4c421b2bda7e852dce8e4858dee3932b09235ea70e80",
+    "source_sha256": "8595ad2317961458237ed38688a73b11cb865b8563deb7058db6869bccfd1981",
+    "bytes": 108244,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "C04",
+    "provider": "imagegen",
+    "detail": "cta",
+    "file": "details/imagegen-C04-cta.webp",
+    "source": "imagegen/C04-rope-lantern.png",
+    "box": [
+      1245,
+      768,
+      1647,
+      888
+    ],
+    "sha256": "3161b88b37a2ef80e9dfe88b09d328949323f72a808cbda1901b24433f0bb90a",
+    "source_sha256": "8595ad2317961458237ed38688a73b11cb865b8563deb7058db6869bccfd1981",
+    "bytes": 51788,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "C05",
+    "provider": "imagegen",
+    "detail": "active",
+    "file": "details/imagegen-C05-active.webp",
+    "source": "imagegen/C05-gate-delver.png",
+    "box": [
+      15,
+      21,
+      451,
+      125
+    ],
+    "sha256": "359a282e6731e3ee2976a92775563f7463b4daea88de04e4fc526d2346a69788",
+    "source_sha256": "2530d674a79d70d0bc6f7278fd3769e328e75dab5c3122349f74deaa3e7be6c5",
+    "bytes": 57694,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "C05",
+    "provider": "imagegen",
+    "detail": "frame",
+    "file": "details/imagegen-C05-frame.webp",
+    "source": "imagegen/C05-gate-delver.png",
+    "box": [
+      7,
+      202,
+      405,
+      474
+    ],
+    "sha256": "3b7d020d4c95ab30cbe393be8e3cd010f0ad1cce883fab741ed9cb3bc1b7ab6e",
+    "source_sha256": "2530d674a79d70d0bc6f7278fd3769e328e75dab5c3122349f74deaa3e7be6c5",
+    "bytes": 138366,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "C05",
+    "provider": "imagegen",
+    "detail": "cta",
+    "file": "details/imagegen-C05-cta.webp",
+    "source": "imagegen/C05-gate-delver.png",
+    "box": [
+      1288,
+      771,
+      1648,
+      906
+    ],
+    "sha256": "b0091917e7eb008983850dc7784ebf7ab0bc153af7031709bddc54041af8743a",
+    "source_sha256": "2530d674a79d70d0bc6f7278fd3769e328e75dab5c3122349f74deaa3e7be6c5",
+    "bytes": 62278,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "C01",
+    "provider": "pixellab",
+    "detail": "active",
+    "file": "details/pixellab-C01-active.webp",
+    "source": "pixellab/C01-slim-gates.png",
+    "box": [
+      0,
+      0,
+      189,
+      60
+    ],
+    "sha256": "a4da547b7aea144bc7ba0d4dcfa039d4a304e1b144ba15153b38e126744078b0",
+    "source_sha256": "748f5462ea9e9143ab33110d2c109a65f5ab1b1224f2ca45cccfcc0fdc01be5a",
+    "bytes": 2842,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "C01",
+    "provider": "pixellab",
+    "detail": "frame",
+    "file": "details/pixellab-C01-frame.webp",
+    "source": "pixellab/C01-slim-gates.png",
+    "box": [
+      0,
+      82,
+      199,
+      194
+    ],
+    "sha256": "ad0e779e6167717537302c29f6085471c4f6cc8d95246a94465242efedc09794",
+    "source_sha256": "748f5462ea9e9143ab33110d2c109a65f5ab1b1224f2ca45cccfcc0fdc01be5a",
+    "bytes": 5620,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "C01",
+    "provider": "pixellab",
+    "detail": "cta",
+    "file": "details/pixellab-C01-cta.webp",
+    "source": "pixellab/C01-slim-gates.png",
+    "box": [
+      497,
+      285,
+      688,
+      373
+    ],
+    "sha256": "98c612cef1aed578d4af3707f7cbf1bb49bce5a696f3ec4390243bf3c1e66488",
+    "source_sha256": "748f5462ea9e9143ab33110d2c109a65f5ab1b1224f2ca45cccfcc0fdc01be5a",
+    "bytes": 4550,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "C02",
+    "provider": "pixellab",
+    "detail": "active",
+    "file": "details/pixellab-C02-active.webp",
+    "source": "pixellab/C02-inset-key.png",
+    "box": [
+      2,
+      4,
+      186,
+      62
+    ],
+    "sha256": "bfa18e99f6acfcc015b31f9c0f8ebb246e6d107b811be09283e1c9a8f4424449",
+    "source_sha256": "2b8e32a1b5c55766e1ccc40579844865ea26c4050ed3ceb7b1257486bea2c12a",
+    "bytes": 1218,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "C02",
+    "provider": "pixellab",
+    "detail": "frame",
+    "file": "details/pixellab-C02-frame.webp",
+    "source": "pixellab/C02-inset-key.png",
+    "box": [
+      0,
+      82,
+      195,
+      225
+    ],
+    "sha256": "6c794718adbb551df8bd6a166484ff03e3d0e8e1d36bf8166f72194db06647d2",
+    "source_sha256": "2b8e32a1b5c55766e1ccc40579844865ea26c4050ed3ceb7b1257486bea2c12a",
+    "bytes": 4526,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "C02",
+    "provider": "pixellab",
+    "detail": "cta",
+    "file": "details/pixellab-C02-cta.webp",
+    "source": "pixellab/C02-inset-key.png",
+    "box": [
+      493,
+      287,
+      688,
+      371
+    ],
+    "sha256": "c2543cc03b7a2258c243e0eb77f073b836f33fdc7179cb731c4610cd6cef9178",
+    "source_sha256": "2b8e32a1b5c55766e1ccc40579844865ea26c4050ed3ceb7b1257486bea2c12a",
+    "bytes": 2144,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "C03",
+    "provider": "pixellab",
+    "detail": "active",
+    "file": "details/pixellab-C03-active.webp",
+    "source": "pixellab/C03-field-notes.png",
+    "box": [
+      0,
+      0,
+      181,
+      64
+    ],
+    "sha256": "645b5e5c0474d5d1fba6fb85a9bd0a304bec3c83a758ea605cf7b1a850f511c3",
+    "source_sha256": "321ab78fb6e3de3d4edd2d2a9c960d63d74967a59650473d076bc2dcdd08c97a",
+    "bytes": 1806,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "C03",
+    "provider": "pixellab",
+    "detail": "frame",
+    "file": "details/pixellab-C03-frame.webp",
+    "source": "pixellab/C03-field-notes.png",
+    "box": [
+      0,
+      86,
+      191,
+      198
+    ],
+    "sha256": "060ab8892828a73c975fb49ca9f41eb7b16d2fc8458b0ea2f2cde02fde869a32",
+    "source_sha256": "321ab78fb6e3de3d4edd2d2a9c960d63d74967a59650473d076bc2dcdd08c97a",
+    "bytes": 2662,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "C03",
+    "provider": "pixellab",
+    "detail": "cta",
+    "file": "details/pixellab-C03-cta.webp",
+    "source": "pixellab/C03-field-notes.png",
+    "box": [
+      510,
+      292,
+      674,
+      365
+    ],
+    "sha256": "a34a7291f0f72a300c8ce0d0221d63326e34be61bd837c772178464bfd702ecf",
+    "source_sha256": "321ab78fb6e3de3d4edd2d2a9c960d63d74967a59650473d076bc2dcdd08c97a",
+    "bytes": 1610,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "C04",
+    "provider": "pixellab",
+    "detail": "active",
+    "file": "details/pixellab-C04-active.webp",
+    "source": "pixellab/C04-rope-lantern.png",
+    "box": [
+      5,
+      24,
+      183,
+      79
+    ],
+    "sha256": "2121880bb32f4d8eabe3f96b4ccbc636b600575edd500578218ccaef82b3ac94",
+    "source_sha256": "e19e3e0a48ba67cfada600ab77cd94cdeb9c4742b5746e24db6dc80eddcf25f5",
+    "bytes": 1286,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "C04",
+    "provider": "pixellab",
+    "detail": "frame",
+    "file": "details/pixellab-C04-frame.webp",
+    "source": "pixellab/C04-rope-lantern.png",
+    "box": [
+      5,
+      86,
+      188,
+      204
+    ],
+    "sha256": "649431f463b8ee7859c96c80742f7b592e6df4af2a60c3cb3cf66e529c15a942",
+    "source_sha256": "e19e3e0a48ba67cfada600ab77cd94cdeb9c4742b5746e24db6dc80eddcf25f5",
+    "bytes": 2576,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "C04",
+    "provider": "pixellab",
+    "detail": "cta",
+    "file": "details/pixellab-C04-cta.webp",
+    "source": "pixellab/C04-rope-lantern.png",
+    "box": [
+      504,
+      288,
+      679,
+      371
+    ],
+    "sha256": "9f56e3d607e0452c50ae0f620e3c836a69e55ced9c3f6dae29260b02622d2e65",
+    "source_sha256": "e19e3e0a48ba67cfada600ab77cd94cdeb9c4742b5746e24db6dc80eddcf25f5",
+    "bytes": 1244,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "C05",
+    "provider": "pixellab",
+    "detail": "active",
+    "file": "details/pixellab-C05-active.webp",
+    "source": "pixellab/C05-gate-delver.png",
+    "box": [
+      9,
+      34,
+      179,
+      83
+    ],
+    "sha256": "9c809748f47e77507e00f8d037a4220ba2225835a1492e492a556b69ba228bb8",
+    "source_sha256": "586fb8de9e8afe084042ef7b978eb42d3087271ef46130c7d2ce397e6a2f7e7a",
+    "bytes": 776,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "C05",
+    "provider": "pixellab",
+    "detail": "frame",
+    "file": "details/pixellab-C05-frame.webp",
+    "source": "pixellab/C05-gate-delver.png",
+    "box": [
+      5,
+      84,
+      192,
+      186
+    ],
+    "sha256": "54c8fcb196c2f007e4fac9fbadaeda1509b30c770edc009919651ad5144202e1",
+    "source_sha256": "586fb8de9e8afe084042ef7b978eb42d3087271ef46130c7d2ce397e6a2f7e7a",
+    "bytes": 1756,
+    "lossless_crop_verified": true
+  },
+  {
+    "id": "C05",
+    "provider": "pixellab",
+    "detail": "cta",
+    "file": "details/pixellab-C05-cta.webp",
+    "source": "pixellab/C05-gate-delver.png",
+    "box": [
+      499,
+      293,
+      684,
+      376
+    ],
+    "sha256": "222d09fb0b4737dfd1b7158736f27f148024c445fd2fd91c82a6d6ee132d23a4",
+    "source_sha256": "586fb8de9e8afe084042ef7b978eb42d3087271ef46130c7d2ce397e6a2f7e7a",
+    "bytes": 1564,
+    "lossless_crop_verified": true
+  }
+]
