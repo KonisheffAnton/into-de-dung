@@ -1,0 +1,7 @@
+{
+  "prompt": "Edit this image to correct ONLY the battlefield projection and corresponding camera elevation. The current board is a wide flat diamond around 1.7:1. It MUST become a MUCH TALLER, STEEPER diamond exactly width:height 4:3, while all characters retain their normal proportions (do not squeeze or stretch sprites). The finished complete 4x4 square board should have its four outer corner points at approximately TOP(627,220), RIGHT(1127,595), BOTTOM(627,970), LEFT(127,595) on this 1254x1254 canvas. Edges slope up/down by 375 pixels for every 500 horizontally, NOT 250. Rebuild the grid using these corners, each tile diamond 250 wide by 187.5 high. Place each of the seven unchanged creature designs correctly in its own cell, with feet inside the cell and directly on the stone. Show more of the tops of heads and shoulders to match this higher camera. All faces and muzzles still point toward lower-right, front three-quarter, no backs. Keep pixel art, simplified details, palette, background and seven creature identities. No pedestals, no new objects, no text. Prioritize the specified TALL floor diamond; it is the sole reason for this edit.",
+  "referenced_image_paths": [
+    "D:/Games/into-de-dung/docs/art/battlefield-reference-03-20261017/G13.png"
+  ],
+  "transparent_background": false
+}

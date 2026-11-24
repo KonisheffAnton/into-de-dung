@@ -1,0 +1,131 @@
+{
+  "status": "PASS",
+  "final_count": 15,
+  "pixellab_calls": 0,
+  "imagegen_calls": 16,
+  "reference_byte_exact": true,
+  "main_menu_unchanged": true,
+  "outputs": [
+    {
+      "id": "G01",
+      "width": 1448,
+      "height": 1086,
+      "color_type": 2,
+      "sha256": "8569563ef926d1ee5a44c153c57f11a424cfa2fb348033e598260c23168551ae",
+      "source_byte_exact": true
+    },
+    {
+      "id": "G02",
+      "width": 1448,
+      "height": 1086,
+      "color_type": 2,
+      "sha256": "973fd5aa8586957e46e3f6884382f7dc3a8203db04d2bb4a5ad95c466d3c283a",
+      "source_byte_exact": true
+    },
+    {
+      "id": "G03",
+      "width": 1448,
+      "height": 1086,
+      "color_type": 2,
+      "sha256": "df3c8f2e3810200c823041a1f52a9622e6d97b47b795553ddb3c5746a7bba079",
+      "source_byte_exact": true
+    },
+    {
+      "id": "G04",
+      "width": 1448,
+      "height": 1086,
+      "color_type": 2,
+      "sha256": "c3a7dbec12f363b2a6b05cc2fb6414774289df7950671979dccb582848efaa05",
+      "source_byte_exact": true
+    },
+    {
+      "id": "G05",
+      "width": 1448,
+      "height": 1086,
+      "color_type": 2,
+      "sha256": "fc4276f3e82a21c25d9fb81b6e6822be20c1b6bd76106e133373b22c881c5adb",
+      "source_byte_exact": true
+    },
+    {
+      "id": "G06",
+      "width": 1491,
+      "height": 1055,
+      "color_type": 2,
+      "sha256": "c755757606d5d79e680046cb88da0de2187663d6223afa84b838e99dadaab0d6",
+      "source_byte_exact": true
+    },
+    {
+      "id": "G07",
+      "width": 1448,
+      "height": 1086,
+      "color_type": 2,
+      "sha256": "7df4bcd244f21c05ab8ffe3777e695dcd6ee22fc657a3545dd1def27b072f303",
+      "source_byte_exact": true
+    },
+    {
+      "id": "G08",
+      "width": 1254,
+      "height": 1254,
+      "color_type": 2,
+      "sha256": "16ba8313dfbc06394d5f23ed14a41d10ed612891fa1a484aae5aae070e29b885",
+      "source_byte_exact": true
+    },
+    {
+      "id": "G09",
+      "width": 1254,
+      "height": 1254,
+      "color_type": 2,
+      "sha256": "11a1c98d918856dfd5b1d4e2d5e103a49e46c33e8aaf3c5948c20e83762d0180",
+      "source_byte_exact": true
+    },
+    {
+      "id": "G10",
+      "width": 1254,
+      "height": 1254,
+      "color_type": 2,
+      "sha256": "69a4165ee5c2af97f7b2fbe134820e7bfde47cc4ec255f8f3b709f8439cdc036",
+      "source_byte_exact": true
+    },
+    {
+      "id": "G11",
+      "width": 1254,
+      "height": 1254,
+      "color_type": 2,
+      "sha256": "ae4d953e93c0a104034704e037d6d7252fdb130a6ed8732aff5282b9bc04d6e1",
+      "source_byte_exact": true
+    },
+    {
+      "id": "G12",
+      "width": 1254,
+      "height": 1254,
+      "color_type": 2,
+      "sha256": "31ce94b30541c1f80004cc99bc6648a468745a390a3498d9689cdcaee6a16bc3",
+      "source_byte_exact": true
+    },
+    {
+      "id": "G13",
+      "width": 1254,
+      "height": 1254,
+      "color_type": 2,
+      "sha256": "26f190de0f56da94f65076706bef11d266248eb632f76965ef62454cd709f704",
+      "source_byte_exact": true
+    },
+    {
+      "id": "G14",
+      "width": 1254,
+      "height": 1254,
+      "color_type": 2,
+      "sha256": "9dcb5b57e0d51755e0492d1e970500babb7e57c8d5c6abec5bdeeccfffd0e2a2",
+      "source_byte_exact": true
+    },
+    {
+      "id": "G15",
+      "width": 1254,
+      "height": 1254,
+      "color_type": 2,
+      "sha256": "73bba3c9a06c3b3fed7c87405398fd797bbc29177d42e1040705b5997e486551",
+      "source_byte_exact": true
+    }
+  ],
+  "scope": "PNG signature/dimensions, byte equality, input paths, gallery links and score coverage; not geometry or animation validation"
+}
