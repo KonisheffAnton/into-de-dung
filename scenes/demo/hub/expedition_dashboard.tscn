@@ -486,7 +486,7 @@ layout_mode = 2
 autowrap_mode = 2
 theme_override_colors/font_color = Color(0.42, 0.13, 0.11, 1)
 theme_override_font_sizes/font_size = 14
-text = "Гибель носителя завершит забег. Остальные выжившие вернутся в хаб."
+text = "После гибели носителя выберите нового среди выживших постоянного отряда. Забег завершится, только если погибнет весь постоянный отряд."
 
 [node name="RecoveryNote" type="Label" parent="Layout/Content/PreparationPanel/PreparationContent/PreparationScroll/PreparationDetails"]
 layout_mode = 2

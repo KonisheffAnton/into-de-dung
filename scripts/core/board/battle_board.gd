@@ -232,6 +232,18 @@ func clear_occupancy(unit: UnitState) -> void:
 		_touch()
 
 
+## Воскрешение возвращает occupancy в прежней клетке без подмены UnitState.
+## Исполнитель заранее публикует HP/останки/pending и затем проверяет полный снимок.
+func restore_living_occupancy(unit: UnitState) -> bool:
+	if unit == null or _units.get(unit.id) != unit or not unit.is_alive(): return false
+	if not is_in_bounds(unit.cell) or get_terrain(unit.cell) != TerrainType.Type.FLOOR or _occupancy.has(unit.cell): return false
+	if _occupancy.values().has(unit.id): return false
+	_occupancy[unit.cell] = unit.id
+	unit.height = get_height(unit.cell)
+	_touch()
+	return true
+
+
 ## ЕДИНСТВЕННЫЙ штатный способ изменить позицию юнита.
 ## Обновляет и occupancy, и `unit.cell`, и `unit.height` — поэтому они не
 ## могут разойтись. Прямая запись `unit.cell = ...` запрещена (см. UnitState).

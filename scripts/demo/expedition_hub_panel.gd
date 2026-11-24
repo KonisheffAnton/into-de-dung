@@ -41,8 +41,26 @@ static func render(host: HeroHubScreen) -> void:
 	map.set_meta(&"hub_dynamic", true)
 	map.room_chosen.connect(func(id: int) -> void: host._expedition_action("choose",{"node":id}))
 	page.get_node("Map").add_child(map)
+	if run.is_deck() and run.host_hero_id == 0:
+		# Не даём маршруту открыть комнату, пока живой отряд не выбрал носителя колоды.
+		for button_node: Node in map.find_children("room_*", "Button", true, false):
+			(button_node as Button).disabled = true
 	(page.get_node("Preparation") as Control).visible = run.phase == "route"
 	if run.phase != "route": return
+	if run.is_deck() and run.host_hero_id == 0:
+		var host_choice := VBoxContainer.new()
+		host_choice.name = "HostReselection"
+		host_choice.set_meta(&"hub_dynamic", true)
+		# Выбор носителя — обязательный первый шаг после отчёта, поэтому он должен предшествовать длинной карте.
+		page.add_child(host_choice)
+		page.move_child(host_choice, page.get_node("Map").get_index())
+		host._text_for_box(host_choice, "Прежний носитель погиб. Выберите нового носителя для продолжения.", 16)
+		for hero_id: int in host.run.party:
+			var candidate: HeroProgression = host.run.heroes.get(hero_id) as HeroProgression
+			if candidate == null or candidate.hp_current <= 0.0: continue
+			var class_definition := HeroCatalog.class_definition(candidate.class_id)
+			var class_label := class_definition.display_name if class_definition != null else String(candidate.class_id)
+			host._button_for(host_choice, "%s · %s" % [candidate.name, class_label], "select_host_%d" % hero_id, host._expedition_action.bind("select_host", {"hero": hero_id}))
 	var selectors := page.get_node("Preparation/Selectors")
 	for id: int in host.run.party:
 		host._button_for(selectors,("• " if id == host.selected_hero_id else "") + (host.run.heroes[id] as HeroProgression).name,"select_%d" % id,host._select_hero.bind(id))

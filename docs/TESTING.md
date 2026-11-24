@@ -11,10 +11,22 @@ character_skins --screen 0`. Команды одной строкой, runner п
 `tools/art/build_host_glow_anchors.py --check` и `tools/art/build_host_flame.py --check`
 проверяют покадровые якоря и точную сборку PixelLab/косметических палитр.
 Новые suites покрывают explicit selection/save/retry, once-per-turn/геометрию,
-queue terminal priority, salvage/no-survivors, preview/worker/live и callback guards.
+queue terminal priority, permanent-party defeat, preview/worker/live и callback guards.
 GPU: диалог/бейдж/минимальное окно, все человеческие облики/позы и движение
 верхушки пламени отдельно от пульсации яркости. Это не баланс или ручная F5/DPI
 приёмка; [правила и границы](HOST_POSSESSION_V1.md).
+
+Возврат носителя (2026-11-24): адресно `--check --only return_effects mage_return
+host_card_geometry host_cards host_expedition host_reselection_ui mage_deck_models
+mage_deck_battle mage_deck_expedition` и `--render-check --only host_anchor_view
+host_corpse_input host_ui host_glow mage_deck_ui`. Одной строкой; один runner.
+`mage_return` проверяет труп/кости/дух, два возврата, повтор/несколько helpers,
+вражеское поднятие, pending/refill, очистку, callback FAULTED, factory→outcome→reload,
+source29 и повреждённую точку духа. Для core/queue/snapshot изменений также core,
+core_reactions, battle_execution_worker, action_forecast_worker, summon_checkpoint,
+spatial_guard_stats, forecast_restore_isolation и current_schema_boundary.
+После изменения фикстур повторять затронутые suite; прежние baseline отказы
+полного набора не объявлять исправленными без повторного доказательства.
 
 Троглодит/останки (2026-11-22): `--render-check --only unit_creature_identity
  tamed_troglodyte tamed_troglodyte_visual fresh_corpses current_schema_boundary

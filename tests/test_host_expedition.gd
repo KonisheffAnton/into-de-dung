@@ -41,28 +41,32 @@ func _run() -> void:
 	stale.serial += 1
 	var stale_before := hub.to_dict()
 	_check(not ExpeditionTransitions.apply(hub, "outcome", stale).is_ok() and hub.to_dict() == stale_before, "stale receipt rejected without source mutation")
+	var missing_flag := _receipt(hub,host_id,true)
+	missing_flag.erase("host_has_died")
+	_check(not ExpeditionTransitions.apply(hub,"outcome",missing_flag).is_ok(),"missing death history cannot bypass reselection")
 	var lying := _receipt(hub, host_id, false)
-	lying.victory = true
-	_check(not ExpeditionTransitions.apply(hub, "outcome", lying).is_ok() and hub.to_dict() == stale_before, "host death cannot claim victory and source stays unchanged")
-	var salvage_receipt := _receipt(hub, host_id, false)
-	for id: int in hub.party:
-		if id != host_id: salvage_receipt.hp[id] = float((hub.heroes[id] as HeroProgression).max_hp())
-	var salvage := ExpeditionTransitions.apply(hub, "outcome", salvage_receipt)
-	_check(salvage.is_ok(), "host defeat with survivors is accepted")
-	if salvage.is_ok():
-		var returned: HeroHubState = salvage.profile
-		_check(returned.expedition == null and returned.phase == "hub" and returned.party.size() > 0, "host defeat returns surviving party")
-		_check(returned.battle_report.return_reason == "host_defeat" and not returned.battle_report.victory and returned.battle_report.gold_lost == 0 and returned.battle_report.lost_items.is_empty(), "salvage report retains defeat narrative without losses")
-		_check(returned.gold == hub.gold + hub.expedition.gold and returned.battle_report.gold_awarded == hub.expedition.gold, "host defeat retains run gold")
-		var found_recycled: bool = false
-		for card: Dictionary in returned.battle_report.returned_cards:
-			if card.origin == "found" and card.disposition == "recycled": found_recycled = true
-		_check(returned.battle_report.returned_cards.size() > 10 and found_recycled and returned.battle_report.recycled_count > 0, "found cards recycle after host defeat")
-		var lost_host_gear: bool = true
-		for item: Dictionary in returned.items.values():
-			if int(item.hero_id) == host_id: lost_host_gear = false
-		_check(lost_host_gear and returned.items.size() == hub.items.size() and returned.items.size() > 0, "all gear is preserved and dead host gear enters hub storage")
-		_check(HeroHubState.from_dict(returned.to_dict()) != null, "host defeat report reloads")
+	_check(not ExpeditionTransitions.apply(hub, "outcome", lying).is_ok() and hub.to_dict() == stale_before, "surviving party cannot claim defeat")
+	var victory_receipt := _receipt(hub,host_id,false)
+	victory_receipt.victory = true; victory_receipt["host_has_died"] = true
+	var victory := ExpeditionTransitions.apply(hub,"outcome",victory_receipt)
+	_check(victory.is_ok(),"victory with dead carrier accepted: " + victory.reason)
+	if victory.is_ok():
+		var continued: HeroHubState = victory.profile
+		_check(continued.expedition != null and continued.expedition.phase == "reward" and continued.expedition.host_hero_id == 0 and continued.mage_deck.host_hero_id == 0,"host death keeps run and requires new carrier after reward")
+		_check(not continued.heroes.has(host_id) and continued.items.size() == hub.items.size(),"dead permanent host removed; gear follows ordinary victory policy")
+		_check(HeroHubState.from_dict(continued.to_dict()) != null,"hostless reward save reloads")
+		continued = ExpeditionTransitions.apply(continued,"reward",{"index":-1}).profile
+		_check(continued != null and continued.expedition != null,"reward resolves with no host")
+		if continued != null and continued.expedition != null:
+			var node: int = continued.expedition.available_nodes()[0]
+			_check(not ExpeditionTransitions.apply(continued,"choose",{"node":node}).is_ok(),"new room requires host")
+			var selected := ExpeditionTransitions.apply(continued,"select_host",{"hero":continued.party[0]})
+			_check(selected.is_ok() and HeroHubState.from_dict(selected.profile.to_dict()) != null,"new host persists")
+			if selected.is_ok(): _check(ExpeditionTransitions.apply(selected.profile,"choose",{"node":node}).is_ok(),"new host admits next room")
+	var revived_receipt := _receipt(hub,host_id,true)
+	revived_receipt["host_has_died"] = true; revived_receipt.hp[host_id] = 12.0
+	var revived := ExpeditionTransitions.apply(hub,"outcome",revived_receipt)
+	_check(revived.is_ok() and revived.profile.heroes.has(host_id) and revived.profile.expedition.host_hero_id == 0,"living resurrection preserves permanent hero but reselect required: " + revived.reason)
 	var full_defeat := ExpeditionTransitions.apply(hub, "outcome", _receipt(hub, host_id, false, true))
 	_check(full_defeat.is_ok(), "all party dead remains full defeat")
 	if full_defeat.is_ok():
@@ -83,7 +87,7 @@ func _receipt(hub: HeroHubState, host_id: int, victory: bool, all_dead: bool = f
 		hp[id] = float((hub.heroes[id] as HeroProgression).max_hp()) if victory or (id != host_id and not all_dead) else 0.0
 	for item: Dictionary in hub.expedition.checkpoint.legacy_inputs.items:
 		gear[item.id] = item.remaining
-	return {"ruleset_id":ExpeditionRulesRegistry.DECK,"run_id":hub.run_serial,"node_id":hub.expedition.current_node().id,"serial":hub.expedition.battle_serial,"victory":victory,"hp":hp,"gear":gear}
+	return {"ruleset_id":ExpeditionRulesRegistry.DECK,"run_id":hub.run_serial,"node_id":hub.expedition.current_node().id,"serial":hub.expedition.battle_serial,"victory":victory,"hp":hp,"gear":gear,"host_has_died":not victory}
 
 func _earn_cache_gold(source: HeroHubState) -> HeroHubState:
 	var hub := source

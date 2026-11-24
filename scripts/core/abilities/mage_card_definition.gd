@@ -6,14 +6,15 @@ const SOURCE_IDS: Dictionary = {
 	"card.raise": 17, "card.burning": 18, "card.wet": 19, "card.freeze": 20,
 	"card.stun": 21, "card.roots": 22, "card.bleeding": 23, "card.fire_imbue": 24,
 	"card.poison": 25,
-	"card.light_step": 27, "card.binding_thread": 28,
+	"card.light_step": 27, "card.binding_thread": 28, "card.return_to_life": 29,
 }
 const MECHANICS: Dictionary = {
 	"card.fire": ["mage.fire", {"damage": 4}, "enemy_unit", 2],
 	"card.heal": ["mage.test_heal", {"amount": 4}, "wounded_ally", 1],
 	"card.shield": ["mage.shield", {"amount": 6, "hits": 1}, "ally_unit", 1],
 	"card.summon": ["mage.test_summon", {}, "valid_cell", 1],
-	"card.raise": ["mage.test_raise", {}, "corpse_cell", 1],
+	"card.raise": ["mage.test_raise", {}, "corpse_cell", 2],
+	"card.return_to_life": ["return_to_life", {"amount":12}, "corpse_cell", 4],
 	"card.burning": ["burning", {}, "living_unit", 1],
 	"card.wet": ["wet", {}, "living_unit", 1],
 	"card.freeze": ["freeze", {}, "living_unit", 1],

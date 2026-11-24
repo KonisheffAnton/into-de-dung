@@ -42,6 +42,7 @@ static func valid_draft(draft: Dictionary, context: ActionContext = null) -> boo
 	if draft.get("kind") == &"mage_cast": return MageCastCommand.valid_draft(draft)
 	if draft.get("kind") == &"mage_card_played": return PlayMageCardCommand.valid_draft(draft)
 	if draft.get("kind") == &"deck_changed": return MageDeckChangeCommand.valid_draft(draft)
+	if draft.get("kind") == &"unit_revived": return ReturnLifeEffect.valid_draft(draft)
 	if draft.get("kind") == &"mage_summoned": return MageSummonEffect.valid_draft(draft)
 	if draft.get("kind") == &"chain_link": return PushChainCommand.valid_draft(draft)
 	if draft.get("kind") in [&"environment_turn", &"support_collapsed"]: return CollapsePhaseCommand.valid_draft(draft)

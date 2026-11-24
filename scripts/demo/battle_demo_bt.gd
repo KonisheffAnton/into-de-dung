@@ -33,6 +33,7 @@ func _class_guard() -> BattleAIIntent:
 func _attack_ids(target: UnitState) -> Array[StringName]:
 	var loadout := _class_loadout()
 	var ordinary: StringName = loadout.get("attack_id", &"demo_strike")
+	if _session.state.deck != null and _session.state.is_summon(_actor.id) and _actor.creature_kind == &"undead": ordinary = MageDeckRules.RAISED_ATTACK
 	var result: Array[StringName] = []
 	if loadout.get("class_id", &"") == &"fighter": result.append(WarriorKit.CLEAVE)
 	if loadout.get("class_id", &"") == &"archer" and target.control != null and target.control.entangled_turns == 0 and not ControlRules.immune_to(target, &"entangle"):

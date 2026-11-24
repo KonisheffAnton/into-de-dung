@@ -27,7 +27,13 @@ func fixture() -> BattleCoreReactionsSession:
 		session.state.card_effects.ordinary_attacks.append({"unit_id":unit.id,"attack_id":"demo_strike"})
 		unit.stats.set_base_value(StatTypes.StatType.HP_MAX,100.0); unit.vitals.set_hp(80.0)
 		unit.control.stunned_turns = 0; unit.control.entangled_turns = 0; unit.elemental.frozen_turns = 0
-	session.state.abilities = BattleAbilityState.create_deck(session.state.abilities.catalog,Faction.Type.ENEMY)
+	var rules := session.context.get_attack_rules()
+	var definitions: Array[AttackDefinition] = rules._definitions.duplicate()
+	definitions.append(MageDeckRules.raised_attack_definition())
+	session.context._attack_rules = AttackRules.new(rules._actors,rules._pairs,definitions)
+	var abilities: Array[AbilityDefinition] = session.state.abilities.catalog.duplicate()
+	var raised := AbilityDefinition.new(); raised.ability_id = &"attack:raised_strike"; abilities.append(raised)
+	session.state.abilities = BattleAbilityState.create_deck(abilities,Faction.Type.ENEMY)
 	var confirm := session._queue.submit(ConfirmMageMulliganCommand.new([],session.context.get_revision()),session.context)
 	check(confirm.status == ActionReceipt.APPLIED,"mulligan " + String(confirm.reason))
 	var start := session._queue.submit(AbilityBoundaryCommand.new(&"start",1,0,session.context.get_revision()),session.context)
@@ -56,7 +62,7 @@ func safe_cell(session: BattleCoreReactionsSession, owner: UnitState) -> Vector2
 func run() -> void:
 	for card: MageCardDefinition in MageCardCatalog.all():
 		# Привязанные к носителю карты проверяет test_host_cards с геометрией отряда.
-		if card.target_policy in ["host_unit", "host_link_ally"]: continue
+		if card.target_policy in ["host_unit", "host_link_ally"] or card.id in ["card.raise", "card.return_to_life"]: continue
 		var session := fixture()
 		if session.phase != BattleTacticalSession.Phase.PLAYER_TURN: session.close(); continue
 		var id := card_in_hand(session,card.id)

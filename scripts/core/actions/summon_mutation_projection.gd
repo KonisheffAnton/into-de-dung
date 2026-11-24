@@ -16,7 +16,7 @@ static func expected(before: ItemSimulationSnapshot, helper: UnitState, actor_id
 		var deck_value: Dictionary = data["deck"] if deck_after.is_empty() else deck_after
 		var effects_value: Dictionary = data["card_effects"].duplicate(true) if effects_after.is_empty() else effects_after.duplicate(true)
 		if BattleDeckState.from_dict(deck_value) == null or BattleCardEffectState.from_dict(effects_value) == null: return ItemSimulationSnapshot._failure("summon/projection")
-		effects_value["ordinary_attacks"].append({"unit_id":helper.id,"attack_id":"demo_strike"})
+		effects_value["ordinary_attacks"].append({"unit_id":helper.id,"attack_id":MageDeckRules.summon_attack_id(helper)})
 		effects_value["ordinary_attacks"].sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a.unit_id < b.unit_id)
 		if BattleCardEffectState.from_dict(effects_value) == null: return ItemSimulationSnapshot._failure("summon/projection")
 		data["deck"] = deck_value.duplicate(true)
@@ -44,7 +44,13 @@ static func expected(before: ItemSimulationSnapshot, helper: UnitState, actor_id
 	if corpse_id != 0:
 		if not data.has("environment"): return ItemSimulationSnapshot._failure("summon/projection")
 		var environment := CombatEnvironmentState.from_dict(data["environment"])
-		if environment == null or environment.consume_corpse(corpse_id).is_empty(): return ItemSimulationSnapshot._failure("summon/projection")
+		if environment == null: return ItemSimulationSnapshot._failure("summon/projection")
+		var consumed := environment.consume_corpse(corpse_id)
+		if consumed.is_empty(): return ItemSimulationSnapshot._failure("summon/projection")
+		if data.has("card_effects"):
+			data.card_effects = HostBinding.after_raise(data.card_effects,consumed,helper.id,height * 2 + int(board.height_half_steps[helper.cell.y * int(board.width) + helper.cell.x]))
+			for index: int in board.units.size():
+				if board.units[index].id == consumed.source_unit_id: board.units[index] = ReturnEffects.cleared(board.units[index])
 		data["environment"] = environment.to_dict()
 	board["board_version"] += 1
 	board["units"].append(unit)

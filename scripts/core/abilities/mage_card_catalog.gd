@@ -3,7 +3,7 @@ class_name MageCardCatalog
 
 const CATALOG_ID: String = "mage-neutral-v1"
 const VERSION: int = 1
-const IDS: Array[String] = ["card.binding_thread","card.bleeding","card.burning","card.fire","card.fire_imbue","card.freeze","card.heal","card.light_step","card.poison","card.raise","card.roots","card.shield","card.stun","card.summon","card.wet"]
+const IDS: Array[String] = ["card.binding_thread","card.bleeding","card.burning","card.fire","card.fire_imbue","card.freeze","card.heal","card.light_step","card.poison","card.raise","card.return_to_life","card.roots","card.shield","card.stun","card.summon","card.wet"]
 const DEFAULT_TYPES: Array[String] = ["card.fire","card.fire","card.heal","card.heal","card.shield","card.shield","card.summon","card.summon","card.wet","card.wet"]
 
 const PRESENTATION: Dictionary = {
@@ -13,7 +13,8 @@ const PRESENTATION: Dictionary = {
 	"card.heal": ["Лечение", "Восстанавливает союзнику 4 HP, если он ранен. Мана: 1."],
 	"card.shield": ["Щит", "Поглощает один положительный пакет урона объёмом до 6 HP. Мана: 1."],
 	"card.summon": ["Призыв", "Призывает помощника на допустимую свободную клетку. Мана: 1."],
-	"card.raise": ["Поднятие", "Расходует humanoid-тело и призывает помощника. Мана: 1."],
+	"card.raise": ["Поднять мертвеца", "От носителя: свежий труп или кости в пределах 1 клетки, включая свою. Нежить: 16 HP, 0 брони, 6 урона, 4 перемещения. Действует со следующего хода команды; после боя погибает. Мана: 2."],
+	"card.return_to_life": ["Возвращение к жизни", "От носителя: воскрешает свежий труп союзника в пределах 1 клетки, включая свою, с 12 HP. Эффекты снимаются; действует со следующего хода команды. Мана: 4."],
 	"card.burning": ["Горение", "Накладывает горение и обновляет срок до 2 тиков по правилам состояний боя. Мана: 1."],
 	"card.wet": ["Мокрота", "Снимает горение и обновляет мокроту до 3 тиков. Мана: 1."],
 	"card.freeze": ["Заморозка", "Накладывает или продлевает заморозку по её обычным правилам. Мана: 1."],

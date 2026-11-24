@@ -107,7 +107,7 @@ func run() -> void:
 	var death := session._queue.submit(DeathCommand.new(host.id,DamageSource.new(&"test",0,host.cell)),session.context)
 	check(death.status == ActionReceipt.APPLIED,"host death queue")
 	session._check_outcome()
-	check(session.phase == BattleTacticalSession.Phase.DEFEAT and ally.is_alive() and session.state.abilities.stage == "terminal","host death ends battle with living allies")
+	check(session.phase == BattleTacticalSession.Phase.PLAYER_TURN and ally.is_alive() and session.state.abilities.stage == "active","host death keeps battle with living allies")
 	session.close()
 	session = arranged()
 	host = session.board.get_unit_by_id(session.state.card_effects.host_unit_id)
@@ -115,7 +115,7 @@ func run() -> void:
 	deaths.append_array(session.living_ids(Faction.Type.ENEMY))
 	var terminal := session._queue.submit(TerminalDeaths.new(deaths),session.context)
 	session._check_outcome()
-	check(terminal.status == ActionReceipt.APPLIED and session.living_ids(Faction.Type.ENEMY).is_empty() and session.phase == BattleTacticalSession.Phase.DEFEAT,"full queue finishes after host death; simultaneous last enemy is defeat")
+	check(terminal.status == ActionReceipt.APPLIED and session.living_ids(Faction.Type.ENEMY).is_empty() and session.phase == BattleTacticalSession.Phase.VICTORY,"full queue finishes; host death with surviving ally permits victory")
 	session.close()
 	session = arranged()
 	ally = session.board.get_unit_by_id(session.living_ids(Faction.Type.PLAYER)[1])
@@ -149,8 +149,8 @@ func death_before_mulligan() -> void:
 	check(not session.state.deck.mulligan_done and session.state.abilities.stage == "setup", "regression starts before mulligan")
 	var receipt := session._queue.submit(DeathCommand.new(host.id, DamageSource.new(&"test", 0, host.cell)), session.context)
 	session._check_outcome()
-	check(receipt.status == ActionReceipt.APPLIED and session.phase == BattleTacticalSession.Phase.DEFEAT
-		and session.state.abilities.stage == "terminal", "setup death applies and terminates after queue")
+	check(receipt.status == ActionReceipt.APPLIED and session.phase == BattleTacticalSession.Phase.DEPLOYMENT
+		and session.state.abilities.stage == "setup", "setup death does not end battle with survivors")
 	check(session.state.deck.to_dict() == deck_before and session.context.get_rng().to_dict() == rng_before,
 		"setup death neither confirms mulligan nor draws or consumes RNG")
 	var captured := ItemSimulationSnapshot.capture(session.state, [])
@@ -164,7 +164,8 @@ func death_before_mulligan() -> void:
 			check(recaptured.snapshot != null and recaptured.snapshot.to_dict() == captured.snapshot.to_dict(),
 				"terminal restore preserves complete snapshot without replay")
 			ForecastSimulation.close(restored.state)
-	var after := snapshot(session)
-	check(session.confirm_mage_mulligan([]).status == ActionReceipt.REJECTED and not session.start_battle()
-		and snapshot(session) == after, "terminal setup cannot reopen or confirm hand")
+	check(session.confirm_mage_deployment(),"corpse carrier allows survivor deployment")
+	var confirmed := session.confirm_mage_mulligan([])
+	check(confirmed.status == ActionReceipt.APPLIED, "setup with corpse carrier confirms hand: " + String(confirmed.reason))
+	check(session.start_battle(),"setup with corpse carrier starts: " + str(session.phase))
 	session.close()

@@ -17,6 +17,13 @@ func get_kind() -> StringName: return &"battle_turn_refill"
 func copy_for_queue() -> Command:
 	return BattleTurnRefill.new(_ids, _revision, _faction)
 
+func projected_effects(context: ActionContext) -> Dictionary:
+	var effects := context.get_state().card_effects
+	if effects == null: return {}
+	var after := effects.to_dict()
+	after.pending_revivals = after.pending_revivals.filter(func(id: int) -> bool: return not _ids.has(id))
+	return after
+
 func validate(context: ActionContext) -> StringName:
 	if context == null or context.get_state() == null: return &"turn/closed"
 	if context.get_revision() != _revision: return &"turn/stale_revision"
@@ -71,6 +78,7 @@ func execute(context: ActionContext) -> CommandStepResult:
 			var admission := SummonAdmission.for_pending(context.get_move_rules(), context.get_attack_rules(), id, context.get_state())
 			context._move_rules = admission["move"]
 			context._attack_rules = admission["attack"]
+			if context.get_state().card_effects != null: context.get_state().card_effects.pending_revivals.erase(id)
 			for record: Dictionary in context.get_state()._summons:
 				if record["unit_id"] == id: record["pending"] = false
 	var result := CommandStepResult.applied([], [], [], null, true)

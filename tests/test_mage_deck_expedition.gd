@@ -28,7 +28,7 @@ func receipt(hub: HeroHubState, victory: bool = true) -> Dictionary:
 	var hp: Dictionary = {}; var gear: Dictionary = {}
 	for id: int in hub.party: hp[id] = float((hub.heroes[id] as HeroProgression).max_hp()) if victory else 0.0
 	for item: Dictionary in hub.expedition.checkpoint.legacy_inputs.items: gear[item.id] = maxf(0.0, float(item.remaining) - 3.25)
-	return {"ruleset_id":ExpeditionRulesRegistry.DECK,"run_id":hub.run_serial,"node_id":hub.expedition.current_node().id,"serial":hub.expedition.battle_serial,"victory":victory,"hp":hp,"gear":gear}
+	return {"ruleset_id":ExpeditionRulesRegistry.DECK,"run_id":hub.run_serial,"node_id":hub.expedition.current_node().id,"serial":hub.expedition.battle_serial,"victory":victory,"hp":hp,"gear":gear,"host_has_died":not victory}
 
 func run() -> void:
 	var hub := HeroHubState.create(443)

@@ -270,7 +270,7 @@ class Guard extends RefCounted:
 		result.seal()
 		return result
 
-static func capture_guard(context: ActionContext, units: Array[UnitState], cells: Array[Vector2i], stat_types: Dictionary) -> Guard:
+static func capture_guard(context: ActionContext, units: Array[UnitState], cells: Array[Vector2i], stat_types: Dictionary, allow_dead: bool = false) -> Guard:
 	if context == null or context.get_script() != ActionContext or context._state == null or context._state.get_script() != ItemSimulationState: return null
 	var state := context._state
 	var board := state._board
@@ -309,12 +309,12 @@ static func capture_guard(context: ActionContext, units: Array[UnitState], cells
 		if not board.is_in_bounds(cell): continue
 		guard.values["geometry"][cell] = [board.get_height_steps(cell), board.get_terrain(cell), board._occupancy.get(cell, 0)]
 	for unit: UnitState in units:
-		if unit == null or unit.get_script() != UnitState or not board.is_in_bounds(unit.cell) or board._units.get(unit.id) != unit or board._occupancy.get(unit.cell, 0) != unit.id: return null
+		if unit == null or unit.get_script() != UnitState or not board.is_in_bounds(unit.cell) or board._units.get(unit.id) != unit or (unit.is_alive() and board._occupancy.get(unit.cell, 0) != unit.id) or (not unit.is_alive() and (not allow_dead or board._occupancy.values().has(unit.id))): return null
 		var stats := unit.stats
 		var vitals := unit.vitals
 		var resources := unit.action_resources
 		if stats == null or stats.get_script() != StatsBag or vitals == null or vitals.get_script() != Vitals or vitals._stats != stats: return null
-		if not vitals._is_alive or not is_finite(vitals._hp) or vitals._hp < 0.0 or not is_finite(vitals._balance) or vitals._balance < 0.0 or not is_finite(unit.move_points_left) or unit.move_points_left < 0.0: return null
+		if (not vitals._is_alive and not allow_dead) or not is_finite(vitals._hp) or vitals._hp < 0.0 or not is_finite(vitals._balance) or vitals._balance < 0.0 or not is_finite(unit.move_points_left) or unit.move_points_left < 0.0: return null
 		if resources != null and (resources.get_script() != ActionResources or resources.validate(unit.id) != &""): return null
 		var owner := state.get_owner(unit.id)
 		if owner == null or owner._owner != unit or state._owners.count(owner) != 1: return null
@@ -354,10 +354,10 @@ static func capture_guard(context: ActionContext, units: Array[UnitState], cells
 			if not is_finite(value): return null
 			stats_values[type] = value
 		guard.refs["participants"][unit.id] = {"unit": unit, "stats": stats, "vitals": vitals, "owner": owner, "resources": resources, "inventory": inventory, "equipment": equipment}
-		guard.values["participants"][unit.id] = {"cell": unit.cell, "height": unit.height, "height_steps": board.get_height_steps(unit.cell), "hp": vitals._hp, "alive": vitals._is_alive, "balance": vitals._balance, "move": unit.move_points_left, "main": resources.get_main_left() if resources != null else 0, "bonus": resources.get_bonus_left() if resources != null else 0, "occupancy": [unit.cell], "lifecycle": lifecycle, "stats": stats_values}
+		guard.values["participants"][unit.id] = {"cell": unit.cell, "height": unit.height, "height_steps": board.get_height_steps(unit.cell), "hp": vitals._hp, "alive": vitals._is_alive, "balance": vitals._balance, "move": unit.move_points_left, "main": resources.get_main_left() if resources != null else 0, "bonus": resources.get_bonus_left() if resources != null else 0, "occupancy": [unit.cell] if unit.is_alive() else [], "lifecycle": lifecycle, "stats": stats_values}
 		guard._validated_stats_snapshots[unit.id] = stats_snapshot.duplicate(true)
 		guard._validated_stats_values[unit.id] = stats_values.duplicate(true)
-		guard.values["geometry"][unit.cell] = [board.get_height_steps(unit.cell), board.get_terrain(unit.cell), unit.id]
+		guard.values["geometry"][unit.cell] = [board.get_height_steps(unit.cell), board.get_terrain(unit.cell), board._occupancy.get(unit.cell, 0)]
 		guard.values["participants"][unit.id]["guard_stance"] = unit.guard_stance
 		guard.values["participants"][unit.id]["creature_kind"] = unit.creature_kind
 		guard.values["participants"][unit.id]["archetype_id"] = unit.archetype_id

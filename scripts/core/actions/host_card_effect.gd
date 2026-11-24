@@ -10,28 +10,31 @@ static func prepare(context: ActionContext, target_id: int, effect: StringName, 
 	var state := context.get_state()
 	var board := state.get_board()
 	var host := board.get_unit_by_id(state.card_effects.host_unit_id)
-	if host == null or not host.is_alive() or host.faction != Faction.Type.PLAYER or state.is_summon(host.id): return {"reason": &"host_card/no_host"}
+	if host == null or host.faction != Faction.Type.PLAYER: return {"reason": &"host_card/no_host"}
+	var anchor := HostBinding.anchor(state)
+	if anchor.is_empty(): return {"reason":&"host_card/no_host"}
 	var target := board.get_unit_by_id(target_id)
 	var participants: Array[UnitState] = [host]
-	var cells: Array[Vector2i] = [host.cell]
+	var cells: Array[Vector2i] = [anchor.cell]
 	var enemies: Array[int] = []
 	if effect == &"light_step":
+		if not host.is_alive() and anchor.kind == "spirit": return {"reason":&"host_card/no_body"}
 		if target_id != host.id: return {"reason": &"host_card/host_only"}
 		if state.card_effects.light_step_serial == state.abilities.serials[0]: return {"reason": &"host_card/already_used"}
-		if not is_finite(host.move_points_left + 2.0): return {"reason": &"host_card/movement_overflow"}
+		if host.is_alive() and not is_finite(host.move_points_left + 2.0): return {"reason": &"host_card/movement_overflow"}
 		effects_after = effects_after.duplicate(true)
 		effects_after.light_step_serial = state.abilities.serials[0]
 	else:
 		var excluded: Array[int] = []
 		for summon: Dictionary in state.get_summons(): excluded.append(summon.unit_id)
-		var geometry := HostCardGeometry.binding_thread(board, host.id, target_id, excluded)
+		var geometry := HostCardGeometry.binding_thread_from(board,anchor.cell,anchor.height,target_id,excluded,host.id)
 		if geometry.reason != &"": return geometry
 		cells.assign(geometry.cells); enemies.assign(geometry.enemy_ids)
 		participants.append(target)
 		for id: int in enemies: participants.append(board.get_unit_by_id(id))
 	var stats: Dictionary = {}
 	for unit: UnitState in participants: stats[unit.id] = [StatTypes.StatType.HP_MAX]
-	var guard := SpatialRules.capture_guard(context, participants, cells, stats)
+	var guard := SpatialRules.capture_guard(context, participants, cells, stats, true)
 	if guard == null: return {"reason": &"host_card/invalid_runtime"}
 	var requests: Array[DamageRequest] = []
 	for id: int in enemies:
@@ -46,11 +49,12 @@ static func prepare(context: ActionContext, target_id: int, effect: StringName, 
 		if hit.get("reason", &"") != &"": return hit
 		requests.append(request)
 	if board.board_version > ActionContext.MAX_ID - enemies.size(): return {"reason": &"push/board_version_exhausted"}
-	return {"reason":&"", "target":target, "host_id":host.id, "guard":guard, "source":source, "paid":paid, "effect":effect, "effects_after":effects_after, "host_requests":requests}
+	return {"reason":&"", "target":target, "host_id":host.id, "guard":guard, "source":source, "paid":paid, "effect":effect, "effects_after":effects_after, "host_requests":requests,"host_movement":host.is_alive() and not state.is_summon_pending(host.id)}
 
 static func apply(context: ActionContext, plan: Dictionary, guard: SpatialRules.Guard, seal_check: Callable) -> CommandStepResult:
 	var result := CommandStepResult.applied([], [], [], null, true)
 	if plan.effect == &"light_step":
+		if not plan.host_movement: return result
 		var host := context.get_state().get_board().get_unit_by_id(plan.host_id)
 		var expected := guard.debit(host.id, 0, -2.0)
 		host.move_points_left += 2.0

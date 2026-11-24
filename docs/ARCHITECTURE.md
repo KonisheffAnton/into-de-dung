@@ -948,10 +948,15 @@ MageCastCommand сохраняет собственную оплату. Корн
 добавляет огонь внутрь существующего hit; default binding сверяется с
 каноническим factory-ID в каталоге, каталог — с AttackRules при admission.
 Смерть очищает эффект до snapshot коллектора реакций; terminal очищает остатки.
-Носитель Run5/checkpoint2 передаётся через factory в card_effects2. HostCardEffect
-исполняет две карты через общую очередь, а HostCardGeometry проверяет отрезок.
-Смерть носителя завершает очередь и даёт поражение с возвратом выживших и добычи;
-владение и salvage — [HOST_POSSESSION_V1](HOST_POSSESSION_V1.md).
+Носитель Run5/checkpoint2 передаётся через factory в card_effects3. HostBinding
+выводит опору из юнита/останков/сохранённой точки духа; дух не занимает доску.
+DeathEffectsCommand очищает эффекты, ReturnLifeEffect возвращает исходный объект
+с заранее построенным after, MageSummonEffect/RaiseCorpseCommand переносят связь
+на поднятого. Pending живого возврата отдельно от реестра временных summons;
+BattleTurnRefill включает его на следующей границе команды. Гибель всего постоянного
+отряда закрывает бой даже при живых helpers. Outcome после смерти/поднятия
+очищает host_id; select_host сохраняется до входа в комнату. Правила/форматы —
+[HOST_POSSESSION_V1](HOST_POSSESSION_V1.md).
 MageDeckProfile2 сохраняет явный выбор и косметику; окно подготовки публикует
 их только после атомарной записи. Огонёк на существующих кадрах и диораме
 использует локальные часы представления, без команд и обращений к combat RNG.

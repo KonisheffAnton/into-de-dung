@@ -28,6 +28,10 @@ func _init(root: Command, context: ActionContext) -> void:
 		for unit in context.get_state().get_board().get_all_units():
 			_stances.append({"unit": unit, "expected": false if unit.id == attacker else unit.guard_stance})
 
+func accept_cleared_stance(unit_id: int) -> void:
+	for stance: Dictionary in _stances:
+		if stance.unit.id == unit_id and not stance.unit.is_alive(): stance.expected = false
+
 func stances_valid() -> bool:
 	for stance: Dictionary in _stances:
 		var unit: UnitState = stance["unit"]

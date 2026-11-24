@@ -156,7 +156,7 @@ func _completed_reward_count() -> int:
 func valid_profile(hub: HeroHubState) -> bool:
 	if is_deck() and hub.mage_deck.is_empty(): return false
 	if hub.phase != "expedition" or hub.run_serial != run_id or hub.party.is_empty(): return false
-	if is_deck() and (host_hero_id <= 0 or not hub.party.has(host_hero_id)): return false
+	if is_deck() and ((host_hero_id == 0 and phase == "battle") or (host_hero_id != 0 and not hub.party.has(host_hero_id))): return false
 	for id: int in hub.party:
 		if not hub.heroes.has(id) or (hub.heroes[id] as HeroProgression).hp_current <= 0.0: return false
 	for id: int in ordinary_item_ids:
@@ -185,7 +185,7 @@ static func make_checkpoint(hub: HeroHubState, seed_value: int) -> Dictionary:
 	return {"heroes":heroes,"items":items,"artifacts":run.artifacts.duplicate(true),"seed":seed_value}
 
 func _read_cards(data: Dictionary) -> bool:
-	if host_hero_id <= 0 or host_hero_id >= MAX_VALUE: return false
+	if host_hero_id < 0 or host_hero_id >= MAX_VALUE or (host_hero_id == 0 and phase == "battle"): return false
 	if data.next_card_id < 11 or data.next_card_id >= ActionContext.MAX_ID or data.cards.size() != data.next_card_id - 1: return false
 	var base_types: Array = []
 	for i: int in data.cards.size():

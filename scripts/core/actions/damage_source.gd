@@ -29,7 +29,7 @@ func validate(context: ActionContext) -> StringName:
 	return &""
 
 static func is_card_source(id: int) -> bool:
-	return (id >= 13 and id <= 25) or id in [27, 28]
+	return (id >= 13 and id <= 25) or id in [27, 28, 29]
 
 static func valid_mage(value: Dictionary) -> bool:
-	return value.get("kind") == &"mage" and value.get("source_instance_id") in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28] and value.get("origin_cell") == Vector2i(-1, -1) and value.get("instigator_unit_id") == 0 and value.get("credit_unit_id") == 0
+	return value.get("kind") == &"mage" and value.get("source_instance_id") in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29] and value.get("origin_cell") == Vector2i(-1, -1) and value.get("instigator_unit_id") == 0 and value.get("credit_unit_id") == 0

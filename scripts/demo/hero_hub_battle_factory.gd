@@ -44,6 +44,7 @@ static func create(run: HeroHubState) -> Dictionary:
 	var ordinary := _attack(&"demo_strike")
 	ordinary.damage_components.append(_fire(2))
 	definitions.append(ordinary)
+	if deck: definitions.append(MageDeckRules.raised_attack_definition())
 	var entangle := _attack(&"entangling_strike")
 	entangle.entangle_on_physical_hp = true
 	definitions.append(entangle)
@@ -286,7 +287,9 @@ static func outcome(bundle: Dictionary) -> Dictionary:
 		gear[id] = item.armor_remaining
 	var result := {"serial":bundle.serial,"victory":session.phase == BattleTacticalSession.Phase.VICTORY,"hp":hp,"gear":gear}
 	if bundle.has("run_id"): result.merge({"run_id":bundle.run_id,"node_id":bundle.node_id})
-	if bundle.has("ruleset_id"): result["ruleset_id"] = bundle.ruleset_id
+	if bundle.has("ruleset_id"):
+		result["ruleset_id"] = bundle.ruleset_id
+		result["host_has_died"] = session.state.card_effects.host_has_died
 	return result
 
 static func _attack(id: StringName) -> AttackDefinition:

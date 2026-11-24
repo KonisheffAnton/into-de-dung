@@ -39,7 +39,7 @@ func _prepare(context: ActionContext) -> Dictionary:
 	for unit: UnitState in state.get_board().get_all_units():
 		if unit.is_alive() and unit.faction in [Faction.Type.PLAYER, Faction.Type.ENEMY]: teams[unit.faction] = true
 	if not teams[0] or not teams[1]: return {"reason": &"mage_card/terminal"}
-	if HostCardEffect.host_dead(state): return {"reason": &"mage_card/terminal"}
+	if HostBinding.party_dead(state): return {"reason": &"mage_card/terminal"}
 	var deck_plan := state.deck.play(card_instance_id)
 	if deck_plan.is_empty(): return {"reason": &"mage_card/not_in_hand"}
 	var paid := ability.to_dict()
@@ -67,7 +67,7 @@ func execute(context: ActionContext) -> CommandStepResult:
 	var state := context.get_state()
 	var ability := state.abilities
 	var deck := state.deck
-	var payment_effects: Dictionary = state.card_effects.to_dict() if plan.has("summon_plan") else plan.effects_after
+	var payment_effects: Dictionary = state.card_effects.to_dict() if plan.has("summon_plan") or plan.has("return_plan") else plan.effects_after
 	var guard: SpatialRules.Guard = plan.guard.ability_phase(plan.paid).deck_phase(plan.deck_after, payment_effects)
 	var mana_before: int = ability.mana
 	var deck_before: Dictionary = deck.to_dict()
@@ -83,6 +83,7 @@ func execute(context: ActionContext) -> CommandStepResult:
 	if not guard.check(context) or [card_instance_id, target_id, target_cell, revision] != seal:
 		result.status = &"FAULTED"; result.reason = &"mage_card/checkpoint"; return result
 	var effect_result := MageEffectExecutor.apply(context, plan, guard, func() -> bool: return [card_instance_id, target_id, target_cell, revision] == seal)
+	result.combat_perk_changes = effect_result.combat_perk_changes
 	result.events.append_array(effect_result.events); result.status = effect_result.status; result.reason = effect_result.reason
 	return result
 

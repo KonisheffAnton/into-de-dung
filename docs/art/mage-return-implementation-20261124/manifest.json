@@ -1,0 +1,22 @@
+[
+  {
+    "path": "host-bones-field.png",
+    "sha256": "20fbd8d71d6260e0afb7bc3e0d9a690c24ba81f95a73bc3e49fa176a94a96f01"
+  },
+  {
+    "path": "host-corpse-field.png",
+    "sha256": "6548319951209533e6f7bcad16828daa5b90dd9f778f2d9e8b44c9398d17800a"
+  },
+  {
+    "path": "host-reselection-required.png",
+    "sha256": "d97e483db9acd69264dab78148e816013976163740227e51e55d9ba73c6db5ce"
+  },
+  {
+    "path": "host-reselection-save-retry.png",
+    "sha256": "6c037812041277fbb7e349474636edac2a5d3e75d803e6c97497733aaf0c1ad0"
+  },
+  {
+    "path": "host-spirit-field.png",
+    "sha256": "1394b2cf2d8c51698741e71ff1a75fca6d0338dcaa7a090177eb151fa244bfc6"
+  }
+]

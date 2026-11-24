@@ -40,6 +40,8 @@ static func check(command: Command, context: ActionContext, max_commands: int, m
 				result.reason = &"bleeding/internal_command"
 			elif result.accepted is ControlExpireCommand or result.accepted is ControlApplyCommand:
 				result.reason = &"control/internal_command"
+			elif result.accepted is DeathEffectsCommand:
+				result.reason = &"return/internal_command"
 			elif result.accepted is EnvironmentCommand:
 				result.reason = &"environment/internal_command"
 			elif result.accepted is HazardCommand or result.accepted is HazardTurnCommand or result.accepted is AcidCommand:

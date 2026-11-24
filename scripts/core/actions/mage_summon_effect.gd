@@ -15,7 +15,8 @@ static func zone_anchor(state: ItemSimulationState, cell: Vector2i) -> UnitState
 	return found
 
 static func prepare(context: ActionContext, _selected_id: int, cell: Vector2i, spell: StringName, paid: Dictionary, deck_after: Dictionary = {}, effects_after: Dictionary = {}) -> Dictionary:
-	var anchor := zone_anchor(context.get_state(), cell)
+	var state := context.get_state()
+	var anchor := state.get_board().get_unit_by_id(state.card_effects.host_unit_id) if spell == &"card.raise" and state.card_effects != null else zone_anchor(state, cell)
 	if anchor == null: return {"reason": &"summon/invalid_cell"}
 	return _prepare(context, anchor.id, cell, spell, paid, false, deck_after, effects_after)
 
@@ -23,20 +24,23 @@ static func _prepare(context: ActionContext, owner_id: int, cell: Vector2i, spel
 	var state := context.get_state()
 	var board := state.get_board()
 	var owner := board.get_unit_by_id(owner_id)
-	if owner == null or not owner.is_alive() or owner.faction != Faction.Type.PLAYER or board.occupant_at(owner.cell) != owner:
+	var bound_raise: bool = spell == &"card.raise" and not owned
+	if owner == null or owner.faction != Faction.Type.PLAYER or (not bound_raise and (not owner.is_alive() or board.occupant_at(owner.cell) != owner)):
 		return {"reason": &"mage/invalid_summon_owner"}
 	if owned and state.is_summon(owner_id): return {"reason": &"summon/helper_cannot_summon"}
 	if owned and state.active_summon(owner_id) != null: return {"reason": &"summon/active_helper"}
 	var facade := state.get_owner(owner_id)
 	if facade == null or facade.is_closed() or facade.get_owner() != owner or owner.action_resources == null:
 		return {"reason": &"mage/invalid_runtime"}
-	if not UseSummoningItemCommand.valid_cell(board, owner.cell, cell) or (state.environment != null and not state.environment.fire_at(cell).is_empty()):
+	if (bound_raise and not HostBinding.return_cell_valid(state,cell)) or (not bound_raise and (not UseSummoningItemCommand.valid_cell(board, owner.cell, cell) or (state.environment != null and not state.environment.fire_at(cell).is_empty()))):
 		return {"reason": &"summon/invalid_cell"}
 	var corpse_id := 0
+	var body: Dictionary = {}
 	if spell in [&"mage.test_raise", &"card.raise"]:
 		if state.environment == null: return {"reason": &"environment/not_enabled"}
 		for corpse: Dictionary in state.environment.corpses:
-			if corpse.cell == cell and corpse.creature_kind == "humanoid" and (corpse_id == 0 or int(corpse.id) < corpse_id): corpse_id = int(corpse.id)
+			if corpse.cell == cell and corpse.creature_kind == "humanoid" and (corpse_id == 0 or int(corpse.id) < corpse_id):
+				corpse_id = int(corpse.id); body = corpse.duplicate(true)
 		if corpse_id == 0: return {"reason": &"environment/no_corpse"}
 	var id := UseSummoningItemCommand.next_id(board)
 	if id == 0 or board.board_version >= ActionContext.MAX_ID - 1 or board.get_all_units().size() >= ItemSimulationSnapshot.MAX_OWNERS:
@@ -56,20 +60,24 @@ static func _prepare(context: ActionContext, owner_id: int, cell: Vector2i, spel
 		helper.elemental = ElementalState.new(); helper.bleeding.stacked = true
 		helper.elemental.authored = owner.elemental != null and owner.elemental.authored
 	if state.deck != null:
-		if effects_after.is_empty() or context.get_attack_rules().get_definition(&"demo_strike") == null: return {"reason": &"summon/invalid_admission"}
+		if effects_after.is_empty() or context.get_attack_rules().get_definition(StringName(MageDeckRules.summon_attack_id(helper))) == null: return {"reason": &"summon/invalid_admission"}
 		if BattleCardEffectState.from_dict(effects_after) == null: return {"reason": &"summon/invalid_admission"}
+	if corpse_id > 0 and state.card_effects != null:
+		effects_after = HostBinding.after_raise(effects_after,body,id,board.get_height_steps(cell))
 	var before := ItemSimulationSnapshot.capture(state, context.get_unsupported_runtime_ids())
 	if before.code != ItemSnapshotResult.Code.OK: return {"reason": &"mage/invalid_runtime"}
 	var expected := SummonMutationProjection.expected(before.snapshot, helper, owner_id, board.get_height(cell), 0, 0, 0, corpse_id, paid, not owned, deck_after, effects_after)
 	if expected.code != ItemSnapshotResult.Code.OK: return {"reason": &"mage/invalid_runtime"}
 	var final_effects: Dictionary = effects_after.duplicate(true)
 	if state.deck != null:
-		final_effects["ordinary_attacks"].append({"unit_id":id,"attack_id":"demo_strike"})
+		final_effects["ordinary_attacks"].append({"unit_id":id,"attack_id":MageDeckRules.summon_attack_id(helper)})
 		final_effects["ordinary_attacks"].sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a.unit_id < b.unit_id)
-	var guard := SpatialRules.capture_guard(context, [owner], [owner.cell, cell], {})
+	var participants: Array[UnitState] = [owner]
+	if not body.is_empty() and int(body.source_unit_id) != owner.id: participants.append(board.get_unit_by_id(body.source_unit_id))
+	var guard := SpatialRules.capture_guard(context, participants, [owner.cell, cell], {}, true)
 	if guard == null: return {"reason": &"mage/invalid_runtime"}
 	return {"reason": &"", "target": owner, "guard": guard, "helper": helper, "owner_id": owner_id if owned else 0, "anchor_id": owner_id, "corpse_id": corpse_id,
-		"admission": admission, "expected": expected.snapshot.to_dict(), "effects_after": final_effects, "state": state, "board": board,
+		"body":body,"admission": admission, "expected": expected.snapshot.to_dict(), "effects_after": final_effects, "state": state, "board": board,
 		"environment": state.environment, "originals": board.get_all_units(), "owners": state.get_owners(),
 		"inventories": state.get_inventories(), "equipment": state.get_equipment_facades(),
 		"rng": context.get_rng(), "rng_before": context.get_rng().to_dict().duplicate(true), "counters": context.simulation_counters()}
@@ -80,9 +88,12 @@ static func apply(context: ActionContext, plan: Dictionary, spell: StringName, s
 	var helper: UnitState = plan.helper
 	var helper_id := helper.id
 	var cell := helper.cell
-	if int(plan.corpse_id) != 0: state.environment.consume_corpse(int(plan.corpse_id))
+	if int(plan.corpse_id) != 0:
+		if state.card_effects != null: ReturnEffects.apply(board.get_unit_by_id(plan.body.source_unit_id))
+		state.environment.consume_corpse(int(plan.corpse_id))
 	if int(plan.owner_id) == 0: state.register_mage_summon(helper)
 	else: state.register_summon_owner(helper, int(plan.owner_id))
+	if state.card_effects != null: state.card_effects.apply_values(plan.effects_after)
 	context._move_rules = plan.admission.move
 	context._attack_rules = plan.admission.attack
 	board.add_unit(helper)
@@ -92,6 +103,9 @@ static func apply(context: ActionContext, plan: Dictionary, spell: StringName, s
 	else: event["spell_id"] = String(spell)
 	if int(plan.owner_id) == 0: event["anchor_unit_id"] = int(plan.anchor_id)
 	var result := CommandStepResult.applied([event], [], [], null, true)
+	if int(plan.corpse_id) > 0 and state.card_effects != null and board.get_all_units().any(func(unit: UnitState) -> bool: return unit.combat_perks != null):
+		var original := board.get_unit_by_id(plan.body.source_unit_id)
+		result.combat_perk_changes[original.id] = CombatPerkGuard.record(original,original.combat_perks)
 	var actual := ItemSimulationSnapshot.capture(state, [])
 	var expected_context := ActionContext.new(null, null, null, [], plan.admission.move, plan.admission.attack)
 	var valid: bool = bool(sealed.call()) and context.get_state() == state and state.get_board() == board and state.environment == plan.environment and context.get_rng() == plan.rng

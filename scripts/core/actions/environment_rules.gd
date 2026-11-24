@@ -38,6 +38,7 @@ static func consequences(event: Dictionary, context: ActionContext) -> Array[Com
 	var result: Array[Command] = []
 	var state := context.get_state()
 	if event["kind"] == &"died":
+		if state.card_effects != null: result.append(DeathEffectsCommand.new(event.target_unit_id))
 		if state.environment != null: result.append(EnvironmentCommand.for_death(event, context))
 	elif event["kind"] == &"moved":
 		var cells: Array[Vector2i] = []

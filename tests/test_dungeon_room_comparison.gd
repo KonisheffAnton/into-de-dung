@@ -48,7 +48,9 @@ func _receipt(profile: HeroHubState) -> Dictionary:
 		gear[item.id] = item.remaining
 	var receipt := {"run_id": profile.run_serial, "node_id": profile.expedition.current_node().id,
 		"serial": profile.expedition.battle_serial, "victory": true, "hp": hp, "gear": gear}
-	if profile.expedition.is_deck(): receipt["ruleset_id"] = profile.expedition.ruleset_id
+	if profile.expedition.is_deck():
+		receipt["ruleset_id"] = profile.expedition.ruleset_id
+		receipt["host_has_died"] = false
 	return receipt
 
 func _later_battle(source: HeroHubState) -> HeroHubState:

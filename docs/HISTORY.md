@@ -1,5 +1,21 @@
 # История и свидетельства проверок
 
+## Останки носителя, дух и возвращение — 2026-11-24
+
+По U реализован [HOST_POSSESSION_V1](HOST_POSSESSION_V1.md): смерть сохраняет
+привязку; живой возврат4маны/12HP и поднятие2маны; очистка эффектов/pending,
+повторные поднятия, PLAYER-контроль поднятого врагом носителя, обычное поражение
+при гибели постоянного отряда. Перевыбор после боя использует save/retry.
+[Пакет/кадры](art/mage-return-implementation-20261124/README.md),
+[отчёт](../test_reports/mage-return-implementation-20261124/REPORT.md).
+Fresh import/startup+28 suites+core31PASS/0; core9428/0;6GPU suites PASS,
+Python launcher37/0, независимые core/docs APPROVE. Full до изменения:
+209PASS/19FAIL/2TIMEOUT; финальный full и ручные F5/DPI/performance не заявлены.
+Баланс, арт духа и пользовательская приёмка открыты. По явному поручению U
+в публикацию входят все накопленные локальные коммиты и прежние меню/референсы;
+33 исходных файла сохранены по SHA-256, их включение оформлено отдельно.
+[Прежний HANDOFF побайтно](CODEX_HANDOFF.history-20261124-4.md).
+
 ## Компактные рамки и декор хаба — 2026-11-24
 
 По U на основе D01/D03 созданы [ещё5 Imagegen +5 PixelLab](art/hub-buttons-compact-dungeon-five-pairs-20261124/README.md).

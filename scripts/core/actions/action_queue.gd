@@ -75,6 +75,8 @@ func submit(command: Command, context: ActionContext) -> ActionReceipt:
 		if accepted is PlayMageCardCommand:
 			deck_expected = (accepted as PlayMageCardCommand).projected_deck(context)
 			effects_expected = (accepted as PlayMageCardCommand).projected_effects(context)
+		elif accepted is RaiseCorpseCommand: effects_expected = (accepted as RaiseCorpseCommand).projected_effects(context)
+		elif accepted is BattleTurnRefill: effects_expected = (accepted as BattleTurnRefill).projected_effects(context)
 		elif accepted is MageDeckChangeCommand: deck_expected = (accepted as MageDeckChangeCommand).projected_deck(context)
 		elif accepted is AbilityBoundaryCommand:
 			deck_expected = (accepted as AbilityBoundaryCommand).projected_deck(context)
@@ -104,7 +106,7 @@ func submit(command: Command, context: ActionContext) -> ActionReceipt:
 			# Новое admission принадлежит исполненному шагу, включая FAULTED prefix.
 			if entry.command is UseSummoningItemCommand or entry.command is RaiseCorpseCommand:
 				for binding: Dictionary in effects_ref.ordinary_attacks:
-					if context.get_state().is_summon(binding.unit_id) and binding.attack_id == "demo_strike" and not effects_expected.ordinary_attacks.any(func(value: Dictionary) -> bool: return value.unit_id == binding.unit_id):
+					if context.get_state().is_summon(binding.unit_id) and binding.attack_id == MageDeckRules.summon_attack_id(context.get_state().get_board().get_unit_by_id(binding.unit_id)) and not effects_expected.ordinary_attacks.any(func(value: Dictionary) -> bool: return value.unit_id == binding.unit_id):
 						effects_expected.ordinary_attacks.append(binding.duplicate(true))
 		if receipt.status != &"FAULTED" and not deck_check.call(): _fault(receipt,context,&"deck/checkpoint")
 		if receipt.status != &"FAULTED" and not ability_check.call(): _fault(receipt, context, &"ability/checkpoint")
@@ -212,14 +214,13 @@ func _execute_entry(entry: Dictionary, receipt: ActionReceipt, context: ActionCo
 		if effects_ref != null and event.kind == &"died":
 			# Очистка входит в подтверждённый prefix смерти до snapshot коллектора
 			# реакций; внешние callbacks шага уже прошли свои фазовые guards.
-			var id: int = event.target_unit_id
-			effects_ref.fire_imbues = effects_ref.fire_imbues.filter(func(value: Dictionary) -> bool: return value.unit_id != id)
-			effects_expected.fire_imbues = effects_expected.fire_imbues.filter(func(value: Dictionary) -> bool: return value.unit_id != id)
+			effects_ref.apply_values(HostBinding.after_death(effects_ref.to_dict(), event, context.get_state().get_board()))
+			effects_expected.merge(HostBinding.after_death(effects_expected, event, context.get_state().get_board()), true)
 	if result.status == &"FAULTED":
 		_fault(receipt, context, result.reason)
 		return
 	if not result.combat_perk_changes.is_empty():
-		if command.get_script() not in [AttackCommand, GuardCommand, BattleTurnRefill]:
+		if command.get_script() not in [AttackCommand, GuardCommand, BattleTurnRefill, PlayMageCardCommand, DeathEffectsCommand, RaiseCorpseCommand]:
 			_fault(receipt, context, &"perks/invalid_delta")
 			return
 		if _perk_guard == null:
@@ -230,6 +231,7 @@ func _execute_entry(entry: Dictionary, receipt: ActionReceipt, context: ActionCo
 		if not result.state_changed: context._bump_revision()
 		_fault(receipt, context, &"perks/invalid_runtime")
 		return
+	if command is DeathEffectsCommand: _attack_policy.accept_cleared_stance((command as DeathEffectsCommand)._unit_id)
 	if not _attack_policy.stances_valid():
 		# Шаг и его события уже записаны; непроверенный хвост больше не исполняется.
 		if not result.state_changed: context._bump_revision()

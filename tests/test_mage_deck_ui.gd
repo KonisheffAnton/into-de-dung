@@ -294,7 +294,7 @@ func _outcome_for(profile: HeroHubState) -> Dictionary:
 	for item: Dictionary in profile.expedition.checkpoint.legacy_inputs.items: gear[item.id] = item.remaining
 	return {"ruleset_id":ExpeditionRulesRegistry.DECK,"run_id":profile.run_serial,
 		"node_id":profile.expedition.current_node().id,"serial":profile.expedition.battle_serial,
-		"victory":true,"hp":hp,"gear":gear}
+		"victory":true,"hp":hp,"gear":gear,"host_has_died":false}
 
 func _fixture_battle_outcome() -> void:
 	check(host.run.expedition.phase == "battle", "fixture entered battle")

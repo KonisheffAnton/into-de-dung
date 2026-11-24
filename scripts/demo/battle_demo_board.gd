@@ -121,6 +121,8 @@ var _view_fires: Array[Dictionary] = []
 var _view_hazards: Dictionary = {}
 var _view_corpses: Array[Dictionary] = []
 var _view_collapse: Array[Vector2i] = []
+var _view_host_anchor: Dictionary = {}
+var _host_anchor_visual: HostAnchorVisual
 const DEFAULT_ENVIRONMENT_SCENE: PackedScene = preload("res://scenes/demo/visuals/environment_overlay.tscn")
 var environment_visual_scene: PackedScene = DEFAULT_ENVIRONMENT_SCENE
 var _environment_visuals: Dictionary = {}
@@ -209,6 +211,8 @@ func show_presentation_state(value: Dictionary) -> void:
 	_view_hazards = value.get("hazards", {}).duplicate(true)
 	_view_corpses.assign(value.get("corpses", []).duplicate(true))
 	_view_collapse.assign(value.get("collapse", {}).get("marked", []).duplicate(true))
+	_view_host_anchor = value.get("host_anchor", {}).duplicate(true)
+	host_unit_id = int(_view_host_anchor.get("unit_id", 0))
 	_reachable.clear()
 	inspection_cells.clear()
 	reaction_zone_cells.clear()
@@ -216,6 +220,7 @@ func show_presentation_state(value: Dictionary) -> void:
 	sneak_threat_ids.clear()
 	_path.clear()
 	_rebuild_visuals(true)
+	_sync_host_anchor_visual()
 	queue_redraw()
 	if _overlay != null: _overlay.queue_redraw()
 
@@ -1352,6 +1357,9 @@ func _ready() -> void:
 	_numbers = _layer("ResultNumbers", RenderLayers.Layer.VFX_OVERLAY)
 	_overlay = _layer("PathOverlay", RenderLayers.Layer.UI_PREVIEW)
 	_overlay.draw.connect(_draw_overlay)
+	_host_anchor_visual = HostAnchorVisual.new()
+	_host_anchor_visual.name = "HostAnchorVisual"
+	_overlay.add_child(_host_anchor_visual)
 	# Слой клеток синхронизируется с теми же invalidation, оставаясь в terrain Y-sort.
 	_overlay.draw.connect(_sync_ground_overlays)
 	compact_forecast = get_node_or_null("CompactForecast") as BattleForecastCard
@@ -1434,6 +1442,7 @@ func _apply_camera() -> void:
 	if compact_forecast != null: compact_forecast.place(self)
 	_update_mage_geometry(_mage_effect.phase if is_instance_valid(_mage_effect) else &"prepare", _mage_effect.progress if is_instance_valid(_mage_effect) else 0.0)
 	_sample_support(_support_effect.progress if is_instance_valid(_support_effect) else 0.0, _support_effect.phase if is_instance_valid(_support_effect) else &"prepare")
+	_sync_host_anchor_visual()
 	queue_redraw()
 
 func _camera_input(event: InputEvent) -> bool:
@@ -1565,6 +1574,16 @@ func reachable_cells() -> Dictionary:
 func _world_cell_center(cell: Vector2i) -> Vector2:
 	var steps := _view_height_steps(cell)
 	return IsoGridUtils.grid_to_screen(cell, grid_config, 0) - Vector2(0, float(steps) * 0.5 * grid_config.height_step)
+
+func _sync_host_anchor_visual() -> void:
+	if _host_anchor_visual == null: return
+	if _view_host_anchor.is_empty() or String(_view_host_anchor.get("kind", "")) == "living":
+		_host_anchor_visual.hide()
+		return
+	var cell: Vector2i = _view_host_anchor.get("cell", Vector2i(-1, -1))
+	var height := int(_view_host_anchor.get("height", 0))
+	_host_anchor_visual.position = IsoGridUtils.grid_to_screen(cell, grid_config, 0) - Vector2(0, float(height) * 0.5 * grid_config.height_step)
+	_host_anchor_visual.configure(String(_view_host_anchor.get("kind", "")), host_glow)
 
 func cell_at(point: Vector2) -> Vector2i:
 	if execution_pending or _view_width <= 0 or _view_height <= 0: return Vector2i(-1, -1)
@@ -1866,6 +1885,7 @@ func _rebuild_visuals(allow_terrain_reuse: bool = false) -> void:
 		_presentation_slide(pose.progress, id, pose.from, pose.to)
 	_sample_defender_buff(_defender_buff_elapsed)
 	_restore_attack_facings()
+	_sync_host_anchor_visual()
 
 func _rebuild_terrain() -> void:
 	_terrain_draw_values.clear()
@@ -2265,6 +2285,7 @@ func _capture_board_view(board: BattleBoard) -> void:
 	_view_hazards.clear()
 	_view_corpses.clear()
 	_view_collapse.clear()
+	_view_host_anchor.clear()
 	if board == null: return
 	_view_heights.resize(_view_width * _view_height)
 	_view_terrain.resize(_view_width * _view_height)
@@ -2275,6 +2296,9 @@ func _capture_board_view(board: BattleBoard) -> void:
 			_view_heights[index] = board.get_height_steps(cell)
 			_view_terrain[index] = board.get_terrain(cell)
 	var selected_id := session.selected_id if session != null else UnitId.NONE
+	if session != null and session.state != null:
+		_view_host_anchor = ActionPresentationState.capture_host_anchor(session.state)
+		host_unit_id = int(_view_host_anchor.get("unit_id", 0))
 	displayed_selected_id = selected_id
 	var source_units: Array[UnitState] = session.units if session != null else []
 	for unit: UnitState in source_units:

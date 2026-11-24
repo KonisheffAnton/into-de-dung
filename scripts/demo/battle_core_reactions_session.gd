@@ -33,6 +33,9 @@ func visible_action_descriptors(available: Array[Dictionary]) -> Array[Dictionar
 	return result
 
 func allows_loadout_action(action: StringName) -> bool:
+	var actor := selected_unit()
+	if state != null and state.deck != null and actor != null and state.is_summon(actor.id) and actor.creature_kind == &"undead":
+		return action not in [&"blood_rune",&"entangling_strike",&"elemental",&"restore_armor"]
 	if not actor_loadouts.has(selected_id): return true
 	var class_id: StringName = actor_loadouts[selected_id].class_id
 	match action:
@@ -109,6 +112,11 @@ func prepare_retreat_forecast(cell: Vector2i) -> ForecastSimulation.Prepared:
 	return ForecastSimulation.prepare(context, _queue, MoveCommand.new(selected_id, path, context.get_revision(), &"safe_retreat"))
 
 func _command_for(id: int) -> AttackCommand:
+	var actor := selected_unit()
+	if state.deck != null and actor != null and state.is_summon(actor.id) and actor.creature_kind == &"undead":
+		var ordinary := super._command_for(id)
+		if ordinary == null or rune_selected or entangle_selected or stun_selected: return null
+		return AttackCommand.new(actor.id,id,ordinary.get_expected_actor_cell(),ordinary.get_expected_target_cell(),MageDeckRules.RAISED_ATTACK,context.get_revision())
 	if actor_loadouts.has(selected_id):
 		var ordinary := super._command_for(id)
 		if ordinary == null or rune_selected or (entangle_selected and not allows_loadout_action(&"entangling_strike")): return null
@@ -206,8 +214,8 @@ func healing_item() -> ItemInstance:
 	return null
 
 func _check_outcome() -> void:
-	if context != null and not context.is_busy() and not context.is_faulted() and HostCardEffect.host_dead(state):
-		_set_terminal(Phase.DEFEAT, "Носитель погиб. Поход окончен; выжившие возвращаются в хаб.")
+	if context != null and not context.is_busy() and not context.is_faulted() and HostBinding.party_dead(state):
+		_set_terminal(Phase.DEFEAT, "Все постоянные бойцы погибли. Связь мага с полем оборвалась.")
 		return
 	super._check_outcome()
 	if actor_loadouts.is_empty() or context == null or context.is_busy() or context.is_faulted(): return

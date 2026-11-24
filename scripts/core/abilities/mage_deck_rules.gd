@@ -1,13 +1,31 @@
 class_name MageDeckRules
 extends RefCounted
 
+const RAISED_ATTACK: StringName = &"raised_strike"
+
+static func raised_attack_definition() -> AttackDefinition:
+	var definition := AttackDefinition.new()
+	definition.id = RAISED_ATTACK; definition.profile = AttackRules.ARMOR_PROFILE
+	definition.chain_push = true; definition.critical_on_control = true
+	return definition
+
+static func summon_attack_id(unit: UnitState) -> String:
+	return String(RAISED_ATTACK) if unit.creature_kind == &"undead" else "demo_strike"
+
+
 static func live_valid(state: ItemSimulationState) -> bool:
 	if state.deck == null and state.card_effects == null: return state.abilities == null or state.abilities.to_dict().get("ruleset_id") == ""
 	if state.deck == null or state.card_effects == null or state.abilities == null or state.artifacts != null: return false
 	if state.deck.get_script() != BattleDeckState or state.card_effects.get_script() != BattleCardEffectState or state.deck.draw_rng == null or state.deck.draw_rng.get_script() != CombatRng: return false
 	if not state.deck.valid() or not state.card_effects.valid() or state.abilities.to_dict().get("ruleset_id") != "u14-deck-v1": return false
+	if state.card_effects.host_has_died and not state.get_board().is_in_bounds(state.card_effects.host_death_cell): return false
 	var units: Array = []
-	for unit: UnitState in state.get_board().get_all_units(): units.append(unit.to_reference_dict())
+	for unit: UnitState in state.get_board().get_all_units():
+		if state.card_effects.pending_revivals.has(unit.id) and (unit.move_points_left != 0.0 or unit.action_resources == null or unit.action_resources.get_main_left() != 0 or unit.action_resources.get_bonus_left() != 0): return false
+		var reference := unit.to_reference_dict()
+		if reference.is_empty(): return false
+		reference["creature_kind"] = String(unit.creature_kind)
+		units.append(reference)
 	return _references(state.deck,state.card_effects,state.abilities.to_dict(),units,state.get_summons())
 
 static func snapshot_valid(data: Dictionary) -> bool:
@@ -15,6 +33,9 @@ static func snapshot_valid(data: Dictionary) -> bool:
 	var deck := BattleDeckState.from_dict(data.deck)
 	var effects := BattleCardEffectState.from_dict(data.card_effects)
 	if deck == null or effects == null: return false
+	if effects.host_has_died and (effects.host_death_cell.x >= int(data.board_snapshot.board.width) or effects.host_death_cell.y >= int(data.board_snapshot.board.height)): return false
+	for unit: Dictionary in data.board_snapshot.board.units:
+		if effects.pending_revivals.has(unit.id) and (unit.move_points_left != 0.0 or not unit.has("action_resources") or unit.action_resources.main_left != 0 or unit.action_resources.bonus_left != 0): return false
 	return _references(deck,effects,data.abilities,data.board_snapshot.board.units,data.summons)
 
 ## В v1 factory присваивает персональный default ID; остальные бойцы и helpers
@@ -38,12 +59,18 @@ static func _references(deck: BattleDeckState, effects: BattleCardEffectState, a
 	for unit: Dictionary in units: by_id[unit.id] = unit
 	if effects.host_unit_id != 0:
 		if not by_id.has(effects.host_unit_id) or by_id[effects.host_unit_id].faction != Faction.Type.PLAYER: return false
-		for summon: Dictionary in summons:
-			if summon.get("unit_id") == effects.host_unit_id: return false
+		if effects.host_has_died and (effects.host_death_cell.x < 0 or effects.host_death_cell.y < 0): return false
 	if effects.light_step_serial > ability.serials[Faction.Type.PLAYER]: return false
+	for id: int in effects.pending_revivals:
+		if not by_id.has(id) or not by_id[id].vitals.is_alive or by_id[id].faction != Faction.Type.PLAYER: return false
+		for record: Dictionary in summons:
+			if record.unit_id == id: return false
 	var bound: Dictionary = {}
 	for record: Dictionary in effects.ordinary_attacks:
-		if not by_id.has(record.unit_id) or record.attack_id != default_attack_id(record.unit_id,ability): return false
+		if not by_id.has(record.unit_id): return false
+		var expected_id := default_attack_id(record.unit_id,ability)
+		if by_id[record.unit_id].get("creature_kind","") == "undead" and summons.any(func(summon: Dictionary) -> bool: return summon.unit_id == record.unit_id): expected_id = String(RAISED_ATTACK)
+		if record.attack_id != expected_id: return false
 		bound[record.unit_id] = true
 	if bound.size() != by_id.size(): return false
 	var pending: Dictionary = {}
@@ -54,7 +81,8 @@ static func _references(deck: BattleDeckState, effects: BattleCardEffectState, a
 		if not by_id.has(effect.unit_id): return false
 		var unit: Dictionary = by_id[effect.unit_id]
 		var card := deck.card(effect.source_card_id)
-		if unit.faction != Faction.Type.PLAYER or not unit.vitals.is_alive or pending.has(unit.id): return false
+		var corpse_buff: bool = unit.id == effects.host_unit_id and not unit.vitals.is_alive
+		if unit.faction != Faction.Type.PLAYER or (not unit.vitals.is_alive and not corpse_buff) or pending.has(unit.id): return false
 		if card.get("type_id") != "card.fire_imbue" or not deck.spent_ids.has(effect.source_card_id): return false
 		if effect.applied_team_serial > ability.serials[unit.faction]: return false
 		if effect.expires_after_serial <= ability.ended[unit.faction]: return false

@@ -109,6 +109,7 @@ static func format_event(event: Dictionary, names: Dictionary[int, String], core
 			if int(event.owner_unit_id) != 0:
 				owner_text = "Владелец — %s; " % _name_for(names, int(event.owner_unit_id))
 			return "Маг %s: %s. %sДействия со следующего хода команды." % [action, target, owner_text]
+		&"unit_revived": return "%s возвращён к жизни с %s HP; начнёт действовать со следующего хода своей команды." % [target, amount_text(event.get("hp", 0.0))]
 		&"corpse_created": return "Тело: %s, гуманоид." % cell_name(event["corpse"]["cell"])
 		&"support_collapsed": return "Обвал: %s стала пропастью." % cell_name(event["cell"])
 		&"environment_turn":

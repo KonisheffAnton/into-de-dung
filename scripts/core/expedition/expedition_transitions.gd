@@ -54,7 +54,14 @@ static func _apply(hub: HeroHubState, action: String, args: Dictionary) -> Strin
 	var run := hub.expedition
 	if hub.phase != "expedition" or run == null: return "expedition/not_active"
 	if action == "outcome": return _outcome(hub,args)
+	if action == "select_host":
+		if not run.is_deck() or run.phase == "battle" or run.host_hero_id != 0 or not _ints(args,["hero"]) or not hub.party.has(args.hero): return "expedition/host_unavailable"
+		var hero := hub.heroes.get(args.hero) as HeroProgression
+		if hero == null or hero.hp_current <= 0.0: return "expedition/host_unavailable"
+		run.host_hero_id = args.hero; hub.mage_deck.host_hero_id = args.hero
+		return ""
 	if action == "choose":
+		if run.is_deck() and run.host_hero_id == 0: return "expedition/host_required"
 		if not _ints(args,["node"]) or run.phase != "route" or not run.available_nodes().has(args.node): return "expedition/node_unavailable"
 		if not hub.battle_report.is_empty(): hub.battle_report.open = false
 		run.route.append(args.node)
@@ -154,7 +161,9 @@ static func _artifact(run: ExpeditionRunState, party: Array[int], action: String
 static func _outcome(hub: HeroHubState, receipt: Dictionary) -> String:
 	var run := hub.expedition
 	var shape := {"run_id":TYPE_INT,"node_id":TYPE_INT,"serial":TYPE_INT,"victory":TYPE_BOOL,"hp":TYPE_DICTIONARY,"gear":TYPE_DICTIONARY}
-	if run.is_deck(): shape.ruleset_id = TYPE_STRING
+	if run.is_deck():
+		shape.ruleset_id = TYPE_STRING
+		shape["host_has_died"] = TYPE_BOOL
 	if run.phase != "battle" or not ItemSimulationSnapshot._shape(receipt,shape): return "expedition/invalid_receipt"
 	if run.is_deck() and receipt.ruleset_id != run.ruleset_id: return "expedition/invalid_ruleset"
 	if receipt.run_id != run.run_id or receipt.node_id != run.current_node().id or receipt.serial != run.battle_serial: return "expedition/stale_receipt"
@@ -168,7 +177,7 @@ static func _outcome(hub: HeroHubState, receipt: Dictionary) -> String:
 		if value > 0.0: living += 1
 	var host_alive: bool = true
 	if run.is_deck(): host_alive = float(receipt.hp.get(run.host_hero_id, 0.0)) > 0.0
-	var expected_victory: bool = living > 0 and host_alive
+	var expected_victory: bool = living > 0
 	if receipt.victory != expected_victory: return "expedition/invalid_victory"
 	var expected_gear: Array[int] = []
 	for row: Dictionary in inputs.items: expected_gear.append(row.id)
@@ -176,8 +185,8 @@ static func _outcome(hub: HeroHubState, receipt: Dictionary) -> String:
 		if typeof(id) != TYPE_INT or not expected_gear.has(id) or not CombatAmount.valid(receipt.gear[id]): return "expedition/invalid_gear"
 		if receipt.gear[id] > HeroGearCatalog.definition(hub.items[id].definition).armor_max: return "expedition/invalid_gear"
 	var report := PostBattleRules.begin(hub,"expedition",run.current_node().id,run.battle_serial,ExpeditionCatalog.room_name(run.current_node().kind),receipt.victory,receipt.victory and run.current_node().kind == "final")
-	var host_defeat: bool = run.is_deck() and not host_alive and living > 0
-	if not receipt.victory and not host_defeat:
+	var reselect_host: bool = run.is_deck() and (not host_alive or bool(receipt.get("host_has_died",false)))
+	if not receipt.victory:
 		for id: int in run.ordinary_item_ids: report.lost_items.append(String(HeroGearCatalog.definition(hub.items[id].definition).display_name))
 	var deployed: Array[int] = hub.party.duplicate()
 	var dead: Array[int] = []
@@ -188,19 +197,21 @@ static func _outcome(hub: HeroHubState, receipt: Dictionary) -> String:
 	for id: int in receipt.gear:
 		var item: Dictionary = hub.items[id]
 		item.remaining = receipt.gear[id]
-		if (receipt.victory or host_defeat) and dead.has(item.hero_id):
+		if receipt.victory and dead.has(item.hero_id):
 			report.items.append(String(HeroGearCatalog.definition(item.definition).display_name) + " · на склад")
 			item.hero_id = 0; run.ordinary_item_ids.erase(id)
 	for item: Dictionary in run.artifacts:
 		if dead.has(item.hero_id): item.hero_id = 0; item.slot = 0
 	for id: int in dead: hub.party.erase(id); hub.heroes.erase(id)
 	hub.clear_missing_mage_host()
+	if reselect_host:
+		hub.mage_deck.host_hero_id = 0; run.host_hero_id = 0
 	run.checkpoint.clear()
 	if not receipt.victory:
 		PostBattleRules.finish(hub,report,receipt.hp)
 		if run.is_deck():
 			hub.battle_report = MageDeckReport.upgrade(hub.battle_report,[])
-			return MageDeckReport.finish_run(hub,true,false,host_defeat)
+			return MageDeckReport.finish_run(hub,true,false)
 		return _finish(hub,true,false)
 	var room := ExpeditionCatalog.room(run.current_node().kind)
 	if run.gold > ExpeditionRunState.MAX_VALUE - room.gold: return "expedition/overflow"

@@ -166,4 +166,4 @@ func successful_receipt(hub: HeroHubState) -> Dictionary:
 		gear[item.id] = item.remaining
 	return {"ruleset_id": ExpeditionRulesRegistry.DECK, "run_id": hub.expedition.run_id,
 		"node_id": hub.expedition.current_node().id, "serial": hub.expedition.battle_serial,
-		"victory": true, "hp": hp, "gear": gear}
+		"victory": true, "hp": hp, "gear": gear, "host_has_died": false}

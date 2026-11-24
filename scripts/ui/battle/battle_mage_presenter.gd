@@ -83,7 +83,7 @@ static func refresh_deck(
 		var host := mage_session.board.get_unit_by_id(mage_session.state.card_effects.host_unit_id)
 		if host != null:
 			label.text += " · Носитель: " + host.debug_name
-			label.tooltip_text += "\nСмерть носителя завершает поход. Живые бойцы возвращаются с вещами и добычей."
+			label.tooltip_text += "\nПри гибели носителя магия остаётся у его останков. После боя выберите нового носителя."
 	var shown: Array[Button] = []
 	var ids: Array[int] = deck.hand_ids.duplicate()
 	var reasons: Dictionary[int, StringName] = {}

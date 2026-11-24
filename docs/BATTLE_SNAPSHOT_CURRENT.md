@@ -45,7 +45,7 @@
 | ElementalState | elemental4; обязательны `acid_ticks:int`, `poison_stacks:int`, `poison_ticks:int`, `poison_source:Dictionary`; авторский режим содержит оба массива `burning_contributions` и `poison_contributions` |
 | CombatPerksState | perks7; все восемь флагов, `uses_bonus_actions:bool` и `reaction_left:int`; при оплате из bonus старый запас строго 0; опциональный `warrior:{ready_turn:int}` — capability и личный откат [Воина](WARRIOR_V1.md) |
 | CombatEnvironmentState | environment6; `status_effects:bool`, опциональные collapse/hazards (hazards1; опциональный wall_mount=ledge); status требует collapse, hazards требует status |
-| BattleCardEffectState | card_effects2: ordinary_attacks/fire_imbues, обязательные host_unit_id/light_step_serial; card_effects1 отклоняется; [правила](HOST_POSSESSION_V1.md) |
+| BattleCardEffectState | card_effects3: ordinary_attacks/fire_imbues, host_unit_id/light_step_serial, host_has_died/death_cell/death_height и pending_revivals; card_effects1/2 отклоняются; [правила](HOST_POSSESSION_V1.md) |
 | BattleAbilityState | abilities3; `ruleset_id` пустой для прежней маны либо `u14-deck-v1`, обязательный `first_team`; прежний режим требует first_team=1 |
 
 С2026-11-05 terrain в board2 допускает ID0–4: прежние FLOOR/WALL/HAZARD/VOID

@@ -524,6 +524,26 @@ func _displayed_cell_hovered(cell: Vector2i) -> void:
 			_compact_inspection.tooltip_text += "\n" + remains_text
 	board_view.tooltip_text = _compact_inspection.tooltip_text if cell.x >= 0 else ""
 
+## Курсор на теле носителя выбирает привязанного хозяина; живая цель клетки важнее fallback для бафа.
+func _card_target_id(definition: MageCardDefinition, cell: Vector2i) -> int:
+	if definition == null or session == null or session.board == null or not session.board.is_in_bounds(cell): return UnitId.NONE
+	if definition.target_policy in ["valid_cell", "corpse_cell"]: return UnitId.NONE
+	var occupant: UnitState = session.board.occupant_at(cell)
+	var effects := session.state.card_effects
+	if effects == null or effects.host_unit_id <= 0:
+		return occupant.id if occupant != null else UnitId.NONE
+	var anchor := HostBinding.anchor(session.state)
+	var bound_cell: Vector2i = anchor.get("cell", Vector2i(-1, -1))
+	var bound_kind: String = String(anchor.get("kind", ""))
+	var bound_id: int = int(anchor.get("unit_id", UnitId.NONE))
+	if definition.target_policy == "host_unit":
+		if bound_cell == cell and bound_kind in ["living", "fresh", "bones"]: return bound_id
+		return occupant.id if occupant != null else UnitId.NONE
+	if definition.target_policy == "ally_unit":
+		if occupant != null: return occupant.id
+		if bound_cell == cell and bound_kind in ["fresh", "bones"]: return bound_id
+	return occupant.id if occupant != null else UnitId.NONE
+
 func _card_imbue_text(unit_id: int) -> String:
 	if unit_id <= 0 or session == null or session.state == null or session.state.card_effects == null or session.state.abilities == null: return ""
 	var unit := session.board.get_unit_by_id(unit_id)
@@ -1057,12 +1077,13 @@ func handle_cell(cell: Vector2i) -> void:
 		var card := session.state.deck.card(_card_selected_id)
 		var definition := MageCardCatalog.get_card(String(card.get("type_id", "")))
 		var cell_card: bool = definition != null and definition.target_policy in ["valid_cell", "corpse_cell"]
-		if not cell_card and occupant == null:
+		var target_id: int = _card_target_id(definition, cell)
+		if not cell_card and target_id <= 0:
 			var rejected := ActionReceipt.new()
 			rejected.reason = &"mage/invalid_target"
 			_show_receipt(rejected, true)
 			return
-		_execute_live(&"play_mage_card", [_card_selected_id, 0 if cell_card else occupant.id, cell], true)
+		_execute_live(&"play_mage_card", [_card_selected_id, 0 if cell_card else target_id, cell], true)
 		return
 	if _cover_guard_mode and session is BattleCoreReactionsSession:
 		var reaction_session := session as BattleCoreReactionsSession
@@ -1693,14 +1714,14 @@ func _hover(cell: Vector2i) -> void:
 		else:
 			_clear_forecast()
 	elif _card_selected_id > 0 and session is BattleCoreReactionsSession:
-		var target := session.board.occupant_at(cell) if session.board.is_in_bounds(cell) else null
 		var card := session.state.deck.card(_card_selected_id)
 		var definition := MageCardCatalog.get_card(String(card.get("type_id", "")))
+		var target_id: int = _card_target_id(definition, cell)
 		var cell_card: bool = definition != null and definition.target_policy in ["valid_cell", "corpse_cell"]
-		if _battle == null or not _battle.can_player_act() or (target == null and not cell_card):
+		if _battle == null or not _battle.can_player_act() or (target_id <= 0 and not cell_card):
 			_clear_forecast()
 		else:
-			if _action_forecast_kind != &"mage_card" or _action_forecast_cell != cell or _action_forecast_card_id != _card_selected_id or _action_forecast_target_id != (target.id if target != null else UnitId.NONE) or _action_forecast_effect != StringName(String(card.get("type_id", ""))) or not _magic_forecast_state_current():
+			if _action_forecast_kind != &"mage_card" or _action_forecast_cell != cell or _action_forecast_card_id != _card_selected_id or _action_forecast_target_id != target_id or _action_forecast_effect != StringName(String(card.get("type_id", ""))) or not _magic_forecast_state_current():
 				_clear_forecast()
 				_forecast_panel.get_v_scroll_bar().value = 0.0
 				_request_action_forecast(&"mage_card", cell)
@@ -1852,9 +1873,11 @@ func _request_action_forecast(kind: StringName, cell: Vector2i = Vector2i(-1, -1
 		_action_forecast_effect = reaction_session.elemental_selected
 		if not _action_freshness_expected: _action_forecast_cache = _elemental_cast_cache(reaction_session.selected_unit(), target, _action_forecast_effect, cell if AbilityDefinition.is_cell_spell(_action_forecast_effect) else Vector2i(-1, -1))
 	elif kind == &"mage_card" and session is BattleCoreReactionsSession:
-		var target := session.board.occupant_at(cell) if session.board.is_in_bounds(cell) else null
+		var definition := MageCardCatalog.get_card(String(session.state.deck.card(_card_selected_id).get("type_id", "")))
+		var target_id: int = _card_target_id(definition, cell)
+		var target: UnitState = session.board.get_unit_by_id(target_id) if target_id > 0 else null
 		_action_forecast_card_id = _card_selected_id
-		_action_forecast_target_id = target.id if target != null else UnitId.NONE
+		_action_forecast_target_id = target_id
 		_action_forecast_effect = StringName(String(session.state.deck.card(_card_selected_id).get("type_id", "")))
 		if not _action_freshness_expected: _action_forecast_cache = _mage_card_cache(target, cell)
 	_render_forecast_panel()
@@ -1922,8 +1945,9 @@ func _action_forecast_request_current() -> bool:
 			if not session is BattleCoreReactionsSession or _card_selected_id != _action_forecast_card_id: return false
 			if session.state.deck == null or StringName(String(session.state.deck.card(_card_selected_id).get("type_id", ""))) != _action_forecast_effect: return false
 			var target := session.board.get_unit_by_id(_action_forecast_target_id)
-			if _action_forecast_target_id > 0 and (target == null or target.cell != _action_forecast_cell): return false
-			if session.board.occupant_at(_action_forecast_cell) != target: return false
+			var definition := MageCardCatalog.get_card(String(session.state.deck.card(_card_selected_id).get("type_id", "")))
+			if _card_target_id(definition, _action_forecast_cell) != _action_forecast_target_id: return false
+			if _action_forecast_target_id > 0 and target == null: return false
 			if not _magic_forecast_state_current(): return false
 			if _action_forecast_freshness == null and (session as BattleCoreReactionsSession).mage_card_reason(_card_selected_id) != &"": return false
 			return board_view.hover_cell == _action_forecast_cell or over_panel

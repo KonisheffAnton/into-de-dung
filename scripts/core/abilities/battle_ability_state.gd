@@ -190,7 +190,7 @@ static func runtime_key(owner_kind: StringName, owner_id: int, ability_id: Strin
 	return [owner_kind, owner_id, ability_id, source_instance_id]
 
 static func battle_over(state: ItemSimulationState) -> bool:
-	if HostCardEffect.host_dead(state): return true
+	if HostBinding.party_dead(state): return true
 	var living: Array[bool] = [false, false]
 	for unit: UnitState in state.get_board().get_all_units():
 		if unit.is_alive() and unit.faction in [0, 1]: living[unit.faction] = true

@@ -12,6 +12,7 @@ static func prepare(context: ActionContext, target_id: int, target_cell: Vector2
 		&"raise": effect = &"mage.test_raise"
 	var state := context.get_state()
 	var board := state.get_board()
+	if effect == &"return_to_life": return ReturnLifeEffect.prepare(context,target_cell,source,paid,deck_after,effects_after)
 	if effect in [&"light_step", &"binding_thread"]:
 		return HostCardEffect.prepare(context, target_id, effect, source, paid, effects_after)
 	if effect in [&"mage.test_summon", &"mage.test_raise"]:
@@ -20,11 +21,12 @@ static func prepare(context: ActionContext, target_id: int, target_cell: Vector2
 		if summon_plan.get("reason", &"") != &"": return summon_plan
 		return {"reason": &"", "target": summon_plan.target, "guard": summon_plan.guard, "source": source, "paid": paid, "summon_plan": summon_plan, "effect": effect, "spell_id": spell_id, "effects_after": summon_plan.effects_after}
 	var target := board.get_unit_by_id(target_id)
-	if target == null or not target.is_alive() or not board.is_in_bounds(target.cell) or state.is_summon_pending(target_id): return {"reason": &"mage/invalid_target"}
+	var corpse_buff: bool = target != null and state.card_effects != null and target_id == state.card_effects.host_unit_id and not HostBinding.corpse(state,target_id).is_empty() and effect in [&"fire_imbue",&"mage.shield"]
+	if target == null or (not target.is_alive() and not corpse_buff) or not board.is_in_bounds(target.cell) or state.is_summon_pending(target_id): return {"reason": &"mage/invalid_target"}
 	if target.faction not in [Faction.Type.PLAYER, Faction.Type.ENEMY]: return {"reason": &"mage/invalid_target"}
 	if effect in [&"mage.fire", &"poison"] and target.faction != Faction.Type.ENEMY: return {"reason": &"mage/invalid_target"}
 	if effect in [&"mage.heal", &"mage.test_heal", &"mage.shield", &"fire_imbue"] and target.faction != Faction.Type.PLAYER: return {"reason": &"mage/invalid_target"}
-	var guard := SpatialRules.capture_guard(context, [target], [target.cell], {target_id: [StatTypes.StatType.HP_MAX]})
+	var guard := SpatialRules.capture_guard(context, [target], [target.cell], {target_id: [StatTypes.StatType.HP_MAX]},corpse_buff)
 	if guard == null or target.armor == null: return {"reason": &"mage/invalid_runtime"}
 	var request: DamageRequest = null
 	var status_plan: Dictionary = {}
@@ -65,12 +67,14 @@ static func prepare(context: ActionContext, target_id: int, target_cell: Vector2
 
 static func apply(context: ActionContext, plan: Dictionary, guard: SpatialRules.Guard, seal_check: Callable) -> CommandStepResult:
 	if plan.has("host_requests"): return HostCardEffect.apply(context, plan, guard, seal_check)
+	if plan.has("return_plan"): return ReturnLifeEffect.apply(context,plan.return_plan,plan.source,seal_check)
 	var result := CommandStepResult.applied([], [], [], null, true)
 	var target: UnitState = plan.target
 	var source: DamageSource = plan.source
 	var target_id: int = target.id
 	if plan.has("summon_plan"):
 		var summoned := MageSummonEffect.apply(context, plan.summon_plan, plan.spell_id, source, seal_check)
+		result.combat_perk_changes = summoned.combat_perk_changes
 		result.events.append_array(summoned.events); result.status = summoned.status; result.reason = summoned.reason
 		return result
 	if plan.request != null:

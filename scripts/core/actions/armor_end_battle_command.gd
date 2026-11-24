@@ -15,7 +15,7 @@ static func battle_over(context: ActionContext) -> bool:
 		if not unit.is_alive(): continue
 		players = players or unit.faction == Faction.Type.PLAYER
 		enemies = enemies or unit.faction == Faction.Type.ENEMY
-	return capability and (not players or not enemies or HostCardEffect.host_dead(context.get_state()))
+	return capability and (not players or not enemies or HostBinding.party_dead(context.get_state()))
 
 func validate(context: ActionContext) -> StringName:
 	if context == null or not battle_over(context): return &"armor/battle_not_over"

@@ -37,8 +37,18 @@ static func extend_team(move: MoveRules, attack: AttackRules, id: int, board: Ba
 	var new_attack := AttackRules.new(actors, pairs, attack._definitions)
 	return {"move": new_move, "attack": new_attack} if new_move.validate() == &"" and new_attack.validate() == &"" else {}
 
+## Вернувшийся живой боец остаётся целью, но ждёт следующего хода команды.
+static func wait_for_return(move: MoveRules, attack: AttackRules, id: int) -> Dictionary:
+	if move == null or attack == null or move.validate() != &"" or attack.validate() != &"": return {}
+	var actors := attack._actors.duplicate(); actors.erase(id)
+	var movers := move._admitted_unit_ids.duplicate(); movers.erase(id)
+	var pairs: Array[Dictionary] = []
+	for pair: Dictionary in attack._pairs:
+		if pair.actor_unit_id != id: pairs.append(pair.duplicate(true))
+	return {"move":MoveRules.new(movers,move.get_max_height_step(),move.get_profile()),"attack":AttackRules.new(actors,pairs,attack._definitions)}
+
 static func for_pending(move: MoveRules, attack: AttackRules, id: int, state: ItemSimulationState) -> Dictionary:
-	return extend_team(move, attack, id, state.get_board(), true) if state.is_mage_summon(id) else extend(move, attack, id, state.summon_owner_id(id), true)
+	return extend_team(move, attack, id, state.get_board(), true) if state.is_mage_summon(id) or (state.card_effects != null and state.card_effects.pending_revivals.has(id)) else extend(move, attack, id, state.summon_owner_id(id), true)
 
 static func _add_pair(pairs: Array[Dictionary], actor: int, target: int) -> void:
 	var pair := {"actor_unit_id": actor, "target_unit_id": target}

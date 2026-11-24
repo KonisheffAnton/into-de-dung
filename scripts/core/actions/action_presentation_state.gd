@@ -58,10 +58,19 @@ static func capture(state: ItemSimulationState) -> Dictionary:
 		"abilities": abilities,
 		"action_areas": capture_action_areas(state),
 	}
+	result["host_anchor"] = capture_host_anchor(state)
 	if state.deck != null:
 		result["deck"] = state.deck.to_dict(); result["card_effects"] = state.card_effects.to_dict()
 	if environment != null and not environment.hazards.is_empty(): result["hazards"] = BattleHazards.canonical(environment.hazards)
 	return result
+
+## Worker-показ получает только значения: live UnitState не утекает в кадр.
+static func capture_host_anchor(state: ItemSimulationState) -> Dictionary:
+	if state == null or HostBinding.party_dead(state): return {}
+	var anchor := HostBinding.anchor(state)
+	if anchor.is_empty(): return {}
+	return {"unit_id": int(anchor.get("unit_id", 0)), "cell": anchor.get("cell", Vector2i(-1, -1)),
+		"height": int(anchor.get("height", 0)), "kind": String(anchor.get("kind", ""))}
 
 ## Только значения для показа: выбранный режим переживает снятие стойки.
 ## Готовность режима не обещает допустимость конкретного будущего удара.

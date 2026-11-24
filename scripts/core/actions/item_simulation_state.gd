@@ -58,6 +58,7 @@ func get_summons() -> Array[Dictionary]:
 	return result
 
 func is_summon_pending(unit_id: int) -> bool:
+	if card_effects != null and card_effects.pending_revivals.has(unit_id): return true
 	for record: Dictionary in _summons:
 		if record["unit_id"] == unit_id: return record["pending"]
 	return false
@@ -101,7 +102,7 @@ func _register_summon(unit: UnitState, owner_id: int, mage: bool) -> void:
 	if mage: record["source_kind"] = "mage"
 	_summons.append(record)
 	if card_effects != null:
-		card_effects.ordinary_attacks.append({"unit_id":unit.id,"attack_id":"demo_strike"})
+		card_effects.ordinary_attacks.append({"unit_id":unit.id,"attack_id":MageDeckRules.summon_attack_id(unit)})
 		card_effects.ordinary_attacks.sort_custom(func(a: Dictionary,b: Dictionary) -> bool: return a.unit_id < b.unit_id)
 	_owners.append(owner)
 	_inventories.append(InventoryState._restore_registered(owner))

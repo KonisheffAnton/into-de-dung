@@ -62,7 +62,7 @@ text = "Выберите носителя"
 [node name="Warning" type="Label" parent="Dialog/Content"]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.42, 0.13, 0.11, 1)
-text = "Гибель носителя завершит забег. Остальные выжившие вернутся в хаб."
+text = "После гибели носителя выберите нового среди выживших постоянного отряда. Забег завершится, только если погибнет весь постоянный отряд."
 autowrap_mode = 2
 
 [node name="Heroes" type="HBoxContainer" parent="Dialog/Content"]
